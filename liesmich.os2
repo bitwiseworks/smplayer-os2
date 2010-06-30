@@ -92,9 +92,8 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 
 * Qt4 dll
 
-    ftp://ftp.netlabs.org/pub/qt4/qt-lib-4_5_1-xx.wpi (ersetzen Sie xx mit der aktuellsten version)
-    falls die GA verfÅgbar ist, befindet sie sich im Unterverzeichniss 4.5.1-ga.
-
+    unter http://svn.netlabs.org/qt4 finden Sie die nîtigen Angaben wo Sie Qt4 bekommen und wie man es installiert
+ 
 * MPlayer
 
     http://hobbes.nmsu.edu/h-search.php?key=mplayer&pushbutton=Search
@@ -269,6 +268,9 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 
 8. ENTWICKLUNGSGESCHICHTE
 =========================
+
+2010-06-30
+  * fixed a nasty 1 second delay
 
 2010-04-29
   * updated to Qt4 4.6.2

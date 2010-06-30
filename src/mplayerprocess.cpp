@@ -128,15 +128,20 @@ void MplayerProcess::MPpipeWrite( const QByteArray text )
     if ( !isRunning() )
           return;
 
-// as things could hang when pipe communication is done direct here, i do a seperate thread for it */
+// as things could hang when pipe communication is done direct here, i do a seperate thread for it
     pipeThread = new PipeThread(text, hpipe);
     
     pipeThread->start();
     while (!pipeThread->isRunning() && !pipeThread->isFinished()) {
-       qDebug("we spleep");
+       qDebug("we sleep");
        DosSleep(10);
     }
-    if (!pipeThread->wait(2000)) {
+// we wait for max 2 seconds for the thread to be ended (we to this with max 20 loops)
+    int count = 0;
+    while (!pipeThread->wait(100) && count < 20) {
+       count ++;
+    }
+    if (count >= 20) {
        pipeThread->terminate();
        qDebug("pipe communication terminated");
     }
@@ -888,7 +893,7 @@ void PipeThread::run()
     if (rc != NO_ERROR) 
        return;
 
-    qDebug("pipe connected");    
+//    qDebug("pipe connected");    
     DosWrite( hpipe, text.data(), strlen( text.data() ), &cbActual );
 
     // Wait for ACK

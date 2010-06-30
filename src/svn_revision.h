@@ -1,1 +1,1 @@
-#define SVN_REVISION "SVN-rUNKNOWN"
+#define SVN_REVISION "SVN-r92"

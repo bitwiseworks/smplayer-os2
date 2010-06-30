@@ -9,12 +9,14 @@
 /* version 0.2.5 from 22.10.2009 Silvan (enabled install) */
 /* version 0.2.6 from 29.01.2010 Silvan (added more readmes) */
 /* version 0.2.7 from 29.04.2010 Silvan (added smplayer version for sed'ing readme's */
+/* version 0.2.8 from 20.05.2010 Silvan (added version to zip) */
 
 /* init the version string (don't forget to change) */
-version = "0.2.7"
-version_date = "29.04.2010"
+version = "0.2.8"
+version_date = "20.05.2010"
 smplayer_version = "0.6.9"
 smplayer_build = "beta1"
+internal_build = "0_6_9-b2"
 '@echo off'
 
 parse upper arg cmdline
@@ -133,7 +135,8 @@ select
 
 /* zip all up */
 	ok = directory(installDir)
-	address cmd 'zip -r smplayer.zip *'
+	cmdtorun = 'zip -r smplayer-' || internal_build || '.zip *'
+	address cmd cmdtorun
 	ok = directory(rootdir)
     end
 

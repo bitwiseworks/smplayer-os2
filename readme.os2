@@ -79,8 +79,7 @@ Other additional interesting features:
 
 * Qt4 dll
 
-    ftp://ftp.netlabs.org/pub/qt4/qt-lib-4_5_1-xx.wpi (exchange xx with the most current available)
-    if GA is available it's in it's own subdir 4.5.1-ga
+    see http://svn.netlabs.org/qt4 for more information whats needed
 
 * MPlayer
 
@@ -259,6 +258,9 @@ development, you can do so in one of the following ways:
 
 8. HISTORY
 ==========
+
+2010-06-30
+  * fixed a nasty 1 second delay
 
 2010-04-29
   * updated to Qt4 4.6.2
