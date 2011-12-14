@@ -269,6 +269,10 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 8. ENTWICKLUNGSGESCHICHTE
 =========================
 
+2011-11-11
+  * updated to Qt 4.7.3
+  * fixed a possible hang when ending smplayer while playing a movie (patch by Rudi)
+
 2010-06-30
   * fixed a nasty 1 second delay
 

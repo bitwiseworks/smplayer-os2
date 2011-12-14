@@ -259,6 +259,10 @@ development, you can do so in one of the following ways:
 8. HISTORY
 ==========
 
+2011-11-11
+  * updated to Qt 4.7.3
+  * fixed a possible hang when ending smplayer while playing a movie (patch by Rudi)
+
 2010-06-30
   * fixed a nasty 1 second delay
 

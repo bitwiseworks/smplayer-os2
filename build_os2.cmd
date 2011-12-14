@@ -10,13 +10,14 @@
 /* version 0.2.6 from 29.01.2010 Silvan (added more readmes) */
 /* version 0.2.7 from 29.04.2010 Silvan (added smplayer version for sed'ing readme's */
 /* version 0.2.8 from 20.05.2010 Silvan (added version to zip) */
+/* version 0.2.9 from 11.11.2011 Silvan (adapted to Qt 4.7.3) */
 
 /* init the version string (don't forget to change) */
-version = "0.2.8"
-version_date = "20.05.2010"
+version = "0.2.9"
+version_date = "11.11.2011"
 smplayer_version = "0.6.9"
-smplayer_build = "beta1"
-internal_build = "0_6_9-b2"
+smplayer_build = "build3"
+internal_build = "0_6_9-b3"
 '@echo off'
 
 parse upper arg cmdline
@@ -112,7 +113,7 @@ select
         end
 
 /* copy the exe and the icon (including rename and setting the new LONGNAME EA) */
-	ok = SysCopyObject(srcDir||'\release\smplayer.exe',installDir)
+	ok = SysCopyObject(srcDir||'\smplayer.exe',installDir)
 	ok = SysCopyObject(srcDir||'\smplayer_os2.ico',installDir)
 	address cmd 'ren 'installDir'\smplayer_os2.ico smplayer.ico'
 	ok = SysPutEA(installDir||'\smplayer.ico', '.LONGNAME', 'FDFF'x || d2c(12)||'00'x ||'smplayer.ico')
