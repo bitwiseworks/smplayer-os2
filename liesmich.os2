@@ -227,9 +227,7 @@ Einzelheiten entnehmen Sie bitte der Datei COPYING.
 5. KONTAKT
 ==========
 
-Fehler melden Sie bitte unter:
-
-  ecs@aroa.ch
+Wenn Sie einen Fehler entdecken, dann erstellen Sie bitte ein Ticket unter http://svn.netlabs.org/qtapps
 
 Es werden nur Meldungen reproduzierbarer Fehler akzeptiert. :-)
 

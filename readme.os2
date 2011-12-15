@@ -214,14 +214,9 @@ For details, refer to the file COPYING.
 5. CONTACT
 ==========
 
-Please send bugreports to:
-
-  ecs@aroa.ch
+If you find a bug, then add a ticket to the trac at http://svn.netlabs.org/qtapps
 
 Only bug reports with a reproducable bug are accepted. :-)
-
-Please enclose the error.log file that is produced with the setup described
-above under INSTALLATION.
 
 
 6. CREDITS

@@ -250,9 +250,7 @@ Pour plus de d‚tails, veuillez vous r‚f‚rer au fichier COPYING.
 5. CONTACT
 ==========
 
-Veuillez faire parvenir vos rapports de bogues … : 
-
-  ecs@aroa.ch
+if you find a bug, then add a ticket to the trac at http://svn.netlabs.org/qtapps
 
 Seuls les rapports de bogues reproductibles seront accept‚s ! :-)
 
