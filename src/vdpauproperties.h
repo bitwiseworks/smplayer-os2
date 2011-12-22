@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,33 +16,38 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PLAYLISTPREFERENCES_H_
-#define _PLAYLISTPREFERENCES_H_
+#ifndef _VDPAUPROPERTIES_H_
+#define _VDPAUPROPERTIES_H_
 
-#include "ui_playlistpreferences.h"
+#include "ui_vdpauproperties.h"
 
-class PlaylistPreferences : public QDialog, public Ui::PlaylistPreferences
+#include <QDialog>
+
+class VDPAUProperties : public QDialog, public Ui::VDPAUProperties
 {
 	Q_OBJECT
 
 public:
-	PlaylistPreferences( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-	~PlaylistPreferences();
+	VDPAUProperties( QWidget * parent = 0, Qt::WindowFlags f = 0 );
+	~VDPAUProperties();
 
-	void setDirectoryRecursion(bool b);
-	bool directoryRecursion();
+	void setffh264vdpau(bool b);
+	void setffmpeg12vdpau(bool b);
+	void setffwmv3vdpau(bool b);
+	void setffvc1vdpau(bool b);
+	void setffodivxvdpau(bool b);
 
-	void setAutoGetInfo(bool b);
-	bool autoGetInfo();
+	void setDisableFilters(bool b);
 
-	void setSavePlaylistOnExit(bool b);
-	bool savePlaylistOnExit();
+	bool ffh264vdpau();
+	bool ffmpeg12vdpau();
+	bool ffwmv3vdpau();
+	bool ffvc1vdpau();
+	bool ffodivxvdpau();
 
-	void setPlayFilesFromStart(bool b);
-	bool playFilesFromStart();
+	bool disableFilters();
 
-	virtual QSize sizeHint () const;
+	//virtual QSize sizeHint () const;
 };
 
 #endif
-

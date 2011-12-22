@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -88,10 +88,12 @@ void MediaData::reset() {
 	audio_codec="";
 }
 
-QString MediaData::displayName() {
-	if (!clip_name.isEmpty()) return clip_name;
-	else
-	if (!stream_title.isEmpty()) return stream_title;
+QString MediaData::displayName(bool show_tag) {
+	if (show_tag) {
+		if (!clip_name.isEmpty()) return clip_name;
+		else
+		if (!stream_title.isEmpty()) return stream_title;
+	}
 
 	QFileInfo fi(filename);
 	if (fi.exists()) 

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -348,8 +348,8 @@ void DefaultGui::createFloatingControl() {
 
 #endif // USE_CONFIGURABLE_TOOLBARS
 
-#ifdef Q_OS_WIN
-	// To make work the ESC key (exit fullscreen) and Ctrl-X (close) in Windows
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	// To make work the ESC key (exit fullscreen) and Ctrl-X (close) in Windows and OS2
 	floating_control->addAction(exitFullscreenAct);
 	floating_control->addAction(exitAct);
 #endif

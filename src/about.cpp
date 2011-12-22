@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ About::About(QWidget * parent, Qt::WindowFlags f)
 	}
 
 	info->setText( 
-		"<b>SMPlayer</b> &copy; 2006-2010 Ricardo Villalba &lt;rvm@escomposlinux.org&gt;<br><br>"
+		"<b>SMPlayer</b> &copy; 2006-2011 Ricardo Villalba &lt;rvm@escomposlinux.org&gt;<br><br>"
 		"<b>" + tr("Version: %1").arg(smplayerVersion()) + "</b>" +
 #if PORTABLE_APP
                 " (" + tr("Portable Edition") + ")" +
@@ -58,14 +58,9 @@ About::About(QWidget * parent, Qt::WindowFlags f)
         tr("Using Qt %1 (compiled with Qt %2)").arg(qVersion()).arg(QT_VERSION_STR) + "<br><br>" +
 		mplayer_version +
 		tr("Visit our web for updates:") +"<br>"+ 
-        link("http://smplayer.berlios.de") + "<br>" + 
         link("http://smplayer.sf.net") + 
         "<br><br>" +
-		tr("Get help in our forum:") +"<br>" + link("http://smplayer.berlios.de/forum") +
-        "<br><br>" +
-		tr("You can support SMPlayer by making a donation.") +" "+
-		link("https://sourceforge.net/donate/index.php?group_id=185512", tr("More info"))
-		//link("http://www.qt-apps.org/content/donate.php?content=61041", tr("More info"))
+		tr("Get help in our forum:") +"<br>" + link("http://smplayer.sf.net/forum")
 	);
 
 
@@ -155,7 +150,7 @@ QString About::getTranslators() {
 #else
          "<table>" +
 #endif
-         trad(tr("German"), "Henrikx <henrikx@users.sourceforge.net>") + 
+         trad(tr("German"), "Panagiotis Papadopoulos <pano_90@gmx.net>") + 
 		 trad(tr("Slovak"), "Sweto <peter.mendel@gmail.com>") +
 		 trad(tr("Italian"), QStringList()
                         << "greengreat <gmeildeno@gmail.com>"
@@ -171,7 +166,8 @@ QString About::getTranslators() {
 			<< "CyberDragon <cyberdragon777@gmail.com>") + 
          trad(tr("Polish"), QStringList()
 			<< "qla <qla0@vp.pl>"
-			<< "Jarek <ajep9691@wp.pl>" ) +
+			<< "Jarek <ajep9691@wp.pl>"
+			<< "sake12 <sake12@gmail.com>" ) +
          trad(tr("Japanese"), "Nardog <nardog@e2umail.com>") + 
          trad(tr("Dutch"), QStringList()
 			<< "profoX <wesley@ubuntu-nl.org>"
@@ -207,6 +203,7 @@ QString About::getTranslators() {
 		trad(tr("Vietnamese"), QString::fromUtf8("Lê Xuân Thảo <thaolx@gmail.com>")) +
 		trad(tr("Estonian"), QString::fromUtf8("Olav Mägi <olav.magi@hotmail.com>")) +
                 trad(tr("Lithuanian"), "Freemail <ricka_g@freemail.lt>") +
+                trad(tr("Danish"), "Martin Schlander <mschlander@opensuse.org>") +
 #ifndef TRANS_TABLE
         "</ul>");
 #else

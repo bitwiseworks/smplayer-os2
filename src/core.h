@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class MplayerProcess;
 class MplayerWindow;
 class QSettings;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 class WinScreenSaver;
 #endif
@@ -290,10 +290,13 @@ public slots:
 	void toggleDeinterlace();
 
 	void changeUseAss(bool);
-	void toggleClosedCaption(bool);
 	void toggleForcedSubsOnly(bool);
 
-	void visualizeMotionVectors(bool);
+	void changeClosedCaptionChannel(int);
+	/*
+	void nextClosedCaptionChannel();
+	void prevClosedCaptionChannel();
+	*/
 
 #if DVDNAV_SUPPORT
 	// dvdnav buttons
@@ -446,7 +449,7 @@ protected:
 	FileSettingsBase * tv_settings;
 #endif
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 	WinScreenSaver * win_screensaver;
 #endif

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "images.h"
 #include "mediasettings.h"
 #include "paths.h"
+#include "vdpauproperties.h"
 
 #if USE_ALSA_DEVICES || USE_DSOUND_DEVICES
 #include "deviceinfo.h"
@@ -53,14 +54,14 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 #endif
 
 	// Screensaver
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	screensaver_check->hide();
 #else
 	screensaver_group->hide();
 #endif
 
-#ifdef Q_OS_WIN
-	vdpau_filters_check->hide();
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	vdpau_button->hide();
 #endif
 
 	// Channels combo
@@ -120,7 +121,7 @@ void PrefGeneral::retranslateStrings() {
 	*/
 
 	mplayerbin_edit->setCaption(tr("Select the mplayer executable"));
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	mplayerbin_edit->setFilter(tr("Executables") +" (*.exe)");
 #else
 	mplayerbin_edit->setFilter(tr("All files") +" (*)");
@@ -155,12 +156,27 @@ void PrefGeneral::setData(Preferences * pref) {
 			vo = "directx,";
 		}
 #else
+#ifdef Q_OS_OS2
+		vo = "kva";
+#else
 		vo = "xv,";
+#endif
 #endif
 	}
 	setVO( vo );
 
 	QString ao = pref->ao;
+
+#ifdef Q_OS_OS2
+	if (ao.isEmpty()) {
+		if (pref->mplayer_detected_version >= MPLAYER_KAI_VERSION) {
+			ao = "kai";
+		} else {
+			ao = "dart";
+		}
+	}
+#endif
+
 	setAO( ao );
 
 	setRememberSettings( !pref->dont_remember_media_settings );
@@ -190,15 +206,15 @@ void PrefGeneral::setData(Preferences * pref) {
 	setBlackbordersOnFullscreen( pref->add_blackborders_on_fullscreen );
 	setAutoq( pref->autoq );
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	setAvoidScreensaver( pref->avoid_screensaver );
 	setTurnScreensaverOff( pref->turn_screensaver_off );
 #else
 	setDisableScreensaver( pref->disable_screensaver );
 #endif
 
-#ifndef Q_OS_WIN
-	setDisableFiltersWithVdpau( pref->disable_video_filters_with_vdpau );
+#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
+	vdpau = pref->vdpau;
 #endif
 
 	setAudioChannels( pref->initial_audio_channels );
@@ -225,6 +241,11 @@ void PrefGeneral::getData(Preferences * pref) {
 		i.getInfo(); 
 		// Update the drivers list at the same time
 		//setDrivers( i.voList(), i.aoList() );
+#ifdef Q_OS_OS2
+		vo_list = i.voList();
+		ao_list = i.aoList();
+		updateDriverCombos();
+#endif
 	}
 
 	TEST_AND_SET(pref->use_screenshot, useScreenshots());
@@ -272,15 +293,15 @@ void PrefGeneral::getData(Preferences * pref) {
 	}
 	TEST_AND_SET(pref->autoq, autoq());
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	pref->avoid_screensaver = avoidScreensaver();
 	TEST_AND_SET(pref->turn_screensaver_off, turnScreensaverOff());
 #else
 	TEST_AND_SET(pref->disable_screensaver, disableScreensaver());
 #endif
 
-#ifndef Q_OS_WIN
-	TEST_AND_SET(pref->disable_video_filters_with_vdpau, disableFiltersWithVdpau());
+#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
+	pref->vdpau = vdpau;
 #endif
 
 	pref->initial_audio_channels = audioChannels();
@@ -310,6 +331,14 @@ void PrefGeneral::updateDriverCombos() {
 		}
 		else
 #else
+#ifdef Q_OS_OS2
+		if ( vo == "kva") {
+			vo_combo->addItem( "kva (" + tr("fast") + ")", "kva" );
+			vo_combo->addItem( "kva (" + tr("snap mode") + ")", "kva:snap" );
+			vo_combo->addItem( "kva (" + tr("slower dive mode") + ")", "kva:dive" );
+		}
+		else
+#else
 		/*
 		if (vo == "xv") vo_combo->addItem( "xv (" + tr("fastest") + ")", vo);
 		else
@@ -324,6 +353,7 @@ void PrefGeneral::updateDriverCombos() {
 		}
 		else
 #endif // USE_XV_ADAPTORS
+#endif
 #endif
 		if (vo == "x11") vo_combo->addItem( "x11 (" + tr("slow") + ")", vo);
 		else
@@ -353,6 +383,12 @@ void PrefGeneral::updateDriverCombos() {
 	for ( int n = 0; n < ao_list.count(); n++) {
 		ao = ao_list[n].name();
 		ao_combo->addItem( ao, ao );
+#ifdef Q_OS_OS2
+		if ( ao == "kai") {
+			ao_combo->addItem( "kai (" + tr("uniaud mode") + ")", "kai:uniaud" );
+			ao_combo->addItem( "kai (" + tr("dart mode") + ")", "kai:dart" );
+		}
+#endif
 #if USE_ALSA_DEVICES
 		if ((ao == "alsa") && (!alsa_devices.isEmpty())) {
 			for (int n=0; n < alsa_devices.count(); n++) {
@@ -698,7 +734,7 @@ bool PrefGeneral::startInFullscreen() {
 	return start_fullscreen_check->isChecked();
 }
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 void PrefGeneral::setAvoidScreensaver(bool b) {
 	avoid_screensaver_check->setChecked(b);
 }
@@ -721,16 +757,6 @@ void PrefGeneral::setDisableScreensaver(bool b) {
 
 bool PrefGeneral::disableScreensaver() {
 	return screensaver_check->isChecked();
-}
-#endif
-
-#ifndef Q_OS_WIN
-void PrefGeneral::setDisableFiltersWithVdpau(bool b) {
-	vdpau_filters_check->setChecked(b);
-}
-
-bool PrefGeneral::disableFiltersWithVdpau() {
-	return vdpau_filters_check->isChecked();
 }
 #endif
 
@@ -763,6 +789,11 @@ void PrefGeneral::vo_combo_changed(int idx) {
 	bool visible = (vo_combo->itemData(idx).toString() == "user_defined");
 	vo_user_defined_edit->setShown(visible);
 	vo_user_defined_edit->setFocus();
+
+#ifndef Q_OS_WIN
+	bool vdpau_button_visible = (vo_combo->itemData(idx).toString() == "vdpau");
+	vdpau_button->setShown(vdpau_button_visible);
+#endif
 }
 
 void PrefGeneral::ao_combo_changed(int idx) {
@@ -771,6 +802,32 @@ void PrefGeneral::ao_combo_changed(int idx) {
 	ao_user_defined_edit->setShown(visible);
 	ao_user_defined_edit->setFocus();
 }
+
+#ifndef Q_OS_WIN
+void PrefGeneral::on_vdpau_button_clicked() {
+	qDebug("PrefGeneral::on_vdpau_button_clicked");
+
+	VDPAUProperties d(this);
+
+	d.setffh264vdpau(vdpau.ffh264vdpau);
+	d.setffmpeg12vdpau(vdpau.ffmpeg12vdpau);
+	d.setffwmv3vdpau(vdpau.ffwmv3vdpau);
+	d.setffvc1vdpau(vdpau.ffvc1vdpau);
+	d.setffodivxvdpau(vdpau.ffodivxvdpau);
+
+	d.setDisableFilters(vdpau.disable_video_filters);
+
+	if (d.exec() == QDialog::Accepted) {
+		vdpau.ffh264vdpau = d.ffh264vdpau();
+		vdpau.ffmpeg12vdpau = d.ffmpeg12vdpau();
+		vdpau.ffwmv3vdpau = d.ffwmv3vdpau();
+		vdpau.ffvc1vdpau = d.ffvc1vdpau();
+		vdpau.ffodivxvdpau = d.ffodivxvdpau();
+
+		vdpau.disable_video_filters = d.disableFilters();
+	}
+}
+#endif
 
 void PrefGeneral::createHelp() {
 	clearHelp();
@@ -830,14 +887,20 @@ void PrefGeneral::createHelp() {
 #ifdef Q_OS_WIN
 		  .arg("<b><i>directx</i></b>")
 #else
+#ifdef Q_OS_OS2
+		  .arg("<b><i>kva</i></b>")
+#else
 		  .arg("<b><i>xv</i></b>")
+#endif
 #endif
 		);
 
-#ifndef Q_OS_WIN
+#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
+	/*
 	setWhatsThis(vdpau_filters_check, tr("Disable video filters when using vdpau"),
 		tr("Usually video filters won't work when using vdpau as video output "
            "driver, so it's wise to keep this option checked.") );
+	*/
 #endif
 
 	setWhatsThis(postprocessing_check, tr("Enable postprocessing by default"),
@@ -891,7 +954,7 @@ void PrefGeneral::createHelp() {
            "some video drivers (like gl) are already able to display the "
            "subtitles automatically in the black borders.") */ );
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	setWhatsThis(turn_screensaver_off_check, tr("Switch screensaver off"),
 		tr("This option switches the screensaver off just before starting to "
            "play a file and switches it on when playback finishes. If this "
@@ -917,12 +980,20 @@ void PrefGeneral::createHelp() {
 	setWhatsThis(ao_combo, tr("Audio output driver"),
 		tr("Select the audio output driver.") 
 #ifndef Q_OS_WIN
+#ifdef Q_OS_OS2
+        + " " +
+		tr("%1 is the recommended one. %2 is only available on older MPlayer (before version %3)")
+           .arg("<b><i>kai</i></b>")
+           .arg("<b><i>dart</i></b>")
+           .arg(MPLAYER_KAI_VERSION)
+#else
         + " " + 
 		tr("%1 is the recommended one. Try to avoid %2 and %3, they are slow "
            "and can have an impact on performance.")
            .arg("<b><i>alsa</i></b>")
            .arg("<b><i>esd</i></b>")
            .arg("<b><i>arts</i></b>")
+#endif
 #endif
 		);
 

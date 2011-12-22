@@ -58,6 +58,7 @@ HEADERS += guiconfig.h \
 	shortcutgetter.h \
 	actionseditor.h \
 	filechooser.h \
+	vdpauproperties.h \
 	preferencesdialog.h \
 	mycombobox.h \
 	tristatecombo.h \
@@ -75,7 +76,6 @@ HEADERS += guiconfig.h \
 	preftv.h \
 	filepropertiesdialog.h \
 	playlist.h \
-	playlistpreferences.h \
 	playlistdock.h \
 	verticaltext.h \
 	eqslider.h \
@@ -155,6 +155,7 @@ SOURCES	+= version.cpp \
 	shortcutgetter.cpp \
 	actionseditor.cpp \
 	filechooser.cpp \
+	vdpauproperties.cpp \
 	preferencesdialog.cpp \
 	mycombobox.cpp \
 	tristatecombo.cpp \
@@ -172,7 +173,6 @@ SOURCES	+= version.cpp \
 	preftv.cpp \
 	filepropertiesdialog.cpp \
 	playlist.cpp \
-	playlistpreferences.cpp \
 	playlistdock.cpp \
 	verticaltext.cpp \
 	eqslider.cpp \
@@ -220,12 +220,12 @@ contains(DEFINES, USE_QXT) {
 }
 
 FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
-        eqslider.ui seekwidget.ui inputurl.ui \
+        eqslider.ui seekwidget.ui inputurl.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
         prefplaylist.ui preftv.ui favoriteeditor.ui \
         about.ui inputmplayerversion.ui errordialog.ui timedialog.ui \
-        playlistpreferences.ui filechooser.ui \
+        filechooser.ui \
         findsubtitles/findsubtitleswindow.ui findsubtitles/findsubtitlesconfigdialog.ui \
         videopreview/videopreviewconfigdialog.ui
 
@@ -246,7 +246,8 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_ca.ts translations/smplayer_sl_SI.ts \
                translations/smplayer_ar_SY.ts translations/smplayer_ku.ts \
                translations/smplayer_gl.ts translations/smplayer_vi_VN.ts \
-               translations/smplayer_et.ts translations/smplayer_lt.ts
+               translations/smplayer_et.ts translations/smplayer_lt.ts \
+               translations/smplayer_da.ts
 
 contains( DEFINES, DOWNLOAD_SUBS ) {
 	INCLUDEPATH += findsubtitles/filedownloader findsubtitles/quazip
@@ -337,3 +338,12 @@ win32 {
 #	}
 }
 
+os2 {
+	DEFINES += SCREENSAVER_OFF
+	INCLUDEPATH += .
+	contains( DEFINES, SCREENSAVER_OFF ) {
+		HEADERS += screensaver.h
+		SOURCES += screensaver.cpp
+	}
+	RC_FILE = smplayer_os2.rc
+}

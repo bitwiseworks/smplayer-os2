@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,6 +89,8 @@ public:
 	int sub_pos;
 	double sub_scale;
 	double sub_scale_ass;
+
+	int closed_caption_channel; // 0 = disabled
 
 	double speed; // Speed of playback: 1.0 = normal speed
 

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,6 +39,12 @@ bool isCDDevice(QString drive) {
 	}
 }
 
+#endif
+
+#ifdef Q_OS_OS2  // fixme SCS
+bool isCDDevice(QString drive) {
+	return true;
+}
 #endif
 
 PrefDrives::PrefDrives(QWidget * parent, Qt::WindowFlags f)
@@ -93,7 +99,7 @@ void PrefDrives::updateDriveCombos(bool detect_cd_devices) {
 
 	// DVD device combo
 	// In windows, insert the drives letters
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	QFileInfoList list = QDir::drives();
 	for (int n = 0; n < list.size(); n++) {
 		QString s = list[n].filePath();

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ void Preferences::reset() {
        General
        ******* */
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	mplayer_bin= "mplayer/mplayer.exe";
 #else
 	mplayer_bin = "mplayer";
@@ -92,7 +92,7 @@ void Preferences::reset() {
 	autoq = 6;
 	add_blackborders_on_fullscreen = false;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	turn_screensaver_off = false;
 	avoid_screensaver = true;
 #else
@@ -100,7 +100,12 @@ void Preferences::reset() {
 #endif
 
 #ifndef Q_OS_WIN
-	disable_video_filters_with_vdpau = true;
+	vdpau.ffh264vdpau = true;
+	vdpau.ffmpeg12vdpau = true;
+	vdpau.ffwmv3vdpau = true;
+	vdpau.ffvc1vdpau = true;
+	vdpau.ffodivxvdpau = false;
+	vdpau.disable_video_filters = true;
 #endif
 
 	use_soft_vol = true;
@@ -193,7 +198,6 @@ void Preferences::reset() {
 	use_ass_subtitles = true;
 	ass_line_spacing = 0;
 
-	use_closed_caption_subs = false;
 	use_forced_subs_only = false;
 
 	sub_visibility = true;
@@ -274,6 +278,8 @@ void Preferences::reset() {
 
 	actions_to_run = "";
 
+	show_tag_in_window_title = true;
+
 
     /* *********
        GUI stuff
@@ -291,7 +297,6 @@ void Preferences::reset() {
 	style="";
 #endif
 
-	show_motion_vectors = false;
 
 #if DVDNAV_SUPPORT
 	mouse_left_click_function = "dvdnav_mouse";
@@ -317,7 +322,7 @@ void Preferences::reset() {
 	time_slider_drag_delay = 100;
 #endif
 #if SEEKBAR_RESOLUTION
-	relative_seeking = true;
+	relative_seeking = false;
 #endif
 
 	language = "";
@@ -325,7 +330,7 @@ void Preferences::reset() {
 
 	balloon_count = 5;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	restore_pos_after_fullscreen = true;
 #else
 	restore_pos_after_fullscreen = false;
@@ -495,7 +500,7 @@ void Preferences::save() {
 	set->setValue("autoq", autoq);
 	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	set->setValue("turn_screensaver_off", turn_screensaver_off);
 	set->setValue("avoid_screensaver", avoid_screensaver);
 #else
@@ -503,7 +508,12 @@ void Preferences::save() {
 #endif
 
 #ifndef Q_OS_WIN
-	set->setValue("disable_video_filters_with_vdpau", disable_video_filters_with_vdpau);
+	set->setValue("vdpau_ffh264vdpau", vdpau.ffh264vdpau);
+	set->setValue("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau);
+	set->setValue("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau);
+	set->setValue("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau);
+	set->setValue("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau);
+	set->setValue("vdpau_disable_video_filters", vdpau.disable_video_filters);
 #endif
 
 	set->setValue("use_soft_vol", use_soft_vol);
@@ -601,7 +611,6 @@ void Preferences::save() {
 
 	set->setValue("use_ass_subtitles", use_ass_subtitles);
 	set->setValue("ass_line_spacing", ass_line_spacing);
-	set->setValue("use_closed_caption_subs", use_closed_caption_subs);
 	set->setValue("use_forced_subs_only", use_forced_subs_only);
 
 	set->setValue("sub_visibility", sub_visibility);
@@ -676,6 +685,8 @@ void Preferences::save() {
 
 	set->setValue("actions_to_run", actions_to_run);
 
+	set->setValue("show_tag_in_window_title", show_tag_in_window_title);
+
 	set->endGroup(); // advanced
 
 
@@ -696,8 +707,6 @@ void Preferences::save() {
 #if STYLE_SWITCHING
 	set->setValue("style", style);
 #endif
-
-	set->setValue("show_motion_vectors", show_motion_vectors);
 
 	set->setValue("mouse_left_click_function", mouse_left_click_function);
 	set->setValue("mouse_right_click_function", mouse_right_click_function);
@@ -908,7 +917,7 @@ void Preferences::load() {
 	autoq = set->value("autoq", autoq).toInt();
 	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
 	avoid_screensaver = set->value("avoid_screensaver", avoid_screensaver).toBool();
 #else
@@ -916,7 +925,12 @@ void Preferences::load() {
 #endif
 
 #ifndef Q_OS_WIN
-	disable_video_filters_with_vdpau = set->value("disable_video_filters_with_vdpau", disable_video_filters_with_vdpau).toBool();
+	vdpau.ffh264vdpau = set->value("vdpau_ffh264vdpau", vdpau.ffh264vdpau).toBool();
+	vdpau.ffmpeg12vdpau = set->value("vdpau_ffmpeg12vdpau", vdpau.ffmpeg12vdpau).toBool();
+	vdpau.ffwmv3vdpau = set->value("vdpau_ffwmv3vdpau", vdpau.ffwmv3vdpau).toBool();
+	vdpau.ffvc1vdpau = set->value("vdpau_ffvc1vdpau", vdpau.ffvc1vdpau).toBool();
+	vdpau.ffodivxvdpau = set->value("vdpau_ffodivxvdpau", vdpau.ffodivxvdpau).toBool();
+	vdpau.disable_video_filters = set->value("vdpau_disable_video_filters", vdpau.disable_video_filters).toBool();
 #endif
 
 	use_soft_vol = set->value("use_soft_vol", use_soft_vol).toBool();
@@ -1015,7 +1029,6 @@ void Preferences::load() {
 	use_ass_subtitles = set->value("use_ass_subtitles", use_ass_subtitles).toBool();
 	ass_line_spacing = set->value("ass_line_spacing", ass_line_spacing).toInt();
 
-	use_closed_caption_subs = set->value("use_closed_caption_subs", use_closed_caption_subs).toBool();
 	use_forced_subs_only = set->value("use_forced_subs_only", use_forced_subs_only).toBool();
 
 	sub_visibility = set->value("sub_visibility", sub_visibility).toBool();
@@ -1093,6 +1106,8 @@ void Preferences::load() {
 
 	actions_to_run = set->value("actions_to_run", actions_to_run).toString();
 
+	show_tag_in_window_title = set->value("show_tag_in_window_title", show_tag_in_window_title).toBool();
+
 	set->endGroup(); // advanced
 
 
@@ -1113,8 +1128,6 @@ void Preferences::load() {
 #if STYLE_SWITCHING
 	style = set->value("style", style).toString();
 #endif
-
-	show_motion_vectors = set->value("show_motion_vectors", show_motion_vectors).toBool();
 
 	mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
 	mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();

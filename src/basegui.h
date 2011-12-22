@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -94,6 +94,7 @@ public slots:
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpTips();
+	virtual void helpDonate();
 	virtual void helpAbout();
 	virtual void helpAboutQt();
 
@@ -223,10 +224,19 @@ protected slots:
 
 	// Single instance stuff
 	// Another instance request open a file
-	virtual void remoteOpen(QString file);
-	virtual void remoteOpenFiles(QStringList files);
-	virtual void remoteAddFiles(QStringList files);
-	virtual void remoteLoadSubtitle(QString file);
+	virtual void remoteOpen(QString);
+	virtual void remoteOpenFiles(QStringList);
+	virtual void remoteAddFiles(QStringList);
+	virtual void remoteLoadSubtitle(QString);
+	virtual void remotePlayItem(int);
+	virtual void remoteRemoveItem(int);
+	virtual void remoteMoveItem(int, int);
+	virtual void remoteViewPlaylist(QString*);
+	virtual void remoteViewStatus(QString*);
+	virtual void remoteViewClipInfo(QString*);
+	virtual void remoteSeek(double);
+	virtual void remoteGetChecked(QString, QString*);
+	virtual void remoteGetVolume(int*);
 
 	//! Called when core can't parse the mplayer version and there's no
 	//! version supplied by the user
@@ -241,7 +251,7 @@ protected slots:
 	virtual void changeStyleSheet(QString style);
 #endif
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	/* Disable screensaver by event */
 	void clear_just_stopped();
 #endif
@@ -403,7 +413,6 @@ protected:
 	MyAction * incSubScaleAct;
 	MyAction * decSubScaleAct;
 	MyAction * useAssAct;
-	MyAction * useClosedCaptionAct;
 	MyAction * useForcedSubsOnlyAct;
 	MyAction * subVisibilityAct;
 	MyAction * showFindSubtitlesDialogAct;
@@ -412,7 +421,6 @@ protected:
 	// Menu Options
 	MyAction * showPlaylistAct;
 	MyAction * showPropertiesAct;
-	MyAction * motionVectorsAct;
 	MyAction * showPreferencesAct;
 	MyAction * showLogMplayerAct;
 	MyAction * showLogSmplayerAct;
@@ -421,6 +429,7 @@ protected:
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
 	MyAction * showTipsAct;
+	MyAction * donateAct;
 	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
 
@@ -546,6 +555,15 @@ protected:
 	MyAction * screenDefaultAct;
 #endif
 
+	// Closed Captions Group
+	MyActionGroup * ccGroup;
+	MyAction * ccNoneAct;
+	MyAction * ccChannel1Act;
+	MyAction * ccChannel2Act;
+	MyAction * ccChannel3Act;
+	MyAction * ccChannel4Act;
+
+
 	// Audio Channels Action Group
 	MyActionGroup * channelsGroup;
 	/* MyAction * channelsDefaultAct; */
@@ -619,6 +637,7 @@ protected:
 #if USE_ADAPTER
 	QMenu * screen_menu;
 #endif
+	QMenu * closed_captions_menu;
 
 	QMenu * popup;
 	QMenu * recentfiles_menu;
@@ -663,7 +682,7 @@ private:
 	QSize win_size;
 	bool was_maximized;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	/* Disable screensaver by event */
 	bool just_stopped;
 #endif

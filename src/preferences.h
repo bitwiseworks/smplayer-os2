@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ public:
 	int autoq; 	//!< Postprocessing quality
 	bool add_blackborders_on_fullscreen;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	bool turn_screensaver_off;
 	bool avoid_screensaver;
 #else
@@ -97,7 +97,14 @@ public:
 #endif
 
 #ifndef Q_OS_WIN
-	bool disable_video_filters_with_vdpau;
+	struct VDPAU_settings {
+		bool ffh264vdpau;
+		bool ffmpeg12vdpau;
+		bool ffwmv3vdpau;
+		bool ffvc1vdpau;
+		bool ffodivxvdpau;
+		bool disable_video_filters;
+	} vdpau;
 #endif
 
 	// Audio
@@ -187,7 +194,6 @@ public:
 	bool use_ass_subtitles;
 	int ass_line_spacing;
 
-	bool use_closed_caption_subs;
 	bool use_forced_subs_only;
 
 	bool sub_visibility;
@@ -277,6 +283,9 @@ public:
 
 	QString actions_to_run; //!< List of actions to run every time a video loads.
 
+	//! Show file tag in window title
+	bool show_tag_in_window_title;
+
 
 	/* *********
 	   GUI stuff
@@ -293,7 +302,6 @@ public:
 #if STYLE_SWITCHING
 	QString style; 	//!< SMPlayer look
 #endif
-	bool show_motion_vectors;
 
 	// Function of mouse buttons:
 	QString mouse_left_click_function;
