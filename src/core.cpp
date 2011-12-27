@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <QFileInfo>
 #include <QRegExp>
 #include <QTextStream>
+#include <QUrl>
 #include <QEventLoop>
 
 #include <cmath>
@@ -363,6 +364,11 @@ void Core::displayTextOnOSD(QString text, int duration, int level, QString prefi
 // Generic open, autodetect type
 void Core::open(QString file, int seek) {
 	qDebug("Core::open: '%s'", file.toUtf8().data());
+
+	if (file.startsWith("file:")) {
+		file = QUrl(file).toLocalFile();
+		qDebug("Core::open: converting url to local file: %s", file.toUtf8().constData());
+	}
 
 	QFileInfo fi(file);
 
@@ -1352,9 +1358,18 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 #ifndef Q_OS_WIN
 	else {
+		/* if (pref->vo.startsWith("x11")) { */ // My card doesn't support vdpau, I use x11 to test
 		if (pref->vo.startsWith("vdpau")) {
-			proc->addArgument("-vc");
-			proc->addArgument("ffh264vdpau,ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,");
+			QString c;
+			if (pref->vdpau.ffh264vdpau) c += "ffh264vdpau,";
+			if (pref->vdpau.ffmpeg12vdpau) c += "ffmpeg12vdpau,";
+			if (pref->vdpau.ffwmv3vdpau) c += "ffwmv3vdpau,";
+			if (pref->vdpau.ffvc1vdpau) c += "ffvc1vdpau,";
+			if (pref->vdpau.ffodivxvdpau) c += "ffodivxvdpau,";
+			if (!c.isEmpty()) {
+				proc->addArgument("-vc");
+				proc->addArgument(c);
+			}
 		}
 #endif	
 		else {
@@ -1381,11 +1396,6 @@ void Core::startMplayer( QString file, double seek ) {
 	{
 		if (!lavdopts.isEmpty()) lavdopts += ":";
 		lavdopts += "skiploopfilter=all";
-	}
-
-	if (pref->show_motion_vectors) {
-		if (!lavdopts.isEmpty()) lavdopts += ":";
-		lavdopts += "vismv=7";
 	}
 
 	if (pref->threads > 1) {
@@ -1540,8 +1550,8 @@ void Core::startMplayer( QString file, double seek ) {
 	if (!pref->use_mplayer_window) {
 		proc->addArgument("-wid");
 #if defined(Q_OS_OS2)
-#define WINIDFROMHWND(hwnd) ( ( hwnd ) - 0x80000000UL )
-                proc->addArgument( QString::number( WINIDFROMHWND( (int) mplayerwindow->videoLayer()->winId() ) ));
+		#define WINIDFROMHWND(hwnd) ( ( hwnd ) - 0x80000000UL )
+		proc->addArgument( QString::number( WINIDFROMHWND( (int) mplayerwindow->videoLayer()->winId() ) ));
 #else
 		proc->addArgument( QString::number( (int) mplayerwindow->videoLayer()->winId() ) );
 #endif
@@ -1606,7 +1616,7 @@ void Core::startMplayer( QString file, double seek ) {
 			}
 		}
 		// Use the same font for OSD
-#ifndef NO_FONTCONFIG
+#if !defined(Q_OS_OS2)
 		if (!pref->ass_styles.fontname.isEmpty()) {
 			proc->addArgument("-fontconfig");
 			proc->addArgument("-font");
@@ -1625,7 +1635,7 @@ void Core::startMplayer( QString file, double seek ) {
 	} else {
 		// NO ASS:
 		if (pref->freetype_support) proc->addArgument("-noass");
-#ifndef NO_FONTCONFIG
+#if !defined(Q_OS_OS2)
 		if ( (pref->use_fontconfig) && (!pref->font_name.isEmpty()) ) {
 			proc->addArgument("-fontconfig");
 			proc->addArgument("-font");
@@ -1666,8 +1676,11 @@ void Core::startMplayer( QString file, double seek ) {
 		}
 	}
 
-	if (pref->use_closed_caption_subs) {
+	if (mset.closed_caption_channel > 0) {
 		proc->addArgument("-subcc");
+		if (MplayerVersion::isMplayerAtLeast(32607)) {
+			proc->addArgument( QString::number( mset.closed_caption_channel ) );
+		}
 	}
 
 	if (pref->use_forced_subs_only) {
@@ -1914,8 +1927,8 @@ void Core::startMplayer( QString file, double seek ) {
 	bool force_noslices = false;
 
 #ifndef Q_OS_WIN
-	if ((pref->disable_video_filters_with_vdpau) && (pref->vo.startsWith("vdpau"))) {
-		qDebug("Core::startMplayer: vdpau doesn't allow any video filter. All have been removed.");
+	if ((pref->vdpau.disable_video_filters) && (pref->vo.startsWith("vdpau"))) {
+		qDebug("Core::startMplayer: using vdpau, video filters are ignored");
 		goto end_video_filters;
 	}
 #endif
@@ -2443,7 +2456,12 @@ void Core::toggleKaraoke(bool b) {
 	qDebug("Core::toggleKaraoke: %d", b);
 	if (b != mset.karaoke_filter) {
 		mset.karaoke_filter = b;
-		restartPlay();
+		if (MplayerVersion::isMplayerAtLeast(31030)) {
+			// Change filter without restarting
+			if (b) tellmp("af_add karaoke"); else tellmp("af_del karaoke");
+		} else {
+			restartPlay();
+		}
 	}
 }
 
@@ -2455,7 +2473,12 @@ void Core::toggleExtrastereo(bool b) {
 	qDebug("Core::toggleExtrastereo: %d", b);
 	if (b != mset.extrastereo_filter) {
 		mset.extrastereo_filter = b;
-		restartPlay();
+		if (MplayerVersion::isMplayerAtLeast(31030)) {
+			// Change filter without restarting
+			if (b) tellmp("af_add extrastereo"); else tellmp("af_del extrastereo");
+		} else {
+			restartPlay();
+		}
 	}
 }
 
@@ -2467,7 +2490,13 @@ void Core::toggleVolnorm(bool b) {
 	qDebug("Core::toggleVolnorm: %d", b);
 	if (b != mset.volnorm_filter) {
 		mset.volnorm_filter = b;
-		restartPlay();
+		if (MplayerVersion::isMplayerAtLeast(31030)) {
+			// Change filter without restarting
+			QString f = pref->filters->item("volnorm").filter();
+			if (b) tellmp("af_add " + f); else tellmp("af_del volnorm");
+		} else {
+			restartPlay();
+		}
 	}
 }
 
@@ -2941,7 +2970,10 @@ void Core::setAudioEqualizer(AudioEqualizerList values, bool restart) {
 	mset.audio_equalizer = values;
 
 	if (!restart) {
-		tellmp( "af_eq_set_bands " + Helper::equalizerListToString(values) );
+		const char *command = "af_cmdline equalizer ";
+		if (!MplayerVersion::isMplayerAtLeast(32505))
+			command = "af_eq_set_bands ";
+		tellmp( command + Helper::equalizerListToString(values) );
 	} else {
 		restartPlay();
 	}
@@ -3678,7 +3710,7 @@ void Core::decPanscan() {
 #endif
 
 void Core::showFilenameOnOSD() {
-	tellmp("osd_show_property_text \"${filename}\" 3000 0");
+	tellmp("osd_show_property_text \"${filename}\" 5000 0");
 }
 
 void Core::toggleDeinterlace() {
@@ -3696,15 +3728,6 @@ void Core::changeUseAss(bool b) {
 	}
 }
 
-void Core::toggleClosedCaption(bool b) {
-	qDebug("Core::toggleClosedCaption: %d", b);
-
-	if (pref->use_closed_caption_subs != b) {
-		pref->use_closed_caption_subs = b;
-		if (proc->isRunning()) restartPlay();
-	}
-}
-
 void Core::toggleForcedSubsOnly(bool b) {
 	qDebug("Core::toggleForcedSubsOnly: %d", b);
 
@@ -3717,14 +3740,29 @@ void Core::toggleForcedSubsOnly(bool b) {
 	}
 }
 
-void Core::visualizeMotionVectors(bool b) {
-	qDebug("Core::visualizeMotionVectors: %d", b);
-
-	if (pref->show_motion_vectors != b) {
-		pref->show_motion_vectors = b;
+void Core::changeClosedCaptionChannel(int c) {
+	qDebug("Core::changeClosedCaptionChannel: %d", c);
+	if (c != mset.closed_caption_channel) {
+		mset.closed_caption_channel = c;
 		if (proc->isRunning()) restartPlay();
 	}
 }
+
+/*
+void Core::nextClosedCaptionChannel() {
+	int c = mset.closed_caption_channel;
+	c++;
+	if (c > 4) c = 0;
+	changeClosedCaptionChannel(c);
+}
+
+void Core::prevClosedCaptionChannel() {
+	int c = mset.closed_caption_channel;
+	c--;
+	if (c < 0) c = 4;
+	changeClosedCaptionChannel(c);
+}
+*/
 
 #if DVDNAV_SUPPORT
 // dvdnav buttons

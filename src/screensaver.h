@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,17 +38,17 @@ private:
 	void retrieveState();
 	void restoreState();
 #ifdef Q_OS_OS2
-        void unload();
+	void unload();
 #endif
 
 private:
 #ifndef Q_OS_OS2
 	int lowpower, poweroff, screensaver;
 #else
-        QLibrary *SSaver;
-        typedef int (*FuncPtr) (void);
-        FuncPtr SSCore_TempDisable;
-        FuncPtr SSCore_TempEnable;
+	QLibrary *SSaver;
+	typedef int (*FuncPtr) (void);
+	FuncPtr SSCore_TempDisable;
+	FuncPtr SSCore_TempEnable;
 #endif
 	bool state_saved, modified;
 };

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -82,13 +82,13 @@ bool MplayerProcess::start() {
 #if !defined(Q_OS_OS2)
 	return waitForStarted();
 #else
-        bool r = waitForStarted();
-        if (r) {
-           pidMP = QProcess::pid();
-           qDebug("MPlayer PID %i", pidMP);
-           MPpipeOpen();
-        }
-        return r;
+	bool r = waitForStarted();
+	if (r) {
+		pidMP = QProcess::pid();
+		qDebug("MPlayer PID %i", pidMP);
+		MPpipeOpen();
+	}
+	return r;
 #endif
 }
 
@@ -98,57 +98,53 @@ void MplayerProcess::writeToStdin(QString text) {
 #if !defined(Q_OS_OS2)
 		write( text.toLocal8Bit() + "\n");
 #else
-                MPpipeWrite( text.toLocal8Bit() + "\n");
+		MPpipeWrite( text.toLocal8Bit() + "\n");
 #endif
 	} else {
 		qWarning("MplayerProcess::writeToStdin: process not running");
 	}
 #ifdef Q_OS_OS2
-        if (text == "quit" || text == "quit\n") {
-           MPpipeClose();
-        }
+	if (text == "quit" || text == "quit\n") {
+		MPpipeClose();
+	}
 #endif
 }
+
 #ifdef Q_OS_OS2
-void MplayerProcess::MPpipeOpen()
-{
-    char    szPipeName[ 100 ];
-    sprintf( szPipeName, "\\PIPE\\MPLAYER\\%x", pidMP );
-    DosCreateNPipe( szPipeName, &hpipe, NP_ACCESS_DUPLEX, 1, 1024, 1024, 0 );
+void MplayerProcess::MPpipeOpen() {
+	char szPipeName[ 100 ];
+	sprintf( szPipeName, "\\PIPE\\MPLAYER\\%x", pidMP );
+	DosCreateNPipe( szPipeName, &hpipe, NP_ACCESS_DUPLEX, 1, 1024, 1024, 0 );
 }
 
-void MplayerProcess::MPpipeClose( void )
-{
-    DosClose( hpipe );
+void MplayerProcess::MPpipeClose( void ) {
+	DosClose( hpipe );
 }
 
-void MplayerProcess::MPpipeWrite( const QByteArray text )
-{
-       // MPlayer quitted ?
-    if ( !isRunning() )
-          return;
+void MplayerProcess::MPpipeWrite( const QByteArray text ) {
+	// MPlayer quitted ?
+	if ( !isRunning() )
+		return;
 
 // as things could hang when pipe communication is done direct here, i do a seperate thread for it
-    pipeThread = new PipeThread(text, hpipe);
+	pipeThread = new PipeThread(text, hpipe);
     
-    pipeThread->start();
-    while (!pipeThread->isRunning() && !pipeThread->isFinished()) {
-       qDebug("we sleep");
-       DosSleep(10);
-    }
+	pipeThread->start();
+	while (!pipeThread->isRunning() && !pipeThread->isFinished()) {
+		qDebug("we sleep");
+		DosSleep(10);
+	}
 // we wait for max 2 seconds for the thread to be ended (we to this with max 20 loops)
-    int count = 0;
-    while (!pipeThread->wait(100) && count < 20) {
-       count ++;
-    }
-    if (count >= 20) {
-       pipeThread->terminate();
-       qDebug("pipe communication terminated");
-    }
-    delete pipeThread;
-
+	int count = 0;
+	while (!pipeThread->wait(100) && count < 20) {
+		count ++;
+	}
+	if (count >= 20) {
+		pipeThread->terminate();
+		qDebug("pipe communication terminated");
+	}
+	delete pipeThread;
 }
-
 #endif
 
 static QRegExp rx_av("^[AV]: *([0-9,:.-]+)");
@@ -873,35 +869,30 @@ void MplayerProcess::gotError(QProcess::ProcessError error) {
 }
 
 #ifdef Q_OS_OS2
-PipeThread::PipeThread(const QByteArray t, const HPIPE pipe)
-{
-   text = t;
-   hpipe = pipe;
+PipeThread::PipeThread(const QByteArray t, const HPIPE pipe) {
+	text = t;
+	hpipe = pipe;
 }
 
-PipeThread::~PipeThread()
-{
-  
+PipeThread::~PipeThread() {
 }
 
-void PipeThread::run()
-{
-    ULONG cbActual;
-    APIRET rc = NO_ERROR; 
+void PipeThread::run() {
+	ULONG cbActual;
+	APIRET rc = NO_ERROR; 
 
-    rc = DosConnectNPipe( hpipe );
-    if (rc != NO_ERROR) 
-       return;
+	rc = DosConnectNPipe( hpipe );
+	if (rc != NO_ERROR) 
+		return;
 
-//    qDebug("pipe connected");    
-    DosWrite( hpipe, text.data(), strlen( text.data() ), &cbActual );
+//	qDebug("pipe connected");    
+	DosWrite( hpipe, text.data(), strlen( text.data() ), &cbActual );
 
-    // Wait for ACK
-    DosRead( hpipe, &cbActual, sizeof( ULONG ), &cbActual );
-    DosDisConnectNPipe( hpipe );
-    return;
+	// Wait for ACK
+	DosRead( hpipe, &cbActual, sizeof( ULONG ), &cbActual );
+	DosDisConnectNPipe( hpipe );
+	return;
 }
-
 #endif
 
 #include "moc_mplayerprocess.cpp"

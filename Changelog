@@ -1,3 +1,54 @@
+[b]Version 0.6.10[/b]:
+
+(2011-12-06)
+ * Added a vdpau configuration dialog, now it's possible to select which 
+   vdpau codecs to use.
+
+(2011-12-05)
+ * Patch by Silvan Scherrer <silvan.scherrer@aroa.ch> to add support for
+   eCS, OS/2.
+
+(2011-12-03)
+ * Removed the option "Visualize motion vectors". It caused problems to many
+   people when activated by mistake.
+
+(2010-12-07)
+ * Added a submenu to select the closed caption channel. 
+   Requires mplayer >= r32607.
+
+(2010-09-03)
+ * Added webm and vp8 to the list of extensions (for video).
+
+(2010-07-30)
+ * Added thd to the list of extensions (for audio).
+
+(2010-04-28)
+ * Added hdmov to the list of extensions (for video).
+
+(2010-04-22)
+ * Added f4v to the list of extensions (for video).
+
+(2010-04-14)
+ * (Experimental) If using mplayer svn r31030, the audio filters (karaoke, 
+   extrastereo and volnorm) are changed without restarting mplayer, using the
+   new slave commands af_add and af_del.
+
+(2010-03-22)
+ * For consistency, the playlist preferences have been moved to the
+   playlist section in the main preferences dialog (and the playlist own
+   preferences dialog has been deleted).
+ * Added the Danish translation, by Martin Schlander <mschlander@opensuse.org>
+
+(2010-03-01)
+ * Added the possibility to select the seeking method (absolute or relative) in
+   Preferences -> Interface.
+
+(2010-02-25)
+ * Possibility to sort the items of the playlist. Implemented by 
+   Neo254 <manuel.ohrndorf@gmx.net> 
+   http://smplayer.berlios.de/forum/viewtopic.php?p=423#p423
+
+
 [b]Version 0.6.9[/b]:
 
 (2010-02-18)

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,14 +80,15 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags )
 #ifndef Q_OS_OS2
 	optionsMenu->addAction(showTrayAct);
 #else
-        trayAvailable();
-        connect( optionsMenu, SIGNAL(aboutToShow()),
+	trayAvailable();
+	connect( optionsMenu, SIGNAL(aboutToShow()),
              this, SLOT(trayAvailable()) );
 #endif
 
 	showAllAct = new MyAction(this, "restore/hide");
 	connect( showAllAct, SIGNAL(triggered()),
              this, SLOT(toggleShowAll()) );
+
 
 	context_menu = new QMenu(this);
 	context_menu->addAction(showAllAct);
@@ -112,8 +113,9 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags )
 	context_menu->addAction(showPreferencesAct);
 	context_menu->addSeparator();
 	context_menu->addAction(quitAct);
-
+	
 	tray->setContextMenu( context_menu );
+
 #if DOCK_PLAYLIST
 	// Playlistdock
 	playlistdock = new PlaylistDock(this);
@@ -171,6 +173,7 @@ void BaseGuiPlus::closeEvent( QCloseEvent * e ) {
 
 void BaseGuiPlus::closeWindow() {
 	qDebug("BaseGuiPlus::closeWindow");
+
 	if (tray->isVisible()) {
 		//e->ignore();
 		exitFullscreen();
@@ -200,8 +203,8 @@ void BaseGuiPlus::retranslateStrings() {
 	BaseGui::retranslateStrings();
 
 	quitAct->change( Images::icon("exit"), tr("&Quit") );
-
 	showTrayAct->change( Images::icon("systray"), tr("S&how icon in system tray") );
+
 	updateShowAllAct();
 
 #if DOCK_PLAYLIST
@@ -252,9 +255,9 @@ void BaseGuiPlus::loadConfig() {
 	set->beginGroup( "base_gui_plus");
 
 	bool show_tray_icon = set->value( "show_tray_icon", false).toBool();
-
 	showTrayAct->setChecked( show_tray_icon );
 	//tray->setVisible( show_tray_icon );
+
 	mainwindow_visible = set->value("mainwindow_visible", true).toBool();
 
 	trayicon_playlist_was_visible = set->value( "trayicon_playlist_was_visible", trayicon_playlist_was_visible ).toBool();
@@ -276,6 +279,7 @@ void BaseGuiPlus::loadConfig() {
 
 	updateShowAllAct();
 }
+
 
 void BaseGuiPlus::trayIconActivated(QSystemTrayIcon::ActivationReason reason) {
 	qDebug("DefaultGui::trayIconActivated: %d", reason);
@@ -353,18 +357,22 @@ void BaseGuiPlus::showAll(bool b) {
 
 void BaseGuiPlus::resizeWindow(int w, int h) {
     qDebug("BaseGuiPlus::resizeWindow: %d, %d", w, h);
+
 	if ( (tray->isVisible()) && (!isVisible()) ) showAll(true);
+
 	BaseGui::resizeWindow(w, h );
 }
 
 void BaseGuiPlus::updateMediaInfo() {
     qDebug("BaseGuiPlus::updateMediaInfo");
 	BaseGui::updateMediaInfo();
+
 	tray->setToolTip( windowTitle() );
 }
 
 void BaseGuiPlus::setWindowCaption(const QString & title) {
 	tray->setToolTip( title );
+
 	BaseGui::setWindowCaption( title );
 }
 
@@ -604,16 +612,17 @@ VolumeSliderAction * BaseGuiPlus::createVolumeSliderAction(QWidget * parent) {
 
 	return volumeslider_action;
 }
+
 #ifdef Q_OS_OS2
 // we test if xcenter is available at all. if not disable the tray action. this is possible when xcenter is not opened or crashed
-void BaseGuiPlus::trayAvailable()
-{
-        if (!tray->isSystemTrayAvailable()) {
-           optionsMenu->removeAction(showTrayAct);
-        }
-        else {
-           optionsMenu->addAction(showTrayAct);
-        }
+void BaseGuiPlus::trayAvailable() {
+	if (!tray->isSystemTrayAvailable()) {
+			optionsMenu->removeAction(showTrayAct);
+	}
+	else {
+		optionsMenu->addAction(showTrayAct);
+	}
 }
 #endif
+
 #include "moc_baseguiplus.cpp"

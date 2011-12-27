@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2010 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,14 +36,13 @@
 class PipeThread : public QThread
 {
 public:
-        PipeThread(const QByteArray t, const HPIPE pipe);
-        ~PipeThread();
-        void run();
+	PipeThread(const QByteArray t, const HPIPE pipe);
+	~PipeThread();
+	void run();
 
 private:
-        HPIPE   hpipe;
-        QByteArray text;
-
+	HPIPE hpipe;
+	QByteArray text;
 };
 #endif
 
@@ -116,9 +115,9 @@ protected slots:
 	void gotError(QProcess::ProcessError);
 
 #if defined(Q_OS_OS2)
-        void MPpipeOpen();
-        void MPpipeClose();
-        void MPpipeWrite(const QByteArray text);
+	void MPpipeOpen();
+	void MPpipeClose();
+	void MPpipeWrite(const QByteArray text);
 #endif
 
 private:
@@ -130,9 +129,9 @@ private:
 	int last_sub_id;
 
 #if defined(Q_OS_OS2) 
-        PipeThread *pipeThread;       
-        HPIPE   hpipe;
-        PID   pidMP;
+	PipeThread *pipeThread;       
+	HPIPE hpipe;
+	PID pidMP;
 #endif
 
 	int mplayer_svn;
@@ -153,5 +152,6 @@ private:
 	int dvd_current_title;
 #endif
 };
+
 
 #endif
