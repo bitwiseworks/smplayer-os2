@@ -1,8 +1,10 @@
 SMPlayer _VERSION_ _BUILD_ LISEZMOI
 
-(W) Christian Hennecke, Oct 28, 2008
+Document original....: (W) Christian Hennecke, Oct 5, 2009
+Derniäre mise Ö jour.: 2010-01-29
 Traduction franáaise.: Guillaume Gay <guillaume.gay@bigfoot.com>
-Version..............: 2010-01-29
+Version..............: 2011-12-19
+
 
 0. CONTENU DU FICHIER
 =====================
@@ -19,7 +21,7 @@ Version..............: 2010-01-29
 
 6. TABLEAU D'HONNEUR
 
-7. SUPPORT ET DONS
+7. SOUTIEN ET DONS
 
 8. HISTORIQUE DES VERSIONS
 
@@ -83,28 +85,20 @@ Autres fonctionnalitÇs supplÇmentaires intÇressantes :
     franáais, l'italien, le japonais, le russe, ... 
   * Il est multiplateformes. Les fichiers binaires sont disponibles pour
     Windows, Linux et maintenant OS/2. 
-  * SMPlayer est sous licence GPL. 
-
-Si vous allez voir la page web de SMPlayer, vous remarquerez que le
-portage pour OS/2 ne correspond pas Ö la version la plus rÇcente du code. 
-Nous avons dñ choisir cette version parceque SMPlayer utilise la
-bibliothäque de widgets Qt, et qu'il s'agit de la derniäre version de
-SMPlayer utilisant Qt3. Les versions plus rÇcentes utilisent Qt4 qui
-n'est pas disponible pour OS/2. Si elle le devenait un jour, nous
-effectuerons le portage Ö partir de la version la plus rÇcente de
-SMPlayer. 
+  * SMPlayer est sous licence GPL.  
 
 
 2. PRêREQUIS
 ============
 
-* klibc 0.6.3 ou ultÇrieure
+* klibc 0.6.4 ou ultÇrieure
 
-    ftp://ftp.netlabs.org/pub/gcc/libc-0_6_3-csd3.wpi
+    ftp://ftp.netlabs.org/pub/gcc/libc-0.6.4-csd4.zip
 
 * Qt4 dll
 
-    see http://svn.netlabs.org/qt4 for more information whats needed
+    consulter http://svn.netlabs.org/qt4 pour obtenir plus
+    d'information sur ce dont vous avez besoin
 
 * MPlayer
 
@@ -135,15 +129,20 @@ Pour installer SMPlayer, procÇdez comme suit :
 klibc
 -----
 
-  1. TÇlÇchargez klibc 0.6.3 csd3 ou ultÇrieure. 
-  2. Installez le paquetage en double-cliquant sur le fichier WPI. 
+  1. TÇlÇchargez klibc 0.6.4 csd4 ou ultÇrieure.
+  2. Extrayez toutes les DLL dans un rÇpertoire figurant dans
+     LIBPATH, de prÇfÇrence x:\ecs\dll ou x:\os2\dll oó x: reprÇsente
+     l'unitÇ d'amoráage du systäme.  
 
 Qt4 dll
 -------
 
-  1. Download the package
-  2. Extract all dll to your libpath. preferable x:\ecs\dll or x:\os2\dll where x: is your boot drive
-  3. Install the xsystray plugin as noted in the readme.os2 and also in readme.xsystray
+  1. TÇlÇchargez le paquetage. 
+  2. Extrayez toutes les DLL dans un rÇpertoire figurant dans
+     LIBPATH, de prÇfÇrence x:\ecs\dll ou x:\os2\dll oó x: reprÇsente
+     l'unitÇ d'amoráage du systäme. 
+  3. Installez l'extension xsystray comme mentionnÇ dans le fichier
+     readme.os2 ainsi que dans readme.xsystray.
 
 MPlayer
 -------
@@ -154,7 +153,7 @@ MPlayer
      rÇpertoire. 
   4. Copiez le sous-rÇpertoire .mplayer -- si prÇsent -- dans votre
      rÇpertoire HOME. 
-  4. Pour pouvoir utiliser les sous-titres, copiez une police TrueType
+  5. Pour pouvoir utiliser les sous-titres, copiez une police TrueType
      de votre choix vers le rÇpertoire %HOME%\.mplayer puis renommez-la
      en subfont.ttf. 
 
@@ -166,16 +165,20 @@ Codecs Win32
      un sous-rÇpertoire "codecs". 
   3. Extrayez le contenu du paquetage tÇlÇchargÇ dans ce rÇpertoire
      "codecs". 
-
+  4. Ajoutez la ligne 
+       SET MPLAYER_CODECS_DIR=<Chemin_Vers_Les_Codecs>
+     Ö votre fichier CONFIG.SYS, et remplacez <Chemin_Vers_Les_Codecs>
+     par le chemin complet vers le dossier crÇÇ plus haut. 
 
 SMPlayer
 --------
 
-  1. CrÇez un rÇpertoire pour SMPlayer. 
+  1. CrÇez un rÇpertoire pour SMPlayer.
+     "x:\smplayer" dans notre exemple ci-dessosu. 
   2. Extrayez le contenu du paquetage de SMPlayer dans ce nouveau
      rÇpertoire. 
   3. CrÇez un objet WPS pour le programme smplayer.exe. 
-  4. Lancez SMPlayer. 
+  4. Lancez SMPlayer en double-cliquant sur son icìne. 
   5. Ouvrez la boåte de dialogue des prÇfÇrences via "Options" >
      "PrÇfÇrences". 
   6. Dans le panneau de gauche, sÇlectionnez "GÇnÇral". 
@@ -197,7 +200,9 @@ SMPlayer
      * Pour sÇlectionner une police installÇe, sÇlectionnez le bouton
        radio "Police du systäme", cliquez sur "Choisir..." et
        sÇlectionnez la police que vous voulez utiliser pour les
-       sous-titres. 
+       sous-titres.
+     AVERTISSEMENT : mplayer.exe plantera si vous sÇlectionnez une
+                     police autre que du type "TrueType" !  
  13. Pour de plus jolies polices, allez dans l'onglet "Bibliothäque
      SSA/ASS" et activez l'opton "Utiliser SSA/ASS pour le rendu".
      Modifiez Çventuellement les attributs de couleurs et de style. 
@@ -250,7 +255,8 @@ Pour plus de dÇtails, veuillez vous rÇfÇrer au fichier COPYING.
 5. CONTACT
 ==========
 
-if you find a bug, then add a ticket to the trac at http://svn.netlabs.org/qtapps
+Si vous rencontrez un probläme, ajouter donc un ticket sur le
+systäme trac sur http://svn.netlabs.org/qtapps. 
 
 Seuls les rapports de bogues reproductibles seront acceptÇs ! :-)
 
@@ -274,80 +280,73 @@ Soit ils m'ont aidÇ Ö rÇpondre Ö mes questions hardues, soit ils ont
 effectuÇ des tests pour moi. 
 
 
-7. SUPPORT ET DONS
+7. SOUTIEN ET DONS
 ==================
 
-SMPlayer est basÇ sur le volontariat. Si vous voulez supporter les
+SMPlayer est basÇ sur le volontariat. Si vous voulez soutenir les
 dÇveloppements futurs, vous pouvez le faire de l'une des maniäres
 suivantes : 
 
-  * Donate to the Qt4 project: see http://qt.netlabs.org for more information
+  * Faites un don pour le projet Qt4 : consulter http://qt.netlabs.org 
+    pour plus d'informations.
 
   * Contribuez au projet : outre le dÇveloppement pur, cela comprend
-    aussi la maintenance de la documentation et du site web du projet,
-    ainsi que l'aide aux utilisateurs. 
+    aussi la maintenance de la documentation, la maintenance du site
+    web du projet, ainsi que l'aide aux utilisateurs. 
 
 
 8. HISTORIQUE DES VERSIONS
 ==========================
 
+2011-12-27
+  * Mise Ö jour Ö la version plus rÇcente du code SVN de SMPlayer
+
 2011-11-11
-  * updated to Qt 4.7.3
-  * fixed a possible hang when ending smplayer while playing a movie (patch by Rudi)
+  * Mise Ö jour vers Qt 4.7.3
+  * Correction d'un plantage possible en quittant SMPlayer en cours de lecture d'une video (patch de Rudi)
 
 2010-06-30
-  * fixed a nasty 1 second delay
+  * Correction du fichu dÇlai de 1 seconde
 
 2010-04-29
-  * updated to Qt4 4.6.2
-  * added support for mplayer -ao kai (latest mplayer version)
+  * Mise Ö jour vers 4.6.2
+  * Ajout de la prise en charge de mplayer -ao kai (derniäre version de mplayer)
 
 2010-01-29
-  * updated to latest Qt4 source
-  * enabled colorkey (thanks to KO Myung-Hun)
+  * Mise Ö jour vers les derniäres sources Qt4
+  * Activation de colorkey (merci Ö Myung-Hun KO)
 
 2009-11-11
-
-  * fixed hang with broken media
-  * changed to Qt4 beta4
+  * Correction du plantage sur les media endommagÇs
+  * Passage Ö Qt4 bàta 4
 
 2009-10-22
-
-  * removed requirement for MPlayer DLLs to be in PATH or SMPlayer directory
-    (fixed in Qt)
-  * removed requirement for C:\PSFONTS\helv.pfb (fixed in Qt)
-  * added Screensaver functionality for Doodle Screensaver
+  * Retrait de l'obligation de placer les DLL dans PATH ou le rÇpertoire de SMPlayer (corrigÇ dans Qt)
+  * Retrait de l'obligation d'avoir C:\PSFONTS\helv.pfb (corrigÇ dans Qt)
+  * Ajout de fonctions de mise en veille pour le fonctionnement avec "Doodle Screensaver"
 
 2009-10-02
-
-  * beta1 of newest smplayer version with Qt4 support
+  * Bàta 1 de la plus rÇcente des versions de SMPlayer prenant en charge Qt4
 
 2009-01-22
-
   * Correction du plantage lors de la lecture de fichiers audio
 
 2008-11-24
-
    * Ajout des fichiers readme en allemand et en franáais (traductions de Christian Hennecke et Guillaume Gay respectivement)
    * Ajout de sympatiques icìnes pour l'exÇcutable et le dossier (rÇalisÇes par David Graser)
    * Mise Ö jour de la DLL de Qt avec la plus rÇcente version sur SVN
 
 2008-11-04
-
   * Correction d'un bug dans la DLL Qt qui survenait lors de la lecture depuis une liste de lecture
   * Renommage des fichiers d'icìnes pour une correspondance avec le comportement du WPS
 
 2008-10-27
-
   * Avec la version de mplayer la plus rÇcente sur Hobbes, le probläme de redimensionnement a ÇtÇ corrigÇ
   * Correction d'un bug introduit lors de l'ajout de plus d'extensions de fichiers
 
 2008-10-20
-
   * Basculement sur une DLL Qt sqt.dll "faite maison" (la derniäre disponible sur svn.netlabs.org/qt)
   * Ajout de deux autres extensions Ö la boåte de dialogue d'ouverture de fichiers
 
 2008-10-14
-
   * Version initiale
-

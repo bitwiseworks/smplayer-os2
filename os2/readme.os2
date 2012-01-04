@@ -73,9 +73,9 @@ Other additional interesting features:
 2. REQUIREMENTS
 ===============
 
-* klibc 0.6.3 or later
+* klibc 0.6.4 or later
 
-    ftp://ftp.netlabs.org/pub/gcc/libc-0_6_3-csd3.wpi
+    ftp://ftp.netlabs.org/pub/gcc/libc-0.6.4-csd4.zip
 
 * Qt4 dll
 
@@ -107,8 +107,8 @@ To install SMPlayer, do the following:
 klibc
 -----
 
-  1. Download klibc 0.6.3 csd3 or later.
-  2. Install the package by double-clicking on the WPI file.
+  1. Download klibc 0.6.4 csd4 or later.
+  2. Extract all dll to your libpath. preferable x:\ecs\dll or x:\os2\dll where x: is your boot drive
 
 
 Qt4 dll
@@ -118,7 +118,6 @@ Qt4 dll
   2. Extract all dll to your libpath. preferable x:\ecs\dll or x:\os2\dll where x: is your boot drive
   3. Install the xsystray plugin as noted in the readme.os2 and also in readme.xsystray
 
-
 MPlayer
 -------
 
@@ -126,9 +125,8 @@ MPlayer
   2. Create a new directory for MPlayer.
   3. Extract the MPlayer package to the new directory.
   4. Copy the .mplayer subdirectory -- if included -- to your HOME directory.
-  4. To be able to use subtitles, copy a TrueType font of your choice to the
+  5. To be able to use subtitles, copy a TrueType font of your choice to the
      %HOME%\.mplayer directory and rename it to subfont.ttf.
-
 
 Win32 codecs
 ------------
@@ -139,7 +137,6 @@ Win32 codecs
   3. Extract the package to the "codecs" subdirectory.
   4. Add a SET MPLAYER_CODECS_DIR statement to your CONFIG.SYS, and point it
      to the "codecs" subdirectory you create above.
-
 
 SMPlayer
 --------
@@ -254,9 +251,12 @@ development, you can do so in one of the following ways:
 8. HISTORY
 ==========
 
+2011-12-27
+  * updated to latest SMPlayer svn code
+
 2011-11-11
   * updated to Qt 4.7.3
-  * fixed a possible hang when ending smplayer while playing a movie (patch by Rudi)
+  * fixed a possible hang when ending SMPlayer while playing a movie (patch by Rudi)
 
 2010-06-30
   * fixed a nasty 1 second delay
@@ -270,47 +270,37 @@ development, you can do so in one of the following ways:
   * enabled colorkey (thanks to KO Myung-Hun)
 
 2009-11-11
-
   * fixed hang with broken media
   * changed to Qt4 beta4
 
 2009-10-22
-
   * removed requirement for MPlayer DLLs to be in PATH or SMPlayer directory
     (fixed in Qt)
   * removed requirement for C:\PSFONTS\helv.pfb (fixed in Qt)
   * added Screensaver functionality for Doodle Screensaver
 
 2009-10-02
-
-  * beta1 of newest smplayer version with Qt4 support
+  * beta1 of newest SMPlayer version with Qt4 support
 
 2009-01-22
-
   * fixed a crash when playing audio files
 
 2008-11-24
-
   * added french and german readme (done by Guillaume Gay and Christian Hennecke)
   * added nice looking icons for exe and folder (done by David Graser)
   * updated Qt DLL with newest version from SVN
 
 2008-11-04
-
   * fixed a bug in Qt DLL which occured when playing from playlist
   * renamed icon files to match wps behaviour
 
 2008-10-27
-
   * with newest mplayer from hobbes the resizing problem is fixed
   * fixed a bug introduced when adding more file extensions
 
 2008-10-20
-
   * switched to custom-built Qt DLL sqt.dll (latest version from svn.netlabs.org/qt)
   * added a couple more file extensions to the open file dialog
 
 2008-10-14
-
   * initial release
-

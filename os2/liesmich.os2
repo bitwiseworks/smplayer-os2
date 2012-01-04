@@ -86,9 +86,9 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 2. ERFORDERNISSE
 ================
 
-* klibc 0.6.3 oder neuer
+* klibc 0.6.4 oder neuer
 
-    ftp://ftp.netlabs.org/pub/gcc/libc-0_6_3-csd3.wpi
+    ftp://ftp.netlabs.org/pub/gcc/libc-0.6.4-csd4.zip
 
 * Qt4 dll
 
@@ -120,8 +120,8 @@ Zur Installation von SMPlayer fÅhren Sie folgende Schritte aus:
 klibc
 -----
 
-  1. Laden Sie klibc 0.6.3 csd3 oder neuer herunter.
-  2. Installieren Sie das Paket durch einen Doppelklick auf die WPI-Datei.
+  1. Laden Sie klibc 0.6.4 csd4 oder neuer herunter.
+  2. Extrahieren Sie alle Dll in Ihren libpath. Vorzugsweise x:\ecs\dll oder x:\os2\dll wo x: Ihr Bootlaufwerk ist
 
 Qt4 dll
 -------
@@ -267,9 +267,12 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 8. ENTWICKLUNGSGESCHICHTE
 =========================
 
+2011-12-27
+  * updated to latest SMPlayer svn code
+
 2011-11-11
   * updated to Qt 4.7.3
-  * fixed a possible hang when ending smplayer while playing a movie (patch by Rudi)
+  * fixed a possible hang when ending SMPlayer while playing a movie (patch by Rudi)
 
 2010-06-30
   * fixed a nasty 1 second delay
@@ -283,47 +286,37 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
   * enabled colorkey (thanks to KO Myung-Hun)
 
 2009-11-11
-
   * fixed hang with broken media
   * changed to Qt4 beta4
 
 2009-10-22
-
   * removed requirement for MPlayer DLLs to be in PATH or SMPlayer directory
     (fixed in Qt)
   * removed requirement for C:\PSFONTS\helv.pfb (fixed in Qt)
   * added Screensaver functionality for Doodle Screensaver
 
 2009-10-02
-
-  * beta1 der neuesten smplayer version mit Qt4 support
+  * beta1 der neuesten SMPlayer version mit Qt4 support
 
 2009-01-22
-
   * Fehler behoben, wenn Audio Dateien abgespielt wurden
 
 2008-11-24
-
   * franzîsisches und deutsches Readme hinzugefÅgt (erstellt durch Guillaume Gay und Christian Hennecke)
   * schînere Icons fÅr Ordner und das EXE hinzugefÅgt (erstellt durch David Graser)
   * Qt Dll auf neueste SVN Version gebracht
 
 2008-11-04
-
   * Fehler in Qt DLL behoben, der beim Abspielen von Abspiellisten auftrat
   * Symboldatei wegen Zuordnung durch WPS umbenannt
 
 2008-10-27
-
   * Skalierungsproblem wird durch aktuellen MPlayer-Build von Hobbes behoben
   * Fehler behoben, der durch HinzufÅgen neuer Dateiendungen entstanden war
 
 2008-10-20
-
   * auf spezielle Qt-DLL umgestellt (neueste Version von svn.netlabs.org/qt)
   * dem Datei-îffnen-Dialog einige Dateiendungen hinzugefÅgt
 
 2008-10-14
-
   * erste Version
-
