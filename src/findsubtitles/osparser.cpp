@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,7 +54,12 @@ bool OSParser::parseXml(QByteArray text) {
 			OSSubtitle sub;
 
 			sub.releasename = subtitle.firstChildElement("releasename").text();
-			sub.link = base_url + subtitle.firstChildElement("download").text();
+			QString path = subtitle.firstChildElement("download").text();
+			if (path.contains("http://")) {
+				sub.link = subtitle.firstChildElement("download").text();
+			} else {
+				sub.link = base_url + subtitle.firstChildElement("download").text();
+			}
 			sub.detail = subtitle.firstChildElement("detail").text();
 			sub.date = subtitle.firstChildElement("subadddate").text();
 			sub.rating = subtitle.firstChildElement("subrating").text();
