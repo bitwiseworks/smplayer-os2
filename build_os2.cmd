@@ -1,4 +1,4 @@
-/* smplayer Build Script */
+/* SMPlayer Build Script */
 /* root done by Herwig Bauernfeind, enhanced by Silvan Scherrer */
 
 /* version history */
@@ -8,16 +8,15 @@
 /* version 0.2.4 from 19.10.2009 Silvan (enabled lrelease support) */
 /* version 0.2.5 from 22.10.2009 Silvan (enabled install) */
 /* version 0.2.6 from 29.01.2010 Silvan (added more readmes) */
-/* version 0.2.7 from 29.04.2010 Silvan (added smplayer version for sed'ing readme's) */
+/* version 0.2.7 from 29.04.2010 Silvan (added SMPlayer version for sed'ing readme's) */
 /* version 0.2.8 from 20.05.2010 Silvan (added version to zip) */
 /* version 0.2.9 from 11.11.2011 Silvan (adapted to Qt 4.7.3) */
 /* version 0.3.0 from 24.12.2011 Silvan (added shadow build) */
+/* version 0.3.1 from 16.03.2012 Silvan (get the version from version.cpp) */
 
 /* init the version string (don't forget to change) */
-version = "0.3.0"
-version_date = "24.12.2011"
-smplayer_version = "0.6.9"
-internal_build = translate(smplayer_version, '_', '.')
+version = "0.3.1"
+version_date = "16.03.2012"
 '@echo off'
 
 parse arg command option
@@ -36,13 +35,18 @@ qOutFile   = buildDir||'\qmake.out'
 mErrorFile = buildDir||'\make.err'
 mOutFile   = buildDir||'\make.out'
 
-title = "smplayer for eCS (OS/2) build script v" || version || " from " || version_date
+/* get the SMPlayer version */
+SMPlayer_version = '0.0.0'
+call version
+internal_build = translate(SMPlayer_version, '_', '.')
+
+title = "SMPlayer for eCS (OS/2) build script v" || version || " from " || version_date
 say title
 say
 say "Build directory:" buildDir
 say "Source directory:" sourceDir
 say
-say "SMPlayer version:" smplayer_version
+say "SMPlayer version:" SMPlayer_version
 say
 
 /* translate command to all upercase */
@@ -51,10 +55,10 @@ command = translate(command)
 if command = "" then signal help
 
 if command = "INSTALL" then do
-    smplayer_build = option
+    SMPlayer_build = option
     select
-	when smplayer_build \== "" then do
-	  zipFile = installDir || '\smplayer-' || internal_build || '-' || smplayer_build || '.zip'
+	when SMPlayer_build \== "" then do
+	  zipFile = installDir || '\SMPlayer-' || internal_build || '-' || SMPlayer_build || '.zip'
 	end
 	otherwise do
 	  signal help
@@ -77,7 +81,7 @@ select
         say "cleaning the tree"
         call make 'distclean'
 
-        say "please execute this script again with 'make' to build smplayer"
+        say "please execute this script again with 'make' to build SMPlayer"
 
     end
     when command = "MAKE" then do
@@ -87,11 +91,11 @@ select
 	ok = SysMkDir(buildDir||'\src')
         address cmd 'sh ' sourceDir||'\get_svn_revision.sh ' sourceDir ' "eCS(OS/2) build"'
 
-        say "creating smplayer makefile"
+        say "creating SMPlayer makefile"
         call qmake
 
         if qRC = 0 then do
-            say "building smplayer"
+            say "building SMPlayer"
 	    if option = "" then do
             	call make
 	    end
@@ -121,7 +125,7 @@ select
 	rm.2 = 'liesmich.os2'
 	rm.3 = 'lisezmoi.os2'
 	do i = 1 to rm.0
-	cmdtorun = 'sed "s;_VERSION_;' || smplayer_version || ';g" ' || os2Dir || '\' || rm.i || ' | sed "s;_BUILD_;' || smplayer_build || ';g" >' || installDir || '\' || rm.i
+	cmdtorun = 'sed "s;_VERSION_;' || SMPlayer_version || ';g" ' || os2Dir || '\' || rm.i || ' | sed "s;_BUILD_;' || SMPlayer_build || ';g" >' || installDir || '\' || rm.i
         address cmd cmdtorun
 	end
 
@@ -239,6 +243,29 @@ FixDir: procedure expose (Globals)
         (noslash | \(length(dir) == 3 & (substr(dir, 2, 1) == ':')))) then
         dir = substr(dir, 1, length(dir) - 1)
     return dir
+
+/**
+ *  reads the version.cpp and gets the SMPlayer version from there
+ */ 
+version: procedure expose SMPlayer_version srcDir
+
+    SMPlayerVer = ' '
+    /* SMPlayer Version file */
+    Version = srcDir || "\version.cpp"
+
+    do until lines(Version) = 0
+        verline = linein(Version)
+        if left(Verline,15) = "#define VERSION" then do
+            parse var verline . ' '. ' ' SMPlayerVer
+        end
+    end
+
+    ok = stream(Version,'c','close')
+    if SMPlayerVer \== ' ' then do
+    	SMPlayer_version = strip(SMPlayerVer,,'"')
+    end
+
+    return
 
 help:
     say "Parameters:"

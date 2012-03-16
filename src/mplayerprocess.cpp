@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 #include "colorutils.h"
 
 using namespace Global;
+
+#define TOO_CHAPTERS_WORKAROUND
 
 MplayerProcess::MplayerProcess(QObject * parent) : MyProcess(parent) 
 {
@@ -472,7 +474,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			return;
 		}
 
-		if ( (mplayer_svn == -1) && (line.startsWith("MPlayer ")) ) {
+		if ( (mplayer_svn == -1) && ((line.startsWith("MPlayer ")) || (line.startsWith("MPlayer2 "))) ) {
 			mplayer_svn = MplayerVersion::mplayerVersion(line);
 			qDebug("MplayerProcess::parseLine: MPlayer SVN: %d", mplayer_svn);
 			if (mplayer_svn <= 0) {
@@ -844,6 +846,13 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			else
 			if (tag == "ID_CHAPTERS") {
 				md.chapters = value.toInt();
+				#ifdef TOO_CHAPTERS_WORKAROUND
+				if (md.chapters > 1000) {
+					qDebug("MplayerProcess::parseLine: warning too many chapters: %d", md.chapters);
+					qDebug("                           chapters will be ignored"); 
+					md.chapters = 0;
+				}
+				#endif
 			}
 			else
 			if (tag == "ID_DVD_CURRENT_TITLE") {

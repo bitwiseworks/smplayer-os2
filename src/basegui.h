@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ class MyActionGroup;
 class PreferencesDialog;
 class MyServer;
 
+class Favorites;
 class TVList;
 
 class BaseGui : public QMainWindow
@@ -59,7 +60,7 @@ class BaseGui : public QMainWindow
     Q_OBJECT
     
 public:
-    BaseGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+    BaseGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 	~BaseGui();
 
 	/* Return true if the window shouldn't show on startup */
@@ -81,6 +82,7 @@ public slots:
 	virtual void openFile();
 	virtual void openFile(QString file);
 	virtual void openFiles(QStringList files);
+	virtual void openFavorite(QString file);
 	virtual void openURL();
 	virtual void openURL(QString url);
 	virtual void openVCD();
@@ -93,7 +95,7 @@ public slots:
 
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
-	virtual void helpTips();
+	virtual void helpCheckUpdates();
 	virtual void helpDonate();
 	virtual void helpAbout();
 	virtual void helpAboutQt();
@@ -107,6 +109,7 @@ public slots:
 	virtual void openUploadSubtitlesPage(); //turbos
 
 	virtual void showVideoPreviewDialog();
+	virtual void showTubeBrowser();
 
 	virtual void showPlaylist();
 	virtual void showPlaylist(bool b);
@@ -422,13 +425,14 @@ protected:
 	MyAction * showPlaylistAct;
 	MyAction * showPropertiesAct;
 	MyAction * showPreferencesAct;
+	MyAction * showTubeBrowserAct;
 	MyAction * showLogMplayerAct;
 	MyAction * showLogSmplayerAct;
 
 	// Menu Help
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
-	MyAction * showTipsAct;
+	MyAction * showCheckUpdatesAct;
 	MyAction * donateAct;
 	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
@@ -609,6 +613,7 @@ protected:
 	QMenu *optionsMenu;
 	QMenu *helpMenu;
 
+	QMenu * disc_menu;
 	QMenu * subtitlestrack_menu;
 #if PROGRAM_SWITCH
 	QMenu * programtrack_menu;
@@ -659,6 +664,8 @@ protected:
 
 	MyServer * server;
 
+	Favorites * favorites;
+
 	TVList * tvlist;
 	TVList * radiolist;
 
@@ -669,6 +676,7 @@ protected:
 	// Force settings from command line
 	int arg_close_on_finish; // -1 = not set, 1 = true, 0 = false
 	int arg_start_in_fullscreen; // -1 = not set, 1 = true, 0 = false
+	bool use_control_server;
 
 private:
 	QString default_style;

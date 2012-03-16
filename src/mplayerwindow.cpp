@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -261,9 +261,8 @@ void MplayerWindow::retranslateStrings() {
 #endif
 }
 
-void MplayerWindow::showLogo( bool b)
-{
-	if (b) logo->show(); else logo->hide();
+void MplayerWindow::setLogoVisible( bool b) {
+	logo->setVisible(b);
 }
 
 /*

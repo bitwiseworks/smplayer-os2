@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 28, 2008
-zuletzt geÑndert am 29.01.2010
+zuletzt geÑndert am 16.03.2012
 
 0. INHALT DIESER DATEI
 ======================
@@ -86,17 +86,60 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 2. ERFORDERNISSE
 ================
 
-* klibc 0.6.4 oder neuer
+Folgende Voraussetzungen kînnen entweder als RPM oder ZIP Dateien installiert
+werden.
 
-    ftp://ftp.netlabs.org/pub/gcc/libc-0.6.4-csd4.zip
+RPM Installation:
 
-* Qt4 dll
+klibc
+-----
 
-    unter http://svn.netlabs.org/qt4 finden Sie die nîtigen Angaben wo Sie Qt4 bekommen und wie man es installiert
- 
-* MPlayer
+  1. yum install libc
 
-    http://hobbes.nmsu.edu/h-search.php?key=mplayer&pushbutton=Search
+GCC4Core
+--------
+
+  1. yum install libgcc
+  2. yum install gcc-stack-protector
+  3. yum install gcc-stdc++-shared-library
+  4. yum install gcc-supc++-shared-library
+
+Qt4 dll
+-------
+
+  1. yum install libqt4
+  2. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der readme.xsystray beschrieben
+
+
+ZIP Installation:
+
+klibc
+-----
+
+  1. Download klibc 0.6.4 oder neuer (unter http://svn.netlabs.org/libc
+     befinden sich weitere Informationen)
+  2. Die Dateien in Ihren libpath installieren z.B. x:\ecs\dll
+
+GCC4Core
+--------
+
+  1. Download GCC4Core 1.2.1 oder neuer unter http://ftp.netlabs.org/pub/gcc
+  2. Die Dateien in Ihren libpath installieren z.B. x:\ecs\dll
+
+Qt4 dll
+-------
+
+  1. Download Qt4 4.7.3 oder neuer (unter http://svn.netlabs.org/qt4
+     befinden sich weitere Informationen)
+  2. Die Dateien anhand des readme installieren
+  3. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der readme.xsystray beschrieben
+
+Folgende Voraussetzungen kînnen als ZIP Dateien installiert werden.
+
+MPlayer
+-------
+
+  http://hobbes.nmsu.edu/h-search.php?key=mplayer&pushbutton=Search
 
   WARNUNG: Um alle Mîglichkeiten der Kombination SMPlayer und MPlayer nutzen zu
            kînnen, ist mindestens Version mplayer-dev-SVN-r27724-OS2-4.3.2.zip
@@ -104,9 +147,10 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
            das Bild wird stets in der Originalgrî·e angezeigt. Die Einstellung
            fÅr Zoom und Vollbild sind wirkungslos.
 
-* Win32-Codecs (optional)
+Win32 codecs (optional)
+-----------------------
 
-    http://www.mplayerhq.hu/design7/dload.html#binary_codecs
+  http://www.mplayerhq.hu/design7/dload.html#binary_codecs
 
   MPlayer kann Win32-Codec-DLLs fÅr Codecs nutzen, die nicht nativ unterstÅtzt
   werden.
@@ -116,19 +160,6 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 ===============
          
 Zur Installation von SMPlayer fÅhren Sie folgende Schritte aus:
-
-klibc
------
-
-  1. Laden Sie klibc 0.6.4 csd4 oder neuer herunter.
-  2. Extrahieren Sie alle Dll in Ihren libpath. Vorzugsweise x:\ecs\dll oder x:\os2\dll wo x: Ihr Bootlaufwerk ist
-
-Qt4 dll
--------
-
-  1. Laden Sie das neueste Qt4 Packet herunter
-  2. Extrahieren Sie alle Dll in Ihren libpath. Vorzugsweise x:\ecs\dll oder x:\os2\dll wo x: Ihr Bootlaufwerk ist
-  3. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der readme.xsystray beschrieben
 
 MPlayer
 -------
@@ -200,9 +231,9 @@ nehmen Sie noch folgende Einstellung vor:
 4. LIZENZ, URHEBERRECHT, HAFTUNGSAUSSCHLUSS
 ===========================================
 
-SMPlayer ist (c) 2006 - 2011 RVM <rvm@escomposlinux.org>.
+SMPlayer ist (c) 2006 - 2012 RVM <rvm@escomposlinux.org>.
 
-Das Urheberrecht der OS/2-Portierung ist (c) 2008, 2010 Silvan Scherrer.
+Das Urheberrecht der OS/2-Portierung ist (c) 2008, 2012 Silvan Scherrer.
 
 Dieses Programm ist freie Software; Sie kînnen es unter den Bedingungen
 der GNU General Public License, wie in der Datei COPYING im
@@ -212,10 +243,6 @@ modifizieren.
 Der Original-Quelltext ist erhÑltlich unter:
 
   http://smplayer.sourceforge.net
-
-énderungen fÅr die OS/2-Version befinden sich in der Datei:
-
-  smplayer.diff (nicht in der Beta mit drin)
 
 Dieses Programm wird in der Hoffnung vertrieben, da· es nÅtzlich ist,
 aber OHNE JEDWEDE HAFTUNG und ohne implizite Garantie der
@@ -266,6 +293,9 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 
 8. ENTWICKLUNGSGESCHICHTE
 =========================
+
+2012-03-16
+  * udated to SMPlayer version 0.7.1
 
 2011-12-27
   * updated to latest SMPlayer svn code

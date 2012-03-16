@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
 #include "global.h"
 #include "preferences.h"
 
+#if YOUTUBE_SUPPORT
+#include "retrieveyoutubeurl.h"
+#endif
+
 using namespace Global;
 
 PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
@@ -38,6 +42,27 @@ PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
 	fast_chapter_check->hide();
 #endif
 
+#if YOUTUBE_SUPPORT
+	yt_quality_combo->addItem( "240p (flv)", RetrieveYoutubeUrl::FLV_240p );
+
+	yt_quality_combo->addItem( "360p (flv)", RetrieveYoutubeUrl::FLV_360p );
+	yt_quality_combo->addItem( "360p (mp4)", RetrieveYoutubeUrl::MP4_360p );
+	yt_quality_combo->addItem( "360p (webm)", RetrieveYoutubeUrl::WEBM_360p );
+
+	yt_quality_combo->addItem( "480p (flv)", RetrieveYoutubeUrl::FLV_480p );
+	yt_quality_combo->addItem( "480p (webm)", RetrieveYoutubeUrl::WEBM_480p );
+
+	yt_quality_combo->addItem( "720p (mp4)", RetrieveYoutubeUrl::MP4_720p );
+	yt_quality_combo->addItem( "720p (webm)", RetrieveYoutubeUrl::WEBM_720p );
+
+	yt_quality_combo->addItem( "1080p (mp4)", RetrieveYoutubeUrl::MP4_1080p );
+	yt_quality_combo->addItem( "1080p (webm)", RetrieveYoutubeUrl::WEBM_1080p );
+#else
+	yt_label->hide();
+	yt_quality_combo->hide();
+	yt_line->hide();
+#endif
+
 	retranslateStrings();
 }
 
@@ -50,7 +75,7 @@ QString PrefPerformance::sectionName() {
 }
 
 QPixmap PrefPerformance::sectionIcon() {
-    return Images::icon("pref_performance");
+    return Images::icon("pref_performance", 22);
 }
 
 
@@ -89,6 +114,10 @@ void PrefPerformance::setData(Preferences * pref) {
 #endif
 	setFastAudioSwitching( pref->fast_audio_change );
 	setThreads( pref->threads );
+
+#if YOUTUBE_SUPPORT
+	setYTQuality( pref->yt_quality );
+#endif
 }
 
 void PrefPerformance::getData(Preferences * pref) {
@@ -111,6 +140,10 @@ void PrefPerformance::getData(Preferences * pref) {
 #endif
 	pref->fast_audio_change = fastAudioSwitching();
 	TEST_AND_SET(pref->threads, threads());
+
+#if YOUTUBE_SUPPORT
+	pref->yt_quality = YTQuality();
+#endif
 }
 
 void PrefPerformance::setCacheForFiles(int n) {
@@ -227,6 +260,17 @@ int PrefPerformance::threads() {
 	return threads_spin->value();
 }
 
+#if YOUTUBE_SUPPORT
+void PrefPerformance::setYTQuality(int q) {
+	yt_quality_combo->setCurrentIndex(yt_quality_combo->findData(q));
+}
+
+int PrefPerformance::YTQuality() {
+	int index = yt_quality_combo->currentIndex();
+    return yt_quality_combo->itemData(index).toInt();
+}
+#endif
+
 void PrefPerformance::createHelp() {
 	clearHelp();
 
@@ -283,6 +327,11 @@ void PrefPerformance::createHelp() {
 	setWhatsThis(fast_chapter_check, tr("Fast seek to chapters in dvds"),
 		tr("If checked, it will try the fastest method to seek to chapters "
            "but it might not work with some discs.") );
+#endif
+
+#if YOUTUBE_SUPPORT
+	setWhatsThis(yt_quality_combo, tr("Youtube quality"),
+		tr("Select the preferred quality for youtube videos.") );
 #endif
 
 	addSectionTitle(tr("Cache"));

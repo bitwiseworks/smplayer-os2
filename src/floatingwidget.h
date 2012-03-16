@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,14 @@
 #include <QTimer>
 
 class QToolBar;
+
+#if QT_VERSION < 0x040600
+#define OLD_ANIMATION
+#endif
+
+#ifndef OLD_ANIMATION
+class QPropertyAnimation;
+#endif
 
 class FloatingWidget : public QWidget
 {
@@ -58,13 +66,17 @@ protected:
 	QToolBar * tb;
 
 private slots:
+#ifdef OLD_ANIMATION
 	void animate();
+#endif
 	void checkUnderMouse();
 
 private:
 	// Animation variables
 	bool _animated;
+#ifdef OLD_ANIMATION
 	QTimer * animation_timer;
+#endif
 	int final_y;
 	int current_y;
 	Movement current_movement;
@@ -73,6 +85,11 @@ private:
 	QTimer auto_hide_timer;
 
 	int _margin;
+
+#ifndef OLD_ANIMATION
+	QPropertyAnimation * animation;
+#endif
+
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@
 
 using namespace Global;
 
-BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
+BaseGui::BaseGui( bool use_server, QWidget* parent, Qt::WindowFlags flags ) 
 	: QMainWindow( parent, flags ),
 		near_top(false),
 		near_bottom(false)
@@ -114,6 +114,7 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 
 	arg_close_on_finish = -1;
 	arg_start_in_fullscreen = -1;
+	use_control_server = use_server;
 
 	setWindowTitle( "SMPlayer" );
 
@@ -199,47 +200,49 @@ void BaseGui::initializeGui() {
 	QTimer::singleShot(20, this, SLOT(loadActions()));
 
 	// Single instance
-	server = new MyServer(this);
-	connect(server, SIGNAL(receivedOpen(QString)),
-            this, SLOT(remoteOpen(QString)));
-	connect(server, SIGNAL(receivedOpenFiles(QStringList)),
-            this, SLOT(remoteOpenFiles(QStringList)));
-	connect(server, SIGNAL(receivedAddFiles(QStringList)),
-            this, SLOT(remoteAddFiles(QStringList)));
-	connect(server, SIGNAL(receivedFunction(QString)),
-            this, SLOT(processFunction(QString)));	
-	connect(server, SIGNAL(receivedLoadSubtitle(QString)),	
-            this, SLOT(remoteLoadSubtitle(QString)));
-	connect(server, SIGNAL(receivedPlayItem(int)),
-			this, SLOT(remotePlayItem(int)));
-	connect(server, SIGNAL(receivedRemoveItem(int)),
-			this, SLOT(remoteRemoveItem(int)));
-	connect(server, SIGNAL(receivedViewPlaylist(QString*)),
-			this, SLOT(remoteViewPlaylist(QString*)));
-	connect(server, SIGNAL(receivedViewStatus(QString*)),
-			this, SLOT(remoteViewStatus(QString*)));
-	connect(server, SIGNAL(receivedViewClipInfo(QString*)),
-			this, SLOT(remoteViewClipInfo(QString*)));
-	connect(server, SIGNAL(receivedSeek(double)),
-			this, SLOT(remoteSeek(double)));
-	connect(server, SIGNAL(receivedGetChecked(QString,QString*)),
-			this, SLOT(remoteGetChecked(QString,QString*)));
-	connect(server, SIGNAL(receivedMoveItem(int,int)),
-			this, SLOT(remoteMoveItem(int,int)));
-	connect(server, SIGNAL(receivedGetVolume(int*)),
-			this, SLOT(remoteGetVolume(int*)));
-	connect(server, SIGNAL(receivedSetVolume(int)),
-			core, SLOT(setVolume(int)));
+	if (use_control_server) {
+		server = new MyServer(this);
+		connect(server, SIGNAL(receivedOpen(QString)),
+	            this, SLOT(remoteOpen(QString)));
+		connect(server, SIGNAL(receivedOpenFiles(QStringList)),
+	            this, SLOT(remoteOpenFiles(QStringList)));
+		connect(server, SIGNAL(receivedAddFiles(QStringList)),
+	            this, SLOT(remoteAddFiles(QStringList)));
+		connect(server, SIGNAL(receivedFunction(QString)),
+	            this, SLOT(processFunction(QString)));	
+		connect(server, SIGNAL(receivedLoadSubtitle(QString)),	
+	            this, SLOT(remoteLoadSubtitle(QString)));
+		connect(server, SIGNAL(receivedPlayItem(int)),
+				this, SLOT(remotePlayItem(int)));
+		connect(server, SIGNAL(receivedRemoveItem(int)),
+				this, SLOT(remoteRemoveItem(int)));
+		connect(server, SIGNAL(receivedViewPlaylist(QString*)),
+				this, SLOT(remoteViewPlaylist(QString*)));
+		connect(server, SIGNAL(receivedViewStatus(QString*)),
+				this, SLOT(remoteViewStatus(QString*)));
+		connect(server, SIGNAL(receivedViewClipInfo(QString*)),
+				this, SLOT(remoteViewClipInfo(QString*)));
+		connect(server, SIGNAL(receivedSeek(double)),
+				this, SLOT(remoteSeek(double)));
+		connect(server, SIGNAL(receivedGetChecked(QString,QString*)),
+				this, SLOT(remoteGetChecked(QString,QString*)));
+		connect(server, SIGNAL(receivedMoveItem(int,int)),
+				this, SLOT(remoteMoveItem(int,int)));
+		connect(server, SIGNAL(receivedGetVolume(int*)),
+				this, SLOT(remoteGetVolume(int*)));
+		connect(server, SIGNAL(receivedSetVolume(int)),
+				core, SLOT(setVolume(int)));
 
-	if (pref->use_single_instance) {
-		int port = 0;
-		if (!pref->use_autoport) port = pref->connection_port;
-		if (server->listen(port)) {
-			pref->autoport = server->serverPort();
-			pref->save();
-			qDebug("BaseGui::initializeGui: server running on port %d", pref->autoport);
-		} else {
-			qWarning("BaseGui::initializeGui: server couldn't be started");
+		if (pref->use_single_instance) {
+			int port = 0;
+			if (!pref->use_autoport) port = pref->connection_port;
+			if (server->listen(port)) {
+				pref->autoport = server->serverPort();
+				pref->save();
+				qDebug("BaseGui::initializeGui: server running on port %d", pref->autoport);
+			} else {
+				qWarning("BaseGui::initializeGui: server couldn't be started");
+			}
 		}
 	}
 }
@@ -376,6 +379,7 @@ BaseGui::~BaseGui() {
 	delete mplayer_log_window;
 	delete smplayer_log_window;
 
+	delete favorites;
 	delete tvlist;
 	delete radiolist;
 
@@ -442,10 +446,21 @@ void BaseGui::createActions() {
 	clearRecentsAct = new MyAction( this, "clear_recents" );
 	connect( clearRecentsAct, SIGNAL(triggered()), this, SLOT(clearRecentsList()) );
 
+	// Favorites
+	favorites = new Favorites(Paths::configPath() + "/favorites.m3u8", this);
+	favorites->menuAction()->setObjectName( "favorites_menu" );
+	addAction(favorites->editAct());
+	addAction(favorites->jumpAct());
+	addAction(favorites->nextAct());
+	addAction(favorites->previousAct());
+	connect(favorites, SIGNAL(activated(QString)), this, SLOT(openFavorite(QString)));
+	connect(core, SIGNAL(mediaPlaying(const QString &, const QString &)),
+            favorites, SLOT(getCurrentMedia(const QString &, const QString &)));
+
 	// TV and Radio
 	tvlist = new TVList(pref->check_channels_conf_on_startup, 
                         TVList::TV, Paths::configPath() + "/tv.m3u8", this);
-	tvlist->menu()->menuAction()->setObjectName( "tv_menu" );
+	tvlist->menuAction()->setObjectName( "tv_menu" );
 	addAction(tvlist->editAct());
 	addAction(tvlist->jumpAct());
 	addAction(tvlist->nextAct());
@@ -457,10 +472,12 @@ void BaseGui::createActions() {
 	tvlist->editAct()->setObjectName("edit_tv_list");
 	tvlist->jumpAct()->setObjectName("jump_tv_list");
 	connect(tvlist, SIGNAL(activated(QString)), this, SLOT(open(QString)));
+	connect(core, SIGNAL(mediaPlaying(const QString &, const QString &)),
+            tvlist, SLOT(getCurrentMedia(const QString &, const QString &)));
 
 	radiolist = new TVList(pref->check_channels_conf_on_startup, 
                            TVList::Radio, Paths::configPath() + "/radio.m3u8", this);
-	radiolist->menu()->menuAction()->setObjectName( "radio_menu" );
+	radiolist->menuAction()->setObjectName( "radio_menu" );
 	addAction(radiolist->editAct());
 	addAction(radiolist->jumpAct());
 	addAction(radiolist->nextAct());
@@ -472,6 +489,8 @@ void BaseGui::createActions() {
 	radiolist->editAct()->setObjectName("edit_radio_list");
 	radiolist->jumpAct()->setObjectName("jump_radio_list");
 	connect(radiolist, SIGNAL(activated(QString)), this, SLOT(open(QString)));
+	connect(core, SIGNAL(mediaPlaying(const QString &, const QString &)),
+            radiolist, SLOT(getCurrentMedia(const QString &, const QString &)));
 
 
 	// Menu Play
@@ -806,6 +825,10 @@ void BaseGui::createActions() {
 	connect( showPreferencesAct, SIGNAL(triggered()),
              this, SLOT(showPreferencesDialog()) );
 
+	showTubeBrowserAct = new MyAction( Qt::Key_F11, this, "show_tube_browser" );
+	connect( showTubeBrowserAct, SIGNAL(triggered()),
+             this, SLOT(showTubeBrowser()) );
+
 	// Submenu Logs
 	showLogMplayerAct = new MyAction( QKeySequence("Ctrl+M"), this, "show_mplayer_log" );
 	connect( showLogMplayerAct, SIGNAL(triggered()),
@@ -824,9 +847,9 @@ void BaseGui::createActions() {
 	connect( showCLOptionsAct, SIGNAL(triggered()),
              this, SLOT(helpCLOptions()) );
 
-	showTipsAct = new MyAction( this, "tips" );
-	connect( showTipsAct, SIGNAL(triggered()),
-             this, SLOT(helpTips()) );
+	showCheckUpdatesAct = new MyAction( this, "check_updates" );
+	connect( showCheckUpdatesAct, SIGNAL(triggered()),
+             this, SLOT(helpCheckUpdates()) );
 
 	donateAct = new MyAction( this, "donate" );
 	connect( donateAct, SIGNAL(triggered()),
@@ -1462,16 +1485,25 @@ void BaseGui::retranslateStrings() {
 	openURLAct->change( Images::icon("url"), tr("&URL...") );
 	exitAct->change( Images::icon("close"), tr("C&lose") );
 
+	// Favorites
+	/*
+	favorites->editAct()->setText( tr("&Edit...") );
+	favorites->addCurrentAct()->setText( tr("&Add current media") );
+	*/
+
 	// TV & Radio submenus
+	/*
 	tvlist->editAct()->setText( tr("&Edit...") );
 	radiolist->editAct()->setText( tr("&Edit...") );
+	tvlist->addCurrentAct()->setText( tr("&Add current media") );
+	radiolist->addCurrentAct()->setText( tr("&Add current media") );
 	tvlist->jumpAct()->setText( tr("&Jump...") );
 	radiolist->jumpAct()->setText( tr("&Jump...") );
 	tvlist->nextAct()->setText( tr("Next TV channel") );
 	tvlist->previousAct()->setText( tr("Previous TV channel") );
 	radiolist->nextAct()->setText( tr("Next radio channel") );
 	radiolist->previousAct()->setText( tr("Previous radio channel") );
-
+	*/
 
 	// Menu Play
 	playAct->change( tr("P&lay") );
@@ -1598,6 +1630,7 @@ void BaseGui::retranslateStrings() {
 	showPlaylistAct->change( Images::icon("playlist"), tr("&Playlist") );
 	showPropertiesAct->change( Images::icon("info"), tr("View &info and properties...") );
 	showPreferencesAct->change( Images::icon("prefs"), tr("P&references") );
+	showTubeBrowserAct->change( Images::icon("tubebrowser"), tr("&YouTube browser") );
 
 	// Submenu Logs
 	showLogMplayerAct->change( "MPlayer" );
@@ -1606,7 +1639,7 @@ void BaseGui::retranslateStrings() {
 	// Menu Help
 	showFAQAct->change( Images::icon("faq"), tr("&FAQ") );
 	showCLOptionsAct->change( Images::icon("cl_help"), tr("&Command line options") );
-	showTipsAct->change( Images::icon("tips"), tr("&Tips") );
+	showCheckUpdatesAct->change( Images::icon("check_updates"), tr("Check for &updates") );
 	donateAct->change( Images::icon("donate"), tr("&Donate") );
 	aboutQtAct->change( QPixmap(":/icons-png/qt.png"), tr("About &Qt") );
 	aboutThisAct->change( Images::icon("logo_small"), tr("About &SMPlayer") );
@@ -1693,11 +1726,18 @@ void BaseGui::retranslateStrings() {
 	recentfiles_menu->menuAction()->setIcon( Images::icon("recents") );
 	clearRecentsAct->change( Images::icon("delete"), tr("&Clear") );
 
-	tvlist->menu()->menuAction()->setText( tr("&TV") );
-	tvlist->menu()->menuAction()->setIcon( Images::icon("open_tv") );
+	disc_menu->menuAction()->setText( tr("&Disc") );
+	disc_menu->menuAction()->setIcon( Images::icon("open_disc") );
 
-	radiolist->menu()->menuAction()->setText( tr("Radi&o") );
-	radiolist->menu()->menuAction()->setIcon( Images::icon("open_radio") );
+	/* favorites->menuAction()->setText( tr("&Favorites") ); */
+	favorites->menuAction()->setText( tr("F&avorites") );
+	favorites->menuAction()->setIcon( Images::icon("open_favorites") ); 
+
+	tvlist->menuAction()->setText( tr("&TV") );
+	tvlist->menuAction()->setIcon( Images::icon("open_tv") );
+
+	radiolist->menuAction()->setText( tr("Radi&o") );
+	radiolist->menuAction()->setIcon( Images::icon("open_radio") );
 
 	// Menu Play
 	speed_menu->menuAction()->setText( tr("Sp&eed") );
@@ -1966,8 +2006,15 @@ void BaseGui::createCore() {
              this, SLOT(showExitCodeFromMplayer(int)) );
 
 	// Hide mplayer window
-	connect( core, SIGNAL(noVideo()),
-             this, SLOT(hidePanel()) );
+#if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
+	if (pref->hide_video_window_on_audio_files) {
+		connect( core, SIGNAL(noVideo()), this, SLOT(hidePanel()) );
+	} else {
+		connect( core, SIGNAL(noVideo()), mplayerwindow, SLOT(showLogo()) );
+	}
+#else
+	connect( core, SIGNAL(noVideo()), this, SLOT(hidePanel()) );
+#endif
 
 	// Log mplayer output
 	connect( core, SIGNAL(aboutToStartPlaying()),
@@ -2121,7 +2168,8 @@ void BaseGui::createMenus() {
 	videoMenu = menuBar()->addMenu("Video");
 	audioMenu = menuBar()->addMenu("Audio");
 	subtitlesMenu = menuBar()->addMenu("Subtitles");
-	browseMenu = menuBar()->addMenu("Browwse");
+	/* menuBar()->addMenu(favorites); */
+	browseMenu = menuBar()->addMenu("Browse");
 	optionsMenu = menuBar()->addMenu("Options");
 	helpMenu = menuBar()->addMenu("Help");
 
@@ -2133,17 +2181,25 @@ void BaseGui::createMenus() {
 	recentfiles_menu->addSeparator();
 
 	openMenu->addMenu( recentfiles_menu );
-
+	openMenu->addMenu(favorites);
 	openMenu->addAction(openDirectoryAct);
 	openMenu->addAction(openPlaylistAct);
-	openMenu->addAction(openDVDAct);
-	openMenu->addAction(openDVDFolderAct);
-	openMenu->addAction(openVCDAct);
-	openMenu->addAction(openAudioCDAct);
-	openMenu->addAction(openURLAct);
-	openMenu->addMenu(tvlist->menu());
-	openMenu->addMenu(radiolist->menu());
 
+	// Disc submenu
+	disc_menu = new QMenu(this);
+	disc_menu->menuAction()->setObjectName("disc_menu");
+	disc_menu->addAction(openDVDAct);
+	disc_menu->addAction(openDVDFolderAct);
+	disc_menu->addAction(openVCDAct);
+	disc_menu->addAction(openAudioCDAct);
+
+	openMenu->addMenu(disc_menu);
+
+	openMenu->addAction(openURLAct);
+/* #ifndef Q_OS_WIN */
+	openMenu->addMenu(tvlist);
+	openMenu->addMenu(radiolist);
+/* #endif */
 	openMenu->addSeparator();
 	openMenu->addAction(exitAct);
 	
@@ -2431,6 +2487,19 @@ void BaseGui::createMenus() {
 	// OPTIONS MENU
 	optionsMenu->addAction(showPropertiesAct);
 	optionsMenu->addAction(showPlaylistAct);
+	// Check if the smplayer youtube browser is installed
+	{
+		QString tube_exec = Paths::appPath() + "/smtube";
+		#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+		tube_exec += ".exe";
+		#endif
+		if (QFile::exists(tube_exec)) {
+			optionsMenu->addAction(showTubeBrowserAct);
+			qDebug("BaseGui::createMenus: %s does exist", tube_exec.toUtf8().constData());
+		} else {
+			qDebug("BaseGui::createMenus: %s does not exist", tube_exec.toUtf8().constData());
+		}
+	}
 
 	// OSD submenu
 	osd_menu = new QMenu(this);
@@ -2457,7 +2526,7 @@ void BaseGui::createMenus() {
 	// HELP MENU
 	helpMenu->addAction(showFAQAct);
 	helpMenu->addAction(showCLOptionsAct);
-	helpMenu->addAction(showTipsAct);
+	helpMenu->addAction(showCheckUpdatesAct);
 	helpMenu->addAction(donateAct);
 	helpMenu->addSeparator();
 	helpMenu->addAction(aboutQtAct);
@@ -2474,6 +2543,7 @@ void BaseGui::createMenus() {
 	popup->addMenu( videoMenu );
 	popup->addMenu( audioMenu );
 	popup->addMenu( subtitlesMenu );
+	popup->addMenu( favorites );
 	popup->addMenu( browseMenu );
 	popup->addMenu( optionsMenu );
 
@@ -2578,6 +2648,9 @@ void BaseGui::showPreferencesDialog() {
 	pl->setSavePlaylistOnExit(playlist->savePlaylistOnExit());
 	pl->setPlayFilesFromStart(playlist->playFilesFromStart());
 
+	PrefInterface * pi = pref_dialog->mod_interface();
+	pi->setSingleInstanceTabEnabled( use_control_server );
+
 	pref_dialog->show();
 }
 
@@ -2616,28 +2689,44 @@ void BaseGui::applyNewPreferences() {
 #endif
 	}
 
-	if (!pref->use_single_instance && server->isListening()) {
-		server->close();
-		qDebug("BaseGui::applyNewPreferences: server closed");
-	}
-	else
-	{
-		bool server_requires_restart = _interface->serverPortChanged();
-		if (pref->use_single_instance && !server->isListening()) 
-			server_requires_restart=true;
-
-		if (server_requires_restart) {
+	if (use_control_server) {
+		if (!pref->use_single_instance && server->isListening()) {
 			server->close();
-			int port = 0;
-			if (!pref->use_autoport) port = pref->connection_port;
-			if (server->listen(port)) {
-				pref->autoport = server->serverPort();
-				qDebug("BaseGui::applyNewPreferences: server running on port %d", pref->autoport);
-			} else {
-				qWarning("BaseGui::applyNewPreferences: server couldn't be started");
+			qDebug("BaseGui::applyNewPreferences: server closed");
+		}
+		else
+		{
+			bool server_requires_restart = _interface->serverPortChanged();
+			if (pref->use_single_instance && !server->isListening()) 
+				server_requires_restart=true;
+
+			if (server_requires_restart) {
+				server->close();
+				int port = 0;
+				if (!pref->use_autoport) port = pref->connection_port;
+				if (server->listen(port)) {
+					pref->autoport = server->serverPort();
+					qDebug("BaseGui::applyNewPreferences: server running on port %d", pref->autoport);
+				} else {
+					qWarning("BaseGui::applyNewPreferences: server couldn't be started");
+				}
 			}
 		}
 	}
+
+#if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
+	if (pref->hide_video_window_on_audio_files) {
+		connect( core, SIGNAL(noVideo()), this, SLOT(hidePanel()) );
+		disconnect( core, SIGNAL(noVideo()), mplayerwindow, SLOT(hideLogo()) );
+	} else {
+		disconnect( core, SIGNAL(noVideo()), this, SLOT(hidePanel()) );
+		connect( core, SIGNAL(noVideo()), mplayerwindow, SLOT(showLogo()) );
+		if (!panel->isVisible()) {
+			resize( width(), height() + 200);
+			panel->show();
+		}
+	}
+#endif
 
 	PrefAdvanced *advanced = pref_dialog->mod_advanced();
 #if REPAINT_BACKGROUND_OPTION
@@ -3380,6 +3469,12 @@ void BaseGui::openFiles(QStringList files) {
 	}
 }
 
+void BaseGui::openFavorite(QString file) {
+	qDebug("BaseGui::openFavorite");
+
+	openFiles(QStringList() << file);
+}
+
 void BaseGui::openURL() {
 	qDebug("BaseGui::openURL");
 
@@ -3405,15 +3500,13 @@ void BaseGui::openURL() {
 	InputURL d(this);
 
 	for (int n=0; n < pref->history_urls->count(); n++) {
-		d.setURL( pref->history_urls->url(n), pref->history_urls->isPlaylist(n) );
+		d.setURL( pref->history_urls->url(n) );
 	}
 
 	if (d.exec() == QDialog::Accepted ) {
 		QString url = d.url();
-		bool is_playlist = d.isPlaylist();
 		if (!url.isEmpty()) {
-			pref->history_urls->addUrl(url, is_playlist);
-			if (is_playlist) url = url + IS_PLAYLIST_TAG;
+			pref->history_urls->addUrl(url);
 			openURL(url);
 		}
 	}
@@ -3658,8 +3751,10 @@ void BaseGui::helpCLOptions() {
 	clhelp_window->show();
 }
 
-void BaseGui::helpTips() {
-	QDesktopServices::openUrl( QUrl("http://smplayer.sf.net/forum/viewforum.php?f=12") );
+void BaseGui::helpCheckUpdates() {
+	QString url = "http://smplayer.sourceforge.net/latest.php";
+	if (!pref->language.isEmpty()) url += QString("?tr_lang=%1").arg(pref->language);
+	QDesktopServices::openUrl( QUrl(url) );
 }
 
 void BaseGui::helpDonate() {
@@ -4247,13 +4342,6 @@ void BaseGui::resizeWindow(int w, int h) {
 void BaseGui::hidePanel() {
 	qDebug("BaseGui::hidePanel");
 
-#if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
-	if (!pref->hide_video_window_on_audio_files) {
-		mplayerwindow->showLogo(true);
-	}
-	else
-#endif
-
 	if (panel->isVisible()) {
 		// Exit from fullscreen mode 
 	    if (pref->fullscreen) { toggleFullscreen(false); update(); }
@@ -4480,8 +4568,7 @@ void BaseGui::loadActions() {
 	actions_list += ActionsEditor::actionsNames(playlist);
 #endif
 
-	//if (server)
-		server->setActionsList( actions_list );
+	if (server) server->setActionsList( actions_list );
 }
 
 void BaseGui::saveActions() {
@@ -4629,6 +4716,13 @@ void BaseGui::showVideoPreviewDialog() {
 	if ( (video_preview->showConfigDialog(this)) && (video_preview->createThumbnails()) ) {
 		video_preview->show();
 		video_preview->adjustWindowSize();
+	}
+}
+
+void BaseGui::showTubeBrowser() {
+	qDebug("BaseGui::showTubeBrowser");
+	if (!QProcess::startDetached("smtube", QStringList())) {
+		QMessageBox::warning(this, tr("An error happened - SMPlayer"), tr("The YouTube Browser couldn't be launched"));
 	}
 }
 

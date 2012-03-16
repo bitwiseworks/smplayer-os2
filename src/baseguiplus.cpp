@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2011 Ricardo Villalba <rvm@escomposlinux.org>
+    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@
 #include "images.h"
 #include "playlist.h"
 
-#ifndef Q_OS_WIN
+#ifdef Q_OS_WIN
+#include "favorites.h"
+#else
 #include "tvlist.h"
 #endif
 
@@ -44,8 +46,8 @@
 
 using namespace Global;
 
-BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags )
-	: BaseGui( parent, flags )
+BaseGuiPlus::BaseGuiPlus( bool use_server, QWidget * parent, Qt::WindowFlags flags)
+	: BaseGui( use_server, parent, flags )
 {
 	// Initialize variables
 	mainwindow_visible = true;
@@ -68,7 +70,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags )
 	connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), 
              this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-	quitAct = new MyAction(this, "quit");
+	quitAct = new MyAction(QKeySequence("Ctrl+Q"), this, "quit");
     connect( quitAct, SIGNAL(triggered()), this, SLOT(quit()) );
 	openMenu->addAction(quitAct);
 
@@ -98,9 +100,10 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags )
 	context_menu->addAction(openDirectoryAct);
 	context_menu->addAction(openDVDAct);
 	context_menu->addAction(openURLAct);
+	context_menu->addMenu(favorites);
 #ifndef Q_OS_WIN
-	context_menu->addMenu(tvlist->menu());
-	context_menu->addMenu(radiolist->menu());
+	context_menu->addMenu(tvlist);
+	context_menu->addMenu(radiolist);
 #endif
 	context_menu->addSeparator();
 	context_menu->addAction(playOrPauseAct);
