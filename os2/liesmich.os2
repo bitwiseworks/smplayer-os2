@@ -86,12 +86,16 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 2. ERFORDERNISSE
 ================
 
-Folgende Voraussetzungen kînnen entweder als RPM oder ZIP Dateien installiert
-werden.
+Folgende Voraussetzungen mÅssen installiert werden.
 
-RPM Installation:
+2.1 kLIBC, GCC4Core, Qt4
+------------------------
 
-klibc
+
+2.1.a RPM Installation
+----------------------
+
+kLIBC
 -----
 
   1. yum install libc
@@ -108,15 +112,17 @@ Qt4 dll
 -------
 
   1. yum install libqt4
-  2. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der readme.xsystray beschrieben
+  2. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der
+     readme.xsystray beschrieben
 
 
-ZIP Installation:
+2.1.b ZIP Installation
+----------------------
 
-klibc
+kLIBC
 -----
 
-  1. Download klibc 0.6.4 oder neuer (unter http://svn.netlabs.org/libc
+  1. Download kLIBC 0.6.4 oder neuer (unter http://svn.netlabs.org/libc
      befinden sich weitere Informationen)
   2. Die Dateien in Ihren libpath installieren z.B. x:\ecs\dll
 
@@ -132,9 +138,12 @@ Qt4 dll
   1. Download Qt4 4.7.3 oder neuer (unter http://svn.netlabs.org/qt4
      befinden sich weitere Informationen)
   2. Die Dateien anhand des readme installieren
-  3. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der readme.xsystray beschrieben
+  3. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der
+     readme.xsystray beschrieben
 
-Folgende Voraussetzungen kînnen als ZIP Dateien installiert werden.
+
+2.2 MPlayer, Win32 Codecs
+-------------------------
 
 MPlayer
 -------
