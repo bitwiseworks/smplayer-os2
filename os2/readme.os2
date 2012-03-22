@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 5, 2009
-last update March 19, 2012
+last update March 22, 2012
 
 
 0. CONTENTS OF THIS FILE
@@ -75,9 +75,11 @@ Other additional interesting features:
 
 The following requirements need to be installed.
 
+
 2.1 kLIBC, GCC4Core, Qt4
 ------------------------
 
+The installation of these products can be done either by RPM or ZIP files.
 
 2.1.a RPM installation
 ----------------------
@@ -129,8 +131,10 @@ Qt4 dll
      readme.xsystray
 
 
-2.2 MPlayer, WIN32 codecs
+2.2 MPlayer, Win32 codecs
 -------------------------
+
+The installation of these products is only available as ZIP files.
 
 MPlayer
 -------

@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 28, 2008
-zuletzt geÑndert am 16.03.2012
+zuletzt geÑndert am 22.03.2012
 
 0. INHALT DIESER DATEI
 ======================
@@ -88,9 +88,12 @@ OS/2-Portierung auf die neueste SMPlayer-Version aktualisieren.
 
 Folgende Voraussetzungen mÅssen installiert werden.
 
+
 2.1 kLIBC, GCC4Core, Qt4
 ------------------------
 
+Die Installation dieser Produkten kann entweder via RPM oder via ZIP Dateien
+erfolgen.
 
 2.1.a RPM Installation
 ----------------------
@@ -145,6 +148,8 @@ Qt4 dll
 2.2 MPlayer, Win32 Codecs
 -------------------------
 
+Diese Produkte kînnen nur via ZIP Dateien installiert werden.
+
 MPlayer
 -------
 
@@ -182,7 +187,7 @@ MPlayer
      Wahl in das Verzeichnis %HOME%\.mplayer und benennen Sie die Datei in
      subfont.ttf um.
 
-Win32-Codecs
+Win32 Codecs
 ------------
 
   1. Laden Sie das Codec-Paket von der MPlayer-Web-Site herunter.

@@ -1,9 +1,9 @@
 SMPlayer _VERSION_ _BUILD_ LISEZMOI
 
 Document original....: (W) Christian Hennecke, Oct 5, 2009
-Derniäre mise Ö jour.: 2010-01-29
+Derniäre mise Ö jour.: 2012-03-19
 Traduction franáaise.: Guillaume Gay <guillaume.gay@bigfoot.com>
-Version..............: 2011-12-19
+Version..............: 2012-03-19
 
 
 0. CONTENU DU FICHIER
@@ -91,9 +91,17 @@ Autres fonctionnalitÇs supplÇmentaires intÇressantes :
 2. PRêREQUIS
 ============
 
-The following requirements can be installed either by RPM or by ZIP files.
+Les produits suivants nÇcessitent d'àtre installÇs au prÇalable. 
 
-RPM Installation:
+
+2.1 kLIBC, GCC4Core, Qt4
+------------------------
+
+L'installation de ces produits peut àtre effectuÇe via RPM ou en
+utilisant les fichiers ZIP. 
+
+2.1.a Installation RPM
+----------------------
 
 klibc
 -----
@@ -112,15 +120,18 @@ Qt4 dll
 -------
 
   1. yum install libqt4
-  2. Install the xsystray plugin as noted in the readme.os2 and also in readme.xsystray
+  2. Installez l'extension xsystray suivant les instructions figurant
+     dans readme.os2 ainsi que dans readme.xsystray. 
 
 
-ZIP Installation:
+2.1.b ZIP Installation
+----------------------
 
 klibc
 -----
 
-  1. TÇlÇchargez klibc 0.6.4 csd4 ou ultÇrieure.
+  1. TÇlÇchargez klibc 0.6.4 csd4 ou ultÇrieure
+     (consultez http://svn.netlabs.org/libc pour plus d'informations). 
   2. Extrayez toutes les DLL dans un rÇpertoire figurant dans
      LIBPATH, de prÇfÇrence x:\ecs\dll ou x:\os2\dll oó x: reprÇsente
      l'unitÇ d'amoráage du systäme.  
@@ -128,18 +139,26 @@ klibc
 GCC4Core
 --------
 
-  1. Download GCC4Core 1.2.1 or better from http://ftp.netlabs.org/pub/gcc
-  2. Install the files to your libpath eg. x:\ecs\dll
+  1. TÇlÇchargez GCC4Core 1.2.1 ou ultÇrieure depuis
+     http://ftp.netlabs.org/pub/gcc
+  2. Extrayez toutes les DLL dans un rÇpertoire figurant dans
+     LIBPATH, de prÇfÇrence x:\ecs\dll ou x:\os2\dll oó x: reprÇsente
+     l'unitÇ d'amoráage du systäme. 
 
 Qt4 dll
 -------
 
-  1. Download Qt4 4.7.3 or better (see http://svn.netlabs.org/qt4 for more information)
-  2. Install the files according to the readme
-  3. Installez l'extension xsystray comme mentionnÇ dans le fichier
-     readme.os2 ainsi que dans readme.xsystray.
+  1. TÇlÇchargez Qt4 4.7.3 ou ultÇrieure
+     (consultez http://svn.netlabs.org/qt4 pour plus d'informations). 
+  2. Extrayez les fichiers selon les instructions du fichier readme. 
+  3. Installez l'extension xsystray suivant les instructions figurant
+     dans le fichier readme.os2 ou le fichier readme.xsystray. 
 
-The following requirements are only available as ZIP.
+
+2.2 MPlayer, WIN32 codecs
+-------------------------
+
+Ces produits sont uniquement disponibles sous forme de fichiers ZIP. 
 
 MPlayer
 -------
@@ -333,7 +352,7 @@ suivantes :
   * Correction du fichu dÇlai de 1 seconde
 
 2010-04-29
-  * Mise Ö jour vers 4.6.2
+  * Mise Ö jour vers Qt 4.6.2
   * Ajout de la prise en charge de mplayer -ao kai (derniäre version de mplayer)
 
 2010-01-29
