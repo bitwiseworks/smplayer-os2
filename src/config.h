@@ -95,13 +95,6 @@
 #define USE_MINIMUMSIZE 1
 
 
-// GENERIC_CHAPTER_SUPPORT
-// if 1, it will use a generic code for chapters which can be used
-// for all kind of videos, not only DVDs and mkv files.
-
-#define GENERIC_CHAPTER_SUPPORT 1
-
-
 // DVDNAV_SUPPORT
 // if 1, smplayer will be compiled with support for mplayer's dvdnav
 
@@ -139,11 +132,5 @@
 // "panscan".
 
 #define USE_MPLAYER_PANSCAN 0
-
-
-// Compile youtube support or not
-
-#define YOUTUBE_SUPPORT 1
-
 
 #endif

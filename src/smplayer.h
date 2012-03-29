@@ -26,6 +26,8 @@
 
 class SMPlayer : public QObject
 {
+	Q_OBJECT
+
 public:
 	enum ExitCode { ErrorArgument = -3, NoAction = -2, NoRunningInstance = -1, NoError = 0, NoExit = 1 };
 
@@ -39,17 +41,24 @@ public:
 
 	void start();
 
+#ifdef GUI_CHANGE_ON_RUNTIME
+private slots:
+	void changeGUI(QString new_gui);
+#endif
+
 private:
+	BaseGui * createGUI(QString gui_name);
+	void deleteGUI();
 #ifndef PORTABLE_APP
 	void createConfigDirectory();
 #endif
 	void showInfo();
 
-	BaseGui * main_window;
+	static BaseGui * main_window;
 
-    QStringList files_to_play;
-    QString subtitle_file;
-    QString actions_list; //!< Actions to be run on startup
+	QStringList files_to_play;
+	QString subtitle_file;
+	QString actions_list; //!< Actions to be run on startup
 	QString gui_to_use;
 
 	// Change position and size
@@ -62,7 +71,13 @@ private:
 	// Options to pass to gui
 	int close_at_end; // -1 = not set, 1 = true, 0 false
 	int start_in_fullscreen; // -1 = not set, 1 = true, 0 false
-	bool use_control_server;
+
+#ifdef LOG_SMPLAYER
+	// Output log
+	static QFile output_log;
+	static void myMessageOutput( QtMsgType type, const char *msg );
+	static bool allow_to_send_log_to_gui;
+#endif
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include <QPoint>
 
 class QToolBar;
+class EditableToolbar;
 class QPushButton;
 class QResizeEvent;
 class MyAction;
@@ -43,7 +44,7 @@ class DefaultGui : public BaseGuiPlus
 	Q_OBJECT
 
 public:
-	DefaultGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+	DefaultGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 	~DefaultGui();
 
 #if USE_MINIMUMSIZE
@@ -99,10 +100,10 @@ protected:
 	QLabel * ab_section_display;
 	QLabel * video_info_display;
 
-	QToolBar * controlwidget;
-	QToolBar * controlwidget_mini;
+	EditableToolbar * controlwidget;
+	EditableToolbar * controlwidget_mini;
 
-	QToolBar * toolbar1;
+	EditableToolbar * toolbar1;
 	QToolBar * toolbar2;
 
 	QPushButton * select_audio;
@@ -121,6 +122,13 @@ protected:
 
 	MyAction * viewFrameCounterAct;
 	MyAction * viewVideoInfoAct;
+
+#if USE_CONFIGURABLE_TOOLBARS
+	MyAction * editToolbar1Act;
+	MyAction * editControl1Act;
+	MyAction * editControl2Act;
+	MyAction * editFloatingControlAct;
+#endif
 
 	QMenu * toolbar_menu;
 	QMenu * statusbar_menu;

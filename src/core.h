@@ -40,7 +40,7 @@ class WinScreenSaver;
 #endif
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 class RetrieveYoutubeUrl;
 #endif
 
@@ -84,7 +84,7 @@ public slots:
 	void openAudioCD(int title = -1);
 	void openTV(QString channel_id);
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	void openYT(const QString & url);
 #endif
 
@@ -156,11 +156,14 @@ public slots:
 	void toggleDeblock(bool b);
 	void toggleDering();
 	void toggleDering(bool b);
+	void toggleGradfun();
+	void toggleGradfun(bool b);
 	void toggleNoise();
 	void toggleNoise(bool b);
 	void togglePostprocessing();
 	void togglePostprocessing(bool b);
 	void changeDenoise(int);
+	void changeUnsharp(int);
 	void changeLetterbox(bool);
 	void changeUpscale(bool);
 
@@ -329,9 +332,6 @@ public:
 	//! Returns the number of the first chapter in 
 	//! files. In some versions of mplayer is 0, in others 1
 	static int firstChapter();
-#if !GENERIC_CHAPTER_SUPPORT
-	static int dvdFirstChapter();
-#endif
 
 #ifndef NO_USE_INI_FILES
 	void changeFileSettingsMethod(QString method);
@@ -393,7 +393,7 @@ protected slots:
 
 	void initializeOSD();
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	void connectingToYT(QString host);
 	void YTFailed(QString error);
 	void YTNoVideoUrl();
@@ -475,7 +475,7 @@ protected:
 #endif
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	RetrieveYoutubeUrl * yt;
 #endif
     

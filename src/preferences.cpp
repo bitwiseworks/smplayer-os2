@@ -34,7 +34,7 @@
 #include <QDesktopServices>
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 #include "retrieveyoutubeurl.h"
 #endif
 
@@ -191,8 +191,8 @@ void Preferences::reset() {
 	cache_for_audiocds = 1000;
 	cache_for_tv = 3000;
 
-#if YOUTUBE_SUPPORT
-	yt_quality = RetrieveYoutubeUrl::MP4_360p;
+#ifdef YOUTUBE_SUPPORT
+	yt_quality = RetrieveYoutubeUrl::MP4_720p;
 #endif
 
 
@@ -259,16 +259,17 @@ void Preferences::reset() {
     mplayer_additional_video_filters="";
     mplayer_additional_audio_filters="";
 
+#ifdef LOG_MPLAYER
 	log_mplayer = true;
+	verbose_log = false;
+	autosave_mplayer_log = false;
+	mplayer_log_saveto = "";
+#endif
+#ifdef LOG_SMPLAYER
 	log_smplayer = true;
 	log_filter = ".*";
-	verbose_log = false;
 	save_smplayer_log = false;
-
-    //mplayer log autosaving
-    autosave_mplayer_log = false;
-    mplayer_log_saveto = "";
-    //mplayer log autosaving end
+#endif
 
 #if REPAINT_BACKGROUND_OPTION
 	// "Repaint video background" in the preferences dialog
@@ -444,11 +445,9 @@ void Preferences::reset() {
     /* *********
        Instances
        ********* */
-
+#ifdef SINGLE_INSTANCE
 	use_single_instance = true;
-	use_autoport = true;
-	connection_port = 8000;
-	autoport = 0;
+#endif
 
 
     /* ****************
@@ -456,7 +455,7 @@ void Preferences::reset() {
        **************** */
 
 	floating_control_margin = 0;
-	floating_control_width = 100; //100 %
+	floating_control_width = 70; //70 %
 	floating_control_animated = true;
 	floating_display_in_compact_mode = false;
 #ifndef Q_OS_WIN
@@ -605,7 +604,7 @@ void Preferences::save() {
 	set->setValue("cache_for_audiocds", cache_for_audiocds);
 	set->setValue("cache_for_tv", cache_for_tv);
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	set->setValue("youtube_quality", yt_quality);
 #endif
 
@@ -676,16 +675,17 @@ void Preferences::save() {
 	set->setValue("mplayer_additional_video_filters", mplayer_additional_video_filters);
 	set->setValue("mplayer_additional_audio_filters", mplayer_additional_audio_filters);
 
+#ifdef LOG_MPLAYER
 	set->setValue("log_mplayer", log_mplayer);
+	set->setValue("verbose_log", verbose_log);
+	set->setValue("autosave_mplayer_log", autosave_mplayer_log);
+	set->setValue("mplayer_log_saveto", mplayer_log_saveto);
+#endif
+#ifdef LOG_SMPLAYER
 	set->setValue("log_smplayer", log_smplayer);
 	set->setValue("log_filter", log_filter);
-	set->setValue("verbose_log", verbose_log);
 	set->setValue("save_smplayer_log", save_smplayer_log);
-
-    //mplayer log autosaving
-    set->setValue("autosave_mplayer_log", autosave_mplayer_log);
-    set->setValue("mplayer_log_saveto", mplayer_log_saveto);
-    //mplayer log autosaving end
+#endif
 
 #if REPAINT_BACKGROUND_OPTION
 	set->setValue("repaint_video_background", repaint_video_background);
@@ -861,13 +861,11 @@ void Preferences::save() {
     /* *********
        Instances
        ********* */
-
+#ifdef SINGLE_INSTANCE
 	set->beginGroup("instances");
 	set->setValue("single_instance_enabled", use_single_instance);
-	set->setValue("connection_port", connection_port);
-	set->setValue("use_autoport", use_autoport);
-	set->setValue("temp/autoport", autoport);
 	set->endGroup(); // instances
+#endif
 
 
     /* ****************
@@ -1034,7 +1032,7 @@ void Preferences::load() {
 	cache_for_audiocds = set->value("cache_for_audiocds", cache_for_audiocds).toInt();
 	cache_for_tv = set->value("cache_for_tv", cache_for_tv).toInt();
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	yt_quality = set->value("youtube_quality", yt_quality).toInt();
 #endif
 
@@ -1111,16 +1109,17 @@ void Preferences::load() {
 	mplayer_additional_video_filters = set->value("mplayer_additional_video_filters", mplayer_additional_video_filters).toString();
 	mplayer_additional_audio_filters = set->value("mplayer_additional_audio_filters", mplayer_additional_audio_filters).toString();
 
+#ifdef LOG_MPLAYER
 	log_mplayer = set->value("log_mplayer", log_mplayer).toBool();
+	verbose_log = set->value("verbose_log", verbose_log).toBool();
+	autosave_mplayer_log = set->value("autosave_mplayer_log", autosave_mplayer_log).toBool();
+	mplayer_log_saveto = set->value("mplayer_log_saveto", mplayer_log_saveto).toString();
+#endif
+#ifdef LOG_SMPLAYER
 	log_smplayer = set->value("log_smplayer", log_smplayer).toBool();
 	log_filter = set->value("log_filter", log_filter).toString();
-	verbose_log = set->value("verbose_log", verbose_log).toBool();
 	save_smplayer_log = set->value("save_smplayer_log", save_smplayer_log).toBool();
-
-    //mplayer log autosaving
-    autosave_mplayer_log = set->value("autosave_mplayer_log", autosave_mplayer_log).toBool();
-    mplayer_log_saveto = set->value("mplayer_log_saveto", mplayer_log_saveto).toString();
-    //mplayer log autosaving end
+#endif
 
 #if REPAINT_BACKGROUND_OPTION
 	repaint_video_background = set->value("repaint_video_background", repaint_video_background).toBool();
@@ -1297,13 +1296,11 @@ void Preferences::load() {
     /* *********
        Instances
        ********* */
-
+#ifdef SINGLE_INSTANCE
 	set->beginGroup("instances");
 	use_single_instance = set->value("single_instance_enabled", use_single_instance).toBool();
-	connection_port = set->value("connection_port", connection_port).toInt();
-	use_autoport = set->value("use_autoport", use_autoport).toBool();
-	autoport = set->value("temp/autoport", autoport).toInt();
 	set->endGroup(); // instances
+#endif
 
 
     /* ****************

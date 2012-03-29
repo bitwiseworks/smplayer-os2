@@ -75,9 +75,7 @@ bool MplayerProcess::start() {
 	audio_info_changed = false;
 #endif
 
-#if GENERIC_CHAPTER_SUPPORT
 	dvd_current_title = -1;
-#endif
 
 	MyProcess::start();
 
@@ -157,6 +155,7 @@ static QRegExp rx_audio_mat("^ID_AID_(\\d+)_(LANG|NAME)=(.*)");
 #endif
 static QRegExp rx_video("^ID_VID_(\\d+)_(LANG|NAME)=(.*)");
 static QRegExp rx_title("^ID_DVD_TITLE_(\\d+)_(LENGTH|CHAPTERS|ANGLES)=(.*)");
+static QRegExp rx_chapters("^ID_CHAPTER_(\\d+)_(START|END|NAME)=(.+)");
 static QRegExp rx_winresolution("^VO: \\[(.*)\\] (\\d+)x(\\d+) => (\\d+)x(\\d+)");
 static QRegExp rx_ao("^AO: \\[(.*)\\]");
 static QRegExp rx_paused("^ID_PAUSED");
@@ -265,15 +264,13 @@ void MplayerProcess::parseLine(QByteArray ba) {
 
 		if (!notified_mplayer_is_running) {
 			qDebug("MplayerProcess::parseLine: starting sec: %f", sec);
-#if GENERIC_CHAPTER_SUPPORT
-			if ( (md.chapters <= 0) && (dvd_current_title > 0) && 
+			if ( (md.n_chapters <= 0) && (dvd_current_title > 0) && 
                  (md.titles.find(dvd_current_title) != -1) )
 			{
 				int idx = md.titles.find(dvd_current_title);
-				md.chapters = md.titles.itemAt(idx).chapters();
-				qDebug("MplayerProcess::parseLine: setting chapters to %d", md.chapters);
+				md.n_chapters = md.titles.itemAt(idx).chapters();
+				qDebug("MplayerProcess::parseLine: setting chapters to %d", md.n_chapters);
 			}
-#endif
 
 #if CHECK_VIDEO_CODEC_FOR_NO_VIDEO
 			// Another way to find out if there's no video
@@ -549,17 +546,34 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		if (rx_mkvchapters.indexIn(line)!=-1) {
 			int c = rx_mkvchapters.cap(1).toInt();
 			qDebug("MplayerProcess::parseLine: mkv chapters: %d", c);
-#if GENERIC_CHAPTER_SUPPORT
-			if ((c+1) > md.chapters) {
-				md.chapters = c+1;
-				qDebug("MplayerProcess::parseLine: chapters set to: %d", md.chapters);
+			if ((c+1) > md.n_chapters) {
+				md.n_chapters = c+1;
+				qDebug("MplayerProcess::parseLine: chapters set to: %d", md.n_chapters);
 			}
-#else
-			if ((c+1) > md.mkv_chapters) {
-				md.mkv_chapters = c+1;
-				qDebug("MplayerProcess::parseLine: mkv_chapters set to: %d", md.mkv_chapters);
+		}
+		else
+		// Chapter info
+		if (rx_chapters.indexIn(line) > -1) {
+			int const chap_ID = rx_chapters.cap(1).toInt();
+			QString const chap_type = rx_chapters.cap(2);
+			QString const chap_value = rx_chapters.cap(3);
+			double const chap_value_d = chap_value.toDouble();
+
+			if(!chap_type.compare("START"))
+			{
+				md.chapters.addStart(chap_ID, chap_value_d/1000);
+				qDebug("MplayerProcess::parseLine: Chapter (ID: %d) starts at: %g",chap_ID, chap_value_d/1000);
 			}
-#endif
+			else if(!chap_type.compare("END"))
+			{
+				md.chapters.addEnd(chap_ID, chap_value_d/1000);
+				qDebug("MplayerProcess::parseLine: Chapter (ID: %d) ends at: %g",chap_ID, chap_value_d/1000);
+			}
+			else if(!chap_type.compare("NAME"))
+			{
+				md.chapters.addName(chap_ID, chap_value);
+				qDebug("MplayerProcess::parseLine: Chapter (ID: %d) name: %s",chap_ID, chap_value.toUtf8().data());
+			}
 		}
 		else
 
@@ -842,15 +856,14 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			if (tag == "ID_AUDIO_CODEC") {
 				md.audio_codec = value;
 			}
-#if GENERIC_CHAPTER_SUPPORT
 			else
 			if (tag == "ID_CHAPTERS") {
-				md.chapters = value.toInt();
+				md.n_chapters = value.toInt();
 				#ifdef TOO_CHAPTERS_WORKAROUND
-				if (md.chapters > 1000) {
-					qDebug("MplayerProcess::parseLine: warning too many chapters: %d", md.chapters);
+				if (md.n_chapters > 1000) {
+					qDebug("MplayerProcess::parseLine: warning too many chapters: %d", md.n_chapters);
 					qDebug("                           chapters will be ignored"); 
-					md.chapters = 0;
+					md.n_chapters = 0;
 				}
 				#endif
 			}
@@ -858,7 +871,6 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			if (tag == "ID_DVD_CURRENT_TITLE") {
 				dvd_current_title = value.toInt();
 			}
-#endif
 		}
 	}
 }

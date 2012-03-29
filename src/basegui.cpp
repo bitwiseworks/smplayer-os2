@@ -66,14 +66,18 @@
 #include "errordialog.h"
 #include "timedialog.h"
 #include "clhelp.h"
-#include "findsubtitleswindow.h"
-#include "videopreview.h"
 #include "mplayerversion.h"
+
+#ifdef FIND_SUBTITLES
+#include "findsubtitleswindow.h"
+#endif
+
+#ifdef VIDEOPREVIEW
+#include "videopreview.h"
+#endif
 
 #include "config.h"
 #include "actionseditor.h"
-
-#include "myserver.h"
 
 #include "tvlist.h"
 
@@ -101,7 +105,7 @@
 
 using namespace Global;
 
-BaseGui::BaseGui( bool use_server, QWidget* parent, Qt::WindowFlags flags ) 
+BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
 	: QMainWindow( parent, flags ),
 		near_top(false),
 		near_bottom(false)
@@ -114,18 +118,20 @@ BaseGui::BaseGui( bool use_server, QWidget* parent, Qt::WindowFlags flags )
 
 	arg_close_on_finish = -1;
 	arg_start_in_fullscreen = -1;
-	use_control_server = use_server;
 
 	setWindowTitle( "SMPlayer" );
 
 	// Not created objects
-	server = 0;
 	popup = 0;
 	pref_dialog = 0;
 	file_dialog = 0;
 	clhelp_window = 0;
+#ifdef FIND_SUBTITLES
 	find_subs_dialog = 0;
+#endif
+#ifdef VIDEOPREVIEW
 	video_preview = 0;
+#endif
 
 	// Create objects:
 	createPanel();
@@ -159,8 +165,12 @@ BaseGui::BaseGui( bool use_server, QWidget* parent, Qt::WindowFlags flags )
 	}
 #endif
 
-    mplayer_log_window = new LogWindow(0);
+#ifdef LOG_MPLAYER
+	mplayer_log_window = new LogWindow(0);
+#endif
+#ifdef LOG_SMPLAYER
 	smplayer_log_window = new LogWindow(0);
+#endif
 
 	createActions();
 	createMenus();
@@ -200,184 +210,56 @@ void BaseGui::initializeGui() {
 	QTimer::singleShot(20, this, SLOT(loadActions()));
 
 	// Single instance
-	if (use_control_server) {
-		server = new MyServer(this);
-		connect(server, SIGNAL(receivedOpen(QString)),
-	            this, SLOT(remoteOpen(QString)));
-		connect(server, SIGNAL(receivedOpenFiles(QStringList)),
-	            this, SLOT(remoteOpenFiles(QStringList)));
-		connect(server, SIGNAL(receivedAddFiles(QStringList)),
-	            this, SLOT(remoteAddFiles(QStringList)));
-		connect(server, SIGNAL(receivedFunction(QString)),
-	            this, SLOT(processFunction(QString)));	
-		connect(server, SIGNAL(receivedLoadSubtitle(QString)),	
-	            this, SLOT(remoteLoadSubtitle(QString)));
-		connect(server, SIGNAL(receivedPlayItem(int)),
-				this, SLOT(remotePlayItem(int)));
-		connect(server, SIGNAL(receivedRemoveItem(int)),
-				this, SLOT(remoteRemoveItem(int)));
-		connect(server, SIGNAL(receivedViewPlaylist(QString*)),
-				this, SLOT(remoteViewPlaylist(QString*)));
-		connect(server, SIGNAL(receivedViewStatus(QString*)),
-				this, SLOT(remoteViewStatus(QString*)));
-		connect(server, SIGNAL(receivedViewClipInfo(QString*)),
-				this, SLOT(remoteViewClipInfo(QString*)));
-		connect(server, SIGNAL(receivedSeek(double)),
-				this, SLOT(remoteSeek(double)));
-		connect(server, SIGNAL(receivedGetChecked(QString,QString*)),
-				this, SLOT(remoteGetChecked(QString,QString*)));
-		connect(server, SIGNAL(receivedMoveItem(int,int)),
-				this, SLOT(remoteMoveItem(int,int)));
-		connect(server, SIGNAL(receivedGetVolume(int*)),
-				this, SLOT(remoteGetVolume(int*)));
-		connect(server, SIGNAL(receivedSetVolume(int)),
-				core, SLOT(setVolume(int)));
+	/* Deleted */
+}
 
-		if (pref->use_single_instance) {
-			int port = 0;
-			if (!pref->use_autoport) port = pref->connection_port;
-			if (server->listen(port)) {
-				pref->autoport = server->serverPort();
-				pref->save();
-				qDebug("BaseGui::initializeGui: server running on port %d", pref->autoport);
-			} else {
-				qWarning("BaseGui::initializeGui: server couldn't be started");
+#ifdef SINGLE_INSTANCE
+void BaseGui::handleMessageFromOtherInstances(const QString& message) {
+	qDebug("BaseGui::handleMessageFromOtherInstances: '%s'", message.toUtf8().constData());
+
+	int pos = message.indexOf(' ');
+	if (pos > -1) {
+		QString command = message.left(pos);
+		QString arg = message.mid(pos+1);
+		qDebug("command: '%s'", command.toUtf8().constData());
+		qDebug("arg: '%s'", arg.toUtf8().constData());
+
+		if (command == "open_file") {
+			open(arg);
+		} 
+		else
+		if (command == "open_files") {
+			QStringList file_list = arg.split(" <<sep>> ");
+			openFiles(file_list);
+		}
+		else
+		if (command == "add_to_playlist") {
+			QStringList file_list = arg.split(" <<sep>> ");
+			playlist->addFiles(file_list);
+		}
+		else
+		if (command == "action") {
+			processFunction(arg);
+		}
+		else
+		if (command == "load_sub") {
+			setInitialSubtitle(arg); 
+			if (core->state() != Core::Stopped) {
+				core->loadSub(arg);
 			}
 		}
 	}
 }
-
-void BaseGui::remotePlayItem(int index){
-	qDebug("BaseGui::remotePlay: '%s'", QString::number((index)).toUtf8().data());
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-	playlist->playItem(index);
-}
-
-void BaseGui::remoteRemoveItem(int index){
-	qDebug("BaseGui::remoteRemove: '%s'", QString::number((index)).toUtf8().data());
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-
-	if(index == -1)
-		playlist->removeAll();
-	else
-		playlist->remove(index);
-}
-
-void BaseGui::remoteMoveItem(int index, int shift){
-	qDebug("BaseGui::remoteRemove: '%s'", QString::number((index)).toUtf8().data());
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-
-	int step = shift / abs(shift);
-	for(int i = index; i != (index + shift); i += step){
-		if(step == -1 && index == 0) break;
-		if(step == +1 && index == (playlist->count() - 1)) break;
-
-		if(step == -1) playlist->moveItemUp(index);
-		if(step == +1) playlist->moveItemDown(index);
-	} //end for
-}
-
-void BaseGui::remoteOpen(QString file) {
-	qDebug("BaseGui::remoteOpen: '%s'", file.toUtf8().data());
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-	open(file);
-}
-
-void BaseGui::remoteOpenFiles(QStringList files) {
-	qDebug("BaseGui::remoteOpenFiles");
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-	openFiles(files);
-}
-
-void BaseGui::remoteAddFiles(QStringList files) {
-	qDebug("BaseGui::remoteAddFiles");
-	if (isMinimized()) showNormal();
-	if (!isVisible()) show();
-	raise();
-	activateWindow();
-
-	playlist->addFiles(files);
-	//open(files[0]);
-}
-
-void BaseGui::remoteLoadSubtitle(QString file) {
-	qDebug("BaseGui::remoteLoadSubtitle: '%s'", file.toUtf8().data());
-
-	setInitialSubtitle(file);
-
-	if (core->state() != Core::Stopped) {
-		core->loadSub(file);
-	}
-}
-
-void BaseGui::remoteViewPlaylist(QString * output){
-	qDebug("BaseGui::remoteViewPlaylist");
-	*output += playlist->print("\t");
-}
-
-void BaseGui::remoteViewStatus(QString * output){
-	qDebug("BaseGui::remoteViewStatus");
-	*output = core->stateToString();
-}
-
-void BaseGui::remoteViewClipInfo(QString * output){
-	qDebug("BaseGui::remoteViewClipInfo");
-
-	*output += QString("%1\t%2\r\n").arg("Filename", core->mdat.filename);
-	*output += QString("%1\t%2\r\n").arg("Position", QString::number(core->mset.current_sec));
-	*output += QString("%1\t%2\r\n").arg("Duration", QString::number(core->mdat.duration));
-
-	*output += QString("%1\t%2\r\n").arg("Title", core->mdat.clip_name);
-	*output += QString("%1\t%2\r\n").arg("Artist", core->mdat.clip_artist);
-	*output += QString("%1\t%2\r\n").arg("Author", core->mdat.clip_author);
-	*output += QString("%1\t%2\r\n").arg("Album", core->mdat.clip_album);
-	*output += QString("%1\t%2\r\n").arg("Genre", core->mdat.clip_genre);
-	*output += QString("%1\t%2\r\n").arg("Date", core->mdat.clip_date);
-	*output += QString("%1\t%2\r\n").arg("Track", core->mdat.clip_track);
-	*output += QString("%1\t%2\r\n").arg("Copyright", core->mdat.clip_copyright);
-	*output += QString("%1\t%2\r\n").arg("Comment", core->mdat.clip_comment);
-	*output += QString("%1\t%2\r\n").arg("Software", core->mdat.clip_software);
-}
-
-void BaseGui::remoteSeek(double sec){
-	qDebug("BaseGui::remoteSeek");
-	core->goToSec(sec);
-}
-
-void BaseGui::remoteGetChecked(QString function, QString* output){
-	qDebug("BaseGui::remoteGet");
-
-	QAction* action = ActionsEditor::findAction(this, function);
-	if(! action) action = ActionsEditor::findAction(playlist, function);
-	if(! action) return;
-
-	bool value = (action->isCheckable() ? action->isChecked() : action->isEnabled());
-	*output = (value ? "true" : "false");
-}
-
-void BaseGui::remoteGetVolume(int *vol){
-	*vol = (pref->global_volume ? pref->volume : core->mset.volume);
-}
+#endif
 
 BaseGui::~BaseGui() {
 	delete core; // delete before mplayerwindow, otherwise, segfault...
+#ifdef LOG_MPLAYER
 	delete mplayer_log_window;
+#endif
+#ifdef LOG_SMPLAYER
 	delete smplayer_log_window;
+#endif
 
 	delete favorites;
 	delete tvlist;
@@ -390,14 +272,18 @@ BaseGui::~BaseGui() {
 	}
 //#endif
 
+#ifdef FIND_SUBTITLES
 	if (find_subs_dialog) {
 		delete find_subs_dialog;
 		find_subs_dialog = 0; // Necessary?
 	}
+#endif
 
+#ifdef VIDEOPREVIEW
 	if (video_preview) {
 		delete video_preview;
 	}
+#endif
 }
 
 void BaseGui::createActions() {
@@ -627,9 +513,11 @@ void BaseGui::createActions() {
 	connect( screenshotsAct, SIGNAL(triggered()),
              core, SLOT(screenshots()) );
 
+#ifdef VIDEOPREVIEW
 	videoPreviewAct = new MyAction( this, "video_preview" );
 	connect( videoPreviewAct, SIGNAL(triggered()),
              this, SLOT(showVideoPreviewDialog()) );
+#endif
 
 	flipAct = new MyAction( this, "flip" );
 	flipAct->setCheckable( true );
@@ -662,6 +550,12 @@ void BaseGui::createActions() {
 	deringAct->setCheckable( true );
 	connect( deringAct, SIGNAL(toggled(bool)),
              core, SLOT(toggleDering(bool)) );
+
+	gradfunAct = new MyAction( this, "gradfun" );
+	gradfunAct->setCheckable( true );
+	connect( gradfunAct, SIGNAL(toggled(bool)),
+             core, SLOT(toggleGradfun(bool)) );
+
 
 	addNoiseAct = new MyAction( this, "add_noise" );
 	addNoiseAct->setCheckable( true );
@@ -802,6 +696,7 @@ void BaseGui::createActions() {
 	subVisibilityAct->setCheckable(true);
 	connect( subVisibilityAct, SIGNAL(toggled(bool)), core, SLOT(changeSubVisibility(bool)) );
 
+#ifdef FIND_SUBTITLES
 	showFindSubtitlesDialogAct = new MyAction( this, "show_find_sub_dialog" );
 	connect( showFindSubtitlesDialogAct, SIGNAL(triggered()), 
              this, SLOT(showFindSubtitlesDialog()) );
@@ -809,7 +704,7 @@ void BaseGui::createActions() {
 	openUploadSubtitlesPageAct = new MyAction( this, "upload_subtitles" );		//turbos
 	connect( openUploadSubtitlesPageAct, SIGNAL(triggered()),					//turbos
              this, SLOT(openUploadSubtitlesPage()) );							//turbos
-
+#endif
 
 	// Menu Options
 	showPlaylistAct = new MyAction( QKeySequence("Ctrl+L"), this, "show_playlist" );
@@ -830,13 +725,17 @@ void BaseGui::createActions() {
              this, SLOT(showTubeBrowser()) );
 
 	// Submenu Logs
+#ifdef LOG_MPLAYER
 	showLogMplayerAct = new MyAction( QKeySequence("Ctrl+M"), this, "show_mplayer_log" );
 	connect( showLogMplayerAct, SIGNAL(triggered()),
              this, SLOT(showMplayerLog()) );
+#endif
 
+#ifdef LOG_SMPLAYER
 	showLogSmplayerAct = new MyAction( QKeySequence("Ctrl+S"), this, "show_smplayer_log" );
 	connect( showLogSmplayerAct, SIGNAL(triggered()),
              this, SLOT(showLog()) );
+#endif
 
 	// Menu Help
 	showFAQAct = new MyAction( this, "faq" );
@@ -1016,6 +915,13 @@ void BaseGui::createActions() {
 	denoiseNormalAct = new MyActionGroupItem(this, denoiseGroup, "denoise_normal", MediaSettings::DenoiseNormal);
 	denoiseSoftAct = new MyActionGroupItem(this, denoiseGroup, "denoise_soft", MediaSettings::DenoiseSoft);
 	connect( denoiseGroup, SIGNAL(activated(int)), core, SLOT(changeDenoise(int)) );
+
+	// Unsharp group
+	unsharpGroup = new MyActionGroup(this);
+	unsharpNoneAct = new MyActionGroupItem(this, unsharpGroup, "unsharp_off", 0);
+	blurAct = new MyActionGroupItem(this, unsharpGroup, "blur", 1);
+	sharpenAct = new MyActionGroupItem(this, unsharpGroup, "sharpen", 2);
+	connect( unsharpGroup, SIGNAL(activated(int)), core, SLOT(changeUnsharp(int)) );
 
 	// Video size
 	sizeGroup = new MyActionGroup(this);
@@ -1245,6 +1151,7 @@ void BaseGui::setActionsEnabled(bool b) {
 	phaseAct->setEnabled(b);
 	deblockAct->setEnabled(b);
 	deringAct->setEnabled(b);
+	gradfunAct->setEnabled(b);
 	addNoiseAct->setEnabled(b);
 	addLetterboxAct->setEnabled(b);
 	upscaleAct->setEnabled(b);
@@ -1323,6 +1230,7 @@ void BaseGui::setActionsEnabled(bool b) {
 
 	// Groups
 	denoiseGroup->setActionsEnabled(b);
+	unsharpGroup->setActionsEnabled(b);
 	sizeGroup->setActionsEnabled(b);
 	deinterlaceGroup->setActionsEnabled(b);
 	aspectGroup->setActionsEnabled(b);
@@ -1382,6 +1290,7 @@ void BaseGui::enableActionsOnPlaying() {
 		phaseAct->setEnabled(false);
 		deblockAct->setEnabled(false);
 		deringAct->setEnabled(false);
+		gradfunAct->setEnabled(false);
 		addNoiseAct->setEnabled(false);
 		addLetterboxAct->setEnabled(false);
 		upscaleAct->setEnabled(false);
@@ -1400,6 +1309,7 @@ void BaseGui::enableActionsOnPlaying() {
 		autoZoom235Act->setEnabled(false);
 
 		denoiseGroup->setActionsEnabled(false);
+		unsharpGroup->setActionsEnabled(false);
 		sizeGroup->setActionsEnabled(false);
 		deinterlaceGroup->setActionsEnabled(false);
 		aspectGroup->setActionsEnabled(false);
@@ -1424,6 +1334,7 @@ void BaseGui::enableActionsOnPlaying() {
 		phaseAct->setEnabled(false);
 		deblockAct->setEnabled(false);
 		deringAct->setEnabled(false);
+		gradfunAct->setEnabled(false);
 		addNoiseAct->setEnabled(false);
 		addLetterboxAct->setEnabled(false);
 		upscaleAct->setEnabled(false);
@@ -1431,6 +1342,7 @@ void BaseGui::enableActionsOnPlaying() {
 		deinterlaceGroup->setActionsEnabled(false);
 		rotateGroup->setActionsEnabled(false);
 		denoiseGroup->setActionsEnabled(false);
+		unsharpGroup->setActionsEnabled(false);
 
 		displayMessage( tr("Video filters are disabled when using vdpau") );
 	}
@@ -1551,7 +1463,9 @@ void BaseGui::retranslateStrings() {
 	videoEqualizerAct->change( Images::icon("equalizer"), tr("&Equalizer") );
 	screenshotAct->change( Images::icon("screenshot"), tr("&Screenshot") );
 	screenshotsAct->change( Images::icon("screenshots"), tr("Start/stop takin&g screenshots") );
+#ifdef VIDEOPREVIEW
 	videoPreviewAct->change( Images::icon("video_preview"), tr("Pre&view...") );
+#endif
 	flipAct->change( Images::icon("flip"), tr("Fli&p image") );
 	mirrorAct->change( Images::icon("mirror"), tr("Mirr&or image") );
 
@@ -1576,6 +1490,7 @@ void BaseGui::retranslateStrings() {
 	phaseAct->change( tr("&Autodetect phase") );
 	deblockAct->change( tr("&Deblock") );
 	deringAct->change( tr("De&ring") );
+	gradfunAct->change( tr("Debanding (&gradfun)") );
 	addNoiseAct->change( tr("Add n&oise") );
 	addLetterboxAct->change( Images::icon("letterbox"), tr("Add &black borders") );
 	upscaleAct->change( Images::icon("upscaling"), tr("Soft&ware scaling") );
@@ -1617,10 +1532,12 @@ void BaseGui::retranslateStrings() {
 
 	subVisibilityAct->change( Images::icon("sub_visibility"), tr("Subtitle &visibility") );
 
+#ifdef FIND_SUBTITLES
 	showFindSubtitlesDialogAct->change( Images::icon("download_subs"), tr("Find subtitles on &OpenSubtitles.org...") );
 	openUploadSubtitlesPageAct->change( Images::icon("upload_subs"), tr("Upload su&btitles to OpenSubtitles.org...") );
+#endif
 
-	ccNoneAct->change( tr("&Off") );
+	ccNoneAct->change( tr("&Off", "closed captions menu") );
 	ccChannel1Act->change( "&1" );
 	ccChannel2Act->change( "&2" );
 	ccChannel3Act->change( "&3" );
@@ -1633,8 +1550,12 @@ void BaseGui::retranslateStrings() {
 	showTubeBrowserAct->change( Images::icon("tubebrowser"), tr("&YouTube browser") );
 
 	// Submenu Logs
+#ifdef LOG_MPLAYER
 	showLogMplayerAct->change( "MPlayer" );
+#endif
+#ifdef LOG_SMPLAYER
 	showLogSmplayerAct->change( "SMPlayer" );
+#endif
 
 	// Menu Help
 	showFAQAct->change( Images::icon("faq"), tr("&FAQ") );
@@ -1780,10 +1701,11 @@ void BaseGui::retranslateStrings() {
 	screen_menu->menuAction()->setIcon( Images::icon("screen") );
 #endif
 
-	/*
 	denoise_menu->menuAction()->setText( tr("De&noise") );
 	denoise_menu->menuAction()->setIcon( Images::icon("denoise") );
-	*/
+
+	unsharp_menu->menuAction()->setText( tr("Blur/S&harp") );
+	unsharp_menu->menuAction()->setIcon( Images::icon("unsharp") );
 
 	aspectDetectAct->change( tr("&Auto") );
 	aspect11Act->change( "1&:1" );
@@ -1804,9 +1726,13 @@ void BaseGui::retranslateStrings() {
 	deinterlaceLBAct->change( tr("Linear &Blend") );
 	deinterlaceKernAct->change( tr("&Kerndeint") );
 
-	denoiseNoneAct->change( tr("Denoise o&ff") );
-	denoiseNormalAct->change( tr("Denoise nor&mal") );
-	denoiseSoftAct->change( tr("Denoise &soft") );
+	denoiseNoneAct->change( tr("&Off", "denoise menu") );
+	denoiseNormalAct->change( tr("&Normal","denoise menu") );
+	denoiseSoftAct->change( tr("&Soft", "denoise menu") );
+
+	unsharpNoneAct->change( tr("&None", "unsharp menu") );
+	blurAct->change( tr("&Blur", "unsharp menu") );
+	sharpenAct->change( tr("&Sharpen", "unsharp menu") );
 
 	rotateNoneAct->change( tr("&Off") );
 	rotateClockwiseFlipAct->change( tr("&Rotate by 90 degrees clockwise and flip") );
@@ -1883,16 +1809,21 @@ void BaseGui::retranslateStrings() {
 	osd_menu->menuAction()->setText( tr("&OSD") );
 	osd_menu->menuAction()->setIcon( Images::icon("osd") );
 
+#if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
 	logs_menu->menuAction()->setText( tr("&View logs") );
 	logs_menu->menuAction()->setIcon( Images::icon("logs") );
-
+#endif
 
 	// To be sure that the "<empty>" string is translated
 	initializeMenus();
 
 	// Other things
-	mplayer_log_window->setWindowTitle( tr("SMPlayer - mplayer log") );
-	smplayer_log_window->setWindowTitle( tr("SMPlayer - smplayer log") );
+#ifdef LOG_MPLAYER
+	mplayer_log_window->setWindowTitle( tr("SMPlayer - MPlayer log") );
+#endif
+#ifdef LOG_SMPLAYER
+	smplayer_log_window->setWindowTitle( tr("SMPlayer - SMPlayer log") );
+#endif
 
 	updateRecents();
 	updateWidgets();
@@ -2017,6 +1948,7 @@ void BaseGui::createCore() {
 #endif
 
 	// Log mplayer output
+#ifdef LOG_MPLAYER
 	connect( core, SIGNAL(aboutToStartPlaying()),
              this, SLOT(clearMplayerLog()) );
 	connect( core, SIGNAL(logLineAvailable(QString)),
@@ -2024,6 +1956,7 @@ void BaseGui::createCore() {
 
 	connect( core, SIGNAL(mediaLoaded()), 
              this, SLOT(autosaveMplayerLog()) );
+#endif
 }
 
 void BaseGui::createMplayerWindow() {
@@ -2317,23 +2250,32 @@ void BaseGui::createMenus() {
 	videofilter_menu = new QMenu(this);
 	videofilter_menu->menuAction()->setObjectName("videofilter_menu");
 	videofilter_menu->addAction(postProcessingAct);
-	videofilter_menu->addAction(phaseAct);
 	videofilter_menu->addAction(deblockAct);
 	videofilter_menu->addAction(deringAct);
+	videofilter_menu->addAction(gradfunAct);
 	videofilter_menu->addAction(addNoiseAct);
 	videofilter_menu->addAction(addLetterboxAct);
 	videofilter_menu->addAction(upscaleAct);
-	videofilter_menu->addSeparator();
-	videofilter_menu->addActions(denoiseGroup->actions());
-
-	videoMenu->addMenu(videofilter_menu);
+	videofilter_menu->addAction(phaseAct);
 
 	// Denoise submenu
-	/*
 	denoise_menu = new QMenu(this);
+	denoise_menu->menuAction()->setObjectName("denoise_menu");
 	denoise_menu->addActions(denoiseGroup->actions());
-	videoMenu->addMenu(denoise_menu);
+	videofilter_menu->addMenu(denoise_menu);
+
+	// Unsharp submenu
+	unsharp_menu = new QMenu(this);
+	unsharp_menu->menuAction()->setObjectName("unsharp_menu");
+	unsharp_menu->addActions(unsharpGroup->actions());
+	videofilter_menu->addMenu(unsharp_menu);
+	/*
+	videofilter_menu->addSeparator();
+	videofilter_menu->addActions(denoiseGroup->actions());
+	videofilter_menu->addSeparator();
+	videofilter_menu->addActions(unsharpGroup->actions());
 	*/
+	videoMenu->addMenu(videofilter_menu);
 
 	// Rotate submenu
 	rotate_menu = new QMenu(this);
@@ -2356,8 +2298,10 @@ void BaseGui::createMenus() {
 
 	videoMenu->addMenu(ontop_menu);
 
+#ifdef VIDEOPREVIEW
 	videoMenu->addSeparator();
 	videoMenu->addAction(videoPreviewAct);
+#endif
 
 
     // AUDIO MENU
@@ -2446,9 +2390,11 @@ void BaseGui::createMenus() {
 	subtitlesMenu->addAction(subVisibilityAct);
 	subtitlesMenu->addSeparator();
 	subtitlesMenu->addAction(useAssAct);
+#ifdef FIND_SUBTITLES
 	subtitlesMenu->addSeparator(); //turbos
 	subtitlesMenu->addAction(showFindSubtitlesDialogAct);
 	subtitlesMenu->addAction(openUploadSubtitlesPageAct); //turbos
+#endif
 
 	// BROWSE MENU
 	// Titles submenu
@@ -2490,7 +2436,7 @@ void BaseGui::createMenus() {
 	// Check if the smplayer youtube browser is installed
 	{
 		QString tube_exec = Paths::appPath() + "/smtube";
-		#ifdef Q_OS_WIN
+		#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 		tube_exec += ".exe";
 		#endif
 		if (QFile::exists(tube_exec)) {
@@ -2509,11 +2455,16 @@ void BaseGui::createMenus() {
 	optionsMenu->addMenu(osd_menu);
 
 	// Logs submenu
+#if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
 	logs_menu = new QMenu(this);
+	#ifdef LOG_MPLAYER
 	logs_menu->addAction(showLogMplayerAct);
+	#endif
+	#ifdef LOG_SMPLAYER
 	logs_menu->addAction(showLogSmplayerAct);
-
+	#endif
 	optionsMenu->addMenu(logs_menu);
+#endif
 
 	optionsMenu->addAction(showPreferencesAct);
 
@@ -2648,9 +2599,6 @@ void BaseGui::showPreferencesDialog() {
 	pl->setSavePlaylistOnExit(playlist->savePlaylistOnExit());
 	pl->setPlayFilesFromStart(playlist->playFilesFromStart());
 
-	PrefInterface * pi = pref_dialog->mod_interface();
-	pi->setSingleInstanceTabEnabled( use_control_server );
-
 	pref_dialog->show();
 }
 
@@ -2687,31 +2635,6 @@ void BaseGui::applyNewPreferences() {
 #if ALLOW_CHANGE_STYLESHEET
 		changeStyleSheet(pref->iconset);
 #endif
-	}
-
-	if (use_control_server) {
-		if (!pref->use_single_instance && server->isListening()) {
-			server->close();
-			qDebug("BaseGui::applyNewPreferences: server closed");
-		}
-		else
-		{
-			bool server_requires_restart = _interface->serverPortChanged();
-			if (pref->use_single_instance && !server->isListening()) 
-				server_requires_restart=true;
-
-			if (server_requires_restart) {
-				server->close();
-				int port = 0;
-				if (!pref->use_autoport) port = pref->connection_port;
-				if (server->listen(port)) {
-					pref->autoport = server->serverPort();
-					qDebug("BaseGui::applyNewPreferences: server running on port %d", pref->autoport);
-				} else {
-					qWarning("BaseGui::applyNewPreferences: server couldn't be started");
-				}
-			}
-		}
 	}
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
@@ -2771,7 +2694,7 @@ void BaseGui::applyNewPreferences() {
 #endif
 
     // Restart the video if needed
-    if (pref_dialog->requiresRestart())
+	if (pref_dialog->requiresRestart())
 		core->restart();
 
 	// Update actions
@@ -2779,8 +2702,19 @@ void BaseGui::applyNewPreferences() {
 	saveActions();
 
 #ifndef NO_USE_INI_FILES
-    pref->save();
+	pref->save();
 #endif
+
+
+	if (_interface->guiChanged()) {
+#ifdef GUI_CHANGE_ON_RUNTIME
+		core->stop();
+		emit guiChanged(pref->gui);
+#else
+		QMessageBox::information(this, tr("Information"),
+			tr("You need to restart SMPlayer to use the new GUI.") );
+#endif
+	}
 }
 
 
@@ -2940,6 +2874,7 @@ void BaseGui::newMediaLoaded() {
 	}
 }
 
+#ifdef LOG_MPLAYER
 void BaseGui::clearMplayerLog() {
 	mplayer_log.clear();
 	if (mplayer_log_window->isVisible()) mplayer_log_window->clear();
@@ -2952,14 +2887,6 @@ void BaseGui::recordMplayerLog(QString line) {
 			mplayer_log.append(line);
 			if (mplayer_log_window->isVisible()) mplayer_log_window->appendText(line);
 		}
-	}
-}
-
-void BaseGui::recordSmplayerLog(QString line) {
-	if (pref->log_smplayer) {
-		line.append("\n");
-		smplayer_log.append(line);
-		if (smplayer_log_window->isVisible()) smplayer_log_window->appendText(line);
 	}
 }
 
@@ -2990,15 +2917,26 @@ void BaseGui::showMplayerLog() {
     mplayer_log_window->setText( mplayer_log );
 	mplayer_log_window->show();
 }
+#endif
+
+#ifdef LOG_SMPLAYER
+void BaseGui::recordSmplayerLog(QString line) {
+	if (pref->log_smplayer) {
+		line.append("\n");
+		smplayer_log.append(line);
+		if (smplayer_log_window->isVisible()) smplayer_log_window->appendText(line);
+	}
+}
 
 void BaseGui::showLog() {
-    qDebug("BaseGui::showLog");
+	qDebug("BaseGui::showLog");
 
 	exitFullscreenIfNeeded();
 
 	smplayer_log_window->setText( smplayer_log );
-    smplayer_log_window->show();
+	smplayer_log_window->show();
 }
+#endif
 
 
 void BaseGui::initializeMenus() {
@@ -3083,46 +3021,30 @@ void BaseGui::initializeMenus() {
 	}
 	titles_menu->addActions( titleGroup->actions() );
 
-#if GENERIC_CHAPTER_SUPPORT
+	// Chapters
 	chapterGroup->clear(true);
-	if (core->mdat.chapters > 0) {
-		for (n=0; n < core->mdat.chapters; n++) {
+	if (core->mdat.chapters.numItems() > 0) {
+		for (n=0; n < core->mdat.chapters.numItems(); n++) {
 			QAction *a = new QAction(chapterGroup);
-			a->setCheckable(true);
+			//a->setCheckable(true);
+			a->setText(core->mdat.chapters.itemAt(n).name());
+			a->setData(n + Core::firstChapter());
+		}
+	} 
+	else
+	if (core->mdat.n_chapters > 0) {
+		for (n=0; n < core->mdat.n_chapters; n++) {
+			QAction *a = new QAction(chapterGroup);
+			//a->setCheckable(true);
 			a->setText( QString::number(n+1) );
 			a->setData( n + Core::firstChapter() );
 		}
-	} else {
+	} 
+	else {
 		QAction * a = chapterGroup->addAction( tr("<empty>") );
 		a->setEnabled(false);
 	}
 	chapters_menu->addActions( chapterGroup->actions() );
-#else
-	// DVD Chapters
-	chapterGroup->clear(true);
-	if ( (core->mdat.type == TYPE_DVD) && (core->mset.current_title_id > 0) ) {
-		for (n=0; n < core->mdat.titles.item(core->mset.current_title_id).chapters(); n++) {
-			QAction *a = new QAction(chapterGroup);
-			a->setCheckable(true);
-			a->setText( QString::number(n+1) );
-			a->setData( n + Core::dvdFirstChapter() );
-		}
-	} else {
-		// *** Matroshka chapters ***
-		if (core->mdat.mkv_chapters > 0) {
-			for (n=0; n < core->mdat.mkv_chapters; n++) {
-				QAction *a = new QAction(chapterGroup);
-				a->setCheckable(true);
-				a->setText( QString::number(n+1) );
-				a->setData( n + Core::firstChapter() );
-			}
-		} else {
-			QAction * a = chapterGroup->addAction( tr("<empty>") );
-			a->setEnabled(false);
-		}
-	}
-	chapters_menu->addActions( chapterGroup->actions() );
-#endif
 
 	// Angles
 	angleGroup->clear(true);
@@ -3252,6 +3174,9 @@ void BaseGui::updateWidgets() {
 	// Dering
 	deringAct->setChecked( core->mset.dering_filter );
 
+	// Gradfun
+	gradfunAct->setChecked( core->mset.gradfun_filter );
+
 	// Add noise
 	addNoiseAct->setChecked( core->mset.noise_filter );
 
@@ -3267,6 +3192,9 @@ void BaseGui::updateWidgets() {
 
 	// Denoise submenu
 	denoiseGroup->setChecked( core->mset.current_denoiser );
+
+	// Unsharp submenu
+	unsharpGroup->setChecked( core->mset.current_unsharp );
 
 	/*
 	// Fullscreen button
@@ -3421,7 +3349,7 @@ void BaseGui::open(QString file) {
 
 	// If file is a playlist, open that playlist
 	QString extension = QFileInfo(file).suffix().toLower();
-	if ( (extension=="m3u") || (extension=="m3u8") ) {
+	if ( ((extension=="m3u") || (extension=="m3u8")) && (QFile::exists(file)) ) {
 		playlist->load_m3u(file);
 	} 
 	else
@@ -4567,8 +4495,6 @@ void BaseGui::loadActions() {
 #if !DOCK_PLAYLIST
 	actions_list += ActionsEditor::actionsNames(playlist);
 #endif
-
-	if (server) server->setActionsList( actions_list );
 }
 
 void BaseGui::saveActions() {
@@ -4633,7 +4559,9 @@ void BaseGui::showExitCodeFromMplayer(int exit_code) {
 		ErrorDialog d(this);
 		d.setText(tr("MPlayer has finished unexpectedly.") + " " + 
 	              tr("Exit code: %1").arg(exit_code));
+#ifdef LOG_MPLAYER
 		d.setLog( mplayer_log );
+#endif
 		d.exec();
 	} 
 }
@@ -4655,12 +4583,15 @@ void BaseGui::showErrorFromMplayer(QProcess::ProcessError e) {
 			d.setText(tr("MPlayer has crashed.") + " " + 
                       tr("See the log for more info."));
 		}
+#ifdef LOG_MPLAYER
 		d.setLog( mplayer_log );
+#endif
 		d.exec();
 	}
 }
 
 
+#ifdef FIND_SUBTITLES
 void BaseGui::showFindSubtitlesDialog() {
 	qDebug("BaseGui::showFindSubtitlesDialog");
 
@@ -4683,7 +4614,9 @@ void BaseGui::openUploadSubtitlesPage() {
 	//QDesktopServices::openUrl( QUrl("http://www.opensubtitles.com/upload") );
 	QDesktopServices::openUrl( QUrl("http://www.opensubtitles.org/uploadjava") );
 }
+#endif
 
+#ifdef VIDEOPREVIEW
 void BaseGui::showVideoPreviewDialog() {
 	qDebug("BaseGui::showVideoPreviewDialog");
 
@@ -4718,10 +4651,13 @@ void BaseGui::showVideoPreviewDialog() {
 		video_preview->adjustWindowSize();
 	}
 }
+#endif
 
 void BaseGui::showTubeBrowser() {
 	qDebug("BaseGui::showTubeBrowser");
-	if (!QProcess::startDetached("smtube", QStringList())) {
+	QString exec = Paths::appPath() + "/smtube";
+	qDebug("BaseGui::showTubeBrowser: '%s'", exec.toUtf8().constData());
+	if (!QProcess::startDetached(exec, QStringList())) {
 		QMessageBox::warning(this, tr("An error happened - SMPlayer"), tr("The YouTube Browser couldn't be launched"));
 	}
 }

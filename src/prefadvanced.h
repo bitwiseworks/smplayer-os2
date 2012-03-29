@@ -99,26 +99,30 @@ protected:
 	bool showTagInTitle();
 
 	// Log options
+#ifdef LOG_MPLAYER
 	void setLogMplayer(bool b);
 	bool logMplayer();
 
 	void setMplayerLogVerbose(bool b);
 	bool mplayerLogVerbose();
 
+	void setSaveMplayerLog(bool b);
+	bool saveMplayerLog();
+
+	void setMplayerLogName(QString filter);
+	QString mplayerLogName();
+#endif
+
+#ifdef LOG_SMPLAYER
 	void setLogSmplayer(bool b);
 	bool logSmplayer();
 
 	void setLogFilter(QString filter);
 	QString logFilter();
 
-    void setSaveMplayerLog(bool b);
-    bool saveMplayerLog();
-
-    void setMplayerLogName(QString filter);
-    QString mplayerLogName();
-
 	void setSaveSmplayerLog(bool b);
 	bool saveSmplayerLog();
+#endif
 
 protected:
 	virtual void retranslateStrings();

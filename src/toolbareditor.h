@@ -23,20 +23,54 @@
 #include <QWidget>
 #include <QList>
 #include <QAction>
+#include "ui_toolbareditor.h"
 
-class ToolbarEditor 
+class QListWidget;
+
+class ToolbarEditor : public QDialog, public Ui::ToolbarEditor
 {
+	Q_OBJECT
+
 public:
+
+	ToolbarEditor( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+	~ToolbarEditor();
+
+	void setAllActions(QList<QAction *> actions_list);
+	void setActiveActions(QList<QAction *> actions_list);
+
+	QStringList activeActionsToStringList();
+
+	void setDefaultActions(QStringList action_names) { default_actions = action_names; }
+	QStringList defaultActions() { return default_actions; }
 
 	//! Save the widget's list of actions into a QStringList 
 	static QStringList save(QWidget *w);
 
-	//! Added to the widget the actions specified in l. actions_list is
+	//! Add to the widget the actions specified in l. actions_list is
 	//! the list of all available actions
 	static void load(QWidget *w, QStringList l, QList<QAction *> actions_list);
 
+protected slots:
+	void on_up_button_clicked();
+	void on_down_button_clicked();
+	void on_right_button_clicked();
+	void on_left_button_clicked();
+	void on_separator_button_clicked();
+	void restoreDefaults();
+	void checkRowsAllList(int currentRow);
+	void checkRowsActiveList(int currentRow);
+
 protected:
 	static QAction * findAction(QString s, QList<QAction *> actions_list);
+
+	static void populateList(QListWidget * w, QList<QAction *> actions_list, bool add_separators = false);
+	static int findItem(const QString & action_name, QListWidget * w);
+
+	static QString fixname(const QString & name, const QString & action_name);
+
+	QList<QAction *> all_actions_copy;
+	QStringList default_actions;
 };
 
 #endif

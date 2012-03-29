@@ -177,7 +177,7 @@ public:
 	int cache_for_audiocds;
 	int cache_for_tv;
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	int yt_quality;
 #endif
 
@@ -248,16 +248,17 @@ public:
 	QString mplayer_additional_audio_filters;
 
 	// Logs
+#ifdef LOG_MPLAYER
 	bool log_mplayer;
+	bool verbose_log;
+	bool autosave_mplayer_log;
+	QString mplayer_log_saveto;
+#endif
+#ifdef LOG_SMPLAYER
 	bool log_smplayer;
 	QString log_filter;
-	bool verbose_log;
 	bool save_smplayer_log;
-
-    //mplayer log autosaving
-    bool autosave_mplayer_log;
-    QString mplayer_log_saveto;
-    //mplayer log autosaving end
+#endif
 
 #if REPAINT_BACKGROUND_OPTION
 	//! If true, mplayerlayer erases its background
@@ -453,11 +454,9 @@ public:
     /* *********
        Instances
        ********* */
-
+#ifdef SINGLE_INSTANCE
 	bool use_single_instance;
-	int connection_port; // Manual port
-	bool use_autoport;
-	int autoport; // Port automatically chosen by Qt
+#endif
 
 
     /* ****************

@@ -42,15 +42,20 @@ class QLabel;
 class FilePropertiesDialog;
 class VideoEqualizer;
 class AudioEqualizer;
-class FindSubtitlesWindow;
-class VideoPreview;
 class Playlist;
+#ifdef FIND_SUBTITLES
+class FindSubtitlesWindow;
+#endif
+
+#ifdef VIDEOPREVIEW
+class VideoPreview;
+#endif
+
 
 class MyAction;
 class MyActionGroup;
 
 class PreferencesDialog;
-class MyServer;
 
 class Favorites;
 class TVList;
@@ -60,7 +65,7 @@ class BaseGui : public QMainWindow
     Q_OBJECT
     
 public:
-    BaseGui( bool use_server, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+    BaseGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 	~BaseGui();
 
 	/* Return true if the window shouldn't show on startup */
@@ -74,8 +79,10 @@ public:
 	//! Execute all the actions after the video has started to play
 	void runActionsLater(QString actions) { pending_actions_to_run = actions; };
 
+#ifdef LOG_SMPLAYER
 	//! Saves the line from the smplayer output
 	void recordSmplayerLog(QString line);
+#endif
 
 public slots:
 	virtual void open(QString file); // Generic open, autodetect type.
@@ -105,10 +112,15 @@ public slots:
 
 	void setInitialSubtitle(const QString & subtitle_file);
 
+#ifdef FIND_SUBTITLES
 	virtual void showFindSubtitlesDialog();
 	virtual void openUploadSubtitlesPage(); //turbos
+#endif
 
+#ifdef VIDEOPREVIEW
 	virtual void showVideoPreviewDialog();
+#endif
+
 	virtual void showTubeBrowser();
 
 	virtual void showPlaylist();
@@ -117,8 +129,12 @@ public slots:
 	virtual void showVideoEqualizer(bool b);
 	virtual void showAudioEqualizer();
 	virtual void showAudioEqualizer(bool b);
+#ifdef LOG_MPLAYER
 	virtual void showMplayerLog();
+#endif
+#ifdef LOG_SMPLAYER
 	virtual void showLog();
+#endif
 	virtual void showPreferencesDialog();
 	virtual void showFilePropertiesDialog();
 
@@ -226,20 +242,9 @@ protected slots:
 	virtual void checkMousePos( QPoint );
 
 	// Single instance stuff
-	// Another instance request open a file
-	virtual void remoteOpen(QString);
-	virtual void remoteOpenFiles(QStringList);
-	virtual void remoteAddFiles(QStringList);
-	virtual void remoteLoadSubtitle(QString);
-	virtual void remotePlayItem(int);
-	virtual void remoteRemoveItem(int);
-	virtual void remoteMoveItem(int, int);
-	virtual void remoteViewPlaylist(QString*);
-	virtual void remoteViewStatus(QString*);
-	virtual void remoteViewClipInfo(QString*);
-	virtual void remoteSeek(double);
-	virtual void remoteGetChecked(QString, QString*);
-	virtual void remoteGetVolume(int*);
+#ifdef SINGLE_INSTANCE
+	void handleMessageFromOtherInstances(const QString& message);
+#endif
 
 	//! Called when core can't parse the mplayer version and there's no
 	//! version supplied by the user
@@ -259,6 +264,7 @@ protected slots:
 	void clear_just_stopped();
 #endif
 
+#ifdef LOG_MPLAYER
 	//! Clears the mplayer log
 	void clearMplayerLog();
 
@@ -267,6 +273,7 @@ protected slots:
 
 	//! Saves the mplayer log to a file every time a file is loaded
 	void autosaveMplayerLog();
+#endif
 
 signals:
 	void frameChanged(int);
@@ -288,6 +295,10 @@ signals:
 
 	//! Sent when the user wants to close the main window
 	void quitSolicited();
+
+#ifdef GUI_CHANGE_ON_RUNTIME
+	void guiChanged(QString gui);
+#endif
 
 protected:
 	virtual void retranslateStrings();
@@ -378,13 +389,16 @@ protected:
 	MyAction * videoEqualizerAct;
 	MyAction * screenshotAct;
 	MyAction * screenshotsAct;
+#ifdef VIDEOPREVIEW
 	MyAction * videoPreviewAct;
+#endif
 	MyAction * flipAct;
 	MyAction * mirrorAct;
 	MyAction * postProcessingAct;
 	MyAction * phaseAct;
 	MyAction * deblockAct;
 	MyAction * deringAct;
+	MyAction * gradfunAct;
 	MyAction * addNoiseAct;
 	MyAction * addLetterboxAct;
 	MyAction * upscaleAct;
@@ -418,16 +432,22 @@ protected:
 	MyAction * useAssAct;
 	MyAction * useForcedSubsOnlyAct;
 	MyAction * subVisibilityAct;
+#ifdef FIND_SUBTITLES
 	MyAction * showFindSubtitlesDialogAct;
 	MyAction * openUploadSubtitlesPageAct;//turbos  
+#endif
 
 	// Menu Options
 	MyAction * showPlaylistAct;
 	MyAction * showPropertiesAct;
 	MyAction * showPreferencesAct;
 	MyAction * showTubeBrowserAct;
+#ifdef LOG_MPLAYER
 	MyAction * showLogMplayerAct;
+#endif
+#ifdef LOG_SMPLAYER
 	MyAction * showLogSmplayerAct;
+#endif
 
 	// Menu Help
 	MyAction * showFAQAct;
@@ -502,6 +522,12 @@ protected:
 	MyAction * denoiseNoneAct;
 	MyAction * denoiseNormalAct;
 	MyAction * denoiseSoftAct;
+
+	// Blur-sharpen group
+	MyActionGroup * unsharpGroup;
+	MyAction * unsharpNoneAct;
+	MyAction * blurAct;
+	MyAction * sharpenAct;
 
 	// Window Size Action Group
 	MyActionGroup * sizeGroup;
@@ -626,7 +652,8 @@ protected:
 	QMenu * aspect_menu;
 	QMenu * osd_menu;
 	QMenu * deinterlace_menu;
-	//QMenu * denoise_menu;
+	QMenu * denoise_menu;
+	QMenu * unsharp_menu;
 	QMenu * videosize_menu;
 	QMenu * audiochannels_menu;
 	QMenu * stereomode_menu;
@@ -635,7 +662,9 @@ protected:
 	QMenu * ab_menu; // A-B menu
 	QMenu * videofilter_menu;
 	QMenu * audiofilter_menu;
+#if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
 	QMenu * logs_menu;
+#endif
 	QMenu * zoom_menu;
 	QMenu * rotate_menu;
 	QMenu * ontop_menu;
@@ -647,8 +676,12 @@ protected:
 	QMenu * popup;
 	QMenu * recentfiles_menu;
 
+#ifdef LOG_MPLAYER
 	LogWindow * mplayer_log_window;
+#endif
+#ifdef LOG_SMPLAYER
 	LogWindow * smplayer_log_window;
+#endif
 	LogWindow * clhelp_window;
 
 	PreferencesDialog *pref_dialog;
@@ -656,13 +689,15 @@ protected:
 	Playlist * playlist;
 	VideoEqualizer * video_equalizer;
 	AudioEqualizer * audio_equalizer;
+#ifdef FIND_SUBTITLES
 	FindSubtitlesWindow * find_subs_dialog;
+#endif
+#ifdef VIDEOPREVIEW
 	VideoPreview * video_preview;
+#endif
 
 	Core * core;
 	MplayerWindow *mplayerwindow;
-
-	MyServer * server;
 
 	Favorites * favorites;
 
@@ -676,7 +711,6 @@ protected:
 	// Force settings from command line
 	int arg_close_on_finish; // -1 = not set, 1 = true, 0 = false
 	int arg_start_in_fullscreen; // -1 = not set, 1 = true, 0 = false
-	bool use_control_server;
 
 private:
 	QString default_style;
@@ -695,8 +729,12 @@ private:
 	bool just_stopped;
 #endif
 
+#ifdef LOG_MPLAYER
 	QString mplayer_log;
+#endif
+#ifdef LOG_SMPLAYER
 	QString smplayer_log;
+#endif
 
 	bool ignore_show_hide_events;
 };
