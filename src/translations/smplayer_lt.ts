@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="lt_LT">
 <context>
     <name>About</name>
     <message>
@@ -29,7 +29,7 @@
     </message>
     <message>
         <source>%1, %2 and %3</source>
-        <translation>%1, %2 ir %3</translation>
+        <translation type="obsolete">%1, %2 ir %3</translation>
     </message>
     <message>
         <source>Simplified-Chinese</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
         <source>%1 and %2</source>
-        <translation>%1 ir %2</translation>
+        <translation type="obsolete">%1 ir %2</translation>
     </message>
     <message>
         <source>Hungarian</source>
@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt;: %2</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt;: %2</translation>
+        <translation type="obsolete">&lt;b&gt;%1&lt;/b&gt;: %2</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; (%2)</source>
@@ -201,11 +201,11 @@
     </message>
     <message>
         <source>%1, %2, %3 and %4</source>
-        <translation>%1, %2, %3 ir %4</translation>
+        <translation type="obsolete">%1, %2, %3 ir %4</translation>
     </message>
     <message>
         <source>%1, %2, %3, %4 and %5</source>
-        <translation>%1, %2, %3, %4 ir %5</translation>
+        <translation type="obsolete">%1, %2, %3, %4 ir %5</translation>
     </message>
     <message>
         <source>Vietnamese</source>
@@ -251,6 +251,10 @@
         <source>Many other people contributed with patches. See the Changelog for details.</source>
         <translation>Daug kitų žmonių prisidėjo su savo pataisymais. Smulkiau galite pažiūrėti keitimų žurnale.</translation>
     </message>
+    <message>
+        <source>Spanish</source>
+        <translation>Ispanų</translation>
+    </message>
 </context>
 <context>
     <name>ActionsEditor</name>
@@ -294,7 +298,7 @@ Norite perrašyti?</translation>
     </message>
     <message>
         <source>Choose a file</source>
-        <translation>Pasirinkite failą</translation>
+        <translation>Pasirinkti failą</translation>
     </message>
     <message>
         <source>Error</source>
@@ -369,7 +373,7 @@ Norite perrašyti?</translation>
     </message>
     <message>
         <source>&amp;Set as default values</source>
-        <translation>&amp;Nustatyti kaip numatytasiąs reikšmes</translation>
+        <translation>&amp;Nustatyti kaip numatytąsias reikšmes</translation>
     </message>
     <message>
         <source>Use the current values as default values for new videos.</source>
@@ -385,18 +389,18 @@ Norite perrašyti?</translation>
     </message>
     <message>
         <source>The current values have been stored to be used as default.</source>
-        <translation>Dabartiniai parametrai buvo išsaugoti kaip numatytieji.</translation>
+        <translation>Dabartiniai parametrai buvo išsaugoti kaip pradiniai.</translation>
     </message>
 </context>
 <context>
     <name>BaseGui</name>
     <message>
         <source>SMPlayer - mplayer log</source>
-        <translation>SMPlayer - mplayer žurnalas</translation>
+        <translation type="obsolete">SMPlayer - mplayer žurnalas</translation>
     </message>
     <message>
         <source>SMPlayer - smplayer log</source>
-        <translation>SMPlayer - smplayer žurnalas</translation>
+        <translation type="obsolete">SMPlayer - smplayer žurnalas</translation>
     </message>
     <message>
         <source>&amp;Open</source>
@@ -720,7 +724,7 @@ Norite perrašyti?</translation>
     </message>
     <message>
         <source>Choose a file</source>
-        <translation>Pasirinkite failą</translation>
+        <translation>Pasirinkti failą</translation>
     </message>
     <message>
         <source>SMPlayer - Information</source>
@@ -942,15 +946,15 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
     </message>
     <message>
         <source>Denoise nor&amp;mal</source>
-        <translation>Pašalinti triukšmą (no&amp;rmaliai)</translation>
+        <translation type="obsolete">Pašalinti triukšmą (no&amp;rmaliai)</translation>
     </message>
     <message>
         <source>Denoise &amp;soft</source>
-        <translation>Pašalinti triukšmą (&amp;švelniai)</translation>
+        <translation type="obsolete">Pašalinti triukšmą (&amp;švelniai)</translation>
     </message>
     <message>
         <source>Denoise o&amp;ff</source>
-        <translation>&amp;Triukšmų pašalinimas išjungtas</translation>
+        <translation type="obsolete">&amp;Triukšmų pašalinimas išjungtas</translation>
     </message>
     <message>
         <source>Use SSA/&amp;ASS library</source>
@@ -1098,7 +1102,7 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
     </message>
     <message>
         <source>&amp;Default</source>
-        <translation>&amp;Numatytas</translation>
+        <translation>&amp;Numatytasis</translation>
     </message>
     <message>
         <source>Mirr&amp;or image</source>
@@ -1351,6 +1355,69 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
         <source>Check for &amp;updates</source>
         <translation>&amp;Ieškoti atnaujinimų</translation>
     </message>
+    <message>
+        <source>Debanding (&amp;gradfun)</source>
+        <translation>Pašalinti juostas (&amp;gradfun)</translation>
+    </message>
+    <message>
+        <source>&amp;Off</source>
+        <comment>closed captions menu</comment>
+        <translation>Iš&amp;jungti</translation>
+    </message>
+    <message>
+        <source>De&amp;noise</source>
+        <translation>Pašali&amp;nti triukšmą</translation>
+    </message>
+    <message>
+        <source>Blur/S&amp;harp</source>
+        <translation>Susiliejęs/ry&amp;škus</translation>
+    </message>
+    <message>
+        <source>&amp;Off</source>
+        <comment>denoise menu</comment>
+        <translation>Iš&amp;jungti</translation>
+    </message>
+    <message>
+        <source>&amp;Normal</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Normalus</translation>
+    </message>
+    <message>
+        <source>&amp;Soft</source>
+        <comment>denoise menu</comment>
+        <translation>Švelnu&amp;s</translation>
+    </message>
+    <message>
+        <source>&amp;None</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Nieko</translation>
+    </message>
+    <message>
+        <source>&amp;Blur</source>
+        <comment>unsharp menu</comment>
+        <translation>Susi&amp;liejęs</translation>
+    </message>
+    <message>
+        <source>&amp;Sharpen</source>
+        <comment>unsharp menu</comment>
+        <translation>Ryšku&amp;s</translation>
+    </message>
+    <message>
+        <source>SMPlayer - MPlayer log</source>
+        <translation>SMPlayer - MPlayer žurnalas</translation>
+    </message>
+    <message>
+        <source>SMPlayer - SMPlayer log</source>
+        <translation>SMPlayer - SMPlayer žurnalas</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informacija</translation>
+    </message>
+    <message>
+        <source>You need to restart SMPlayer to use the new GUI.</source>
+        <translation>Naujos grafinės sąsajos naudojimui reikia iš naujo paleisti SMPlayer.</translation>
+    </message>
 </context>
 <context>
     <name>BaseGuiPlus</name>
@@ -1541,6 +1608,22 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
         <comment>width + height + fps</comment>
         <translation>%1x%2 %3 fps</translation>
     </message>
+    <message>
+        <source>Edit main &amp;toolbar</source>
+        <translation>Keisti pagrindinę į&amp;rankių juostą</translation>
+    </message>
+    <message>
+        <source>Edit &amp;control bar</source>
+        <translation>Keisti &amp;valdymo juostą</translation>
+    </message>
+    <message>
+        <source>Edit m&amp;ini control bar</source>
+        <translation>Keisti &amp;mini valdymo juostą</translation>
+    </message>
+    <message>
+        <source>Edit &amp;floating control</source>
+        <translation>Keisti &amp;plaukiojantį valdymą</translation>
+    </message>
 </context>
 <context>
     <name>EqSlider</name>
@@ -1647,7 +1730,7 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
     </message>
     <message>
         <source>&amp;Edit...</source>
-        <translation>&amp;Keisti...</translation>
+        <translation>K&amp;eisti...</translation>
     </message>
     <message>
         <source>&amp;Jump...</source>
@@ -1734,7 +1817,7 @@ Bus atvertas konfigūravimo dialogas - galite sukonfigūruoti dabar.</translatio
         <source>Here you can pass extra options to MPlayer.
 Write them separated by spaces.
 Example: -flip -nosound</source>
-        <translation>Čia galima nurodyti papildomas „MPlayer“ parinktis.
+        <translation>Čia galima nurodyti papildomas MPlayer parinktis.
 Įrašai turi būti atskirti tarpais.
 Pavyzdžiui: -flip -nosound</translation>
     </message>
@@ -1798,6 +1881,18 @@ Pavyzdžiui: resample=44100:0:0,volnorm</translation>
     <message>
         <source>volume normalization</source>
         <translation>garso lygio sulyginimas</translation>
+    </message>
+    <message>
+        <source>gradfun</source>
+        <translation>Gradfun filtras</translation>
+    </message>
+    <message>
+        <source>blur</source>
+        <translation>susiliejęs</translation>
+    </message>
+    <message>
+        <source>sharpen</source>
+        <translation>ryškus</translation>
     </message>
 </context>
 <context>
@@ -1967,9 +2062,10 @@ Pavyzdžiui: resample=44100:0:0,volnorm</translation>
     </message>
     <message numerus="yes">
         <source>%1 subtitle(s) extracted</source>
-        <translation type="unfinished">
-            <numerusform>
-            </numerusform>
+        <translation>
+            <numerusform>%1 subtitras išgautas</numerusform>
+            <numerusform>%1 subtitrai išgauti</numerusform>
+            <numerusform>%1 subtitrų išgauta</numerusform>
         </translation>
     </message>
     <message>
@@ -3055,7 +3151,7 @@ Patikrinkite prieigos teises.</translation>
     </message>
     <message utf8="true">
         <source>Volapük</source>
-        <translation>Volapük</translation>
+        <translation>Volapiukas</translation>
     </message>
     <message>
         <source>Walloon</source>
@@ -3124,6 +3220,14 @@ Norite perrašyti?</translation>
         <source>Control bar</source>
         <translation>Kontrolinė juosta</translation>
     </message>
+    <message>
+        <source>Edit &amp;control bar</source>
+        <translation>Keisti &amp;valdymo juostą</translation>
+    </message>
+    <message>
+        <source>Edit &amp;floating control</source>
+        <translation>Keisti &amp;plaukiojantį valdymą</translation>
+    </message>
 </context>
 <context>
     <name>MpcGui</name>
@@ -3138,6 +3242,10 @@ Norite perrašyti?</translation>
     <message>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+    <message>
+        <source>Seek bar</source>
+        <translation>Prasukimo juosta</translation>
     </message>
 </context>
 <context>
@@ -3601,6 +3709,14 @@ Pavyzdžiui: resample=44100:0:0,volnorm</translation>
         <source>Show tag in&amp;fo in window title</source>
         <translation>Rodyti žymės &amp;informaciją lango pavadinime</translation>
     </message>
+    <message>
+        <source>MPlayer</source>
+        <translation>MPlayer</translation>
+    </message>
+    <message>
+        <source>SMPlayer</source>
+        <translation>SMPlayer</translation>
+    </message>
 </context>
 <context>
     <name>PrefAssociations</name>
@@ -3936,7 +4052,7 @@ Pavyzdžiui: resample=44100:0:0,volnorm</translation>
     </message>
     <message>
         <source>Volume normalization by default</source>
-        <translation>Numatytas garso lygio sulyginimas</translation>
+        <translation>Numatytasis garso lygio sulyginimas</translation>
     </message>
     <message>
         <source>Maximizes the volume without distorting the sound.</source>
@@ -4125,7 +4241,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default zoom</source>
-        <translation>Numatytas mastelis</translation>
+        <translation>Numatytasis mastelis</translation>
     </message>
     <message>
         <source>This option sets the default zoom which will be used for new videos.</source>
@@ -4133,7 +4249,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default &amp;zoom:</source>
-        <translation>Numatytas &amp;mastelis:</translation>
+        <translation>Numatytasis &amp;mastelis:</translation>
     </message>
     <message>
         <source>Here you must specify the mplayer executable that SMPlayer will use.&lt;br&gt;SMPlayer requires at least MPlayer 1.0rc1 (although a recent revision from SVN is highly recommended).</source>
@@ -4712,7 +4828,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Check it to enable changing volume as one function.</source>
-        <translation>Pažymėkite garo lygio keitimą kaip vienos iš funkcijų įgalinimui.</translation>
+        <translation>Pažymėkite garso lygio keitimą kaip vienos iš funkcijų įgalinimui.</translation>
     </message>
     <message>
         <source>Check it to enable zooming as one function.</source>
@@ -4835,7 +4951,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default font:</source>
-        <translation>Numatytas šriftas:</translation>
+        <translation>Numatytasis šriftas:</translation>
     </message>
     <message>
         <source>&amp;Change...</source>
@@ -4911,7 +5027,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default font</source>
-        <translation>Numatytas šriftas</translation>
+        <translation>Numatytasis šriftas</translation>
     </message>
     <message>
         <source>You can change here the application&apos;s font.</source>
@@ -4986,10 +5102,6 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
         <translation>Pažymėkite, jei naujų failų atvėrimui norite naudoti jau veikiančią SMPlayer kopiją.</translation>
     </message>
     <message>
-        <source>SMPlayer needs to listen to a port to receive commands from other instances. You can change the port in case the default one is used by another application.</source>
-        <translation>Komandų iš kitų egzempliorių gavimui, SMPlayer reikalingas jungties praklausymas. Galima pakeisti jungtį, jei ją jau naudoja kita programa.</translation>
-    </message>
-    <message>
         <source>Default GUI</source>
         <translation>Įprastinė aplinka</translation>
     </message>
@@ -5008,30 +5120,6 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     <message>
         <source>&amp;GUI</source>
         <translation>&amp;Aplinka</translation>
-    </message>
-    <message>
-        <source>Automatic port</source>
-        <translation>Automatinis prievadas</translation>
-    </message>
-    <message>
-        <source>SMPlayer needs to listen to a port to receive commands from other instances. If you select this option, a port will be automatically chosen.</source>
-        <translation>Komandų iš kitų egzempliorių gavimui, SMPlayer reikalingas prievado klausymas. Jei pažymėta ši parinktis, prievadas bus pasirinktas automatiškai.</translation>
-    </message>
-    <message>
-        <source>Manual port</source>
-        <translation>Nurodyti prievadą</translation>
-    </message>
-    <message>
-        <source>Port to listen</source>
-        <translation>Prievadas klausymui</translation>
-    </message>
-    <message>
-        <source>&amp;Automatic</source>
-        <translation>&amp;Automatiškai</translation>
-    </message>
-    <message>
-        <source>&amp;Manual</source>
-        <translation>&amp;Rankiniu būdu</translation>
     </message>
     <message>
         <source>Floating control</source>
@@ -5892,7 +5980,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default scale</source>
-        <translation>Numatytas dydis</translation>
+        <translation>Numatytasis dydis</translation>
     </message>
     <message>
         <source>This option specifies the default font scale for normal subtitles which will be used for new opened files.</source>
@@ -5928,7 +6016,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Default s&amp;cale:</source>
-        <translation>Numatytas &amp;dydis:</translation>
+        <translation>Numatytasis &amp;dydis:</translation>
     </message>
     <message>
         <source>Defa&amp;ult scale:</source>
@@ -6109,7 +6197,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>action_list is a list of actions separated by spaces. The actions will be executed just after loading the file (if any) in the same order you entered. For checkable actions you can pass true or false as parameter. Example: -actions &quot;fullscreen compact true&quot;. Quotes are necessary in case you pass more than one action.</source>
-        <translation>veiksmų_sąrašas yra veiksmų, atskirtų tarpais, sąrašas. Šie veiksmai bus vykdomi po failo įkėlimo nurodyta tvarka. Veiksmams su kintamomis reikšmėmis galima naudoti „true“ arba „false“ parametrus. Pavyzdžiui: -actions „fullscreen compact true“. Kabutės yra reikalingos jei naudojamas daugiau negu vienas veiksmas.</translation>
+        <translation>veiksmų_sąrašas yra veiksmų, atskirtų tarpais, sąrašas. Šie veiksmai bus vykdomi po failo įkėlimo nurodyta tvarka. Veiksmams su kintamomis reikšmėmis galima naudoti „true“ arba „false“ parametrus. Pavyzdžiui:-actions „fullscreen compact true“. Kabutės yra reikalingos jei naudojamas daugiau negu vienas veiksmas.</translation>
     </message>
     <message>
         <source>media</source>
@@ -6137,7 +6225,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>opens the mini gui instead of the default one.</source>
-        <translation>atveria mini aplinką vietoj numatytos.</translation>
+        <translation>atveria mini aplinką vietoj numatytosios.</translation>
     </message>
     <message>
         <source>Restores the old associations and cleans up the registry.</source>
@@ -6173,14 +6261,18 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n sekundė(-ės)</numerusform>
+        <translation>
+            <numerusform>%n sekundė</numerusform>
+            <numerusform>%n sekundės</numerusform>
+            <numerusform>%n sekundžių</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n minutė(-ės)</numerusform>
+        <translation>
+            <numerusform>%n minutė</numerusform>
+            <numerusform>%n minutės</numerusform>
+            <numerusform>%n minučių</numerusform>
         </translation>
     </message>
     <message>
@@ -6229,10 +6321,6 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     <message>
         <source>&apos;media&apos; is any kind of file that SMPlayer can open. It can be a local file, a DVD (e.g. dvd://1), an Internet stream (e.g. mms://....) or a local playlist in format m3u or pls.</source>
         <translation>„media“ yra betkokios rūšies failas kurį SMPlayer gali atverti. Tai gali būti vietinis failas pvz. DVD (dvd://1), interneto srautas (pvz. mms://....) arba vietinis grojaraštis, m3u ar pls formatu.</translation>
-    </message>
-    <message>
-        <source>Disables the server used to communicate with other instances. This disables too the possibility to use a single instance.</source>
-        <translation>Išjungia serverį skirtą bendrauti su kitomis kopijomis. Taipogi tai išjungia galimybę naudoti tik vieną kopiją.</translation>
     </message>
 </context>
 <context>
@@ -6314,6 +6402,65 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
 </context>
 <context>
+    <name>ToolbarEditor</name>
+    <message>
+        <source>Toolbar Editor</source>
+        <translation>Įrankių juostos redaktorius</translation>
+    </message>
+    <message>
+        <source>&amp;Available actions:</source>
+        <translation>&amp;Galimi veiksmai:</translation>
+    </message>
+    <message>
+        <source>&amp;Left</source>
+        <translation>&amp;Kairėn</translation>
+    </message>
+    <message>
+        <source>&amp;Right</source>
+        <translation>&amp;Dešinėn</translation>
+    </message>
+    <message>
+        <source>&amp;Down</source>
+        <translation>&amp;Žemyn</translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation>A&amp;ukštyn</translation>
+    </message>
+    <message>
+        <source>Curre&amp;nt actions:</source>
+        <translation>Dabartiniai &amp;veiksmai:</translation>
+    </message>
+    <message>
+        <source>Add &amp;separator</source>
+        <translation>Pridėti &amp;skirtuką</translation>
+    </message>
+    <message>
+        <source>(separator)</source>
+        <translation>(skirtukas)</translation>
+    </message>
+    <message>
+        <source>Time slider</source>
+        <translation>Laiko slankiklis</translation>
+    </message>
+    <message>
+        <source>Volume slider</source>
+        <translation>Garso slankiklis</translation>
+    </message>
+    <message>
+        <source>Display time</source>
+        <translation>Rodyti laiką</translation>
+    </message>
+    <message>
+        <source>3 in 1 rewind</source>
+        <translation>Trys viename atgal</translation>
+    </message>
+    <message>
+        <source>3 in 1 forward</source>
+        <translation>Trys viename į priekį</translation>
+    </message>
+</context>
+<context>
     <name>TristateCombo</name>
     <message>
         <source>Auto</source>
@@ -6391,11 +6538,11 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>&amp;Set as default values</source>
-        <translation>&amp;Nustatyti kaip numatytas reikšmes</translation>
+        <translation>&amp;Nustatyti kaip numatytąsias reikšmes</translation>
     </message>
     <message>
         <source>Use the current values as default values for new videos.</source>
-        <translation>Nustatyti dabartines reikšmes kaip numatytas naujiems video.</translation>
+        <translation>Nustatyti dabartines reikšmes kaip numatytąsias  naujiems video.</translation>
     </message>
     <message>
         <source>Set all controls to zero.</source>
@@ -6422,7 +6569,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Atmesti</translation>
+        <translation>Atsisakyti</translation>
     </message>
     <message>
         <source>Generated by SMPlayer</source>
@@ -6628,7 +6775,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     <name>VolumeSliderAction</name>
     <message>
         <source>Volume</source>
-        <translation>Garsumas</translation>
+        <translation>Garsas</translation>
     </message>
 </context>
 </TS>

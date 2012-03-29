@@ -22,7 +22,10 @@
 #include <QRegExp>
 #include <QTextStream>
 #include <QUrl>
+
+#ifdef Q_OS_OS2
 #include <QEventLoop>
+#endif
 
 #include <cmath>
 
@@ -55,7 +58,7 @@
 #include "tvsettings.h"
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 #include "retrieveyoutubeurl.h"
 #endif
 
@@ -241,7 +244,7 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	DiscName::test();
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	yt = new RetrieveYoutubeUrl(this);
 	connect(yt, SIGNAL(gotPreferredUrl(const QString &)), this, SLOT(openYT(const QString &)));
 	connect(yt, SIGNAL(connecting(QString)), this, SLOT(connectingToYT(QString)));
@@ -271,7 +274,7 @@ Core::~Core() {
 #endif
 #endif
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	delete yt;
 #endif
 }
@@ -490,7 +493,7 @@ void Core::openFile(QString filename, int seek) {
 	}
 }
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 void Core::openYT(const QString & url) {
 	qDebug("Core::openYT: %s", url.toUtf8().constData());
 	openStream(url);
@@ -714,11 +717,7 @@ void Core::openDVD(QString dvd_url) {
 	mset.reset();
 
 	mset.current_title_id = title;
-#if GENERIC_CHAPTER_SUPPORT
 	mset.current_chapter_id = firstChapter();
-#else
-	mset.current_chapter_id = dvdFirstChapter();
-#endif
 	mset.current_angle_id = 1;
 
 	/* initializeMenus(); */
@@ -783,9 +782,11 @@ void Core::openTV(QString channel_id) {
 void Core::openStream(QString name) {
 	qDebug("Core::openStream: '%s'", name.toUtf8().data());
 
-#if YOUTUBE_SUPPORT
-	if (name.startsWith("http://www.youtube.com/watch?v=")) {
+#ifdef YOUTUBE_SUPPORT
+	if (name.contains("youtube.com/watch", Qt::CaseInsensitive)) {
 		qDebug("Core::openStream: youtube url detected");
+		if (name.startsWith("www.youtube.com")) name = "http://" + name;
+		if (name.startsWith("youtube.com")) name = "http://www." + name;
 		yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
 		yt->fetchPage(name);
 		return;
@@ -906,7 +907,7 @@ void Core::initPlaying(int seek) {
 	int start_sec = (int) mset.current_sec;
 	if (seek > -1) start_sec = seek;
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	// Avoid to pass to mplayer the youtube page url
 	if (mdat.type == TYPE_STREAM) {
 		if (mdat.filename == yt->origUrl()) {
@@ -979,12 +980,7 @@ void Core::newMediaPlaying() {
 	}
 #endif
 
-#if GENERIC_CHAPTER_SUPPORT
-	if (mdat.chapters > 0) {
-#else
-	// mkv chapters
-	if (mdat.mkv_chapters > 0) {
-#endif
+	if (mdat.n_chapters > 0) {
 		// Just to show the first chapter checked in the menu
 		mset.current_chapter_id = firstChapter();
 	}
@@ -1026,7 +1022,7 @@ void Core::finishRestart() {
 		mdat.demuxer = proc->mediaData().demuxer;
 	}
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	// Change the real url with the youtube page url and set the title
 	if (mdat.type == TYPE_STREAM) {
 		if (mdat.filename == yt->latestPreferredUrl()) {
@@ -1338,7 +1334,7 @@ void Core::startMplayer( QString file, double seek ) {
 		return;
     }
 
-#if YOUTUBE_SUPPORT
+#ifdef YOUTUBE_SUPPORT
 	// Stop any pending request
 	qDebug("Core::startMplayer: yt state: %d", yt->state());	
 	if (yt->state() != QHttp::Unconnected) {
@@ -1410,9 +1406,11 @@ void Core::startMplayer( QString file, double seek ) {
 
 	proc->addArgument("-noquiet");
 
+#ifdef LOG_MPLAYER
 	if (pref->verbose_log) {
 		proc->addArgument("-v");
 	}
+#endif
 
 	if (pref->fullscreen && pref->use_mplayer_window) {
 		proc->addArgument("-fs");
@@ -1498,12 +1496,10 @@ void Core::startMplayer( QString file, double seek ) {
 
 	proc->addArgument("-identify");
 
-#if GENERIC_CHAPTER_SUPPORT
 	if (MplayerVersion::isMplayerAtLeast(27667)) {
 		// From r27667 the number of chapters can be obtained from ID_CHAPTERS
 		mset.current_chapter_id = 0; // Reset chapters
 	} else {
-#endif
 		// We need this to get info about mkv chapters
 		if (is_mkv) {
 			proc->addArgument("-msglevel");
@@ -1515,10 +1511,8 @@ void Core::startMplayer( QString file, double seek ) {
 			// (time would be relative to chapter)
 			mset.current_chapter_id = 0;
 		}
-#if GENERIC_CHAPTER_SUPPORT
 	}
-#endif
-	
+
 	proc->addArgument("-slave");
 
 	if (!pref->vo.isEmpty()) {
@@ -1919,11 +1913,7 @@ void Core::startMplayer( QString file, double seek ) {
 		proc->addArgument("-chapter");
 		int chapter = mset.current_chapter_id;
 		// Fix for older versions of mplayer:
-#if GENERIC_CHAPTER_SUPPORT
 		if ((mdat.type == TYPE_DVD) && (firstChapter() == 0)) chapter++;
-#else
-		if ((mdat.type == TYPE_DVD) && (dvdFirstChapter() == 0)) chapter++;
-#endif
 		proc->addArgument( QString::number( chapter ) );
 	}
 
@@ -2047,6 +2037,16 @@ void Core::startMplayer( QString file, double seek ) {
 		}
 	}
 
+	// Unsharp
+	if (mset.current_unsharp != 0) {
+		proc->addArgument("-vf-add");
+		if (mset.current_unsharp == 1) {
+			proc->addArgument( pref->filters->item("blur").filter() );
+		} else {
+			proc->addArgument( pref->filters->item("sharpen").filter() );
+		}
+	}
+
 	// Deblock
 	if (mset.deblock_filter) {
 		proc->addArgument("-vf-add");
@@ -2057,6 +2057,12 @@ void Core::startMplayer( QString file, double seek ) {
 	if (mset.dering_filter) {
 		proc->addArgument("-vf-add");
 		proc->addArgument( "pp=dr" );
+	}
+
+	// Gradfun
+	if (mset.gradfun_filter) {
+		proc->addArgument("-vf-add");
+		proc->addArgument( pref->filters->item("gradfun").filter() );
 	}
 
 	// Upscale
@@ -2648,6 +2654,18 @@ void Core::toggleDering(bool b) {
 	}
 }
 
+void Core::toggleGradfun() {
+	toggleGradfun( !mset.gradfun_filter );
+}
+
+void Core::toggleGradfun(bool b) {
+	qDebug("Core::toggleGradfun: %d", b);
+	if ( b != mset.gradfun_filter) {
+		mset.gradfun_filter = b;
+		restartPlay();
+	}
+}
+
 void Core::toggleNoise() {
 	toggleNoise( !mset.noise_filter );
 }
@@ -2676,6 +2694,14 @@ void Core::changeDenoise(int id) {
 	qDebug( "Core::changeDenoise: %d", id );
 	if (id != mset.current_denoiser) {
 		mset.current_denoiser = id;
+		restartPlay();
+	}
+}
+
+void Core::changeUnsharp(int id) {
+	qDebug( "Core::changeUnsharp: %d", id );
+	if (id != mset.current_unsharp) {
+		mset.current_unsharp = id;
 		restartPlay();
 	}
 }
@@ -3428,12 +3454,7 @@ void Core::changeChapter(int ID) {
 
 	if (ID != mset.current_chapter_id) {
 		//if (QFileInfo(mdat.filename).extension().lower()=="mkv") {
-#if GENERIC_CHAPTER_SUPPORT
 		if (mdat.type != TYPE_DVD) {
-#else
-		if (mdat.mkv_chapters > 0) {
-			// mkv doesn't require to restart
-#endif
 			tellmp("seek_chapter " + QString::number(ID) +" 1");
 			mset.current_chapter_id = ID;
 			updateWidgets();
@@ -3465,80 +3486,32 @@ int Core::firstChapter() {
 		return 0;
 }
 
-#if !GENERIC_CHAPTER_SUPPORT
-int Core::dvdFirstChapter() {
-	// TODO: check if the change really happens in the same version as mkv
-	return firstChapter();
-}
-#endif
-
 void Core::prevChapter() {
 	qDebug("Core::prevChapter");
 
-#if GENERIC_CHAPTER_SUPPORT
 	int last_chapter = 0;
 	int first_chapter = firstChapter();
 
-	last_chapter = mdat.chapters + firstChapter() - 1;
+	last_chapter = mdat.n_chapters + firstChapter() - 1;
 
 	int ID = mset.current_chapter_id - 1;
 	if (ID < first_chapter) {
 		ID = last_chapter;
 	}
 	changeChapter(ID);
-#else
-	int last_chapter = 0;
-	bool matroshka = (mdat.mkv_chapters > 0);
-
-	int first_chapter = dvdFirstChapter();
-	if (matroshka) first_chapter = firstChapter();
-
-	// Matroshka chapters
-	if (matroshka) last_chapter = mdat.mkv_chapters + firstChapter() - 1;
-	else
-	// DVD chapters
-	if (mset.current_title_id > 0) {
-		last_chapter = mdat.titles.item(mset.current_title_id).chapters() + dvdFirstChapter() -1;
-	}
-
-	int ID = mset.current_chapter_id - 1;
-	if (ID < first_chapter) {
-		ID = last_chapter;
-	}
-	changeChapter(ID);
-#endif
 }
 
 void Core::nextChapter() {
 	qDebug("Core::nextChapter");
 
-#if GENERIC_CHAPTER_SUPPORT
 	int last_chapter = 0;
-	last_chapter = mdat.chapters + firstChapter() - 1;
+	last_chapter = mdat.n_chapters + firstChapter() - 1;
 
 	int ID = mset.current_chapter_id + 1;
 	if (ID > last_chapter) {
 		ID = firstChapter();
 	}
 	changeChapter(ID);
-#else
-	int last_chapter = 0;
-	bool matroshka = (mdat.mkv_chapters > 0);
-
-	// Matroshka chapters
-	if (matroshka) last_chapter = mdat.mkv_chapters + firstChapter() - 1;
-	else
-	// DVD chapters
-	if (mset.current_title_id > 0) {
-		last_chapter = mdat.titles.item(mset.current_title_id).chapters() + dvdFirstChapter() - 1;
-	}
-
-	int ID = mset.current_chapter_id + 1;
-	if (ID > last_chapter) {
-		if (matroshka) ID = firstChapter(); else ID = dvdFirstChapter();
-	}
-	changeChapter(ID);
-#endif
 }
 
 void Core::changeAngle(int ID) {

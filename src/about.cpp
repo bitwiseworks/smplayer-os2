@@ -27,10 +27,6 @@
 #include <QFile>
 #include <QDesktopServices>
 
-//#define TRANS_ORIG
-#define TRANS_LIST
-//#define TRANS_TABLE
-
 using namespace Global;
 
 About::About(QWidget * parent, Qt::WindowFlags f)
@@ -59,6 +55,9 @@ About::About(QWidget * parent, Qt::WindowFlags f)
 		"<b>" + tr("Version: %1").arg(smplayerVersion()) + "</b>" +
 #if PORTABLE_APP
                 " (" + tr("Portable Edition") + ")" +
+#endif
+#ifdef EXPERIMENTAL
+        "<br>Experimental branch<br>"
 #endif
         "<br>" +
         tr("Using Qt %1 (compiled with Qt %2)").arg(qVersion()).arg(QT_VERSION_STR) + "<br><br>" +
@@ -140,11 +139,8 @@ About::~About() {
 QString About::getTranslators() {
 	return QString(
 		 tr("The following people have contributed with translations:") +
-#ifndef TRANS_TABLE
-         "<ul>" +
-#else
-         "<table>" +
-#endif
+		"<p>" + 
+         trad(tr("Spanish"), "Ricardo Villalba <rvm@users.sourceforge.net>") +
          trad(tr("German"), "Panagiotis Papadopoulos <pano_90@gmx.net>") +
 		 trad(tr("Slovak"), "Sweto <peter.mendel@gmail.com>") +
 		 trad(tr("Italian"), QStringList()
@@ -191,7 +187,9 @@ QString About::getTranslators() {
 		trad(tr("Finnish"), "peeaivo <peeaivo@gmail.com>") +
 		trad(tr("Korean"), "Heesu Yoon <imsu30@gmail.com>") +
 		trad(tr("Macedonian"), "Marko Doda <mark0d0da@gmail.com>") +
-		trad(tr("Basque"), "Piarres Beobide <pi@beobide.net>") +
+		trad(tr("Basque"), QStringList() 
+			<< "Piarres Beobide <pi@beobide.net>" 
+			<< "Xabier Aramendi <azpidatziak@gmail.com>") +
 		trad(tr("Catalan"), QString::fromUtf8("Roger Calvó <rcalvoi@yahoo.com>")) +
 		trad(tr("Slovenian"), "Janez Troha <janez.troha@gmail.com>") +
 		trad(tr("Arabic"), "Muhammad Nour Hajj Omar <arabianheart@live.com>") +
@@ -199,14 +197,12 @@ QString About::getTranslators() {
 		trad(tr("Galician"), "Miguel Branco <mgl.branco@gmail.com>") +
 		trad(tr("Vietnamese"), QString::fromUtf8("Lê Xuân Thảo <thaolx@gmail.com>")) +
 		trad(tr("Estonian"), QString::fromUtf8("Olav Mägi <olav.magi@hotmail.com>")) +
-        trad(tr("Lithuanian"), "Freemail <ricka_g@freemail.lt>") +
+        trad(tr("Lithuanian"), QStringList() 
+			<< "Freemail <ricka_g@freemail.lt>"
+			<< QString::fromUtf8("Algimantas Margevičius <margevicius.algimantas@gmail.com>") ) +
         trad(tr("Danish"), "Martin Schlander <mschlander@opensuse.org>") +
         trad(tr("Croatian"), QString::fromUtf8("Josip Kujundžija <marshsmello@gmail.com>")) +
-#ifndef TRANS_TABLE
-        "</ul>");
-#else
-        "</table>");
-#endif
+		"");
 }
 
 QString About::trad(const QString & lang, const QString & author) {
@@ -214,46 +210,13 @@ QString About::trad(const QString & lang, const QString & author) {
 }
 
 QString About::trad(const QString & lang, const QStringList & authors) {
-#ifdef TRANS_ORIG
-	QString s;
-
-	switch (authors.count()) {
-		case 2: s = tr("%1 and %2"); break;
-		case 3: s = tr("%1, %2 and %3"); break;
-		case 4: s = tr("%1, %2, %3 and %4"); break;
-		case 5: s = tr("%1, %2, %3, %4 and %5"); break;
-		default: s = "%1";
-	}
-
-	for (int n = 0; n < authors.count(); n++) {
-		QString author = authors[n];
-		s = s.arg(author.replace("<", "&lt;").replace(">", "&gt;"));
-	}
-
-	return "<li>"+ tr("<b>%1</b>: %2").arg(lang).arg(s) + "</li>";
-#endif
-
-#ifdef TRANS_LIST
-	QString s = "<ul>";;
-	for (int n = 0; n < authors.count(); n++) {
-		QString author = authors[n];
-		s += "<li>"+ author.replace("<", "&lt;").replace(">", "&gt;") + "</li>";
-	}
-	s+= "</ul>";
-
-	return "<li>"+ tr("<b>%1</b>: %2").arg(lang).arg(s) + "</li>";
-#endif
-
-#ifdef TRANS_TABLE
 	QString s;
 	for (int n = 0; n < authors.count(); n++) {
 		QString author = authors[n];
 		s += author.replace("<", "&lt;").replace(">", "&gt;");
 		if (n < (authors.count()-1)) s += "<br>";
 	}
-
-	return QString("<tr><td align=right><b>%1</b></td><td>%2</td></tr>").arg(lang).arg(s);
-#endif
+	return QString("<h3>%1:</h3><h4>%2</h4><hr>").arg(lang).arg(s);
 }
 
 QString About::link(const QString & url, QString name) {

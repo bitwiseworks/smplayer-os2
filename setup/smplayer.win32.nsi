@@ -29,8 +29,9 @@
   !define SMPLAYER_PRODUCT_VERSION "${VER_MAJOR}.${VER_MINOR}.${VER_BUILD}.0"
 !endif
 
-  !define SMPLAYER_APP_PATHS_KEY "Software\Microsoft\Windows\CurrentVersion\App Paths\smplayer.exe"
   !define SMPLAYER_REG_KEY "Software\SMPlayer"
+  !define SMPLAYER_APP_PATHS_KEY "Software\Microsoft\Windows\CurrentVersion\App Paths\smplayer.exe"
+  !define SMPLAYER_DEF_PROGS_KEY "Software\Clients\Media\SMPlayer"
 
   !define SMPLAYER_UNINST_EXE "uninst.exe"
   !define SMPLAYER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\SMPlayer"
@@ -326,7 +327,7 @@ SectionEnd
 ;Shortcuts
 SectionGroup $(ShortcutGroupTitle)
 
-  ${MementoSection} $(Section_DesktopShortcut) SecDesktopShortcut
+  ${MementoUnselectedSection} $(Section_DesktopShortcut) SecDesktopShortcut
 
     SetOutPath "$INSTDIR"
     CreateShortCut "$DESKTOP\SMPlayer.lnk" "$INSTDIR\smplayer.exe"
@@ -582,7 +583,7 @@ ${MementoSectionDone}
 !macroend
 
 !macro WriteRegStrSupportedTypes EXT
-  WriteRegStr HKLM  "${SMPLAYER_REG_KEY}\Capabilities\FileAssociations" ${EXT} "MPlayerFileVideo"
+  WriteRegStr HKLM  "${SMPLAYER_DEF_PROGS_KEY}\Capabilities\FileAssociations" ${EXT} "MPlayerFileVideo"
 !macroend
 
 !macro MacroRemoveSMPlayer
@@ -615,7 +616,7 @@ ${MementoSectionDone}
   Delete "$INSTDIR\libgcc_s_dw2-1.dll"
   Delete "$INSTDIR\mingwm10.dll"
   Delete "$INSTDIR\zlib1.dll"
-  Delete "$INSTDIR\Q*.dll"
+  Delete "$INSTDIR\Qt*.dll"
   Delete "$INSTDIR\smplayer.exe"
   Delete "$INSTDIR\smtube.exe"
   Delete "$INSTDIR\dxlist.exe"
@@ -627,6 +628,7 @@ ${MementoSectionDone}
 
   DeleteRegKey HKLM "${SMPLAYER_REG_KEY}"
   DeleteRegKey HKLM "${SMPLAYER_APP_PATHS_KEY}"
+  DeleteRegKey HKLM "${SMPLAYER_DEF_PROGS_KEY}"
   DeleteRegKey HKLM "${SMPLAYER_UNINST_KEY}"
   DeleteRegKey HKCR "MPlayerFileVideo"
   DeleteRegValue HKLM "Software\RegisteredApplications" "SMPlayer"
@@ -636,34 +638,6 @@ ${MementoSectionDone}
 
 ;--------------------------------
 ;Shared functions
-
-!macro CheckUserRightsMacro UN
-Function ${UN}CheckUserRights
-
-  ClearErrors
-  UserInfo::GetName
-  ${If} ${Errors}
-    StrCpy $Is_Admin 1
-    Return
-  ${EndIf}
-
-  Pop $UserName
-  UserInfo::GetAccountType
-  Pop $R0
-  ${Switch} $R0
-    ${Case} "Admin"
-    ${Case} "Power"
-      StrCpy $Is_Admin 1
-      ${Break}
-    ${Default}
-      StrCpy $Is_Admin 0
-      ${Break}
-  ${EndSwitch}
-
-FunctionEnd
-!macroend
-!insertmacro CheckUserRightsMacro ""
-!insertmacro CheckUserRightsMacro "un."
 
 !macro RunCheckMacro UN
 Function ${UN}RunCheck
@@ -699,10 +673,10 @@ Function .onInit
   ;Check if SMPlayer is running
   Call RunCheck
 
-  ;Check for admin on older OSes
-  Call CheckUserRights
-
-  ${If} $Is_Admin == 0
+  ;Check for admin on < Vista
+  UserInfo::GetAccountType
+  Pop $R0
+  ${If} $R0 != "admin"
     MessageBox MB_OK|MB_ICONSTOP $(Installer_No_Admin)
     Abort
   ${EndIf}
@@ -920,9 +894,10 @@ Function RegisterDefaultPrograms
   WriteRegStr HKCR "MPlayerFileVideo\shell\open\command" "" '"$INSTDIR\smplayer.exe" "%1"'
 
   ;Modify the list of extensions added in the MacroAllExtensions macro
-  WriteRegStr HKLM "${SMPLAYER_REG_KEY}\Capabilities" "ApplicationDescription" $(Application_Description)
-  WriteRegStr HKLM "${SMPLAYER_REG_KEY}\Capabilities" "ApplicationName" "SMPlayer"
-  WriteRegStr HKLM "Software\RegisteredApplications" "SMPlayer" "${SMPLAYER_REG_KEY}\Capabilities"
+  WriteRegStr HKLM "${SMPLAYER_DEF_PROGS_KEY}" "" "SMPlayer"
+  WriteRegStr HKLM "${SMPLAYER_DEF_PROGS_KEY}\Capabilities" "ApplicationDescription" $(Application_Description)
+  WriteRegStr HKLM "${SMPLAYER_DEF_PROGS_KEY}\Capabilities" "ApplicationName" "SMPlayer"
+  WriteRegStr HKLM "Software\RegisteredApplications" "SMPlayer" "${SMPLAYER_DEF_PROGS_KEY}\Capabilities"
   !insertmacro MacroAllExtensions WriteRegStrSupportedTypes
 
 FunctionEnd
@@ -967,10 +942,10 @@ SectionEnd
 
 Function un.onInit
 
-  ;Check for admin (mimic old Inno Setup behavior)
-  Call un.CheckUserRights
-
-  ${If} $Is_Admin == 0
+  ;Check for admin on < Vista
+  UserInfo::GetAccountType
+  Pop $R0
+  ${If} $R0 != "admin"
     MessageBox MB_OK|MB_ICONSTOP $(Uninstaller_No_Admin)
     Abort
   ${EndIf}

@@ -29,7 +29,7 @@
     </message>
     <message>
         <source>%1, %2 and %3</source>
-        <translation>%1, %2 i %3</translation>
+        <translation type="obsolete">%1, %2 i %3</translation>
     </message>
     <message>
         <source>Simplified-Chinese</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
         <source>%1 and %2</source>
-        <translation>%1 i %2</translation>
+        <translation type="obsolete">%1 i %2</translation>
     </message>
     <message>
         <source>Hungarian</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt;: %2</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt;: %2</translation>
+        <translation type="obsolete">&lt;b&gt;%1&lt;/b&gt;: %2</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; (%2)</source>
@@ -202,11 +202,11 @@
     </message>
     <message>
         <source>%1, %2, %3 and %4</source>
-        <translation>%1, %2, %3 i %4</translation>
+        <translation type="obsolete">%1, %2, %3 i %4</translation>
     </message>
     <message>
         <source>%1, %2, %3, %4 and %5</source>
-        <translation>%1, %2, %3, %4 i %5</translation>
+        <translation type="obsolete">%1, %2, %3, %4 i %5</translation>
     </message>
     <message>
         <source>Vietnamese</source>
@@ -251,6 +251,10 @@
     <message>
         <source>Many other people contributed with patches. See the Changelog for details.</source>
         <translation>Mnoge druge osobe su doprinijele svojim dodacima i popravcima. Pogledaj Changelog za detalje.</translation>
+    </message>
+    <message>
+        <source>Spanish</source>
+        <translation>Španjolski</translation>
     </message>
 </context>
 <context>
@@ -392,11 +396,11 @@ Do you want to overwrite?</source>
     <name>BaseGui</name>
     <message>
         <source>SMPlayer - mplayer log</source>
-        <translation>SMPlayer - mplayer log</translation>
+        <translation type="obsolete">SMPlayer - mplayer log</translation>
     </message>
     <message>
         <source>SMPlayer - smplayer log</source>
-        <translation>SMPlayer - smplayer log</translation>
+        <translation type="obsolete">SMPlayer - smplayer log</translation>
     </message>
     <message>
         <source>&amp;Open</source>
@@ -930,15 +934,15 @@ Možete podesiti u dijalogu za podešavanje koji će biti sada prikazan.</transl
     </message>
     <message>
         <source>Denoise nor&amp;mal</source>
-        <translation>Uklanjanje šuma - &amp;normal</translation>
+        <translation type="obsolete">Uklanjanje šuma - &amp;normal</translation>
     </message>
     <message>
         <source>Denoise &amp;soft</source>
-        <translation>Uklanjanje šuma - bla&amp;go</translation>
+        <translation type="obsolete">Uklanjanje šuma - bla&amp;go</translation>
     </message>
     <message>
         <source>Denoise o&amp;ff</source>
-        <translation>Uklanjanje šuma - &amp;isključeno</translation>
+        <translation type="obsolete">Uklanjanje šuma - &amp;isključeno</translation>
     </message>
     <message>
         <source>Use SSA/&amp;ASS library</source>
@@ -1351,6 +1355,69 @@ Možete podesiti u dijalogu za podešavanje koji će biti sada prikazan.</transl
         <source>The YouTube Browser couldn&apos;t be launched</source>
         <translation>Pokretanje YouTube preglednika nije uspjelo</translation>
     </message>
+    <message>
+        <source>Debanding (&amp;gradfun)</source>
+        <translation>Debanding (&amp;gradfun)</translation>
+    </message>
+    <message>
+        <source>&amp;Off</source>
+        <comment>closed captions menu</comment>
+        <translation>&amp;Isključi</translation>
+    </message>
+    <message>
+        <source>De&amp;noise</source>
+        <translation>De&amp;noise</translation>
+    </message>
+    <message>
+        <source>Blur/S&amp;harp</source>
+        <translation>Blur/S&amp;harp</translation>
+    </message>
+    <message>
+        <source>&amp;Off</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Isključi</translation>
+    </message>
+    <message>
+        <source>&amp;Normal</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Normal</translation>
+    </message>
+    <message>
+        <source>&amp;Soft</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Meko</translation>
+    </message>
+    <message>
+        <source>&amp;None</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Nikakav</translation>
+    </message>
+    <message>
+        <source>&amp;Blur</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Blur</translation>
+    </message>
+    <message>
+        <source>&amp;Sharpen</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Sharpen</translation>
+    </message>
+    <message>
+        <source>SMPlayer - MPlayer log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMPlayer - SMPlayer log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation type="unfinished">Informacije</translation>
+    </message>
+    <message>
+        <source>You need to restart SMPlayer to use the new GUI.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BaseGuiPlus</name>
@@ -1540,6 +1607,22 @@ Možete podesiti u dijalogu za podešavanje koji će biti sada prikazan.</transl
         <source>%1x%2 %3 fps</source>
         <comment>width + height + fps</comment>
         <translation>%1x%2 %3 fps</translation>
+    </message>
+    <message>
+        <source>Edit main &amp;toolbar</source>
+        <translation>Uredi glavnu alatnu  &amp;traku</translation>
+    </message>
+    <message>
+        <source>Edit &amp;control bar</source>
+        <translation>Uredi &amp;kontrolnu traku</translation>
+    </message>
+    <message>
+        <source>Edit m&amp;ini control bar</source>
+        <translation>Uredi m&amp;ini kontrolnu traku</translation>
+    </message>
+    <message>
+        <source>Edit &amp;floating control</source>
+        <translation>Uredi &amp;lebdeći panel</translation>
     </message>
 </context>
 <context>
@@ -1799,6 +1882,18 @@ Primjer: resample=44100:0:0,volnorm</translation>
         <source>volume normalization</source>
         <translation>normalizacija zvuka</translation>
     </message>
+    <message>
+        <source>gradfun</source>
+        <translation>gradfun</translation>
+    </message>
+    <message>
+        <source>blur</source>
+        <translation>zamućenje</translation>
+    </message>
+    <message>
+        <source>sharpen</source>
+        <translation>pooštrenje</translation>
+    </message>
 </context>
 <context>
     <name>FindSubtitlesConfigDialog</name>
@@ -1969,6 +2064,7 @@ Primjer: resample=44100:0:0,volnorm</translation>
         <source>%1 subtitle(s) extracted</source>
         <translation type="unfinished">
             <numerusform>%1 titl(ova) otpakirano
+        
         
         
         </numerusform>
@@ -3126,6 +3222,14 @@ Do you want to overwrite?</source>
         <source>Control bar</source>
         <translation>Kontrolna traka</translation>
     </message>
+    <message>
+        <source>Edit &amp;control bar</source>
+        <translation>Uredi &amp;kontrolnu traku</translation>
+    </message>
+    <message>
+        <source>Edit &amp;floating control</source>
+        <translation>Uredi &amp;lebdeći panel</translation>
+    </message>
 </context>
 <context>
     <name>MpcGui</name>
@@ -3140,6 +3244,10 @@ Do you want to overwrite?</source>
     <message>
         <source>+%1</source>
         <translation>+%1</translation>
+    </message>
+    <message>
+        <source>Seek bar</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3603,6 +3711,14 @@ Primjer: resample=44100:0:0,volnorm</translation>
     <message>
         <source>Show tag in&amp;fo in window title</source>
         <translation>Prikaži in&amp;formacije oznake (tag) u naslovu prozora</translation>
+    </message>
+    <message>
+        <source>MPlayer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SMPlayer</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4990,10 +5106,6 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
         <translation>Odaberi ovu opciju ako želite koristiti samo jednu pokrenutu kopiju SMPlayera istovremeno dok otvarate druge datoteke. </translation>
     </message>
     <message>
-        <source>SMPlayer needs to listen to a port to receive commands from other instances. You can change the port in case the default one is used by another application.</source>
-        <translation>SMPlayer mora slušati portove da bi primio komande za ostale instance. Možete promijeniti port u slučaju da je zadani zauzet od druge aplikacije.</translation>
-    </message>
-    <message>
         <source>Default GUI</source>
         <translation>Normalno grafičko sučelje</translation>
     </message>
@@ -5012,30 +5124,6 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     <message>
         <source>&amp;GUI</source>
         <translation>&amp;Grafičko sučelje</translation>
-    </message>
-    <message>
-        <source>Automatic port</source>
-        <translation>Automatski port</translation>
-    </message>
-    <message>
-        <source>SMPlayer needs to listen to a port to receive commands from other instances. If you select this option, a port will be automatically chosen.</source>
-        <translation>SMPlayer mora slušati portove da bi primio komande za ostale instance. Ovom opcijom port će biti automatski odabran.</translation>
-    </message>
-    <message>
-        <source>Manual port</source>
-        <translation>Ručni port</translation>
-    </message>
-    <message>
-        <source>Port to listen</source>
-        <translation>Port koji će se slušati</translation>
-    </message>
-    <message>
-        <source>&amp;Automatic</source>
-        <translation>&amp;Automatski</translation>
-    </message>
-    <message>
-        <source>&amp;Manual</source>
-        <translation>&amp;Ručno</translation>
     </message>
     <message>
         <source>Floating control</source>
@@ -6222,14 +6310,11 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
         <source>&apos;media&apos; is any kind of file that SMPlayer can open. It can be a local file, a DVD (e.g. dvd://1), an Internet stream (e.g. mms://....) or a local playlist in format m3u or pls.</source>
         <translation>&apos;medij&apos; je svaka vrsta datoteke koju SMPlayer može otvoriti. To može biti lokalna datoteka, DVD, internet streaming (npr. mms://...) ili lokalna playlista u .m3u ili .pls formatu.</translation>
     </message>
-    <message>
-        <source>Disables the server used to communicate with other instances. This disables too the possibility to use a single instance.</source>
-        <translation>Onemogućuje server koji se koristi za komunikaciju s ostalim instancama. Ovo također onemogućuje korištenje jedne instance.</translation>
-    </message>
     <message numerus="yes">
         <source>%n second(s)</source>
         <translation type="unfinished">
             <numerusform>%n sekundi
+        
         </numerusform>
         </translation>
     </message>
@@ -6237,6 +6322,7 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
         <source>%n minute(s)</source>
         <translation type="unfinished">
             <numerusform>%n minuta
+        
         </numerusform>
         </translation>
     </message>
@@ -6317,6 +6403,65 @@ For translators: don&apos;t translate this text, it will be replaced with anothe
     <message>
         <source>&amp;Jump to:</source>
         <translation>&amp;Skoči na:</translation>
+    </message>
+</context>
+<context>
+    <name>ToolbarEditor</name>
+    <message>
+        <source>Toolbar Editor</source>
+        <translation>Uređivač alatne trake</translation>
+    </message>
+    <message>
+        <source>&amp;Available actions:</source>
+        <translation>Dostupne &amp;akcije:</translation>
+    </message>
+    <message>
+        <source>&amp;Left</source>
+        <translation>&amp;Lijevo</translation>
+    </message>
+    <message>
+        <source>&amp;Right</source>
+        <translation>&amp;Desno</translation>
+    </message>
+    <message>
+        <source>&amp;Down</source>
+        <translation>&amp;Dolje</translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation>&amp;Gore</translation>
+    </message>
+    <message>
+        <source>Curre&amp;nt actions:</source>
+        <translation>Tre&amp;nutne akcije:</translation>
+    </message>
+    <message>
+        <source>Add &amp;separator</source>
+        <translation>Dodaj &amp;separator</translation>
+    </message>
+    <message>
+        <source>(separator)</source>
+        <translation>(separator)</translation>
+    </message>
+    <message>
+        <source>Time slider</source>
+        <translation>Vremenska traka</translation>
+    </message>
+    <message>
+        <source>Volume slider</source>
+        <translation>Pojačalo zvuka</translation>
+    </message>
+    <message>
+        <source>Display time</source>
+        <translation>Prikaži vrijeme</translation>
+    </message>
+    <message>
+        <source>3 in 1 rewind</source>
+        <translation>3 u 1 premotavanje</translation>
+    </message>
+    <message>
+        <source>3 in 1 forward</source>
+        <translation>3 u 1 naprijed</translation>
     </message>
 </context>
 <context>

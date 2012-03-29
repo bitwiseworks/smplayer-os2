@@ -49,14 +49,9 @@ void MediaData::reset() {
 
 	subs.clear();
 
-#if GENERIC_CHAPTER_SUPPORT
-	chapters = 0;
-#else
-	//chapters=0;
-	//angles=0;
+	chapters.clear();
 
-	mkv_chapters=0;
-#endif
+	n_chapters = 0;
 
 	initialized=false;
 
@@ -119,11 +114,7 @@ void MediaData::list() {
 
 	qDebug("  initialized: %d", initialized);
 
-#if GENERIC_CHAPTER_SUPPORT
-	qDebug("  chapters: %d", chapters);
-#else
-	qDebug("  mkv_chapters: %d", mkv_chapters);
-#endif
+	qDebug("  chapters: %d", n_chapters);
 
 	qDebug("  Subs:");
 	subs.list();
