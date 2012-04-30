@@ -783,10 +783,15 @@ void Core::openStream(QString name) {
 	qDebug("Core::openStream: '%s'", name.toUtf8().data());
 
 #ifdef YOUTUBE_SUPPORT
-	if (name.contains("youtube.com/watch", Qt::CaseInsensitive)) {
+	if (name.contains("youtube.com/watch", Qt::CaseInsensitive) || 
+        name.contains("youtu.be/", Qt::CaseInsensitive) ||
+        name.contains("y2u.be/", Qt::CaseInsensitive) )
+	{
 		qDebug("Core::openStream: youtube url detected");
 		if (name.startsWith("www.youtube.com")) name = "http://" + name;
 		if (name.startsWith("youtube.com")) name = "http://www." + name;
+		if (name.startsWith("youtu.be")) name = "http://" + name;
+		if (name.startsWith("y2u.be")) name = "http://" + name;
 		yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
 		yt->fetchPage(name);
 		return;
@@ -3452,28 +3457,36 @@ void Core::changeTitle(int ID) {
 void Core::changeChapter(int ID) {
 	qDebug("Core::changeChapter: ID: %d", ID);
 
-	if (ID != mset.current_chapter_id) {
-		//if (QFileInfo(mdat.filename).extension().lower()=="mkv") {
-		if (mdat.type != TYPE_DVD) {
+	if (mdat.type != TYPE_DVD) {
+		/*
+		if (mdat.chapters.find(ID) > -1) {
+			double start = mdat.chapters.item(ID).start();
+			qDebug("Core::changeChapter: start: %f", start);
+			goToSec(start);
+			mset.current_chapter_id = ID;
+		} else {
+		*/
+			tellmp("seek_chapter " + QString::number(ID) +" 1");
+			mset.current_chapter_id = ID;
+			//updateWidgets();
+		/*
+		}
+		*/
+	} else {
+#if SMART_DVD_CHAPTERS
+		if (pref->cache_for_dvds == 0) {
+#else
+		if (pref->fast_chapter_change) {
+#endif
 			tellmp("seek_chapter " + QString::number(ID) +" 1");
 			mset.current_chapter_id = ID;
 			updateWidgets();
 		} else {
-#if SMART_DVD_CHAPTERS
-			if (pref->cache_for_dvds == 0) {
-#else
-			if (pref->fast_chapter_change) {
-#endif
-				tellmp("seek_chapter " + QString::number(ID) +" 1");
-				mset.current_chapter_id = ID;
-				updateWidgets();
-			} else {
-				stopMplayer();
-				mset.current_chapter_id = ID;
-				//goToPos(0);
-				mset.current_sec = 0;
-				restartPlay();
-			}
+			stopMplayer();
+			mset.current_chapter_id = ID;
+			//goToPos(0);
+			mset.current_sec = 0;
+			restartPlay();
 		}
 	}
 }
@@ -3492,25 +3505,34 @@ void Core::prevChapter() {
 	int last_chapter = 0;
 	int first_chapter = firstChapter();
 
-	last_chapter = mdat.n_chapters + firstChapter() - 1;
+	int ID = mdat.chapters.itemBeforeTime(mset.current_sec).ID();
 
-	int ID = mset.current_chapter_id - 1;
-	if (ID < first_chapter) {
-		ID = last_chapter;
+	if (ID == -1) {
+		last_chapter = mdat.n_chapters + firstChapter() - 1;
+
+		ID = mset.current_chapter_id - 1;
+		if (ID < first_chapter) {
+			ID = last_chapter;
+		}
 	}
+
 	changeChapter(ID);
 }
 
 void Core::nextChapter() {
 	qDebug("Core::nextChapter");
 
-	int last_chapter = 0;
-	last_chapter = mdat.n_chapters + firstChapter() - 1;
+	int last_chapter = mdat.n_chapters + firstChapter() - 1;
 
-	int ID = mset.current_chapter_id + 1;
-	if (ID > last_chapter) {
-		ID = firstChapter();
+	int ID = mdat.chapters.itemAfterTime(mset.current_sec).ID();
+
+	if (ID == -1) {
+		ID = mset.current_chapter_id + 1;
+		if (ID > last_chapter) {
+			ID = firstChapter();
+		}
 	}
+
 	changeChapter(ID);
 }
 
