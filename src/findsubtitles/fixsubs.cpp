@@ -16,29 +16,36 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _LANGUAGES_H_
-#define _LANGUAGES_H_
+#include "fixsubs.h"
+#include <QFile>
 
-#include <QObject>
-#include <QMap>
+FixSubtitles::ErrorCode FixSubtitles::fix(const QString & in_file, const QString & out_file) {
+	QFile file(in_file);
+	QByteArray result;
 
-class Languages : public QObject
-{
-	Q_OBJECT
+	if (!file.open(QIODevice::ReadOnly)) {
+		return ReadError;
+	}
 
-public:
+	while (!file.atEnd()) {
+		QByteArray line = file.readLine().replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\r\n");
+		//qDebug("l: '%s'", line.constData());
+		result += line;
+	}
+	file.close();
+	//qDebug("r: '%s'", result.constData());
 
-	//! Returns the ISO_639-1 language list
-	static QMap<QString,QString> list();
+	QString out = out_file;
+	if (out.isEmpty()) out = in_file;
+	file.setFileName(out);
 
-	//! List with the most used languages
-	static QMap<QString,QString> most_used_list();
+	if (!file.open(QIODevice::WriteOnly)) {
+		return WriteError;
+	}
 
-	//! Returns the list of translations available
-	static QMap<QString,QString> translations();
+	file.write(result);
+	file.close();
 
-	static QMap<QString,QString> encodings();
-};
-
-#endif
+	return NoError;
+}
 

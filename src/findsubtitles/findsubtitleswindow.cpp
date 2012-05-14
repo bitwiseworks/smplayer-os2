@@ -39,6 +39,7 @@
 #include "subchooserdialog.h"
 #include "quazip.h"
 #include "quazipfile.h"
+#include "fixsubs.h"
 #include <QTemporaryFile>
 #include <QBuffer>
 #endif
@@ -129,11 +130,13 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	include_lang_on_filename = true;
 
 	file_downloader = new FileDownloader(this);
-        file_downloader->setModal(false);
+	file_downloader->setModal(false);
 	connect( file_downloader, SIGNAL(downloadFailed(QString)),
              this, SLOT(showError(QString)), Qt::QueuedConnection );
 	connect( file_downloader, SIGNAL(downloadFinished(const QByteArray &)),
              this, SLOT(archiveDownloaded(const QByteArray &)), Qt::QueuedConnection );
+	connect( this, SIGNAL(subtitleDownloaded(const QString &)),
+             this, SLOT(fixSubtitles(const QString &)) );
 #endif
 
 	// Actions
@@ -203,14 +206,31 @@ void FindSubtitlesWindow::retranslateStrings() {
 	QString current_language = language_filter->itemData(language_filter->currentIndex()).toString();
 	language_filter->clear();
 
-	QMap<QString,QString> l = Languages::list();
-	QMapIterator<QString, QString> i(l);
-	while (i.hasNext()) {
-		i.next();
-		language_filter->addItem( i.value() + " (" + i.key() + ")", i.key() );
+	QMap<QString,QString> l1 = Languages::most_used_list();
+	QMapIterator<QString, QString> i1(l1);
+	while (i1.hasNext()) {
+		i1.next();
+		language_filter->addItem( i1.value() + " (" + i1.key() + ")", i1.key() );
 	}
+	language_filter->addItem( tr("Portuguese - Brasil") + " (pb)", "pb");
 	language_filter->model()->sort(0);
+	#if QT_VERSION >= 0x040400
+	language_filter->insertSeparator(language_filter->count());
+	#endif
+
+	QMap<QString,QString> l2 = Languages::list();
+	QMapIterator<QString, QString> i2(l2);
+	while (i2.hasNext()) {
+		i2.next();
+		if (language_filter->findData(i2.key()) == -1) {
+			language_filter->addItem( i2.value() + " (" + i2.key() + ")", i2.key() );
+		}
+	}
+	//language_filter->model()->sort(0);
 	language_filter->insertItem( 0, tr("All"), "*" );
+	#if QT_VERSION >= 0x040400
+	language_filter->insertSeparator(1);
+	#endif
 	//language_filter->setCurrentIndex(language_index);
 	language_filter->setCurrentIndex(language_filter->findData(current_language));
 
@@ -545,7 +565,7 @@ bool FindSubtitlesWindow::uncompressZip(const QString & filename, const QString 
 			qDebug("FindSubtitlesWindow::uncompressZip: extracted %s ok: %d", file.toUtf8().constData(), ok);
 			if (ok) extracted_count++;
 		}
-		status->setText(tr("%1 subtitle(s) extracted","", extracted_count).arg(extracted_count));
+		status->setText(tr("%n subtitle(s) extracted","", extracted_count));
 		if (extracted_count > 0) {
 			emit subtitleDownloaded( output_path +"/"+ files_to_extract[0] );
 		}
@@ -595,6 +615,19 @@ bool FindSubtitlesWindow::extractFile(QuaZip & zip, const QString & filename, co
 	}
 
 	return true;
+}
+
+void FindSubtitlesWindow::fixSubtitles(const QString & filename) {
+	qDebug("FindSubtitlesWindow::fixSubtitles: %s", filename.toUtf8().constData());
+
+	QFileInfo fi(filename);
+	if (fi.suffix().toLower() == "sub") {
+		qDebug("FindSubtitlesWindow::fixSubtitles: fixing end of lines");
+		if (FixSubtitles::fix(filename) != FixSubtitles::NoError) {
+			status->setText( tr("Error fixing the subtitle lines") );
+			qDebug("FindSubtitlesWindow::fixSubtitles: error fixing the subtitles");
+		}
+	}
 }
 
 #endif

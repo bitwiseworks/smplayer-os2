@@ -209,7 +209,7 @@ return
 
 deleteall: /* delete installDir (including subdirs) except zip files */
 
-    say "Delete the all files except *zip in " installDir
+    say "Delete all files except *zip in " installDir
     ok = SysFileTree(installDir||'\*', rm.,'FOS')
     do i = 1 to rm.0
        if translate(right(rm.i, 3)) \== 'ZIP' then do

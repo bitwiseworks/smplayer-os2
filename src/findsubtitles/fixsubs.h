@@ -16,28 +16,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _LANGUAGES_H_
-#define _LANGUAGES_H_
+#ifndef FIXSUBS_H
+#define FIXSUBS_H
 
-#include <QObject>
-#include <QMap>
+#include <QString>
 
-class Languages : public QObject
+class FixSubtitles
 {
-	Q_OBJECT
-
 public:
-
-	//! Returns the ISO_639-1 language list
-	static QMap<QString,QString> list();
-
-	//! List with the most used languages
-	static QMap<QString,QString> most_used_list();
-
-	//! Returns the list of translations available
-	static QMap<QString,QString> translations();
-
-	static QMap<QString,QString> encodings();
+	enum ErrorCode { NoError = 0, ReadError = 1, WriteError = 2 };
+	static ErrorCode fix(const QString & in_file, const QString & out_file = QString::null);
 };
 
 #endif
