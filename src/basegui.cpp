@@ -308,12 +308,6 @@ void BaseGui::createActions() {
 	connect( openAudioCDAct, SIGNAL(triggered()),
              this, SLOT(openAudioCD()) );
 
-#ifdef Q_OS_WIN
-	// VCD's and Audio CD's seem they don't work on windows
-	//openVCDAct->setEnabled(pref->enable_vcd_on_windows);
-	openAudioCDAct->setEnabled(pref->enable_audiocd_on_windows);
-#endif
-
 	openDVDAct = new MyAction( this, "open_dvd" );
 	connect( openDVDAct, SIGNAL(triggered()),
              this, SLOT(openDVD()) );
@@ -1902,6 +1896,9 @@ void BaseGui::createCore() {
 	connect( core, SIGNAL(mediaStoppedByUser()),
              this, SLOT(exitFullscreenOnStop()) );
 
+	connect( core, SIGNAL(mediaStoppedByUser()),
+             mplayerwindow, SLOT(showLogo()) );
+
 	connect( core, SIGNAL(mediaLoaded()),
              this, SLOT(enableActionsOnPlaying()) );
 #if NOTIFY_AUDIO_CHANGES
@@ -1966,6 +1963,10 @@ void BaseGui::createMplayerWindow() {
 	mplayerwindow->setColorKey( pref->color_key );
 #endif
 	mplayerwindow->allowVideoMovement( pref->allow_video_movement );
+
+#if LOGO_ANIMATION
+	mplayerwindow->setAnimatedLogo( pref->animated_logo);
+#endif
 
 	QHBoxLayout * layout = new QHBoxLayout;
 	layout->setSpacing(0);
@@ -2060,6 +2061,10 @@ void BaseGui::createPlaylist() {
 	*/
 	connect( playlist, SIGNAL(playlistEnded()),
              this, SLOT(playlistHasFinished()) );
+
+	connect( playlist, SIGNAL(playlistEnded()),
+             mplayerwindow, SLOT(showLogo()) );
+
 	/*
 	connect( playlist, SIGNAL(visibilityChanged()),
              this, SLOT(playlistVisibilityChanged()) );
@@ -3089,6 +3094,10 @@ void BaseGui::updateRecents() {
 
 			// Let's see if it looks like a file (no dvd://1 or something)
 			if (fullname.indexOf(QRegExp("^.*://.*")) == -1) filename = fi.fileName();
+
+			if (filename.size() > 85) {
+				filename = filename.left(80) + "...";
+			}
 
 			QAction * a = recentfiles_menu->addAction( QString("%1. " + filename ).arg( i.insert( i.size()-1, '&' ), 3, ' ' ));
 			a->setStatusTip(fullname);

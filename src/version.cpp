@@ -20,16 +20,32 @@
 
 #define USE_SVN_VERSIONS 0
 
-#define VERSION "0.8.0"
+#define VERSION "0.8.1"
 
 #if USE_SVN_VERSIONS
 #include "svn_revision.h"
 #endif
 
+#ifdef Q_OS_WIN
+#if defined( _WIN64 )
+#define SMPWIN_ARCH "(64-bit)"
+#elif defined( _WIN32 )
+#define SMPWIN_ARCH "(32-bit)"
+#endif
+#endif
+
 QString smplayerVersion() {
 #if USE_SVN_VERSIONS
-	return QString(QString(VERSION) + "+" + QString(SVN_REVISION));
+#ifdef Q_OS_WIN
+    return QString(QString(VERSION) + "+" + QString(SVN_REVISION) + " " + QString(SMPWIN_ARCH));
 #else
-	return QString(VERSION);
+    return QString(QString(VERSION) + "+" + QString(SVN_REVISION));
+#endif
+#else
+#ifdef Q_OS_WIN
+    return QString(QString(VERSION) + " " + QString(SMPWIN_ARCH));
+#else
+    return QString(VERSION);
+#endif
 #endif
 }

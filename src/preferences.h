@@ -67,6 +67,8 @@ public:
        General
        ******* */
 
+	int config_version;
+
 	QString mplayer_bin;
 	QString vo; // video output
 	QString ao; // audio output
@@ -179,6 +181,7 @@ public:
 
 #ifdef YOUTUBE_SUPPORT
 	int yt_quality;
+	QString yt_user_agent;
 #endif
 
 
@@ -384,6 +387,10 @@ public:
 	bool auto_add_to_playlist; //!< Add files to open to playlist
 	bool add_to_playlist_consecutive_files;
 
+#if LOGO_ANIMATION
+	bool animated_logo;
+#endif
+
 
     /* ********
        TV (dvb)
@@ -401,7 +408,7 @@ public:
 
 	QString latest_dir; //!< Directory of the latest file loaded
 	QString last_dvd_directory;
-
+	bool save_dirs; // Save or not the latest dirs
 
     /* **************
        Initial values
