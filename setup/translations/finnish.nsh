@@ -11,6 +11,7 @@ ${LangFileString} Installer_Is_Running "The installer is already running."
 ${LangFileString} Installer_No_Admin "You must be logged in as an administrator when installing this program."
 ${LangFileString} SMPlayer_Is_Running "An instance of SMPlayer is running. Please exit SMPlayer and try again."
 
+${LangFileString} OS_Not_Supported "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows XP and may not work correctly on your system.$\nDo you really want to continue with the installation?"
 ${LangFileString} Win64_Required "A 64-bit Windows operating system is required to install this software."
 ${LangFileString} Existing_32bitInst "An existing 32-bit installation of SMPlayer exists. You must uninstall 32-bit SMPlayer first."
 ${LangFileString} Existing_64bitInst "An existing 64-bit installation of SMPlayer exists. You must uninstall 64-bit SMPlayer first."
@@ -29,11 +30,7 @@ ${LangFileString} Section_StartMenu "Start Menu"
 ${LangFileString} Section_StartMenu_Desc "Create a Start Menu entry for SMPlayer."
 
 ${LangFileString} Section_MPlayer "MPlayer (required)"
-!ifdef WITH_MPLAYER
 ${LangFileString} Section_MPlayer_Desc "MPlayer; required for playback."
-!else ifndef WITH_MPLAYER
-${LangFileString} Section_MPlayer_Desc "MPlayer; required for playback. (Internet Connection required for installation)"
-!endif
 
 ${LangFileString} Section_MPlayerCodecs "Binary Codecs"
 !ifdef WITH_CODECS
@@ -91,6 +88,7 @@ ${LangFileString} VerInfo_DL_Failed "Failed to download version info: '$R0'. Usi
 ${LangFileString} Uninstaller_No_Admin "This installation can only be uninstalled by a user with administrator privileges."
 ${LangFileString} Uninstaller_Aborted "Uninstall aborted by user."
 ${LangFileString} Uninstaller_NotInstalled "It does not appear that SMPlayer is installed in the directory '$INSTDIR'.$\r$\nContinue anyway (not recommended)?"
+${LangFileString} Uninstaller_64bitOnly "This installation can only be uninstalled on 64-bit Windows."
 
 ; Vista & Later Default Programs Registration
 ${LangFileString} Application_Description "SMPlayer is a complete front-end for MPlayer, from basic features like playing videos, DVDs, VCDs to more advanced features like support for MPlayer filters, edl lists, and more."

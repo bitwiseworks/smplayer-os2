@@ -26,8 +26,6 @@ RetrieveYoutubeUrl::RetrieveYoutubeUrl( QObject* parent ) : SimpleHttp(parent)
 			this, SLOT(parse(QByteArray)));
 
 	preferred_quality = FLV_360p;
-
-	setUserAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)");
 }
 
 RetrieveYoutubeUrl::~RetrieveYoutubeUrl() {
@@ -56,7 +54,7 @@ void RetrieveYoutubeUrl::parse(QByteArray text) {
 
     QRegExp regex("\\\"url_encoded_fmt_stream_map\\\"\\s*:\\s*\\\"([^\\\"]*)");
     regex.indexIn(replyString);
-    QString fmtArray = regex.cap(1);    
+    QString fmtArray = regex.cap(1);
     fmtArray = sanitizeForUnicodePoint(fmtArray);
     fmtArray.replace(QRegExp("\\\\(.)"), "\\1");
     htmlDecode(fmtArray);
@@ -64,9 +62,13 @@ void RetrieveYoutubeUrl::parse(QByteArray text) {
     QStringList::iterator stIt = codeList.begin();
     foreach(QString code, codeList)
     {
-        code.remove(0, 4);
         QUrl url(code);
-        urlMap[url.queryItemValue("itag").toInt()] = code.remove(QRegExp("&itag=\\d+$"));
+        int itag = url.queryItemValue("itag").toInt();
+        //qDebug("itag: %d", itag);
+        code.remove(QRegExp("itag=(\\d+)&url="));
+        code.replace("&sig=", "&signature=");
+        urlMap[itag] = code;
+        //qDebug("code: '%s'", code.toUtf8().constData());
     }
 
 	qDebug("RetrieveYoutubeUrl::parse: url count: %d", urlMap.count());

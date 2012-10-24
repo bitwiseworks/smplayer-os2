@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 28, 2008
-zuletzt geÑndert am 14.05.2012
+zuletzt geÑndert am 24.10.2012
 
 0. INHALT DIESER DATEI
 ======================
@@ -307,6 +307,9 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 
 8. ENTWICKLUNGSGESCHICHTE
 =========================
+
+2012-10-24
+  * updated to SMPlayer version 0.8.1
 
 2012-05-14
   * updated to SMPlayer version 0.8.0

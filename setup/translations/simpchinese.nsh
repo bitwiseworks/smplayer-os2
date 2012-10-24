@@ -11,9 +11,10 @@ ${LangFileString} Installer_Is_Running "安装程序已经运行。"
 ${LangFileString} Installer_No_Admin "安装本程序时，您必须以管理员身份登录。"
 ${LangFileString} SMPlayer_Is_Running "一个 SMPlayer 实例正在运行。请退出 SMPlayer，然后再试一次。"
 
-${LangFileString} Win64_Required "A 64-bit Windows operating system is required to install this software."
-${LangFileString} Existing_32bitInst "An existing 32-bit installation of SMPlayer exists. You must uninstall 32-bit SMPlayer first."
-${LangFileString} Existing_64bitInst "An existing 64-bit installation of SMPlayer exists. You must uninstall 64-bit SMPlayer first."
+${LangFileString} OS_Not_Supported "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows XP and may not work correctly on your system.$\nDo you really want to continue with the installation?"
+${LangFileString} Win64_Required "安装本软件需要 64 位 Windows 操作系统。"
+${LangFileString} Existing_32bitInst "一个 SMPlayer 的 32 位安装已经存在。您必须先卸载 32 位 SMPlayer。"
+${LangFileString} Existing_64bitInst "一个 SMPlayer 的 64 位安装已经存在。您必须先卸载 64 位 SMPlayer。"
 
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "快捷方式"
@@ -29,11 +30,7 @@ ${LangFileString} Section_StartMenu "开始菜单"
 ${LangFileString} Section_StartMenu_Desc "创建 SMPlayer 开始菜单项。"
 
 ${LangFileString} Section_MPlayer "MPlayer (必需)"
-!ifdef WITH_MPLAYER
 ${LangFileString} Section_MPlayer_Desc "播放媒体文件所必需的 MPlayer 内核。"
-!else ifndef WITH_MPLAYER
-${LangFileString} Section_MPlayer_Desc "播放媒体文件所必需的 MPlayer 内核。(安装需要使用网络连接)"
-!endif
 
 ${LangFileString} Section_MPlayerCodecs "二进制编解码器"
 !ifdef WITH_CODECS
@@ -91,6 +88,7 @@ ${LangFileString} VerInfo_DL_Failed "无法下载版本信息: '$R0'。将使用
 ${LangFileString} Uninstaller_No_Admin "本安装只能由具有管理员权限的用户卸载。"
 ${LangFileString} Uninstaller_Aborted "卸载由用户中止。"
 ${LangFileString} Uninstaller_NotInstalled "没有发现 SMPlayer 被安装在目录 '$INSTDIR' 中。$\r$\n仍要继续吗? (不推荐)"
+${LangFileString} Uninstaller_64bitOnly "本安装只能在 64 位 Windows 中卸载。"
 
 ; Vista & Later Default Programs Registration
 ${LangFileString} Application_Description "SMPlayer 是一个从播放视频、DVD、VCD 等基本特性到支持 MPlayer 过滤器、EDL 列表等高级特性的完整 MPlayer 前端程序。"

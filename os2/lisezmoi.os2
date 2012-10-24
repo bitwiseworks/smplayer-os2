@@ -3,7 +3,7 @@ SMPlayer _VERSION_ _BUILD_ LISEZMOI
 Document original....: (W) Christian Hennecke, Oct 5, 2009
 Derniäre mise Ö jour.: 2012-03-19
 Traduction franáaise.: Guillaume Gay <guillaume.gay@bigfoot.com>
-Version..............: 2012-05-14
+Version..............: 2012-10-24
 
 
 0. CONTENU DU FICHIER
@@ -337,6 +337,9 @@ suivantes :
 
 8. HISTORIQUE DES VERSIONS
 ==========================
+
+2012-10-24
+  * Mise Ö jour Ö la version 0.8.1 de SMPlayer
 
 2012-05-14
   * Mise Ö jour Ö la version 0.8.0 de SMPlayer
