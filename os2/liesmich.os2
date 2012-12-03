@@ -119,6 +119,12 @@ Qt4 dll
      readme.xsystray beschrieben
 
 
+Zlib
+----
+
+  1. yum install zlib
+
+
 2.1.b ZIP Installation
 ----------------------
 
@@ -143,6 +149,12 @@ Qt4 dll
   2. Die Dateien anhand des readme installieren
   3. Installieren Sie das xsystray plugin wie in der readme.os2 und auch in der
      readme.xsystray beschrieben
+
+Zlib
+----
+
+  1. Download zlib von http://rpm.netlabs.org/release/00/zip
+  2. Entpacken und installieren von z.dll in den libpath z.B. x:\ecs\dll
 
 
 2.2 MPlayer, Win32 Codecs
@@ -307,6 +319,9 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 
 8. ENTWICKLUNGSGESCHICHTE
 =========================
+
+2012-12-03
+  * updated to SMPlayer version 0.8.2
 
 2012-10-24
   * updated to SMPlayer version 0.8.1

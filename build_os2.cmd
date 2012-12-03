@@ -14,10 +14,11 @@
 /* version 0.3.0 from 24.12.2011 Silvan (added shadow build) */
 /* version 0.3.1 from 16.03.2012 Silvan (get the version from version.cpp) */
 /* version 0.3.2 from 29.03.2012 Silvan (don't delete the installdir completely) */
+/* version 0.3.3 from 03.12.2012 Silvan (include skinn support) */
 
 /* init the version string (don't forget to change) */
-version = "0.3.2"
-version_date = "29.03.2012"
+version = "0.3.3"
+version_date = "03.12.2012"
 '@echo off'
 
 parse arg command option
@@ -30,8 +31,10 @@ buildDir    = strip(directory(),'T','\') /* Make sure we have no trailing backsl
 sourceDir = FixDir(filespec('D', scriptFile) || filespec('P', scriptFile))
 os2Dir     = sourceDir || '\os2'
 srcDir     = sourceDir || '\src'
+skinDir    = '..\skins\themes'
 installDir = buildDir || '\install'
 installDirT= installDir || '\translations'
+installDirS= installDir || '\themes'
 qErrorFile = buildDir||'\qmake.err'
 qOutFile   = buildDir||'\qmake.out'
 mErrorFile = buildDir||'\make.err'
@@ -47,6 +50,7 @@ say title
 say
 say "Build directory:" buildDir
 say "Source directory:" sourceDir
+say "Skin directory:" skinDir
 say
 say "SMPlayer version:" SMPlayer_version
 say
@@ -117,9 +121,14 @@ select
 /* create the installDir,and the translation subdir */
 	ok = SysMkDir(installDir)
 	ok = SysMkDir(installDirT)
+	ok = SysMkDir(installDirS)
 
 /* copy the exe */
 	ok = SysCopyObject(buildDir||'\src\smplayer.exe',installDir)
+
+/* copy the skins */
+	cmdtorun = 'xcopy ' || skinDir || '\* ' || installDirS || ' /s' 
+        address cmd cmdtorun
 
 /* copy the readme */
 	rm.0 = 3

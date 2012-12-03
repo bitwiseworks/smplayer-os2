@@ -744,9 +744,9 @@ void BaseGui::createActions() {
 	connect( showCheckUpdatesAct, SIGNAL(triggered()),
              this, SLOT(helpCheckUpdates()) );
 
-	donateAct = new MyAction( this, "donate" );
-	connect( donateAct, SIGNAL(triggered()),
-             this, SLOT(helpDonate()) );
+	showConfigAct = new MyAction( this, "show_config" );
+	connect( showConfigAct, SIGNAL(triggered()),
+             this, SLOT(helpShowConfig()) );
 
 	aboutQtAct = new MyAction( this, "about_qt" );
 	connect( aboutQtAct, SIGNAL(triggered()),
@@ -954,6 +954,8 @@ void BaseGui::createActions() {
 	channelsStereoAct = new MyActionGroupItem(this, channelsGroup, "channels_stereo", MediaSettings::ChStereo);
 	channelsSurroundAct = new MyActionGroupItem(this, channelsGroup, "channels_surround", MediaSettings::ChSurround);
 	channelsFull51Act = new MyActionGroupItem(this, channelsGroup, "channels_ful51", MediaSettings::ChFull51);
+	channelsFull61Act = new MyActionGroupItem(this, channelsGroup, "channels_ful61", MediaSettings::ChFull61);
+	channelsFull71Act = new MyActionGroupItem(this, channelsGroup, "channels_ful71", MediaSettings::ChFull71);
 	connect( channelsGroup, SIGNAL(activated(int)),
              core, SLOT(setAudioChannels(int)) );
 
@@ -1555,7 +1557,7 @@ void BaseGui::retranslateStrings() {
 	showFAQAct->change( Images::icon("faq"), tr("&FAQ") );
 	showCLOptionsAct->change( Images::icon("cl_help"), tr("&Command line options") );
 	showCheckUpdatesAct->change( Images::icon("check_updates"), tr("Check for &updates") );
-	donateAct->change( Images::icon("donate"), tr("&Donate") );
+	showConfigAct->change( Images::icon("show_config"), tr("&Open configuration folder") );
 	aboutQtAct->change( QPixmap(":/icons-png/qt.png"), tr("About &Qt") );
 	aboutThisAct->change( Images::icon("logo_small"), tr("About &SMPlayer") );
 
@@ -1760,6 +1762,8 @@ void BaseGui::retranslateStrings() {
 	channelsStereoAct->change( tr("&Stereo") );
 	channelsSurroundAct->change( tr("&4.0 Surround") );
 	channelsFull51Act->change( tr("&5.1 Surround") );
+	channelsFull61Act->change( tr("&6.1 Surround") );
+	channelsFull71Act->change( tr("&7.1 Surround") );
 
 	stereoAct->change( tr("&Stereo") );
 	leftChannelAct->change( tr("&Left channel") );
@@ -1968,7 +1972,7 @@ void BaseGui::createMplayerWindow() {
 	mplayerwindow->setAnimatedLogo( pref->animated_logo);
 #endif
 
-	QHBoxLayout * layout = new QHBoxLayout;
+	QVBoxLayout * layout = new QVBoxLayout;
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	layout->addWidget(mplayerwindow);
@@ -1995,6 +1999,8 @@ void BaseGui::createMplayerWindow() {
              this, SLOT(xbutton2ClickFunction()) );
 	connect( mplayerwindow, SIGNAL(mouseMoved(QPoint)),
              this, SLOT(checkMousePos(QPoint)) );
+	connect( mplayerwindow, SIGNAL(mouseMovedDiff(QPoint)),
+             this, SLOT(moveWindow(QPoint)));
 }
 
 void BaseGui::createVideoEqualizer() {
@@ -2483,7 +2489,7 @@ void BaseGui::createMenus() {
 	helpMenu->addAction(showFAQAct);
 	helpMenu->addAction(showCLOptionsAct);
 	helpMenu->addAction(showCheckUpdatesAct);
-	helpMenu->addAction(donateAct);
+	helpMenu->addAction(showConfigAct);
 	helpMenu->addSeparator();
 	helpMenu->addAction(aboutQtAct);
 	helpMenu->addAction(aboutThisAct);
@@ -3694,13 +3700,8 @@ void BaseGui::helpCheckUpdates() {
 	QDesktopServices::openUrl( QUrl(url) );
 }
 
-void BaseGui::helpDonate() {
-	QMessageBox d(QMessageBox::NoIcon, tr("Donate"), 
-		tr("If you like SMPlayer, a really good way to support it is by sending a donation, even the smallest one is highly appreciated.") + "<br>" +
-        tr("You can send your donation using %1.").arg("<a href=\"https://sourceforge.net/donate/index.php?group_id=185512\">"+tr("this form")),
-		QMessageBox::Ok, this);
-	d.setIconPixmap( Images::icon("logo", 64) );
-	d.exec();
+void BaseGui::helpShowConfig() {
+	QDesktopServices::openUrl(QUrl::fromLocalFile(Paths::configPath()));
 }
 
 void BaseGui::helpAbout() {
@@ -4169,6 +4170,8 @@ void BaseGui::exitFullscreenOnStop() {
 
 void BaseGui::playlistHasFinished() {
 	qDebug("BaseGui::playlistHasFinished");
+	core->stop();
+
 	exitFullscreenOnStop();
 
 	qDebug("BaseGui::playlistHasFinished: arg_close_on_finish: %d, pref->close_on_finish: %d", arg_close_on_finish, pref->close_on_finish);
@@ -4470,6 +4473,13 @@ void BaseGui::loadQss(QString filename) {
 	file.open(QFile::ReadOnly);
 	QString styleSheet = QLatin1String(file.readAll());
 
+	QDir current = QDir::current();
+	QString td = Images::themesDirectory();
+	QString relativePath = current.relativeFilePath(td);
+	styleSheet.replace(QRegExp("url\\s*\\(\\s*([^\\);]+)\\s*\\)", Qt::CaseSensitive, QRegExp::RegExp2),
+						QString("url(%1\\1)").arg(relativePath + "/"));
+	qDebug("styeSheet: %s", styleSheet.toUtf8().constData());
+
 	qApp->setStyleSheet(styleSheet);
 }
 
@@ -4515,6 +4525,12 @@ void BaseGui::saveActions() {
 #endif
 }
 
+void BaseGui::moveWindow(QPoint diff) {
+	if (pref->fullscreen || isMaximized()) {
+		return;
+	}
+	move(pos() + diff);
+}
 
 void BaseGui::showEvent( QShowEvent * ) {
 	qDebug("BaseGui::showEvent");

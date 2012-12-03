@@ -123,6 +123,11 @@ Qt4 dll
   2. Installez l'extension xsystray suivant les instructions figurant
      dans readme.os2 ainsi que dans readme.xsystray. 
 
+Zlib
+----
+
+  1. yum install zlib
+
 
 2.1.b ZIP Installation
 ----------------------
@@ -153,6 +158,14 @@ Qt4 dll
   2. Extrayez les fichiers selon les instructions du fichier readme. 
   3. Installez l'extension xsystray suivant les instructions figurant
      dans le fichier readme.os2 ou le fichier readme.xsystray. 
+
+Zlib
+----
+
+  1. T‚l‚chargez zlib depuis http://rpm.netlabs.org/release/00/zip
+  2. Extrayez z.dll dans un r‚pertoire figurant dans
+     LIBPATH, de pr‚f‚rence x:\ecs\dll ou x:\os2\dll o— x: repr‚sente
+     l'unit‚ d'amor‡age du systŠme. 
 
 
 2.2 MPlayer, WIN32 codecs
@@ -337,6 +350,9 @@ suivantes :
 
 8. HISTORIQUE DES VERSIONS
 ==========================
+
+2012-12-03
+  * Mise … jour … la version 0.8.2 de SMPlayer
 
 2012-10-24
   * Mise … jour … la version 0.8.1 de SMPlayer

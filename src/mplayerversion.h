@@ -25,7 +25,7 @@
 #define MPLAYER_1_0_RC2_SVN 24722
 #define MPLAYER_1_0_RC3_SVN 31272
 #define MPLAYER_1_0_RC4_SVN 33472
-#define MPLAYER_1_1_SVN 34647
+#define MPLAYER_1_1 34992
 
 class MplayerVersion {
 public:
