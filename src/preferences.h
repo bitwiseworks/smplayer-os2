@@ -295,6 +295,8 @@ public:
 	//! Show file tag in window title
 	bool show_tag_in_window_title;
 
+	int time_to_kill_mplayer;
+
 
 	/* *********
 	   GUI stuff
@@ -491,7 +493,18 @@ public:
        Filters
        ******* */
 	Filters * filters;
+
+
+    /* *********
+       SMPlayer info
+       ********* */
+
+#ifdef FONTCACHE_DIALOG
+	QString smplayer_version;
+#endif
+
 };
+
 Q_DECLARE_OPERATORS_FOR_FLAGS(Preferences::WheelFunctions)
 
 #endif

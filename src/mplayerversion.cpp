@@ -36,6 +36,7 @@ int MplayerVersion::mplayerVersion(QString string) {
 	static QRegExp rx_mplayer2_version("^MPlayer2 (.*) \\(C\\).*", Qt::CaseInsensitive);
 #ifndef Q_OS_WIN
 	static QRegExp rx_mplayer_version_ubuntu("^MPlayer (\\d):(\\d)\\.(\\d)~(.*)");
+	static QRegExp rx_mplayer_revision_ubuntu("^MPlayer svn r(\\d+) (.*)");
 	static QRegExp rx_mplayer_version_mandriva("^MPlayer ([a-z0-9\\.]+)-\\d+\\.([a-z0-9]+)\\.[\\d\\.]+[a-z]+[\\d\\.]+-(.*)");
 #endif
 
@@ -59,6 +60,14 @@ int MplayerVersion::mplayerVersion(QString string) {
 		string = QString("MPlayer %1.%2%3").arg(v1).arg(v2).arg(rest);
 		qDebug("MplayerVersion::mplayerVersion: line converted to '%s'", string.toUtf8().data());
 	}
+	else
+	if (rx_mplayer_revision_ubuntu.indexIn(string) > -1) {
+		int svn = rx_mplayer_revision_ubuntu.cap(1).toInt();
+		QString rest = rx_mplayer_revision_ubuntu.cap(2);
+		string = QString("MPlayer SVN-r%1-%2").arg(svn).arg(rest);
+		qDebug("MplayerVersion::mplayerVersion: line converted to '%s'", string.toUtf8().data());
+	}
+
 	// Hack to recognize mplayer version from Mandriva:
 	if (rx_mplayer_version_mandriva.indexIn(string) > -1) {
 		QString v1 = rx_mplayer_version_mandriva.cap(1);
@@ -84,6 +93,8 @@ int MplayerVersion::mplayerVersion(QString string) {
 		qDebug("MplayerVersion::mplayerVersion: MPlayer version found: %s", version.toUtf8().data());
 		mplayer_svn = 0;
 
+		if (version == "1.1") mplayer_svn = MPLAYER_1_1;
+		else
 		if (version == "1.0rc4") mplayer_svn = MPLAYER_1_0_RC4_SVN;
 		else
 		if (version == "1.0rc3") mplayer_svn = MPLAYER_1_0_RC3_SVN;
@@ -164,6 +175,7 @@ QString MplayerVersion::toString(int svn_revision) {
 		case MPLAYER_1_0_RC2_SVN: version = QString("1.0rc2"); break;
 		case MPLAYER_1_0_RC3_SVN: version = QString("1.0rc3"); break;
 		case MPLAYER_1_0_RC4_SVN: version = QString("1.0rc4"); break;
+		case MPLAYER_1_1: version = QString("1.1"); break;
 		default : version =  QString("SVN r%1").arg(svn_revision);
 	}
 

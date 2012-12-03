@@ -38,7 +38,7 @@
 #include "retrieveyoutubeurl.h"
 #endif
 
-#define CURRENT_CONFIG_VERSION 1
+#define CURRENT_CONFIG_VERSION 2
 
 using namespace Global;
 
@@ -103,7 +103,7 @@ void Preferences::reset() {
 	use_double_buffer = true;
 
 	use_soft_video_eq = false;
-	use_slices = true;
+	use_slices = false;
 	autoq = 6;
 	add_blackborders_on_fullscreen = false;
 
@@ -301,6 +301,8 @@ void Preferences::reset() {
 
 	show_tag_in_window_title = true;
 
+	time_to_kill_mplayer = 5000;
+
 
     /* *********
        GUI stuff
@@ -485,6 +487,15 @@ void Preferences::reset() {
        ******* */
 
 	filters->init();
+
+
+    /* *********
+       SMPlayer info
+       ********* */
+
+#ifdef FONTCACHE_DIALOG
+	smplayer_version = "";
+#endif
 }
 
 #ifndef NO_USE_INI_FILES
@@ -721,6 +732,8 @@ void Preferences::save() {
 
 	set->setValue("show_tag_in_window_title", show_tag_in_window_title);
 
+	set->setValue("time_to_kill_mplayer", time_to_kill_mplayer);
+
 	set->endGroup(); // advanced
 
 
@@ -925,6 +938,16 @@ void Preferences::save() {
 
 	filters->save(set);
 
+
+    /* *********
+       SMPlayer info
+       ********* */
+
+#ifdef FONTCACHE_DIALOG
+	set->beginGroup("smplayer");
+	set->setValue("version", smplayer_version);
+	set->endGroup();
+#endif
 
 	set->sync();
 }
@@ -1168,6 +1191,8 @@ void Preferences::load() {
 
 	show_tag_in_window_title = set->value("show_tag_in_window_title", show_tag_in_window_title).toBool();
 
+	time_to_kill_mplayer = set->value("time_to_kill_mplayer", time_to_kill_mplayer).toInt();
+
 	set->endGroup(); // advanced
 
 
@@ -1375,14 +1400,22 @@ void Preferences::load() {
 
 	filters->load(set);
 
+
+    /* *********
+       SMPlayer info
+       ********* */
+
+#ifdef FONTCACHE_DIALOG
+	set->beginGroup("smplayer");
+	smplayer_version = set->value("version", smplayer_version).toString();
+	set->endGroup();
+#endif
+
 	// Fix some values if config is old
 	if (config_version < CURRENT_CONFIG_VERSION) {
 		qDebug("Preferences::load: config version is old, updating it");
 		config_version = CURRENT_CONFIG_VERSION;
-		/*
-		iconset = "Nuvola";
-		yt_user_agent = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
-		*/
+		use_slices = false;
 	}
 }
 

@@ -103,7 +103,7 @@ public slots:
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpCheckUpdates();
-	virtual void helpDonate();
+	virtual void helpShowConfig();
 	virtual void helpAbout();
 	virtual void helpAboutQt();
 
@@ -240,6 +240,7 @@ protected slots:
 	// show the controlwidget if it's moved to
 	// the bottom area.
 	virtual void checkMousePos( QPoint );
+	virtual void moveWindow(QPoint diff);
 
 	// Single instance stuff
 #ifdef SINGLE_INSTANCE
@@ -453,7 +454,7 @@ protected:
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
 	MyAction * showCheckUpdatesAct;
-	MyAction * donateAct;
+	MyAction * showConfigAct;
 	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
 
@@ -600,6 +601,8 @@ protected:
 	MyAction * channelsStereoAct;
 	MyAction * channelsSurroundAct;
 	MyAction * channelsFull51Act;
+	MyAction * channelsFull61Act;
+	MyAction * channelsFull71Act;
 
 	// Stereo Mode Action Group
 	MyActionGroup * stereoGroup;

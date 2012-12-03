@@ -1580,8 +1580,10 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 	proc->addArgument("-priority");
 	proc->addArgument( p );
+	/*
 	SetPriorityClass(GetCurrentProcess(), app_p);
 	qDebug("Core::startMplayer: priority of smplayer process set to %d", app_p);
+	*/
 	#endif
 
 	if (pref->frame_drop) {
@@ -1704,7 +1706,9 @@ void Core::startMplayer( QString file, double seek ) {
 		// Use the same font for OSD
 #if !defined(Q_OS_OS2)
 		if (!pref->ass_styles.fontname.isEmpty()) {
-			proc->addArgument("-fontconfig");
+			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
+				proc->addArgument("-fontconfig");
+			}
 			proc->addArgument("-font");
 			proc->addArgument( pref->ass_styles.fontname );
 		}
@@ -1723,7 +1727,9 @@ void Core::startMplayer( QString file, double seek ) {
 		if (pref->freetype_support) proc->addArgument("-noass");
 #if !defined(Q_OS_OS2)
 		if ( (pref->use_fontconfig) && (!pref->font_name.isEmpty()) ) {
-			proc->addArgument("-fontconfig");
+			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
+				proc->addArgument("-fontconfig");
+			}
 			proc->addArgument("-font");
 			proc->addArgument( pref->font_name );
 		}
@@ -2111,7 +2117,7 @@ void Core::startMplayer( QString file, double seek ) {
 	if ( (pref->use_soft_video_eq) ) {
 		proc->addArgument("-vf-add");
 		QString eq_filter = "eq2,hue";
-		if ( (pref->vo == "gl") || (pref->vo == "gl2")
+		if ( (pref->vo == "gl") || (pref->vo == "gl2") || (pref->vo == "gl_tiled")
 #ifdef Q_OS_WIN
              || (pref->vo == "directx:noaccel")
 #endif
@@ -2358,7 +2364,7 @@ void Core::stopMplayer() {
     tellmp("quit");
     
 	qDebug("Core::stopMplayer: Waiting mplayer to finish...");
-	if (!proc->waitForFinished(5000)) {
+	if (!proc->waitForFinished(pref->time_to_kill_mplayer)) {
 		qWarning("Core::stopMplayer: process didn't finish. Killing it...");
 		proc->kill();
 	}

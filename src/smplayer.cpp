@@ -28,6 +28,10 @@
 #include "clhelp.h"
 #include "myapplication.h"
 
+#ifdef SKINS
+#include "skingui.h"
+#endif
+
 #include <QDir>
 #include <QUrl>
 #include <QTime>
@@ -38,6 +42,11 @@
 #include "extensions.h"
 #include "winfileassoc.h"	//required for Uninstall
 #endif
+#endif
+
+#ifdef FONTCACHE_DIALOG
+#include "fontcache.h"
+#include "version.h"
 #endif
 
 using namespace Global;
@@ -108,6 +117,11 @@ BaseGui * SMPlayer::gui() {
 BaseGui * SMPlayer::createGUI(QString gui_name) {
 	BaseGui * gui = 0;
 
+#ifdef SKINS
+	if (gui_name.toLower() == "skingui")
+		gui = new SkinGui(0);
+	else
+#endif
 	if (gui_name.toLower() == "minigui") 
 		gui = new MiniGui(0);
 	else 
@@ -353,6 +367,16 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 }
 
 void SMPlayer::start() {
+#ifdef FONTCACHE_DIALOG
+#ifndef PORTABLE_APP
+	if (smplayerVersion() != pref->smplayer_version) {
+		FontCacheDialog d(0);
+		d.run(pref->mplayer_bin, "sample.avi");
+		pref->smplayer_version = smplayerVersion();
+	}
+#endif
+#endif
+
 	if (!gui()->startHidden() || !files_to_play.isEmpty() ) gui()->show();
 	if (!files_to_play.isEmpty()) {
 		if (!subtitle_file.isEmpty()) gui()->setInitialSubtitle(subtitle_file);
@@ -393,15 +417,16 @@ void SMPlayer::showInfo() {
 	switch (QSysInfo::WindowsVersion) {
 		case QSysInfo::WV_2000: win_ver = "Windows 2000"; break;
 		case QSysInfo::WV_XP: win_ver = "Windows XP"; break;
-		case QSysInfo::WV_2003: win_ver = "Windows Server 2003"; break;
-		case QSysInfo::WV_VISTA: win_ver = "Windows Vista"; break;
+		case QSysInfo::WV_2003: win_ver = "Windows XP Professional x64/Server 2003"; break;
+		case QSysInfo::WV_VISTA: win_ver = "Windows Vista/Server 2008"; break;
 		#if QT_VERSION >= 0x040501
-		case QSysInfo::WV_WINDOWS7: win_ver = "Windows 7"; break;
+		case QSysInfo::WV_WINDOWS7: win_ver = "Windows 7/Server 2008 R2"; break;
 		#endif
 		#if QT_VERSION >= 0x040803
-		case QSysInfo::WV_WINDOWS8: win_ver = "Windows 8"; break;
+		case QSysInfo::WV_WINDOWS8: win_ver = "Windows 8/Server 2012"; break;
 		#endif
-		default: win_ver = QString("other: %1").arg(QSysInfo::WindowsVersion);
+		case QSysInfo::WV_NT_based: win_ver = "NT-based Windows"; break;
+		default: win_ver = QString("Unknown/Unsupported Windows OS"); break;
 	}
 #endif
 	QString s = QObject::tr("This is SMPlayer v. %1 running on %2")
