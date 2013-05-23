@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -53,6 +53,7 @@ MediaBarPanel::MediaBarPanel(QWidget *parent) :
     setLayout(layout);
 
 	connect(volumeControlPanel, SIGNAL(volumeChanged(int)), this, SIGNAL(volumeChanged(int)));
+	connect(volumeControlPanel, SIGNAL(volumeSliderMoved(int)), this, SIGNAL(volumeSliderMoved(int)));
 	connect(mediaPanel, SIGNAL(seekerChanged(int)), this, SIGNAL(seekerChanged(int)));
 }
 
@@ -98,7 +99,7 @@ void MediaBarPanel::setCore(Core *c)
     connect(core, SIGNAL(mediaStartPlay()), this, SLOT(setDuration()) );
     connect( core, SIGNAL(showTime(double)), this, SLOT(gotCurrentTime(double)) );
     connect( core, SIGNAL(mediaInfoChanged()), this, SLOT(updateMediaInfo()) );
-    /* connect( core, SIGNAL(buffering()), this, SLOT(setBuffering()) ); */
+    connect( core, SIGNAL(buffering()), this, SLOT(setBuffering()) );
 }
 
 void MediaBarPanel::setDuration()
@@ -118,7 +119,8 @@ void MediaBarPanel::gotCurrentTime(double time)
 
 void MediaBarPanel::updateMediaInfo()
 {
-    mediaPanel->setMediaLabelText(core->mdat.displayName());
+    QString s = QString("%1 (%2x%3)").arg(core->mdat.displayName()).arg(core->mdat.video_width).arg(core->mdat.video_height);
+    mediaPanel->setMediaLabelText(s);
 }
 
 void MediaBarPanel::displayMessage(QString status)

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -220,7 +220,9 @@ void DefaultGui::createMainToolBars() {
 	QStringList toolbar1_actions;
 	toolbar1_actions << "open_file" << "open_url" << "favorites_menu" << "separator"
                      << "screenshot" << "separator" << "show_file_properties" << "show_playlist"
-                     << "show_preferences" << "separator" << "play_prev" << "play_next";
+                     << "show_tube_browser" << "separator" << "show_preferences"
+                     << "separator" << "play_prev" << "play_next";
+
 	toolbar1->setDefaultActions(toolbar1_actions);
 #else
 	toolbar1->addAction(openFileAct);
@@ -428,8 +430,11 @@ void DefaultGui::createFloatingControl() {
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	// To make work the ESC key (exit fullscreen) and Ctrl-X (close) in Windows and OS2
+	/*
 	floating_control->addAction(exitFullscreenAct);
 	floating_control->addAction(exitAct);
+	*/
+	floating_control->addActions(actions());
 #endif
 
 #if !USE_CONFIGURABLE_TOOLBARS

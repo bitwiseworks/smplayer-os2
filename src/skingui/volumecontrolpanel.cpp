@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -71,6 +71,7 @@ VolumeControlPanel::VolumeControlPanel(QWidget *parent) :
     connect(maxButton, SIGNAL(clicked()), this, SLOT(setVolumeMax()));
 
 	connect(volumeBar, SIGNAL(valueChanged(int)), this, SIGNAL(volumeChanged(int)));
+	connect(volumeBar, SIGNAL(sliderMoved(int)), this, SIGNAL(volumeSliderMoved(int)));
 }
 
 void VolumeControlPanel::setButtonIcons( MyButton* button, QPixmap pix)

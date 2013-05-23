@@ -1,33 +1,39 @@
 TEMPLATE = app
 LANGUAGE = C++
 
-CONFIG += qt warn_on release
+CONFIG += qt warn_on 
+#CONFIG += release
+CONFIG += debug
 
 QT += network xml
 
 INCLUDEPATH += ..
 DEPENDPATH += ..
 
-HEADERS += simplehttp.h \
-           osparser.h \
-           ../filehash.h \
+INCLUDEPATH += maia
+DEPENDPATH += maia
+
+HEADERS += ../filehash.h \
            ../lineedit_with_icon.h \
            ../filechooser.h \
            ../languages.h \
+           ../version.h \
            fixsubs.h \
            findsubtitlesconfigdialog.h \
            findsubtitleswindow.h
 
-SOURCES += simplehttp.cpp \
-           osparser.cpp \
-           ../filehash.cpp \
+SOURCES += ../filehash.cpp \
            ../lineedit_with_icon.cpp \
            ../filechooser.cpp \
            ../languages.cpp \
+           ../version.cpp \
            fixsubs.cpp \
            findsubtitlesconfigdialog.cpp \
            findsubtitleswindow.cpp \
            main.cpp
+
+HEADERS += maiaObject.h maiaFault.h maiaXmlRpcClient.h osclient.h
+SOURCES += maiaObject.cpp maiaFault.cpp maiaXmlRpcClient.cpp osclient.cpp
 
 FORMS += findsubtitleswindow.ui findsubtitlesconfigdialog.ui
 

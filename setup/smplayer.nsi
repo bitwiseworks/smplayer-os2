@@ -42,17 +42,7 @@
   !define SMPLAYER_UNINST_EXE "uninst.exe"
   !define SMPLAYER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\SMPlayer"
 
-  ;Fallback versions
-  ;These can be changed in the compiler, otherwise
-  ;if not defined the values shown here will be used.
-!ifndef DEFAULT_CODECS_VERSION
-  !define DEFAULT_CODECS_VERSION "windows-essential-20071007"
-!endif
-
-  ;Version control
-!ifndef VERSION_FILE_URL
-  !define VERSION_FILE_URL "http://smplayer.sourceforge.net/mplayer-version-info"
-!endif
+  !define CODEC_VERSION "windows-essential-20071007"
 
 ;--------------------------------
 ;General
@@ -109,6 +99,7 @@
   Var Reinstall_Uninstall
   Var Reinstall_UninstallButton
   Var Reinstall_UninstallButton_State
+  Var Restore_Codecs
   Var SMPlayer_Path
   Var SMPlayer_UnStrPath
   Var SMPlayer_StartMenuFolder
@@ -232,6 +223,7 @@
   !insertmacro MUI_LANGUAGE "Slovak"
   !insertmacro MUI_LANGUAGE "Slovenian"
   !insertmacro MUI_LANGUAGE "Spanish"
+  !insertmacro MUI_LANGUAGE "Thai"
   !insertmacro MUI_LANGUAGE "TradChinese"
 
 ;Custom translations for setup
@@ -259,6 +251,7 @@
   !insertmacro LANGFILE_INCLUDE "translations\slovak.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\slovenian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\spanish.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\thai.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\tradchinese.nsh"
 
 ;--------------------------------
@@ -270,7 +263,6 @@
 
   !insertmacro MUI_RESERVEFILE_LANGDLL
   ReserveFile "${NSISDIR}\Plugins\UserInfo.dll"
-  ReserveFile "FindProcDLL.dll"
 
 ;--------------------------------
 ;Installer Sections
@@ -287,11 +279,17 @@ Section $(Section_SMPlayer) SecSMPlayer
       Exec '"$SMPlayer_UnStrPath" /X'
       Quit
     ${ElseIf} $Reinstall_OverwriteButton_State == 1
+
+      Call Backup_Codecs
+
       ${If} "$INSTDIR" == "$SMPlayer_Path"
         ExecWait '"$SMPlayer_UnStrPath" /S /R _?=$SMPlayer_Path'
       ${Else}
         ExecWait '"$SMPlayer_UnStrPath" /S /R'
       ${EndIf}
+
+      Sleep 2500
+
     ${EndIf}
 
   ${EndIf}
@@ -362,7 +360,7 @@ SectionGroup $(MPlayerGroupTitle)
     SectionIn RO
 
     SetOutPath "$INSTDIR\mplayer"
-    File /r "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
+    File /r /x mencoder.exe "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
 
     WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer 0x1
 
@@ -370,48 +368,51 @@ SectionGroup $(MPlayerGroupTitle)
 
   Section /o $(Section_MPlayerCodecs) SecCodecs
 
-    AddSize 22300
+    AddSize 22931
 
-    Var /GLOBAL Codec_Version
-
-    Call GetVerInfo
-
-    /* Read from version-info
-    If it was unable to download, set version to that defined in the
-    beginning of the script. */
-    ${If} ${FileExists} "$PLUGINSDIR\version-info"
-      ReadINIStr $Codec_Version "$PLUGINSDIR\version-info" smplayer mplayercodecs
-    ${Else}
-      StrCpy $Codec_Version ${DEFAULT_CODECS_VERSION}
+    ${If} $Restore_Codecs == 1
+      DetailPrint $(Info_Codecs_Restore)
+      CopyFiles /SILENT "$PLUGINSDIR\codecbak\*" "$INSTDIR\mplayer\codecs"
+      Goto check_codecs
+    ${ElseIf} ${FileExists} "$EXEDIR\${CODEC_VERSION}.zip"
+      CopyFiles /SILENT "$EXEDIR\${CODEC_VERSION}.zip" "$PLUGINSDIR"
+      Goto extract_codecs
     ${EndIf}
 
-    retry_codecs:
+    retry_codecs_dl:
 
     DetailPrint $(Codecs_DL_Msg)
+!ifndef USE_NSISDL
     inetc::get /CONNECTTIMEOUT 15000 /RESUME "" /BANNER $(Codecs_DL_Msg) /CAPTION $(Codecs_DL_Msg) \
-    "http://www.mplayerhq.hu/MPlayer/releases/codecs/$Codec_Version.zip" \
-    "$PLUGINSDIR\$Codec_Version.zip" /END
+    "http://www.mplayerhq.hu/MPlayer/releases/codecs/${CODEC_VERSION}.zip" \
+    "$PLUGINSDIR\${CODEC_VERSION}.zip" /END
     Pop $R0
-    StrCmp $R0 OK 0 check_codecs
+    StrCmp $R0 OK +4 0
+!else
+    NSISdl::download /TIMEOUT=15000 \
+    "http://www.mplayerhq.hu/MPlayer/releases/codecs/${CODEC_VERSION}.zip" \
+    "$PLUGINSDIR\${CODEC_VERSION}.zip" /END
+    Pop $R0
+    StrCmp $R0 "success" +4 0
+!endif
+      DetailPrint $(Codecs_DL_Failed)
+      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(Codecs_DL_Retry) /SD IDCANCEL IDRETRY retry_codecs_dl
+      Goto check_codecs
+
+    extract_codecs:
 
     DetailPrint $(Info_Files_Extract)
-    nsExec::Exec '"$PLUGINSDIR\7za.exe" x "$PLUGINSDIR\$Codec_Version.zip" -y -o"$PLUGINSDIR"'
+    nsExec::Exec '"$PLUGINSDIR\7za.exe" x "$PLUGINSDIR\${CODEC_VERSION}.zip" -y -o"$PLUGINSDIR"'
 
     CreateDirectory "$INSTDIR\mplayer\codecs"
-    CopyFiles /SILENT "$PLUGINSDIR\$Codec_Version\*" "$INSTDIR\mplayer\codecs"
+    CopyFiles /SILENT "$PLUGINSDIR\${CODEC_VERSION}\*" "$INSTDIR\mplayer\codecs"
 
     check_codecs:
 
-    ${If} $R0 != "OK"
-      DetailPrint $(Codecs_DL_Failed)
-    ${EndIf}
-
-    IfFileExists "$INSTDIR\mplayer\codecs\*.dll" codecsInstSuccess codecsInstFailed
-      codecsInstSuccess:
+    IfFileExists "$INSTDIR\mplayer\codecs\*.dll" 0 codecsInstFailed
         WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs 0x1
         Goto done
       codecsInstFailed:
-        MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(Codecs_DL_Retry) /SD IDCANCEL IDRETRY retry_codecs
         DetailPrint $(Codecs_Inst_Failed)
         WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs 0x0
         Sleep 5000
@@ -497,13 +498,16 @@ ${MementoSectionDone}
 
 !macro MacroAllExtensions _action
   !insertmacro ${_action} ".3gp"
+  !insertmacro ${_action} ".aac"
   !insertmacro ${_action} ".ac3"
   !insertmacro ${_action} ".ape"
   !insertmacro ${_action} ".asf"
   !insertmacro ${_action} ".avi"
+  !insertmacro ${_action} ".bik"
   !insertmacro ${_action} ".bin"
   !insertmacro ${_action} ".dat"
   !insertmacro ${_action} ".divx"
+  !insertmacro ${_action} ".dts"
   !insertmacro ${_action} ".dv"
   !insertmacro ${_action} ".dvr-ms"
   !insertmacro ${_action} ".f4v"
@@ -514,6 +518,7 @@ ${MementoSectionDone}
   !insertmacro ${_action} ".m1v"
   !insertmacro ${_action} ".m2t"
   !insertmacro ${_action} ".m2ts"
+  !insertmacro ${_action} ".mts"
   !insertmacro ${_action} ".m2v"
   !insertmacro ${_action} ".m3u"
   !insertmacro ${_action} ".m3u8"
@@ -540,6 +545,7 @@ ${MementoSectionDone}
   !insertmacro ${_action} ".rec"
   !insertmacro ${_action} ".rm"
   !insertmacro ${_action} ".rmvb"
+  !insertmacro ${_action} ".smk"
   !insertmacro ${_action} ".swf"
   !insertmacro ${_action} ".thd"
   !insertmacro ${_action} ".ts"
@@ -590,6 +596,7 @@ ${MementoSectionDone}
   Delete "$INSTDIR\mingwm10.dll"
   Delete "$INSTDIR\zlib1.dll"
   Delete "$INSTDIR\Qt*.dll"
+  Delete "$INSTDIR\sample.avi"
   Delete "$INSTDIR\smplayer.exe"
   Delete "$INSTDIR\smtube.exe"
   Delete "$INSTDIR\dxlist.exe"
@@ -612,30 +619,35 @@ ${MementoSectionDone}
 ;--------------------------------
 ;Shared functions
 
+!ifdef USE_RUNCHECK
 !macro RunCheckMacro UN
 Function ${UN}RunCheck
 
-  retry_runcheck:
-  FindProcDLL::FindProc "smplayer.exe"
-  IntCmp $R0 1 0 +3
-    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(SMPlayer_Is_Running) /SD IDCANCEL IDRETRY retry_runcheck
-    Abort
+    retry_runcheck:
+    FindWindow $0 "QWidget" "SMPlayer"
+    StrCmp $0 0 notRunning
+      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(SMPlayer_Is_Running) /SD IDCANCEL IDRETRY retry_runcheck
+      Abort
+    notrunning:
 
 FunctionEnd
 !macroend
 !insertmacro RunCheckMacro ""
 !insertmacro RunCheckMacro "un."
+!endif
 
 ;--------------------------------
 ;Installer functions
 
 Function .onInit
 
+/*
   ${Unless} ${AtLeastWinXP}
     MessageBox MB_YESNO|MB_ICONSTOP $(OS_Not_Supported) /SD IDNO IDYES installonoldwindows
     Abort
   installonoldwindows:
   ${EndIf}
+*/
 
 !ifdef WIN64
   ${IfNot} ${RunningX64}
@@ -674,12 +686,14 @@ Function .onInit
     MessageBox MB_OK|MB_ICONEXCLAMATION $(Installer_Is_Running)
     Abort
 
+!ifdef USE_RUNCHECK
   ;Check if SMPlayer is running
   ;Allow skipping check using /NORUNCHECK
   ${GetParameters} $R0
   ${GetOptions} $R0 "/NORUNCHECK" $R1
   IfErrors 0 +2
     Call RunCheck
+!endif
 
   ;Check for admin on < Vista
   UserInfo::GetAccountType
@@ -704,6 +718,8 @@ Function .onInstSuccess
 
   ${MementoSectionSave}
 
+  ExecShell "open" "http://smplayer.sourceforge.net/thank-you.php?version=${SMPLAYER_VERSION}"
+
 FunctionEnd
 
 Function .onInstFailed
@@ -716,6 +732,17 @@ Function .onInstFailed
 
   Delete "$INSTDIR\${SMPLAYER_UNINST_EXE}"
   RMDir "$INSTDIR"
+
+FunctionEnd
+
+Function un.onUninstSuccess
+
+  ;Don't launch uninstall page if reinstalling
+  ${un.GetParameters} $R0
+  ${un.GetOptionsS} $R0 "/R" $R1
+
+  IfErrors 0 +2
+  ExecShell "open" "http://smplayer.sourceforge.net/uninstall.php?version=${SMPLAYER_VERSION}"
 
 FunctionEnd
 
@@ -746,16 +773,20 @@ Function CheckPreviousVersion
 
 FunctionEnd
 
-Function GetVerInfo
+Function Backup_Codecs
 
-  IfFileExists "$PLUGINSDIR\version-info" end_dl_ver_info 0
-    DetailPrint $(VerInfo_DL_Msg)
-    inetc::get /CONNECTTIMEOUT 15000 /SILENT ${VERSION_FILE_URL} "$PLUGINSDIR\version-info" /END
-    Pop $R0
-    StrCmp $R0 OK +2
-      DetailPrint $(VerInfo_DL_Failed)
+  ${IfNot} ${SectionIsSelected} ${SecCodecs}
+    Return
+  ${EndIf}
 
-  end_dl_ver_info:
+  IfFileExists "$SMPlayer_Path\mplayer\codecs\*.dll" 0 NoBackup
+    DetailPrint $(Info_Codecs_Backup)
+    CreateDirectory "$PLUGINSDIR\codecbak"
+    CopyFiles /SILENT "$SMPlayer_Path\mplayer\codecs\*" "$PLUGINSDIR\codecbak"
+    StrCpy $Restore_Codecs 1
+    Return
+  NoBackup:
+    StrCpy $Restore_Codecs 0
 
 FunctionEnd
 
@@ -968,12 +999,14 @@ Function un.onInit
     Abort
   ${EndIf}
 
+!ifdef USE_RUNCHECK
   ;Check if SMPlayer is running
   ;Allow skipping check using /NORUNCHECK
   ${un.GetParameters} $R0
   ${un.GetOptions} $R0 "/NORUNCHECK" $R1
   IfErrors 0 +2
     Call un.RunCheck
+!endif
 
   ;Gets start menu folder name
   !insertmacro MUI_STARTMENU_GETFOLDER "SMP_SMenu" $SMPlayer_StartMenuFolder

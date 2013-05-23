@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 #include "findsubtitleswindow.h"
 #include "findsubtitlesconfigdialog.h"
-#include "simplehttp.h"
-#include "osparser.h"
+
+#include "osclient.h"
 #include "filehash.h"
 #include "languages.h"
 #include <QStandardItemModel>
@@ -110,6 +110,7 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	connect(view, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)) );
 
+	/*
 	downloader = new SimpleHttp(this);
 
 	connect( downloader, SIGNAL(downloadFailed(QString)),
@@ -125,6 +126,13 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
              this, SLOT(connecting(QString)) );
 	connect( downloader, SIGNAL(dataReadProgress(int, int)),
              this, SLOT(updateDataReadProgress(int, int)) );
+	*/
+
+	osclient = new OSClient();
+	connect( osclient, SIGNAL(searchFinished()), this, SLOT(downloadFinished()) );
+	connect( osclient, SIGNAL(searchFinished()), this, SLOT(parseInfo()) );
+	connect( osclient, SIGNAL(loginFailed()), this, SLOT(showLoginFailed()) );
+	connect( osclient, SIGNAL(searchFailed()), this, SLOT(showSearchFailed()) );
 
 #ifdef DOWNLOAD_SUBS
 	include_lang_on_filename = true;
@@ -157,7 +165,9 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	language_filter->setCurrentIndex(0);
 
 	// Opensubtitles server
-	os_server = "http://www.opensubtitles.org";
+	/* os_server = "http://www.opensubtitles.org"; */
+	os_server = "http://api.opensubtitles.org/xml-rpc";
+	osclient->setServer(os_server);
 
 	// Proxy
 	use_proxy = false;
@@ -181,8 +191,11 @@ void FindSubtitlesWindow::setSettings(QSettings * settings) {
 }
 
 void FindSubtitlesWindow::setProxy(QNetworkProxy proxy) {
+	/*
 	downloader->abort();
 	downloader->setProxy(proxy);
+	*/
+	osclient->setProxy(proxy);
 
 #ifdef DOWNLOAD_SUBS
 	file_downloader->setProxy(proxy);
@@ -268,9 +281,8 @@ void FindSubtitlesWindow::setMovie(QString filename) {
 	if (hash.isEmpty()) {
 		qWarning("FindSubtitlesWindow::setMovie: hash invalid. Doing nothing.");
 	} else {
-		QString link = os_server + "/search/sublanguageid-all/moviehash-" + hash + "/simplexml";
-		qDebug("FindSubtitlesWindow::setMovie: link: '%s'", link.toLatin1().constData());
-		downloader->download(link);
+		qint64 file_size = QFileInfo(filename).size();
+		osclient->search(hash, file_size);
 		last_file = filename;
 	}
 }
@@ -281,13 +293,7 @@ void FindSubtitlesWindow::refresh() {
 }
 
 void FindSubtitlesWindow::updateRefreshButton() {
-	qDebug("FindSubtitlesWindow::updateRefreshButton: state: %d", downloader->state());
-/*
-	QString file = file_chooser->lineEdit()->text();
-	bool enabled = ( (!file.isEmpty()) && (QFile::exists(file)) && 
-                     (downloader->state()==QHttp::Unconnected) );
-	refresh_button->setEnabled(enabled);
-*/
+	qDebug("FindSubtitlesWindow::updateRefreshButton:");
 	refresh_button->setEnabled(true);
 }
 
@@ -331,6 +337,14 @@ void FindSubtitlesWindow::connecting(QString host) {
 	status->setText( tr("Connecting to %1...").arg(host) );
 }
 
+void FindSubtitlesWindow::showLoginFailed() {
+	status->setText( tr("Login to opensubtitles.org has failed") );
+}
+
+void FindSubtitlesWindow::showSearchFailed() {
+	status->setText( tr("Search has failed") );
+}
+
 void FindSubtitlesWindow::updateDataReadProgress(int done, int total) {
 	qDebug("FindSubtitlesWindow::updateDataReadProgress: %d, %d", done, total);
 
@@ -348,16 +362,15 @@ void FindSubtitlesWindow::downloadFinished() {
 	progress->hide();
 }
 
-void FindSubtitlesWindow::parseInfo(QByteArray xml_text) {
-	OSParser osparser;
-	bool ok = osparser.parseXml(xml_text);
+void FindSubtitlesWindow::parseInfo() {
+	bool ok = true;
 
 	table->setRowCount(0);
 
 	QMap <QString,QString> language_list = Languages::list();
 
 	if (ok) {
-		QList<OSSubtitle> l = osparser.subtitleList();
+		QList<OSSubtitle> l = osclient->subtitleList();
 		for (int n=0; n < l.count(); n++) {
 
 			QString title_name = l[n].movie;
@@ -654,6 +667,7 @@ void FindSubtitlesWindow::on_configure_button_clicked() {
 		proxy_password = d.proxyPassword();
 		proxy_type = d.proxyType();
 
+		osclient->setServer(os_server);
 		setupProxy();
 	}
 }
@@ -685,7 +699,7 @@ void FindSubtitlesWindow::saveSettings() {
 
 	set->beginGroup("findsubtitles");
 
-	set->setValue("server", os_server);
+	set->setValue("xmlrpc_server", os_server);
 	set->setValue("language", language());
 #ifdef DOWNLOAD_SUBS
 	set->setValue("include_lang_on_filename", includeLangOnFilename());
@@ -705,7 +719,7 @@ void FindSubtitlesWindow::loadSettings() {
 
 	set->beginGroup("findsubtitles");
 
-	os_server = set->value("server", os_server).toString();
+	os_server = set->value("xmlrpc_server", os_server).toString();
 	setLanguage( set->value("language", language()).toString() );
 #ifdef DOWNLOAD_SUBS
 	setIncludeLangOnFilename( set->value("include_lang_on_filename", includeLangOnFilename()).toBool() );

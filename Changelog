@@ -1,3 +1,128 @@
+[b]Version 0.8.5[/b]:
+
+(2013-05-05)
+ * The volume slider in the skingui now updates the volume while the
+   slider is been moved.
+
+(2013-05-03)
+ * Add the Malay translation, by abuyop (transifex).
+
+(2013-05-02)
+ * Compile without USE_FONTCONFIG_OPTIONS in linux to prevent the
+   -fontconfig problem when using mplayer2.
+
+(2013-05-01)
+ * Add an option to enter url(s) in the playlist.
+
+(2013-04-30)
+ * The SkinGUI is now the default gui.
+ * If the SkinGUI is selected, a check is done on startup to see if the
+   skin theme is installed. If not found, the default gui will be used.
+ * New command line option: -skingui
+
+(2013-04-28)
+ * The option "Move the window when the video area is dragged" is
+   now disabled by default because it has some issues that need to
+   be fixed.
+
+(2013-04-24)
+ * Connect to opensubtitles.org using xmlrpc instead of using the
+   simplexml method, which it seems it's not working well and that causes
+   that smplayer couldn't find subtitles. This fixes the problem.
+
+(2013-04-20)
+ * Add two new options for Audio -> Stereo mode: Mono and Reverse.
+
+(2013-04-07)
+ * The size actions work even the autoresize is set to never.
+ * Set the resize method to never as default.
+
+
+[b]Version 0.8.4[/b]:
+
+(2013-03-15)
+ * Change the default value for file and stream cache to 2048.
+
+(2013-03-11)
+ * Add the option "Pressing the stop button once resets the time position"
+   in preferences -> interface -> seeking.
+
+(2013-03-07)
+ * (Testing) Now smplayer checks for updates automatically. 
+   On startup it connects to the smplayer web to know if there's a new 
+   version available and in that case the user gets a notification.
+   The check is only done once per week, and it can be totally disabled
+   by setting "enabled=false" in the [update_checker] section in smplayer.ini.
+
+(2013-03-04)
+ * Add the checkbox "Move the window when the video area is dragged" 
+   in preferences -> interface.
+
+(2013-03-03)
+ * Add an option in the help menu to show a first steps guide.
+
+(2013-03-01)
+ * (Windows) Fix: now all key shortcuts should work when using the
+   floating control.
+
+(2013-02-28)
+ * Hopefully fix bug 3605753 (stay-on-top-while-playing not
+   working after fullscreen).
+
+(2013-02-27)
+ * Add a submenu to the help menu, to share smplayer with your friends.
+ * Add support for encoding ISO-8859-16 for subtitles.
+
+(2013-02-22)
+ * Copy the content of the clipboard, if it looks like a url, to 
+   the open url input field.
+
+(2013-02-16)
+ * Now it's possible to set the fps for external subtitles.
+
+(2013-02-11)
+ * Change the default value of the OSD to "subtitles only".
+ * Change the default value of "allow frame drop" to false.
+
+(2013-02-05)
+ * Add the Thai translation, by มาโนชญ์ สมศักดิ์ <xyteton at hotmail dot com>
+
+(2013-01-31)
+ * Add the Hebrew translaton, by Genghis Khan <genghiskhan at gmx dot ca>
+
+(2013-01-26)
+ * Add an option to enable the video equalizer by software in the
+   video equalizer window.
+
+(2013-01-25)
+ * The video equalizer dialog has been rewritten.
+
+(2013-01-21)
+ * Add a confirmation dialog to delete the list of recent files.
+
+(2013-01-13)
+ * Add bik and smk to the list of video extensions.
+ * Add aac and dts to the list of audio extensions.
+ 
+(2013-01-12)
+ * Add mts to the list of video extensions.
+
+(2012-12-23)
+ * Ignore other mouse events if the window is been moved by dragging
+   the video area.
+
+
+[b]Version 0.8.3[/b]:
+
+(2012-12-20)
+ * Fix for youtube playback.
+
+(2012-11-28)
+ * Show the mouse cursor immediately when the mouse is moved on the video
+   area.
+ * Help -> FAQ opens http://smplayer.sourceforge.net/faq.php
+
+
 [b]Version 0.8.2[/b]:
 
 (2012-11-15)

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -296,6 +296,7 @@ void SkinGui::createControlWidget() {
 	mediaBarPanel->setToolbarActionCollection(actions);
 
 	connect(mediaBarPanel, SIGNAL(volumeChanged(int)), core, SLOT(setVolume(int)));
+	connect(mediaBarPanel, SIGNAL(volumeSliderMoved(int)), core, SLOT(setVolume(int)));
 	connect(core, SIGNAL(volumeChanged(int)), mediaBarPanel, SLOT(setVolume(int)));
 
 #ifdef SEEKBAR_RESOLUTION

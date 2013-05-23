@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,12 +42,14 @@ public:
                        Yadif_1 = 4, Kerndeint = 5 };
 	enum AudioChannels { ChDefault = 0, ChStereo = 2, ChSurround = 4, 
                          ChFull51 = 6, ChFull61 = 7, ChFull71 = 8 };
-	enum StereoMode { Stereo = 0, Left = 1, Right = 2 };
+	enum StereoMode { Stereo = 0, Left = 1, Right = 2, Mono = 3, Reverse = 4 };
 
 	enum Rotate { NoRotate = -1, Clockwise_flip = 0, Clockwise = 1, 
                   Counterclockwise = 2, Counterclockwise_flip = 3 };
 
 	enum IDs { NoneSelected = -1000, SubNone = 90000 };
+
+	enum SubFPS { SFPS_None, SFPS_23, SFPS_24, SFPS_25, SFPS_30, SFPS_23976, SFPS_29970 };
 
 	MediaSettings();
 	virtual ~MediaSettings();
@@ -80,6 +82,7 @@ public:
 	AudioEqualizerList audio_equalizer;
 
 	QString external_subtitles;
+	int external_subtitles_fps;
 	QString external_audio; // external audio file
 
 	int sub_delay;

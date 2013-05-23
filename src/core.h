@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -235,6 +235,8 @@ public slots:
 
 	void changeSubVisibility(bool visible);
 
+	void changeExternalSubFPS(int fps_id);
+
 	//! Audio equalizer
 	void setAudioEqualizer(AudioEqualizerList values, bool restart = false);
 	void setAudioAudioEqualizerRestart(AudioEqualizerList values) { setAudioEqualizer(values, true); };
@@ -273,8 +275,10 @@ public slots:
 	void nextOSD();
 	void nextWheelFunction();
 
+	#if 0
 	void changeSize(int); // Size of the window
 	void toggleDoubleSize();
+	#endif
 	void changeZoom(double); // Zoom on mplayerwindow
 
 	void changeRotate(int r);
@@ -358,6 +362,7 @@ protected slots:
 	void displayMessage(QString text);
 	void displayScreenshotName(QString filename);
 	void displayUpdatingFontCache();
+	void displayBuffering();
 
 	void streamTitleChanged(QString);
 	void streamTitleAndUrlChanged(QString,QString);
@@ -419,6 +424,7 @@ protected:
 	bool subscale_need_restart();
 
 signals:
+	void buffering();
 	void aboutToStartPlaying(); // Signal emited just before to start mplayer
 	void mediaLoaded();
 	void mediaInfoChanged();

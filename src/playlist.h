@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -101,6 +101,7 @@ public slots:
 	virtual void addCurrentFile();
 	virtual void addFiles();
 	virtual void addDirectory();
+	virtual void addUrls();
 
 	virtual void addFile(QString file, AutoGetInfo auto_get_info = UserDefined);
 	virtual void addFiles(QStringList files, AutoGetInfo auto_get_info = UserDefined);
@@ -227,6 +228,7 @@ protected:
 	MyAction * addCurrentAct;
 	MyAction * addFilesAct;
 	MyAction * addDirectoryAct;
+	MyAction * addUrlsAct;
 
 	MyAction * removeSelectedAct;
 	MyAction * removeAllAct;

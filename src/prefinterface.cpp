@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -228,6 +228,9 @@ void PrefInterface::setData(Preferences * pref) {
 
 	setResizeMethod( pref->resize_method );
 	setSaveSize( pref->save_window_size_on_exit );
+
+	move_when_dragging_check->setChecked(pref->move_when_dragging);
+
 #ifdef SINGLE_INSTANCE
 	setUseSingleInstance(pref->use_single_instance);
 #endif
@@ -241,6 +244,8 @@ void PrefInterface::setData(Preferences * pref) {
 	setRelativeSeeking(pref->relative_seeking);
 #endif
 	setPreciseSeeking(pref->precise_seeking);
+
+	reset_stop_check->setChecked(pref->reset_stop);
 
 	setDefaultFont(pref->default_font);
 
@@ -292,6 +297,8 @@ void PrefInterface::getData(Preferences * pref) {
 	pref->resize_method = resizeMethod();
 	pref->save_window_size_on_exit = saveSize();
 
+	pref->move_when_dragging = move_when_dragging_check->isChecked();
+
 #ifdef SINGLE_INSTANCE
 	pref->use_single_instance = useSingleInstance();
 #endif
@@ -306,6 +313,8 @@ void PrefInterface::getData(Preferences * pref) {
 	pref->relative_seeking= relativeSeeking();
 #endif
 	pref->precise_seeking = preciseSeeking();
+
+	pref->reset_stop = reset_stop_check->isChecked();
 
 	pref->default_font = defaultFont();
 
@@ -658,6 +667,9 @@ void PrefInterface::createHelp() {
 	setWhatsThis(hide_video_window_on_audio_check, tr("Hide video window when playing audio files"),
         tr("If this option is enabled the video window will be hidden when playing audio files.") );
 
+	setWhatsThis(move_when_dragging_check, tr("Move the window when the video area is dragged"),
+        tr("If this option is checked, the main window will be moved if you drag the mouse over the video area.") );
+
 	setWhatsThis(language_combo, tr("Language"),
 		tr("Here you can change the language of the application.") );
 
@@ -716,6 +728,13 @@ void PrefInterface::createHelp() {
 		tr("If this option is enabled, seeks are more accurate but they "
            "can be a little bit slower. May not work with some video formats.") +"<br>"+
 		tr("Note: this option only works with MPlayer2") );
+
+	setWhatsThis(reset_stop_check, tr("Pressing the stop button once resets the time position"),
+		tr("By default when the stop button is pressed the time position is remembered "
+           "so if you press play button the media will resume at the same point. You need "
+           "to press the stop button twice to reset the time position, but if this "
+           "option is checked the time position will be set to 0 with only once "
+           "press of the stop button.") );
 
 #ifdef SINGLE_INSTANCE
 	addSectionTitle(tr("Instances"));
