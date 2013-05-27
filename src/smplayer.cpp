@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ SMPlayer::SMPlayer(const QString & config_path, QObject * parent )
 	allow_to_send_log_to_gui = true;
 #endif
 
-	gui_to_use = "DefaultGui";
+	gui_to_use = "DefaultGUI";
 
 	close_at_end = -1; // Not set
 	start_in_fullscreen = -1; // Not set
@@ -98,6 +98,23 @@ BaseGui * SMPlayer::gui() {
 		QDir::setCurrent(Paths::appPath());
 		qDebug("SMPlayer::gui: changed working directory to app path");
 		qDebug("SMPlayer::gui: current directory: %s", QDir::currentPath().toUtf8().data());
+
+#ifdef SKINS
+		if (gui_to_use == "SkinGUI") {
+			QString theme = pref->iconset;
+			if (theme.isEmpty()) theme = "Gonzo";
+			QString theme_dir = Paths::themesPath() + "/" + theme;
+			qDebug("SMPlayer::gui: theme_dir: %s", theme_dir.toUtf8().constData());
+			if (QDir(theme_dir).exists()) {
+				if (pref->iconset.isEmpty()) pref->iconset = theme;
+			} else {
+				qDebug("SMPlayer::gui: skin folder doesn't exist. Falling back to default gui.");
+				gui_to_use = "DefaultGUI";
+				pref->iconset = "";
+				pref->gui = gui_to_use;
+			}
+		}
+#endif
 
 		main_window = createGUI(gui_to_use);
 
@@ -294,16 +311,22 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 		}
 		else
 		if (argument == "-mini" || argument == "-minigui") {
-			gui_to_use = "MiniGui";
+			gui_to_use = "MiniGUI";
 		}
 		else
 		if (argument == "-mpcgui") {
-			gui_to_use = "MpcGui";
+			gui_to_use = "MpcGUI";
 		}
 		else
 		if (argument == "-defaultgui") {
-			gui_to_use = "DefaultGui";
+			gui_to_use = "DefaultGUI";
 		}
+#ifdef SKINS
+		else
+		if (argument == "-skingui") {
+			gui_to_use = "SkinGUI";
+		}
+#endif
 		else {
 			// File
 			#if QT_VERSION >= 0x040600

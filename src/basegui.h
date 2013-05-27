@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,14 @@
 #include <windows.h>
 #endif
 
+#ifdef Q_OS_WIN
+  #ifdef PORTABLE_APP
+     #define TEST_UPDATE
+  #endif
+#else
+  #define TEST_UPDATE
+#endif
+
 class QWidget;
 class QMenu;
 class LogWindow;
@@ -40,7 +48,7 @@ class MplayerWindow;
 
 class QLabel;
 class FilePropertiesDialog;
-class VideoEqualizer;
+class VideoEqualizer2;
 class AudioEqualizer;
 class Playlist;
 #ifdef FIND_SUBTITLES
@@ -59,6 +67,8 @@ class PreferencesDialog;
 
 class Favorites;
 class TVList;
+
+class UpdateChecker;
 
 class BaseGui : public QMainWindow
 {
@@ -100,12 +110,15 @@ public slots:
 	virtual void openDirectory();
 	virtual void openDirectory(QString directory);
 
+	virtual void helpFirstSteps();
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpCheckUpdates();
 	virtual void helpShowConfig();
 	virtual void helpAbout();
 	virtual void helpAboutQt();
+
+	virtual void shareSMPlayer();
 
 	virtual void loadSub();
 	virtual void loadAudioFile(); // Load external audio file
@@ -184,6 +197,8 @@ protected slots:
 	virtual void updateWidgets();
 	virtual void updateVideoEqualizer();
 	virtual void updateAudioEqualizer();
+	virtual void setDefaultValuesFromVideoEqualizer();
+	virtual void changeVideoEqualizerBySoftware(bool b);
 
 	virtual void newMediaLoaded();
 	virtual void updateMediaInfo();
@@ -195,13 +210,24 @@ protected slots:
 	void displayWarningAboutOldMplayer();
 #endif
 
+#ifdef UPDATE_CHECKER
+	void reportNewVersionAvailable(QString);
+#endif
+
+#ifdef TEST_UPDATE
+	void testUpdate();
+#endif
+
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
 	virtual void togglePlayAction(Core::State);
 #endif
 
-	virtual void resizeWindow(int w, int h);
+	void changeSizeFactor(int factor);
+	void toggleDoubleSize();
+	void resizeMainWindow(int w, int h);
+	void resizeWindow(int w, int h);
 	virtual void hidePanel();
 
 	/* virtual void playlistVisibilityChanged(); */
@@ -451,12 +477,19 @@ protected:
 #endif
 
 	// Menu Help
+	MyAction * showFirstStepsAct;
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
 	MyAction * showCheckUpdatesAct;
 	MyAction * showConfigAct;
 	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
+
+	MyAction * facebookAct;
+	MyAction * twitterAct;
+	MyAction * gmailAct;
+	MyAction * hotmailAct;
+	MyAction * yahooAct;
 
 	// Playlist
 	MyAction * playPrevAct;
@@ -594,6 +627,15 @@ protected:
 	MyAction * ccChannel3Act;
 	MyAction * ccChannel4Act;
 
+	// External sub fps Group
+	MyActionGroup * subFPSGroup;
+	MyAction * subFPSNoneAct;
+	/* MyAction * subFPS23Act; */
+	MyAction * subFPS23976Act;
+	MyAction * subFPS24Act;
+	MyAction * subFPS25Act;
+	MyAction * subFPS29970Act;
+	MyAction * subFPS30Act;
 
 	// Audio Channels Action Group
 	MyActionGroup * channelsGroup;
@@ -609,6 +651,8 @@ protected:
 	MyAction * stereoAct;
 	MyAction * leftChannelAct;
 	MyAction * rightChannelAct;
+	MyAction * monoAct;
+	MyAction * reverseAct;
 
 	// Other groups
 #if PROGRAM_SWITCH
@@ -675,6 +719,9 @@ protected:
 	QMenu * screen_menu;
 #endif
 	QMenu * closed_captions_menu;
+	QMenu * subfps_menu;
+
+	QMenu * share_menu;
 
 	QMenu * popup;
 	QMenu * recentfiles_menu;
@@ -690,7 +737,7 @@ protected:
 	PreferencesDialog *pref_dialog;
 	FilePropertiesDialog *file_dialog;
 	Playlist * playlist;
-	VideoEqualizer * video_equalizer;
+	VideoEqualizer2 * video_equalizer2;
 	AudioEqualizer * audio_equalizer;
 #ifdef FIND_SUBTITLES
 	FindSubtitlesWindow * find_subs_dialog;
@@ -706,6 +753,10 @@ protected:
 
 	TVList * tvlist;
 	TVList * radiolist;
+
+#ifdef UPDATE_CHECKER
+	UpdateChecker * update_checker;
+#endif
 
 	QStringList actions_list;
 

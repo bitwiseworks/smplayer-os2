@@ -21,6 +21,8 @@ DEFINES += GUI_CHANGE_ON_RUNTIME
 DEFINES += LOG_MPLAYER
 DEFINES += LOG_SMPLAYER
 DEFINES += SKINS
+DEFINES += UPDATE_CHECKER
+#DEFINES += USE_FONTCONFIG_OPTIONS
 
 # Disable SINGLE_INSTANCE if Qt < 4.4
 contains( DEFINES, SINGLE_INSTANCE ) {
@@ -35,6 +37,22 @@ contains( DEFINES, SKINS ) {
 	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
 		message("SKINS requires Qt > 4.3. Disabled.")
 		DEFINES -= SKINS
+	}
+}
+
+# Disable FIND_SUBTITLES if Qt < 4.4
+contains( DEFINES, FIND_SUBTITLES ) {
+	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
+		message("FIND_SUBTITLES requires Qt > 4.3. Disabled.")
+		DEFINES -= FIND_SUBTITLES
+	}
+}
+
+# Disable UPDATE_CHECKER if Qt < 4.4
+contains( DEFINES, UPDATE_CHECKER ) {
+	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
+		message("UPDATE_CHECKER requires Qt > 4.3. Disabled.")
+		DEFINES -= UPDATE_CHECKER
 	}
 }
 
@@ -104,11 +122,12 @@ HEADERS += guiconfig.h \
 	prefplaylist.h \
 	preftv.h \
 	filepropertiesdialog.h \
+	multilineinputdialog.h \
 	playlist.h \
 	playlistdock.h \
 	verticaltext.h \
 	eqslider.h \
-	videoequalizer.h \
+	videoequalizer2.h \
 	audioequalizer.h \
 	myslider.h \
 	timeslider.h \
@@ -200,11 +219,12 @@ SOURCES	+= version.cpp \
 	prefplaylist.cpp \
 	preftv.cpp \
 	filepropertiesdialog.cpp \
+	multilineinputdialog.cpp \
 	playlist.cpp \
 	playlistdock.cpp \
 	verticaltext.cpp \
 	eqslider.cpp \
-	videoequalizer.cpp \
+	videoequalizer2.cpp \
 	audioequalizer.cpp \
 	myslider.cpp \
 	timeslider.cpp \
@@ -236,12 +256,12 @@ SOURCES	+= version.cpp \
 	main.cpp
 
 FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
-        eqslider.ui seekwidget.ui inputurl.ui vdpauproperties.ui \
+        eqslider.ui seekwidget.ui inputurl.ui videoequalizer2.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
         prefplaylist.ui preftv.ui favoriteeditor.ui \
         about.ui inputmplayerversion.ui errordialog.ui timedialog.ui \
-        toolbareditor.ui
+        toolbareditor.ui multilineinputdialog.ui
 
 # qtsingleapplication
 contains( DEFINES, SINGLE_INSTANCE ) {
@@ -259,9 +279,16 @@ contains( DEFINES, FIND_SUBTITLES ) {
 	INCLUDEPATH += findsubtitles
 	DEPENDPATH += findsubtitles
 
-	HEADERS += osparser.h findsubtitlesconfigdialog.h findsubtitleswindow.h
-	SOURCES += osparser.cpp findsubtitlesconfigdialog.cpp findsubtitleswindow.cpp
+	INCLUDEPATH += findsubtitles/maia
+	DEPENDPATH += findsubtitles/maia
+
+	HEADERS += findsubtitlesconfigdialog.h findsubtitleswindow.h
+	SOURCES += findsubtitlesconfigdialog.cpp findsubtitleswindow.cpp
 	FORMS += findsubtitleswindow.ui findsubtitlesconfigdialog.ui
+
+	# xmlrpc client code to connect to opensubtitles.org
+	HEADERS += maiaObject.h maiaFault.h maiaXmlRpcClient.h osclient.h
+	SOURCES += maiaObject.cpp maiaFault.cpp maiaXmlRpcClient.cpp osclient.cpp
 }
 
 # Download subtitles
@@ -321,6 +348,12 @@ contains( DEFINES, SKINS ) {
 	FORMS += mediapanel.ui mediabarpanel.ui
 }
 
+# Update checker
+contains( DEFINES, UPDATE_CHECKER ) {
+	HEADERS += updatechecker.h
+	SOURCES += updatechecker.CPP
+}
+
 # Videopreview
 contains( DEFINES, VIDEOPREVIEW ) {
 	INCLUDEPATH += videopreview
@@ -348,6 +381,7 @@ unix {
 win32 {
 	DEFINES += SCREENSAVER_OFF
 	DEFINES += FONTCACHE_DIALOG
+	DEFINES += USE_FONTCONFIG_OPTIONS
 
 	contains( DEFINES, SCREENSAVER_OFF ) {
 		HEADERS += screensaver.h
@@ -411,4 +445,6 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_ar_SY.ts translations/smplayer_ku.ts \
                translations/smplayer_gl.ts translations/smplayer_vi_VN.ts \
                translations/smplayer_et.ts translations/smplayer_lt.ts \
-               translations/smplayer_da.ts translations/smplayer_hr.ts
+               translations/smplayer_da.ts translations/smplayer_hr.ts \
+               translations/smplayer_he_IL.ts translations/smplayer_th.ts \
+               translations/smplayer_ms_MY.ts

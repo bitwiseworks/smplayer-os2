@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,10 +48,12 @@ About::About(QWidget * parent, Qt::WindowFlags f)
 			mplayer_version = tr("Using MPlayer %1").arg(MplayerVersion::toString(pref->mplayer_detected_version));
 		}
 		mplayer_version += "<br><br>";
+	} else {
+	mplayer_version += "<br>";
 	}
 
 	info->setText(
-		"<b>SMPlayer</b> &copy; 2006-2012 Ricardo Villalba &lt;rvm@users.sourceforge.net&gt;<br><br>"
+		"<b>SMPlayer</b> &copy; 2006-2013 Ricardo Villalba &lt;rvm@users.sourceforge.net&gt;<br><br>"
 		"<b>" + tr("Version: %1").arg(smplayerVersion()) + "</b>" +
 #if PORTABLE_APP
                 " (" + tr("Portable Edition") + ")" +
@@ -60,15 +62,14 @@ About::About(QWidget * parent, Qt::WindowFlags f)
         "<br>Experimental branch<br>"
 #endif
         "<br>" +
-        tr("Using Qt %1 (compiled with Qt %2)").arg(qVersion()).arg(QT_VERSION_STR) + "<br><br>" +
+        tr("Using Qt %1 (compiled with Qt %2)").arg(qVersion()).arg(QT_VERSION_STR) + "<br>" +
 		mplayer_version +
-		tr("Visit our web for updates:") +"<br>"+
-        link("http://smplayer.sf.net") +
-        "<br><br>" +
-		tr("Get help in our forum:") +"<br>" + link("http://smplayer.sf.net/forum") + 
-        "<br><br>" + 
+		"<b>"+ tr("Links:") +"</b><br>"+
+		tr("Official website:") +" "+  link("http://smplayer.sourceforge.net") +"<br>"+
+		tr("Support forum:") +" "+  link("http://smplayer.sourceforge.net/forum/") +"<br>"+
+        "<br>" + 
 		tr("SMPlayer uses the award-winning MPlayer as playback engine. See %1")
-		   .arg("<a href=\"http://www.mplayerhq.hu\">http://www.mplayerhq.hu</a>")
+		   .arg("<a href=\"http://www.mplayerhq.hu/design7/info.html\">http://www.mplayerhq.hu</a>")
 	);
 
 
@@ -188,7 +189,9 @@ QString About::getTranslators() {
          trad(tr("Ukrainian"), QStringList()
 			<< "Motsyo Gennadi <drool@altlinux.ru>"
 			<< "Oleksandr Kovalenko <alx.kovalenko@gmail.com>" ) +
-         trad(tr("Portuguese - Brazil"), "Ventura <ventura.barbeiro@terra.com.br>") +
+         trad(tr("Portuguese - Brazil"), QStringList() 
+			<< "Ventura <ventura.barbeiro@terra.com.br>"
+			<< QString::fromUtf8("Maico Sertório <maico.sertorio@gmail.com>")) +
          trad(tr("Georgian"), "George Machitidze <giomac@gmail.com>") +
          trad(tr("Czech"), QStringList()
 			<< QString::fromUtf8("Martin Dvořák <martin.dvorak@centrum.cz>")
@@ -216,11 +219,14 @@ QString About::getTranslators() {
 		trad(tr("Galician"), QStringList() << "Miguel Branco <mgl.branco@gmail.com>" << "Gallaecio") +
 		trad(tr("Vietnamese"), QString::fromUtf8("Lê Xuân Thảo <thaolx@gmail.com>")) +
 		trad(tr("Estonian"), QString::fromUtf8("Olav Mägi <olav.magi@hotmail.com>")) +
-        trad(tr("Lithuanian"), QStringList() 
+		trad(tr("Lithuanian"), QStringList() 
 			<< "Freemail <ricka_g@freemail.lt>"
 			<< QString::fromUtf8("Algimantas Margevičius <margevicius.algimantas@gmail.com>") ) +
-        trad(tr("Danish"), "Martin Schlander <mschlander@opensuse.org>") +
-        trad(tr("Croatian"), QString::fromUtf8("Josip Kujundžija <marshsmello@gmail.com>")) +
+		trad(tr("Danish"), "Martin Schlander <mschlander@opensuse.org>") +
+		trad(tr("Croatian"), QString::fromUtf8("Josip Kujundžija <marshsmello@gmail.com>")) +
+        trad(tr("Hebrew"), "Genghis Khan <genghiskhan@gmx.ca>") +
+		trad(tr("Thai"), QString::fromUtf8("มาโนชญ์ สมศักดิ์ <xyteton@hotmail.com>")) +
+		trad(tr("Malay"), "abuyop (transifex)") +
 		"");
 }
 

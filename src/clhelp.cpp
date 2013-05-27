@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -119,6 +119,11 @@ QString CLHelp::help(bool html) {
 
 	s += formatHelp( "-defaultgui", QObject::tr(
 		"opens the default gui."), html );
+
+#ifdef SKINS
+	s += formatHelp( "-skingui", QObject::tr(
+		"opens the gui with support for skins."), html );
+#endif
 
 	s += formatHelp( "-config-path", QObject::tr(
 		"specifies the directory where smplayer will store its configuration "

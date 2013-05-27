@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 5, 2009
-last update October 24, 2012
+last update May 23, 2013
 
 
 0. CONTENTS OF THIS FILE
@@ -239,9 +239,9 @@ following:
 4. LICENSE, COPYRIGHT, DISCLAIMER
 =================================
 
-SMPlayer is copyright (C) 2006 - 2012 RVM <rvm@users.sourceforge.net>.
+SMPlayer is copyright (C) 2006-2012 RVM <rvm@users.sourceforge.net>.
 
-The OS/2 port is copyright (c) 2008, 2012 Silvan Scherrer.
+The OS/2 port is copyright (c) 2008-2013 Silvan Scherrer.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as contained in
@@ -301,6 +301,9 @@ development, you can do so in one of the following ways:
 
 8. HISTORY
 ==========
+
+2013-05-23
+  * updated to SMPlayer version 0.8.5
 
 2012-12-03
   * updated to SMPlayer version 0.8.2

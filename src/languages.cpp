@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -246,6 +246,7 @@ QMap<QString,QString> Languages::translations() {
 	m["fi"] = tr("Finnish");
 	m["fr"] = tr("French");
 	m["gl"] = tr("Galician");
+	m["he_IL"] = tr("Hebrew");
 	m["hr"] = tr("Croatian");
 	m["hu"] = tr("Hungarian");
 	m["it"] = tr("Italian");
@@ -255,6 +256,7 @@ QMap<QString,QString> Languages::translations() {
 	m["ku"] = tr("Kurdish");
 	m["lt"] = tr("Lithuanian");
 	m["mk"] = tr("Macedonian");
+	m["ms_MY"] = tr("Malay");
 	m["nl"] = tr("Dutch");
 	m["pl"] = tr("Polish");
 	m["pt_BR"] = tr("Portuguese - Brazil");
@@ -265,6 +267,7 @@ QMap<QString,QString> Languages::translations() {
 	m["sl_SI"] = tr("Slovenian");
 	m["sr"] = tr("Serbian");
 	m["sv"] = tr("Swedish");
+	m["th"] = tr("Thai");
 	m["tr"] = tr("Turkish");
 	m["uk_UA"] = tr("Ukrainian");
 	m["vi_VN"] = tr("Vietnamese");
@@ -290,6 +293,7 @@ QMap<QString,QString> Languages::encodings() {
 	l["ISO-8859-9"] = tr( "Turkish");
 	l["ISO-8859-13"] = tr( "Baltic");
 	l["ISO-8859-14"] = tr( "Celtic");
+	l["ISO-8859-16"] = tr( "South-Eastern European");
 	l["ISO-8859-8"] = tr( "Hebrew charsets");
 	l["KOI8-R"] = tr( "Russian");
 	l["KOI8-U/RU"] = tr( "Ukrainian, Belarusian");

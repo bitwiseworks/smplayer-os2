@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 #include "retrieveyoutubeurl.h"
 #endif
 
-#define CURRENT_CONFIG_VERSION 2
+#define CURRENT_CONFIG_VERSION 4
 
 using namespace Global;
 
@@ -139,7 +139,7 @@ void Preferences::reset() {
 	use_mc = false;
 	mc_value = 0;
 
-	osd = Seek;
+	osd = None;
 	osd_delay = 2200;
 
 	file_settings_method = "hash"; // Possible values: normal & hash
@@ -174,7 +174,7 @@ void Preferences::reset() {
        *********** */
 
 	priority = AboveNormal; // Option only for windows
-	frame_drop = true;
+	frame_drop = false;
 	hard_frame_drop = false;
 	coreavc = false;
 	h264_skip_loop_filter = LoopEnabled;
@@ -188,11 +188,11 @@ void Preferences::reset() {
 
 	threads = 1;
 
-	cache_for_files = 0;
-	cache_for_streams = 1000;
+	cache_for_files = 2048;
+	cache_for_streams = 2048;
 	cache_for_dvds = 0; // not recommended to use cache for dvds
-	cache_for_vcds = 1000;
-	cache_for_audiocds = 1000;
+	cache_for_vcds = 1024;
+	cache_for_audiocds = 1024;
 	cache_for_tv = 3000;
 
 #ifdef YOUTUBE_SUPPORT
@@ -301,7 +301,7 @@ void Preferences::reset() {
 
 	show_tag_in_window_title = true;
 
-	time_to_kill_mplayer = 5000;
+	time_to_kill_mplayer = 1000;
 
 
     /* *********
@@ -314,11 +314,13 @@ void Preferences::reset() {
 	stay_on_top = NeverOnTop;
 	size_factor = 100; // 100%
 
-	resize_method = Always;
+	resize_method = Never;
 
 #if STYLE_SWITCHING
 	style="";
 #endif
+
+	move_when_dragging = false;
 
 
 #if DVDNAV_SUPPORT
@@ -349,8 +351,9 @@ void Preferences::reset() {
 #endif
 	precise_seeking = true;
 
+	reset_stop = false;
+
 	language = "";
-	iconset = "";
 
 	balloon_count = 5;
 
@@ -370,12 +373,18 @@ void Preferences::reset() {
 
 	allow_video_movement = false;
 
-	gui = "DefaultGui";
+#ifdef SKINS
+	gui = "SkinGUI";
+	iconset = "Gonzo";
+#else
+	gui = "DefaultGUI";
+	iconset = "";
+#endif
 
 #if USE_MINIMUMSIZE
 	gui_minimum_width = 0; // 0 == disabled
 #endif
-	default_size = QSize(580, 440);
+	default_size = QSize(683, 509);
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
 	hide_video_window_on_audio_files = true;
@@ -755,6 +764,8 @@ void Preferences::save() {
 	set->setValue("style", style);
 #endif
 
+	set->setValue("move_when_dragging", move_when_dragging);
+
 	set->setValue("mouse_left_click_function", mouse_left_click_function);
 	set->setValue("mouse_right_click_function", mouse_right_click_function);
 	set->setValue("mouse_double_click_function", mouse_double_click_function);
@@ -778,6 +789,8 @@ void Preferences::save() {
 	set->setValue("relative_seeking", relative_seeking);
 #endif
 	set->setValue("precise_seeking", precise_seeking);
+
+	set->setValue("reset_stop", reset_stop);
 
 	set->setValue("language", language);
 	set->setValue("iconset", iconset);
@@ -1214,6 +1227,8 @@ void Preferences::load() {
 	style = set->value("style", style).toString();
 #endif
 
+	move_when_dragging = set->value("move_when_dragging", move_when_dragging).toBool();
+
 	mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
 	mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();
 	mouse_double_click_function = set->value("mouse_double_click_function", mouse_double_click_function).toString();
@@ -1238,6 +1253,8 @@ void Preferences::load() {
 	relative_seeking = set->value("relative_seeking", relative_seeking).toBool();
 #endif
 	precise_seeking = set->value("precise_seeking", precise_seeking).toBool();
+
+	reset_stop = set->value("reset_stop", reset_stop).toBool();
 
 	language = set->value("language", language).toString();
 	iconset= set->value("iconset", iconset).toString();
@@ -1414,9 +1431,50 @@ void Preferences::load() {
 	// Fix some values if config is old
 	if (config_version < CURRENT_CONFIG_VERSION) {
 		qDebug("Preferences::load: config version is old, updating it");
+		/*
+		if (config_version <= 2) {
+			use_slices = false;
+		}
+		if (config_version <= 3) {
+			osd = None;
+			frame_drop = false;
+			cache_for_files = 2048;
+			cache_for_streams = 2048;
+			time_to_kill_mplayer = 1000;
+		}
+		*/
+		if (config_version <= 4) {
+			use_slices = false;
+			osd = None;
+			frame_drop = false;
+			cache_for_files = 2048;
+			cache_for_streams = 2048;
+			time_to_kill_mplayer = 1000;
+
+			resize_method = Never;
+			move_when_dragging = false;
+		}
 		config_version = CURRENT_CONFIG_VERSION;
-		use_slices = false;
 	}
+
+#ifdef Q_OS_WIN
+	// Check if the mplayer binary exists and try to fix it
+	if (!QFile::exists(mplayer_bin)) {
+		qWarning("mplayer_bin '%s' doesn' exist", mplayer_bin.toLatin1().constData());
+		bool fixed = false;
+		if (QFile::exists("mplayer/mplayer.exe")) {
+			mplayer_bin = "mplayer/mplayer.exe";
+			fixed = true;
+		} else
+		if (QFile::exists("mplayer/mplayer2.exe")) {
+			mplayer_bin = "mplayer/mplayer2.exe";
+			fixed = true;
+		}
+		if (fixed) {
+			qWarning("mplayer_bin changed to '%s'", mplayer_bin.toLatin1().constData());
+		}
+	}
+#endif
 }
 
 #endif // NO_USE_INI_FILES

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -129,24 +129,41 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	connect( proc, SIGNAL(receivedCacheMessage(QString)),
 			 this, SLOT(displayMessage(QString)) );
 
+	/*
+	connect( proc, SIGNAL(receivedCacheMessage(QString)),
+			 this, SIGNAL(buffering()));
+	*/
+
+	connect( proc, SIGNAL(receivedCacheEmptyMessage(QString)),
+			 this, SIGNAL(buffering()));
+
 	connect( proc, SIGNAL(receivedCreatingIndex(QString)),
 			 this, SLOT(displayMessage(QString)) );
+
+	connect( proc, SIGNAL(receivedCreatingIndex(QString)),
+			 this, SIGNAL(buffering()));
 
 	connect( proc, SIGNAL(receivedConnectingToMessage(QString)),
 			 this, SLOT(displayMessage(QString)) );
 
+	connect( proc, SIGNAL(receivedConnectingToMessage(QString)),
+			 this, SIGNAL(buffering()));
+
 	connect( proc, SIGNAL(receivedResolvingMessage(QString)),
 			 this, SLOT(displayMessage(QString)) );
+
+	connect( proc, SIGNAL(receivedResolvingMessage(QString)),
+			 this, SIGNAL(buffering()));
 
 	connect( proc, SIGNAL(receivedScreenshot(QString)),
              this, SLOT(displayScreenshotName(QString)) );
 
 	connect( proc, SIGNAL(receivedUpdatingFontCache()),
              this, SLOT(displayUpdatingFontCache()) );
-	
+
 	connect( proc, SIGNAL(receivedScanningFont(QString)),
 			 this, SLOT(displayMessage(QString)) );
-	
+
 	connect( proc, SIGNAL(receivedWindowResolution(int,int)),
              this, SLOT(gotWindowResolution(int,int)) );
 
@@ -251,6 +268,8 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	connect(yt, SIGNAL(downloadFailed(QString)), this, SLOT(YTFailed(QString)));
 	connect(yt, SIGNAL(gotEmptyList()), this, SLOT(YTNoVideoUrl()));
 #endif
+
+	connect(this, SIGNAL(buffering()), this, SLOT(displayBuffering()));
 }
 
 
@@ -520,7 +539,7 @@ void Core::loadSub(const QString & sub ) {
 		just_loaded_external_subs = true;
 
 		QFileInfo fi(sub);
-		if ((pref->fast_load_sub) && (fi.suffix().toLower() != "idx")) {
+		if ((pref->fast_load_sub) && (fi.suffix().toLower() != "idx") && (mset.external_subtitles_fps == MediaSettings::SFPS_None)) {
 			QString sub_file = sub;
 			#ifdef Q_OS_WIN
 			if (pref->use_short_pathnames) {
@@ -1151,16 +1170,26 @@ void Core::stop()
 		mset.current_sec = 0;
 		qDebug("Core::stop: mset.current_sec set to 0");
 		emit showTime( mset.current_sec );
-#ifdef SEEKBAR_RESOLUTION
+		#ifdef SEEKBAR_RESOLUTION
 		emit positionChanged( 0 );
-#else
+		#else
 		emit posChanged( 0 );
-#endif
+		#endif
 		//updateWidgets();
 	}
 
 	stopMplayer();
 	emit mediaStoppedByUser();
+
+	if (pref->reset_stop) {
+		mset.current_sec = 0;
+		emit showTime( mset.current_sec );
+		#ifdef SEEKBAR_RESOLUTION
+		emit positionChanged( 0 );
+		#else
+		emit posChanged( 0 );
+		#endif
+	}
 }
 
 
@@ -1407,6 +1436,13 @@ void Core::startMplayer( QString file, double seek ) {
 	QFileInfo fi(mplayer_bin);
     if (fi.exists() && fi.isExecutable() && !fi.isDir()) {
         mplayer_bin = fi.absoluteFilePath();
+	}
+
+	if (fi.baseName().toLower() == "mplayer2") {
+		if (!pref->mplayer_is_mplayer2) {
+			qDebug("Core::startMplayer: this seems mplayer2");
+			pref->mplayer_is_mplayer2 = true;
+		}
 	}
 
 	proc->addArgument( mplayer_bin );
@@ -1706,9 +1742,11 @@ void Core::startMplayer( QString file, double seek ) {
 		// Use the same font for OSD
 #if !defined(Q_OS_OS2)
 		if (!pref->ass_styles.fontname.isEmpty()) {
+			#ifdef USE_FONTCONFIG_OPTIONS
 			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
 				proc->addArgument("-fontconfig");
 			}
+			#endif
 			proc->addArgument("-font");
 			proc->addArgument( pref->ass_styles.fontname );
 		}
@@ -1717,8 +1755,10 @@ void Core::startMplayer( QString file, double seek ) {
 		if (pref->freetype_support) {
 			proc->addArgument("-subfont-autoscale");
 			proc->addArgument("0");
-			proc->addArgument("-subfont-osd-scale");
-			proc->addArgument(QString::number(pref->ass_styles.fontsize));
+			if (!pref->mplayer_is_mplayer2) { // Prevent huge OSD in mplayer2
+				proc->addArgument("-subfont-osd-scale");
+				proc->addArgument(QString::number(pref->ass_styles.fontsize));
+			}
 			proc->addArgument("-subfont-text-scale"); // Old versions (like 1.0rc2) need this
 			proc->addArgument(QString::number(pref->ass_styles.fontsize));
 		}
@@ -1727,14 +1767,21 @@ void Core::startMplayer( QString file, double seek ) {
 		if (pref->freetype_support) proc->addArgument("-noass");
 #if !defined(Q_OS_OS2)
 		if ( (pref->use_fontconfig) && (!pref->font_name.isEmpty()) ) {
+			#ifdef USE_FONTCONFIG_OPTIONS
 			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
 				proc->addArgument("-fontconfig");
 			}
+			#endif
 			proc->addArgument("-font");
 			proc->addArgument( pref->font_name );
 		}
 #endif
 		if ( (!pref->use_fontconfig) && (!pref->font_file.isEmpty()) ) {
+			#ifdef USE_FONTCONFIG_OPTIONS
+			if (!pref->mplayer_is_mplayer2) { // -nofontconfig removed from mplayer2
+				proc->addArgument("-nofontconfig");
+			}
+			#endif
 			proc->addArgument("-font");
 			proc->addArgument( pref->font_file );
 		}
@@ -1837,6 +1884,20 @@ void Core::startMplayer( QString file, double seek ) {
 			else
 			#endif
 			proc->addArgument( mset.external_subtitles );
+		}
+		if (mset.external_subtitles_fps != MediaSettings::SFPS_None) {
+			QString fps;
+			switch (mset.external_subtitles_fps) {
+				case MediaSettings::SFPS_23: fps = "23"; break;
+				case MediaSettings::SFPS_24: fps = "24"; break;
+				case MediaSettings::SFPS_25: fps = "25"; break;
+				case MediaSettings::SFPS_30: fps = "30"; break;
+				case MediaSettings::SFPS_23976: fps = "24000/1001"; break;
+				case MediaSettings::SFPS_29970: fps = "30000/1001"; break;
+				default: fps = "25";
+			}
+			proc->addArgument("-subfps");
+			proc->addArgument( fps );
 		}
 	}
 
@@ -2203,10 +2264,12 @@ void Core::startMplayer( QString file, double seek ) {
 
 	// Stereo mode
 	if (mset.stereo_mode != 0) {
-		if (mset.stereo_mode == MediaSettings::Left) 
-			af += "channels=2:2:0:1:0:0";
-		else
-			af += "channels=2:2:1:0:1:1";
+		switch (mset.stereo_mode) {
+			case MediaSettings::Left: af += "channels=2:2:0:1:0:0"; break;
+			case MediaSettings::Right: af += "channels=2:2:1:0:1:1"; break;
+			case MediaSettings::Mono: af += "pan=1:0.5:0.5"; break;
+			case MediaSettings::Reverse: af += "channels=2:2:0:1:1:0"; break;
+		}
 	}
 
 	if (mset.extrastereo_filter) {
@@ -3100,6 +3163,14 @@ void Core::changeSubVisibility(bool visible) {
 		displayMessage( tr("Subtitles off") );
 }
 
+void Core::changeExternalSubFPS(int fps_id) {
+	qDebug("Core::setExternalSubFPS: %d", fps_id);
+	mset.external_subtitles_fps = fps_id;
+	if (!mset.external_subtitles.isEmpty()) {
+		restartPlay();
+	}
+}
+
 // Audio equalizer functions
 void Core::setAudioEqualizer(AudioEqualizerList values, bool restart) {
 	mset.audio_equalizer = values;
@@ -3679,6 +3750,7 @@ void Core::changeAdapter(int n) {
 }
 #endif
 
+#if 0
 void Core::changeSize(int n) {
 	if ( /*(n != pref->size_factor) &&*/ (!pref->use_mplayer_window) ) {
 		pref->size_factor = n;
@@ -3694,6 +3766,7 @@ void Core::toggleDoubleSize() {
 	else
 		changeSize(200);
 }
+#endif
 
 void Core::changeZoom(double p) {
 	qDebug("Core::changeZoom: %f", p);
@@ -3945,6 +4018,10 @@ void Core::displayScreenshotName(QString filename) {
 void Core::displayUpdatingFontCache() {
 	qDebug("Core::displayUpdatingFontCache");
 	emit showMessage( tr("Updating the font cache. This may take some seconds...") );
+}
+
+void Core::displayBuffering() {
+	emit showMessage(tr("Buffering..."));
 }
 
 void Core::gotWindowResolution(int w, int h) {

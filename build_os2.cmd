@@ -73,7 +73,7 @@ if command = "INSTALL" then do
 end
 
 /* now we translate also the options */
-options = translate(options)
+option = translate(option)
 
 if sourceDir \== buildDir then do
     say "Shadow build in progress ..."

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #define USE_SVN_VERSIONS 0
 
-#define VERSION "0.8.2.1"
+#define VERSION "0.8.5"
 
 #if USE_SVN_VERSIONS
 #include <svn_revision.h>
@@ -48,4 +48,8 @@ QString smplayerVersion() {
     return QString(VERSION);
 #endif
 #endif
+}
+
+QString stableVersion() {
+	return QString(VERSION);
 }

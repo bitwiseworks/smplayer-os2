@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include "ui_findsubtitleswindow.h"
 #include <QNetworkProxy>
 
-class SimpleHttp;
+class OSClient;
 class QStandardItemModel;
 class QSortFilterProxyModel;
 class QModelIndex;
@@ -68,12 +68,14 @@ protected slots:
 
 	void showError(QString error);
 	void connecting(QString host);
+	void showLoginFailed();
+	void showSearchFailed();
 	void updateDataReadProgress(int done, int total);
 	void downloadFinished();
 
 	void updateRefreshButton();
 
-	void parseInfo(QByteArray xml_text);
+	void parseInfo();
 
 	void itemActivated(const QModelIndex & index );
 	void currentItemChanged(const QModelIndex & current, const QModelIndex & previous);
@@ -109,7 +111,7 @@ protected slots:
 #endif
 
 protected:
-	SimpleHttp * downloader;
+	OSClient * osclient;
 	QStandardItemModel * table;
 	QSortFilterProxyModel * proxy_model;
 	QString last_file;

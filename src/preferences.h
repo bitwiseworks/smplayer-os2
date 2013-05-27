@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -314,6 +314,8 @@ public:
 	QString style; 	//!< SMPlayer look
 #endif
 
+	bool move_when_dragging; //!< Move the main window when the video area is dragged
+
 	// Function of mouse buttons:
 	QString mouse_left_click_function;
 	QString mouse_right_click_function;
@@ -343,6 +345,8 @@ public:
 	bool relative_seeking;  
 #endif
 	bool precise_seeking; //! Enable precise_seeking (only available with mplayer2)
+
+	bool reset_stop; //! Pressing the stop button resets the position
 
 	QString language;
 	QString iconset;

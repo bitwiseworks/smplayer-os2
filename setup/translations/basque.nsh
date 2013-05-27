@@ -18,7 +18,7 @@ ${LangFileString} Existing_64bitInst "64-biteko SMPlayer ezarpen bat dago. Lehen
 
 ; Welcome page
 ${LangFileString} WelcomePage_Title "$(^NameDA) Setup"
-${LangFileString} WelcomePage_Text "Setup will guide you through the installation of $(^NameDA).$\r$\n$\r$\nIt is recommended that you close all instances of SMPlayer before starting setup. This will make it possible to update relevant program files without having to reboot your computer.$\r$\n$\r$\n$_CLICK"
+${LangFileString} WelcomePage_Text "Ezartzaileak $(^NameDA)-ren ezarpenean zehar gidatuko zaitu.$\r$\n$\r$\nGomendagarria da SMPlayer eskabide guztiak istea ezarpena hasi aurretik. Honek zure ordenagailua berrabiarazi gabe programa agiri garrantzitsuak eguneratu ahal izatea egiten du.$\r$\n$\r$\n$_CLICK"
 
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Lasterbideak"
@@ -37,11 +37,7 @@ ${LangFileString} Section_MPlayer "MPlayer (beharrezkoa)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer; beharrezkoa irakurketarako."
 
 ${LangFileString} Section_MPlayerCodecs "Kodek Binarioak"
-!ifdef WITH_CODECS
-${LangFileString} Section_MPlayerCodecs_Desc "Aukerazko kodekak MPlayerrentzat."
-!else ifndef WITH_CODECS
 ${LangFileString} Section_MPlayerCodecs_Desc "Aukerazko kodekak MPlayerrentzat. (Internet Elkarketa beharrezkoa da ezarpenerako)"
-!endif
 
 ${LangFileString} Section_MEncoder_Desc "MPlayer laguntzen duen programa bat erabili daiteke kodeatzeko edo eraldatzeko sostengatutako audio edo bideo jarioak."
 
@@ -78,10 +74,6 @@ ${LangFileString} Codecs_DL_Retry "MPlayer kodekak ez dira ongi ezarri. Berriro 
 ${LangFileString} Codecs_DL_Failed "Hutsegitea MPlayer kodekak: '$R0'. jeisterakoan."
 ${LangFileString} Codecs_Inst_Failed "Hutsegitea MPlayer kodekak ezartzerakoan."
 
-; Version information
-${LangFileString} VerInfo_DL_Msg "Bertsio argibideak jeisten..."
-${LangFileString} VerInfo_DL_Failed "Hutsegitea bertsio argibideak jeisterakoan: '$R0'. Berezko bertsioa erabiltzen."
-
 ; Uninstaller
 ${LangFileString} Uninstaller_No_Admin "Ezarpen hau administratzaile eskubidea duen erabiltzaileak bakarrik kendu dezake."
 ${LangFileString} Uninstaller_Aborted "Kentzea erabiltzaileak utzita."
@@ -92,6 +84,8 @@ ${LangFileString} Uninstaller_64bitOnly "Ezarpen hau 64-biteko Windowsetik bakar
 ${LangFileString} Application_Description "SMPlayer aurrealde-amaiera oso bat da MPlayer-entzat, ohinarrizko eginkizunetatik: Bideo, DVD, VCD irakurketatik, eginkizun aurreratuenetarainok: MPlayer iragazkiak, edl zerrenda, eta gehiago."
 
 ; Misc
+${LangFileString} Info_Codecs_Backup "Backing up codecs from previous installation..."
+${LangFileString} Info_Codecs_Restore "Restoring codecs from previous installation..."
 ${LangFileString} Info_Del_Files "Agiriak Ezabatzen..."
 ${LangFileString} Info_Del_Registry "Erresgistro Giltzak Ezabatzen..."
 ${LangFileString} Info_Del_Shortcuts "Lasterbideak Ezabatzen..."

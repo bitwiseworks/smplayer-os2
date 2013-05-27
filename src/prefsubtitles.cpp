@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2012 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -473,7 +473,7 @@ void PrefSubtitles::createHelp() {
 
 	setWhatsThis(fontCombo, tr("System font"), 
         tr("Here you can select a system font to be used for the subtitles "
-           "and OSD. <b>Note:</b> requires a MPlayer with fontconfig support.") );
+           "and OSD.") );
 
 	setWhatsThis(font_autoscale_combo, tr("Autoscale"), 
         tr("Select the subtitle autoscaling method.") );
