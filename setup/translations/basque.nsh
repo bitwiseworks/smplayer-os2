@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (beharrezkoa)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer; beharrezkoa irakurketarako."
 
 ${LangFileString} Section_MPlayerCodecs "Kodek Binarioak"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "Aukerazko kodekak MPlayerrentzat. (Internet Elkarketa beharrezkoa da ezarpenerako)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "MPlayer laguntzen duen programa bat erabili daiteke kodeatzeko edo eraldatzeko sostengatutako audio edo bideo jarioak."
 
@@ -46,6 +50,8 @@ ${LangFileString} Section_IconThemes_Desc "SMPlayer-entzako ikur gai gehigarriak
 
 ${LangFileString} Section_Translations "Hizkuntzak"
 ${LangFileString} Section_Translations_Desc "SMPlayer-entzako Ez Ingelerazko hizkuntza agiriak."
+
+${LangFileString} Section_ResetSettings_Desc "Deletes SMPlayer preferences leftover from previous installations."
 
 ${LangFileString} MPlayer_Codec_Msg "Kodek binario paketeek jatorrizkoan ez dauden kodek sostengua gehitzen dute, RealVideo aldaera berrienak eta formato ez arrunt asko bezalakoak.$\nOhartu hauek ez direla beharrezkoak heuskarri arruntenak irakurtzeko, DVD, MPEG-1/2/4, etab."
 
@@ -61,6 +67,7 @@ ${LangFileString} Reinstall_Msg3_1 "Klikatu Hasi jarraitzeko gertu zaudenean."
 ${LangFileString} Reinstall_Msg3_2 "Klikatu Hurrengoa jarraitzeko gertu zaudenean."
 ${LangFileString} Reinstall_Msg3_3 "Klikatu Kendu jarraitzeko gertu zaudenean."
 ${LangFileString} Reinstall_Msg4 "Aldatu Ezarpenaren Hobespenak"
+${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
 
 ${LangFileString} Type_Reinstall "berrezarri"
 ${LangFileString} Type_Downgrade "aurrekoratu"

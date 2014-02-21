@@ -28,6 +28,8 @@
 #include "mybutton.h"
 #include "panelseeker.h"
 
+class QGridLayout;
+
 class ScrollingLabel : public QWidget
 {
     Q_OBJECT
@@ -84,19 +86,23 @@ public:
     void setMplayerState(int state);
     void setDuration(int duration);
     void setMediaLabelText(QString text);
+    void setResolutionLabelText(QString text);
     void setStatusText(QString text, int time = 2000);
     void setBuffering(bool enable);
     bool eventFilter(QObject *object, QEvent *event);
 
 public slots:
 	void setSeeker(int v);
+	void setResolutionVisible(bool b);
 
 private:
     Ui::MediaPanelClass ui;
+    QGridLayout * layout;
     QPixmap leftBackground;
     QPixmap centerBackground;
     QPixmap rightBackground;
     ScrollingLabel* mediaLabel;
+    QLabel *resolutionLabel;
     PanelSeeker* seeker;
     MyButton* repeatButton;
     MyButton* shuffleButton;
@@ -108,6 +114,7 @@ private:
 
 private slots:
     void reverseStatus();
+    void rearrangeWidgets(bool resolution_visible);
 
 protected:
     void paintEvent(QPaintEvent *);

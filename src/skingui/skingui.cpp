@@ -151,6 +151,9 @@ void SkinGui::createActions() {
 #endif
 
 	playOrPauseAct->setCheckable(true);
+
+	viewVideoInfoAct = new MyAction(this, "toggle_video_info_skingui" );
+	viewVideoInfoAct->setCheckable(true);
 }
 
 #if AUTODISABLE_ACTIONS
@@ -201,6 +204,10 @@ void SkinGui::createMenus() {
 #endif
 	optionsMenu->addSeparator();
 	optionsMenu->addMenu(toolbar_menu);
+
+	statusbar_menu = new QMenu(this);
+	statusbar_menu->addAction(viewVideoInfoAct);
+	optionsMenu->addMenu(statusbar_menu);
 }
 
 QMenu * SkinGui::createPopupMenu() {
@@ -259,6 +266,7 @@ void SkinGui::createControlWidget() {
 
 	controlwidget = new QToolBar( this );
 	controlwidget->setObjectName("controlwidget");
+	controlwidget->setLayoutDirection(Qt::LeftToRight);
 	controlwidget->setStyleSheet("QToolBar { spacing: 0px; }");
 	controlwidget->setMovable(false);
 	addToolBar(Qt::BottomToolBarArea, controlwidget);
@@ -306,6 +314,9 @@ void SkinGui::createControlWidget() {
 	connect(mediaBarPanel, SIGNAL(seekerChanged(int)), core, SLOT(goToPos(int)));
 	connect(core, SIGNAL(posChanged(int)),mediaBarPanel, SLOT(setSeeker(int)));
 #endif
+
+	connect( viewVideoInfoAct, SIGNAL(toggled(bool)),
+             mediaBarPanel, SLOT(setResolutionVisible(bool)) );
 
 	controlwidget->addWidget(mediaBarPanel);
 }
@@ -381,6 +392,9 @@ void SkinGui::retranslateStrings() {
 	toolbar_menu->menuAction()->setText( tr("&Toolbars") );
 	toolbar_menu->menuAction()->setIcon( Images::icon("toolbars") );
 
+	statusbar_menu->menuAction()->setText( tr("Status&bar") );
+	statusbar_menu->menuAction()->setIcon( Images::icon("statusbar") );
+
 	toolbar1->setWindowTitle( tr("&Main toolbar") );
 	toolbar1->toggleViewAction()->setIcon(Images::icon("main_toolbar"));
 
@@ -390,6 +404,8 @@ void SkinGui::retranslateStrings() {
 	editFloatingControlAct->change( tr("Edit &floating control") );
 	#endif
 #endif
+
+	viewVideoInfoAct->change(Images::icon("view_video_info"), tr("&Video info") );
 
 	mediaBarPanel->setVolume(core->mset.volume);
 }
@@ -406,6 +422,11 @@ void SkinGui::displayState(Core::State state) {
 		case Core::Paused:		mediaBarPanel->displayMessage( tr("Pause") ); break;
 		case Core::Stopped:		mediaBarPanel->displayMessage( tr("Stop") ); break;
 	}
+}
+
+void SkinGui::displayMessage(QString message, int time) {
+	BaseGuiPlus::displayMessage(message, time);
+	mediaBarPanel->displayMessage(message, time);
 }
 
 void SkinGui::displayMessage(QString message) {
@@ -524,6 +545,8 @@ void SkinGui::saveConfig() {
 
 	set->beginGroup( "skin_gui");
 
+	set->setValue("video_info", viewVideoInfoAct->isChecked());
+
 	set->setValue("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible);
 	set->setValue("compact_toolbar1_was_visible", compact_toolbar1_was_visible);
 
@@ -531,6 +554,7 @@ void SkinGui::saveConfig() {
 		qDebug("SkinGui::saveConfig: w: %d h: %d", width(), height());
 		set->setValue( "pos", pos() );
 		set->setValue( "size", size() );
+		set->setValue( "state", (int) windowState() );
 	}
 
 	set->setValue( "toolbars_state", saveState(Helper::qtVersion()) );
@@ -555,6 +579,8 @@ void SkinGui::loadConfig() {
 
 	set->beginGroup( "skin_gui");
 
+	viewVideoInfoAct->setChecked(set->value("video_info", false).toBool());
+
 	fullscreen_toolbar1_was_visible = set->value("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible).toBool();
 	compact_toolbar1_was_visible = set->value("compact_toolbar1_was_visible", compact_toolbar1_was_visible).toBool();
 
@@ -568,6 +594,8 @@ void SkinGui::loadConfig() {
 
 		move(p);
 		resize(s);
+
+		setWindowState( (Qt::WindowStates) set->value("state", 0).toInt() );
 
 		if (!DesktopInfo::isInsideScreen(this)) {
 			move(0,0);

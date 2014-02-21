@@ -29,6 +29,10 @@
 #include "audioequalizerlist.h"
 #include "assstyles.h"
 
+#ifdef UPDATE_CHECKER
+#include "updatechecker.h"
+#endif
+
 class Recents;
 class URLHistory;
 class Filters;
@@ -503,10 +507,22 @@ public:
        SMPlayer info
        ********* */
 
+#ifdef CHECK_UPGRADED
+	QString smplayer_stable_version;
+	bool check_if_upgraded;
+#endif
 #ifdef FONTCACHE_DIALOG
 	QString smplayer_version;
 #endif
 
+
+    /* *********
+       Update
+       ********* */
+
+#ifdef UPDATE_CHECKER
+	UpdateCheckerData update_checker_data;
+#endif
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Preferences::WheelFunctions)

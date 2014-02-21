@@ -107,6 +107,10 @@
 
 #include "updatechecker.h"
 
+#ifdef YT_USE_SCRIPT
+#include "codedownloader.h"
+#endif
+
 using namespace Global;
 
 BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
@@ -198,13 +202,17 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 	initializeGui();
 
 #ifdef UPDATE_CHECKER
-	update_checker = new UpdateChecker(this, Global::settings);
+	update_checker = new UpdateChecker(this, &pref->update_checker_data);
 	connect(update_checker, SIGNAL(newVersionFound(QString)), 
             this, SLOT(reportNewVersionAvailable(QString)));
 #endif
 
-#ifdef TEST_UPDATE
-	QTimer::singleShot(2000, this, SLOT(testUpdate()));
+#ifdef CHECK_UPGRADED
+	QTimer::singleShot(2000, this, SLOT(checkIfUpgraded()));
+#endif
+
+#ifdef REMINDER_ACTIONS
+	QTimer::singleShot(1000, this, SLOT(checkReminder()));
 #endif
 }
 
@@ -239,16 +247,19 @@ void BaseGui::handleMessageFromOtherInstances(const QString& message) {
 		qDebug("arg: '%s'", arg.toUtf8().constData());
 
 		if (command == "open_file") {
+			emit openFileRequested();
 			open(arg);
 		} 
 		else
 		if (command == "open_files") {
 			QStringList file_list = arg.split(" <<sep>> ");
+			emit openFileRequested();
 			openFiles(file_list);
 		}
 		else
 		if (command == "add_to_playlist") {
 			QStringList file_list = arg.split(" <<sep>> ");
+			/* if (core->state() == Core::Stopped) { emit openFileRequested(); } */
 			playlist->addFiles(file_list);
 		}
 		else
@@ -257,7 +268,7 @@ void BaseGui::handleMessageFromOtherInstances(const QString& message) {
 		}
 		else
 		if (command == "load_sub") {
-			setInitialSubtitle(arg); 
+			setInitialSubtitle(arg);
 			if (core->state() != Core::Stopped) {
 				core->loadSub(arg);
 			}
@@ -728,9 +739,11 @@ void BaseGui::createActions() {
 	connect( showPreferencesAct, SIGNAL(triggered()),
              this, SLOT(showPreferencesDialog()) );
 
+#ifdef YOUTUBE_SUPPORT
 	showTubeBrowserAct = new MyAction( Qt::Key_F11, this, "show_tube_browser" );
 	connect( showTubeBrowserAct, SIGNAL(triggered()),
              this, SLOT(showTubeBrowser()) );
+#endif
 
 	// Submenu Logs
 #ifdef LOG_MPLAYER
@@ -762,9 +775,21 @@ void BaseGui::createActions() {
 	connect( showCheckUpdatesAct, SIGNAL(triggered()),
              this, SLOT(helpCheckUpdates()) );
 
+#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_SCRIPT)
+	updateYTAct = new MyAction( this, "update_youtube" );
+	connect( updateYTAct, SIGNAL(triggered()),
+             this, SLOT(YTUpdateScript()) );
+#endif
+
 	showConfigAct = new MyAction( this, "show_config" );
 	connect( showConfigAct, SIGNAL(triggered()),
              this, SLOT(helpShowConfig()) );
+
+#ifdef REMINDER_ACTIONS
+	donateAct = new MyAction( this, "donate" );
+	connect( donateAct, SIGNAL(triggered()),
+             this, SLOT(helpDonate()) );
+#endif
 
 	aboutQtAct = new MyAction( this, "about_qt" );
 	connect( aboutQtAct, SIGNAL(triggered()),
@@ -1464,20 +1489,14 @@ void BaseGui::retranslateStrings() {
 
 	// Menu Play
 	playAct->change( tr("P&lay") );
-	if (qApp->isLeftToRight()) 
-		playAct->setIcon( Images::icon("play") );
-	else
-		playAct->setIcon( Images::flippedIcon("play") );
+	playAct->setIcon( Images::icon("play") );
 
 	pauseAct->change( Images::icon("pause"), tr("&Pause"));
 	stopAct->change( Images::icon("stop"), tr("&Stop") );
 	frameStepAct->change( Images::icon("frame_step"), tr("&Frame step") );
 
 	playOrPauseAct->change( tr("Play / Pause") );
-	if (qApp->isLeftToRight()) 
-		playOrPauseAct->setIcon( Images::icon("play_pause") );
-	else
-		playOrPauseAct->setIcon( Images::flippedIcon("play_pause") );
+	playOrPauseAct->setIcon( Images::icon("play_pause") );
 
 	pauseAndStepAct->change( Images::icon("pause"), tr("Pause / Frame step") );
 
@@ -1600,7 +1619,9 @@ void BaseGui::retranslateStrings() {
 	showPlaylistAct->change( Images::icon("playlist"), tr("&Playlist") );
 	showPropertiesAct->change( Images::icon("info"), tr("View &info and properties...") );
 	showPreferencesAct->change( Images::icon("prefs"), tr("P&references") );
+#ifdef YOUTUBE_SUPPORT
 	showTubeBrowserAct->change( Images::icon("tubebrowser"), tr("&YouTube%1 browser").arg(QChar(0x2122)) );
+#endif
 
 	// Submenu Logs
 #ifdef LOG_MPLAYER
@@ -1615,7 +1636,15 @@ void BaseGui::retranslateStrings() {
 	showFAQAct->change( Images::icon("faq"), tr("&FAQ") );
 	showCLOptionsAct->change( Images::icon("cl_help"), tr("&Command line options") );
 	showCheckUpdatesAct->change( Images::icon("check_updates"), tr("Check for &updates") );
+
+#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_SCRIPT)
+	updateYTAct->change( Images::icon("update_youtube"), tr("Update &Youtube code") );
+#endif
+
 	showConfigAct->change( Images::icon("show_config"), tr("&Open configuration folder") );
+#ifdef REMINDER_ACTIONS
+	donateAct->change( Images::icon("donate"), tr("&Donate") );
+#endif
 	aboutQtAct->change( QPixmap(":/icons-png/qt.png"), tr("About &Qt") );
 	aboutThisAct->change( Images::icon("logo_small"), tr("About &SMPlayer") );
 
@@ -1630,13 +1659,8 @@ void BaseGui::retranslateStrings() {
 	playNextAct->change( tr("&Next") );
 	playPrevAct->change( tr("Pre&vious") );
 
-	if (qApp->isLeftToRight()) {
-		playNextAct->setIcon( Images::icon("next") );
-		playPrevAct->setIcon( Images::icon("previous") );
-	} else {
-		playNextAct->setIcon( Images::flippedIcon("next") );
-		playPrevAct->setIcon( Images::flippedIcon("previous") );
-	}
+	playNextAct->setIcon( Images::icon("next") );
+	playPrevAct->setIcon( Images::icon("previous") );
 
 
 	// Actions not in menus or buttons
@@ -1914,23 +1938,13 @@ void BaseGui::setJumpTexts() {
 	forward2Act->change( tr("+%1").arg(Helper::timeForJumps(pref->seeking2)) );
 	forward3Act->change( tr("+%1").arg(Helper::timeForJumps(pref->seeking3)) );
 
-	if (qApp->isLeftToRight()) {
-		rewind1Act->setIcon( Images::icon("rewind10s") );
-		rewind2Act->setIcon( Images::icon("rewind1m") );
-		rewind3Act->setIcon( Images::icon("rewind10m") );
+	rewind1Act->setIcon( Images::icon("rewind10s") );
+	rewind2Act->setIcon( Images::icon("rewind1m") );
+	rewind3Act->setIcon( Images::icon("rewind10m") );
 
-		forward1Act->setIcon( Images::icon("forward10s") );
-		forward2Act->setIcon( Images::icon("forward1m") );
-		forward3Act->setIcon( Images::icon("forward10m") );
-	} else {
-		rewind1Act->setIcon( Images::flippedIcon("rewind10s") );
-		rewind2Act->setIcon( Images::flippedIcon("rewind1m") );
-		rewind3Act->setIcon( Images::flippedIcon("rewind10m") );
-
-		forward1Act->setIcon( Images::flippedIcon("forward10s") );
-		forward2Act->setIcon( Images::flippedIcon("forward1m") );
-		forward3Act->setIcon( Images::flippedIcon("forward10m") );
-	}
+	forward1Act->setIcon( Images::icon("forward10s") );
+	forward2Act->setIcon( Images::icon("forward1m") );
+	forward3Act->setIcon( Images::icon("forward10m") );
 }
 
 void BaseGui::setWindowCaption(const QString & title) {
@@ -1961,8 +1975,12 @@ void BaseGui::createCore() {
 
 	connect( core, SIGNAL(needResize(int, int)),
              this, SLOT(resizeWindow(int,int)) );
+
+	connect( core, SIGNAL(showMessage(QString,int)),
+             this, SLOT(displayMessage(QString,int)) );
 	connect( core, SIGNAL(showMessage(QString)),
              this, SLOT(displayMessage(QString)) );
+
 	connect( core, SIGNAL(stateChanged(Core::State)),
              this, SLOT(displayState(Core::State)) );
 	connect( core, SIGNAL(stateChanged(Core::State)),
@@ -2030,6 +2048,11 @@ void BaseGui::createCore() {
 
 	connect( core, SIGNAL(mediaLoaded()), 
              this, SLOT(autosaveMplayerLog()) );
+#endif
+
+#ifdef YOUTUBE_SUPPORT
+	connect(core, SIGNAL(signatureNotFound(const QString &)),
+            this, SLOT(YTNoSignature(const QString &)));
 #endif
 }
 
@@ -2170,18 +2193,22 @@ void BaseGui::createPanel() {
 }
 
 void BaseGui::createPreferencesDialog() {
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	pref_dialog = new PreferencesDialog(this);
 	pref_dialog->setModal(false);
 	/* pref_dialog->mod_input()->setActionsList( actions_list ); */
 	connect( pref_dialog, SIGNAL(applied()),
              this, SLOT(applyNewPreferences()) );
+	QApplication::restoreOverrideCursor();
 }
 
 void BaseGui::createFilePropertiesDialog() {
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	file_dialog = new FilePropertiesDialog(this);
 	file_dialog->setModal(false);
 	connect( file_dialog, SIGNAL(applied()),
              this, SLOT(applyFileProperties()) );
+	QApplication::restoreOverrideCursor();
 }
 
 
@@ -2536,6 +2563,7 @@ void BaseGui::createMenus() {
 	// OPTIONS MENU
 	optionsMenu->addAction(showPropertiesAct);
 	optionsMenu->addAction(showPlaylistAct);
+#ifdef YOUTUBE_SUPPORT
 	#if 0
 	// Check if the smplayer youtube browser is installed
 	{
@@ -2553,6 +2581,7 @@ void BaseGui::createMenus() {
 	#else
 	optionsMenu->addAction(showTubeBrowserAct);
 	#endif
+#endif
 
 	// OSD submenu
 	osd_menu = new QMenu(this);
@@ -2595,9 +2624,18 @@ void BaseGui::createMenus() {
 	helpMenu->addAction(showFirstStepsAct);
 	helpMenu->addAction(showFAQAct);
 	helpMenu->addAction(showCLOptionsAct);
+	helpMenu->addSeparator();
 	helpMenu->addAction(showCheckUpdatesAct);
+#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_SCRIPT)
+	helpMenu->addAction(updateYTAct);
+#endif
+	helpMenu->addSeparator();
 	helpMenu->addAction(showConfigAct);
 	helpMenu->addSeparator();
+#ifdef REMINDER_ACTIONS
+	helpMenu->addAction(donateAct);
+	helpMenu->addSeparator();
+#endif
 	helpMenu->addAction(aboutQtAct);
 	helpMenu->addAction(aboutThisAct);
 
@@ -3842,7 +3880,7 @@ void BaseGui::loadAudioFile() {
 }
 
 void BaseGui::helpFirstSteps() {
-	QDesktopServices::openUrl(QString("http://smplayer.sourceforge.net/first-steps.php?version=%1").arg(smplayerVersion()));
+	QDesktopServices::openUrl(QString("http://smplayer.sourceforge.net/first-steps.php?version=%1").arg(Version::printable()));
 }
 
 void BaseGui::helpFAQ() {
@@ -3869,6 +3907,25 @@ void BaseGui::helpCheckUpdates() {
 void BaseGui::helpShowConfig() {
 	QDesktopServices::openUrl(QUrl::fromLocalFile(Paths::configPath()));
 }
+
+#ifdef REMINDER_ACTIONS
+void BaseGui::helpDonate() {
+	QMessageBox d(QMessageBox::NoIcon, tr("Donate"), 
+		tr("If you like SMPlayer and want to support its development, you can send a donation. Even the smallest one is highly appreciated."),
+		QMessageBox::Ok | QMessageBox::Cancel, this);
+	d.setIconPixmap( Images::icon("logo", 64) );
+	d.button(QMessageBox::Ok)->setText(tr("Yes, I want to donate"));
+	d.setDefaultButton(QMessageBox::Ok);
+	if ( d.exec() == QMessageBox::Ok ) {
+		QDesktopServices::openUrl(QUrl("http://sourceforge.net/donate/index.php?group_id=185512"));
+
+		QSettings * set = Global::settings;
+		set->beginGroup("reminder");
+		set->setValue("action", 1);
+		set->endGroup();
+	}
+}
+#endif
 
 void BaseGui::helpAbout() {
 	About d(this);
@@ -3901,6 +3958,13 @@ void BaseGui::shareSMPlayer() {
 	else
 	if (sender() == facebookAct) {
 		QDesktopServices::openUrl(QUrl("http://www.facebook.com/sharer.php?u=" + url + "&t=" + text));
+
+		#ifdef REMINDER_ACTIONS
+		QSettings * set = Global::settings;
+		set->beginGroup("reminder");
+		set->setValue("action", 2);
+		set->endGroup();
+		#endif
 	}
 }
 
@@ -4216,7 +4280,7 @@ void BaseGui::displayWarningAboutOldMplayer() {
 void BaseGui::reportNewVersionAvailable(QString new_version) {
 	QMessageBox::StandardButton button = QMessageBox::information(this, tr("New version available"),
 		tr("A new version of SMPlayer is available.") + "<br><br>" +
-		tr("Installed version: %1").arg(stableVersion()) + "<br>" +
+		tr("Installed version: %1").arg(Version::with_revision()) + "<br>" +
 		tr("Available version: %1").arg(new_version) + "<br><br>" +
 		tr("Would you like to know more about this new version?"),
 		QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
@@ -4229,20 +4293,13 @@ void BaseGui::reportNewVersionAvailable(QString new_version) {
 }
 #endif
 
-#ifdef TEST_UPDATE
-void BaseGui::testUpdate() {
-	qDebug("BaseGui::testUpdate");
-	QSettings * set = Global::settings;
-	set->beginGroup("smplayer");
-	QString version = set->value("stable_version", "").toString();
-	bool check_for_new_version = set->value("check_for_new_version", true).toBool();
-	set->setValue("stable_version", stableVersion());
-	set->setValue("check_for_new_version", check_for_new_version);
-	set->endGroup();
+#ifdef CHECK_UPGRADED
+void BaseGui::checkIfUpgraded() {
+	qDebug("BaseGui::checkIfUpgraded");
 
-	if ( (check_for_new_version) && (version != stableVersion()) ) {
+	if ( (pref->check_if_upgraded) && (pref->smplayer_stable_version != Version::stable()) ) {
 		// Running a new version
-		qDebug("BaseGui::testUpdate: running a new version: %s", stableVersion().toUtf8().constData());
+		qDebug("BaseGui::checkIfUpgraded: running a new version: %s", Version::stable().toUtf8().constData());
 		QString os = "other";
 		#ifdef Q_OS_WIN
 		os = "win";
@@ -4250,13 +4307,97 @@ void BaseGui::testUpdate() {
 		#ifdef Q_OS_LINUX
 		os = "linux";
 		#endif
-		#ifdef Q_OS_OS2
-		os = "os2";
-		#endif
-		QDesktopServices::openUrl(QString("http://smplayer.sourceforge.net/thank-you.php?version=%1&so=%2").arg(smplayerVersion()).arg(os));
+		QDesktopServices::openUrl(QString("http://smplayer.sourceforge.net/thank-you.php?version=%1&so=%2").arg(Version::printable()).arg(os));
+	}
+	pref->smplayer_stable_version = Version::stable();
+}
+#endif
+
+#ifdef REMINDER_ACTIONS
+void BaseGui::checkReminder() {
+	qDebug("BaseGui::checkReminder");
+
+	if (core->state() == Core::Playing) return;
+
+	QSettings * set = Global::settings;
+	set->beginGroup("reminder");
+	int count = set->value("count", 0).toInt();
+	count++;
+	set->setValue("count", count);
+	int action = set->value("action", 0).toInt();
+	set->endGroup();
+
+	if (action != 0) return;
+	if ((count != 25) && (count != 45)) return;
+
+	QMessageBox box(this);
+	box.setIcon(QMessageBox::Question);
+	box.setIconPixmap( Images::icon("donate_big") );
+	box.setWindowTitle(tr("Help SMPlayer"));
+	box.setText(
+		tr("If you like SMPlayer and want to support its development, you can send a donation. Even the smallest one is highly appreciated.") + "<br>"+
+		tr("Or you maybe you want to share SMPlayer with your friends in Facebook.") + "<br>" +
+		tr("What would you like to do?") );
+	QPushButton * donate_button = box.addButton(tr("&Donate"), QMessageBox::ActionRole);
+	QPushButton * facebook_button = box.addButton(tr("&Share with my friends"), QMessageBox::ActionRole);
+	QPushButton * cancel_button = box.addButton(QMessageBox::Cancel);
+
+	box.exec();
+	if (box.clickedButton() == donate_button) {
+		QDesktopServices::openUrl(QUrl("http://sourceforge.net/donate/index.php?group_id=185512"));
+		action = 1;
+	}
+	else 
+	if (box.clickedButton() == facebook_button) {
+		QString text = QString("SMPlayer - Free Media Player with built-in codecs that can play and download Youtube videos").replace(" ","+");
+		QString url = "http://smplayer.sourceforge.net";
+		QDesktopServices::openUrl(QUrl("http://www.facebook.com/sharer.php?u=" + url + "&t=" + text));
+		action = 2;
+	}
+	else
+	if (box.clickedButton() == cancel_button) {
+	}
+
+	if (action > 0) {
+		set->beginGroup("reminder");
+		set->setValue("action", action);
+		set->endGroup();
 	}
 }
 #endif
+
+#ifdef YOUTUBE_SUPPORT
+void BaseGui::YTNoSignature(const QString & title) {
+	qDebug("BaseGui::YTNoSignature: %s", title.toUtf8().constData());
+
+	QString t = title;
+	t.replace(" - YouTube", "");
+
+	#ifdef YT_USE_SCRIPT
+	int ret = QMessageBox::question(this, tr("Problems with Youtube"),
+				tr("Unfortunately due to changes in the Youtube page, the video '%1' can't be played.").arg(t) + "<br><br>" +
+				tr("Do you want to update the Youtube code? This may fix the problem."),
+				QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+	if (ret == QMessageBox::Yes) {
+		YTUpdateScript();
+	}
+	#else
+	QMessageBox::warning(this, tr("Problems with Youtube"),
+		tr("Unfortunately due to changes in the Youtube page, the video '%1' can't be played.").arg(t) + "<br><br>" +
+		tr("Maybe updating SMPlayer could fix the problem."));
+	#endif
+}
+
+#ifdef YT_USE_SCRIPT
+void BaseGui::YTUpdateScript() {
+	static CodeDownloader * downloader = 0;
+	if (!downloader) downloader = new CodeDownloader(this);
+	downloader->saveAs(Paths::configPath() + "/ytcode.script");
+	downloader->show();
+	downloader->download(QUrl("http://updates.smplayer.info/ytcode.script"));
+}
+#endif // YT_USE_SCRIPT
+#endif //YOUTUBE_SUPPORT
 
 void BaseGui::dragEnterEvent( QDragEnterEvent *e ) {
 	qDebug("BaseGui::dragEnterEvent");
@@ -4439,8 +4580,12 @@ void BaseGui::displayState(Core::State state) {
 #endif
 }
 
+void BaseGui::displayMessage(QString message, int time) {
+	statusBar()->showMessage(message, time);
+}
+
 void BaseGui::displayMessage(QString message) {
-	statusBar()->showMessage(message, 2000);
+	displayMessage(message, 2000);
 }
 
 void BaseGui::gotCurrentTime(double sec) {
@@ -4933,6 +5078,7 @@ void BaseGui::showVideoPreviewDialog() {
 }
 #endif
 
+#ifdef YOUTUBE_SUPPORT
 void BaseGui::showTubeBrowser() {
 	qDebug("BaseGui::showTubeBrowser");
 	QString exec = Paths::appPath() + "/smtube";
@@ -4943,6 +5089,7 @@ void BaseGui::showTubeBrowser() {
 			tr("Be sure %1 is installed.").arg("SMTube"));
 	}
 }
+#endif
 
 // Language change stuff
 void BaseGui::changeEvent(QEvent *e) {

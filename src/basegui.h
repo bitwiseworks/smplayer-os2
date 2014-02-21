@@ -33,14 +33,6 @@
 #include <windows.h>
 #endif
 
-#ifdef Q_OS_WIN
-  #ifdef PORTABLE_APP
-     #define TEST_UPDATE
-  #endif
-#else
-  #define TEST_UPDATE
-#endif
-
 class QWidget;
 class QMenu;
 class LogWindow;
@@ -59,16 +51,16 @@ class FindSubtitlesWindow;
 class VideoPreview;
 #endif
 
-
 class MyAction;
 class MyActionGroup;
-
 class PreferencesDialog;
-
 class Favorites;
 class TVList;
-
 class UpdateChecker;
+
+#if !defined(Q_OS_WIN) || defined(PORTABLE_APP)
+#define REMINDER_ACTIONS 1
+#endif
 
 class BaseGui : public QMainWindow
 {
@@ -114,6 +106,9 @@ public slots:
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpCheckUpdates();
+#ifdef REMINDER_ACTIONS
+	virtual void helpDonate();
+#endif
 	virtual void helpShowConfig();
 	virtual void helpAbout();
 	virtual void helpAboutQt();
@@ -134,7 +129,9 @@ public slots:
 	virtual void showVideoPreviewDialog();
 #endif
 
+#ifdef YOUTUBE_SUPPORT
 	virtual void showTubeBrowser();
+#endif
 
 	virtual void showPlaylist();
 	virtual void showPlaylist(bool b);
@@ -190,6 +187,7 @@ protected slots:
 	virtual void playlistHasFinished();
 
 	virtual void displayState(Core::State state);
+	virtual void displayMessage(QString message, int time);
 	virtual void displayMessage(QString message);
 	virtual void gotCurrentTime(double);
 
@@ -214,8 +212,19 @@ protected slots:
 	void reportNewVersionAvailable(QString);
 #endif
 
-#ifdef TEST_UPDATE
-	void testUpdate();
+#ifdef CHECK_UPGRADED
+	void checkIfUpgraded();
+#endif
+
+#ifdef REMINDER_ACTIONS
+	void checkReminder();
+#endif
+
+#ifdef YOUTUBE_SUPPORT
+	void YTNoSignature(const QString &);
+	#ifdef YT_USE_SCRIPT
+	void YTUpdateScript();
+	#endif
 #endif
 
 #if AUTODISABLE_ACTIONS
@@ -322,6 +331,9 @@ signals:
 
 	//! Sent when the user wants to close the main window
 	void quitSolicited();
+
+	//! Sent when another instance requested to play a file
+	void openFileRequested();
 
 #ifdef GUI_CHANGE_ON_RUNTIME
 	void guiChanged(QString gui);
@@ -468,7 +480,9 @@ protected:
 	MyAction * showPlaylistAct;
 	MyAction * showPropertiesAct;
 	MyAction * showPreferencesAct;
+#ifdef YOUTUBE_SUPPORT
 	MyAction * showTubeBrowserAct;
+#endif
 #ifdef LOG_MPLAYER
 	MyAction * showLogMplayerAct;
 #endif
@@ -481,7 +495,13 @@ protected:
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
 	MyAction * showCheckUpdatesAct;
+#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_SCRIPT)
+	MyAction * updateYTAct;
+#endif
 	MyAction * showConfigAct;
+#ifdef REMINDER_ACTIONS
+	MyAction * donateAct;
+#endif
 	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
 

@@ -26,6 +26,7 @@
 #include "version.h"
 #include "config.h"
 #include "clhelp.h"
+#include "cleanconfig.h"
 #include "myapplication.h"
 
 #ifdef SKINS
@@ -103,9 +104,11 @@ BaseGui * SMPlayer::gui() {
 		if (gui_to_use == "SkinGUI") {
 			QString theme = pref->iconset;
 			if (theme.isEmpty()) theme = "Gonzo";
+			QString user_theme_dir = Paths::configPath() + "/themes/" + theme;
 			QString theme_dir = Paths::themesPath() + "/" + theme;
+			qDebug("SMPlayer::gui: user_theme_dir: %s", user_theme_dir.toUtf8().constData());
 			qDebug("SMPlayer::gui: theme_dir: %s", theme_dir.toUtf8().constData());
-			if (QDir(theme_dir).exists()) {
+			if ((QDir(theme_dir).exists()) || (QDir(user_theme_dir).exists())) {
 				if (pref->iconset.isEmpty()) pref->iconset = theme;
 			} else {
 				qDebug("SMPlayer::gui: skin folder doesn't exist. Falling back to default gui.");
@@ -204,8 +207,8 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 	bool add_to_playlist = false;
 
 #ifdef Q_OS_WIN
-	if (args.contains("-uninstall")){
-#if USE_ASSOCIATIONS
+	if (args.contains("-uninstall")) {
+		#if USE_ASSOCIATIONS
 		//Called by uninstaller. Will restore old associations.
 		WinFileAssoc RegAssoc; 
 		Extensions exts; 
@@ -213,10 +216,15 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 		RegAssoc.GetRegisteredExtensions(exts.multimedia(), regExts); 
 		RegAssoc.RestoreFileAssociations(regExts); 
 		printf("Restored associations\n");
-#endif
-		return NoError; 
+		#endif
+		return NoError;
 	}
 #endif
+
+	if (args.contains("-delete-config")) {
+		CleanConfig::clean(Paths::configPath());
+		return NoError;
+	}
 
 	for (int n = 1; n < args.count(); n++) {
 		QString argument = args[n];
@@ -392,10 +400,10 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 void SMPlayer::start() {
 #ifdef FONTCACHE_DIALOG
 #ifndef PORTABLE_APP
-	if (smplayerVersion() != pref->smplayer_version) {
+	if (Version::with_revision() != pref->smplayer_version) {
 		FontCacheDialog d(0);
 		d.run(pref->mplayer_bin, "sample.avi");
-		pref->smplayer_version = smplayerVersion();
+		pref->smplayer_version = Version::with_revision();
 	}
 #endif
 #endif
@@ -453,7 +461,7 @@ void SMPlayer::showInfo() {
 	}
 #endif
 	QString s = QObject::tr("This is SMPlayer v. %1 running on %2")
-            .arg(smplayerVersion())
+            .arg(Version::printable())
 #ifdef Q_OS_LINUX
            .arg("Linux")
 #else

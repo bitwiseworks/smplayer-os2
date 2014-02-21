@@ -49,6 +49,7 @@
         <file>icons-png/pref_gui.png</file>
         <file>icons-png/pref_performance.png</file>
         <file>icons-png/pref_subtitles.png</file>
+        <file>icons-png/pref_updates.png</file>
         <file>icons-png/prefs.png</file>
         <file>icons-png/previous.png</file>
         <file>icons-png/saturation.png</file>
@@ -118,6 +119,9 @@
         <file>icons-png/open_favorites.png</file>
         <file>icons-png/a_marker.png</file>
         <file>icons-png/b_marker.png</file>
+        <file>icons-png/donate.png</file>
+        <file>icons-png/donate_big.png</file>
+        <file>icons-png/update_youtube.png</file>
         <file>icons-png/bookmark_add.png</file>
         <file>icons-png/bookmark_folder.png</file>
         <file>icons-png/trash.png</file>
@@ -127,6 +131,7 @@
         <file>icons-png/show_config.png</file>
         <file>icons-png/share.png</file>
         <file>icons-png/guide.png</file>
+        <file>icons-png/crash.png</file>
         <file>mpcgui/mpc_toolbar.png</file>
         <file>mpcgui/mpc_mono.png</file>
         <file>mpcgui/mpc_stereo.png</file>

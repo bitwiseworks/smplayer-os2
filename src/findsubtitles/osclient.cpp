@@ -34,7 +34,7 @@ void OSClient::setProxy(const QNetworkProxy & proxy) {
 void OSClient::login() {
 	qDebug("OSClient::login");
 
-	QString user_agent = "SMPlayer v" + stableVersion();
+	QString user_agent = "SMPlayer v" + Version::stable();
 	qDebug("OSClient::login: user agent: %s", user_agent.toUtf8().constData());
 
 	QVariantList args;
@@ -77,7 +77,16 @@ void OSClient::doSearch() {
 	m["moviehash"] = search_hash;
 	m["moviebytesize"] = QString::number(search_size);
 
+	// For some reason it seems opensubtitles fails
+	// sometimes if there's only one item in the list.
+	// So as workaround, the item is appended twice.
+
+	// Update: and the opposite, sometimes it doesn't return any 
+	// result with 2 items but it does with 1.
+	// Workaround: use 3 items... Seems to work in all cases.
 	QVariantList list;
+	list.append(m);
+	list.append(m);
 	list.append(m);
 
 	QVariantList args;
@@ -135,6 +144,8 @@ void OSClient::responseSearch(QVariant &arg) {
 		return;
 	}
 
+	s_list.clear();
+
 	QVariantList data = m["data"].toList();
 	qDebug("OSClient::responseSearch: data count: %d", data.count());
 
@@ -146,7 +157,11 @@ void OSClient::responseSearch(QVariant &arg) {
 
 		sub.releasename = m["MovieReleaseName"].toString();
 		sub.movie = m["MovieName"].toString();
+#ifdef USE_QUAZIP
 		sub.link = m["ZipDownloadLink"].toString();
+#else
+		sub.link = m["SubDownloadLink"].toString();
+#endif
 		sub.date = m["SubAddDate"].toString();
 		sub.iso639 = m["ISO639"].toString();
 		sub.rating = m["SubRating"].toString();

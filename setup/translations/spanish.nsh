@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (requerido)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer; requerido para la reproducción multimedia."
 
 ${LangFileString} Section_MPlayerCodecs "Códecs Binarios"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "Códecs opcionales para MPlayer. (Se necesita conexión a internet para la instalación)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "Un programa opcional que puede ser usado para recodificar vídeos."
 
@@ -46,6 +50,8 @@ ${LangFileString} Section_IconThemes_Desc "Temas de iconos adicionales para SMPl
 
 ${LangFileString} Section_Translations "Idiomas"
 ${LangFileString} Section_Translations_Desc "Ficheros de idiomas para SMPlayer."
+
+${LangFileString} Section_ResetSettings_Desc "Borra la configuración de SMPlayer de instalaciones anteriores."
 
 ${LangFileString} MPlayer_Codec_Msg "El paquete de códecs binarios añade soporte para códecs que todavía no se han implementado nativamente, como como las nuevas variantes de RealVideo y algunos formatos poco comunes.$\nTen en cuenta de que no son necesarios para reproducir los formatos más comunes como DVDs, MPEG-1/2/4, etc."
 
@@ -61,6 +67,7 @@ ${LangFileString} Reinstall_Msg3_1 "Pulsa en Comenzar cuando estés listo."
 ${LangFileString} Reinstall_Msg3_2 "Pulsa Continuar cuando estés listo."
 ${LangFileString} Reinstall_Msg3_3 "Pulsa Desinstalar cuando estés listo."
 ${LangFileString} Reinstall_Msg4 "Cambiar las opciones de instalación"
+${LangFileString} Reinstall_Msg5 "Reiniciar la configuración de SMPlayer"
 
 ${LangFileString} Type_Reinstall "reinstalar"
 ${LangFileString} Type_Downgrade "desactualizar"

@@ -20,26 +20,28 @@
 
 #define USE_SVN_VERSIONS 0
 
-#define VERSION "0.8.5"
+#define VERSION "0.8.6"
 
 #if USE_SVN_VERSIONS
 #include <svn_revision.h>
+#else
+#define SVN_REVISION "5637"
 #endif
 
 #ifdef Q_OS_WIN
-#if defined( _WIN64 )
+#if defined(_WIN64)
 #define SMPWIN_ARCH "(64-bit)"
-#elif defined( _WIN32 )
+#elif defined(_WIN32) && !defined(_WIN64)
 #define SMPWIN_ARCH "(32-bit)"
 #endif
 #endif
 
-QString smplayerVersion() {
+QString Version::printable() {
 #if USE_SVN_VERSIONS
 #ifdef Q_OS_WIN
-    return QString(QString(VERSION) + "+" + QString(SVN_REVISION) + " " + QString(SMPWIN_ARCH));
+    return QString(QString(VERSION) + " (svn r" + QString(SVN_REVISION) + ") " + QString(SMPWIN_ARCH));
 #else
-    return QString(QString(VERSION) + "+" + QString(SVN_REVISION));
+    return QString(QString(VERSION) + " (svn r" + QString(SVN_REVISION) + ")");
 #endif
 #else
 #ifdef Q_OS_WIN
@@ -50,6 +52,11 @@ QString smplayerVersion() {
 #endif
 }
 
-QString stableVersion() {
+QString Version::stable() {
 	return QString(VERSION);
 }
+
+QString Version::revision() {
+	return QString(SVN_REVISION);
+}
+

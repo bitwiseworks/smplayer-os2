@@ -96,6 +96,8 @@
   Var Reinstall_Message
   Var Reinstall_OverwriteButton
   Var Reinstall_OverwriteButton_State
+  Var Reinstall_RemoveSettings
+  Var Reinstall_RemoveSettings_State
   Var Reinstall_Uninstall
   Var Reinstall_UninstallButton
   Var Reinstall_UninstallButton_State
@@ -360,13 +362,22 @@ SectionGroup $(MPlayerGroupTitle)
     SectionIn RO
 
     SetOutPath "$INSTDIR\mplayer"
-    File /r /x mencoder.exe "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
+    File /r /x mplayer.exe /x mencoder.exe /x mplayer64.exe /x mencoder64.exe "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
+!ifdef WIN64
+    File /oname=mplayer.exe "${SMPLAYER_BUILD_DIR}\mplayer\mplayer64.exe"
+!else
+    File "${SMPLAYER_BUILD_DIR}\mplayer\mplayer.exe"
+!endif
 
     WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer 0x1
 
   SectionEnd
 
   Section /o $(Section_MPlayerCodecs) SecCodecs
+
+!ifdef WIN64
+    SectionIn RO
+!endif
 
     AddSize 22931
 
@@ -441,6 +452,12 @@ ${MementoSection} $(Section_Translations) SecTranslations
 
 ${MementoSectionEnd}
 
+Section /o $(Reinstall_Msg5) SecResetSettings
+
+    NsExec::Exec '"$INSTDIR\smplayer.exe" -delete-config'
+
+SectionEnd
+
 ;--------------------------------
 ;Install/Uninstall information
 Section -Post
@@ -491,6 +508,7 @@ ${MementoSectionDone}
   !insertmacro MUI_DESCRIPTION_TEXT ${SecCodecs} $(Section_MPlayerCodecs_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemes} $(Section_IconThemes_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTranslations} $(Section_Translations_Desc)
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecResetSettings} $(Section_ResetSettings_Desc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -641,13 +659,11 @@ FunctionEnd
 
 Function .onInit
 
-/*
   ${Unless} ${AtLeastWinXP}
     MessageBox MB_YESNO|MB_ICONSTOP $(OS_Not_Supported) /SD IDNO IDYES installonoldwindows
     Abort
   installonoldwindows:
   ${EndIf}
-*/
 
 !ifdef WIN64
   ${IfNot} ${RunningX64}
@@ -718,7 +734,11 @@ Function .onInstSuccess
 
   ${MementoSectionSave}
 
-  ExecShell "open" "http://smplayer.sourceforge.net/thank-you.php?version=${SMPLAYER_VERSION}"
+/*
+  ${Unless} $Reinstall_Uninstall == 1
+    ExecShell "open" "http://smplayer.sourceforge.net/thank-you.php?version=${SMPLAYER_VERSION}"
+  ${EndIf}
+*/
 
 FunctionEnd
 
@@ -735,7 +755,7 @@ Function .onInstFailed
 
 FunctionEnd
 
-Function un.onUninstSuccess
+/* Function un.onUninstSuccess
 
   ;Don't launch uninstall page if reinstalling
   ${un.GetParameters} $R0
@@ -744,7 +764,7 @@ Function un.onUninstSuccess
   IfErrors 0 +2
   ExecShell "open" "http://smplayer.sourceforge.net/uninstall.php?version=${SMPLAYER_VERSION}"
 
-FunctionEnd
+FunctionEnd */
 
 Function CheckPreviousVersion
 
@@ -793,10 +813,15 @@ FunctionEnd
 Function LoadPreviousSettings
 
   ;MPlayer codecs section doesn't use Memento so we need to restore it manually
-  ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" "Installed_Codecs"
-  ${If} $R0 == 1
-    !insertmacro SelectSection ${SecCodecs}
-  ${EndIf}
+  ;32-bit only
+!ifdef WIN64
+    !insertmacro UnSelectSection ${SecCodecs}
+!else
+    ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" "Installed_Codecs"
+    ${If} $R0 == 1
+      !insertmacro SelectSection ${SecCodecs}
+    ${EndIf}
+!endif
 
   ;Gets start menu folder name
   !insertmacro MUI_STARTMENU_GETFOLDER "SMP_SMenu" $SMPlayer_StartMenuFolder
@@ -833,7 +858,10 @@ Function PageReinstall
   ${NSD_CreateCheckBox} 0 90u 100% 8u $(Reinstall_Msg4)
   Pop $Reinstall_ChgSettings
 
-  ${NSD_CreateLabel} 0 115u 100% 16u 
+  ${NSD_CreateCheckBox} 0 102u 100% 8u $(Reinstall_Msg5)
+  Pop $Reinstall_RemoveSettings
+
+  ${NSD_CreateLabel} 0 121u 100% 16u 
   Pop $Reinstall_Message
 
   SendMessage $Reinstall_OverwriteButton ${BM_SETCHECK} 1 0
@@ -841,6 +869,10 @@ Function PageReinstall
 
   ${If} $Reinstall_ChgSettings_State == 1
     SendMessage $Reinstall_ChgSettings ${BM_SETCHECK} 1 0
+  ${Endif}
+
+  ${If} $Reinstall_RemoveSettings_State == 1
+    SendMessage $Reinstall_RemoveSettings ${BM_SETCHECK} 1 0
   ${Endif}
 
   ${NSD_OnClick} $Reinstall_OverwriteButton PageReinstallUpdate
@@ -858,6 +890,11 @@ Function PageReinstallLeave
   ${NSD_GetState} $Reinstall_OverwriteButton $Reinstall_OverwriteButton_State
   ${NSD_GetState} $Reinstall_UninstallButton $Reinstall_UninstallButton_State
   ${NSD_GetState} $Reinstall_ChgSettings $Reinstall_ChgSettings_State
+  ${NSD_GetState} $Reinstall_RemoveSettings $Reinstall_RemoveSettings_State
+
+  ${If} $Reinstall_RemoveSettings_State == 1
+    !insertmacro SelectSection ${SecResetSettings}
+  ${EndIf}
 
 FunctionEnd
 
@@ -870,6 +907,7 @@ Function PageReinstallUpdate
   ${If} $Reinstall_OverwriteButton_State == 1
 
     EnableWindow $Reinstall_ChgSettings 1
+    EnableWindow $Reinstall_RemoveSettings 1
 
     GetDlgItem $R0 $HWNDPARENT 1
     ${If} $Reinstall_ChgSettings_State != 1
@@ -884,6 +922,9 @@ Function PageReinstallUpdate
 
     EnableWindow $Reinstall_ChgSettings 0
     ${NSD_SetState} $Reinstall_ChgSettings 0
+
+    EnableWindow $Reinstall_RemoveSettings 0
+    ${NSD_SetState} $Reinstall_RemoveSettings 0
 
     GetDlgItem $R0 $HWNDPARENT 1
     SendMessage $R0 ${WM_SETTEXT} 0 "STR:$(^UninstallBtn)"

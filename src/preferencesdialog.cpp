@@ -29,6 +29,7 @@
 #include "prefadvanced.h"
 #include "prefplaylist.h"
 #include "preftv.h"
+#include "prefupdates.h"
 
 #if USE_ASSOCIATIONS
 #include "prefassociations.h"
@@ -92,6 +93,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 	page_associations = new PrefAssociations;
 	addSection(page_associations);
 #endif
+
+	page_updates = new PrefUpdates;
+	addSection( page_updates );
 
 	page_advanced = new PrefAdvanced;
 	addSection( page_advanced );
@@ -174,6 +178,7 @@ void PreferencesDialog::setData(Preferences * pref) {
 	page_advanced->setData(pref);
 	page_playlist->setData(pref);
 	page_tv->setData(pref);
+	page_updates->setData(pref);
 
 #if USE_ASSOCIATIONS
 	page_associations->setData(pref);
@@ -190,6 +195,7 @@ void PreferencesDialog::getData(Preferences * pref) {
 	page_advanced->getData(pref);
 	page_playlist->getData(pref);
 	page_tv->getData(pref);
+	page_updates->getData(pref);
 
 #if USE_ASSOCIATIONS
 	page_associations->getData(pref);
@@ -206,6 +212,7 @@ bool PreferencesDialog::requiresRestart() {
 	if (!need_restart) need_restart = page_advanced->requiresRestart();
 	if (!need_restart) need_restart = page_playlist->requiresRestart();
 	if (!need_restart) need_restart = page_tv->requiresRestart();
+	if (!need_restart) need_restart = page_updates->requiresRestart();
 
 	return need_restart;
 }

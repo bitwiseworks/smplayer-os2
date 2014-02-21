@@ -15,10 +15,11 @@
 /* version 0.3.1 from 16.03.2012 Silvan (get the version from version.cpp) */
 /* version 0.3.2 from 29.03.2012 Silvan (don't delete the installdir completely) */
 /* version 0.3.3 from 03.12.2012 Silvan (include skinn support) */
+/* version 0.3.4 from 28.11.2013 Silvan (added branding, added diff) */
 
 /* init the version string (don't forget to change) */
-version = "0.3.3"
-version_date = "03.12.2012"
+version = "0.4.0"
+version_date = "28.11.2013"
 '@echo off'
 
 parse arg command option
@@ -32,6 +33,8 @@ sourceDir = FixDir(filespec('D', scriptFile) || filespec('P', scriptFile))
 os2Dir     = sourceDir || '\os2'
 srcDir     = sourceDir || '\src'
 skinDir    = '..\skins\themes'
+vendorDir  = sourceDir || '\..\vendor\current'
+diffDir    = sourceDir || '\..\'
 installDir = buildDir || '\install'
 installDirT= installDir || '\translations'
 installDirS= installDir || '\themes'
@@ -42,17 +45,19 @@ mOutFile   = buildDir||'\make.out'
 
 /* get the SMPlayer version */
 SMPlayer_version = '0.0.0'
+SMPlayer_build = ''
 call version
 internal_build = translate(SMPlayer_version, '_', '.')
 
 title = "SMPlayer for eCS (OS/2) build script v" || version || " from " || version_date
 say title
 say
-say "Build directory:" buildDir
+say "Build directory :" buildDir
 say "Source directory:" sourceDir
-say "Skin directory:" skinDir
+say "Skin directory  :" skinDir
 say
 say "SMPlayer version:" SMPlayer_version
+say "         build  :" SMPlayer_build 
 say
 
 /* translate command to all upercase */
@@ -61,7 +66,9 @@ command = translate(command)
 if command = "" then signal help
 
 if command = "INSTALL" then do
-    SMPlayer_build = option
+    if option \== "" then do
+	SMPlayer_build = option
+    end
     select
 	when SMPlayer_build \== "" then do
 	  zipFile = installDir || '\SMPlayer-' || internal_build || '-' || SMPlayer_build || '.zip'
@@ -80,9 +87,10 @@ if sourceDir \== buildDir then do
     say
 end
 
+say "Executing command: "command option
+
 select
     when command = "MAKE" & option = "CLEAN" then do
-        say "Executing command: "command option
 
         say "cleaning the tree"
         call make 'distclean'
@@ -91,7 +99,6 @@ select
 
     end
     when command = "MAKE" then do
-        say "Executing command: "command option
 
         say "building svn_revision"
 	ok = SysMkDir(buildDir||'\src')
@@ -113,7 +120,6 @@ select
     end
 
     when command = "INSTALL" then do
-        say "Executing command: "command
 
 /* first delete everything */
 	call deleteall
@@ -164,9 +170,14 @@ select
     end
 
     when command = "UNINSTALL" then do
-        say "Executing command: "command
 
 	call deleteall
+	
+    end
+
+    when command = "DIFF" then do
+
+	address cmd 'diff -Naur ' || vendorDir || ' ' || sourceDir || ' -x .svn > ' || diffDir || 'smplayer_' || SMPlayer_version || '_' || SMPlayer_build || '.diff'
 	
     end
 
@@ -197,7 +208,7 @@ end
 exit 0
 
 qmake:
-    address cmd 'qmake ' sourceDir ' 2>'qErrorFile' 1>'qOutFile
+    address cmd 'qmake ' sourceDir ' "APPLICATION_VERSION='SMPlayer_version'" 2>'qErrorFile' 1>'qOutFile
     qRC = RC
     if qRC <> 0 then do
         call beep 880, 20
@@ -261,7 +272,7 @@ FixDir: procedure expose (Globals)
 /**
  *  reads the version.cpp and gets the SMPlayer version from there
  */ 
-version: procedure expose SMPlayer_version srcDir
+version: procedure expose SMPlayer_version SMPlayer_build srcDir
 
     SMPlayerVer = ' '
     /* SMPlayer Version file */
@@ -279,6 +290,10 @@ version: procedure expose SMPlayer_version srcDir
     	SMPlayer_version = strip(SMPlayerVer,,'"')
     end
 
+    if SMPlayer_build == '' then do
+    	SMPlayer_build = 'GA'
+    end
+
     return
 
 help:
@@ -286,6 +301,7 @@ help:
     say "    make"
     say "    make debug"
     say "    make clean"
-    say "    install version"
+    say "    install build (build overwrites what this script finds)"
     say "    uninstall"
+    say "    diff (creates a diff from vendor to trunk)"
 exit 255

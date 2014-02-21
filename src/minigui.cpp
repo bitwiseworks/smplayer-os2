@@ -100,6 +100,7 @@ void MiniGui::createActions() {
 void MiniGui::createControlWidget() {
 	controlwidget = new EditableToolbar( this );
 	controlwidget->setObjectName("controlwidget");
+	controlwidget->setLayoutDirection(Qt::LeftToRight);
 	controlwidget->setMovable(true);
 	controlwidget->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
 	addToolBar(Qt::BottomToolBarArea, controlwidget);
@@ -126,6 +127,7 @@ void MiniGui::createControlWidget() {
 void MiniGui::createFloatingControl() {
 	// Floating control
 	floating_control = new FloatingWidget(this);
+	floating_control->setLayoutDirection(Qt::LeftToRight);
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList floatingcontrol_actions;
@@ -246,6 +248,7 @@ void MiniGui::saveConfig() {
 		qDebug("MiniGui::saveConfig: w: %d h: %d", width(), height());
 		set->setValue( "pos", pos() );
 		set->setValue( "size", size() );
+		set->setValue( "state", (int) windowState() );
 	}
 
 	set->setValue( "toolbars_state", saveState(Helper::qtVersion()) );
@@ -275,6 +278,8 @@ void MiniGui::loadConfig() {
 
 		move(p);
 		resize(s);
+
+		setWindowState( (Qt::WindowStates) set->value("state", 0).toInt() );
 
 		if (!DesktopInfo::isInsideScreen(this)) {
 			move(0,0);

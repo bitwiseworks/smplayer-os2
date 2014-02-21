@@ -87,6 +87,8 @@ void MpcGui::createActions() {
 void MpcGui::createControlWidget() {
 	controlwidget = new QToolBar( this );
 	controlwidget->setObjectName("controlwidget");
+	controlwidget->setLayoutDirection(Qt::LeftToRight);
+
 	controlwidget->setMovable(false);
 	controlwidget->setAllowedAreas(Qt::BottomToolBarArea);
 	controlwidget->addAction(playAct);
@@ -108,8 +110,9 @@ void MpcGui::createControlWidget() {
 	controlwidget->addAction(muteAct);
 	controlwidget->addAction(volumeslider_action);
 
-    timeslidewidget = new QToolBar( this );
+	timeslidewidget = new QToolBar( this );
 	timeslidewidget->setObjectName("timeslidewidget");
+	timeslidewidget->setLayoutDirection(Qt::LeftToRight);
 	timeslidewidget->addAction(timeslider_action);
     timeslidewidget->setMovable(false);
     
@@ -214,6 +217,7 @@ void MpcGui::saveConfig() {
 		qDebug("MpcGui::saveConfig: w: %d h: %d", width(), height());
 		set->setValue( "pos", pos() );
 		set->setValue( "size", size() );
+		set->setValue( "state", (int) windowState() );
 	}
 
 	set->setValue( "toolbars_state", saveState(Helper::qtVersion()) );
@@ -236,6 +240,8 @@ void MpcGui::loadConfig() {
 
 		move(p);
 		resize(s);
+
+		setWindowState( (Qt::WindowStates) set->value("state", 0).toInt() );
 
 		if (!DesktopInfo::isInsideScreen(this)) {
 			move(0,0);
@@ -432,7 +438,9 @@ void MpcGui::setJumpTexts() {
 	forward2Act->change( tr("+%1").arg(Helper::timeForJumps(pref->seeking2)) );
 	forward3Act->change( tr("+%1").arg(Helper::timeForJumps(pref->seeking3)) );
 
+	/*
 	if (qApp->isLeftToRight()) {
+	*/
         rewind1Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(80,0,16,16) );
         rewind2Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(80,0,16,16) );
         rewind3Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(64,0,16,16) );
@@ -440,7 +448,7 @@ void MpcGui::setJumpTexts() {
         forward1Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(96,0,16,16) );
         forward2Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(96,0,16,16) );
         forward3Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(112,0,16,16) );
-
+	/*
 	} else {
         rewind1Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(96,0,16,16) );
         rewind2Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(96,0,16,16) );
@@ -450,6 +458,7 @@ void MpcGui::setJumpTexts() {
         forward2Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(80,0,16,16) );
         forward3Act->setIcon( QPixmap(":/mpcgui/mpc_toolbar.png").copy(64,0,16,16) );
 	}
+	*/
 }
 
 void MpcGui::updateWidgets() {

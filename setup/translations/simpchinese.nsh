@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (必需)"
 ${LangFileString} Section_MPlayer_Desc "播放所必需的 MPlayer。"
 
 ${LangFileString} Section_MPlayerCodecs "二进制编解码器"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "适用于 MPlayer 的可选编解码器。(安装需要使用网络连接)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "MPlayer 的配套程序，可以用来编码或转换支持的音频/视频流。"
 
@@ -46,6 +50,8 @@ ${LangFileString} Section_IconThemes_Desc "适用于 SMPlayer 的附加图标主
 
 ${LangFileString} Section_Translations "语言"
 ${LangFileString} Section_Translations_Desc "适用于 SMPlayer 的非英语语言文件。"
+
+${LangFileString} Section_ResetSettings_Desc "Deletes SMPlayer preferences leftover from previous installations."
 
 ${LangFileString} MPlayer_Codec_Msg "二进制编解码器包可增加对新 RealVideo 变种和很多不常见格式的支持。$\n请注意，播放像 DVD、MPEG-1/2/4 这样平时常见的格式无需安装本编解码器包。"
 
@@ -61,6 +67,7 @@ ${LangFileString} Reinstall_Msg3_1 "单击『开始』继续。"
 ${LangFileString} Reinstall_Msg3_2 "单击『下一步』继续。"
 ${LangFileString} Reinstall_Msg3_3 "单击『卸载』继续。"
 ${LangFileString} Reinstall_Msg4 "更改安装设置"
+${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
 
 ${LangFileString} Type_Reinstall "重新安装"
 ${LangFileString} Type_Downgrade "降级"

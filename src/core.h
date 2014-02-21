@@ -400,7 +400,8 @@ protected slots:
 
 #ifdef YOUTUBE_SUPPORT
 	void connectingToYT(QString host);
-	void YTFailed(QString error);
+	void YTFailed(int error_number, QString error_str);
+	/* void YTNoSignature(); */
 	void YTNoVideoUrl();
 #endif
 
@@ -435,6 +436,7 @@ signals:
 	void mediaFinished(); // Media has arrived to the end.
 	void mediaStoppedByUser();
 	void showMessage(QString text);
+	void showMessage(QString text, int time);
 	void menusNeedInitialize();
 	void widgetsNeedUpdate();
 	void videoEqualizerNeedsUpdate();
@@ -465,6 +467,10 @@ signals:
 
 	//! A new line from the mplayer output is available
 	void logLineAvailable(QString);
+
+#ifdef YOUTUBE_SUPPORT
+	void signatureNotFound(const QString &);
+#endif
 
 protected:
     MplayerProcess * proc;

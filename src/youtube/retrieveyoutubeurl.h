@@ -19,10 +19,11 @@
 #ifndef _RETRIEVEYOUTUBEURL_
 #define _RETRIEVEYOUTUBEURL_
 
-#include "simplehttp.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QMap>
 
-class RetrieveYoutubeUrl : public SimpleHttp
+class RetrieveYoutubeUrl : public QObject
 {
 	Q_OBJECT
 
@@ -35,6 +36,10 @@ public:
 	~RetrieveYoutubeUrl();
 
 	void fetchPage(const QString & url);
+	void close();
+
+	void setUserAgent(const QString & s) { user_agent = s; };
+	QString userAgent() { return user_agent; };
 
 	void setPreferredQuality(Quality q) { preferred_quality = q; }
 	Quality preferredQuality() { return preferred_quality; }
@@ -51,12 +56,18 @@ signals:
 	void gotPreferredUrl(const QString &);
 	void gotEmptyList();
 
+	void connecting(QString host);
+	void errorOcurred(int error_number, QString error_str);
+
+	void signatureNotFound(const QString & title);
+
 protected slots:
+	void gotResponse(QNetworkReply* reply);
 	void parse(QByteArray text);
 
 protected:
-	QString sanitizeForUnicodePoint(QString string);
-	void htmlDecode(QString& string);
+	static QString sanitizeForUnicodePoint(QString string);
+	static void htmlDecode(QString& string);
 
 	QMap<int, QString> urlMap;
 	QString url_title;
@@ -64,6 +75,11 @@ protected:
 	QString latest_preferred_url;
 
 	Quality preferred_quality;
+	QString user_agent;
+
+private:
+	QNetworkAccessManager* manager;
+	QNetworkReply* reply;
 };
 
 #endif

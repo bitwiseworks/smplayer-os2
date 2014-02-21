@@ -77,6 +77,7 @@ protected slots:
 	virtual void updateWidgets();
 	virtual void displayTime(QString text);
 	virtual void displayState(Core::State state);
+	virtual void displayMessage(QString message, int time);
 	virtual void displayMessage(QString message);
 
 	virtual void showFloatingControl(QPoint p);
@@ -117,7 +118,10 @@ protected:
 	#endif
 #endif
 
+	MyAction * viewVideoInfoAct;
+
 	QMenu * toolbar_menu;
+	QMenu * statusbar_menu;
 
 	int last_second;
 

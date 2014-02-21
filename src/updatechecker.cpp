@@ -27,30 +27,43 @@
 #include <QDate>
 #include <QDateTime>
 
-UpdateChecker::UpdateChecker(QObject * parent, QSettings * settings) : QObject(parent)
-{
-	set = settings;
-
+void UpdateCheckerData::save(QSettings * set) {
 	set->beginGroup("update_checker");
-	QDate last_checked = set->value("checked_date", 0).toDate();
-	bool enabled = set->value("enabled", true).toBool();
-	int days_to_check = set->value("days_to_check", 7).toInt();
+	set->setValue("checked_date", last_checked);
+	set->setValue("enabled", enabled);
+	set->setValue("days_to_check", days_to_check);
+	set->setValue("last_known_version", last_known_version);
 	set->endGroup();
+}
+
+void UpdateCheckerData::load(QSettings * set) {
+	set->beginGroup("update_checker");
+	last_checked = set->value("checked_date", 0).toDate();
+	enabled = set->value("enabled", true).toBool();
+	days_to_check = set->value("days_to_check", 7).toInt();
+	last_known_version = set->value("last_known_version", Version::with_revision()).toString();
+	set->endGroup();
+}
+
+UpdateChecker::UpdateChecker(QObject * parent, UpdateCheckerData * data) : QObject(parent)
+{
+	d = data;
 
 	QDate now = QDate::currentDate();
 	//now = now.addDays(27);
-	int days = QDateTime(last_checked).daysTo(QDateTime(now));
+	int days = QDateTime(d->last_checked).daysTo(QDateTime(now));
 
-	qDebug("UpdateChecker::UpdateChecker: enabled: %d", enabled);
-	qDebug("UpdateChecker::UpdateChecker: days_to_check: %d", days_to_check);
+	qDebug("UpdateChecker::UpdateChecker: enabled: %d", d->enabled);
+	qDebug("UpdateChecker::UpdateChecker: days_to_check: %d", d->days_to_check);
 	qDebug("UpdateChecker::UpdateChecker: days since last check: %d", days);
 
-	if ((!enabled) || (days < days_to_check)) return;
+	if ((!d->enabled) || (days < d->days_to_check)) return;
 
 	net_manager = new QNetworkAccessManager();
-	QUrl url("http://smplayer.sourceforge.net/current_version");
+	QUrl url("http://updates.smplayer.info/current_version");
 
 	QNetworkRequest req(url);
+	req.setRawHeader("User-Agent", "SMPlayer");
 	QNetworkReply *reply = net_manager->get(req);
 	connect(reply, SIGNAL(finished()), this, SLOT(gotReply()));
 }
@@ -76,13 +89,12 @@ void UpdateChecker::gotReply() {
 					//qDebug("version: %s", version.toUtf8().constData());
 					break;
 				}
-			}
+			} 
 			if (!version.isEmpty()) {
-				set->beginGroup("update_checker");
-				QString last_known_version = set->value("last_known_version", stableVersion()).toString();
-				set->setValue("checked_date", QDate::currentDate());
-				set->endGroup();
-				if ((last_known_version != version) && (version !=stableVersion())) {
+				d->last_checked = QDate::currentDate();
+				//qDebug("last known: %s version: %s", d->last_known_version.toUtf8().constData(), version.toUtf8().constData());
+				//qDebug("version_with_revision: %s", Version::with_revision().toUtf8().constData());
+				if ((d->last_known_version != version) && (version > Version::with_revision())) {
 					qDebug("UpdateChecker::gotReply: new version found: %s", version.toUtf8().constData());
 					emit newVersionFound(version);
 				}
@@ -97,9 +109,7 @@ void UpdateChecker::gotReply() {
 }
 
 void UpdateChecker::saveVersion(QString v) {
-	set->beginGroup("update_checker");
-	set->setValue("last_known_version", v);
-	set->endGroup();
+	d->last_known_version = v;
 }
 
 #include "moc_updatechecker.cpp"
