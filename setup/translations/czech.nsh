@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (vyžadován)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer; vyžadován pro přehrávání."
 
 ${LangFileString} Section_MPlayerCodecs "Binární kodeky"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "Přídavné kodeky MPlayeru. (Pro instalaci je potřeba připojení k Internetu)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "Dodatkový program pro MPlayer, který se využívá k enkódování nebo transformaci audio/video souborů."
 
@@ -46,6 +50,8 @@ ${LangFileString} Section_IconThemes_Desc "Přídavná témata ikon pro SMPlayer
 
 ${LangFileString} Section_Translations "Lokalizace"
 ${LangFileString} Section_Translations_Desc "Neanglické lokalizace."
+
+${LangFileString} Section_ResetSettings_Desc "Deletes SMPlayer preferences leftover from previous installations."
 
 ${LangFileString} MPlayer_Codec_Msg "Binární kodeky podporují formáty, které zatím nejsou implementovány nativně, např. novější varianty RealVideo a jiné málo používané formáty.$\nPro většinu běžných formátů nejsou potřeba (DVD, MPEG-1/2/4, apod.)."
 
@@ -61,6 +67,7 @@ ${LangFileString} Reinstall_Msg3_1 "Stiskněte Start jste-li připraveni."
 ${LangFileString} Reinstall_Msg3_2 "Stiskněte Další jste-li připraveni."
 ${LangFileString} Reinstall_Msg3_3 "Stiskněte Odinstalovat jste-li připraveni."
 ${LangFileString} Reinstall_Msg4 "Změnit nastavení instalace"
+${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
 
 ${LangFileString} Type_Reinstall "reinstalovat"
 ${LangFileString} Type_Downgrade "downgrade"

@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (erforderlich)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer – benötigt für die Wiedergabe."
 
 ${LangFileString} Section_MPlayerCodecs "Binärcodecs"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "Optionale Codecs für MPlayer. (Internetverbindung benötigt für Installation)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "A companion program to MPlayer that can be used to encode or transform supported audio or video streams."
 
@@ -46,6 +50,8 @@ ${LangFileString} Section_IconThemes_Desc "Weitere Symboldesigns für SMPlayer."
 
 ${LangFileString} Section_Translations "Lokalisierungen"
 ${LangFileString} Section_Translations_Desc "Nicht englische Lokalisierungen."
+
+${LangFileString} Section_ResetSettings_Desc "Deletes SMPlayer preferences leftover from previous installations."
 
 ${LangFileString} MPlayer_Codec_Msg "Binärcodec-Pakete werden eingesetzt für Codecs, die noch nicht nativ implementiert sind – wie neuere Varianten von RealVideo und viele ungewöhnliche Formate.$\nHinweis: Die Pakete sind nicht notwendig, um die gängigsten Formate wiederzugeben (DVD, MPEG-1/2/4, etc.)"
 
@@ -61,6 +67,7 @@ ${LangFileString} Reinstall_Msg3_1 "Click Start when ready to proceed."
 ${LangFileString} Reinstall_Msg3_2 "Click Next when ready to proceed."
 ${LangFileString} Reinstall_Msg3_3 "Click Uninstall when ready to proceed."
 ${LangFileString} Reinstall_Msg4 "Change Installation Settings"
+${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
 
 ${LangFileString} Type_Reinstall "reinstall"
 ${LangFileString} Type_Downgrade "downgrade"

@@ -17,42 +17,41 @@ DEFINES += SINGLE_INSTANCE
 DEFINES += FIND_SUBTITLES
 DEFINES += VIDEOPREVIEW
 DEFINES += YOUTUBE_SUPPORT
+DEFINES += YT_USE_SCRIPT
 DEFINES += GUI_CHANGE_ON_RUNTIME
 DEFINES += LOG_MPLAYER
 DEFINES += LOG_SMPLAYER
 DEFINES += SKINS
 DEFINES += UPDATE_CHECKER
+DEFINES += CHECK_UPGRADED
 #DEFINES += USE_FONTCONFIG_OPTIONS
 
-# Disable SINGLE_INSTANCE if Qt < 4.4
-contains( DEFINES, SINGLE_INSTANCE ) {
-	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
-		message("SINGLE_INSTANCE requires Qt > 4.3. Disabled.")
+contains(QT_VERSION, ^4\\.[0-3]\\..*) {
+	message("Some features requires Qt > 4.3.")
+
+	contains( DEFINES, SINGLE_INSTANCE ) {
 		DEFINES -= SINGLE_INSTANCE
+		message("SINGLE_INSTANCE disabled.")
 	}
-}
 
-# Disable SKINS if Qt < 4.4
-contains( DEFINES, SKINS ) {
-	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
-		message("SKINS requires Qt > 4.3. Disabled.")
+	contains( DEFINES, YOUTUBE_SUPPORT ) {
+		DEFINES -= YOUTUBE_SUPPORT
+		message("YOUTUBE_SUPPORT disabled.")
+	}
+
+	contains( DEFINES, SKINS ) {
 		DEFINES -= SKINS
+		message("SKINS disabled.")
 	}
-}
 
-# Disable FIND_SUBTITLES if Qt < 4.4
-contains( DEFINES, FIND_SUBTITLES ) {
-	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
-		message("FIND_SUBTITLES requires Qt > 4.3. Disabled.")
+	contains( DEFINES, FIND_SUBTITLES ) {
 		DEFINES -= FIND_SUBTITLES
+		message("FIND_SUBTITLES disabled.")
 	}
-}
 
-# Disable UPDATE_CHECKER if Qt < 4.4
-contains( DEFINES, UPDATE_CHECKER ) {
-	contains(QT_VERSION, ^4\\.[0-3]\\..*) {
-		message("UPDATE_CHECKER requires Qt > 4.3. Disabled.")
+	contains( DEFINES, UPDATE_CHECKER ) {
 		DEFINES -= UPDATE_CHECKER
+		message("UPDATE_CHECKER disabled.")
 	}
 }
 
@@ -121,6 +120,7 @@ HEADERS += guiconfig.h \
 	prefadvanced.h \
 	prefplaylist.h \
 	preftv.h \
+	prefupdates.h \
 	filepropertiesdialog.h \
 	multilineinputdialog.h \
 	playlist.h \
@@ -154,6 +154,7 @@ HEADERS += guiconfig.h \
 	mpcgui/mpcgui.h \
 	mpcgui/mpcstyles.h \
 	clhelp.h \
+	cleanconfig.h \
 	smplayer.h \
 	myapplication.h
 
@@ -218,6 +219,7 @@ SOURCES	+= version.cpp \
 	prefadvanced.cpp \
 	prefplaylist.cpp \
 	preftv.cpp \
+	prefupdates.cpp \
 	filepropertiesdialog.cpp \
 	multilineinputdialog.cpp \
 	playlist.cpp \
@@ -251,6 +253,7 @@ SOURCES	+= version.cpp \
 	mpcgui/mpcgui.cpp \
 	mpcgui/mpcstyles.cpp \
 	clhelp.cpp \
+	cleanconfig.cpp \
 	smplayer.cpp \
 	myapplication.cpp \
 	main.cpp
@@ -259,7 +262,7 @@ FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
         eqslider.ui seekwidget.ui inputurl.ui videoequalizer2.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
-        prefplaylist.ui preftv.ui favoriteeditor.ui \
+        prefplaylist.ui preftv.ui prefupdates.ui favoriteeditor.ui \
         about.ui inputmplayerversion.ui errordialog.ui timedialog.ui \
         toolbareditor.ui multilineinputdialog.ui
 
@@ -275,6 +278,7 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 # Find subtitles dialog
 contains( DEFINES, FIND_SUBTITLES ) {
 	DEFINES += DOWNLOAD_SUBS
+	#DEFINES += USE_QUAZIP
 
 	INCLUDEPATH += findsubtitles
 	DEPENDPATH += findsubtitles
@@ -293,29 +297,34 @@ contains( DEFINES, FIND_SUBTITLES ) {
 
 # Download subtitles
 contains( DEFINES, DOWNLOAD_SUBS ) {
-	INCLUDEPATH += findsubtitles/filedownloader findsubtitles/quazip
-	DEPENDPATH += findsubtitles/filedownloader findsubtitles/quazip
+	INCLUDEPATH += findsubtitles/filedownloader
+	DEPENDPATH += findsubtitles/filedownloader
 
 	HEADERS += filedownloader.h subchooserdialog.h fixsubs.h
 	SOURCES += filedownloader.cpp subchooserdialog.cpp fixsubs.cpp
 
 	FORMS += subchooserdialog.ui
 
-	HEADERS += crypt.h \
-	           ioapi.h \
-	           quazip.h \
-	           quazipfile.h \
-	           quazipfileinfo.h \
-	           quazipnewinfo.h \
-	           unzip.h \
-	           zip.h
+	contains( DEFINES, USE_QUAZIP ) {
+		INCLUDEPATH += findsubtitles/quazip
+		DEPENDPATH += findsubtitles/quazip
 
-	SOURCES += ioapi.c \
-	           quazip.cpp \
-	           quazipfile.cpp \
-	           quazipnewinfo.cpp \
-	           unzip.c \
-	           zip.c
+		HEADERS += crypt.h \
+		           ioapi.h \
+		           quazip.h \
+		           quazipfile.h \
+		           quazipfileinfo.h \
+		           quazipnewinfo.h \
+		           unzip.h \
+		           zip.h
+
+		SOURCES += ioapi.c \
+		           quazip.cpp \
+		           quazipfile.cpp \
+		           quazipnewinfo.cpp \
+		           unzip.c \
+		           zip.c
+}
 
 	LIBS += -lz
 	
@@ -330,8 +339,14 @@ contains( DEFINES, YOUTUBE_SUPPORT ) {
 	INCLUDEPATH += youtube
 	DEPENDPATH += youtube
 
-	HEADERS += retrieveyoutubeurl.h
-	SOURCES += retrieveyoutubeurl.cpp
+	HEADERS += retrieveyoutubeurl.h ytsig.h
+	SOURCES += retrieveyoutubeurl.cpp ytsig.cpp
+
+	contains( DEFINES, YT_USE_SCRIPT ) {
+		HEADERS += codedownloader.h
+		SOURCES += codedownloader.cpp
+		QT += script
+	}
 }
 
 # Skins support

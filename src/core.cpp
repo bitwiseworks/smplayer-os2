@@ -60,6 +60,9 @@
 
 #ifdef YOUTUBE_SUPPORT
 #include "retrieveyoutubeurl.h"
+  #ifdef YT_USE_SCRIPT
+  #include "ytsig.h"
+  #endif
 #endif
 
 using namespace Global;
@@ -265,7 +268,9 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	yt = new RetrieveYoutubeUrl(this);
 	connect(yt, SIGNAL(gotPreferredUrl(const QString &)), this, SLOT(openYT(const QString &)));
 	connect(yt, SIGNAL(connecting(QString)), this, SLOT(connectingToYT(QString)));
-	connect(yt, SIGNAL(downloadFailed(QString)), this, SLOT(YTFailed(QString)));
+	connect(yt, SIGNAL(errorOcurred(int,QString)), this, SLOT(YTFailed(int,QString)));
+	/* connect(yt, SIGNAL(signatureNotFound()), this, SLOT(YTNoSignature())); */
+	connect(yt, SIGNAL(signatureNotFound(const QString&)), this, SIGNAL(signatureNotFound(const QString&)));
 	connect(yt, SIGNAL(gotEmptyList()), this, SLOT(YTNoVideoUrl()));
 #endif
 
@@ -523,9 +528,15 @@ void Core::connectingToYT(QString host) {
 	emit showMessage( tr("Connecting to %1").arg(host) );
 }
 
-void Core::YTFailed(QString /*error*/) {
-	emit showMessage( tr("Unable to retrieve youtube page") );
+void Core::YTFailed(int /*error_number*/, QString /*error_str*/) {
+	emit showMessage( tr("Unable to retrieve the Youtube page") );
 }
+
+/*
+void Core::YTNoSignature() {
+	emit showMessage( tr("Video protected. It can't be played."), 5000 );
+}
+*/
 
 void Core::YTNoVideoUrl() {
 	emit showMessage( tr("Unable to locate the url of the video") );
@@ -814,6 +825,9 @@ void Core::openStream(QString name) {
 		yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
 		qDebug("Core::openStream: user_agent: '%s'", pref->yt_user_agent.toUtf8().constData());
 		if (!pref->yt_user_agent.isEmpty()) yt->setUserAgent(pref->yt_user_agent);
+		#ifdef YT_USE_SCRIPT
+		YTSig::setScriptFile( Paths::configPath() + "/ytcode.script" );
+		#endif
 		yt->fetchPage(name);
 		return;
 	}
@@ -1372,10 +1386,13 @@ void Core::startMplayer( QString file, double seek ) {
 
 #ifdef YOUTUBE_SUPPORT
 	// Stop any pending request
-	qDebug("Core::startMplayer: yt state: %d", yt->state());	
+	#if 0
+	qDebug("Core::startMplayer: yt state: %d", yt->state());
 	if (yt->state() != QHttp::Unconnected) {
 		//yt->abort(); /* Make the app to crash, don't know why */
 	}
+	#endif
+	yt->close();
 #endif
 
 #if  defined(Q_OS_WIN) || defined(Q_OS_OS2)
@@ -2359,11 +2376,19 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 	// Global
 	if (!pref->mplayer_additional_options.isEmpty()) {
-		QStringList args = MyProcess::splitArguments(pref->mplayer_additional_options);
-        QStringList::Iterator it = args.begin();
-        while( it != args.end() ) {
- 			proc->addArgument( (*it) );
-			++it;
+		QString additional_options = pref->mplayer_additional_options;
+		// mplayer2 doesn't support -fontconfig and -nofontconfig
+		if (pref->mplayer_is_mplayer2) {
+			additional_options.replace("-fontconfig", "");
+			additional_options.replace("-nofontconfig", "");
+		}
+		QStringList args = MyProcess::splitArguments(additional_options);
+		for (int n = 0; n < args.count(); n++) {
+			QString arg = args[n].simplified();
+			if (!arg.isEmpty()) {
+				qDebug("arg %d: %s", n, arg.toUtf8().constData());
+				proc->addArgument(arg);
+			}
 		}
 	}
 

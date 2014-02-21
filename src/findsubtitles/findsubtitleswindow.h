@@ -70,6 +70,7 @@ protected slots:
 	void connecting(QString host);
 	void showLoginFailed();
 	void showSearchFailed();
+	void showErrorOS(int, const QString &);
 	void updateDataReadProgress(int done, int total);
 	void downloadFinished();
 
@@ -103,8 +104,12 @@ signals:
 	void subtitleDownloaded(const QString & filename);
 
 protected:
+	#ifdef USE_QUAZIP
 	bool uncompressZip(const QString & filename, const QString & output_path, const QString & preferred_output_name);
 	bool extractFile(QuaZip & zip, const QString & filename, const QString & output_name);
+	#else
+	QByteArray gUncompress(const QByteArray &data);
+	#endif
 
 protected slots:
 	void fixSubtitles(const QString & filename);

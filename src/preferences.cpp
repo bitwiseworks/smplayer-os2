@@ -502,6 +502,10 @@ void Preferences::reset() {
        SMPlayer info
        ********* */
 
+#ifdef CHECK_UPGRADED
+	smplayer_stable_version = "";
+	check_if_upgraded = true;
+#endif
 #ifdef FONTCACHE_DIALOG
 	smplayer_version = "";
 #endif
@@ -956,10 +960,23 @@ void Preferences::save() {
        SMPlayer info
        ********* */
 
-#ifdef FONTCACHE_DIALOG
 	set->beginGroup("smplayer");
+#ifdef CHECK_UPGRADED
+	set->setValue("stable_version", smplayer_stable_version);
+	set->setValue("check_if_upgraded", check_if_upgraded);
+#endif
+#ifdef FONTCACHE_DIALOG
 	set->setValue("version", smplayer_version);
+#endif
 	set->endGroup();
+
+
+    /* *********
+       Update
+       ********* */
+
+#ifdef UPDATE_CHECKER
+	update_checker_data.save(set);
 #endif
 
 	set->sync();
@@ -1422,11 +1439,25 @@ void Preferences::load() {
        SMPlayer info
        ********* */
 
-#ifdef FONTCACHE_DIALOG
+#ifdef CHECK_UPGRADED
 	set->beginGroup("smplayer");
-	smplayer_version = set->value("version", smplayer_version).toString();
-	set->endGroup();
+	smplayer_stable_version = set->value("stable_version", smplayer_stable_version).toString();
+	check_if_upgraded = set->value("check_if_upgraded", check_if_upgraded).toBool();
 #endif
+#ifdef FONTCACHE_DIALOG
+	smplayer_version = set->value("version", smplayer_version).toString();
+#endif
+	set->endGroup();
+
+
+    /* *********
+       Update
+       ********* */
+
+#ifdef UPDATE_CHECKER
+	update_checker_data.load(set);
+#endif
+
 
 	// Fix some values if config is old
 	if (config_version < CURRENT_CONFIG_VERSION) {

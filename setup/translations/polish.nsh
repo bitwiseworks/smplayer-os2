@@ -37,7 +37,11 @@ ${LangFileString} Section_MPlayer "MPlayer (wymagane)"
 ${LangFileString} Section_MPlayer_Desc "MPlayer; wymagany do odtwarzania filmów."
 
 ${LangFileString} Section_MPlayerCodecs "Kodeki"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
 ${LangFileString} Section_MPlayerCodecs_Desc "Opcjonalne kodeki do MPlayera. (Wymagane połączenie z internetem)"
+!endif
 
 ${LangFileString} Section_MEncoder_Desc "Jest to prosty koder (kompresor) filmów, zaprojektowany do kodowania filmów otwieralnych MPlayerem do innych obsługiwanych formatów"
 ${LangFileString} Section_IconThemes "Zestawy Ikon"
@@ -45,6 +49,8 @@ ${LangFileString} Section_IconThemes_Desc "Dodatkowe zestawy ikon do SMPlayera."
 
 ${LangFileString} Section_Translations "Tłumaczenia"
 ${LangFileString} Section_Translations_Desc "Tłumaczenia na inne języki."
+
+${LangFileString} Section_ResetSettings_Desc "Deletes SMPlayer preferences leftover from previous installations."
 
 ${LangFileString} MPlayer_Codec_Msg "Paczka z kodekami dodaje wsparcie dla kodeków, które nie są jeszcze natywnie wspierane, np. nowsze warianty RealVideo, oraz wiele mniej znanych formatów.$\nProszę mieć na uwadze, że paczka nie jest wymagana do odtworzenia popularnych formatów, takich jak DVD, MPEG-1/2/4, itp."
 
@@ -60,6 +66,7 @@ ${LangFileString} Reinstall_Msg3_1 "Kliknij Start, gdy będziesz gotów."
 ${LangFileString} Reinstall_Msg3_2 "Kliknij Dalej, gdy będziesz gotów."
 ${LangFileString} Reinstall_Msg3_3 "Kliknij Odinstaluj, gdy będziesz gotów."
 ${LangFileString} Reinstall_Msg4 "Zmiana Ustawień Instalacji"
+${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
 
 ${LangFileString} Type_Reinstall "zainstaluj ponownie"
 ${LangFileString} Type_Downgrade "zrób downgrade"

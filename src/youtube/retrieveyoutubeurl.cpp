@@ -19,21 +19,55 @@
 
 #include "retrieveyoutubeurl.h"
 #include <QUrl>
+#include <QRegExp>
+#include <QStringList>
+#include <QFile>
+#include "ytsig.h"
 
-RetrieveYoutubeUrl::RetrieveYoutubeUrl( QObject* parent ) : SimpleHttp(parent)
+RetrieveYoutubeUrl::RetrieveYoutubeUrl( QObject* parent ) : QObject(parent)
 {
-	connect(this, SIGNAL(downloadFinished(QByteArray)),
-			this, SLOT(parse(QByteArray)));
+	reply = 0;
+	manager = new QNetworkAccessManager(this);
+	connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(gotResponse(QNetworkReply*)));
 
 	preferred_quality = FLV_360p;
+	user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:5.0.1) Gecko/20100101 Firefox/5.0.1";
 }
 
 RetrieveYoutubeUrl::~RetrieveYoutubeUrl() {
 }
 
 void RetrieveYoutubeUrl::fetchPage(const QString & url) {
-	download(url);
+	QNetworkRequest req(url);
+	req.setRawHeader("User-Agent", user_agent.toLatin1());
+	reply = manager->get(req);
 	orig_url = url;
+
+	emit connecting(url);
+}
+
+void RetrieveYoutubeUrl::close() {
+	if (reply) reply->abort();
+}
+
+void RetrieveYoutubeUrl::gotResponse(QNetworkReply* reply) {
+	if (reply->error() == QNetworkReply::NoError) {
+		int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+		qDebug("RetrieveYoutubeUrl::gotResponse: status: %d", status);
+		switch (status) {
+			case 301:
+			case 302:
+			case 307:
+				QString r_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl().toString();
+				qDebug("RetrieveYoutubeUrl::gotResponse: redirected: %s", r_url.toLatin1().constData());
+				fetchPage(r_url);
+				return;
+		}
+	} else {
+		emit errorOcurred((int)reply->error(), reply->errorString());
+		return;
+	}
+	parse(reply->readAll());
 }
 
 void RetrieveYoutubeUrl::parse(QByteArray text) {
@@ -41,7 +75,7 @@ void RetrieveYoutubeUrl::parse(QByteArray text) {
 
 	urlMap.clear();
 
-    QString replyString = QString::fromUtf8(text.constData(), text.size());
+	QString replyString = QString::fromUtf8(text);
 
 	QRegExp rx_title(".*<title>(.*)</title>.*");
 	if (rx_title.indexIn(replyString) != -1) {
@@ -52,54 +86,67 @@ void RetrieveYoutubeUrl::parse(QByteArray text) {
 		url_title = "Youtube video";
 	}
 
-    QRegExp regex("\\\"url_encoded_fmt_stream_map\\\"\\s*:\\s*\\\"([^\\\"]*)");
-    regex.indexIn(replyString);
-    QString fmtArray = regex.cap(1);
-    fmtArray = sanitizeForUnicodePoint(fmtArray);
-    fmtArray.replace(QRegExp("\\\\(.)"), "\\1");
-    htmlDecode(fmtArray);
-    QStringList codeList = fmtArray.split(',');
-    foreach(QString code, codeList)
-    {
-		// (2012-12-20) Youtube Fix by RVM for SMPlayer (http://smplayer.sourceforge.net)
+	QRegExp regex("\\\"url_encoded_fmt_stream_map\\\"\\s*:\\s*\\\"([^\\\"]*)");
+	regex.indexIn(replyString);
+	QString fmtArray = regex.cap(1);
+	fmtArray = sanitizeForUnicodePoint(fmtArray);
+	fmtArray.replace(QRegExp("\\\\(.)"), "\\1");
 
-		/* qDebug("RetrieveYoutubeUrl::parse: code: '%s'", code.toLatin1().constData()); */
+	bool signature_not_found = false;
 
-		int itag = 0;
-		QString n_url;
-		QString url;
-		QString s_itag;
+	QList<QByteArray> codeList = fmtArray.toLatin1().split(',');
+	foreach(QByteArray code, codeList) {
+		code = QUrl::fromPercentEncoding(code).toLatin1();
+		//qDebug("code: %s", code.constData());
 
-		QStringList par_list = code.split(QRegExp("&|\\?"));
-		foreach(QString par, par_list) {
-			/* qDebug("RetrieveYoutubeUrl::parse: par: %s", par.toLatin1().constData()); */
+		QUrl line;
+		line.setEncodedQuery(code);
 
-			if (par.startsWith("url=")) url = par.mid(4);
-			else
-			if (par.startsWith("itag=")) {
-				if (s_itag.isEmpty()) {
-					s_itag = par;
-					QRegExp rx("itag=(\\d+)");
-					if (rx.indexIn(s_itag) != -1) itag = rx.cap(1).toInt();
-					/* qDebug("RetrieveYoutubeUrl::parse: itag: %d", itag); */
-				}
+		if (line.hasQueryItem("url")) {
+			QUrl url( line.queryItemValue("url") );
+			line.setScheme(url.scheme());
+			line.setHost(url.host());
+			line.setPath(url.path());
+			line.setEncodedQuery( line.encodedQuery() + "&" + url.encodedQuery() );
+			line.removeQueryItem("url");
+
+			if (line.hasQueryItem("sig")) {
+				line.addQueryItem("signature", line.queryItemValue("sig"));
+				line.removeQueryItem("sig");
 			}
-			else {
-				if (!n_url.isEmpty()) n_url += "&";
-				n_url += par;
+			else
+			if (line.hasQueryItem("s")) {
+				QString signature = YTSig::aclara(line.queryItemValue("s"));
+				if (!signature.isEmpty()) {
+					line.addQueryItem("signature", signature);
+				} else {
+					signature_not_found = true;
+				}
+				line.removeQueryItem("s");
+			}
+			line.removeAllQueryItems("fallback_host");
+			line.removeAllQueryItems("type");
+			if ((line.hasQueryItem("itag")) && (line.hasQueryItem("signature"))) {
+				QString itag = line.queryItemValue("itag");
+				line.removeAllQueryItems("itag"); // Remove duplicated itag
+				line.addQueryItem("itag", itag);
+				urlMap[itag.toInt()] = line.toString();
+				//qDebug("line: %s", line.toString().toLatin1().constData());
 			}
 		}
-		n_url = url + "?" + s_itag + "&" + n_url;
-		n_url.replace("&sig=", "&signature=");
-
-		/* qDebug("RetrieveYoutubeUrl::parse: n_url: '%s'", n_url.toLatin1().constData()); */
-
-		urlMap[itag] = n_url;
-    }
+	}
 
 	qDebug("RetrieveYoutubeUrl::parse: url count: %d", urlMap.count());
 
+	if ((urlMap.count() == 0) && (signature_not_found)) {
+		qDebug("RetrieveYoutubeUrl::parse: no url found with valid signature");
+		emit signatureNotFound(url_title);
+		return;
+	}
+
 	QString p_url = findPreferredUrl();
+	//qDebug("p_url: '%s'", p_url.toLatin1().constData());
+
 	if (!p_url.isNull()) {
 		emit gotUrls(urlMap);
 		emit gotPreferredUrl(p_url);
@@ -178,24 +225,22 @@ QString RetrieveYoutubeUrl::findPreferredUrl(const QMap<int, QString>& urlMap, Q
 	return p_url;
 }
 
-QString RetrieveYoutubeUrl::sanitizeForUnicodePoint(QString string)
-{
-    QRegExp rx("\\\\u(\\d{4})");
-    while (rx.indexIn(string) != -1) {
-        string.replace(rx.cap(0), QString(QChar(rx.cap(1).toInt(0,16))));
-    }
-    return string;
+QString RetrieveYoutubeUrl::sanitizeForUnicodePoint(QString string) {
+	QRegExp rx("\\\\u(\\d{4})");
+	while (rx.indexIn(string) != -1) {
+		string.replace(rx.cap(0), QString(QChar(rx.cap(1).toInt(0,16))));
+	}
+	return string;
 }
 
-void RetrieveYoutubeUrl::htmlDecode(QString& string)
-{
-    string.replace("%3A", ":", Qt::CaseInsensitive);
-    string.replace("%2F", "/", Qt::CaseInsensitive);
-    string.replace("%3F", "?", Qt::CaseInsensitive);
-    string.replace("%3D", "=", Qt::CaseInsensitive);
-    string.replace("%25", "%", Qt::CaseInsensitive);
-    string.replace("%26", "&", Qt::CaseInsensitive);
-    string.replace("%3D", "=", Qt::CaseInsensitive);
+void RetrieveYoutubeUrl::htmlDecode(QString& string) {
+	string.replace("%3A", ":", Qt::CaseInsensitive);
+	string.replace("%2F", "/", Qt::CaseInsensitive);
+	string.replace("%3F", "?", Qt::CaseInsensitive);
+	string.replace("%3D", "=", Qt::CaseInsensitive);
+	string.replace("%25", "%", Qt::CaseInsensitive);
+	string.replace("%26", "&", Qt::CaseInsensitive);
+	string.replace("%3D", "=", Qt::CaseInsensitive);
 }
 
 #include "moc_retrieveyoutubeurl.cpp"

@@ -64,11 +64,13 @@ public slots:
     void setDuration();
     void gotCurrentTime(double time);
     void updateMediaInfo();
+    void displayMessage(QString status, int time);
     void displayMessage(QString status);
     void displayPermanentMessage(QString status);
     void setBuffering();
 	void setVolume(int v);
 	void setSeeker(int v);
+	void setResolutionVisible(bool b);
 
 signals:
 	void volumeChanged(int);
