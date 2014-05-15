@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,41 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SIMPLEHTTP_H_
-#define _SIMPLEHTTP_H_
+#ifndef SHAREDIALOG_H
+#define SHAREDIALOG_H
 
-#include <QHttp>
+#include "ui_sharedialog.h"
 
-class QHttp;
-class QHttpResponseHeader;
-
-class SimpleHttp : public QHttp
+class ShareDialog : public QDialog, public Ui::ShareDialog
 {
 	Q_OBJECT
 
 public:
-	SimpleHttp( QObject* parent = 0 );
-	~SimpleHttp();
+	enum Action { Donate = 1, Facebook = 2, Twitter = 4 };
 
-	void download(const QString & url);
+	ShareDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+	~ShareDialog();
 
-	void setUserAgent(const QString & s) { user_agent = s; };
-	QString userAgent() { return user_agent; };
+	bool isRemindChecked();
+	int actions() { return actions_taken; }
 
-signals:
-	void connecting(QString host);
-	void downloadFinished(QByteArray downloaded_text);
-	void downloadFailed(QString error);
+	void showRemindCheck(bool b);
 
-protected slots:
-	void readResponseHeader(const QHttpResponseHeader &responseHeader);
-	void httpRequestFinished(int request_id, bool error);
+private slots:
+	void on_donate_button_clicked();
+	void on_facebook_button_clicked();
+	void on_twitter_button_clicked();
 
-protected:
-	QByteArray downloaded_text;
-	int http_get_id;
-	QString user_agent;
+private:
+	int actions_taken;
+	QString share_text;
+	QString share_url;
 };
 
 #endif
-

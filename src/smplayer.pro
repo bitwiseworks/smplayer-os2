@@ -9,22 +9,28 @@ QT += network xml
 
 RESOURCES = icons.qrc
 
-INCLUDEPATH += mpcgui
-DEPENDPATH += mpcgui
-
 #DEFINES += EXPERIMENTAL
 DEFINES += SINGLE_INSTANCE
 DEFINES += FIND_SUBTITLES
 DEFINES += VIDEOPREVIEW
 DEFINES += YOUTUBE_SUPPORT
 DEFINES += YT_USE_SCRIPT
+DEFINES += BLURAY_SUPPORT
 DEFINES += GUI_CHANGE_ON_RUNTIME
 DEFINES += LOG_MPLAYER
 DEFINES += LOG_SMPLAYER
+DEFINES += MPCGUI
 DEFINES += SKINS
 DEFINES += UPDATE_CHECKER
 DEFINES += CHECK_UPGRADED
+DEFINES += REMINDER_ACTIONS
 #DEFINES += USE_FONTCONFIG_OPTIONS
+
+isEqual(QT_MAJOR_VERSION, 5) {
+	QT += widgets gui
+	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x040000
+	DEFINES -= MPCGUI
+}
 
 contains(QT_VERSION, ^4\\.[0-3]\\..*) {
 	message("Some features requires Qt > 4.3.")
@@ -109,7 +115,6 @@ HEADERS += guiconfig.h \
 	tristatecombo.h \
 	languages.h \
 	selectcolorbutton.h \
-	simplehttp.h \
 	prefwidget.h \
 	prefgeneral.h \
 	prefdrives.h \
@@ -127,7 +132,7 @@ HEADERS += guiconfig.h \
 	playlistdock.h \
 	verticaltext.h \
 	eqslider.h \
-	videoequalizer2.h \
+	videoequalizer.h \
 	audioequalizer.h \
 	myslider.h \
 	timeslider.h \
@@ -145,14 +150,12 @@ HEADERS += guiconfig.h \
 	favoriteeditor.h \
 	basegui.h \
 	baseguiplus.h \
-	floatingwidget.h \
+	autohidewidget.h \
 	widgetactions.h \
 	toolbareditor.h \
 	editabletoolbar.h \
 	defaultgui.h \
 	minigui.h \
-	mpcgui/mpcgui.h \
-	mpcgui/mpcstyles.h \
 	clhelp.h \
 	cleanconfig.h \
 	smplayer.h \
@@ -208,7 +211,6 @@ SOURCES	+= version.cpp \
 	tristatecombo.cpp \
 	languages.cpp \
 	selectcolorbutton.cpp \
-	simplehttp.cpp \
 	prefwidget.cpp \
 	prefgeneral.cpp \
 	prefdrives.cpp \
@@ -226,7 +228,7 @@ SOURCES	+= version.cpp \
 	playlistdock.cpp \
 	verticaltext.cpp \
 	eqslider.cpp \
-	videoequalizer2.cpp \
+	videoequalizer.cpp \
 	audioequalizer.cpp \
 	myslider.cpp \
 	timeslider.cpp \
@@ -244,14 +246,12 @@ SOURCES	+= version.cpp \
 	favoriteeditor.cpp \
 	basegui.cpp \
 	baseguiplus.cpp \
-	floatingwidget.cpp \
+	autohidewidget.cpp \
 	widgetactions.cpp \
 	toolbareditor.cpp \
 	editabletoolbar.cpp \
 	defaultgui.cpp \
 	minigui.cpp \
-	mpcgui/mpcgui.cpp \
-	mpcgui/mpcstyles.cpp \
 	clhelp.cpp \
 	cleanconfig.cpp \
 	smplayer.cpp \
@@ -259,7 +259,7 @@ SOURCES	+= version.cpp \
 	main.cpp
 
 FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
-        eqslider.ui seekwidget.ui inputurl.ui videoequalizer2.ui vdpauproperties.ui \
+        eqslider.ui seekwidget.ui inputurl.ui videoequalizer.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
         prefplaylist.ui preftv.ui prefupdates.ui favoriteeditor.ui \
@@ -271,8 +271,8 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 	INCLUDEPATH += qtsingleapplication
 	DEPENDPATH += qtsingleapplication
 
-	SOURCES += qtsingleapplication.cpp qtlocalpeer.cpp
-	HEADERS += qtsingleapplication.h qtlocalpeer.h
+	SOURCES += qtsingleapplication/qtsingleapplication.cpp qtsingleapplication/qtlocalpeer.cpp
+	HEADERS += qtsingleapplication/qtsingleapplication.h qtsingleapplication/qtlocalpeer.h
 }
 
 # Find subtitles dialog
@@ -286,13 +286,13 @@ contains( DEFINES, FIND_SUBTITLES ) {
 	INCLUDEPATH += findsubtitles/maia
 	DEPENDPATH += findsubtitles/maia
 
-	HEADERS += findsubtitlesconfigdialog.h findsubtitleswindow.h
-	SOURCES += findsubtitlesconfigdialog.cpp findsubtitleswindow.cpp
-	FORMS += findsubtitleswindow.ui findsubtitlesconfigdialog.ui
+	HEADERS += findsubtitles/findsubtitlesconfigdialog.h findsubtitles/findsubtitleswindow.h
+	SOURCES += findsubtitles/findsubtitlesconfigdialog.cpp findsubtitles/findsubtitleswindow.cpp
+	FORMS += findsubtitles/findsubtitleswindow.ui findsubtitles/findsubtitlesconfigdialog.ui
 
 	# xmlrpc client code to connect to opensubtitles.org
-	HEADERS += maiaObject.h maiaFault.h maiaXmlRpcClient.h osclient.h
-	SOURCES += maiaObject.cpp maiaFault.cpp maiaXmlRpcClient.cpp osclient.cpp
+	HEADERS += findsubtitles/maia/maiaObject.h findsubtitles/maia/maiaFault.h findsubtitles/maia/maiaXmlRpcClient.h findsubtitles/osclient.h
+	SOURCES += findsubtitles/maia/maiaObject.cpp findsubtitles/maia/maiaFault.cpp findsubtitles/maia/maiaXmlRpcClient.cpp findsubtitles/osclient.cpp
 }
 
 # Download subtitles
@@ -300,10 +300,10 @@ contains( DEFINES, DOWNLOAD_SUBS ) {
 	INCLUDEPATH += findsubtitles/filedownloader
 	DEPENDPATH += findsubtitles/filedownloader
 
-	HEADERS += filedownloader.h subchooserdialog.h fixsubs.h
-	SOURCES += filedownloader.cpp subchooserdialog.cpp fixsubs.cpp
+	HEADERS += findsubtitles/filedownloader/filedownloader.h findsubtitles/subchooserdialog.h findsubtitles/fixsubs.h
+	SOURCES += findsubtitles/filedownloader/filedownloader.cpp findsubtitles/subchooserdialog.cpp findsubtitles/fixsubs.cpp
 
-	FORMS += subchooserdialog.ui
+	FORMS += findsubtitles/subchooserdialog.ui
 
 	contains( DEFINES, USE_QUAZIP ) {
 		INCLUDEPATH += findsubtitles/quazip
@@ -339,14 +339,25 @@ contains( DEFINES, YOUTUBE_SUPPORT ) {
 	INCLUDEPATH += youtube
 	DEPENDPATH += youtube
 
-	HEADERS += retrieveyoutubeurl.h ytsig.h
-	SOURCES += retrieveyoutubeurl.cpp ytsig.cpp
+	HEADERS += youtube/retrieveyoutubeurl.h youtube/ytsig.h
+	SOURCES += youtube/retrieveyoutubeurl.cpp youtube/ytsig.cpp
 
 	contains( DEFINES, YT_USE_SCRIPT ) {
-		HEADERS += codedownloader.h
-		SOURCES += codedownloader.cpp
+		HEADERS += youtube/codedownloader.h
+		SOURCES += youtube/codedownloader.cpp
 		QT += script
+	} else {
+		#DEFINES += YTSIG_STATIC
 	}
+}
+
+# mpcgui
+contains( DEFINES, MPCGUI ) {
+	INCLUDEPATH += mpcgui
+	DEPENDPATH += mpcgui
+
+	HEADERS += mpcgui/mpcgui.h mpcgui/mpcstyles.h
+	SOURCES += mpcgui/mpcgui.cpp mpcgui/mpcstyles.cpp
 }
 
 # Skins support
@@ -354,13 +365,13 @@ contains( DEFINES, SKINS ) {
 	INCLUDEPATH += skingui
 	DEPENDPATH += skingui
 
-	HEADERS += myicon.h mybutton.h panelseeker.h playcontrol.h \
-               mediapanel.h volumecontrolpanel.h mediabarpanel.h \
-               qpropertysetter.h actiontools.h skingui.h
-	SOURCES += myicon.cpp mybutton.cpp panelseeker.cpp playcontrol.cpp \
-               mediapanel.cpp volumecontrolpanel.cpp mediabarpanel.cpp \
-               qpropertysetter.cpp actiontools.cpp skingui.cpp
-	FORMS += mediapanel.ui mediabarpanel.ui
+	HEADERS += skingui/myicon.h skingui/mybutton.h skingui/panelseeker.h skingui/playcontrol.h \
+               skingui/mediapanel.h skingui/volumecontrolpanel.h skingui/mediabarpanel.h \
+               skingui/qpropertysetter.h skingui/actiontools.h skingui/skingui.h
+	SOURCES += skingui/myicon.cpp skingui/mybutton.cpp skingui/panelseeker.cpp skingui/playcontrol.cpp \
+               skingui/mediapanel.cpp skingui/volumecontrolpanel.cpp skingui/mediabarpanel.cpp \
+               skingui/qpropertysetter.cpp skingui/actiontools.cpp skingui/skingui.cpp
+	FORMS += skingui/mediapanel.ui skingui/mediabarpanel.ui
 }
 
 # Update checker
@@ -374,10 +385,16 @@ contains( DEFINES, VIDEOPREVIEW ) {
 	INCLUDEPATH += videopreview
 	DEPENDPATH += videopreview
 
-	HEADERS += videopreview.h videopreviewconfigdialog.h
-	SOURCES += videopreview.cpp videopreviewconfigdialog.cpp
+	HEADERS += videopreview/videopreview.h videopreview/videopreviewconfigdialog.h
+	SOURCES += videopreview/videopreview.cpp videopreview/videopreviewconfigdialog.cpp
 
-	FORMS += videopreviewconfigdialog.ui
+	FORMS += videopreview/videopreviewconfigdialog.ui
+}
+
+contains( DEFINES, REMINDER_ACTIONS ) {
+	HEADERS += sharedialog.h
+	SOURCES += sharedialog.cpp
+	FORMS += sharedialog.ui
 }
 
 unix {
@@ -395,7 +412,8 @@ unix {
 
 win32 {
 	DEFINES += SCREENSAVER_OFF
-	DEFINES += FONTCACHE_DIALOG
+	#DEFINES += AVOID_SCREENSAVER
+	#DEFINES += FONTCACHE_DIALOG
 	DEFINES += USE_FONTCONFIG_OPTIONS
 
 	contains( DEFINES, SCREENSAVER_OFF ) {
@@ -462,4 +480,6 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_et.ts translations/smplayer_lt.ts \
                translations/smplayer_da.ts translations/smplayer_hr.ts \
                translations/smplayer_he_IL.ts translations/smplayer_th.ts \
-               translations/smplayer_ms_MY.ts
+               translations/smplayer_ms_MY.ts translations/smplayer_uz.ts \
+               translations/smplayer_nn_NO.ts translations/smplayer_id.ts \
+               translations/smplayer_ar.ts translations/smplayer_en_GB.ts

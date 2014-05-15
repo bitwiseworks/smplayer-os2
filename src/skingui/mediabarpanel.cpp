@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -96,10 +96,11 @@ void MediaBarPanel::setMplayerState(Core::State state)
 void MediaBarPanel::setCore(Core *c)
 {
     core = c;
-    connect(core, SIGNAL(mediaStartPlay()), this, SLOT(setDuration()) );
-    connect( core, SIGNAL(showTime(double)), this, SLOT(gotCurrentTime(double)) );
-    connect( core, SIGNAL(mediaInfoChanged()), this, SLOT(updateMediaInfo()) );
-    connect( core, SIGNAL(buffering()), this, SLOT(setBuffering()) );
+    connect(core, SIGNAL(mediaStartPlay()), this, SLOT(setDuration()));
+    connect(core, SIGNAL(newDuration(double)), this, SLOT(setDuration()));
+    connect(core, SIGNAL(showTime(double)), this, SLOT(gotCurrentTime(double)));
+    connect(core, SIGNAL(mediaInfoChanged()), this, SLOT(updateMediaInfo()));
+    connect(core, SIGNAL(buffering()), this, SLOT(setBuffering()));
 }
 
 void MediaBarPanel::setDuration()
@@ -121,8 +122,13 @@ void MediaBarPanel::updateMediaInfo()
 {
     //QString s = QString("%1 (%2x%3)").arg(core->mdat.displayName()).arg(core->mdat.video_width).arg(core->mdat.video_height);
     mediaPanel->setMediaLabelText(core->mdat.displayName());
-    QString s = QString("%1x%2").arg(core->mdat.video_width).arg(core->mdat.video_height);
-    mediaPanel->setResolutionLabelText(s);
+
+    if ((core->mdat.video_width != 0) && (core->mdat.video_height != 0)) {
+        QString s = QString("%1x%2").arg(core->mdat.video_width).arg(core->mdat.video_height);
+        mediaPanel->setResolutionLabelText(s);
+    } else {
+        mediaPanel->setResolutionLabelText(" ");
+    }
 }
 
 void MediaBarPanel::displayMessage(QString status, int time)

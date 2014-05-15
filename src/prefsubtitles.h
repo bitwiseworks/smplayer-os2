@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -103,6 +103,7 @@ protected slots:
 	void on_ass_subs_button_toggled(bool b);
 	void on_ass_customize_button_clicked();
 	void on_freetype_check_toggled(bool b);
+	void on_windowsfontdir_check_toggled(bool b);
 	void checkBorderStyleCombo( int index );
 
 protected:

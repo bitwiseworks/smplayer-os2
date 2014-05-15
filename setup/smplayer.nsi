@@ -6,6 +6,10 @@
   !error "Version information not defined (or incomplete). You must define: VER_MAJOR, VER_MINOR, VER_BUILD."
 !endif
 
+!ifdef WIN64
+  !define DISABLE_CODECS
+!endif
+
 ;--------------------------------
 ;Compressor
 
@@ -101,7 +105,9 @@
   Var Reinstall_Uninstall
   Var Reinstall_UninstallButton
   Var Reinstall_UninstallButton_State
+!ifndef DISABLE_CODECS
   Var Restore_Codecs
+!endif
   Var SMPlayer_Path
   Var SMPlayer_UnStrPath
   Var SMPlayer_StartMenuFolder
@@ -203,7 +209,10 @@
 ;Languages
 
   !insertmacro MUI_LANGUAGE "English"
+  !insertmacro MUI_LANGUAGE "Albanian"
+  !insertmacro MUI_LANGUAGE "Arabic"
   !insertmacro MUI_LANGUAGE "Basque"
+  !insertmacro MUI_LANGUAGE "Bulgarian"
   !insertmacro MUI_LANGUAGE "Catalan"
   !insertmacro MUI_LANGUAGE "Croatian"
   !insertmacro MUI_LANGUAGE "Czech"
@@ -217,10 +226,13 @@
   !insertmacro MUI_LANGUAGE "Italian"
   !insertmacro MUI_LANGUAGE "Japanese"
   !insertmacro MUI_LANGUAGE "Korean"
+  !insertmacro MUI_LANGUAGE "Malay"
   !insertmacro MUI_LANGUAGE "Norwegian"
   !insertmacro MUI_LANGUAGE "Polish"
   !insertmacro MUI_LANGUAGE "Portuguese"
+  !insertmacro MUI_LANGUAGE "PortugueseBR"
   !insertmacro MUI_LANGUAGE "Russian"
+  !insertmacro MUI_LANGUAGE "Serbian"
   !insertmacro MUI_LANGUAGE "SimpChinese"
   !insertmacro MUI_LANGUAGE "Slovak"
   !insertmacro MUI_LANGUAGE "Slovenian"
@@ -231,7 +243,10 @@
 ;Custom translations for setup
 
   !insertmacro LANGFILE_INCLUDE "translations\english.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\albanian.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\arabic.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\basque.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\bulgarian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\catalan.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\croatian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\czech.nsh"
@@ -245,10 +260,13 @@
   !insertmacro LANGFILE_INCLUDE "translations\italian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\japanese.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\korean.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\malay.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\norwegian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\polish.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\portuguese.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\portuguesebrazil.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\russian.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\serbian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\simpchinese.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\slovak.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\slovenian.nsh"
@@ -282,7 +300,9 @@ Section $(Section_SMPlayer) SecSMPlayer
       Quit
     ${ElseIf} $Reinstall_OverwriteButton_State == 1
 
+!ifndef DISABLE_CODECS
       Call Backup_Codecs
+!endif
 
       ${If} "$INSTDIR" == "$SMPlayer_Path"
         ExecWait '"$SMPlayer_UnStrPath" /S /R _?=$SMPlayer_Path'
@@ -307,12 +327,18 @@ Section $(Section_SMPlayer) SecSMPlayer
   SetOutPath "$INSTDIR\imageformats"
   File /r "${SMPLAYER_BUILD_DIR}\imageformats\*.*"
 
+  ;Qt platforms (Qt 5+)
+  SetOutPath "$INSTDIR\platforms"
+  File /nonfatal /r "${SMPLAYER_BUILD_DIR}\platforms\*.*"
+
   ;SMPlayer key shortcuts
   SetOutPath "$INSTDIR\shortcuts"
   File /r "${SMPLAYER_BUILD_DIR}\shortcuts\*.*"
 
+!ifndef DISABLE_CODECS
   SetOutPath "$PLUGINSDIR"
   File 7za.exe
+!endif
 
   ;Initialize to 0 if don't exist (based on error flag)
   ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer
@@ -362,7 +388,7 @@ SectionGroup $(MPlayerGroupTitle)
     SectionIn RO
 
     SetOutPath "$INSTDIR\mplayer"
-    File /r /x mplayer.exe /x mencoder.exe /x mplayer64.exe /x mencoder64.exe "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
+    File /r /x mplayer.exe /x mencoder.exe /x mplayer64.exe /x mencoder64.exe /x *.exe.debug "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
 !ifdef WIN64
     File /oname=mplayer.exe "${SMPLAYER_BUILD_DIR}\mplayer\mplayer64.exe"
 !else
@@ -373,11 +399,8 @@ SectionGroup $(MPlayerGroupTitle)
 
   SectionEnd
 
+!ifndef DISABLE_CODECS
   Section /o $(Section_MPlayerCodecs) SecCodecs
-
-!ifdef WIN64
-    SectionIn RO
-!endif
 
     AddSize 22931
 
@@ -393,7 +416,7 @@ SectionGroup $(MPlayerGroupTitle)
     retry_codecs_dl:
 
     DetailPrint $(Codecs_DL_Msg)
-!ifndef USE_NSISDL
+!ifdef USE_INETC
     inetc::get /CONNECTTIMEOUT 15000 /RESUME "" /BANNER $(Codecs_DL_Msg) /CAPTION $(Codecs_DL_Msg) \
     "http://www.mplayerhq.hu/MPlayer/releases/codecs/${CODEC_VERSION}.zip" \
     "$PLUGINSDIR\${CODEC_VERSION}.zip" /END
@@ -431,6 +454,7 @@ SectionGroup $(MPlayerGroupTitle)
     done:
 
   SectionEnd
+!endif
 
 SectionGroupEnd
 
@@ -486,13 +510,19 @@ Section -Post
 !endif
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "DisplayIcon" "$INSTDIR\smplayer.exe"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "DisplayVersion" "${SMPLAYER_VERSION}"
-  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "HelpLink" "http://smplayer.sourceforge.net/forum"
+  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "HelpLink" "http://forum.smplayer.info"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "Publisher" "Ricardo Villalba"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "UninstallString" "$INSTDIR\${SMPLAYER_UNINST_EXE}"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLInfoAbout" "http://smplayer.sourceforge.net"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLUpdateInfo" "http://smplayer.sourceforge.net"
   WriteRegDWORD HKLM "${SMPLAYER_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${SMPLAYER_UNINST_KEY}" "NoRepair" "1"
+
+  ;Clean up empty directories
+  RMDir "$INSTDIR\platforms"
+!ifdef WIN64
+  RMDir "$INSTDIR\mplayer\codecs"
+!endif
 
 SectionEnd
 
@@ -505,7 +535,9 @@ ${MementoSectionDone}
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktopShortcut} $(Section_DesktopShortcut_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenuShortcut} $(Section_StartMenu_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMPlayer} $(Section_MPlayer_Desc)
+!ifndef DISABLE_CODECS
   !insertmacro MUI_DESCRIPTION_TEXT ${SecCodecs} $(Section_MPlayerCodecs_Desc)
+!endif
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemes} $(Section_IconThemes_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTranslations} $(Section_Translations_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecResetSettings} $(Section_ResetSettings_Desc)
@@ -605,11 +637,16 @@ ${MementoSectionDone}
   RMDir /r "$INSTDIR\docs"
   RMDir /r "$INSTDIR\imageformats"
   RMDir /r "$INSTDIR\mplayer"
+  RMDir /r "$INSTDIR\platforms"
   RMDir /r "$INSTDIR\shortcuts"
   RMDir /r "$INSTDIR\themes"
   RMDir /r "$INSTDIR\translations"
   Delete "$INSTDIR\*.txt"
-  Delete "$INSTDIR\libgcc_s_dw2-1.dll"
+  Delete "$INSTDIR\icudt51.dll"
+  Delete "$INSTDIR\icuin51.dll"
+  Delete "$INSTDIR\icuuc51.dll"
+  Delete "$INSTDIR\libgcc_s_*.dll"
+  Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libwinpthread-1.dll"
   Delete "$INSTDIR\mingwm10.dll"
   Delete "$INSTDIR\zlib1.dll"
@@ -719,10 +756,10 @@ Function .onInit
     Abort
   ${EndIf}
 
-  Call LoadPreviousSettings
-
   ;Setup language selection
   !insertmacro MUI_LANGDLL_DISPLAY
+
+  Call LoadPreviousSettings
 
   Call CheckPreviousVersion
 
@@ -733,12 +770,6 @@ FunctionEnd
 Function .onInstSuccess
 
   ${MementoSectionSave}
-
-/*
-  ${Unless} $Reinstall_Uninstall == 1
-    ExecShell "open" "http://smplayer.sourceforge.net/thank-you.php?version=${SMPLAYER_VERSION}"
-  ${EndIf}
-*/
 
 FunctionEnd
 
@@ -755,17 +786,6 @@ Function .onInstFailed
 
 FunctionEnd
 
-/* Function un.onUninstSuccess
-
-  ;Don't launch uninstall page if reinstalling
-  ${un.GetParameters} $R0
-  ${un.GetOptionsS} $R0 "/R" $R1
-
-  IfErrors 0 +2
-  ExecShell "open" "http://smplayer.sourceforge.net/uninstall.php?version=${SMPLAYER_VERSION}"
-
-FunctionEnd */
-
 Function CheckPreviousVersion
 
   ClearErrors
@@ -775,6 +795,16 @@ Function CheckPreviousVersion
 
   ${IfNot} ${Errors}
     StrCpy $Reinstall_Uninstall 1
+    !ifdef WIN64
+    ;Workaround for InstallDirRegKey on 64-bit
+    StrCpy $INSTDIR $SMPlayer_Path
+    !endif
+
+    ;Since we can't get input from a silent install to initialize the variables, prefer upgrading
+    ${If} ${Silent}
+      StrCpy $Reinstall_UninstallButton_State 0
+      StrCpy $Reinstall_OverwriteButton_State 1
+    ${EndIf}
   ${EndIf}
 
   /* $Previous_Version_State Assignments:
@@ -793,6 +823,7 @@ Function CheckPreviousVersion
 
 FunctionEnd
 
+!ifndef DISABLE_CODECS
 Function Backup_Codecs
 
   ${IfNot} ${SectionIsSelected} ${SecCodecs}
@@ -809,14 +840,13 @@ Function Backup_Codecs
     StrCpy $Restore_Codecs 0
 
 FunctionEnd
+!endif
 
 Function LoadPreviousSettings
 
   ;MPlayer codecs section doesn't use Memento so we need to restore it manually
   ;32-bit only
-!ifdef WIN64
-    !insertmacro UnSelectSection ${SecCodecs}
-!else
+!ifndef DISABLE_CODECS
     ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" "Installed_Codecs"
     ${If} $R0 == 1
       !insertmacro SelectSection ${SecCodecs}
@@ -988,11 +1018,8 @@ FunctionEnd
 Section Uninstall
 
   ;Make sure SMPlayer is installed from where the uninstaller is being executed.
-  IfFileExists $INSTDIR\smplayer.exe smplayer_installed
-    MessageBox MB_YESNO $(Uninstaller_NotInstalled) /SD IDNO IDYES smplayer_installed
-    Abort $(Uninstaller_Aborted)
-
-  smplayer_installed:
+  IfFileExists "$INSTDIR\smplayer.exe" +2
+    Abort $(Uninstaller_InvalidDirectory)
 
   SetDetailsPrint textonly
   DetailPrint $(Info_Rest_Assoc)

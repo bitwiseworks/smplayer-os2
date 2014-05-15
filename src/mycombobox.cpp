@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 */
 
 #include "mycombobox.h"
+#include <QDir>
+#include <QStringListModel>
+#include <QDebug>
 
 MyComboBox::MyComboBox( QWidget * parent ) : QComboBox(parent)
 {
@@ -59,3 +62,31 @@ void MyFontComboBox::setCurrentText( const QString & text ) {
 	else
 		setItemText(currentIndex(), text);
 }
+
+void MyFontComboBox::setFontsFromDir(const QString & fontdir) {
+	QString current_text = currentText();
+
+	if (fontdir.isEmpty()) {
+		QFontDatabase::removeAllApplicationFonts();
+		clear();
+		setWritingSystem(QFontDatabase::Any);
+	} else {
+		QFontDatabase fdb;
+		QStringList fontnames;
+		QStringList fontfiles = QDir(fontdir).entryList(QStringList() << "*.ttf" << "*.otf", QDir::Files);
+		for (int n=0; n < fontfiles.count(); n++) {
+			qDebug() << "MyFontComboBox::setFontsFromDir: adding font:" << fontfiles[n];
+			int id = fdb.addApplicationFont(fontdir +"/"+ fontfiles[n]);
+			fontnames << fdb.applicationFontFamilies(id);
+		}
+		//fdb.removeAllApplicationFonts();
+		fontnames.removeDuplicates();
+		qDebug() << "MyFontComboBox::setFontsFromDir: fontnames:" << fontnames;
+		clear();
+		QStringListModel *m = qobject_cast<QStringListModel *>(model());
+		if (m) m->setStringList(fontnames);
+	}
+
+	setCurrentText(current_text);
+}
+

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,9 @@
 #include <QDir>
 #include <QTextCodec>
 #include <QWidget>
+//#include <QDebug>
 #include "config.h"
+#include "extensions.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h> // For the screensaver stuff
@@ -96,7 +98,7 @@ QString Helper::shortPathName(QString long_path) {
 		const int max_path = 4096;
 		WCHAR shortName[max_path];
 
-		QString nativePath = QDir::convertSeparators(long_path);
+		QString nativePath = QDir::toNativeSeparators(long_path);
 		int ret = GetShortPathNameW((LPCWSTR) nativePath.utf16(), shortName, max_path);
 		if (ret != ERROR_INVALID_PARAMETER && ret < MAX_PATH)
 			short_path = QString::fromUtf16((const ushort*) shortName);
@@ -148,10 +150,10 @@ bool Helper::directoryContainsDVD(QString directory) {
 
 	QDir dir(directory);
 	QStringList l = dir.entryList();
-	bool valid = FALSE;
+	bool valid = false;
 	for (int n=0; n < l.count(); n++) {
 		//qDebug("  * entry %d: '%s'", n, l[n].toUtf8().data());
-		if (l[n].toLower() == "video_ts") valid = TRUE;
+		if (l[n].toLower() == "video_ts") valid = true;
 	}
 
 	return valid;
@@ -252,3 +254,61 @@ QStringList Helper::searchForConsecutiveFiles(const QString & initial_file) {
 
 	return files_to_add;
 }
+
+QStringList Helper::filesInDirectory(const QString & initial_file, const QStringList & filter) {
+	qDebug("Helper::filesInDirectory: initial_file: %s", initial_file.toUtf8().constData());
+	//qDebug() << "Helper::filesInDirectory: filter:" << filter;
+
+	QFileInfo fi(initial_file);
+	QString current_file = fi.fileName();
+	QString path = fi.absolutePath();
+
+	QDir d(path);
+	QStringList all_files = d.entryList(filter, QDir::Files);
+
+	QStringList r;
+	for (int n = 0; n < all_files.count(); n++) {
+		if (all_files[n] != current_file) {
+			QString s = path +"/" + all_files[n];
+			r << s;
+		}
+	}
+
+	//qDebug() << "Helper::filesInDirectory: result:" << r;
+
+	return r;
+}
+
+QStringList Helper::filesForPlaylist(const QString & initial_file, Preferences::AutoAddToPlaylistFilter filter) {
+	QStringList res;
+
+	if (filter == Preferences::ConsecutiveFiles) {
+		res = searchForConsecutiveFiles(initial_file);
+	} else {
+		Extensions e;
+		QStringList exts;
+		switch (filter) {
+			case Preferences::VideoFiles: exts = e.video().forDirFilter(); break;
+			case Preferences::AudioFiles: exts = e.audio().forDirFilter(); break;
+			case Preferences::MultimediaFiles: exts = e.multimedia().forDirFilter(); break;
+			default: ;
+		}
+		if (!exts.isEmpty()) res = Helper::filesInDirectory(initial_file, exts);
+	}
+
+	return res;
+}
+
+#ifdef Q_OS_WIN
+// Check for Windows shortcuts
+QStringList Helper::resolveSymlinks(const QStringList & files) {
+	QStringList list = files;
+	for (int n=0; n < list.count(); n++) {
+		QFileInfo fi(list[n]);
+		if (fi.isSymLink()) {
+			list[n] = fi.symLinkTarget();
+		}
+	}
+	return list;
+}
+#endif

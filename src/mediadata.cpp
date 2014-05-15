@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ void MediaData::reset() {
 	type = TYPE_UNKNOWN;
 	duration=0;
 
-	novideo = FALSE;
+	novideo = false;
 
 	video_width=0;
     video_height=0;

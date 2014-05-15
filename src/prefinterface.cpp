@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "languages.h"
 #include "recents.h"
 #include "urlhistory.h"
+#include "autohidewidget.h"
 
 #include <QDir>
 #include <QStyleFactory>
@@ -106,10 +107,6 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 #ifdef SKINS
 	connect(gui_combo, SIGNAL(currentIndexChanged(int)),
             this, SLOT(GUIChanged(int)));
-#endif
-
-#ifdef Q_OS_WIN
-	floating_bypass_wm_check->hide();
 #endif
 
 #ifndef SEEKBAR_RESOLUTION
@@ -204,9 +201,11 @@ void PrefInterface::retranslateStrings() {
 
 	int gui_index = gui_combo->currentIndex();
 	gui_combo->clear();
-	gui_combo->addItem( tr("Default GUI"), "DefaultGUI");
+	gui_combo->addItem( tr("Basic GUI"), "DefaultGUI");
 	gui_combo->addItem( tr("Mini GUI"), "MiniGUI");
+#ifdef MPCGUI
 	gui_combo->addItem( tr("Mpc GUI"), "MpcGUI");
+#endif
 #ifdef SKINS
 	gui_combo->addItem( tr("Skinnable GUI"), "SkinGUI");
 	if (n_skins == 0) {
@@ -261,9 +260,8 @@ void PrefInterface::setData(Preferences * pref) {
 	setFloatingWidth(pref->floating_control_width);
 	setFloatingMargin(pref->floating_control_margin);
 	setDisplayFloatingInCompactMode(pref->floating_display_in_compact_mode);
-#ifndef Q_OS_WIN
-	setFloatingBypassWindowManager(pref->bypass_window_manager);
-#endif
+	floating_move_bottom_check->setChecked(pref->floating_activation_area == AutohideWidget::Bottom);
+	floating_hide_delay_spin->setValue(pref->floating_hide_delay);
 
 	setRecentsMaxItems(pref->history_recents->maxItems());
 	setURLMaxItems(pref->history_urls->maxItems());
@@ -331,9 +329,8 @@ void PrefInterface::getData(Preferences * pref) {
 	pref->floating_control_width = floatingWidth();
 	pref->floating_control_margin = floatingMargin();
 	pref->floating_display_in_compact_mode = displayFloatingInCompactMode();
-#ifndef Q_OS_WIN
-	pref->bypass_window_manager = floatingBypassWindowManager();
-#endif
+	pref->floating_activation_area = floating_move_bottom_check->isChecked() ? AutohideWidget::Bottom : AutohideWidget::Anywhere;
+	pref->floating_hide_delay = floating_hide_delay_spin->value();
 
 	if (pref->history_recents->maxItems() != recentsMaxItems()) {
 		pref->history_recents->setMaxItems( recentsMaxItems() );
@@ -617,16 +614,6 @@ bool PrefInterface::displayFloatingInCompactMode() {
 	return floating_compact_check->isChecked();
 }
 
-#ifndef Q_OS_WIN
-void PrefInterface::setFloatingBypassWindowManager(bool b) {
-	floating_bypass_wm_check->setChecked(b);
-}
-
-bool PrefInterface::floatingBypassWindowManager() {
-	return floating_bypass_wm_check->isChecked();
-}
-#endif
-
 void PrefInterface::setRecentsMaxItems(int n) {
 	recents_max_items_spin->setValue(n);
 }
@@ -674,12 +661,17 @@ void PrefInterface::createHelp() {
 		tr("Here you can change the language of the application.") );
 
 	setWhatsThis(gui_combo, tr("GUI"),
-        tr("Select the GUI you prefer for the application. Currently "
-           "there are two available: Default GUI and Mini GUI.<br>"
-           "The <b>Default GUI</b> provides the traditional GUI, with the "
-           "toolbar and control bar. The <b>Mini GUI</b> provides a "
-           "more simple GUI, without toolbar and a control bar with few "
-           "buttons.") );
+        tr("Select the graphic interface you prefer for the application.") +"<br>"+
+        tr("The <b>Basic GUI</b> provides the traditional interface, with the "
+           "toolbar and control bar.") +" "+ 
+        tr("The <b>Mini GUI</b> provides a more simple interface, without toolbar and a control bar with few "
+           "buttons.") +" "+
+        tr("The <b>Skinnable GUI</b> provides an interface where several skins are available.")
+#ifdef MPCGUI
+        +" "+
+        tr("The <b>Mpc GUI</b> looks like the interface in Media Player Classic.")
+#endif
+        );
 
 	setWhatsThis(iconset_combo, tr("Icon set"),
         tr("Select the icon set you prefer for the application.") );
@@ -760,17 +752,20 @@ void PrefInterface::createHelp() {
            "screen is a TV, as the overscan might prevent the control to be "
            "visible.") );
 
+	setWhatsThis(floating_move_bottom_check, tr("Show only when moving the mouse to the bottom of the screen"),
+		tr("If this option is checked, the floating control will only be displayed when the mouse is moved "
+           "to the bottom of the screen. Otherwise the control will appear whenever the mouse is moved, no matter "
+           "its position.") );
+
 	setWhatsThis(floating_compact_check, tr("Display in compact mode too"),
 		tr("If this option is enabled, the floating control will appear "
-           "in compact mode too. <b>Warning:</b> the floating control has not been "
+           "in compact mode too.") +" " +
+		tr("This option only works with the basic GUI.") +" "+
+		tr("<b>Warning:</b> the floating control has not been "
            "designed for compact mode and it might not work properly.") );
 
-#ifndef Q_OS_WIN
-	setWhatsThis(floating_bypass_wm_check, tr("Bypass window manager"),
-		tr("If this option is checked, the control is displayed bypassing the "
-           "window manager. Disable this option if the floating control "
-           "doesn't work well with your window manager.") );
-#endif
+	setWhatsThis(floating_hide_delay_spin, tr("Time to hide the control"),
+		tr("Sets the time (in milliseconds) to hide the control after the mouse went away from the control."));
 
 	addSectionTitle(tr("Privacy"));
 

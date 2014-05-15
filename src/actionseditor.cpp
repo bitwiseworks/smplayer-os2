@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -150,8 +150,13 @@ ActionsEditor::ActionsEditor(QWidget * parent, Qt::WindowFlags f)
 	actionsTable->setSelectionMode( QAbstractItemView::SingleSelection );
 	actionsTable->verticalHeader()->hide();
 
+#if QT_VERSION >= 0x050000
+	actionsTable->horizontalHeader()->setSectionResizeMode(COL_DESC, QHeaderView::Stretch);
+	actionsTable->horizontalHeader()->setSectionResizeMode(COL_NAME, QHeaderView::Stretch);
+#else
 	actionsTable->horizontalHeader()->setResizeMode(COL_DESC, QHeaderView::Stretch);
 	actionsTable->horizontalHeader()->setResizeMode(COL_NAME, QHeaderView::Stretch);
+#endif
 
 	actionsTable->setAlternatingRowColors(true);
 #if USE_SHORTCUTGETTER

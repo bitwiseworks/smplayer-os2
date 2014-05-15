@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ void MediaSettings::reset() {
 
 	aspect_ratio_id = AspectAuto;
 
-	//fullscreen = FALSE;
+	//fullscreen = false;
 	volume = pref->initial_volume;
 	mute = false;
 	external_subtitles = "";
@@ -110,12 +110,14 @@ void MediaSettings::reset() {
 	is264andHD = false;
 
 	forced_demuxer="";
-    forced_video_codec="";
-    forced_audio_codec="";
+	if (pref->use_lavf_demuxer) forced_demuxer = "lavf";
+
+	forced_video_codec="";
+	forced_audio_codec="";
 
 	original_demuxer="";
-    original_video_codec="";
-    original_audio_codec="";
+	original_video_codec="";
+	original_audio_codec="";
 
 	mplayer_additional_options="";
 	mplayer_additional_video_filters="";
@@ -143,6 +145,7 @@ double MediaSettings::aspectToNum(Aspect aspect) {
 		case MediaSettings::Aspect11: asp = 1; break;
 		case MediaSettings::Aspect32: asp = (double) 3 / 2; break;
 		case MediaSettings::Aspect1410: asp = (double) 14 / 10; break;
+		case MediaSettings::Aspect118: asp = (double) 11 / 8; break;
 		case MediaSettings::AspectAuto: asp = win_aspect(); break;
 		default: asp = win_aspect(); 
                  qWarning("MediaSettings::aspectToNum: invalid aspect: %d", aspect);
@@ -165,6 +168,7 @@ QString MediaSettings::aspectToString(Aspect aspect) {
 		case MediaSettings::Aspect11: asp_name = "1:1"; break;
 		case MediaSettings::Aspect32: asp_name = "3:2"; break;
 		case MediaSettings::Aspect1410: asp_name = "14:10"; break;
+		case MediaSettings::Aspect118: asp_name = "11:8"; break;
 		case MediaSettings::AspectAuto: asp_name = QObject::tr("auto", "aspect_ratio"); break;
 		default: asp_name = QObject::tr("unknown", "aspect_ratio");
 	}
@@ -273,12 +277,19 @@ void MediaSettings::save(QSettings * set) {
 	/*set->beginGroup( "mediasettings" );*/
 
 	set->setValue( "current_sec", current_sec );
+
+	QString demuxer_section = "demuxer_default";
+	if (!forced_demuxer.isEmpty()) demuxer_section = "demuxer_" + forced_demuxer;
+
+	set->beginGroup(demuxer_section);
 	set->setValue( "current_sub_id", current_sub_id );
-#if PROGRAM_SWITCH
+	#if PROGRAM_SWITCH
 	set->setValue( "current_program_id", current_program_id );
-#endif
+	#endif
 	set->setValue( "current_video_id", current_video_id );
 	set->setValue( "current_audio_id", current_audio_id );
+	set->endGroup();
+
 	set->setValue( "current_title_id", current_title_id );
 	set->setValue( "current_chapter_id", current_chapter_id );
 	set->setValue( "current_angle_id", current_angle_id );
@@ -373,12 +384,22 @@ void MediaSettings::load(QSettings * set) {
 	/*set->beginGroup( "mediasettings" );*/
 
 	current_sec = set->value( "current_sec", current_sec).toDouble();
+
+	forced_demuxer = set->value( "forced_demuxer", forced_demuxer).toString();
+	if (pref->use_lavf_demuxer) forced_demuxer = "lavf";
+
+	QString demuxer_section = "demuxer_default";
+	if (!forced_demuxer.isEmpty()) demuxer_section = "demuxer_" + forced_demuxer;
+
+	set->beginGroup(demuxer_section);
 	current_sub_id = set->value( "current_sub_id", current_sub_id ).toInt();
-#if PROGRAM_SWITCH
+	#if PROGRAM_SWITCH
 	current_program_id = set->value( "current_program_id", current_program_id ).toInt();
-#endif
+	#endif
 	current_video_id = set->value( "current_video_id", current_video_id ).toInt();
 	current_audio_id = set->value( "current_audio_id", current_audio_id ).toInt();
+	set->endGroup();
+
 	current_title_id = set->value( "current_title_id", current_title_id ).toInt();
 	current_chapter_id = set->value( "current_chapter_id", current_chapter_id ).toInt();
 	current_angle_id = set->value( "current_angle_id", current_angle_id ).toInt();
@@ -443,7 +464,6 @@ void MediaSettings::load(QSettings * set) {
 	A_marker = set->value( "A_marker", A_marker).toInt();
 	B_marker = set->value( "B_marker", B_marker).toInt();
 
-	forced_demuxer = set->value( "forced_demuxer", forced_demuxer).toString();
 	forced_video_codec = set->value( "forced_video_codec", forced_video_codec).toString();
 	forced_audio_codec = set->value( "forced_audio_codec", forced_audio_codec).toString();
 

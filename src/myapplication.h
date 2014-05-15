@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,14 @@
 #ifndef MYAPPLICATION_H
 #define MYAPPLICATION_H
 
+#include <QtGlobal>
+
+#ifdef Q_OS_WIN
+ #if QT_VERSION < 0x050000
+  #define USE_WINEVENTFILTER
+ #endif
+#endif
+
 #ifdef SINGLE_INSTANCE
 #include "QtSingleApplication"
 
@@ -37,6 +45,10 @@ public:
 	inline static MyApplication * instance() {
 		return qobject_cast<MyApplication*>(QApplication::instance());
 	}
+	
+#ifdef USE_WINEVENTFILTER
+	virtual bool winEventFilter(MSG * msg, long * result);
+#endif
 };
 
 #else
@@ -52,6 +64,10 @@ public:
 	virtual void commitData ( QSessionManager & /*manager*/ ) {
 		// Nothing to do, let the application to close
 	}
+	
+#ifdef USE_WINEVENTFILTER
+	virtual bool winEventFilter(MSG * msg, long * result);
+#endif
 };
 
 #endif

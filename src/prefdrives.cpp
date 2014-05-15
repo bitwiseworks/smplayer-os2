@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,6 +55,11 @@ PrefDrives::PrefDrives(QWidget * parent, Qt::WindowFlags f)
 	check_drives_button->hide();
 #endif
 
+#ifndef BLURAY_SUPPORT
+	bluray_widget->hide();
+	bluray_sep->hide();
+#endif
+
 	updateDriveCombos();
 
 	retranslateStrings();
@@ -78,6 +83,9 @@ void PrefDrives::retranslateStrings() {
 
 	cdrom_drive_icon->setPixmap( Images::icon("cdrom_drive") );
 	dvd_drive_icon->setPixmap( Images::icon("dvd_drive") );
+#ifdef BLURAY_SUPPORT
+	bluray_drive_icon->setPixmap( Images::icon("bluray_drive") );
+#endif
 
 	createHelp();
 }
@@ -88,9 +96,15 @@ void PrefDrives::updateDriveCombos(bool detect_cd_devices) {
 	// Save current values
 	QString current_dvd_device = dvdDevice();
 	QString current_cd_device = cdromDevice();
+#ifdef BLURAY_SUPPORT
+	QString current_bluray_device = blurayDevice();
+#endif
 
 	dvd_device_combo->clear();
 	cdrom_device_combo->clear();
+#ifdef BLURAY_SUPPORT
+	bluray_device_combo->clear();
+#endif
 
 	// DVD device combo
 	// In windows, insert the drives letters
@@ -104,6 +118,9 @@ void PrefDrives::updateDriveCombos(bool detect_cd_devices) {
 			if (s.endsWith("/")) s = s.remove( s.length()-1,1);
 			dvd_device_combo->addItem( s );
 			cdrom_device_combo->addItem( s );
+			#ifdef BLURAY_SUPPORT
+			bluray_device_combo->addItem( s );
+			#endif
 		}
 	}
 #else
@@ -115,17 +132,26 @@ void PrefDrives::updateDriveCombos(bool detect_cd_devices) {
 		qDebug("PrefDrives::PrefDrives: device found: '%s'", device_name.toUtf8().constData());
 		dvd_device_combo->addItem(device_name);
 		cdrom_device_combo->addItem(device_name);
+		#ifdef BLURAY_SUPPORT
+		bluray_device_combo->addItem(device_name);
+		#endif
 	}
 #endif
 
 	// Restore previous values
 	setDVDDevice( current_dvd_device );
 	setCDRomDevice( current_cd_device );
+#ifdef BLURAY_SUPPORT
+	setBlurayDevice( current_bluray_device );
+#endif
 }
 
 void PrefDrives::setData(Preferences * pref) {
 	setDVDDevice( pref->dvd_device );
 	setCDRomDevice( pref->cdrom_device );
+#ifdef BLURAY_SUPPORT
+	setBlurayDevice( pref->bluray_device );
+#endif
 
 #if DVDNAV_SUPPORT
 	setUseDVDNav( pref->use_dvdnav );
@@ -137,6 +163,9 @@ void PrefDrives::getData(Preferences * pref) {
 
 	pref->dvd_device = dvdDevice();
 	pref->cdrom_device = cdromDevice();
+#ifdef BLURAY_SUPPORT
+	pref->bluray_device = blurayDevice();
+#endif
 
 #if DVDNAV_SUPPORT
 	pref->use_dvdnav = useDVDNav();
@@ -150,6 +179,16 @@ void PrefDrives::setDVDDevice( QString dir ) {
 QString PrefDrives::dvdDevice() {
 	return dvd_device_combo->currentText();
 }
+
+#ifdef BLURAY_SUPPORT
+void PrefDrives::setBlurayDevice( QString dir ) {
+	bluray_device_combo->setCurrentText( dir );
+}
+
+QString PrefDrives::blurayDevice() {
+	return bluray_device_combo->currentText();
+}
+#endif
 
 void PrefDrives::setCDRomDevice( QString dir ) {
 	cdrom_device_combo->setCurrentText( dir );
@@ -186,14 +225,19 @@ void PrefDrives::createHelp() {
 
 #if DVDNAV_SUPPORT
 	setWhatsThis(use_dvdnav_check, tr("Enable DVD menus"),
-		tr("If this option is checked, smplayer will play DVDs using "
-           "dvdnav. Requires a recent version of mplayer compiled with dvdnav "
+		tr("If this option is checked, SMPlayer will play DVDs using "
+           "dvdnav. Requires a recent version of MPlayer compiled with dvdnav "
            "support.") +"<br>" +
         tr("<b>Note 1</b>: cache will be disabled, this can affect performance.") +"<br>"+
         tr("<b>Note 2</b>: you may want to assign the action "
            "\"activate option in DVD menus\" to one of the mouse buttons.") + "<br>"+
         tr("<b>Note 3</b>: this feature is under development, expect a lot of "
            "issues with it."));
+#endif
+
+#ifdef BLURAY_SUPPORT
+	setWhatsThis(bluray_device_combo, tr("Blu-ray device"),
+		tr("Choose your Blu-ray device. It will be used to play Blu-ray discs.") );
 #endif
 }
 

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@
 #include <QDesktopServices>
 #include <QInputDialog>
 #include <QClipboard>
+#include <QMimeData>
 
 #include <cmath>
 
@@ -56,7 +57,7 @@
 #include "playlist.h"
 #include "filepropertiesdialog.h"
 #include "eqslider.h"
-#include "videoequalizer2.h"
+#include "videoequalizer.h"
 #include "audioequalizer.h"
 #include "inputdvddirectory.h"
 #include "inputmplayerversion.h"
@@ -111,12 +112,14 @@
 #include "codedownloader.h"
 #endif
 
+#ifdef REMINDER_ACTIONS
+#include "sharedialog.h"
+#endif
+
 using namespace Global;
 
 BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
-	: QMainWindow( parent, flags ),
-		near_top(false),
-		near_bottom(false)
+	: QMainWindow( parent, flags )
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	/* Disable screensaver by event */
@@ -152,10 +155,12 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 	createAudioEqualizer();
 
 	// Mouse Wheel
+	/*
 	connect( this, SIGNAL(wheelUp()),
              core, SLOT(wheelUp()) );
 	connect( this, SIGNAL(wheelDown()),
              core, SLOT(wheelDown()) );
+	*/
 	connect( mplayerwindow, SIGNAL(wheelUp()),
              core, SLOT(wheelUp()) );
 	connect( mplayerwindow, SIGNAL(wheelDown()),
@@ -184,6 +189,10 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 	createMenus();
 #if AUTODISABLE_ACTIONS
 	setActionsEnabled(false);
+	if (playlist->count() > 0) {
+		playAct->setEnabled(true);
+		playOrPauseAct->setEnabled(true);
+	}
 #endif
 
 #if !DOCK_PLAYLIST
@@ -217,7 +226,7 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 }
 
 void BaseGui::initializeGui() {
-	if (pref->compact_mode) toggleCompactMode(TRUE);
+	if (pref->compact_mode) toggleCompactMode(true);
 	changeStayOnTop(pref->stay_on_top);
 
 #if ALLOW_CHANGE_STYLESHEET
@@ -341,6 +350,17 @@ void BaseGui::createActions() {
 	connect( openDVDFolderAct, SIGNAL(triggered()),
              this, SLOT(openDVDFromFolder()) );
 
+	// Bluray section.
+#ifdef BLURAY_SUPPORT
+	openBluRayAct = new MyAction( this, "open_bluray" );
+	connect( openBluRayAct, SIGNAL(triggered()),
+             this, SLOT(openBluRay()));
+
+	openBluRayFolderAct = new MyAction( this, "open_bluray_folder" );
+	connect( openBluRayFolderAct, SIGNAL(triggered()),
+             this, SLOT(openBluRayFromFolder()));
+#endif
+
 	openURLAct = new MyAction( QKeySequence("Ctrl+U"), this, "open_url" );
 	connect( openURLAct, SIGNAL(triggered()),
              this, SLOT(openURL()) );
@@ -404,10 +424,12 @@ void BaseGui::createActions() {
              core, SLOT(play()) );
 
 	playOrPauseAct = new MyAction( Qt::Key_MediaPlay, this, "play_or_pause" );
+	playOrPauseAct->addShortcut(QKeySequence("Toggle Media Play/Pause")); // MCE remote key
 	connect( playOrPauseAct, SIGNAL(triggered()),
              core, SLOT(play_or_pause()) );
 
 	pauseAct = new MyAction( Qt::Key_Space, this, "pause" );
+	pauseAct->addShortcut(QKeySequence("Media Pause")); // MCE remote key
 	connect( pauseAct, SIGNAL(triggered()),
              core, SLOT(pause()) );
 
@@ -424,6 +446,7 @@ void BaseGui::createActions() {
              core, SLOT(frameStep()) );
 
 	rewind1Act = new MyAction( Qt::Key_Left, this, "rewind1" );
+	rewind1Act->addShortcut(QKeySequence("Shift+Ctrl+B")); // MCE remote key
 	connect( rewind1Act, SIGNAL(triggered()),
              core, SLOT(srewind()) );
 
@@ -436,6 +459,7 @@ void BaseGui::createActions() {
              core, SLOT(fastrewind()) );
 
 	forward1Act = new MyAction( Qt::Key_Right, this, "forward1" );
+	forward1Act->addShortcut(QKeySequence("Shift+Ctrl+F")); // MCE remote key
 	connect( forward1Act, SIGNAL(triggered()),
              core, SLOT(sforward()) );
 
@@ -508,6 +532,7 @@ void BaseGui::createActions() {
 
 	// Menu Video
 	fullscreenAct = new MyAction( Qt::Key_F, this, "fullscreen" );
+	fullscreenAct->addShortcut(QKeySequence("Ctrl+T")); // MCE remote key
 	fullscreenAct->setCheckable( true );
 	connect( fullscreenAct, SIGNAL(toggled(bool)),
              this, SLOT(toggleFullscreen(bool)) );
@@ -599,6 +624,7 @@ void BaseGui::createActions() {
              this, SLOT(showAudioEqualizer(bool)) );
 
 	muteAct = new MyAction( Qt::Key_M, this, "mute" );
+	muteAct->addShortcut(Qt::Key_VolumeMute); // MCE remote key
 	muteAct->setCheckable( true );
 	connect( muteAct, SIGNAL(toggled(bool)),
              core, SLOT(mute(bool)) );
@@ -606,6 +632,7 @@ void BaseGui::createActions() {
 #if USE_MULTIPLE_SHORTCUTS
 	decVolumeAct = new MyAction( this, "decrease_volume" );
 	decVolumeAct->setShortcuts( ActionsEditor::stringToShortcuts("9,/") );
+	decVolumeAct->addShortcut(Qt::Key_VolumeDown); // MCE remote key
 #else
 	decVolumeAct = new MyAction( Qt::Key_9, this, "dec_volume" );
 #endif
@@ -615,6 +642,7 @@ void BaseGui::createActions() {
 #if USE_MULTIPLE_SHORTCUTS
 	incVolumeAct = new MyAction( this, "increase_volume" );
 	incVolumeAct->setShortcuts( ActionsEditor::stringToShortcuts("0,*") );
+	incVolumeAct->addShortcut(Qt::Key_VolumeUp); // MCE remote key
 #else
 	incVolumeAct = new MyAction( Qt::Key_0, this, "inc_volume" );
 #endif
@@ -791,14 +819,11 @@ void BaseGui::createActions() {
              this, SLOT(helpDonate()) );
 #endif
 
-	aboutQtAct = new MyAction( this, "about_qt" );
-	connect( aboutQtAct, SIGNAL(triggered()),
-             this, SLOT(helpAboutQt()) );
-
 	aboutThisAct = new MyAction( this, "about_smplayer" );
 	connect( aboutThisAct, SIGNAL(triggered()),
              this, SLOT(helpAbout()) );
 
+#ifdef SHARE_MENU
 	facebookAct = new MyAction (this, "facebook");
 	twitterAct = new MyAction (this, "twitter");
 	gmailAct = new MyAction (this, "gmail");
@@ -815,13 +840,15 @@ void BaseGui::createActions() {
              this, SLOT(shareSMPlayer()) );
 	connect( yahooAct, SIGNAL(triggered()),
              this, SLOT(shareSMPlayer()) );
-
+#endif
 
 	// Playlist
 	playNextAct = new MyAction(Qt::Key_Greater, this, "play_next");
+	playNextAct->addShortcut(Qt::Key_MediaNext); // MCE remote key
 	connect( playNextAct, SIGNAL(triggered()), playlist, SLOT(playNext()) );
 
 	playPrevAct = new MyAction(Qt::Key_Less, this, "play_prev");
+	playPrevAct->addShortcut(Qt::Key_MediaPrevious); // MCE remote key
 	connect( playPrevAct, SIGNAL(triggered()), playlist, SLOT(playPrev()) );
 
 
@@ -930,7 +957,7 @@ void BaseGui::createActions() {
 	connect( doubleSizeAct, SIGNAL(triggered()), this, SLOT(toggleDoubleSize()) );
 
 	resetVideoEqualizerAct = new MyAction( this, "reset_video_equalizer");
-	connect( resetVideoEqualizerAct, SIGNAL(triggered()), video_equalizer2, SLOT(reset()) );
+	connect( resetVideoEqualizerAct, SIGNAL(triggered()), video_equalizer, SLOT(reset()) );
 
 	resetAudioEqualizerAct = new MyAction( this, "reset_audio_equalizer");
 	connect( resetAudioEqualizerAct, SIGNAL(triggered()), audio_equalizer, SLOT(reset()) );
@@ -1034,13 +1061,14 @@ void BaseGui::createActions() {
 	aspectGroup = new MyActionGroup(this);
 	aspectDetectAct = new MyActionGroupItem(this, aspectGroup, "aspect_detect", MediaSettings::AspectAuto);
 	aspect11Act = new MyActionGroupItem(this, aspectGroup, "aspect_1:1", MediaSettings::Aspect11 );
-	aspect32Act = new MyActionGroupItem(this, aspectGroup, "aspect_3:2", MediaSettings::Aspect32);
-	aspect43Act = new MyActionGroupItem(this, aspectGroup, "aspect_4:3", MediaSettings::Aspect43);
 	aspect54Act = new MyActionGroupItem(this, aspectGroup, "aspect_5:4", MediaSettings::Aspect54 );
-	aspect149Act = new MyActionGroupItem(this, aspectGroup, "aspect_14:9", MediaSettings::Aspect149 );
+	aspect43Act = new MyActionGroupItem(this, aspectGroup, "aspect_4:3", MediaSettings::Aspect43);
+	aspect118Act = new MyActionGroupItem(this, aspectGroup, "aspect_11:8", MediaSettings::Aspect118 );
 	aspect1410Act = new MyActionGroupItem(this, aspectGroup, "aspect_14:10", MediaSettings::Aspect1410 );
-	aspect169Act = new MyActionGroupItem(this, aspectGroup, "aspect_16:9", MediaSettings::Aspect169 );
+	aspect32Act = new MyActionGroupItem(this, aspectGroup, "aspect_3:2", MediaSettings::Aspect32);
+	aspect149Act = new MyActionGroupItem(this, aspectGroup, "aspect_14:9", MediaSettings::Aspect149 );
 	aspect1610Act = new MyActionGroupItem(this, aspectGroup, "aspect_16:10", MediaSettings::Aspect1610 );
+	aspect169Act = new MyActionGroupItem(this, aspectGroup, "aspect_16:9", MediaSettings::Aspect169 );
 	aspect235Act = new MyActionGroupItem(this, aspectGroup, "aspect_2.35:1", MediaSettings::Aspect235 );
 	{
 		QAction * sep = new QAction(aspectGroup);
@@ -1076,20 +1104,20 @@ void BaseGui::createActions() {
 #if USE_ADAPTER
 	screenGroup = new MyActionGroup(this);
 	screenDefaultAct = new MyActionGroupItem(this, screenGroup, "screen_default", -1);
-#ifdef Q_OS_WIN
+	#ifdef Q_OS_WIN
 	DeviceList display_devices = DeviceInfo::displayDevices();
 	if (!display_devices.isEmpty()) {
 		for (int n = 0; n < display_devices.count(); n++) {
 			int id = display_devices[n].ID().toInt();
 			QString desc = display_devices[n].desc();
-			MyAction * screen_item = new MyActionGroupItem(this, screenGroup, QString("screen_%1").arg(n).toAscii().constData(), id);
+			MyAction * screen_item = new MyActionGroupItem(this, screenGroup, QString("screen_%1").arg(n).toLatin1().constData(), id);
 			screen_item->change( "&"+QString::number(n) + " - " + desc);
 		}
 	}
 	else
-#endif // Q_OS_WIN
+	#endif // Q_OS_WIN
 	for (int n = 1; n <= 4; n++) {
-		MyAction * screen_item = new MyActionGroupItem(this, screenGroup, QString("screen_%1").arg(n).toAscii().constData(), n);
+		MyAction * screen_item = new MyActionGroupItem(this, screenGroup, QString("screen_%1").arg(n).toLatin1().constData(), n);
 		screen_item->change( "&"+QString::number(n) );
 	}
 
@@ -1464,6 +1492,10 @@ void BaseGui::retranslateStrings() {
 	openAudioCDAct->change( Images::icon("cdda"), tr("&Audio CD") );
 	openDVDAct->change( Images::icon("dvd"), tr("&DVD from drive") );
 	openDVDFolderAct->change( Images::icon("dvd_hd"), tr("D&VD from folder...") );
+#ifdef BLURAY_SUPPORT
+	openBluRayAct->change( Images::icon("bluray"), tr("&Blu-ray from drive") );
+	openBluRayFolderAct->change( Images::icon("bluray_hd"), tr("Blu-&ray from folder...") );
+#endif
 	openURLAct->change( Images::icon("url"), tr("&URL...") );
 	exitAct->change( Images::icon("close"), tr("C&lose") );
 
@@ -1512,7 +1544,7 @@ void BaseGui::retranslateStrings() {
 
 	// Submenu speed
 	normalSpeedAct->change( tr("&Normal speed") );
-	halveSpeedAct->change( tr("&Halve speed") );
+	halveSpeedAct->change( tr("&Half speed") );
 	doubleSpeedAct->change( tr("&Double speed") );
 	decSpeed10Act->change( tr("Speed &-10%") );
 	incSpeed10Act->change( tr("Speed &+10%") );
@@ -1528,7 +1560,7 @@ void BaseGui::retranslateStrings() {
 	screenshotAct->change( Images::icon("screenshot"), tr("&Screenshot") );
 	screenshotsAct->change( Images::icon("screenshots"), tr("Start/stop takin&g screenshots") );
 #ifdef VIDEOPREVIEW
-	videoPreviewAct->change( Images::icon("video_preview"), tr("Pre&view...") );
+	videoPreviewAct->change( Images::icon("video_preview"), tr("Thumb&nail Generator...") );
 #endif
 	flipAct->change( Images::icon("flip"), tr("Fli&p image") );
 	mirrorAct->change( Images::icon("mirror"), tr("Mirr&or image") );
@@ -1597,7 +1629,7 @@ void BaseGui::retranslateStrings() {
 	subVisibilityAct->change( Images::icon("sub_visibility"), tr("Subtitle &visibility") );
 
 #ifdef FIND_SUBTITLES
-	showFindSubtitlesDialogAct->change( Images::icon("download_subs"), tr("Find subtitles on &OpenSubtitles.org...") );
+	showFindSubtitlesDialogAct->change( Images::icon("download_subs"), tr("Find subtitles at &OpenSubtitles.org...") );
 	openUploadSubtitlesPageAct->change( Images::icon("upload_subs"), tr("Upload su&btitles to OpenSubtitles.org...") );
 #endif
 
@@ -1645,15 +1677,15 @@ void BaseGui::retranslateStrings() {
 #ifdef REMINDER_ACTIONS
 	donateAct->change( Images::icon("donate"), tr("&Donate") );
 #endif
-	aboutQtAct->change( QPixmap(":/icons-png/qt.png"), tr("About &Qt") );
 	aboutThisAct->change( Images::icon("logo_small"), tr("About &SMPlayer") );
 
+#ifdef SHARE_MENU
 	facebookAct->change("&Facebook");
 	twitterAct->change("&Twitter");
 	gmailAct->change("&Gmail");
 	hotmailAct->change("&Hotmail");
 	yahooAct->change("&Yahoo!");
-
+#endif
 
 	// Playlist
 	playNextAct->change( tr("&Next") );
@@ -1796,6 +1828,7 @@ void BaseGui::retranslateStrings() {
 	aspect11Act->change( "1&:1" );
 	aspect32Act->change( "&3:2" );
 	aspect43Act->change( "&4:3" );
+	aspect118Act->change( "11:&8" );
 	aspect54Act->change( "&5:4" );
 	aspect149Act->change( "&14:9" );
 	aspect1410Act->change( "1&4:10" );
@@ -1901,8 +1934,10 @@ void BaseGui::retranslateStrings() {
 	osd_menu->menuAction()->setText( tr("&OSD") );
 	osd_menu->menuAction()->setIcon( Images::icon("osd") );
 
+#ifdef SHARE_MENU
 	share_menu->menuAction()->setText( tr("S&hare SMPlayer with your friends") );
 	share_menu->menuAction()->setIcon( Images::icon("share") );
+#endif
 
 #if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
 	logs_menu->menuAction()->setText( tr("&View logs") );
@@ -1996,6 +2031,9 @@ void BaseGui::createCore() {
 
 	connect( core, SIGNAL(mediaLoaded()),
              this, SLOT(enableActionsOnPlaying()) );
+
+	connect( core, SIGNAL(noFileToPlay()), this, SLOT(gotNoFileToPlay()) );
+
 #if NOTIFY_AUDIO_CHANGES
 	connect( core, SIGNAL(audioTracksChanged()),
              this, SLOT(enableActionsOnPlaying()) );
@@ -2054,6 +2092,7 @@ void BaseGui::createCore() {
 	connect(core, SIGNAL(signatureNotFound(const QString &)),
             this, SLOT(YTNoSignature(const QString &)));
 #endif
+	connect(core, SIGNAL(receivedForbidden()), this, SLOT(gotForbidden()));
 }
 
 void BaseGui::createMplayerWindow() {
@@ -2063,6 +2102,7 @@ void BaseGui::createMplayerWindow() {
 	mplayerwindow->setColorKey( pref->color_key );
 #endif
 	mplayerwindow->allowVideoMovement( pref->allow_video_movement );
+	mplayerwindow->delayLeftClick(pref->delay_left_click);
 
 #if LOGO_ANIMATION
 	mplayerwindow->setAnimatedLogo( pref->animated_logo);
@@ -2093,34 +2133,31 @@ void BaseGui::createMplayerWindow() {
              this, SLOT(xbutton1ClickFunction()) );
 	connect( mplayerwindow, SIGNAL(xbutton2Clicked()),
              this, SLOT(xbutton2ClickFunction()) );
-	connect( mplayerwindow, SIGNAL(mouseMoved(QPoint)),
-             this, SLOT(checkMousePos(QPoint)) );
 
-	if (pref->move_when_dragging) {
-		connect( mplayerwindow, SIGNAL(mouseMovedDiff(QPoint)),
-	             this, SLOT(moveWindow(QPoint)));
-	}
+	connect( mplayerwindow, SIGNAL(mouseMovedDiff(QPoint)),
+             this, SLOT(moveWindowDiff(QPoint)), Qt::QueuedConnection );
+	mplayerwindow->activateMouseDragTracking(pref->move_when_dragging);
 }
 
 void BaseGui::createVideoEqualizer() {
 	// Equalizer
-	video_equalizer2 = new VideoEqualizer2(this);
-	connect( video_equalizer2, SIGNAL(contrastChanged(int)), 
+	video_equalizer = new VideoEqualizer(this);
+	connect( video_equalizer, SIGNAL(contrastChanged(int)), 
              core, SLOT(setContrast(int)) );
-	connect( video_equalizer2, SIGNAL(brightnessChanged(int)), 
+	connect( video_equalizer, SIGNAL(brightnessChanged(int)), 
              core, SLOT(setBrightness(int)) );
-	connect( video_equalizer2, SIGNAL(hueChanged(int)), 
+	connect( video_equalizer, SIGNAL(hueChanged(int)), 
              core, SLOT(setHue(int)) );
-	connect( video_equalizer2, SIGNAL(saturationChanged(int)), 
+	connect( video_equalizer, SIGNAL(saturationChanged(int)), 
              core, SLOT(setSaturation(int)) );
-	connect( video_equalizer2, SIGNAL(gammaChanged(int)), 
+	connect( video_equalizer, SIGNAL(gammaChanged(int)), 
              core, SLOT(setGamma(int)) );
 
-	connect( video_equalizer2, SIGNAL(visibilityChanged()),
+	connect( video_equalizer, SIGNAL(visibilityChanged()),
              this, SLOT(updateWidgets()) );
-	connect( video_equalizer2, SIGNAL(requestToChangeDefaultValues()),
+	connect( video_equalizer, SIGNAL(requestToChangeDefaultValues()),
              this, SLOT(setDefaultValuesFromVideoEqualizer()) );
-	connect( video_equalizer2, SIGNAL(bySoftwareChanged(bool)),
+	connect( video_equalizer, SIGNAL(bySoftwareChanged(bool)),
              this, SLOT(changeVideoEqualizerBySoftware(bool)) );
 }
 
@@ -2188,8 +2225,10 @@ void BaseGui::createPanel() {
 	panel->setFocusPolicy( Qt::StrongFocus );
 
 	// panel
-	panel->setAutoFillBackground(TRUE);
+	/*
+	panel->setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( panel, QColor(0,0,0) );
+	*/
 }
 
 void BaseGui::createPreferencesDialog() {
@@ -2241,6 +2280,10 @@ void BaseGui::createMenus() {
 	disc_menu->menuAction()->setObjectName("disc_menu");
 	disc_menu->addAction(openDVDAct);
 	disc_menu->addAction(openDVDFolderAct);
+#ifdef BLURAY_SUPPORT
+	disc_menu->addAction(openBluRayAct);
+	disc_menu->addAction(openBluRayFolderAct);
+#endif
 	disc_menu->addAction(openVCDAct);
 	disc_menu->addAction(openAudioCDAct);
 
@@ -2612,6 +2655,7 @@ void BaseGui::createMenus() {
 
 	// HELP MENU
 	// Share submenu
+#ifdef SHARE_MENU
 	share_menu = new QMenu(this);
 	share_menu->addAction(facebookAct);
 	share_menu->addAction(twitterAct);
@@ -2621,6 +2665,8 @@ void BaseGui::createMenus() {
 
 	helpMenu->addMenu(share_menu);
 	helpMenu->addSeparator();
+#endif
+
 	helpMenu->addAction(showFirstStepsAct);
 	helpMenu->addAction(showFAQAct);
 	helpMenu->addAction(showCLOptionsAct);
@@ -2636,7 +2682,6 @@ void BaseGui::createMenus() {
 	helpMenu->addAction(donateAct);
 	helpMenu->addSeparator();
 #endif
-	helpMenu->addAction(aboutQtAct);
 	helpMenu->addAction(aboutThisAct);
 
 	// POPUP MENU
@@ -2702,16 +2747,16 @@ void BaseGui::showPlaylist(bool b) {
 }
 
 void BaseGui::showVideoEqualizer() {
-	showVideoEqualizer( !video_equalizer2->isVisible() );
+	showVideoEqualizer( !video_equalizer->isVisible() );
 }
 
 void BaseGui::showVideoEqualizer(bool b) {
 	if (!b) {
-		video_equalizer2->hide();
+		video_equalizer->hide();
 	} else {
 		// Exit fullscreen, otherwise dialog is not visible
 		exitFullscreenIfNeeded();
-		video_equalizer2->show();
+		video_equalizer->show();
 	}
 	updateWidgets();
 }
@@ -2766,10 +2811,14 @@ void BaseGui::applyNewPreferences() {
 
 	pref_dialog->getData(pref);
 
+	// Change application font
 	if (!pref->default_font.isEmpty()) {
 		QFont f;
 		f.fromString( pref->default_font );
-		qApp->setFont(f);
+		if (QApplication::font() != f) {
+			qDebug("BaseGui::applyNewPreferences: setting new font: %s", pref->default_font.toLatin1().constData());
+			QApplication::setFont(f);
+		}
 	}
 
 #ifndef NO_USE_INI_FILES
@@ -2793,11 +2842,8 @@ void BaseGui::applyNewPreferences() {
 #endif
 	}
 
-	if (pref->move_when_dragging) {
-		connect( mplayerwindow, SIGNAL(mouseMovedDiff(QPoint)), this, SLOT(moveWindow(QPoint)));
-	} else {
-		disconnect( mplayerwindow, SIGNAL(mouseMovedDiff(QPoint)), this, SLOT(moveWindow(QPoint)));
-	}
+	mplayerwindow->activateMouseDragTracking(pref->move_when_dragging);
+	mplayerwindow->delayLeftClick(pref->delay_left_click);
 
 #if ALLOW_TO_HIDE_VIDEO_WINDOW_ON_AUDIO_FILES
 	if (pref->hide_video_window_on_audio_files) {
@@ -2826,6 +2872,9 @@ void BaseGui::applyNewPreferences() {
 #endif
 	if (advanced->monitorAspectChanged()) {
 		mplayerwindow->setMonitorAspect( pref->monitor_aspect_double() );
+	}
+	if (advanced->lavfDemuxerChanged()) {
+		core->mset.forced_demuxer = pref->use_lavf_demuxer ? "lavf" : "";
 	}
 
 	// Update playlist preferences
@@ -2933,7 +2982,7 @@ void BaseGui::applyFileProperties() {
 
 #undef TEST_AND_SET
 #define TEST_AND_SET( Pref, Dialog ) \
-	if ( Pref != Dialog ) { Pref = Dialog; need_restart = TRUE; }
+	if ( Pref != Dialog ) { Pref = Dialog; need_restart = true; }
 
 	QString prev_demuxer = core->mset.forced_demuxer;
 
@@ -3029,11 +3078,20 @@ void BaseGui::newMediaLoaded() {
 		playlist->addCurrentFile();
 	}*/
 
-	if ((core->mdat.type == TYPE_FILE) && (pref->auto_add_to_playlist) && (pref->add_to_playlist_consecutive_files)) {
-		// Look for consecutive files
-		QStringList files_to_add = Helper::searchForConsecutiveFiles(core->mdat.filename);
+	// Automatically add files to playlist
+	if ((core->mdat.type == TYPE_FILE) && (pref->auto_add_to_playlist)) {
+		//qDebug("BaseGui::newMediaLoaded: playlist count: %d", playlist->count());
+		QStringList files_to_add;
+		if (playlist->count() == 1) {
+			files_to_add = Helper::filesForPlaylist(core->mdat.filename, pref->media_to_add_to_playlist);
+		}
 		if (!files_to_add.empty()) playlist->addFiles(files_to_add);
 	}
+}
+
+void BaseGui::gotNoFileToPlay() {
+	//qDebug("BaseGui::gotNoFileToPlay");
+	playlist->resumePlay();
 }
 
 #ifdef LOG_MPLAYER
@@ -3421,8 +3479,8 @@ void BaseGui::updateWidgets() {
 	}
 
 	// Video equalizer
-	videoEqualizerAct->setChecked( video_equalizer2->isVisible() );
-	video_equalizer2->setBySoftware( pref->use_soft_video_eq );
+	videoEqualizerAct->setChecked( video_equalizer->isVisible() );
+	video_equalizer->setBySoftware( pref->use_soft_video_eq );
 
 	// Audio equalizer
 	audioEqualizerAct->setChecked( audio_equalizer->isVisible() );
@@ -3476,28 +3534,27 @@ void BaseGui::updateWidgets() {
 
 void BaseGui::updateVideoEqualizer() {
 	// Equalizer
-	video_equalizer2->setContrast( core->mset.contrast );
-	video_equalizer2->setBrightness( core->mset.brightness );
-	video_equalizer2->setHue( core->mset.hue );
-	video_equalizer2->setSaturation( core->mset.saturation );
-	video_equalizer2->setGamma( core->mset.gamma );
+	video_equalizer->setContrast( core->mset.contrast );
+	video_equalizer->setBrightness( core->mset.brightness );
+	video_equalizer->setHue( core->mset.hue );
+	video_equalizer->setSaturation( core->mset.saturation );
+	video_equalizer->setGamma( core->mset.gamma );
 }
 
 void BaseGui::updateAudioEqualizer() {
 	// Audio Equalizer
-	for (int n = 0; n < 10; n++) {
-		audio_equalizer->eq[n]->setValue( core->mset.audio_equalizer[n].toInt() );
-	}
+	AudioEqualizerList l = pref->global_audio_equalizer ? pref->audio_equalizer : core->mset.audio_equalizer;
+	audio_equalizer->setEqualizer(l);
 }
 
 void BaseGui::setDefaultValuesFromVideoEqualizer() {
 	qDebug("BaseGui::setDefaultValuesFromVideoEqualizer");
 
-	pref->initial_contrast = video_equalizer2->contrast();
-	pref->initial_brightness = video_equalizer2->brightness();
-	pref->initial_hue = video_equalizer2->hue();
-	pref->initial_saturation = video_equalizer2->saturation();
-	pref->initial_gamma = video_equalizer2->gamma();
+	pref->initial_contrast = video_equalizer->contrast();
+	pref->initial_brightness = video_equalizer->brightness();
+	pref->initial_hue = video_equalizer->hue();
+	pref->initial_saturation = video_equalizer->saturation();
+	pref->initial_gamma = video_equalizer->gamma();
 
 	QMessageBox::information(this, tr("Information"), 
                              tr("The current values have been stored to be "
@@ -3585,6 +3642,10 @@ void BaseGui::open(QString file) {
 void BaseGui::openFiles(QStringList files) {
 	qDebug("BaseGui::openFiles");
 	if (files.empty()) return;
+
+	#ifdef Q_OS_WIN
+	files = Helper::resolveSymlinks(files); // Check for Windows shortcuts
+	#endif
 
 	if (files.count()==1) {
 		if (pref->auto_add_to_playlist) {
@@ -3812,6 +3873,45 @@ void BaseGui::openDVDFromFolder(QString directory) {
 #endif
 }
 
+#ifdef BLURAY_SUPPORT
+/**
+ * Minimal BaseGui abstraction for calling openBluRay. It's called from
+ * OpenBluRayFromFolder()
+ */
+void BaseGui::openBluRayFromFolder(QString directory) {
+	pref->last_dvd_directory = directory;
+	core->openBluRay( DiscName::join(DiscName::BLURAY, 1, directory) );
+}
+
+/**
+ * Attempts to open a bluray from pref->bluray_device. If not set, calls configureDiscDevices.
+ * If successful, calls Core::OpenBluRay(QString)
+ */
+void BaseGui::openBluRay() {
+	qDebug("BaseGui::openBluRay");
+
+	if ( (pref->dvd_device.isEmpty()) || 
+         (pref->cdrom_device.isEmpty()) || pref->bluray_device.isEmpty())
+	{
+		configureDiscDevices();
+	} else {
+		core->openBluRay( DiscName::join(DiscName::BLURAY, 1, pref->bluray_device) );
+	}
+}
+
+void BaseGui::openBluRayFromFolder() {
+	qDebug("BaseGui::openBluRayFromFolder");
+
+	if (playlist->maybeSave()) {
+		QString dir = QFileDialog::getExistingDirectory(this, tr("Select the Blu-ray folder"),
+                          pref->last_dvd_directory, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+		if (!dir.isEmpty()) {
+			openBluRayFromFolder(dir);
+		}
+	}
+}
+#endif
+
 void BaseGui::openDirectory() {
 	qDebug("BaseGui::openDirectory");
 
@@ -3910,18 +4010,16 @@ void BaseGui::helpShowConfig() {
 
 #ifdef REMINDER_ACTIONS
 void BaseGui::helpDonate() {
-	QMessageBox d(QMessageBox::NoIcon, tr("Donate"), 
-		tr("If you like SMPlayer and want to support its development, you can send a donation. Even the smallest one is highly appreciated."),
-		QMessageBox::Ok | QMessageBox::Cancel, this);
-	d.setIconPixmap( Images::icon("logo", 64) );
-	d.button(QMessageBox::Ok)->setText(tr("Yes, I want to donate"));
-	d.setDefaultButton(QMessageBox::Ok);
-	if ( d.exec() == QMessageBox::Ok ) {
-		QDesktopServices::openUrl(QUrl("http://sourceforge.net/donate/index.php?group_id=185512"));
+	ShareDialog d(this);
+	d.showRemindCheck(false);
+	d.exec();
+	int action = d.actions();
+	qDebug("BaseGui::helpDonate: action: %d", action);
 
+	if (action > 0) {
 		QSettings * set = Global::settings;
 		set->beginGroup("reminder");
-		set->setValue("action", 1);
+		set->setValue("action", action);
 		set->endGroup();
 	}
 }
@@ -3932,10 +4030,7 @@ void BaseGui::helpAbout() {
 	d.exec();
 }
 
-void BaseGui::helpAboutQt() {
-	QMessageBox::aboutQt(this, tr("About Qt") );
-}
-
+#ifdef SHARE_MENU
 void BaseGui::shareSMPlayer() {
 	QString text = QString("SMPlayer - Free Media Player with built-in codecs that can play and download Youtube videos").replace(" ","+");
 	QString url = "http://smplayer.sourceforge.net";
@@ -3967,6 +4062,7 @@ void BaseGui::shareSMPlayer() {
 		#endif
 	}
 }
+#endif
 
 void BaseGui::showGotoDialog() {
 	TimeDialog d(this);
@@ -3981,9 +4077,15 @@ void BaseGui::showGotoDialog() {
 
 void BaseGui::showAudioDelayDialog() {
 	bool ok;
+	#if QT_VERSION >= 0x050000
+	int delay = QInputDialog::getInt(this, tr("SMPlayer - Audio delay"),
+                                     tr("Audio delay (in milliseconds):"), core->mset.audio_delay, 
+                                     -3600000, 3600000, 1, &ok);
+	#else
 	int delay = QInputDialog::getInteger(this, tr("SMPlayer - Audio delay"),
                                          tr("Audio delay (in milliseconds):"), core->mset.audio_delay, 
                                          -3600000, 3600000, 1, &ok);
+	#endif
 	if (ok) {
 		core->setAudioDelay(delay);
 	}
@@ -3991,9 +4093,15 @@ void BaseGui::showAudioDelayDialog() {
 
 void BaseGui::showSubDelayDialog() {
 	bool ok;
+	#if QT_VERSION >= 0x050000
+	int delay = QInputDialog::getInt(this, tr("SMPlayer - Subtitle delay"),
+                                     tr("Subtitle delay (in milliseconds):"), core->mset.sub_delay, 
+                                     -3600000, 3600000, 1, &ok);
+	#else
 	int delay = QInputDialog::getInteger(this, tr("SMPlayer - Subtitle delay"),
                                          tr("Subtitle delay (in milliseconds):"), core->mset.sub_delay, 
                                          -3600000, 3600000, 1, &ok);
+	#endif
 	if (ok) {
 		core->setSubDelay(delay);
 	}
@@ -4325,37 +4433,26 @@ void BaseGui::checkReminder() {
 	count++;
 	set->setValue("count", count);
 	int action = set->value("action", 0).toInt();
+	bool dont_show = set->value("dont_show_anymore", false).toBool();
 	set->endGroup();
+
+#if 1
+	if (dont_show) return;
 
 	if (action != 0) return;
 	if ((count != 25) && (count != 45)) return;
+#endif
 
-	QMessageBox box(this);
-	box.setIcon(QMessageBox::Question);
-	box.setIconPixmap( Images::icon("donate_big") );
-	box.setWindowTitle(tr("Help SMPlayer"));
-	box.setText(
-		tr("If you like SMPlayer and want to support its development, you can send a donation. Even the smallest one is highly appreciated.") + "<br>"+
-		tr("Or you maybe you want to share SMPlayer with your friends in Facebook.") + "<br>" +
-		tr("What would you like to do?") );
-	QPushButton * donate_button = box.addButton(tr("&Donate"), QMessageBox::ActionRole);
-	QPushButton * facebook_button = box.addButton(tr("&Share with my friends"), QMessageBox::ActionRole);
-	QPushButton * cancel_button = box.addButton(QMessageBox::Cancel);
+	ShareDialog d(this);
+	//d.showRemindCheck(false);
+	d.exec();
+	action = d.actions();
+	qDebug("BaseGui::checkReminder: action: %d", action);
 
-	box.exec();
-	if (box.clickedButton() == donate_button) {
-		QDesktopServices::openUrl(QUrl("http://sourceforge.net/donate/index.php?group_id=185512"));
-		action = 1;
-	}
-	else 
-	if (box.clickedButton() == facebook_button) {
-		QString text = QString("SMPlayer - Free Media Player with built-in codecs that can play and download Youtube videos").replace(" ","+");
-		QString url = "http://smplayer.sourceforge.net";
-		QDesktopServices::openUrl(QUrl("http://www.facebook.com/sharer.php?u=" + url + "&t=" + text));
-		action = 2;
-	}
-	else
-	if (box.clickedButton() == cancel_button) {
+	if (!d.isRemindChecked()) {
+		set->beginGroup("reminder");
+		set->setValue("dont_show_anymore", true);
+		set->endGroup();
 	}
 
 	if (action > 0) {
@@ -4363,6 +4460,8 @@ void BaseGui::checkReminder() {
 		set->setValue("action", action);
 		set->endGroup();
 	}
+
+	//qDebug() << "size:" << d.size();
 }
 #endif
 
@@ -4371,11 +4470,18 @@ void BaseGui::YTNoSignature(const QString & title) {
 	qDebug("BaseGui::YTNoSignature: %s", title.toUtf8().constData());
 
 	QString t = title;
-	t.replace(" - YouTube", "");
+
+	QString info_text;
+	if (title.isEmpty()) {
+		info_text = tr("Unfortunately due to changes in the Youtube page, this video can't be played.");
+	} else {
+		t.replace(" - YouTube", "");
+		info_text = tr("Unfortunately due to changes in the Youtube page, the video '%1' can't be played.").arg(t);
+	}
 
 	#ifdef YT_USE_SCRIPT
 	int ret = QMessageBox::question(this, tr("Problems with Youtube"),
-				tr("Unfortunately due to changes in the Youtube page, the video '%1' can't be played.").arg(t) + "<br><br>" +
+				info_text + "<br><br>" +
 				tr("Do you want to update the Youtube code? This may fix the problem."),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	if (ret == QMessageBox::Yes) {
@@ -4383,7 +4489,7 @@ void BaseGui::YTNoSignature(const QString & title) {
 	}
 	#else
 	QMessageBox::warning(this, tr("Problems with Youtube"),
-		tr("Unfortunately due to changes in the Youtube page, the video '%1' can't be played.").arg(t) + "<br><br>" +
+		info_text + "<br><br>" +
 		tr("Maybe updating SMPlayer could fix the problem."));
 	#endif
 }
@@ -4392,12 +4498,32 @@ void BaseGui::YTNoSignature(const QString & title) {
 void BaseGui::YTUpdateScript() {
 	static CodeDownloader * downloader = 0;
 	if (!downloader) downloader = new CodeDownloader(this);
-	downloader->saveAs(Paths::configPath() + "/ytcode.script");
+	downloader->saveAs(Paths::configPath() + "/yt.js");
 	downloader->show();
-	downloader->download(QUrl("http://updates.smplayer.info/ytcode.script"));
+	downloader->download(QUrl("http://updates.smplayer.info/yt.js"));
 }
 #endif // YT_USE_SCRIPT
 #endif //YOUTUBE_SUPPORT
+
+void BaseGui::gotForbidden() {
+	qDebug("BaseGui::gotForbidden");
+	static bool busy = false;
+
+	if (busy) return;
+
+	busy = true;
+#ifdef YOUTUBE_SUPPORT
+	if (core->mdat.filename.contains("youtube.com")) {
+		YTNoSignature("");
+	} else
+#endif
+	{
+		QMessageBox::warning(this, tr("Error detected"), 
+			tr("Unfortunately this video can't be played.") +"<br>"+
+			tr("The server returned '%1'").arg("403: Forbidden"));
+	}
+	busy = false;
+}
 
 void BaseGui::dragEnterEvent( QDragEnterEvent *e ) {
 	qDebug("BaseGui::dragEnterEvent");
@@ -4437,6 +4563,10 @@ void BaseGui::dropEvent( QDropEvent *e ) {
 
 	qDebug( "BaseGui::dropEvent: count: %d", files.count());
 	if (files.count() > 0) {
+		#ifdef Q_OS_WIN
+		files = Helper::resolveSymlinks(files); // Check for Windows shortcuts
+		#endif
+
 		if (files.count() == 1) {
 			QFileInfo fi( files[0] );
 
@@ -4513,6 +4643,7 @@ void BaseGui::mouseDoubleClickEvent( QMouseEvent * e ) {
 }
 */
 
+/*
 void BaseGui::wheelEvent( QWheelEvent * e ) {
 	qDebug("BaseGui::wheelEvent: delta: %d", e->delta());
 	e->accept();
@@ -4526,7 +4657,7 @@ void BaseGui::wheelEvent( QWheelEvent * e ) {
 		qDebug("BaseGui::wheelEvent: horizontal event received, doing nothing");
 	}
 }
-
+*/
 
 // Called when a video has started to play
 void BaseGui::enterFullscreenOnPlay() {
@@ -4534,7 +4665,7 @@ void BaseGui::enterFullscreenOnPlay() {
 
 	if (arg_start_in_fullscreen != 0) {
 		if ( (arg_start_in_fullscreen == 1) || (pref->start_in_fullscreen) ) {
-			if (!pref->fullscreen) toggleFullscreen(TRUE);
+			if (!pref->fullscreen) toggleFullscreen(true);
 		}
 	}
 }
@@ -4542,7 +4673,7 @@ void BaseGui::enterFullscreenOnPlay() {
 // Called when the playlist has stopped
 void BaseGui::exitFullscreenOnStop() {
     if (pref->fullscreen) {
-		toggleFullscreen(FALSE);
+		toggleFullscreen(false);
 	}
 }
 
@@ -4824,47 +4955,9 @@ void BaseGui::toggleStayOnTop() {
 void BaseGui::exitFullscreenIfNeeded() {
 	/*
 	if (pref->fullscreen) {
-		toggleFullscreen(FALSE);
+		toggleFullscreen(false);
 	}
 	*/
-}
-
-void BaseGui::checkMousePos(QPoint p) {
-	//qDebug("BaseGui::checkMousePos: %d, %d", p.x(), p.y());
-
-	bool compact = (pref->floating_display_in_compact_mode && pref->compact_mode);
-
-	if (!pref->fullscreen && !compact) return;
-
-	#define MARGIN 70
-
-	int margin = MARGIN + pref->floating_control_margin;
-
-	if (p.y() > mplayerwindow->height() - margin) {
-		//qDebug("BaseGui::checkMousePos: %d, %d", p.x(), p.y());
-		if (!near_bottom) {
-			emit cursorNearBottom(p);
-			near_bottom = true;
-		}
-	} else {
-		if (near_bottom) {
-			emit cursorFarEdges();
-			near_bottom = false;
-		}
-	}
-
-	if (p.y() < margin) {
-		//qDebug("BaseGui::checkMousePos: %d, %d", p.x(), p.y());
-		if (!near_top) {
-			emit cursorNearTop(p);
-			near_top = true;
-		}
-	} else {
-		if (near_top) {
-			emit cursorFarEdges();
-			near_top = false;
-		}
-	}
 }
 
 #if ALLOW_CHANGE_STYLESHEET
@@ -4925,11 +5018,35 @@ void BaseGui::saveActions() {
 #endif
 }
 
-void BaseGui::moveWindow(QPoint diff) {
+void BaseGui::moveWindowDiff(QPoint diff) {
 	if (pref->fullscreen || isMaximized()) {
 		return;
 	}
+
+#if QT_VERSION >= 0x050000
+	// Move the window with some delay.
+	// Seems to work better with Qt 5
+
+	static QPoint d;
+	static int count = 0;
+
+	d += diff;
+	count++;
+
+	if (count > 3) {
+		//qDebug() << "BaseGui::moveWindowDiff:" << d;
+		QPoint new_pos = pos() + d;
+		if (new_pos.y() < 0) new_pos.setY(0);
+		if (new_pos.x() < 0) new_pos.setX(0);
+		//qDebug() << "BaseGui::moveWindowDiff: new_pos:" << new_pos;
+		move(new_pos);
+		count = 0;
+		d = QPoint(0,0);
+	}
+#else
+	//qDebug() << "BaseGui::moveWindowDiff:" << diff;
 	move(pos() + diff);
+#endif
 }
 
 void BaseGui::showEvent( QShowEvent * ) {
@@ -5035,9 +5152,7 @@ void BaseGui::showFindSubtitlesDialog() {
 }
 
 void BaseGui::openUploadSubtitlesPage() {	
-	//QDesktopServices::openUrl( QUrl("http://ds6.ovh.org/hashsubtitles/upload.php") );
-	//QDesktopServices::openUrl( QUrl("http://www.opensubtitles.com/upload") );
-	QDesktopServices::openUrl( QUrl("http://www.opensubtitles.org/uploadjava") );
+	QDesktopServices::openUrl( QUrl("http://www.opensubtitles.org/upload") );
 }
 #endif
 
@@ -5101,6 +5216,7 @@ void BaseGui::changeEvent(QEvent *e) {
 }
 
 #ifdef Q_OS_WIN
+#ifdef AVOID_SCREENSAVER
 /* Disable screensaver by event */
 bool BaseGui::winEvent ( MSG * m, long * result ) {
 	//qDebug("BaseGui::winEvent");
@@ -5129,6 +5245,7 @@ bool BaseGui::winEvent ( MSG * m, long * result ) {
 	}
 	return false;
 }
+#endif
 #endif
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)

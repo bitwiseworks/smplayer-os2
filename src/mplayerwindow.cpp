@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,46 +32,33 @@
 #include <QLayout>
 #include <QPixmap>
 #include <QPainter>
-
-#if DELAYED_RESIZE
+#include <QApplication>
 #include <QTimer>
-#endif
+#include <QDebug>
 
 #if LOGO_ANIMATION
 #include <QPropertyAnimation>
 #endif
 
-Screen::Screen(QWidget* parent, Qt::WindowFlags f) : QWidget(parent, f ) 
+Screen::Screen(QWidget* parent, Qt::WindowFlags f)
+	: QWidget(parent, f )
+	, check_mouse_timer(0)
+	, mouse_last_position(QPoint(0,0))
+	, autohide_cursor(false)
+	, autohide_interval(0)
 {
-	setMouseTracking(TRUE);
+	setMouseTracking(true);
 	setFocusPolicy( Qt::NoFocus );
 	setMinimumSize( QSize(0,0) );
 
-	mouse_last_position = QPoint(0,0);
-
 	check_mouse_timer = new QTimer(this);
 	connect( check_mouse_timer, SIGNAL(timeout()), this, SLOT(checkMousePos()) );
-
-	// Change attributes
-	setAttribute(Qt::WA_NoSystemBackground);
-	//setAttribute(Qt::WA_StaticContents);
-    //setAttribute( Qt::WA_OpaquePaintEvent );
-	setAttribute(Qt::WA_PaintOnScreen);
-	setAttribute(Qt::WA_PaintUnclipped);
-	//setAttribute(Qt::WA_PaintOutsidePaintEvent);
 
 	setAutoHideInterval(1000);
 	setAutoHideCursor(false);
 }
 
 Screen::~Screen() {
-}
-
-void Screen::paintEvent( QPaintEvent * e ) {
-	//qDebug("Screen::paintEvent");
-	QPainter painter(this);
-	painter.eraseRect( e->rect() );
-	//painter.fillRect( e->rect(), QColor(255,0,0) );
 }
 
 void Screen::setAutoHideCursor(bool b) {
@@ -107,6 +94,9 @@ void Screen::checkMousePos() {
 }
 
 void Screen::mouseMoveEvent( QMouseEvent * e ) {
+	//qDebug("Screen::mouseMoveEvent");
+	emit mouseMoved(e->pos());
+
 	if (cursor().shape() != Qt::ArrowCursor) {
 		//qDebug(" showing mouse cursor" );
 		setCursor(QCursor(Qt::ArrowCursor));
@@ -125,13 +115,23 @@ void Screen::playingStopped() {
 
 /* ---------------------------------------------------------------------- */
 
-MplayerLayer::MplayerLayer(QWidget* parent, Qt::WindowFlags f) 
-	: Screen(parent, f) 
-{
+MplayerLayer::MplayerLayer(QWidget* parent, Qt::WindowFlags f)
+	: Screen(parent, f)
 #if REPAINT_BACKGROUND_OPTION
-	repaint_background = true;
+	, repaint_background(false)
 #endif
-	playing = false;
+	, playing(false)
+{
+#ifndef Q_OS_WIN
+	#if QT_VERSION < 0x050000
+	setAttribute(Qt::WA_OpaquePaintEvent);
+	#if QT_VERSION >= 0x040400
+	setAttribute(Qt::WA_NativeWindow);
+	#endif
+	setAttribute(Qt::WA_PaintUnclipped);
+	setAttribute(Qt::WA_PaintOnScreen);
+	#endif
+#endif
 }
 
 MplayerLayer::~MplayerLayer() {
@@ -144,10 +144,12 @@ void MplayerLayer::setRepaintBackground(bool b) {
 }
 
 void MplayerLayer::paintEvent( QPaintEvent * e ) {
-	//qDebug("MplayerLayer::paintEvent: allow_clearing: %d", allow_clearing);
+	//qDebug("MplayerLayer::paintEvent: repaint_background: %d", repaint_background);
 	if (repaint_background || !playing) {
 		//qDebug("MplayerLayer::paintEvent: painting");
-		Screen::paintEvent(e);
+		QPainter painter(this);
+		painter.eraseRect( e->rect() );
+		//painter.fillRect( e->rect(), QColor(255,0,0) );
 	}
 }
 #endif
@@ -157,47 +159,74 @@ void MplayerLayer::playingStarted() {
 	repaint();
 	playing = true;
 
+#ifndef Q_OS_WIN
+	#if QT_VERSION >= 0x050000
+	setAttribute(Qt::WA_PaintOnScreen);
+	#endif
+#endif
+
 	Screen::playingStarted();
 }
 
 void MplayerLayer::playingStopped() {
 	qDebug("MplayerLayer::playingStopped");
 	playing = false;
-	repaint();
 
+#ifndef Q_OS_WIN
+	#if QT_VERSION >= 0x050000
+	setAttribute(Qt::WA_PaintOnScreen, false);
+	#endif
+#endif
+
+	repaint();
 	Screen::playingStopped();
 }
 
 /* ---------------------------------------------------------------------- */
 
-MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f) 
-	: Screen(parent, f) , allow_video_movement(false)
+MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f)
+	: Screen(parent, f)
+	, video_width(0)
+	, video_height(0)
+	, aspect((double) 4/3)
+	, monitoraspect(0)
+	, mplayerlayer(0)
+	, logo(0)
+	, offset_x(0)
+	, offset_y(0)
+	, zoom_factor(1.0)
+	, orig_x(0)
+	, orig_y(0)
+	, orig_width(0)
+	, orig_height(0)
+	, allow_video_movement(false)
+#if DELAYED_RESIZE
+	, resize_timer(0)
+#endif
+	, delay_left_click(false)
+	, left_click_timer(0)
+	, double_clicked(false)
+#if LOGO_ANIMATION
+	, animated_logo(false)
+#endif
+	, mouse_drag_tracking(false)
+	, isMoving(false)
+	, startDrag(QPoint(0,0))
 {
-	offset_x = 0;
-	offset_y = 0;
-	zoom_factor = 1.0;
-
 	setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( this, QColor(0,0,0) );
 
-	mplayerlayer = new MplayerLayer( this );
+	mplayerlayer = new MplayerLayer(this);
 	mplayerlayer->setObjectName("mplayerlayer");
-	mplayerlayer->setAutoFillBackground(TRUE);
+	mplayerlayer->setAutoFillBackground(true);
 
 	logo = new QLabel( mplayerlayer );
-	logo->setAutoFillBackground(TRUE);
-#if QT_VERSION >= 0x040400
-	logo->setAttribute(Qt::WA_NativeWindow); // Otherwise the logo is not visible in Qt 4.4
-#else
-	logo->setAttribute(Qt::WA_PaintOnScreen); // Fixes the problem if compiled with Qt < 4.4
-#endif
+	logo->setObjectName("mplayerwindow logo");
+	logo->setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( logo, QColor(0,0,0) );
 
 	QVBoxLayout * mplayerlayerLayout = new QVBoxLayout( mplayerlayer );
 	mplayerlayerLayout->addWidget( logo, 0, Qt::AlignHCenter | Qt::AlignVCenter );
-
-    aspect = (double) 4 / 3;
-	monitoraspect = 0;
 
 	setSizePolicy( QSizePolicy::Expanding , QSizePolicy::Expanding );
 	setFocusPolicy( Qt::StrongFocus );
@@ -212,6 +241,11 @@ MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f)
 	resize_timer->setInterval(50);
 	connect( resize_timer, SIGNAL(timeout()), this, SLOT(resizeLater()) );
 #endif
+
+	left_click_timer = new QTimer(this);
+	left_click_timer->setSingleShot(true);
+	left_click_timer->setInterval(qApp->doubleClickInterval()+10);
+	connect(left_click_timer, SIGNAL(timeout()), this, SIGNAL(leftClicked()));
 
 	retranslateStrings();
 }
@@ -369,11 +403,16 @@ void MplayerWindow::updateVideoWindow()
 
 
 void MplayerWindow::mouseReleaseEvent( QMouseEvent * e) {
-    qDebug( "MplayerWindow::mouseReleaseEvent" );
+	qDebug( "MplayerWindow::mouseReleaseEvent" );
 
 	if (e->button() == Qt::LeftButton) {
 		e->accept();
-		emit leftClicked();
+		if (delay_left_click) {
+			if (!double_clicked) left_click_timer->start();
+			double_clicked = false;
+		} else {
+			emit leftClicked();
+		}
 	}
 	else
 	if (e->button() == Qt::MidButton) {
@@ -404,6 +443,10 @@ void MplayerWindow::mouseReleaseEvent( QMouseEvent * e) {
 void MplayerWindow::mouseDoubleClickEvent( QMouseEvent * e ) {
 	if (e->button() == Qt::LeftButton) {
 		e->accept();
+		if (delay_left_click) {
+			left_click_timer->stop();
+			double_clicked = true;
+		}
 		emit doubleClicked();
 	} else {
 		e->ignore();
@@ -411,8 +454,8 @@ void MplayerWindow::mouseDoubleClickEvent( QMouseEvent * e ) {
 }
 
 void MplayerWindow::wheelEvent( QWheelEvent * e ) {
-    qDebug("MplayerWindow::wheelEvent: delta: %d", e->delta());
-    e->accept();
+	qDebug("MplayerWindow::wheelEvent: delta: %d", e->delta());
+	e->accept();
 
 	if (e->orientation() == Qt::Vertical) {
 	    if (e->delta() >= 0)
@@ -424,36 +467,53 @@ void MplayerWindow::wheelEvent( QWheelEvent * e ) {
 	}
 }
 
-bool MplayerWindow::eventFilter( QObject * watched, QEvent * event ) {
-	//qDebug("MplayerWindow::eventFilter: watched: %s", watched->objectName().toUtf8().constData());
+/* the code in eventFilter is based on dragmovecharm.cpp, under license GPL 2 or 3:
+   https://qt.gitorious.org/qt-labs/graphics-dojo/source/8000ca3b229344ed2ba2ae81ed5ebaee86e9d63a:dragmove/dragmovecharm.cpp
+*/
+bool MplayerWindow::eventFilter( QObject * object, QEvent * event ) {
+	//qDebug() << "MplayerWindow::eventFilter" << object;
 
-	if ( (event->type() == QEvent::MouseMove) || 
-         (event->type() == QEvent::MouseButtonRelease) ) 
-	{
-		QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
+	if (!mouse_drag_tracking) return false;
 
-		if (event->type() == QEvent::MouseMove) {
-			QPoint pos = mouse_event->pos();
-			if (watched->objectName()=="mplayerlayer") {
-				QWidget *widget = static_cast<QWidget *>(watched);
-				pos = widget->mapToParent(pos);
-			}
-			emit mouseMoved(pos);
+	QWidget * w = qobject_cast<QWidget*>(object);
+	if (!w) return false;
 
-			if ( mouse_event->buttons().testFlag(Qt::LeftButton)) {
-				emit mouseMovedDiff( mouse_event->globalPos() - mouse_press_pos);
-				mouse_press_pos = mouse_event->globalPos();
-				/* qDebug("MplayerWindow::eventFilter: mouse_press_pos: x: %d y: %d", mouse_press_pos.x(), mouse_press_pos.y()); */
-			}
-		}
+	QEvent::Type type = event->type();
+	if (type != QEvent::MouseButtonPress && type != QEvent::MouseButtonRelease && type != QEvent::MouseMove) {
+		return false;
 	}
 
-	if (event->type() == QEvent::MouseButtonPress) {
-		QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
-		mouse_press_pos = mouse_event->globalPos();
+	QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent*>(event);
+	if (!mouseEvent || mouseEvent->modifiers() != Qt::NoModifier) {
+		return false;
+	}
+	Qt::MouseButton button = mouseEvent->button();
+
+	bool consumed = false;
+
+	if (type == QEvent::MouseButtonPress && button == Qt::LeftButton) {
+		startDrag = mouseEvent->globalPos();
+		//qDebug() << "MplayerWindow::eventFilter: startDrag:" << startDrag << "obj:" << object->objectName();
+		isMoving = true;
+		event->accept();
+		consumed = true;
 	}
 
-	return false;
+	if (type == QEvent::MouseButtonRelease) {
+		startDrag = QPoint(0, 0);
+		isMoving = false;
+	}
+
+	if (type == QEvent::MouseMove && isMoving) {
+		QPoint pos = mouseEvent->globalPos();
+		QPoint diff = pos - startDrag;
+		//qDebug() << "MplayerWindow:eventFilter: diff" << diff << "obj:" << object->objectName();
+		emit mouseMovedDiff(diff);
+		startDrag = pos;
+		consumed = true;
+	}
+
+	return consumed;
 }
 
 QSize MplayerWindow::sizeHint() const {

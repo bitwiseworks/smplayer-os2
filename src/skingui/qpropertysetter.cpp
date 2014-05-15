@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -34,9 +34,6 @@ IconSetter* IconSetter::m_instance = 0;
 IconSetter::IconSetter(QWidget *parent) :
     QWidget(parent)
 {
-    logoBgPix = Images::icon("ump-splash-bg");
-    logoSplashPix = Images::icon("ump-splash-highlight");
-    logoPix = Images::icon("ump-splash-logo");
 }
 
 IconSetter* IconSetter::instance()

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ FindSubtitlesConfigDialog::FindSubtitlesConfigDialog( QWidget* parent, Qt::Windo
 {
 	setupUi(this);
 
-	proxy_type_combo->addItem( tr("Http"), QNetworkProxy::HttpProxy);
-	proxy_type_combo->addItem( tr("Socks5"), QNetworkProxy::Socks5Proxy);
+	proxy_type_combo->addItem( tr("HTTP"), QNetworkProxy::HttpProxy);
+	proxy_type_combo->addItem( tr("SOCKS5"), QNetworkProxy::Socks5Proxy);
 
 	use_proxy_check->setWhatsThis( tr("Enable/disable the use of the proxy.") );
 	proxy_hostname_edit->setWhatsThis( tr("The host name of the proxy.") );

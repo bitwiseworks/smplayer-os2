@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -94,7 +94,11 @@ FavoriteEditor::FavoriteEditor( QWidget* parent, Qt::WindowFlags f )
 	table->setHorizontalHeaderLabels(QStringList() << tr("Icon") << tr("Name") << tr("Media") );
 
 	table->setAlternatingRowColors(true);
+#if QT_VERSION >= 0x050000
+	table->horizontalHeader()->setSectionResizeMode(COL_FILE, QHeaderView::Stretch);
+#else
 	table->horizontalHeader()->setResizeMode(COL_FILE, QHeaderView::Stretch);
+#endif
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
 	table->setSelectionMode(QAbstractItemView::ExtendedSelection);

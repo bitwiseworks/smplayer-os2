@@ -38,7 +38,7 @@ ${LangFileString} Section_MPlayer_Desc "MPlayer; requerido para la reproducción
 
 ${LangFileString} Section_MPlayerCodecs "Códecs Binarios"
 !ifdef WIN64
-${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+${LangFileString} Section_MPlayerCodecs_Desc "Los códecs binarios no están disponibles en esta versión."
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Códecs opcionales para MPlayer. (Se necesita conexión a internet para la instalación)"
 !endif
@@ -85,6 +85,7 @@ ${LangFileString} Codecs_Inst_Failed "Ha fallado la instalación del los códecs
 ${LangFileString} Uninstaller_No_Admin "Este programa sólo se puede desinstalar por un usuario con permisos de administrador."
 ${LangFileString} Uninstaller_Aborted "Desinstalación cancelada por el usuario."
 ${LangFileString} Uninstaller_NotInstalled "No parece que el SMPlayer esté instalado en el directorio '$INSTDIR'.$\r$\n¿Continuar de todos modos (no recomendado)?"
+${LangFileString} Uninstaller_InvalidDirectory "No se ha encontrado una instalación de SMPlayer."
 ${LangFileString} Uninstaller_64bitOnly "Esta instalación sólo se puede desinstalar en Windows de 64 bits."
 
 ; Vista & Later Default Programs Registration

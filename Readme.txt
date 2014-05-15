@@ -1,5 +1,5 @@
     SMPlayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -52,6 +52,10 @@
        url: http://www.kde-look.org/content/show.php/nuvoX?content=38467
        license: GPL
 
+     * kfaenza
+       url: http://kde-look.org/content/show.php/KFaenza?content=143890
+       license: GPL
+
      * Vista-Inspirate 
         url: http://www.kde-look.org/content/show.php/Vista-Inspirate?content=31585
         license: GPL
@@ -59,6 +63,14 @@
      * Crystal Clear
         url: http://www.kde-look.org/content/show.php/Crystal+Clear?content=25668
         license: LGPL
+
+     * Oxygen Team
+        url: http://www.iconarchive.com/artist/oxygen-icons.org.html
+        license: LGPL
+
+     * WPZOOM Social Networking Icon Pack
+        url: http://findicons.com/pack/2336/wpzoom_social_networking_icon
+        license: Creative Commons Attribution Share Alike (by-sa)
 
      * ricebowl-0.2.0
         url: http://www.deviantart.com/deviation/22605468/

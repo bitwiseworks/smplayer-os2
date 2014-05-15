@@ -17,6 +17,8 @@
         <file>icons-png/open_disc.png</file>
         <file>icons-png/dvd.png</file>
         <file>icons-png/dvd_drive.png</file>
+        <file>icons-png/bluray_drive.png</file>
+        <file>icons-png/bluray.png</file>
         <file>icons-png/dvd_hd.png</file>
         <file>icons-png/exit.png</file>
         <file>icons-png/forward10m.png</file>
@@ -84,6 +86,7 @@
         <file>icons-png/type_vcd.png</file>
         <file>icons-png/type_tv.png</file>
         <file>icons-png/type_video.png</file>
+        <file>icons-png/type_bluray.png</file>
         <file>icons-png/url_big.png</file>
         <file>icons-png/pref_associations.png</file>
         <file>icons-png/translators.png</file>
@@ -132,6 +135,9 @@
         <file>icons-png/share.png</file>
         <file>icons-png/guide.png</file>
         <file>icons-png/crash.png</file>
+        <file>icons-png/social_facebook.png</file>
+        <file>icons-png/social_twitter.png</file>
+        <file>icons-png/paypal.png</file>
         <file>mpcgui/mpc_toolbar.png</file>
         <file>mpcgui/mpc_mono.png</file>
         <file>mpcgui/mpc_stereo.png</file>

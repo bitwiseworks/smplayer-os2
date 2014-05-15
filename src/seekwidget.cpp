@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ QString SeekWidget::label() const {
 }
 
 void SeekWidget::setTime(int secs) {
-	QTime t;
+	QTime t(0,0);
 	time_edit->setTime(t.addSecs(secs));
 }
 

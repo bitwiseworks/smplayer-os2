@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,11 +48,19 @@ QString InfoFile::getInfo(MediaData md) {
 		case TYPE_AUDIO_CD	: 	icon = "type_vcd.png"; break;
 		case TYPE_TV	: 	icon = "type_tv.png"; break;
 		case TYPE_STREAM : 	icon = "type_url.png"; break;
+#ifdef BLURAY_SUPPORT
+		case TYPE_BLURAY : 	icon = "type_bluray.png"; break;
+#endif
 		default 		: 	icon = "type_unknown.png";
 	}
 	icon = "<img src=\"" + Images::file(icon) + "\"> ";
 
-	if (md.type == TYPE_DVD) {
+#ifdef BLURAY_SUPPORT
+	if (md.type == TYPE_DVD || md.type == TYPE_BLURAY)
+#else
+	if (md.type == TYPE_DVD)
+#endif
+	{
 		DiscData disc_data = DiscName::split(md.filename);
 		s += title( icon + disc_data.protocol + "://" + QString::number(disc_data.title) );
 	} else {
@@ -213,6 +221,10 @@ QString InfoFile::addItem( QString tag, QString value ) {
 
 
 inline QString InfoFile::tr( const char * sourceText, const char * comment, int n )  {
-	return QCoreApplication::translate("InfoFile", sourceText, comment, QCoreApplication:: CodecForTr, n );
+#if QT_VERSION >= 0x050000
+	return QCoreApplication::translate("InfoFile", sourceText, comment, n );
+#else
+	return QCoreApplication::translate("InfoFile", sourceText, comment, QCoreApplication::CodecForTr, n );
+#endif
 }
 

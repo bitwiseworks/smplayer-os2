@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,6 +31,15 @@ QString ExtensionList::forFilter() {
 	return s;
 }
 
+QStringList ExtensionList::forDirFilter() {
+	QStringList l;
+	for (int n=0; n < count(); n++) {
+		QString s = "*." + at(n);
+		l << s;
+	}
+	return l;
+}
+
 QString ExtensionList::forRegExp() {
 	QString s;
 	for (int n=0; n < count(); n++) {
@@ -53,7 +62,7 @@ Extensions::Extensions()
            << "rm" << "swf"
            << "ts" << "rmvb" << "dvr-ms" << "m2t" << "m2ts" << "mts" << "rec" << "wtv"
            << "f4v" << "hdmov" << "webm" << "vp8"
-           << "bik" << "smk" ;
+           << "bik" << "smk" << "m4b";
 
 	_audio << "mp3" << "ogg" << "oga" << "wav" << "wma" <<  "aac" << "ac3" << "dts" << "ra" << "ape" << "flac" << "thd" << "mka" << "m4a";
 

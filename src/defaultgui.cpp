@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "mplayerwindow.h"
 #include "myaction.h"
 #include "images.h"
-#include "floatingwidget.h"
+#include "autohidewidget.h"
 #include "desktopinfo.h"
 #include "editabletoolbar.h"
 
@@ -60,13 +60,6 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
 	connect( this, SIGNAL(videoInfoChanged(int,int,double)),
              this, SLOT(displayVideoInfo(int,int,double)) );
 
-	connect( this, SIGNAL(cursorNearBottom(QPoint)), 
-             this, SLOT(showFloatingControl(QPoint)) );
-	connect( this, SIGNAL(cursorNearTop(QPoint)), 
-             this, SLOT(showFloatingMenu(QPoint)) );
-	connect( this, SIGNAL(cursorFarEdges()), 
-             this, SLOT(hideFloatingControls()) );
-
 	createActions();
 	createMainToolBars();
     createControlWidget();
@@ -81,9 +74,10 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
              controlwidget, SLOT(edit()) );
 	connect( editControl2Act, SIGNAL(triggered()),
              controlwidget_mini, SLOT(edit()) );
-	floating_control->toolbar()->takeAvailableActionsFrom(this);
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	iw->takeAvailableActionsFrom(this);
 	connect( editFloatingControlAct, SIGNAL(triggered()),
-             floating_control->toolbar(), SLOT(edit()) );
+             iw, SLOT(edit()) );
 #endif
 
 	menuBar()->setObjectName("menubar");
@@ -98,10 +92,16 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
 		controlwidget->hide();
 		toolbar1->hide();
 		toolbar2->hide();
+
+		if (pref->floating_display_in_compact_mode) {
+			reconfigureFloatingControl();
+			floating_control->activate();
+		}
 	}
 }
 
 DefaultGui::~DefaultGui() {
+	qDebug("DefaultGui::~DefaultGui");
 	saveConfig();
 }
 
@@ -380,8 +380,11 @@ void DefaultGui::createControlWidget() {
 
 void DefaultGui::createFloatingControl() {
 	// Floating control
-	floating_control = new FloatingWidget(this);
-	floating_control->setLayoutDirection(Qt::LeftToRight);
+	floating_control = new AutohideWidget(panel);
+	floating_control->setAutoHide(true);
+
+	EditableToolbar * iw = new EditableToolbar(floating_control);
+	iw->setObjectName("floating_control");
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList floatingcontrol_actions;
@@ -398,38 +401,40 @@ void DefaultGui::createFloatingControl() {
 	floatingcontrol_actions << "forward1" << "forward2" << "forward3";
 	#endif
 	floatingcontrol_actions << "separator" << "fullscreen" << "mute" << "volumeslider_action" << "separator" << "timelabel_action";
-	floating_control->toolbar()->setDefaultActions(floatingcontrol_actions);
+	iw->setDefaultActions(floatingcontrol_actions);
 #else
-	floating_control->toolbar()->addAction(playAct);
-	floating_control->toolbar()->addAction(pauseAct);
-	floating_control->toolbar()->addAction(stopAct);
-	floating_control->toolbar()->addSeparator();
+	iw->addAction(playAct);
+	iw->addAction(pauseAct);
+	iw->addAction(stopAct);
+	iw->addSeparator();
 
 	#if MINI_ARROW_BUTTONS
-	floating_control->toolbar()->addAction( rewindbutton_action );
+	iw->addAction( rewindbutton_action );
 	#else
-	floating_control->toolbar()->addAction(rewind3Act);
-	floating_control->toolbar()->addAction(rewind2Act);
-	floating_control->toolbar()->addAction(rewind1Act);
+	iw->addAction(rewind3Act);
+	iw->addAction(rewind2Act);
+	iw->addAction(rewind1Act);
 	#endif
 
-	floating_control->toolbar()->addAction(timeslider_action);
+	iw->addAction(timeslider_action);
 
 	#if MINI_ARROW_BUTTONS
-	floating_control->toolbar()->addAction( forwardbutton_action );
+	iw->addAction( forwardbutton_action );
 	#else
-	floating_control->toolbar()->addAction(forward1Act);
-	floating_control->toolbar()->addAction(forward2Act);
-	floating_control->toolbar()->addAction(forward3Act);
+	iw->addAction(forward1Act);
+	iw->addAction(forward2Act);
+	iw->addAction(forward3Act);
 	#endif
 
-	floating_control->toolbar()->addSeparator();
-	floating_control->toolbar()->addAction(fullscreenAct);
-	floating_control->toolbar()->addAction(muteAct);
-	floating_control->toolbar()->addAction(volumeslider_action);
-	floating_control->toolbar()->addSeparator();
-	floating_control->toolbar()->addAction(time_label_action);
+	iw->addSeparator();
+	iw->addAction(fullscreenAct);
+	iw->addAction(muteAct);
+	iw->addAction(volumeslider_action);
+	iw->addSeparator();
+	iw->addAction(time_label_action);
 #endif // USE_CONFIGURABLE_TOOLBARS
+
+	floating_control->setInternalWidget(iw);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	// To make work the ESC key (exit fullscreen) and Ctrl-X (close) in Windows and OS2
@@ -437,12 +442,14 @@ void DefaultGui::createFloatingControl() {
 	floating_control->addAction(exitFullscreenAct);
 	floating_control->addAction(exitAct);
 	*/
-	floating_control->addActions(actions());
+	//floating_control->addActions(actions());
 #endif
 
 #if !USE_CONFIGURABLE_TOOLBARS
 	floating_control->adjustSize();
 #endif
+
+	floating_control->hide();
 }
 
 void DefaultGui::createStatusBar() {
@@ -474,7 +481,7 @@ void DefaultGui::createStatusBar() {
 	video_info_display->setAlignment(Qt::AlignRight);
 	video_info_display->setFrameShape(QFrame::NoFrame);
 
-	statusBar()->setAutoFillBackground(TRUE);
+	statusBar()->setAutoFillBackground(true);
 
 	ColorUtils::setBackgroundColor( statusBar(), QColor(0,0,0) );
 	ColorUtils::setForegroundColor( statusBar(), QColor(255,255,255) );
@@ -486,7 +493,7 @@ void DefaultGui::createStatusBar() {
 	ColorUtils::setForegroundColor( ab_section_display, QColor(255,255,255) );
 	ColorUtils::setBackgroundColor( video_info_display, QColor(0,0,0) );
 	ColorUtils::setForegroundColor( video_info_display, QColor(255,255,255) );
-	statusBar()->setSizeGripEnabled(FALSE);
+	statusBar()->setSizeGripEnabled(false);
 
 	statusBar()->addPermanentWidget( video_info_display );
 	statusBar()->addPermanentWidget( ab_section_display );
@@ -556,11 +563,15 @@ void DefaultGui::displayABSection(int secs_a, int secs_b) {
 
 	ab_section_display->setText( s );
 
-	ab_section_display->setShown( !s.isEmpty() );
+	ab_section_display->setVisible( !s.isEmpty() );
 }
 
 void DefaultGui::displayVideoInfo(int width, int height, double fps) {
-	video_info_display->setText(tr("%1x%2 %3 fps", "width + height + fps").arg(width).arg(height).arg(fps));
+	if ((width != 0) && (height != 0)) {
+		video_info_display->setText(tr("%1x%2 %3 fps", "width + height + fps").arg(width).arg(height).arg(fps));
+	} else {
+		video_info_display->setText(" ");
+	}
 }
 
 void DefaultGui::updateWidgets() {
@@ -571,10 +582,37 @@ void DefaultGui::updateWidgets() {
 	panel->setFocus();
 }
 
+void DefaultGui::applyNewPreferences() {
+	qDebug("DefaultGui::applyNewPreferences");
+
+	if ((pref->compact_mode) && (pref->floating_display_in_compact_mode)) {
+		reconfigureFloatingControl();
+		floating_control->activate();
+	} else {
+		floating_control->deactivate();
+	}
+
+	BaseGuiPlus::applyNewPreferences();
+}
+
+void DefaultGui::reconfigureFloatingControl() {
+	floating_control->setMargin(pref->floating_control_margin);
+	floating_control->setPercWidth(pref->floating_control_width);
+	floating_control->setAnimated(pref->floating_control_animated);
+	floating_control->setActivationArea( (AutohideWidget::Activation) pref->floating_activation_area);
+	floating_control->setHideDelay(pref->floating_hide_delay);
+}
+
 void DefaultGui::aboutToEnterFullscreen() {
 	qDebug("DefaultGui::aboutToEnterFullscreen");
 
 	BaseGuiPlus::aboutToEnterFullscreen();
+
+	// Show floating_control
+	reconfigureFloatingControl();
+	floating_control->deactivate(); // Hide the control in case it was running from compact mode
+	QTimer::singleShot(500, floating_control, SLOT(activate()));
+
 
 	// Save visibility of toolbars
 	fullscreen_toolbar1_was_visible = toolbar1->isVisible();
@@ -595,7 +633,10 @@ void DefaultGui::aboutToExitFullscreen() {
 
 	BaseGuiPlus::aboutToExitFullscreen();
 
-	floating_control->hide();
+	// Hide floating_control
+	if (!pref->compact_mode || !pref->floating_display_in_compact_mode) {
+		floating_control->deactivate();
+	}
 
 	if (!pref->compact_mode) {
 		//menuBar()->show();
@@ -610,6 +651,13 @@ void DefaultGui::aboutToExitFullscreen() {
 void DefaultGui::aboutToEnterCompactMode() {
 
 	BaseGuiPlus::aboutToEnterCompactMode();
+
+	// Show floating_control
+	if (pref->floating_display_in_compact_mode) {
+		reconfigureFloatingControl();
+		QTimer::singleShot(500, floating_control, SLOT(activate()));
+	}
+
 
 	// Save visibility of toolbars
 	compact_toolbar1_was_visible = toolbar1->isVisible();
@@ -626,6 +674,11 @@ void DefaultGui::aboutToEnterCompactMode() {
 void DefaultGui::aboutToExitCompactMode() {
 	BaseGuiPlus::aboutToExitCompactMode();
 
+	// Hide floating_control
+	if (pref->floating_display_in_compact_mode) {
+		floating_control->deactivate();
+	}
+
 	//menuBar()->show();
 	//statusBar()->show();
 	controlwidget->show();
@@ -635,50 +688,6 @@ void DefaultGui::aboutToExitCompactMode() {
 
 	// Recheck size of controlwidget
 	resizeEvent( new QResizeEvent( size(), size() ) );
-}
-
-void DefaultGui::showFloatingControl(QPoint /*p*/) {
-	qDebug("DefaultGui::showFloatingControl");
-
-#if CONTROLWIDGET_OVER_VIDEO
-	if ((pref->compact_mode) && (!pref->fullscreen)) {
-		floating_control->setAnimated( false );
-	} else {
-		floating_control->setAnimated( pref->floating_control_animated );
-	}
-	floating_control->setMargin(pref->floating_control_margin);
-#ifndef Q_OS_WIN
-	floating_control->setBypassWindowManager(pref->bypass_window_manager);
-#endif
-	floating_control->showOver(panel, pref->floating_control_width);
-#else
-	if (!controlwidget->isVisible()) {
-		controlwidget->show();
-	}
-#endif
-}
-
-void DefaultGui::showFloatingMenu(QPoint /*p*/) {
-#if !CONTROLWIDGET_OVER_VIDEO
-	qDebug("DefaultGui::showFloatingMenu");
-
-	if (!menuBar()->isVisible())
-		menuBar()->show();
-#endif
-}
-
-void DefaultGui::hideFloatingControls() {
-	qDebug("DefaultGui::hideFloatingControls");
-
-#if CONTROLWIDGET_OVER_VIDEO
-	floating_control->hide();
-#else
-	if (controlwidget->isVisible())	
-		controlwidget->hide();
-
-	if (menuBar()->isVisible())	
-		menuBar()->hide();
-#endif
 }
 
 void DefaultGui::resizeEvent( QResizeEvent * ) {
@@ -741,7 +750,8 @@ void DefaultGui::saveConfig() {
 	set->setValue("toolbar1", toolbar1->actionsToStringList() );
 	set->setValue("controlwidget", controlwidget->actionsToStringList() );
 	set->setValue("controlwidget_mini", controlwidget_mini->actionsToStringList() );
-	set->setValue("floating_control", floating_control->toolbar()->actionsToStringList() );
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	set->setValue("floating_control", iw->actionsToStringList() );
 	set->setValue("toolbar1_version", TOOLBAR_VERSION);
 	set->endGroup();
 #endif
@@ -794,8 +804,9 @@ void DefaultGui::loadConfig() {
 	}
 	controlwidget->setActionsFromStringList( set->value("controlwidget", controlwidget->defaultActions()).toStringList() );
 	controlwidget_mini->setActionsFromStringList( set->value("controlwidget_mini", controlwidget_mini->defaultActions()).toStringList() );
-	floating_control->toolbar()->setActionsFromStringList( set->value("floating_control", floating_control->toolbar()->defaultActions()).toStringList() );
-    floating_control->adjustSize();
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
+	floating_control->adjustSize();
 	set->endGroup();
 #endif
 

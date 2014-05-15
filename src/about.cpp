@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ About::About(QWidget * parent, Qt::WindowFlags f)
 	}
 
 	info->setText(
-		"<b>SMPlayer</b> &copy; 2006-2013 Ricardo Villalba &lt;rvm@users.sourceforge.net&gt;<br><br>"
+		"<b>SMPlayer</b> &copy; 2006-2014 Ricardo Villalba &lt;rvm@users.sourceforge.net&gt;<br><br>"
 		"<b>" + tr("Version: %1").arg(Version::printable()) + "</b>" +
 #if PORTABLE_APP
                 " (" + tr("Portable Edition") + ")" +
@@ -132,6 +132,8 @@ About::About(QWidget * parent, Qt::WindowFlags f)
 	translators->setPalette(p);
 	license->setPalette(p);
 
+	tab_widget->removeTab(0);
+
 	adjustSize();
 }
 
@@ -140,75 +142,54 @@ About::~About() {
 
 QString About::getTranslators() {
 	return QString(
-		 tr("The following people have contributed with translations:") +
+		 tr("Many people contributed with translations.") +" "+
+		 tr("You can also help to translate SMPlayer into your own language.") +"<p>"+
+		 tr("Visit %1 and join a translation team.").arg("<a href=\"http://www.transifex.com/projects/p/smplayer/\">http://www.transifex.com/projects/p/smplayer/</a>") +
+		"<p>" +
+		 tr("Current translators from the transifex teams:") +
 		"<p>" + 
-         trad(tr("Spanish"), "Ricardo Villalba <rvm@users.sourceforge.net>") +
-         trad(tr("German"), "Panagiotis Papadopoulos <pano_90@gmx.net>") +
-		 trad(tr("Slovak"), "Sweto <peter.mendel@gmail.com>") +
-		 trad(tr("Italian"), QStringList()
-			<< "greengreat <gmeildeno@gmail.com>"
-			<< "Giancarlo Scola <scola.giancarlo@libero.it>") +
-         trad(tr("French"), QStringList()
-			<< "Olivier g <1got@caramail.com>"
-			<< "Temet <goondy@free.fr>"
-			<< "Erwann MEST <kud.gray@gmail.com>") +
-         trad(tr("Simplified-Chinese"), QStringList()
-			<< "Tim Green <iamtimgreen@gmail.com>"
-			<< "OpenBDH <opensource@bendihua.org>") +
-         trad(tr("Russian"), QString::fromUtf8("Белый Владимир <wiselord1983@gmail.com>"))+
-         trad(tr("Hungarian"), QStringList()
-			<< "Charles Barcza <kbarcza@blackpanther.hu>"
-			<< "CyberDragon <cyberdragon777@gmail.com>") +
-         trad(tr("Polish"), QStringList()
-			<< "qla <qla0@vp.pl>"
-			<< "Jarek <ajep9691@wp.pl>"
-			<< "sake12 <sake12@gmail.com>" ) +
-         trad(tr("Japanese"), "Nardog <alphisation@gmail.com>") +
-         trad(tr("Dutch"), QStringList()
-			<< "profoX <wesley@ubuntu-nl.org>"
-			<< "BalaamsMiracle"
-			<< "Kristof Bal <kristof.bal@gmail.com>") +
-         trad(tr("Ukrainian"), QStringList()
-			<< "Motsyo Gennadi <drool@altlinux.ru>"
-			<< "Oleksandr Kovalenko <alx.kovalenko@gmail.com>" ) +
-         trad(tr("Portuguese - Brazil"), QStringList() 
-			<< "Ventura <ventura.barbeiro@terra.com.br>"
-			<< QString::fromUtf8("Maico Sertório <maico.sertorio@gmail.com>")) +
-         trad(tr("Georgian"), "George Machitidze <giomac@gmail.com>") +
-         trad(tr("Czech"), QStringList()
-			<< QString::fromUtf8("Martin Dvořák <martin.dvorak@centrum.cz>")
-			<< QString::fromUtf8("Jaromír Smrček <jaromir.smrcek@zoner.com>") ) +
-         trad(tr("Bulgarian"), "<marzeliv@mail.bg>") +
-         trad(tr("Turkish"), "alper er <alperer@gmail.com>") +
-         trad(tr("Swedish"), "Leif Larsson <leif.larsson@gmail.com>") +
-         trad(tr("Serbian"), "Kunalagon Umuhanik <kunalagon@gmail.com>") +
-         trad(tr("Traditional Chinese"), "Hoopoe <dai715.tw@yahoo.com.tw>") +
-         trad(tr("Romanian"), "DoruH <DoruHushHush@gmail.com>") +
-         trad(tr("Portuguese - Portugal"), QStringList()
-			<< "Waxman <waxman.pt@gmail.com>"
-			<< QString::fromUtf8("Sérgio Marques <smarquespt@gmail.com>") ) +
-		trad(tr("Greek"), "my80s <wamy80s@gmail.com>") +
-		trad(tr("Finnish"), "peeaivo <peeaivo@gmail.com>") +
-		trad(tr("Korean"), "Heesu Yoon <imsu30@gmail.com>") +
-		trad(tr("Macedonian"), "Marko Doda <mark0d0da@gmail.com>") +
-		trad(tr("Basque"), QStringList() 
-			<< "Piarres Beobide <pi@beobide.net>" 
-			<< "Xabier Aramendi <azpidatziak@gmail.com>") +
-		trad(tr("Catalan"), QString::fromUtf8("Roger Calvó <rcalvoi@yahoo.com>")) +
-		trad(tr("Slovenian"), "Janez Troha <janez.troha@gmail.com>") +
-		trad(tr("Arabic"), "Muhammad Nour Hajj Omar <arabianheart@live.com>") +
-		trad(tr("Kurdish"), "Si_murg56 <simurg56@gmail.com>") +
-		trad(tr("Galician"), QStringList() << "Miguel Branco <mgl.branco@gmail.com>" << "Gallaecio") +
-		trad(tr("Vietnamese"), QString::fromUtf8("Lê Xuân Thảo <thaolx@gmail.com>")) +
-		trad(tr("Estonian"), QString::fromUtf8("Olav Mägi <olav.magi@hotmail.com>")) +
-		trad(tr("Lithuanian"), QStringList() 
-			<< "Freemail <ricka_g@freemail.lt>"
-			<< QString::fromUtf8("Algimantas Margevičius <margevicius.algimantas@gmail.com>") ) +
-		trad(tr("Danish"), "Martin Schlander <mschlander@opensuse.org>") +
-		trad(tr("Croatian"), QString::fromUtf8("Josip Kujundžija <marshsmello@gmail.com>")) +
-        trad(tr("Hebrew"), "Genghis Khan <genghiskhan@gmx.ca>") +
-		trad(tr("Thai"), QString::fromUtf8("มาโนชญ์ สมศักดิ์ <xyteton@hotmail.com>")) +
-		trad(tr("Malay"), "abuyop (transifex)") +
+		trad(tr("Spanish"), "Ricardo Villalba") +
+		trad(tr("Basque"), "Xabier Aramendi") +
+		trad(tr("Croatian"), "Gogo") +
+		trad(tr("Czech"), QStringList() << QString::fromUtf8("Petr Šimáček") << QString::fromUtf8("Jakub Kožíšek")) +
+		trad(tr("Japanese"), QStringList() << "Ever_green" << "Nardog") +
+		trad(tr("Korean"), QStringList() << "ParkJS" << "Potato") +
+		trad(tr("Portuguese"), QStringList() << QString::fromUtf8("Sérgio Marques") << "Hugo Carvalho") +
+		trad(tr("Serbian"), QStringList() << QString::fromUtf8("Mladen Pejaković") << "Miroslav" << "Rancher") +
+		trad(tr("Ukrainian"), QStringList() << "Zubr139" << "evmir2") +
+		trad(tr("Galician"), QStringList() << QString::fromUtf8("Adrián Chaves Fernández") << "Miguel Branco" << "antiparvos") +
+		trad(tr("Lithuanian"), QString::fromUtf8("Algimantas Margevičius")) +
+		trad(tr("Malay"), "Abuyop") +
+		trad(tr("Portuguese - Brazil"), QStringList() << QString::fromUtf8("Maico Sertório") << "Vinicius" << "Ronnie Dilli" << QString::fromUtf8("Lucas Simões")) +
+		trad(tr("Hebrew"), "GenghisKhan") +
+		trad(tr("Simplified Chinese"), QStringList() << "OpenBDH" << "Zhangzheliuli" << "Zhnagmin" << "wwj402" << "775405984") +
+		trad(tr("Vietnamese"), QStringList() << "Anh Phan" << "Biz Over" << "Thu Thao Nguyen Ngoc" << "Duy Truong Nguyen") +
+		trad(tr("Polish"), QStringList() <<"Filux" << QString::fromUtf8("Łukasz Hryniuk") << QString::fromUtf8("Piotr Strębski") << QString::fromUtf8("Michał Trzebiatowski") << "Grzegorz Pruchniakowski") +
+		trad(tr("Russian"), QStringList() << "WiseLord" << "Viktor" << "DmitryKX" << "Gleb Mekhrenin" << "ElFrio" << "Semen V. Dubina" << "Denis" << "angry_snake" << "Andrei Stepanov") +
+		trad(tr("French"), QStringList() << "Olivier Devineau" << "Ybsar" << "Janmaro" << "Guillaume 'zzd10h' Boesel" << "tneskovic" << "Calinou") +
+		trad(tr("Indonesian"), QStringList() << "Mohamad Hasan Al Banna" << "Aulia Firdaus Simbolon" << "Muhammad Fikri Hariri") +
+		trad(tr("Danish"), "Michael Larsen") +
+		trad(tr("Hungarian"), QStringList() << "Gojko" << QString::fromUtf8("Zsolt Péter Basák") << "chris020891") +
+		trad(tr("Turkish"), QStringList() << "Emre Firat" << QString::fromUtf8("Hasan Akgöz") << QString::fromUtf8("якуп")) +
+		trad(tr("Finnish"), QString::fromUtf8("Jiri Grönroos")) +
+		trad(tr("German"), QStringList() << "Shaggy" << QString::fromUtf8("Michał Trzebiatowski") << "Eclipse" << "j5lx" << "Tobias Bannert") +
+		trad(tr("Traditional Chinese"), QStringList() << "Taijuin Lee" << "Wpliao" << QString::fromUtf8("冥王歐西里斯")) +
+		trad(tr("Bulgarian"), QStringList() << "Ivailo Monev" << QString::fromUtf8("Радослав") << "Elusiv_man") +
+		trad(tr("Norwegian Nynorsk"), QStringList() << "Bjorni" << "F_Sauce") +
+		trad(tr("Swedish"), QStringList() << "XC" << "Andreas Gustafsson") +
+		trad(tr("Arabic"), QStringList() << "Riyadh" << "Muhammad Fawwaz Orabi" << "Mohamed Sakhri") +
+		trad(tr("Georgian"), "George Machitidze") +
+		trad(tr("Arabic - Saudi Arabia"), "Mohamed") +
+		trad(tr("Sinhala"), "Rathnayake") +
+		trad(tr("Greek"), QString::fromUtf8("Γιάννης Ανθυμίδης")) +
+		trad(tr("Estonian"), QString::fromUtf8("Olav Mägi")) +
+		trad(tr("N'ko"), QStringList() << QString::fromUtf8("Kairaba Cissé") << "Youssouf Diaby" << "Lasnei Kante" << "Kante Soufiane") +
+		trad(tr("Italian"), QStringList() << "Damtux" << "Samir Hawamdeh" << "Fabio Mazza") +
+		trad(tr("Uzbek"), "Umid Almasov") +
+		trad(tr("Catalan"), QStringList() << "Anna Fenoy" << "Jmontane") +
+		trad(tr("Slovak"), QString::fromUtf8("Ján Ďanovský")) +
+		trad(tr("British English"), "F_Sauce") +
+		trad(tr("Albanian"), "rigels.gordani") +
 		"");
 }
 
@@ -221,9 +202,10 @@ QString About::trad(const QString & lang, const QStringList & authors) {
 	for (int n = 0; n < authors.count(); n++) {
 		QString author = authors[n];
 		s += author.replace("<", "&lt;").replace(">", "&gt;");
-		if (n < (authors.count()-1)) s += "<br>";
+		if (n < (authors.count()-1)) s += ", ";
 	}
-	return QString("<h3>%1:</h3><h4>%2</h4><hr>").arg(lang).arg(s);
+	//return QString("<h3>%1:</h3><h4>%2</h4><hr>").arg(lang).arg(s);
+	return QString("<p><b>%1</b>: %2</p>").arg(lang).arg(s);
 }
 
 QString About::link(const QString & url, QString name) {

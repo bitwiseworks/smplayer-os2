@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,12 +20,10 @@
 
 #ifdef YT_USE_SCRIPT
 #include <QtScript>
-#endif
 
-#ifdef YT_USE_SCRIPT
-QString YTSig::aclara(const QString & text) {
+QString YTSig::aclara(const QString & text, const QString & player, const QString & function_name) {
 	int dot = text.indexOf('.');
-	qDebug("YTSig::aclara: length: %d (%d.%d)", text.size(), dot, text.size()-dot-1);
+	qDebug("YTSig::aclara: length: %d (%d.%d) p: %d", text.size(), dot, text.size()-dot-1, !player.isEmpty());
 
 	if (script.isEmpty()) script = default_script;
 
@@ -35,8 +33,28 @@ QString YTSig::aclara(const QString & text) {
 	//qDebug() << (int) r.state();
 
 	engine.evaluate(script);
-	QScriptValue aclarar = engine.globalObject().property("aclara");
-	QString res = aclarar.call(QScriptValue(), QScriptValueList() << text).toString();
+
+	QScriptValueList args;
+	QString fname;
+
+	if (!function_name.isEmpty()) {
+		fname = function_name;
+		args << text;
+	}
+	else
+	if (player.isEmpty()) {
+		fname = "aclara";
+		args << text;
+	}
+	else {
+		fname = "aclara_p";
+		args << text << player;
+	}
+
+	//qDebug("YTSig::aclara: function_name: %s", function_name.toLatin1().constData());
+
+	QScriptValue aclarar = engine.globalObject().property(fname);
+	QString res = aclarar.call(QScriptValue(), args).toString();
 
 	//qDebug() << res;
 
@@ -60,43 +78,36 @@ void YTSig::reloadScriptFile() {
 	QByteArray bytes = f.readAll();
 	f.close();
 
+	parsed_ts = "";
+
 	if (!bytes.isEmpty()) {
 		script = bytes;
+
+		QRegExp rx("D: ([\\d,a-z,A-Z-]+)");
+		if (rx.indexIn(bytes)) {
+			QByteArray d = rx.cap(1).toLatin1();
+			qDebug("YTSig::reloadScriptFile: d: %s", d.constData());
+			parsed_ts = QByteArray::fromBase64(d);
+		}
+
 	}
 }
 
 QString YTSig::script;
 QString YTSig::script_file;
 
-// Algorithms from youtube-dl (http://rg3.github.io/youtube-dl/)
-
 QString YTSig::default_script;
 
+#else // YT_USE_SCRIPT
+
+#ifdef YTSIG_STATIC
+#include "ytsig_priv.cpp"
 #else
-
-QString YTSig::rev(const QString & orig) {
-	QString r;
-	for (int n = orig.size()-1; n >= 0; n--) {
-		r.append(orig.at(n));
-	}
-	return r;
-}
-
-QString YTSig::aclara(const QString & text) {
+QString YTSig::aclara(const QString & text, const QString & player, const QString & function_name) {
 	QString res;
 
 	int dot = text.indexOf('.');
 	qDebug("YTSig::aclara (2): length: %d (%d.%d)", text.size(), dot, text.size()-dot-1);
-
-#if 0
-	if (text.size() == xx) {
-		res = <your code>;
-	}
-	else {
-		qDebug("YTSig::aclara: signature length not supported: %d: %s", text.size(), text.toLatin1().constData());
-		return res;
-	}
-#endif
 
 	/*
 	qDebug("%d: orig: %s", text.size(), text.toLatin1().constData());
@@ -105,5 +116,14 @@ QString YTSig::aclara(const QString & text) {
 
 	return res;
 }
-
 #endif
+
+#endif // YT_USE_SCRIPT
+
+void YTSig::check(QString & u) {
+	if (!parsed_ts.isEmpty()) {
+		u.append(QString("&%1").arg(parsed_ts));
+	}
+}
+
+QString YTSig::parsed_ts;

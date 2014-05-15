@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #ifndef MEDIAPANEL_H
 #define MEDIAPANEL_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QPixmap>
 #include <QLabel>
 #include "ui_mediapanel.h"

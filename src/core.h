@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,6 +80,9 @@ public slots:
 	void openDVD(int title = 1);
 	*/
 	void openDVD(QString dvd_url);
+#ifdef BLURAY_SUPPORT
+	void openBluRay(QString blu_ray_url);
+#endif
 	void openVCD(int title = -1);
 	void openAudioCD(int title = -1);
 	void openTV(QString channel_id);
@@ -242,6 +245,7 @@ public slots:
 	void setAudioAudioEqualizerRestart(AudioEqualizerList values) { setAudioEqualizer(values, true); };
 	void updateAudioEqualizer();
 
+	void setAudioEq(int eq, int value);
 	void setAudioEq0(int value);
 	void setAudioEq1(int value);
 	void setAudioEq2(int value);
@@ -405,6 +409,13 @@ protected slots:
 	void YTNoVideoUrl();
 #endif
 
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef SCREENSAVER_OFF
+	void enableScreensaver();
+	void disableScreensaver();
+#endif
+#endif
+
 protected:
 	void playNewFile(QString file, int seek=-1);
 	void restartPlay();
@@ -431,7 +442,7 @@ signals:
 	void mediaInfoChanged();
 	//! Sends the filename and title of the stream playing in this moment
 	void mediaPlaying(const QString & filename, const QString & title);
-    void stateChanged(Core::State state);
+	void stateChanged(Core::State state);
 	void mediaStartPlay();
 	void mediaFinished(); // Media has arrived to the end.
 	void mediaStoppedByUser();
@@ -447,6 +458,7 @@ signals:
 #else
 	void posChanged(int); // To connect a slider
 #endif
+	void newDuration(double); // Duration has changed
 	void showFrame(int frame);
 	void ABMarkersChanged(int secs_a, int secs_b);
 	void needResize(int w, int h);
@@ -455,6 +467,9 @@ signals:
 #if NOTIFY_AUDIO_CHANGES
 	void audioTracksChanged();
 #endif
+
+	//! Sent when requested to play, but there is no file to play
+	void noFileToPlay();
 
 	//! MPlayer started but finished with exit code != 0
 	void mplayerFinishedWithError(int exitCode);
@@ -471,6 +486,8 @@ signals:
 #ifdef YOUTUBE_SUPPORT
 	void signatureNotFound(const QString &);
 #endif
+
+	void receivedForbidden();
 
 protected:
     MplayerProcess * proc;

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ class MyAction;
 class QMenu;
 class TimeSliderAction;
 class VolumeSliderAction;
-class FloatingWidget;
+class AutohideWidget;
 class TimeLabelAction;
 class MyAction;
 
@@ -79,20 +79,20 @@ protected:
 
 protected slots:
 	virtual void updateWidgets();
+	virtual void applyNewPreferences();
 	virtual void displayTime(QString text);
 	virtual void displayFrame(int frame);
 	virtual void displayABSection(int secs_a, int secs_b);
 	virtual void displayVideoInfo(int width, int height, double fps);
-
-	virtual void showFloatingControl(QPoint p);
-	virtual void showFloatingMenu(QPoint p);
-	virtual void hideFloatingControls();
 
 	// Reimplemented:
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
 #endif
+
+protected:
+	void reconfigureFloatingControl();
 
 protected:
 	QLabel * time_display;
@@ -117,7 +117,7 @@ protected:
 	SeekingButton * forwardbutton_action;
 #endif
 
-	FloatingWidget * floating_control;
+	AutohideWidget * floating_control;
 	TimeLabelAction * time_label_action;
 
 	MyAction * viewFrameCounterAct;

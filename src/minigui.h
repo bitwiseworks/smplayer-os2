@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 class TimeSliderAction;
 class VolumeSliderAction;
 class TimeLabelAction;
-class FloatingWidget;
+class AutohideWidget;
 class EditableToolbar;
 
 class MiniGui : public BaseGuiPlus
@@ -43,9 +43,6 @@ public:
 #endif
 
 protected slots:
-	void showFloatingControl(QPoint p);
-	void hideFloatingControl();
-
 	// Reimplemented:
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
@@ -74,7 +71,7 @@ protected:
 protected:
 	EditableToolbar * controlwidget;
 
-	FloatingWidget * floating_control;
+	AutohideWidget * floating_control;
 
 	TimeSliderAction * timeslider_action;
 #if USE_VOLUME_BAR

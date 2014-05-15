@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,6 +54,9 @@ private:
 #endif
 	void showInfo();
 	void deleteConfig();
+#ifdef Q_OS_WIN
+	void createFontFile();
+#endif
 
 	static BaseGui * main_window;
 
@@ -76,7 +79,11 @@ private:
 #ifdef LOG_SMPLAYER
 	// Output log
 	static QFile output_log;
+	#if QT_VERSION >= 0x050000
+	static void myMessageOutput( QtMsgType type, const QMessageLogContext &, const QString & msg );
+	#else
 	static void myMessageOutput( QtMsgType type, const char *msg );
+	#endif
 	static bool allow_to_send_log_to_gui;
 #endif
 };

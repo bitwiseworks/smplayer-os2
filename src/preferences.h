@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ public:
                          ChangeSpeed = 16 };
 	enum OptionState { Detect = -1, Disabled = 0, Enabled = 1 };
 	enum H264LoopFilter { LoopDisabled = 0, LoopEnabled = 1, LoopDisabledOnHD = 2 };
+	enum AutoAddToPlaylistFilter { NoFiles = 0, VideoFiles = 1, AudioFiles = 2, MultimediaFiles = 3, ConsecutiveFiles = 4 };
 
 	Q_DECLARE_FLAGS(WheelFunctions, WheelFunction);
 
@@ -97,8 +98,12 @@ public:
 	bool add_blackborders_on_fullscreen;
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef SCREENSAVER_OFF
 	bool turn_screensaver_off;
+	#endif
+	#ifdef AVOID_SCREENSAVER
 	bool avoid_screensaver;
+	#endif
 #else
 	bool disable_screensaver;
 #endif
@@ -126,12 +131,20 @@ public:
 	int volume;
 	bool mute;
 
+	// Global equalizer
+	bool global_audio_equalizer;
+	AudioEqualizerList audio_equalizer;
+
 	bool autosync;
 	int autosync_factor;
 
 	// For the -mc option
 	bool use_mc;
 	double mc_value;
+
+	// When playing a mp4 file, it will use a m4a file for audio if a there's a file with same name but extension m4a
+	bool autoload_m4a;
+	int min_step; //<! Step to increase of decrease the controls for color, contrast, brightness and so on
 
 	// Misc
 	int osd;
@@ -146,6 +159,9 @@ public:
 
 	QString dvd_device;
 	QString cdrom_device;
+#ifdef BLURAY_SUPPORT
+	QString bluray_device;
+#endif
 
 #ifdef Q_OS_WIN
 	bool enable_audiocd_on_windows;
@@ -229,6 +245,9 @@ public:
 
 	//! If false, options requiring freetype won't be used
 	bool freetype_support;
+#ifdef Q_OS_WIN
+	bool use_windowsfontdir;
+#endif
 
 
     /* ********
@@ -248,6 +267,7 @@ public:
 	QString monitor_aspect;
 
 	bool use_idx; //!< Use -idx
+	bool use_lavf_demuxer;
 
 	// Let the user pass options to mplayer
 	QString mplayer_additional_options;
@@ -329,8 +349,7 @@ public:
 	QString mouse_xbutton2_click_function;
 	int wheel_function;
 
-	QFlags<WheelFunctions> wheel_function_cycle;
-
+	WheelFunctions wheel_function_cycle;
 	bool wheel_function_seeking_reverse;
 
 	// Configurable seeking
@@ -351,6 +370,10 @@ public:
 	bool precise_seeking; //! Enable precise_seeking (only available with mplayer2)
 
 	bool reset_stop; //! Pressing the stop button resets the position
+
+	//! If true, the left click in the video is delayed some ms
+	//! to check if the user double clicked
+	bool delay_left_click;
 
 	QString language;
 	QString iconset;
@@ -395,7 +418,7 @@ public:
 #endif
 
 	bool auto_add_to_playlist; //!< Add files to open to playlist
-	bool add_to_playlist_consecutive_files;
+	AutoAddToPlaylistFilter media_to_add_to_playlist;
 
 #if LOGO_ANIMATION
 	bool animated_logo;
@@ -484,9 +507,8 @@ public:
 	int floating_control_width;
 	bool floating_control_animated;
 	bool floating_display_in_compact_mode;
-#ifndef Q_OS_WIN
-	bool bypass_window_manager;
-#endif
+	int floating_activation_area;
+	int floating_hide_delay;
 
 
     /* *******

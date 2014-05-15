@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,18 +25,26 @@
 #include <QShowEvent>
 #include "audioequalizerlist.h"
 
+class QLabel;
+class QComboBox;
 class QPushButton;
 class EqSlider;
 
 class AudioEqualizer : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    AudioEqualizer( QWidget* parent = 0, Qt::WindowFlags f = Qt::Dialog );
-    ~AudioEqualizer();
+	enum Preset { User_defined = 0, Flat = 1, Pop = 2, Rock = 3, Classical = 4, Club = 5, Dance = 6, Fullbass = 7,
+                  FullbassTreble = 8, Fulltreble = 9, Headphones = 10, LargeHall = 11, Live = 12,
+                  Party = 13, Reggae = 14, Ska = 15, Soft = 16, SoftRock = 17, Techno = 18 };
+
+	AudioEqualizer( QWidget* parent = 0, Qt::WindowFlags f = Qt::Dialog );
+	~AudioEqualizer();
 
 	EqSlider * eq[10];
+
+	void setEqualizer(AudioEqualizerList l);
 
 signals:
 	void visibilityChanged();
@@ -48,19 +56,25 @@ public slots:
 
 protected slots:
 	void applyButtonClicked();
+	void presetChanged(int index);
 
 protected:
 	virtual void hideEvent( QHideEvent * );
 	virtual void showEvent( QShowEvent * );
-
-protected:
+	virtual void changeEvent( QEvent * event );
 	virtual void retranslateStrings();
-	virtual void changeEvent ( QEvent * event ) ;
+
+	void createPresets();
+	void setValues(AudioEqualizerList l);
+	int findPreset(AudioEqualizerList l);
 
 protected:
+	QLabel * presets_label;
+	QComboBox * presets_combo;
 	QPushButton * apply_button;
 	QPushButton * reset_button;
 	QPushButton * set_default_button;
+	QMap<int,AudioEqualizerList> preset_list;
 };
 
 

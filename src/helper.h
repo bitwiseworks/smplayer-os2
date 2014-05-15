@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <QString>
 #include <QStringList>
 #include "audioequalizerlist.h"
+#include "preferences.h"
 
 #ifdef Q_OS_WIN
 #include "config.h"
@@ -62,7 +63,15 @@ public:
 	//! values.
 	static QString equalizerListToString(AudioEqualizerList values);
 
+	static QStringList filesForPlaylist(const QString & initial_file, Preferences::AutoAddToPlaylistFilter filter);
+
+#ifdef Q_OS_WIN
+	static QStringList resolveSymlinks(const QStringList & files);
+#endif
+
+private:
 	static QStringList searchForConsecutiveFiles(const QString & initial_file);
+	static QStringList filesInDirectory(const QString & initial_file, const QStringList & filter);
 };
 
 #endif

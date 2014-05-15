@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -72,8 +72,8 @@ protected:
 	void setWheelFunction(int function);
 	int wheelFunction();
 
-	void setWheelFunctionCycle(QFlags<Preferences::WheelFunctions> flags);
-	QFlags<Preferences::WheelFunctions> wheelFunctionCycle();
+	void setWheelFunctionCycle(Preferences::WheelFunctions flags);
+	Preferences::WheelFunctions wheelFunctionCycle();
 
 	void setWheelFunctionSeekingReverse(bool b);
 	bool wheelFunctionSeekingReverse();

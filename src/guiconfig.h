@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,6 @@
 
 #ifndef _GUICONFIG_H_
 #define _GUICONFIG_H_
-
-
-// CONTROLWIDGET_OVER_VIDEO
-// if set to 1, the controlwidget will be shown in fullscreen
-// *over* the video (not moving the video) when the user move the mouse 
-// to the bottom area of the screen.
-
-#define CONTROLWIDGET_OVER_VIDEO 1
 
 
 // DOCK_PLAYLIST

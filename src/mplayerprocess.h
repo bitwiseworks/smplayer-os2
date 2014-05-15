@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,6 +85,7 @@ signals:
 	void receivedScreenshot(QString);
 	void receivedUpdatingFontCache();
 	void receivedScanningFont(QString);
+	void receivedForbiddenText();
 
 	void receivedStreamTitle(QString);
 	void receivedStreamTitleAndUrl(QString,QString);
@@ -150,6 +151,7 @@ private:
 #endif
 
 	int dvd_current_title;
+	int br_current_title;
 };
 
 

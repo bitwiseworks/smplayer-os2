@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,12 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 	// Screensaver
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	screensaver_check->hide();
+	#ifndef SCREENSAVER_OFF
+	turn_screensaver_off_check->hide();
+	#endif
+	#ifndef AVOID_SCREENSAVER
+	avoid_screensaver_check->hide();
+	#endif
 #else
 	screensaver_group->hide();
 #endif
@@ -195,6 +201,7 @@ void PrefGeneral::setData(Preferences * pref) {
 
 	setEq2( pref->use_soft_video_eq );
 	setUseAudioEqualizer( pref->use_audio_equalizer );
+	global_audio_equalizer_check->setChecked(pref->global_audio_equalizer);
 	setGlobalVolume( pref->global_volume );
 	setSoftVol( pref->use_soft_vol );
 	setAc3DTSPassthrough( pref->use_hwac3 );
@@ -211,8 +218,12 @@ void PrefGeneral::setData(Preferences * pref) {
 	setAutoq( pref->autoq );
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-	setAvoidScreensaver( pref->avoid_screensaver );
+	#ifdef SCREENSAVER_OFF
 	setTurnScreensaverOff( pref->turn_screensaver_off );
+	#endif
+	#ifdef AVOID_SCREENSAVER
+	setAvoidScreensaver( pref->avoid_screensaver );
+	#endif
 #else
 	setDisableScreensaver( pref->disable_screensaver );
 #endif
@@ -281,6 +292,7 @@ void PrefGeneral::getData(Preferences * pref) {
 	TEST_AND_SET(pref->use_soft_vol, softVol());
 	pref->global_volume = globalVolume();
 	TEST_AND_SET(pref->use_audio_equalizer, useAudioEqualizer());
+	pref->global_audio_equalizer = global_audio_equalizer_check->isChecked();
 	TEST_AND_SET(pref->use_hwac3, Ac3DTSPassthrough());
 	pref->initial_volnorm = initialVolNorm();
 	TEST_AND_SET(pref->softvol_max, amplification());
@@ -298,8 +310,12 @@ void PrefGeneral::getData(Preferences * pref) {
 	TEST_AND_SET(pref->autoq, autoq());
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-	pref->avoid_screensaver = avoidScreensaver();
+	#ifdef SCREENSAVER_OFF
 	TEST_AND_SET(pref->turn_screensaver_off, turnScreensaverOff());
+	#endif
+	#ifdef AVOID_SCREENSAVER
+	pref->avoid_screensaver = avoidScreensaver();
+	#endif
 #else
 	TEST_AND_SET(pref->disable_screensaver, disableScreensaver());
 #endif
@@ -744,6 +760,7 @@ bool PrefGeneral::startInFullscreen() {
 }
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef AVOID_SCREENSAVER
 void PrefGeneral::setAvoidScreensaver(bool b) {
 	avoid_screensaver_check->setChecked(b);
 }
@@ -751,7 +768,9 @@ void PrefGeneral::setAvoidScreensaver(bool b) {
 bool PrefGeneral::avoidScreensaver() {
 	return avoid_screensaver_check->isChecked();
 }
+#endif
 
+#ifdef SCREENSAVER_OFF
 void PrefGeneral::setTurnScreensaverOff(bool b) {
 	turn_screensaver_off_check->setChecked(b);
 }
@@ -759,6 +778,8 @@ void PrefGeneral::setTurnScreensaverOff(bool b) {
 bool PrefGeneral::turnScreensaverOff() {
 	return turn_screensaver_off_check->isChecked();
 }
+#endif
+
 #else
 void PrefGeneral::setDisableScreensaver(bool b) {
 	screensaver_check->setChecked(b);
@@ -796,19 +817,19 @@ Preferences::OptionState PrefGeneral::scaleTempoFilter() {
 void PrefGeneral::vo_combo_changed(int idx) {
 	qDebug("PrefGeneral::vo_combo_changed: %d", idx);
 	bool visible = (vo_combo->itemData(idx).toString() == "user_defined");
-	vo_user_defined_edit->setShown(visible);
+	vo_user_defined_edit->setVisible(visible);
 	vo_user_defined_edit->setFocus();
 
 #ifndef Q_OS_WIN
 	bool vdpau_button_visible = (vo_combo->itemData(idx).toString() == "vdpau");
-	vdpau_button->setShown(vdpau_button_visible);
+	vdpau_button->setVisible(vdpau_button_visible);
 #endif
 }
 
 void PrefGeneral::ao_combo_changed(int idx) {
 	qDebug("PrefGeneral::ao_combo_changed: %d", idx);
 	bool visible = (ao_combo->itemData(idx).toString() == "user_defined");
-	ao_user_defined_edit->setShown(visible);
+	ao_user_defined_edit->setVisible(visible);
 	ao_user_defined_edit->setFocus();
 }
 
@@ -964,18 +985,21 @@ void PrefGeneral::createHelp() {
            "subtitles automatically in the black borders.") */ );
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef SCREENSAVER_OFF
 	setWhatsThis(turn_screensaver_off_check, tr("Switch screensaver off"),
 		tr("This option switches the screensaver off just before starting to "
            "play a file and switches it on when playback finishes. If this "
            "option is enabled, the screensaver won't appear even if playing "
            "audio files or when a file is paused."));
-
+	#endif
+	#ifdef AVOID_SCREENSAVER
 	setWhatsThis(avoid_screensaver_check, tr("Avoid screensaver"),
 		tr("When this option is checked, SMPlayer will try to prevent the "
            "screensaver to be shown when playing a video file. The screensaver "
            "will be allowed to be shown if playing an audio file or in pause "
            "mode. This option only works if the SMPlayer window is in "
 		   "the foreground."));
+	#endif
 #else
 	setWhatsThis(screensaver_check, tr("Disable screensaver"),
 		tr("Check this option to disable the screensaver while playing.<br>"
@@ -1008,6 +1032,11 @@ void PrefGeneral::createHelp() {
 
 	setWhatsThis(audio_equalizer_check, tr("Enable the audio equalizer"),
 		tr("Check this option if you want to use the audio equalizer.") );
+
+	setWhatsThis(global_audio_equalizer_check, tr("Global audio equalizer"),
+		tr("If this option is checked, all media files share the audio equalizer.") +" "+
+		tr("If it's not checked, the audio equalizer values are saved along each file "
+           "and loaded back when the file is played later.") );
 
 	setWhatsThis(hwac3_check, tr("AC3/DTS pass-through S/PDIF"),
 		tr("Uses hardware AC3 passthrough.") + "<br>" +

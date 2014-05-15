@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -65,9 +65,11 @@ public slots:
 	//! Should be called when a file has stopped.
 	virtual void playingStopped();
 
+signals:
+	void mouseMoved(QPoint);
+
 protected:
 	virtual void mouseMoveEvent( QMouseEvent * e );
-	virtual void paintEvent ( QPaintEvent * e );
 
 protected slots:
 	virtual void checkMousePos();
@@ -120,12 +122,12 @@ private:
 
 class MplayerWindow : public Screen
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MplayerWindow( QWidget* parent = 0, Qt::WindowFlags f = 0);
-    ~MplayerWindow();
-    
+	MplayerWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
+	~MplayerWindow();
+
 	MplayerLayer * videoLayer() { return mplayerlayer; };
 
 	void setResolution( int w, int h);
@@ -149,10 +151,13 @@ public:
 	void allowVideoMovement(bool b) { allow_video_movement = b; };
 	bool isVideoMovementAllowed() { return allow_video_movement; };
 
+	void delayLeftClick(bool b) { delay_left_click = b; };
+	bool isLeftClickDelayed() { return delay_left_click; };
+
 	virtual QSize sizeHint () const;
 	virtual QSize minimumSizeHint() const;
 
-	virtual bool eventFilter( QObject * watched, QEvent * event );
+	virtual bool eventFilter(QObject *, QEvent *);
 
 #if LOGO_ANIMATION
 	bool animatedLogo() { return animated_logo; }
@@ -174,6 +179,8 @@ public slots:
 	void incZoom();
 	void decZoom();
 
+	void activateMouseDragTracking(bool active) { mouse_drag_tracking = active; }
+
 #if DELAYED_RESIZE
 protected slots:
 	void resizeLater();
@@ -183,8 +190,8 @@ protected:
 	virtual void retranslateStrings();
 	virtual void changeEvent ( QEvent * event ) ;
 
-    virtual void resizeEvent( QResizeEvent * e);
-    virtual void mouseReleaseEvent( QMouseEvent * e);
+	virtual void resizeEvent( QResizeEvent * e);
+	virtual void mouseReleaseEvent( QMouseEvent * e);
 	virtual void mouseDoubleClickEvent( QMouseEvent * e );
 	virtual void wheelEvent( QWheelEvent * e );
 	void moveLayer( int offset_x, int offset_y );
@@ -200,12 +207,11 @@ signals:
 	void keyPressed(QKeyEvent * e);
 	void wheelUp();
 	void wheelDown();
-	void mouseMoved(QPoint);
 	void mouseMovedDiff(QPoint);
 
 protected:
-    int video_width, video_height;
-    double aspect;
+	int video_width, video_height;
+	double aspect;
 	double monitoraspect;
 
 	MplayerLayer * mplayerlayer;
@@ -221,17 +227,25 @@ protected:
 	int orig_width, orig_height;
 
 	bool allow_video_movement;
-	QPoint mouse_press_pos;
 
 #if DELAYED_RESIZE
 	QTimer * resize_timer;
 #endif
 
+	// Delay left click event
+	bool delay_left_click;
+	QTimer * left_click_timer;
+	bool double_clicked;
+
 #if LOGO_ANIMATION
 	bool animated_logo;
 #endif
-};
 
+private:
+	bool mouse_drag_tracking;
+	bool isMoving;
+	QPoint startDrag;
+};
 
 #endif
 
