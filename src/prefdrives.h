@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,6 +47,11 @@ protected:
 
 	void setDVDDevice( QString dir );
 	QString dvdDevice();
+
+#ifdef BLURAY_SUPPORT
+	void setBlurayDevice( QString dir );
+	QString blurayDevice();
+#endif
 
 	void setCDRomDevice( QString dir );
 	QString cdromDevice();

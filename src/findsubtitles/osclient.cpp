@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,11 +47,7 @@ void OSClient::login() {
 }
 
 void OSClient::search(const QString & hash, qint64 file_size) {
-#ifdef Q_OS_WIN
-	qDebug("OSClient::search: hash: %s, file_size: %I64d", hash.toUtf8().constData(), file_size);
-#else
-	qDebug("OSClient::search: hash: %s, file_size: %lld", hash.toUtf8().constData(), file_size);
-#endif
+	qDebug() << "OSClient::search: hash: " << hash << "file_size: " << file_size;
 
 	search_hash = hash;
 	search_size = file_size;
@@ -88,6 +84,9 @@ void OSClient::doSearch() {
 	list.append(m);
 	list.append(m);
 	list.append(m);
+	list.append(m);
+	//list.append(m);
+	list.append(m); // Adding more, sometimes it keeps failing...
 
 	QVariantList args;
 	args << token << QVariant(list);

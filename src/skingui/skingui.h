@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ class MyAction;
 class QMenu;
 class TimeSliderAction;
 class VolumeSliderAction;
-class FloatingWidget;
+class AutohideWidget;
 class TimeLabelAction;
 class MyAction;
 class MediaBarPanel;
@@ -40,7 +40,7 @@ class MediaBarPanel;
 class SeekingButton;
 #endif
 
-//#define SKIN_CONTROLWIDGET_OVER_VIDEO 1
+//#define SKIN_EDITABLE_CONTROL 1
 
 class SkinGui : public BaseGuiPlus
 {
@@ -59,9 +59,7 @@ protected:
 
 	void createMainToolBars();
 	void createControlWidget();
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
 	void createFloatingControl();
-#endif
 	void createActions();
 	void createMenus();
 
@@ -80,10 +78,6 @@ protected slots:
 	virtual void displayMessage(QString message, int time);
 	virtual void displayMessage(QString message);
 
-	virtual void showFloatingControl(QPoint p);
-	virtual void showFloatingMenu(QPoint p);
-	virtual void hideFloatingControls();
-
 	// Reimplemented:
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
@@ -94,6 +88,7 @@ protected slots:
 
 protected:
 	MediaBarPanel* mediaBarPanel;
+	QAction * mediaBarPanelAction;
 
 	EditableToolbar * toolbar1;
 	QToolBar * controlwidget;
@@ -106,14 +101,12 @@ protected:
 	SeekingButton * forwardbutton_action;
 #endif
 
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	FloatingWidget * floating_control;
-#endif
+	AutohideWidget * floating_control;
 	TimeLabelAction * time_label_action;
 
 #if USE_CONFIGURABLE_TOOLBARS
 	MyAction * editToolbar1Act;
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
+	#if defined(SKIN_EDITABLE_CONTROL)
 	MyAction * editFloatingControlAct;
 	#endif
 #endif
@@ -127,6 +120,8 @@ protected:
 
 	bool fullscreen_toolbar1_was_visible;
 	bool compact_toolbar1_was_visible;
+
+	bool was_muted;
 };
 
 #endif

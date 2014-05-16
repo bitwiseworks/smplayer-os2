@@ -106,10 +106,10 @@ kLIBC
 GCC4Core
 --------
 
-  1. yum install libgcc
-  2. yum install gcc-stack-protector
-  3. yum install gcc-stdc++-shared-library
-  4. yum install gcc-supc++-shared-library
+  1. yum install libgcc4*
+  2. yum install libssp
+  3. yum install libstdc++ libstdc++6
+  4. yum install libsupc++ libsupc++6
 
 Qt4 dll
 -------
@@ -138,7 +138,7 @@ kLIBC
 GCC4Core
 --------
 
-  1. Download GCC4Core 1.2.1 oder neuer unter http://ftp.netlabs.org/pub/gcc
+  1. Download GCC4Core 1.2.2 oder neuer unter http://ftp.netlabs.org/pub/gcc
   2. Die Dateien in Ihren libpath installieren z.B. x:\ecs\dll
 
 Qt4 dll
@@ -319,6 +319,9 @@ Entwicklung unterstÅtzen mîchten, haben Sie folgende Mîglichkeiten:
 
 8. ENTWICKLUNGSGESCHICHTE
 =========================
+
+2014-05-15
+  * updated to SMPlayer version 14.3.0 (aka 0.8.7)
 
 2014-02-21
   * updated to SMPlayer version 0.8.6

@@ -1,5 +1,6 @@
-/*  umplayer, GUI front-end for mplayer.
-    Copyright (C) 2010 Ori Rejwan
+/*  smplayer, GUI front-end for mplayer.
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -79,7 +80,7 @@ void PanelSeeker::paintEvent(QPaintEvent * e)
 }
 
 void PanelSeeker::setKnobIcon( QPixmap pix )
-{    
+{
     int w = pix.width();
     int h = pix.height();
     knobPix.setPixmap(pix.copy(0, 0, w, h/4 ), MyIcon::Normal, MyIcon::Off);
@@ -87,10 +88,11 @@ void PanelSeeker::setKnobIcon( QPixmap pix )
     knobPix.setPixmap(pix.copy(0, h/2, w, h/4 ), MyIcon::MouseDown, MyIcon::Off);
     knobPix.setPixmap(pix.copy(0, 3*h/4, w, h/4 ), MyIcon::Disabled, MyIcon::Off);
     knobCurrentPix = knobPix.pixmap(MyIcon::Normal, MyIcon::Off);
-    setSliderValue(minimum());
+    /* setSliderValue(minimum()); */
     setState(Normal, true);
 }
 
+/*
 void PanelSeeker::setSingleKnobIcon(QPixmap pix)
 {
     knobPix.setPixmap(pix, MyIcon::Normal, MyIcon::Off);
@@ -100,6 +102,7 @@ void PanelSeeker::setSingleKnobIcon(QPixmap pix)
     setSliderValue(minimum());
     setState(Normal, true);
 }
+*/
 
 void PanelSeeker::mousePressEvent(QMouseEvent *m)
 {
@@ -107,7 +110,11 @@ void PanelSeeker::mousePressEvent(QMouseEvent *m)
     setTracking(pref->update_while_seeking);
     if(m->button() == Qt::LeftButton)
     {
+        #if QT_VERSION >= 0x050000
+        QPointF pos = m->localPos();
+        #else
         QPointF pos = m->posF();
+        #endif
         if(knobRect.contains(pos))
         {
             isPressed = true;
@@ -119,7 +126,11 @@ void PanelSeeker::mousePressEvent(QMouseEvent *m)
         else
         {
             isPressed = false;
+            #if QT_VERSION >= 0x050000
+            knobAdjust( m->localPos().x() - knobRect.center().x(), true);
+            #else
             knobAdjust( m->posF().x() - knobRect.center().x(), true);
+            #endif
         }
     }
 }
@@ -129,7 +140,11 @@ void PanelSeeker::mouseMoveEvent(QMouseEvent *m)
     m->accept();
     if(isPressed)
     {
-        knobAdjust(m->posF().x() - knobRect.center().x() - mousePressDifference );        
+        #if QT_VERSION >= 0x050000
+        knobAdjust(m->localPos().x() - knobRect.center().x() - mousePressDifference );
+        #else
+        knobAdjust(m->posF().x() - knobRect.center().x() - mousePressDifference );
+        #endif
     }
 }
 

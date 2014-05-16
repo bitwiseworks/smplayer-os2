@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include <QNetworkReply>
 #include <QMap>
 
+#define YT_GET_VIDEOINFO
+
 class RetrieveYoutubeUrl : public QObject
 {
 	Q_OBJECT
@@ -38,8 +40,8 @@ public:
 	void fetchPage(const QString & url);
 	void close();
 
-	void setUserAgent(const QString & s) { user_agent = s; };
-	QString userAgent() { return user_agent; };
+	static void setUserAgent(const QString & s) { user_agent = s; };
+	static QString userAgent() { return user_agent; };
 
 	void setPreferredQuality(Quality q) { preferred_quality = q; }
 	Quality preferredQuality() { return preferred_quality; }
@@ -50,6 +52,9 @@ public:
 	QString urlTitle() { return url_title; }
 	QString latestPreferredUrl() { return latest_preferred_url; }
 	QString origUrl() { return orig_url; }
+
+	bool isUrlSupported(const QString & url);
+	QString fullUrl(const QString & url);
 
 signals:
 	void gotUrls(const QMap<int, QString>&);
@@ -62,12 +67,18 @@ signals:
 	void signatureNotFound(const QString & title);
 
 protected slots:
-	void gotResponse(QNetworkReply* reply);
+	void gotResponse();
 	void parse(QByteArray text);
+#ifdef YT_GET_VIDEOINFO
+	void gotVideoInfoResponse();
+	void parseVideoInfo(QByteArray text);
+	void fetchVideoInfoPage();
+#endif
 
 protected:
 	static QString sanitizeForUnicodePoint(QString string);
 	static void htmlDecode(QString& string);
+	QString getVideoID(QString video_url);
 
 	QMap<int, QString> urlMap;
 	QString url_title;
@@ -75,7 +86,11 @@ protected:
 	QString latest_preferred_url;
 
 	Quality preferred_quality;
-	QString user_agent;
+	static QString user_agent;
+
+#ifdef YT_GET_VIDEOINFO
+	QString video_id;
+#endif
 
 private:
 	QNetworkAccessManager* manager;

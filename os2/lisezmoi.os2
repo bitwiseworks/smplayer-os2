@@ -111,10 +111,10 @@ klibc
 GCC4Core
 --------
 
-  1. yum install libgcc
-  2. yum install gcc-stack-protector
-  3. yum install gcc-stdc++-shared-library
-  4. yum install gcc-supc++-shared-library
+  1. yum install libgcc4*
+  2. yum install libssp
+  3. yum install libstdc++ libstdc++6
+  4. yum install libsupc++ libsupc++6
 
 Qt4 dll
 -------
@@ -350,6 +350,9 @@ suivantes :
 
 8. HISTORIQUE DES VERSIONS
 ==========================
+
+2014-05-15
+  * Mise … jour … la version 14.3.0 (aka 0.8.7) de SMPlayer
 
 2014-02-21
   * Mise … jour … la version 0.8.6 de SMPlayer

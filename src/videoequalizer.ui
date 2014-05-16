@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VideoEqualizer2</class>
- <widget class="QWidget" name="VideoEqualizer2">
+ <class>VideoEqualizer</class>
+ <widget class="QWidget" name="VideoEqualizer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -63,7 +63,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string>0</string>
+        <string notr="true">0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -117,7 +117,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string>0</string>
+        <string notr="true">0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -171,7 +171,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string>0</string>
+        <string notr="true">0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -225,7 +225,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string>0</string>
+        <string notr="true">0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -279,7 +279,7 @@
         <enum>QFrame::Sunken</enum>
        </property>
        <property name="text">
-        <string>0</string>
+        <string notr="true">0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,12 +23,17 @@
 #include "recents.h"
 #include "urlhistory.h"
 #include "filters.h"
+#include "autohidewidget.h"
 
 #include <QSettings>
 #include <QFileInfo>
 #include <QRegExp>
 #include <QDir>
 #include <QLocale>
+
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#endif
 
 #if QT_VERSION >= 0x040400
 #include <QDesktopServices>
@@ -108,8 +113,12 @@ void Preferences::reset() {
 	add_blackborders_on_fullscreen = false;
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = false;
+	#endif
+	#ifdef AVOID_SCREENSAVER
 	avoid_screensaver = true;
+	#endif
 #else
 	disable_screensaver = true;
 #endif
@@ -133,11 +142,17 @@ void Preferences::reset() {
 	volume = 50;
 	mute = false;
 
+	global_audio_equalizer = true;
+	audio_equalizer << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0; // FIXME: use initial_audio_equalizer (but it's set later)
+
 	autosync = false;
 	autosync_factor = 100;
 
 	use_mc = false;
 	mc_value = 0;
+
+	autoload_m4a = true;
+	min_step = 4;
 
 	osd = None;
 	osd_delay = 2200;
@@ -151,6 +166,9 @@ void Preferences::reset() {
 
 	dvd_device = "";
 	cdrom_device = "";
+#ifdef BLURAY_SUPPORT
+	bluray_device = "";
+#endif
 
 #ifndef Q_OS_WIN
 	// Try to set default values
@@ -237,6 +255,9 @@ void Preferences::reset() {
 	user_forced_ass_style.clear();
 
 	freetype_support = true;
+#ifdef Q_OS_WIN
+	use_windowsfontdir = false;
+#endif
 
 
     /* ********
@@ -256,6 +277,7 @@ void Preferences::reset() {
 	monitor_aspect=""; // Autodetect
 
 	use_idx = false;
+	use_lavf_demuxer = false;
 
 	mplayer_additional_options="";
 	#ifdef PORTABLE_APP
@@ -352,6 +374,7 @@ void Preferences::reset() {
 	precise_seeking = true;
 
 	reset_stop = false;
+	delay_left_click = false;
 
 	language = "";
 
@@ -397,7 +420,7 @@ void Preferences::reset() {
 #endif
 
 	auto_add_to_playlist = true;
-	add_to_playlist_consecutive_files = false;
+	media_to_add_to_playlist = NoFiles;
 
 #if LOGO_ANIMATION
 	animated_logo = true;
@@ -478,9 +501,8 @@ void Preferences::reset() {
 	floating_control_width = 70; //70 %
 	floating_control_animated = true;
 	floating_display_in_compact_mode = false;
-#ifndef Q_OS_WIN
-	bypass_window_manager = true;
-#endif
+	floating_activation_area = AutohideWidget::Anywhere;
+	floating_hide_delay = 3000;
 
 
     /* *******
@@ -522,7 +544,7 @@ void Preferences::save() {
        General
        ******* */
 
-	set->beginGroup( "general");
+	set->beginGroup("General");
 
 	set->setValue("config_version", config_version);
 
@@ -551,8 +573,12 @@ void Preferences::save() {
 	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef SCREENSAVER_OFF
 	set->setValue("turn_screensaver_off", turn_screensaver_off);
+	#endif
+	#ifdef AVOID_SCREENSAVER
 	set->setValue("avoid_screensaver", avoid_screensaver);
+	#endif
 #else
 	set->setValue("disable_screensaver", disable_screensaver);
 #endif
@@ -576,18 +602,24 @@ void Preferences::save() {
 	set->setValue("volume", volume);
 	set->setValue("mute", mute);
 
+	set->setValue("global_audio_equalizer", global_audio_equalizer);
+	set->setValue("audio_equalizer", audio_equalizer);
+
 	set->setValue("autosync", autosync);
 	set->setValue("autosync_factor", autosync_factor);
 
 	set->setValue("use_mc", use_mc);
 	set->setValue("mc_value", mc_value);
 
+	set->setValue("autoload_m4a", autoload_m4a);
+	set->setValue("min_step", min_step);
+
 	set->setValue("osd", osd);
 	set->setValue("osd_delay", osd_delay);
 
 	set->setValue("file_settings_method", file_settings_method);
 
-	set->endGroup(); // general
+	set->endGroup(); // General
 
 
     /* ***************
@@ -598,6 +630,9 @@ void Preferences::save() {
 
 	set->setValue("dvd_device", dvd_device);
 	set->setValue("cdrom_device", cdrom_device);
+#ifdef BLURAY_SUPPORT
+	set->setValue("bluray_device", bluray_device);
+#endif
 
 #ifdef Q_OS_WIN
 	set->setValue("enable_audiocd_on_windows", enable_audiocd_on_windows);
@@ -685,6 +720,9 @@ void Preferences::save() {
 	set->setValue("user_forced_ass_style", user_forced_ass_style);
 
 	set->setValue("freetype_support", freetype_support);
+#ifdef Q_OS_WIN
+	set->setValue("use_windowsfontdir", use_windowsfontdir);
+#endif
 
 	set->endGroup(); // subtitles
 
@@ -708,6 +746,7 @@ void Preferences::save() {
 	set->setValue("monitor_aspect", monitor_aspect);
 
 	set->setValue("use_idx", use_idx);
+	set->setValue("use_lavf_demuxer", use_lavf_demuxer);
 
 	set->setValue("mplayer_additional_options", mplayer_additional_options);
 	set->setValue("mplayer_additional_video_filters", mplayer_additional_video_filters);
@@ -795,6 +834,7 @@ void Preferences::save() {
 	set->setValue("precise_seeking", precise_seeking);
 
 	set->setValue("reset_stop", reset_stop);
+	set->setValue("delay_left_click", delay_left_click);
 
 	set->setValue("language", language);
 	set->setValue("iconset", iconset);
@@ -830,7 +870,7 @@ void Preferences::save() {
 #endif
 
 	set->setValue("auto_add_to_playlist", auto_add_to_playlist);
-	set->setValue("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files);
+	set->setValue("media_to_add_to_playlist", media_to_add_to_playlist);
 
 #if LOGO_ANIMATION
 	set->setValue("animated_logo", animated_logo);
@@ -931,9 +971,8 @@ void Preferences::save() {
 	set->setValue("width", floating_control_width);
 	set->setValue("animated", floating_control_animated);
 	set->setValue("display_in_compact_mode", floating_display_in_compact_mode);
-#ifndef Q_OS_WIN
-	set->setValue("bypass_window_manager", bypass_window_manager);
-#endif
+	set->setValue("activation_area", floating_activation_area);
+	set->setValue("hide_delay", floating_hide_delay);
 	set->endGroup(); // floating_control
 
 
@@ -992,7 +1031,7 @@ void Preferences::load() {
        General
        ******* */
 
-	set->beginGroup( "general");
+	set->beginGroup("General");
 
 	config_version = set->value("config_version", 0).toInt();
 
@@ -1023,8 +1062,12 @@ void Preferences::load() {
 	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
+	#endif
+	#ifdef AVOID_SCREENSAVER
 	avoid_screensaver = set->value("avoid_screensaver", avoid_screensaver).toBool();
+	#endif
 #else
 	disable_screensaver = set->value("disable_screensaver", disable_screensaver).toBool();
 #endif
@@ -1048,18 +1091,24 @@ void Preferences::load() {
 	volume = set->value("volume", volume).toInt();
 	mute = set->value("mute", mute).toBool();
 
+	global_audio_equalizer = set->value("global_audio_equalizer", global_audio_equalizer).toBool();
+	audio_equalizer = set->value("audio_equalizer", audio_equalizer).toList();
+
 	autosync = set->value("autosync", autosync).toBool();
 	autosync_factor = set->value("autosync_factor", autosync_factor).toInt();
 
 	use_mc = set->value("use_mc", use_mc).toBool();
 	mc_value = set->value("mc_value", mc_value).toDouble();
 
+	autoload_m4a = set->value("autoload_m4a", autoload_m4a).toBool();
+	min_step = set->value("min_step", min_step).toInt();
+
 	osd = set->value("osd", osd).toInt();
 	osd_delay = set->value("osd_delay", osd_delay).toInt();
 
 	file_settings_method = set->value("file_settings_method", file_settings_method).toString();
 
-	set->endGroup(); // general
+	set->endGroup(); // General
 
 
     /* ***************
@@ -1070,6 +1119,9 @@ void Preferences::load() {
 
 	dvd_device = set->value("dvd_device", dvd_device).toString();
 	cdrom_device = set->value("cdrom_device", cdrom_device).toString();
+#ifdef BLURAY_SUPPORT
+	bluray_device = set->value("bluray_device", bluray_device).toString();
+#endif
 
 #ifdef Q_OS_WIN
 	enable_audiocd_on_windows = set->value("enable_audiocd_on_windows", enable_audiocd_on_windows).toBool();
@@ -1158,6 +1210,9 @@ void Preferences::load() {
 	user_forced_ass_style = set->value("user_forced_ass_style", user_forced_ass_style).toString();
 
 	freetype_support = set->value("freetype_support", freetype_support).toBool();
+#ifdef Q_OS_WIN
+	use_windowsfontdir = set->value("use_windowsfontdir", use_windowsfontdir).toBool();
+#endif
 
 	set->endGroup(); // subtitles
 
@@ -1186,6 +1241,7 @@ void Preferences::load() {
 	monitor_aspect = set->value("monitor_aspect", monitor_aspect).toString();
 
 	use_idx = set->value("use_idx", use_idx).toBool();
+	use_lavf_demuxer = set->value("use_lavf_demuxer", use_lavf_demuxer).toBool();
 
 	mplayer_additional_options = set->value("mplayer_additional_options", mplayer_additional_options).toString();
 	mplayer_additional_video_filters = set->value("mplayer_additional_video_filters", mplayer_additional_video_filters).toString();
@@ -1253,8 +1309,10 @@ void Preferences::load() {
 	mouse_xbutton1_click_function = set->value("mouse_xbutton1_click_function", mouse_xbutton1_click_function).toString();
 	mouse_xbutton2_click_function = set->value("mouse_xbutton2_click_function", mouse_xbutton2_click_function).toString();
 	wheel_function = set->value("mouse_wheel_function", wheel_function).toInt();
-	int wheel_function_cycle_int = set->value("wheel_function_cycle", (int) wheel_function_cycle).toInt();
-	wheel_function_cycle = QFlags<Preferences::WheelFunctions> (QFlag(wheel_function_cycle_int));
+	{
+		int wheel_function_cycle_int = set->value("wheel_function_cycle", (int) wheel_function_cycle).toInt();
+		wheel_function_cycle = (WheelFunctions) wheel_function_cycle_int;
+	}
 	wheel_function_seeking_reverse = set->value("wheel_function_seeking_reverse", wheel_function_seeking_reverse).toBool();
 
 	seeking1 = set->value("seeking1", seeking1).toInt();
@@ -1272,6 +1330,7 @@ void Preferences::load() {
 	precise_seeking = set->value("precise_seeking", precise_seeking).toBool();
 
 	reset_stop = set->value("reset_stop", reset_stop).toBool();
+	delay_left_click = set->value("delay_left_click", delay_left_click).toBool();
 
 	language = set->value("language", language).toString();
 	iconset= set->value("iconset", iconset).toString();
@@ -1307,7 +1366,7 @@ void Preferences::load() {
 #endif
 
 	auto_add_to_playlist = set->value("auto_add_to_playlist", auto_add_to_playlist).toBool();
-	add_to_playlist_consecutive_files = set->value("add_to_playlist_consecutive_files", add_to_playlist_consecutive_files).toBool();
+	media_to_add_to_playlist = (AutoAddToPlaylistFilter) set->value("media_to_add_to_playlist", media_to_add_to_playlist).toInt();
 
 #if LOGO_ANIMATION
 	animated_logo = set->value("animated_logo", animated_logo).toBool();
@@ -1407,9 +1466,8 @@ void Preferences::load() {
 	floating_control_width = set->value("width", floating_control_width).toInt();
 	floating_control_animated = set->value("animated", floating_control_animated).toBool();
 	floating_display_in_compact_mode = set->value("display_in_compact_mode", floating_display_in_compact_mode).toBool();
-#ifndef Q_OS_WIN
-	bypass_window_manager = set->value("bypass_window_manager", bypass_window_manager).toBool();
-#endif
+	floating_activation_area = set->value("activation_area", floating_activation_area).toInt();
+	floating_hide_delay = set->value("hide_delay", floating_hide_delay).toInt();
 	set->endGroup(); // floating_control
 
 
@@ -1459,6 +1517,7 @@ void Preferences::load() {
 #endif
 
 
+	qDebug("Preferences::load: config_version: %d, CURRENT_CONFIG_VERSION: %d", config_version, CURRENT_CONFIG_VERSION);
 	// Fix some values if config is old
 	if (config_version < CURRENT_CONFIG_VERSION) {
 		qDebug("Preferences::load: config version is old, updating it");
@@ -1536,9 +1595,15 @@ double Preferences::monitor_aspect_double() {
 void Preferences::setupScreenshotFolder() {
 #if QT_VERSION >= 0x040400
 	if (screenshot_directory.isEmpty()) {
+		#if QT_VERSION >= 0x050000
+		QString pdir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+		if (pdir.isEmpty()) pdir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+		if (pdir.isEmpty()) pdir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+		#else
 		QString pdir = QDesktopServices::storageLocation(QDesktopServices::PicturesLocation);
 		if (pdir.isEmpty()) pdir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 		if (pdir.isEmpty()) pdir = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
+		#endif
 		if (pdir.isEmpty()) pdir = "/tmp";
 		if (!QFile::exists(pdir)) {
 			qWarning("Preferences::setupScreenshotFolder: folder '%s' does not exist. Using /tmp as fallback", pdir.toUtf8().constData());

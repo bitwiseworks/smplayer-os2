@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -351,7 +351,7 @@ bool WinFileAssoc::VistaGetDefaultApps(const QStringList &extensions, QStringLis
 
     if (SUCCEEDED(hr) && (pAAR != NULL)) {
         foreach(const QString & fileExtension, extensions) {
-            BOOL bIsDefault = FALSE;
+            BOOL bIsDefault = false;
             hr = pAAR->QueryAppIsDefault((const WCHAR *)QString("." + fileExtension).utf16(),
                                          AT_FILEEXTENSION,
                                          AL_EFFECTIVE,

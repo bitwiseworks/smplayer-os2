@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,96 +16,103 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* Based on the Qt network/http example */
-
 #include "filedownloader.h"
-#include <QHttp>
-#include <QTimer>
+#include <QFile>
+#include <QMessageBox>
 
 FileDownloader::FileDownloader(QWidget *parent) : QProgressDialog(parent)
 {
-	http_get_id = -1;
+	reply = 0;
+	manager = new QNetworkAccessManager(this);
+	connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(gotResponse(QNetworkReply*)));
+
 	setMinimumDuration(0);
+	setRange(0,0);
 
-	http = new QHttp(this);
-
-	connect(http, SIGNAL(requestFinished(int, bool)),
-            this, SLOT(httpRequestFinished(int, bool)));
-	connect(http, SIGNAL(dataReadProgress(int, int)),
-            this, SLOT(updateDataReadProgress(int, int)));
-	connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-            this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
 	connect(this, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+	/*
+	connect(this, SIGNAL(fileSaved(const QString &, const QString &)), this, SLOT(reportFileSaved(const QString &,const QString &)));
+	connect(this, SIGNAL(saveFailed(const QString &)), this, SLOT(reportSaveFailed(const QString &)));
+	connect(this, SIGNAL(errorOcurred(int,QString)), this, SLOT(reportError(int,QString)));
+	*/
 
 	setWindowTitle(tr("Downloading..."));
 }
 
 FileDownloader::~FileDownloader() {
-	//qDebug("FileDownloader::~FileDownloader");
-	delete http;
+	delete manager;
 }
 
 void FileDownloader::setProxy(QNetworkProxy proxy) {
-	http->abort();
-	http->setProxy(proxy);
+	manager->setProxy(proxy);
 
 	qDebug("FileDownloader::setProxy: host: '%s' port: %d type: %d",
            proxy.hostName().toUtf8().constData(), proxy.port(), proxy.type());
 }
 
 void FileDownloader::download(QUrl url) {
-	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
-	http->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
+	QNetworkRequest req(url);
+	req.setRawHeader("User-Agent", "SMPlayer");
+	reply = manager->get(req);
+	connect(reply, SIGNAL(downloadProgress(qint64, qint64)),
+            this, SLOT(updateDataReadProgress(qint64, qint64)));
 
-	if (!url.userName().isEmpty())
-		http->setUser(url.userName(), url.password());
-
-	http_request_aborted = false;
-	http_get_id = http->get(url.path());
-
-	setLabelText(tr("Downloading %1").arg(url.toString()));
+	setLabelText(tr("Connecting to %1").arg(url.host()));
 }
 
 void FileDownloader::cancelDownload() {
-	http_request_aborted = true;
-	http->abort();
+	if (reply) reply->abort();
 }
 
-void FileDownloader::httpRequestFinished(int request_id, bool error) {
-	qDebug("FileDownloader::httpRequestFinished: request_id %d, error %d", request_id, error);
-
-	if (request_id != http_get_id) return;
-
-	if (http_request_aborted) {
+void FileDownloader::gotResponse(QNetworkReply* reply) {
+	if (reply->error() == QNetworkReply::NoError) {
+		int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+		qDebug("FileDownloader::gotResponse: status: %d", status);
+		switch (status) {
+			case 301:
+			case 302:
+			case 307:
+				QString r_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl().toString();
+				qDebug("FileDownloader::gotResponse: redirected: %s", r_url.toLatin1().constData());
+				download(r_url);
+				return;
+		}
+	} else {
 		hide();
+		emit downloadFailed(reply->errorString());
 		return;
 	}
 
 	hide();
+	emit downloadFinished(reply->readAll());
+}
 
-	if (error) {
-		emit downloadFailed(http->errorString());
-	} else {
-                emit downloadFinished(http->readAll());
+void FileDownloader::updateDataReadProgress(qint64 bytes_read, qint64 total_bytes) {
+	qDebug() << "FileDownloader::updateDataReadProgress: " << bytes_read << " " << total_bytes;
+	if (total_bytes > -1) {
+		setMaximum(total_bytes);
+		setValue(bytes_read);
 	}
 }
 
-void FileDownloader::readResponseHeader(const QHttpResponseHeader &responseHeader) {
-	if (responseHeader.statusCode() != 200) {
-		emit downloadFailed(responseHeader.reasonPhrase());
-		http_request_aborted = true;
-		hide();
-		http->abort();
-		return;
-	}
+/*
+void FileDownloader::reportFileSaved(const QString &, const QString & version) {
+	hide();
+	QString t = tr("The Youtube code has been updated successfully.");
+	if (!version.isEmpty()) t += "<br>"+ tr("Installed version: %1").arg(version);
+	QMessageBox::information(this, tr("Success"),t);
 }
 
-void FileDownloader::updateDataReadProgress(int bytes_read, int total_bytes) {
-	if (http_request_aborted) return;
-
-	setMaximum(total_bytes);
-	setValue(bytes_read);
+void FileDownloader::reportSaveFailed(const QString & file) {
+	hide();
+	QMessageBox::warning(this, tr("Error"), tr("An error happened writing %1").arg(file));
 }
+
+void FileDownloader::reportError(int, QString error_str) {
+	hide();
+	QMessageBox::warning(this, tr("Error"), tr("An error happened while downloading the file:<br>%1").arg(error_str));
+}
+*/
 
 #include "moc_filedownloader.cpp"
 

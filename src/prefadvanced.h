@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ public:
 #if USE_COLORKEY
 	bool colorkeyChanged() { return colorkey_changed; };
 #endif
+	bool lavfDemuxerChanged() { return lavf_demuxer_changed; };
 
 protected:
 	virtual void createHelp();
@@ -91,6 +92,9 @@ protected:
 
 	void setUseIdx(bool);
 	bool useIdx();
+
+	void setUseLavfDemuxer(bool);
+	bool useLavfDemuxer();
 
 	void setUseCorrectPts(Preferences::OptionState value);
 	Preferences::OptionState useCorrectPts();
@@ -141,6 +145,7 @@ private:
 #if USE_COLORKEY
 	bool colorkey_changed;
 #endif
+	bool lavf_demuxer_changed;
 };
 
 #endif

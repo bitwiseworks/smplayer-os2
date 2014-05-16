@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 #include "smplayer.h"
 #include "defaultgui.h"
 #include "minigui.h"
-#include "mpcgui.h"
 #include "global.h"
 #include "paths.h"
 #include "translator.h"
@@ -28,6 +27,10 @@
 #include "clhelp.h"
 #include "cleanconfig.h"
 #include "myapplication.h"
+
+#ifdef MPCGUI
+#include "mpcgui.h"
+#endif
 
 #ifdef SKINS
 #include "skingui.h"
@@ -58,7 +61,11 @@ SMPlayer::SMPlayer(const QString & config_path, QObject * parent )
 	: QObject(parent) 
 {
 #ifdef LOG_SMPLAYER
+	#if QT_VERSION >= 0x050000
+	qInstallMessageHandler( SMPlayer::myMessageOutput );
+	#else
 	qInstallMsgHandler( SMPlayer::myMessageOutput );
+	#endif
 	allow_to_send_log_to_gui = true;
 #endif
 
@@ -80,6 +87,10 @@ SMPlayer::SMPlayer(const QString & config_path, QObject * parent )
 	// Application translations
 	translator->load( pref->language );
 	showInfo();
+
+#ifdef Q_OS_WIN
+	createFontFile();
+#endif
 }
 
 SMPlayer::~SMPlayer() {
@@ -144,10 +155,12 @@ BaseGui * SMPlayer::createGUI(QString gui_name) {
 #endif
 	if (gui_name.toLower() == "minigui") 
 		gui = new MiniGui(0);
-	else 
+	else
+#ifdef MPCGUI
 	if (gui_name.toLower() == "mpcgui")
 		gui = new MpcGui(0);
 	else
+#endif
 		gui = new DefaultGui(0);
 
 	gui->setForceCloseOnFinish(close_at_end);
@@ -442,6 +455,41 @@ void SMPlayer::createConfigDirectory() {
 }
 #endif
 
+#ifdef Q_OS_WIN
+void SMPlayer::createFontFile() {
+	qDebug("SMPlayer::createFontFile");
+	QString output = Paths::configPath() + "/fonts.conf";
+
+	// Check if the file already exists with the modified path
+	if (QFile::exists(output)) {
+		QFile i(output);
+		if (i.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QString text = i.readAll();
+			if (text.contains("<dir>" + Paths::fontPath() + "</dir>")) {
+				qDebug("SMPlayer::createFontFile: file %s already exists with font path. Doing nothing.", output.toUtf8().constData());
+				return;
+			}
+		}
+	}
+
+	QString input = Paths::appPath() + "/mplayer/fonts/fonts.conf";
+	qDebug("SMPlayer::createFontFile: input: %s", input.toLatin1().constData());
+	QFile infile(input);
+	if (infile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QString text = infile.readAll();
+		text = text.replace("<dir>WINDOWSFONTDIR</dir>", "<dir>" + Paths::fontPath() + "</dir>");
+		//qDebug("SMPlayer::createFontFile: %s", text.toUtf8().constData());
+
+		qDebug("SMPlayer::createFontFile: saving %s", output.toUtf8().constData());
+		QFile outfile(output);
+		if (outfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+			outfile.write(text.toUtf8());
+			outfile.close();
+		}
+	}
+}
+#endif
+
 void SMPlayer::showInfo() {
 #ifdef Q_OS_WIN
 	QString win_ver;
@@ -491,13 +539,20 @@ void SMPlayer::showInfo() {
 	qDebug(" * ini path: '%s'", Paths::iniPath().toUtf8().data());
 	qDebug(" * file for subtitles' styles: '%s'", Paths::subtitleStyleFile().toUtf8().data());
 	qDebug(" * current path: '%s'", QDir::currentPath().toUtf8().data());
+#ifdef Q_OS_WIN
+	qDebug(" * font path: '%s'", Paths::fontPath().toUtf8().data());
+#endif
 }
 
 #ifdef LOG_SMPLAYER
 QFile SMPlayer::output_log;
 bool SMPlayer::allow_to_send_log_to_gui = false;
 
+#if QT_VERSION >= 0x050000
+void SMPlayer::myMessageOutput( QtMsgType type, const QMessageLogContext &, const QString & msg ) {
+#else
 void SMPlayer::myMessageOutput( QtMsgType type, const char *msg ) {
+#endif
 	static QStringList saved_lines;
 	static QString orig_line;
 	static QString line2;
@@ -512,7 +567,11 @@ void SMPlayer::myMessageOutput( QtMsgType type, const char *msg ) {
 
 	line2.clear();
 
+#if QT_VERSION >= 0x050000
+	orig_line = msg;
+#else
 	orig_line = QString::fromUtf8(msg);
+#endif
 
 	switch ( type ) {
 		case QtDebugMsg:

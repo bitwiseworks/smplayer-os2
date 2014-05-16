@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,107 +17,72 @@
 */
 
 #include "videoequalizer.h"
-#include "eqslider.h"
-#include "images.h"
-#include "preferences.h"
-#include "global.h"
-#include <QLayout>
-#include <QPushButton>
-#include <QMessageBox>
 
-using namespace Global;
-
-VideoEqualizer::VideoEqualizer( QWidget* parent, Qt::WindowFlags f)
+VideoEqualizer::VideoEqualizer( QWidget* parent, Qt::WindowFlags f ) 
 	: QWidget(parent, f)
 {
-	contrast = new EqSlider(this);
-	brightness = new EqSlider(this);
-	hue = new EqSlider(this);
-	saturation = new EqSlider(this);
-	gamma = new EqSlider(this);
+	setupUi(this);
 
-	QBoxLayout *bl = new QHBoxLayout; //(0, 4, 2);
-	bl->addWidget(contrast);
-	bl->addWidget(brightness);
-	bl->addWidget(hue);
-	bl->addWidget(saturation);
-	bl->addWidget(gamma);
+	/*
+	contrast_indicator->setNum(0);
+	brightness_indicator->setNum(0);
+	hue_indicator->setNum(0);
+	saturation_indicator->setNum(0);
+	gamma_indicator->setNum(0);
+	*/
 
-	reset_button = new QPushButton( "&Reset", this);
-	connect( reset_button, SIGNAL(clicked()), this, SLOT(reset()) );
-	set_default_button = new QPushButton( "&Set as default values", this );
-	connect( set_default_button, SIGNAL(clicked()), this, SLOT(setDefaults()) );
+	connect( contrast_slider, SIGNAL(valueChanged(int)),
+             contrast_indicator, SLOT(setNum(int)) );
 
-	QBoxLayout *button_layout = new QVBoxLayout; //(0, 4, 2);
-	button_layout->addWidget(set_default_button);
-	button_layout->addWidget(reset_button);
+	connect( brightness_slider, SIGNAL(valueChanged(int)),
+             brightness_indicator, SLOT(setNum(int)) );
 
-	QBoxLayout *layout = new QVBoxLayout(this); //, 4, 2);
-	layout->addLayout(bl);
-	layout->addLayout(button_layout);
+	connect( hue_slider, SIGNAL(valueChanged(int)),
+             hue_indicator, SLOT(setNum(int)) );
 
-	retranslateStrings();
+	connect( saturation_slider, SIGNAL(valueChanged(int)),
+             saturation_indicator, SLOT(setNum(int)) );
+
+	connect( gamma_slider, SIGNAL(valueChanged(int)),
+             gamma_indicator, SLOT(setNum(int)) );
+
+	// Reemit signals
+	connect( contrast_slider, SIGNAL(valueChanged(int)),
+             this, SIGNAL(contrastChanged(int)) );
+	connect( brightness_slider, SIGNAL(valueChanged(int)),
+             this, SIGNAL(brightnessChanged(int)) );
+	connect( hue_slider, SIGNAL(valueChanged(int)),
+             this, SIGNAL(hueChanged(int)) );
+	connect( saturation_slider, SIGNAL(valueChanged(int)),
+             this, SIGNAL(saturationChanged(int)) );
+	connect( gamma_slider, SIGNAL(valueChanged(int)),
+             this, SIGNAL(gammaChanged(int)) );
+
+	connect( makedefault_button, SIGNAL(clicked()), 
+             this, SIGNAL(requestToChangeDefaultValues()) );
 
 	adjustSize();
-	//setFixedSize( sizeHint() );
 }
 
 VideoEqualizer::~VideoEqualizer() {
 }
 
-void VideoEqualizer::retranslateStrings() {
-	setWindowTitle( tr("Video Equalizer") );
-	setWindowIcon( Images::icon("logo") );
-
-	contrast->setLabel( tr("Contrast") );
-	contrast->setToolTip( tr("Contrast") );
-	contrast->setIcon( Images::icon("contrast") );
-
-	brightness->setLabel( tr("Brightness") );
-	brightness->setToolTip( tr("Brightness") );
-	brightness->setIcon( Images::icon("brightness") );
-
-	hue->setLabel( tr("Hue") );
-	hue->setToolTip( tr("Hue") );
-	hue->setIcon( Images::icon("hue") );
-
-	saturation->setLabel( tr("Saturation") );
-	saturation->setToolTip( tr("Saturation") );
-	saturation->setIcon( Images::icon("saturation") );
-
-	gamma->setLabel( tr("Gamma") );
-	gamma->setToolTip( tr("Gamma") );
-	gamma->setIcon( Images::icon("gamma") );
-
-	reset_button->setText( tr("&Reset") );
-	set_default_button->setText( tr("&Set as default values") );
-
-	// What's this help:
-	set_default_button->setWhatsThis(
-			tr("Use the current values as default values for new videos.") );
-
-	reset_button->setWhatsThis( tr("Set all controls to zero.") );
-
-}
-
 void VideoEqualizer::reset() {
-	contrast->setValue(0);
-	brightness->setValue(0);
-	hue->setValue(0);
-	saturation->setValue(0);
-	gamma->setValue(0);
+	setContrast(0);
+	setBrightness(0);
+	setHue(0);
+	setSaturation(0);
+	setGamma(0);
 }
 
-void VideoEqualizer::setDefaults() {
-	pref->initial_contrast = contrast->value();
-	pref->initial_brightness = brightness->value();
-	pref->initial_hue = hue->value();
-	pref->initial_saturation = saturation->value();
-	pref->initial_gamma = gamma->value();
+void VideoEqualizer::on_reset_button_clicked() {
+	qDebug("VideoEqualizer::on_reset_button_clicked");
+	reset();
+}
 
-	QMessageBox::information(this, tr("Information"), 
-                             tr("The current values have been stored to be "
-                                "used as default.") );
+void VideoEqualizer::on_bysoftware_check_stateChanged(int state) {
+	qDebug("VideoEqualizer::on_bysoftware_check_stateChanged");
+	emit bySoftwareChanged(state == Qt::Checked);
 }
 
 void VideoEqualizer::hideEvent( QHideEvent * ) {
@@ -126,6 +91,16 @@ void VideoEqualizer::hideEvent( QHideEvent * ) {
 
 void VideoEqualizer::showEvent( QShowEvent * ) {
 	emit visibilityChanged();
+}
+
+void VideoEqualizer::retranslateStrings() {
+	retranslateUi(this);
+
+	// What's this help:
+	makedefault_button->setWhatsThis(
+			tr("Use the current values as default values for new videos.") );
+
+	reset_button->setWhatsThis( tr("Set all controls to zero.") );
 }
 
 // Language change stuff

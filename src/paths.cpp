@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -159,3 +159,9 @@ QString Paths::iniPath() {
 QString Paths::subtitleStyleFile() {
 	return configPath() + "/styles.ass";
 }
+
+#ifdef Q_OS_WIN
+QString Paths::fontPath() {
+	return appPath() + "/mplayer/open-fonts";
+}
+#endif

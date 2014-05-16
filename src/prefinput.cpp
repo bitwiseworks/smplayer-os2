@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -172,6 +172,7 @@ void PrefInput::setData(Preferences * pref) {
 	setWheelFunction( pref->wheel_function );
 	setWheelFunctionCycle(pref->wheel_function_cycle);
 	setWheelFunctionSeekingReverse(pref->wheel_function_seeking_reverse);
+	delay_left_check->setChecked(pref->delay_left_click);
 }
 
 void PrefInput::getData(Preferences * pref) {
@@ -186,6 +187,7 @@ void PrefInput::getData(Preferences * pref) {
 	pref->wheel_function = wheelFunction();
 	pref->wheel_function_cycle = wheelFunctionCycle();
 	pref->wheel_function_seeking_reverse = wheelFunctionSeekingReverse();
+	pref->delay_left_click = delay_left_check->isChecked();
 }
 
 /*
@@ -265,19 +267,19 @@ int PrefInput::wheelFunction() {
 	return wheel_function_combo->itemData(wheel_function_combo->currentIndex()).toInt();
 }
 
-void PrefInput::setWheelFunctionCycle(QFlags<Preferences::WheelFunctions> flags){
+void PrefInput::setWheelFunctionCycle(Preferences::WheelFunctions flags){
 	wheel_function_seek->setChecked(flags.testFlag(Preferences::Seeking));
 	wheel_function_volume->setChecked(flags.testFlag(Preferences::Volume));
 	wheel_function_zoom->setChecked(flags.testFlag(Preferences::Zoom));
 	wheel_function_speed->setChecked(flags.testFlag(Preferences::ChangeSpeed));
 }
 
-QFlags<Preferences::WheelFunctions> PrefInput::wheelFunctionCycle(){
-	QFlags<Preferences::WheelFunctions> seekflags (QFlag ((int) Preferences::Seeking)) ;
-	QFlags<Preferences::WheelFunctions> volumeflags (QFlag ((int) Preferences::Volume)) ;
-	QFlags<Preferences::WheelFunctions> zoomflags (QFlag ((int) Preferences::Zoom)) ;
-	QFlags<Preferences::WheelFunctions> speedflags (QFlag ((int) Preferences::ChangeSpeed)) ;
-	QFlags<Preferences::WheelFunctions> out (QFlag (0));
+Preferences::WheelFunctions PrefInput::wheelFunctionCycle(){
+	Preferences::WheelFunctions seekflags (QFlag ((int) Preferences::Seeking)) ;
+	Preferences::WheelFunctions volumeflags (QFlag ((int) Preferences::Volume)) ;
+	Preferences::WheelFunctions zoomflags (QFlag ((int) Preferences::Zoom)) ;
+	Preferences::WheelFunctions speedflags (QFlag ((int) Preferences::ChangeSpeed)) ;
+	Preferences::WheelFunctions out (QFlag (0));
 	if(wheel_function_seek->isChecked()){
 		out = out | seekflags;
 	}
@@ -337,6 +339,16 @@ void PrefInput::createHelp() {
 	setWhatsThis(wheel_function_combo, tr("Wheel function"),
 		tr("Select the action for the mouse wheel.") );
 
+	setWhatsThis(delay_left_check, tr("Don't trigger the left click function with a double click"),
+		tr("If this option is enabled when you double click on the "
+            "video area only the double click function will be triggered. "
+            "The left click action won't be activated.") + " "+
+		tr("By enabling this option the left click is delayed %1 milliseconds "
+           "because it's necessary to wait that time to know if there's a double click or not.").arg(qApp->doubleClickInterval()+10) );
+
+	setWhatsThis(wheel_function_seeking_reverse_check, tr("Reverse mouse wheel seeking"),
+		tr("Check it to seek in the opposite direction.") );
+
 	addSectionTitle(tr("Mouse wheel functions"));
 
 	setWhatsThis(wheel_function_seek, tr("Media seeking"),
@@ -350,10 +362,6 @@ void PrefInput::createHelp() {
 
 	setWhatsThis(wheel_function_speed, tr("Change speed"),
 		tr("Check it to enable changing speed as one function.") );
-
-	setWhatsThis(wheel_function_seeking_reverse_check, tr("Reverse mouse wheel seeking"),
-		tr("Check it to seek in the opposite direction.") );
-
 }
 
 #include "moc_prefinput.cpp"

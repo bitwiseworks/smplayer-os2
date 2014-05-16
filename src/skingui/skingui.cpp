@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "mplayerwindow.h"
 #include "myaction.h"
 #include "images.h"
-#include "floatingwidget.h"
+#include "autohidewidget.h"
 #include "desktopinfo.h"
 #include "editabletoolbar.h"
 #include "mediabarpanel.h"
@@ -53,32 +53,24 @@ using namespace Global;
 
 SkinGui::SkinGui( QWidget * parent, Qt::WindowFlags flags )
 	: BaseGuiPlus( parent, flags )
+	, was_muted(false)
 {
 	connect( this, SIGNAL(timeChanged(QString)),
              this, SLOT(displayTime(QString)) );
 
-	connect( this, SIGNAL(cursorNearBottom(QPoint)), 
-             this, SLOT(showFloatingControl(QPoint)) );
-	connect( this, SIGNAL(cursorNearTop(QPoint)), 
-             this, SLOT(showFloatingMenu(QPoint)) );
-	connect( this, SIGNAL(cursorFarEdges()), 
-             this, SLOT(hideFloatingControls()) );
-
 	createActions();
 	createMainToolBars();
 	createControlWidget();
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
 	createFloatingControl();
-#endif
 	createMenus();
 
 #if USE_CONFIGURABLE_TOOLBARS
 	connect( editToolbar1Act, SIGNAL(triggered()),
              toolbar1, SLOT(edit()) );
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	floating_control->toolbar()->takeAvailableActionsFrom(this);
-	connect( editFloatingControlAct, SIGNAL(triggered()),
-             floating_control->toolbar(), SLOT(edit()) );
+	#if defined(SKIN_EDITABLE_CONTROL)
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	iw->takeAvailableActionsFrom(this);
+	connect( editFloatingControlAct, SIGNAL(triggered()), iw, SLOT(edit()) );
 	#endif
 #endif
 
@@ -96,6 +88,7 @@ SkinGui::SkinGui( QWidget * parent, Qt::WindowFlags flags )
 	statusBar()->hide();
 
 	changeStyleSheet(pref->iconset);
+	mediaBarPanel->setVolume(50);
 }
 
 SkinGui::~SkinGui() {
@@ -145,7 +138,7 @@ void SkinGui::createActions() {
 
 #if USE_CONFIGURABLE_TOOLBARS
 	editToolbar1Act = new MyAction( this, "edit_main_toolbar" );
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
+	#if defined(SKIN_EDITABLE_CONTROL)
 	editFloatingControlAct = new MyAction( this, "edit_floating_control" );
 	#endif
 #endif
@@ -191,14 +184,14 @@ void SkinGui::createMenus() {
 	QFont font = menuBar()->font();
 	font.setPixelSize(11);
 	menuBar()->setFont(font);
-	menuBar()->setFixedHeight(21);
+	/*menuBar()->setFixedHeight(21);*/
 
 	toolbar_menu = new QMenu(this);
 	toolbar_menu->addAction(toolbar1->toggleViewAction());
 #if USE_CONFIGURABLE_TOOLBARS
 	toolbar_menu->addSeparator();
 	toolbar_menu->addAction(editToolbar1Act);
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
+	#if defined(SKIN_EDITABLE_CONTROL)
 	toolbar_menu->addAction(editFloatingControlAct);
 	#endif
 #endif
@@ -214,7 +207,7 @@ QMenu * SkinGui::createPopupMenu() {
 	QMenu * m = new QMenu(this);
 #if USE_CONFIGURABLE_TOOLBARS
 	m->addAction(editToolbar1Act);
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
+	#if defined(SKIN_EDITABLE_CONTROL)
 	m->addAction(editFloatingControlAct);
 	#endif
 #else
@@ -318,13 +311,21 @@ void SkinGui::createControlWidget() {
 	connect( viewVideoInfoAct, SIGNAL(toggled(bool)),
              mediaBarPanel, SLOT(setResolutionVisible(bool)) );
 
-	controlwidget->addWidget(mediaBarPanel);
+	mediaBarPanelAction = controlwidget->addWidget(mediaBarPanel);
 }
 
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
 void SkinGui::createFloatingControl() {
 	// Floating control
-	floating_control = new FloatingWidget(this);
+	floating_control = new AutohideWidget(panel);
+	floating_control->setAutoHide(true);
+
+#ifndef SKIN_EDITABLE_CONTROL
+
+//	floating_control->setInternalWidget(new QLabel("hello"));
+
+#else
+
+	EditableToolbar * iw = new EditableToolbar(floating_control);
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList floatingcontrol_actions;
@@ -341,50 +342,57 @@ void SkinGui::createFloatingControl() {
 	floatingcontrol_actions << "forward1" << "forward2" << "forward3";
 	#endif
 	floatingcontrol_actions << "separator" << "fullscreen" << "mute" << "volumeslider_action" << "separator" << "timelabel_action";
-	floating_control->toolbar()->setDefaultActions(floatingcontrol_actions);
+
+	iw->setDefaultActions(floatingcontrol_actions);
 #else
-	floating_control->toolbar()->addAction(playAct);
-	floating_control->toolbar()->addAction(pauseAct);
-	floating_control->toolbar()->addAction(stopAct);
-	floating_control->toolbar()->addSeparator();
+	iw->addAction(playAct);
+	iw->addAction(pauseAct);
+	iw->addAction(stopAct);
+	iw->addSeparator();
 
 	#if MINI_ARROW_BUTTONS
-	floating_control->toolbar()->addAction( rewindbutton_action );
+	iw->addAction( rewindbutton_action );
 	#else
-	floating_control->toolbar()->addAction(rewind3Act);
-	floating_control->toolbar()->addAction(rewind2Act);
-	floating_control->toolbar()->addAction(rewind1Act);
+	iw->addAction(rewind3Act);
+	iw->addAction(rewind2Act);
+	iw->addAction(rewind1Act);
 	#endif
 
-	floating_control->toolbar()->addAction(timeslider_action);
+	iw->addAction(timeslider_action);
 
 	#if MINI_ARROW_BUTTONS
-	floating_control->toolbar()->addAction( forwardbutton_action );
+	iw->addAction( forwardbutton_action );
 	#else
-	floating_control->toolbar()->addAction(forward1Act);
-	floating_control->toolbar()->addAction(forward2Act);
-	floating_control->toolbar()->addAction(forward3Act);
+	iw->addAction(forward1Act);
+	iw->addAction(forward2Act);
+	iw>addAction(forward3Act);
 	#endif
 
-	floating_control->toolbar()->addSeparator();
-	floating_control->toolbar()->addAction(fullscreenAct);
-	floating_control->toolbar()->addAction(muteAct);
-	floating_control->toolbar()->addAction(volumeslider_action);
-	floating_control->toolbar()->addSeparator();
-	floating_control->toolbar()->addAction(time_label_action);
+	iw->addSeparator();
+	iw->addAction(fullscreenAct);
+	iw->addAction(muteAct);
+	iw->addAction(volumeslider_action);
+	iw->addSeparator();
+	iw->addAction(time_label_action);
 #endif // USE_CONFIGURABLE_TOOLBARS
 
+	floating_control->setInternalWidget(iw);
+#endif // SKIN_EDITABLE_CONTROL
+
+/*
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	// To make work the ESC key (exit fullscreen) and Ctrl-X (close) in Windows and OS2
 	floating_control->addAction(exitFullscreenAct);
 	floating_control->addAction(exitAct);
 #endif
+*/
 
 #if !USE_CONFIGURABLE_TOOLBARS
 	floating_control->adjustSize();
 #endif
+
+	floating_control->hide();
 }
-#endif
 
 void SkinGui::retranslateStrings() {
 	BaseGuiPlus::retranslateStrings();
@@ -400,14 +408,12 @@ void SkinGui::retranslateStrings() {
 
 #if USE_CONFIGURABLE_TOOLBARS
 	editToolbar1Act->change( tr("Edit main &toolbar") );
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
+	#if defined(SKIN_EDITABLE_CONTROL)
 	editFloatingControlAct->change( tr("Edit &floating control") );
 	#endif
 #endif
 
 	viewVideoInfoAct->change(Images::icon("view_video_info"), tr("&Video info") );
-
-	mediaBarPanel->setVolume(core->mset.volume);
 }
 
 void SkinGui::displayTime(QString text) {
@@ -440,12 +446,36 @@ void SkinGui::updateWidgets() {
 	BaseGuiPlus::updateWidgets();
 
 	panel->setFocus();
+
+	bool muted = (pref->global_volume ? pref->mute : core->mset.mute);
+	if (was_muted != muted) {
+		was_muted = muted;
+		if (muted) {
+			mediaBarPanel->setVolume(0);
+		} else {
+			mediaBarPanel->setVolume(core->mset.volume);
+		}
+	}
 }
 
 void SkinGui::aboutToEnterFullscreen() {
 	qDebug("SkinGui::aboutToEnterFullscreen");
 
 	BaseGuiPlus::aboutToEnterFullscreen();
+
+	#ifndef SKIN_EDITABLE_CONTROL
+	controlwidget->removeAction(mediaBarPanelAction);
+	floating_control->layout()->addWidget(mediaBarPanel);
+	mediaBarPanel->show();
+	floating_control->adjustSize();
+	#endif
+	floating_control->setMargin(pref->floating_control_margin);
+	floating_control->setPercWidth(pref->floating_control_width);
+	floating_control->setAnimated(pref->floating_control_animated);
+	floating_control->setActivationArea( (AutohideWidget::Activation) pref->floating_activation_area);
+	floating_control->setHideDelay(pref->floating_hide_delay);
+	QTimer::singleShot(500, floating_control, SLOT(activate()));
+
 
 	// Save visibility of toolbars
 	fullscreen_toolbar1_was_visible = toolbar1->isVisible();
@@ -461,9 +491,11 @@ void SkinGui::aboutToExitFullscreen() {
 
 	BaseGuiPlus::aboutToExitFullscreen();
 
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	floating_control->hide();
-#endif
+	floating_control->deactivate();
+	#ifndef SKIN_EDITABLE_CONTROL
+	floating_control->layout()->removeWidget(mediaBarPanel);
+	mediaBarPanelAction = controlwidget->addWidget(mediaBarPanel);
+	#endif
 
 	if (!pref->compact_mode) {
 		statusBar()->hide();
@@ -494,50 +526,6 @@ void SkinGui::aboutToExitCompactMode() {
 	/* resizeEvent( new QResizeEvent( size(), size() ) ); */
 }
 
-void SkinGui::showFloatingControl(QPoint /*p*/) {
-	qDebug("SkinGui::showFloatingControl");
-
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	if ((pref->compact_mode) && (!pref->fullscreen)) {
-		floating_control->setAnimated( false );
-	} else {
-		floating_control->setAnimated( pref->floating_control_animated );
-	}
-	floating_control->setMargin(pref->floating_control_margin);
-	#ifndef Q_OS_WIN
-	floating_control->setBypassWindowManager(pref->bypass_window_manager);
-	#endif
-	floating_control->showOver(panel, pref->floating_control_width);
-#else
-	if (!controlwidget->isVisible()) {
-		controlwidget->show();
-	}
-#endif
-}
-
-void SkinGui::showFloatingMenu(QPoint /*p*/) {
-#if !SKIN_CONTROLWIDGET_OVER_VIDEO
-	qDebug("SkinGui::showFloatingMenu");
-
-	if (!menuBar()->isVisible())
-		menuBar()->show();
-#endif
-}
-
-void SkinGui::hideFloatingControls() {
-	qDebug("SkinGui::hideFloatingControls");
-
-#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	floating_control->hide();
-#else
-	if (controlwidget->isVisible())
-		controlwidget->hide();
-
-	if (menuBar()->isVisible())
-		menuBar()->hide();
-#endif
-}
-
 void SkinGui::saveConfig() {
 	qDebug("SkinGui::saveConfig");
 
@@ -562,8 +550,9 @@ void SkinGui::saveConfig() {
 #if USE_CONFIGURABLE_TOOLBARS
 	set->beginGroup( "actions" );
 	set->setValue("toolbar1", toolbar1->actionsToStringList() );
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	set->setValue("floating_control", floating_control->toolbar()->actionsToStringList() );
+	#if defined(SKIN_EDITABLE_CONTROL)
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	set->setValue("floating_control", iw->actionsToStringList() );
 	#endif
 	set->setValue("toolbar1_version", TOOLBAR_VERSION);
 	set->endGroup();
@@ -612,8 +601,9 @@ void SkinGui::loadConfig() {
 		qDebug("SkinGui::loadConfig: toolbar too old, loading default one");
 		toolbar1->setActionsFromStringList( toolbar1->defaultActions() );
 	}
-	#if SKIN_CONTROLWIDGET_OVER_VIDEO
-	floating_control->toolbar()->setActionsFromStringList( set->value("floating_control", floating_control->toolbar()->defaultActions()).toStringList() );
+	#if defined(SKIN_EDITABLE_CONTROL)
+	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
+	iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
 	floating_control->adjustSize();
 	#endif
 	set->endGroup();

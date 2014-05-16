@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,21 +16,18 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* Based on the Qt network/http example */
-
-#ifndef _FILEDOWNLOADER_H_
-#define _FILEDOWNLOADER_H_
+#ifndef FILEDOWNLOADER_H
+#define FILEDOWNLOADER_H
 
 #include <QProgressDialog>
 #include <QUrl>
 #include <QNetworkProxy>
-
-class QHttp;
-class QHttpResponseHeader;
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class FileDownloader : public QProgressDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	FileDownloader(QWidget *parent = 0);
@@ -47,15 +44,18 @@ signals:
 	void downloadFailed(const QString & reason);
 
 private slots:
-	void httpRequestFinished(int request_id, bool error);
-	void readResponseHeader(const QHttpResponseHeader &responseHeader);
-	void updateDataReadProgress(int bytes_read, int total_bytes);
+	void gotResponse(QNetworkReply* reply);
+	void updateDataReadProgress(qint64 bytes_read, qint64 total_bytes);
+
+	/*
+	void reportFileSaved(const QString &, const QString &);
+	void reportSaveFailed(const QString &);
+	void reportError(int error_number, QString error_str);
+	*/
 
 private:
-	QHttp * http;
-	int http_get_id;
-	bool http_request_aborted;
-
+	QNetworkAccessManager* manager;
+	QNetworkReply* reply;
 };
 
 #endif

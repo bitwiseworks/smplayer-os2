@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ public:
 	enum Denoise { NoDenoise = 0, DenoiseNormal = 1, DenoiseSoft = 2 };
 	enum Aspect { AspectAuto = 1, Aspect43 = 2, Aspect54 = 3, Aspect149 = 4,
                   Aspect169 = 5, Aspect1610 = 6, Aspect235 = 7, Aspect11 = 8, 
-                  Aspect32 = 9, Aspect1410 = 10, 
+                  Aspect32 = 9, Aspect1410 = 10, Aspect118 = 11,
                   AspectNone = 0 };
 	enum Deinterlace { NoDeinterlace = 0, L5 = 1, Yadif = 2, LB = 3, 
                        Yadif_1 = 4, Kerndeint = 5 };

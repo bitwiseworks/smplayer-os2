@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ public:
 class DiscName {
 
 public:
-	enum Disc { DVD = 1, DVDNAV = 2, VCD = 3, CDDA = 4 };
+	enum Disc { DVD = 1, DVDNAV = 2, VCD = 3, CDDA = 4, BLURAY = 5 };
 
 	static QString join(Disc type, int title, const QString & device);
 	static QString join(const DiscData & d);

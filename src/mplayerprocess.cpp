@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@ bool MplayerProcess::start() {
 #endif
 
 	dvd_current_title = -1;
+	br_current_title = -1;
 
 	MyProcess::start();
 
@@ -158,7 +159,7 @@ static QRegExp rx("^(.*)=(.*)");
 static QRegExp rx_audio_mat("^ID_AID_(\\d+)_(LANG|NAME)=(.*)");
 #endif
 static QRegExp rx_video("^ID_VID_(\\d+)_(LANG|NAME)=(.*)");
-static QRegExp rx_title("^ID_DVD_TITLE_(\\d+)_(LENGTH|CHAPTERS|ANGLES)=(.*)");
+static QRegExp rx_title("^ID_(DVD|BLURAY)_TITLE_(\\d+)_(LENGTH|CHAPTERS|ANGLES)=(.*)");
 static QRegExp rx_chapters("^ID_CHAPTER_(\\d+)_(START|END|NAME)=(.+)");
 static QRegExp rx_winresolution("^VO: \\[(.*)\\] (\\d+)x(\\d+) => (\\d+)x(\\d+)");
 static QRegExp rx_ao("^AO: \\[(.*)\\]");
@@ -178,6 +179,7 @@ static QRegExp rx_mkvchapters("\\[mkv\\] Chapter (\\d+) from");
 static QRegExp rx_aspect2("^Movie-Aspect is ([0-9,.]+):1");
 static QRegExp rx_fontcache("^\\[ass\\] Updating font cache|^\\[ass\\] Init");
 static QRegExp rx_scanning_font("Scanning file");
+static QRegExp rx_forbidden("Server returned 403: Forbidden");
 #if DVDNAV_SUPPORT
 static QRegExp rx_dvdnav_switch_title("^DVDNAV, switched to title: (\\d+)");
 static QRegExp rx_dvdnav_length("^ANS_length=(.*)");
@@ -368,7 +370,7 @@ void MplayerProcess::parseLine(QByteArray ba) {
 #if !CHECK_VIDEO_CODEC_FOR_NO_VIDEO
 		// No video
 		if (rx_novideo.indexIn(line) > -1) {
-			md.novideo = TRUE;
+			md.novideo = true;
 			emit receivedNoVideo();
 			//emit mplayerFullyLoaded();
 		}
@@ -620,25 +622,25 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		}
 		else
 
-		// DVD titles
+		// DVD/Bluray titles
 		if (rx_title.indexIn(line) > -1) {
-			int ID = rx_title.cap(1).toInt();
-			QString t = rx_title.cap(2);
+			int ID = rx_title.cap(2).toInt();
+			QString t = rx_title.cap(3);
 
 			if (t=="LENGTH") {
-				double length = rx_title.cap(3).toDouble();
+				double length = rx_title.cap(4).toDouble();
 				qDebug("MplayerProcess::parseLine: Title: ID: %d, Length: '%f'", ID, length);
 				md.titles.addDuration(ID, length);
 			} 
 			else
 			if (t=="CHAPTERS") {
-				int chapters = rx_title.cap(3).toInt();
+				int chapters = rx_title.cap(4).toInt();
 				qDebug("MplayerProcess::parseLine: Title: ID: %d, Chapters: '%d'", ID, chapters);
 				md.titles.addChapters(ID, chapters);
 			}
 			else
 			if (t=="ANGLES") {
-				int angles = rx_title.cap(3).toInt();
+				int angles = rx_title.cap(4).toInt();
 				qDebug("MplayerProcess::parseLine: Title: ID: %d, Angles: '%d'", ID, angles);
 				md.titles.addAngles(ID, angles);
 			}
@@ -772,6 +774,12 @@ void MplayerProcess::parseLine(QByteArray ba) {
 		}
 		else
 
+		if (rx_forbidden.indexIn(line) > -1) {
+			qDebug("MplayerProcess::parseLine: 403 forbidden");
+			emit receivedForbiddenText();
+		}
+		else
+
 		// Catch starting message
 		/*
 		pos = rx_play.indexIn(line);
@@ -806,6 +814,15 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			if (tag == "ID_LENGTH") {
 				md.duration = value.toDouble();
 				qDebug("MplayerProcess::parseLine: md.duration set to %f", md.duration);
+				// Use the bluray title length if duration is 0
+				if (md.duration == 0 && br_current_title != -1) {
+					int i = md.titles.find(br_current_title);
+					if (i != -1) {
+						double duration = md.titles.itemAt(i).duration();
+						qDebug("MplayerProcess::parseLine: using the br title length: %f", duration);
+						md.duration = duration;
+					}
+				}
 			}
 			else
 			if (tag == "ID_VIDEO_WIDTH") {
@@ -886,6 +903,11 @@ void MplayerProcess::parseLine(QByteArray ba) {
 			if (tag == "ID_DVD_CURRENT_TITLE") {
 				dvd_current_title = value.toInt();
 			}
+			else
+			if (tag == "ID_BLURAY_CURRENT_TITLE") {
+				br_current_title = value.toInt();
+			}
+
 		}
 	}
 }

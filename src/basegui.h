@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,8 @@
 #include <windows.h>
 #endif
 
+//#define SHARE_MENU
+
 class QWidget;
 class QMenu;
 class LogWindow;
@@ -40,7 +42,7 @@ class MplayerWindow;
 
 class QLabel;
 class FilePropertiesDialog;
-class VideoEqualizer2;
+class VideoEqualizer;
 class AudioEqualizer;
 class Playlist;
 #ifdef FIND_SUBTITLES
@@ -58,9 +60,6 @@ class Favorites;
 class TVList;
 class UpdateChecker;
 
-#if !defined(Q_OS_WIN) || defined(PORTABLE_APP)
-#define REMINDER_ACTIONS 1
-#endif
 
 class BaseGui : public QMainWindow
 {
@@ -99,6 +98,11 @@ public slots:
 	virtual void openDVD();
 	virtual void openDVDFromFolder();
 	virtual void openDVDFromFolder(QString directory);
+#ifdef BLURAY_SUPPORT
+	void openBluRay();
+	void openBluRayFromFolder();
+	void openBluRayFromFolder(QString directory);
+#endif
 	virtual void openDirectory();
 	virtual void openDirectory(QString directory);
 
@@ -111,9 +115,10 @@ public slots:
 #endif
 	virtual void helpShowConfig();
 	virtual void helpAbout();
-	virtual void helpAboutQt();
 
+#ifdef SHARE_MENU
 	virtual void shareSMPlayer();
+#endif
 
 	virtual void loadSub();
 	virtual void loadAudioFile(); // Load external audio file
@@ -201,6 +206,8 @@ protected slots:
 	virtual void newMediaLoaded();
 	virtual void updateMediaInfo();
 
+	void gotNoFileToPlay();
+
 	void checkPendingActionsToRun();
 
 #if REPORT_OLD_MPLAYER
@@ -226,6 +233,7 @@ protected slots:
 	void YTUpdateScript();
 	#endif
 #endif
+	void gotForbidden();
 
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
@@ -271,11 +279,7 @@ protected slots:
 	virtual void loadActions();
 	virtual void saveActions();
 
-	// Check the mouse pos in fullscreen mode, to
-	// show the controlwidget if it's moved to
-	// the bottom area.
-	virtual void checkMousePos( QPoint );
-	virtual void moveWindow(QPoint diff);
+	virtual void moveWindowDiff(QPoint diff);
 
 	// Single instance stuff
 #ifdef SINGLE_INSTANCE
@@ -317,12 +321,10 @@ signals:
 	void videoInfoChanged(int width, int height, double fps);
 	void timeChanged(QString time_ready_to_print);
 
-	void cursorNearTop(QPoint);
-	void cursorNearBottom(QPoint);
-	void cursorFarEdges();
-	
+	/*
 	void wheelUp();
 	void wheelDown();
+	*/
 	/*
 	void doubleClicked();
 	void leftClicked();
@@ -345,8 +347,10 @@ protected:
 	virtual void hideEvent( QHideEvent * );
 	virtual void showEvent( QShowEvent * );
 #ifdef Q_OS_WIN
+	#ifdef AVOID_SCREENSAVER
 	/* Disable screensaver by event */
 	virtual bool winEvent ( MSG * m, long * result );
+	#endif
 #endif
 
 	virtual void aboutToEnterFullscreen();
@@ -375,7 +379,7 @@ protected:
 	/* virtual void closeEvent( QCloseEvent * e ); */
 
 protected:
-	virtual void wheelEvent( QWheelEvent * e ) ;
+	/* virtual void wheelEvent( QWheelEvent * e ) ; */
 
 protected:
 	QWidget * panel;
@@ -388,6 +392,10 @@ protected:
 	MyAction * openAudioCDAct;
 	MyAction * openDVDAct;
 	MyAction * openDVDFolderAct;
+#ifdef BLURAY_SUPPORT
+	MyAction * openBluRayAct;
+	MyAction * openBluRayFolderAct;
+#endif
 	MyAction * openURLAct;
 	MyAction * exitAct;
 	MyAction * clearRecentsAct;
@@ -502,14 +510,15 @@ protected:
 #ifdef REMINDER_ACTIONS
 	MyAction * donateAct;
 #endif
-	MyAction * aboutQtAct;
 	MyAction * aboutThisAct;
 
+#ifdef SHARE_MENU
 	MyAction * facebookAct;
 	MyAction * twitterAct;
 	MyAction * gmailAct;
 	MyAction * hotmailAct;
 	MyAction * yahooAct;
+#endif
 
 	// Playlist
 	MyAction * playPrevAct;
@@ -611,6 +620,7 @@ protected:
 	MyAction * aspect11Act;		// 1:1
 	MyAction * aspect32Act;		// 3:2
 	MyAction * aspect43Act;		// 4:3
+	MyAction * aspect118Act;	// 11:8
 	MyAction * aspect54Act;		// 5:4
 	MyAction * aspect149Act;	// 14:9
 	MyAction * aspect1410Act;	// 14:10
@@ -741,7 +751,9 @@ protected:
 	QMenu * closed_captions_menu;
 	QMenu * subfps_menu;
 
+#ifdef SHARE_MENU
 	QMenu * share_menu;
+#endif
 
 	QMenu * popup;
 	QMenu * recentfiles_menu;
@@ -757,7 +769,7 @@ protected:
 	PreferencesDialog *pref_dialog;
 	FilePropertiesDialog *file_dialog;
 	Playlist * playlist;
-	VideoEqualizer2 * video_equalizer2;
+	VideoEqualizer * video_equalizer;
 	AudioEqualizer * audio_equalizer;
 #ifdef FIND_SUBTITLES
 	FindSubtitlesWindow * find_subs_dialog;
@@ -788,9 +800,6 @@ protected:
 
 private:
 	QString default_style;
-
-	bool near_top;
-	bool near_bottom;
 
 	// Variables to restore pos and size of the window
 	// when exiting from fullscreen mode.
