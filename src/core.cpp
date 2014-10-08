@@ -1815,9 +1815,11 @@ void Core::startMplayer( QString file, double seek ) {
 		proc->addArgument( "-ass-font-scale");
 		proc->addArgument( QString::number(mset.sub_scale_ass) );
 
+#if !defined(Q_OS_OS2)
 		if (!pref->mplayer_is_mplayer2) {
 			proc->addArgument( "-noflip-hebrew" ); // It seems to be necessary to display arabic subtitles correctly when using -ass
 		}
+#endif
 
 		if (!pref->force_ass_styles) {
 			// Load the styles.ass file

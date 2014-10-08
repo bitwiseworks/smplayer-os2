@@ -3,7 +3,7 @@ SMPlayer _VERSION_ _BUILD_ LISEZMOI
 Document original....: (W) Christian Hennecke, Oct 5, 2009
 Derniäre mise Ö jour.: 2012-03-19
 Traduction franáaise.: Guillaume Gay <guillaume.gay@bigfoot.com>
-Version..............: 2013-05-23
+Version..............: 2014-05-16
 
 
 0. CONTENU DU FICHIER
@@ -144,7 +144,7 @@ klibc
 GCC4Core
 --------
 
-  1. TÇlÇchargez GCC4Core 1.2.1 ou ultÇrieure depuis
+  1. TÇlÇchargez GCC4Core 1.2.2 ou ultÇrieure depuis
      http://ftp.netlabs.org/pub/gcc
   2. Extrayez toutes les DLL dans un rÇpertoire figurant dans
      LIBPATH, de prÇfÇrence x:\ecs\dll ou x:\os2\dll oó x: reprÇsente
@@ -286,9 +286,9 @@ Si vous avez une carte son qui ne prend pas en charge l'Çchantillonnage
 4. LICENCE, COPYRIGHT, RêCLAMATIONS
 ===================================
 
-SMPlayer est un copyright (C) 2006-2013 de RVM <rvm@users.sourceforge.net>.
+SMPlayer est un copyright (C) 2006-2014 de RVM <rvm@users.sourceforge.net>.
 
-Le portage OS/2 est un copyright (C) 2008-2013 de Silvan Scherrer.
+Le portage OS/2 est un copyright (C) 2008-2014 de Silvan Scherrer.
 
 Ce programme est un gratuiciel ; vous pouvez le redistribuer et/ou
 le modifier selon les termes de la licence Publique GÇnÇrale GNU

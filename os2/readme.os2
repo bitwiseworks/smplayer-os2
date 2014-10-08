@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 5, 2009
-last update May 23, 2013
+last update May 16, 2014
 
 
 0. CONTENTS OF THIS FILE
@@ -123,7 +123,7 @@ kLIBC
 GCC4Core
 --------
 
-  1. Download GCC4Core 1.2.1 or better from http://ftp.netlabs.org/pub/gcc
+  1. Download GCC4Core 1.2.2 or better from http://ftp.netlabs.org/pub/gcc
   2. Install the files to your libpath eg. x:\ecs\dll
 
 Qt4 dll
@@ -239,9 +239,9 @@ following:
 4. LICENSE, COPYRIGHT, DISCLAIMER
 =================================
 
-SMPlayer is copyright (C) 2006-2012 RVM <rvm@users.sourceforge.net>.
+SMPlayer is copyright (C) 2006-2014 RVM <rvm@users.sourceforge.net>.
 
-The OS/2 port is copyright (c) 2008-2013 Silvan Scherrer.
+The OS/2 port is copyright (c) 2008-2014 Silvan Scherrer.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as contained in
