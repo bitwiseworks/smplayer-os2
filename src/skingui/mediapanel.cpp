@@ -54,7 +54,7 @@ MediaPanel::MediaPanel(QWidget *parent)
 	resolutionLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 	repeatButton = new MyButton(this);
 	shuffleButton = new MyButton(this);
-	seeker = new PanelSeeker;
+	seeker = new PanelTimeSeeker;
 	seeker->setObjectName("panel-seeker");
 	seeker->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 #ifdef SEEKBAR_RESOLUTION
@@ -97,6 +97,8 @@ MediaPanel::MediaPanel(QWidget *parent)
 	timer->setInterval(2000);
 	connect(timer, SIGNAL(timeout()), this, SLOT(reverseStatus()));
 	connect(seeker, SIGNAL(valueChanged(int)), this, SIGNAL(seekerChanged(int)));
+	connect(seeker, SIGNAL(wheelUp()), this, SIGNAL(seekerWheelUp()));
+	connect(seeker, SIGNAL(wheelDown()), this, SIGNAL(seekerWheelDown()));
 }
 
 MediaPanel::~MediaPanel() {

@@ -60,15 +60,19 @@ if "%USER_CHOICE%" == "11"  goto pkgver
 goto reask
 
 :pkgver
+if exist "pkg_version" (
+  for /f "tokens=*" %%i in ('type pkg_version') do set ALL_PKG_VER=%%i
+  goto parse_version
+)
 
 echo Format: VER_MAJOR.VER_MINOR.VER_BUILD[.VER_REVISION]
 echo VER_REVISION is optional (set to 0 if blank)
 echo.
-
-:pkgver_again
-Set /p ALL_PKG_VER="Version: "
+:pkgver_manual
+set /p ALL_PKG_VER="Version: "
 echo.
 
+:parse_version
 for /f "tokens=1 delims=." %%j in ("%ALL_PKG_VER%")  do set VER_MAJOR=%%j
 for /f "tokens=2 delims=." %%k in ("%ALL_PKG_VER%")  do set VER_MINOR=%%k
 for /f "tokens=3 delims=." %%l in ("%ALL_PKG_VER%")  do set VER_BUILD=%%l
@@ -77,19 +81,19 @@ for /f "tokens=4 delims=." %%m in ("%ALL_PKG_VER%")  do set VER_REVISION=%%m
 if [%VER_MAJOR%]==[] (
   echo Major Version # must be specified [#.x.x]
   echo.
-  goto pkgver_again
+  goto pkgver_manual
 )
 
 if [%VER_MINOR%]==[] (
   echo Minor Version # must be specified [x.#.x]
   echo.
-  goto pkgver_again
+  goto pkgver_manual
 )
 
 if [%VER_BUILD%]==[] (
   echo Build Version # must be specified [x.x.#]
   echo.
-  goto pkgver_again
+  goto pkgver_manual
 )
 
 if [%VER_REVISION%]==[] (
@@ -195,7 +199,7 @@ copy /y %PORTABLE_EXE_DIR%\smtube-portable.exe %SMPLAYER_PORTABLE_DIR%\smtube.ex
 
 ::
 echo Finalizing package...
-7za a -t7z %OUTPUT_DIR%\smplayer-portable-%ALL_PKG_VER%.7z %SMPLAYER_PORTABLE_DIR% -xr!*.bak* -xr!qxtcore.dll -xr!mplayer64.exe -xr!mencoder.exe -xr!mencoder64.exe -mx9 >nul
+7za a -t7z %OUTPUT_DIR%\smplayer-portable-%ALL_PKG_VER%.7z %SMPLAYER_PORTABLE_DIR% -xr!*.bak* -xr!qxtcore.dll -xr!mplayer64.exe -xr!mencoder.exe -xr!mencoder64.exe -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!buildinfo -xr!buildinfo64 -mx9 >nul
 
 echo.
 echo Restoring source folder(s) back to its original state...
@@ -279,7 +283,7 @@ copy /y %PORTABLE_EXE_DIR%\smtube-portable64.exe %SMPLAYER_PORTABLE_DIR%\smtube.
 
 ::
 echo Finalizing package...
-7za a -t7z %OUTPUT_DIR%\smplayer-portable-%ALL_PKG_VER%-x64.7z %SMPLAYER_PORTABLE_DIR% -xr!*.bak* -xr!qxtcore.dll -xr!mencoder.exe -xr!mencoder64.exe -xr!codecs -mx9 >nul
+7za a -t7z %OUTPUT_DIR%\smplayer-portable-%ALL_PKG_VER%-x64.7z %SMPLAYER_PORTABLE_DIR% -xr!*.bak* -xr!qxtcore.dll -xr!mencoder.exe -xr!mencoder64.exe  -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!codecs -xr!buildinfo -xr!buildinfo64 -mx9 >nul
 
 echo.
 echo Restoring source folder(s) back to its original state...

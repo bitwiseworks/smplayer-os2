@@ -25,6 +25,7 @@ DEFINES += UPDATE_CHECKER
 DEFINES += CHECK_UPGRADED
 DEFINES += REMINDER_ACTIONS
 #DEFINES += USE_FONTCONFIG_OPTIONS
+DEFINES += AUTO_SHUTDOWN_PC
 
 isEqual(QT_MAJOR_VERSION, 5) {
 	QT += widgets gui
@@ -397,6 +398,14 @@ contains( DEFINES, REMINDER_ACTIONS ) {
 	FORMS += sharedialog.ui
 }
 
+contains( DEFINES, AUTO_SHUTDOWN_PC ) {
+	HEADERS += shutdowndialog.h shutdown.h
+	SOURCES += shutdowndialog.cpp shutdown.cpp
+	FORMS += shutdowndialog.ui
+
+	unix { QT += dbus }
+}
+
 unix {
 	UI_DIR = .ui
 	MOC_DIR = .moc
@@ -412,7 +421,7 @@ unix {
 
 win32 {
 	DEFINES += SCREENSAVER_OFF
-	#DEFINES += AVOID_SCREENSAVER
+	DEFINES += AVOID_SCREENSAVER
 	#DEFINES += FONTCACHE_DIALOG
 	DEFINES += USE_FONTCONFIG_OPTIONS
 

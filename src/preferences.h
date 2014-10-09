@@ -202,6 +202,8 @@ public:
 #ifdef YOUTUBE_SUPPORT
 	int yt_quality;
 	QString yt_user_agent;
+	bool yt_use_https_main;
+	bool yt_use_https_vi;
 #endif
 
 
@@ -391,6 +393,10 @@ public:
 
 	//! Close the main window when a file or playlist finish
 	bool close_on_finish;
+
+#ifdef AUTO_SHUTDOWN_PC
+	bool auto_shutdown_pc;
+#endif
 
 	QString default_font;
 

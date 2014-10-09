@@ -19,7 +19,14 @@
 #include "osclient.h"
 #include "version.h"
 
-OSClient::OSClient(QObject* parent) : QObject(parent), logged_in(false), search_size(0) {
+OSClient::OSClient(QObject* parent) : 
+	QObject(parent)
+	, logged_in(false)
+	, search_size(0) 
+#ifdef OS_SEARCH_WORKAROUND
+	, best_search_count(0)
+#endif
+{
 	rpc = new MaiaXmlRpcClient(QUrl("http://api.opensubtitles.org/xml-rpc"), this);
 }
 
@@ -65,7 +72,16 @@ void OSClient::search(const QString & hash, qint64 file_size) {
 	#endif
 }
 
+#ifdef OS_SEARCH_WORKAROUND
 void OSClient::doSearch() {
+	best_search_count = -1;
+	for (int n = 1; n < 8; n++) doSearch(n);
+}
+
+void OSClient::doSearch(int nqueries) {
+#else
+void OSClient::doSearch() {
+#endif
 	qDebug("OSClient::doSearch");
 
 	QVariantMap m;
@@ -73,20 +89,16 @@ void OSClient::doSearch() {
 	m["moviehash"] = search_hash;
 	m["moviebytesize"] = QString::number(search_size);
 
-	// For some reason it seems opensubtitles fails
-	// sometimes if there's only one item in the list.
-	// So as workaround, the item is appended twice.
-
-	// Update: and the opposite, sometimes it doesn't return any 
-	// result with 2 items but it does with 1.
-	// Workaround: use 3 items... Seems to work in all cases.
 	QVariantList list;
+#ifdef OS_SEARCH_WORKAROUND
+	// Sometimes opensubtitles return 0 subtitles
+	// A workaround seems to add the query several times
+	qDebug("OSClient::doSearch: nqueries: %d", nqueries);
+	for (int count = 0; count < nqueries; count++) list.append(m);
+	//qDebug("OSClient::doSearch: list count: %d", list.count());
+#else
 	list.append(m);
-	list.append(m);
-	list.append(m);
-	list.append(m);
-	//list.append(m);
-	list.append(m); // Adding more, sometimes it keeps failing...
+#endif
 
 	QVariantList args;
 	args << token << QVariant(list);
@@ -147,6 +159,14 @@ void OSClient::responseSearch(QVariant &arg) {
 
 	QVariantList data = m["data"].toList();
 	qDebug("OSClient::responseSearch: data count: %d", data.count());
+
+#ifdef OS_SEARCH_WORKAROUND
+	if (best_search_count >= data.count()) {
+		qDebug("OSClient::responseSearch: we already have a better search (%d). Ignoring this one.", best_search_count);
+		return;
+	}
+	best_search_count = data.count();
+#endif
 
 	for (int n = 0; n < data.count(); n++) {
 		OSSubtitle sub;

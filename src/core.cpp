@@ -267,6 +267,9 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 
 #ifdef YOUTUBE_SUPPORT
 	yt = new RetrieveYoutubeUrl(this);
+	yt->setUseHttpsMain(pref->yt_use_https_main);
+	yt->setUseHttpsVi(pref->yt_use_https_vi);
+
 	connect(yt, SIGNAL(gotPreferredUrl(const QString &)), this, SLOT(openYT(const QString &)));
 	connect(yt, SIGNAL(connecting(QString)), this, SLOT(connectingToYT(QString)));
 	connect(yt, SIGNAL(errorOcurred(int,QString)), this, SLOT(YTFailed(int,QString)));
@@ -896,7 +899,8 @@ void Core::openStream(QString name) {
 		name = yt_full_url;
 		yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
 		qDebug("Core::openStream: user_agent: '%s'", pref->yt_user_agent.toUtf8().constData());
-		if (!pref->yt_user_agent.isEmpty()) yt->setUserAgent(pref->yt_user_agent);
+		/*if (!pref->yt_user_agent.isEmpty()) yt->setUserAgent(pref->yt_user_agent); */
+		yt->setUserAgent(pref->yt_user_agent);
 		#ifdef YT_USE_SCRIPT
 		YTSig::setScriptFile( Paths::configPath() + "/yt.js" );
 		#endif
@@ -2514,11 +2518,11 @@ void Core::startMplayer( QString file, double seek ) {
 	emit logLineAvailable(line_for_log);
 
 #ifdef Q_OS_WIN
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	if (!pref->use_windowsfontdir) {
-		QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 		env.insert("FONTCONFIG_FILE", Paths::configPath() + "/fonts.conf");
-		proc->setProcessEnvironment(env);
 	}
+	proc->setProcessEnvironment(env);
 #endif
 	if ( !proc->start() ) {
 	    // error handling
@@ -4244,8 +4248,20 @@ void Core::sendMediaInfo() {
 
 //!  Called when the state changes
 void Core::watchState(Core::State state) {
-	if ((state == Playing) && (change_volume_after_unpause)) 
-	{
+#ifdef SCREENSAVER_OFF
+	#if 0
+	qDebug("Core::watchState: %d", state);
+	//qDebug("Core::watchState: has video: %d", !mdat.novideo);
+
+	if ((state == Playing) /* && (!mdat.novideo) */) {
+		disableScreensaver();
+	} else {
+		enableScreensaver();
+	}
+	#endif
+#endif
+
+	if ((state == Playing) && (change_volume_after_unpause)) {
 		// Delayed volume change
 		qDebug("Core::watchState: delayed volume change");
 		int volume = (pref->global_volume ? pref->volume : mset.volume);
