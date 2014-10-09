@@ -21,6 +21,8 @@
 
 #include "maiaXmlRpcClient.h"
 
+#define OS_SEARCH_WORKAROUND
+
 class OSSubtitle {
 public:
 	QString movie, releasename, link, iso639, language, date;
@@ -42,6 +44,9 @@ public slots:
 private slots:
 	void login();
 	void doSearch();
+#ifdef OS_SEARCH_WORKAROUND
+	void doSearch(int nqueries);
+#endif
 
 	void gotFault(int, const QString &);
 
@@ -61,6 +66,9 @@ private:
 	bool logged_in;
 	QString search_hash;
 	qint64 search_size;
+#ifdef OS_SEARCH_WORKAROUND
+	int best_search_count;
+#endif
 	QList <OSSubtitle> s_list;
 };
 

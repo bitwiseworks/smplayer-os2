@@ -49,7 +49,6 @@ ShareDialog::ShareDialog( QWidget* parent, Qt::WindowFlags f )
 	adjustSize();
 	//layout()->setSizeConstraint(QLayout::SetFixedSize);
 
-	share_text = QString("SMPlayer - Free Media Player with built-in codecs that can play and download Youtube videos").replace(" ","+");
 	share_url = "http://smplayer.sourceforge.net";
 }
 
@@ -68,19 +67,31 @@ void ShareDialog::showRemindCheck(bool b) {
 void ShareDialog::on_donate_button_clicked() {
 	qDebug("ShareDialog::on_donate_button_clicked");
 	actions_taken |= Donate;
-	QDesktopServices::openUrl(QUrl("http://sourceforge.net/donate/index.php?group_id=185512"));
+	QDesktopServices::openUrl(QUrl("http://smplayer.sourceforge.net/donate.php"));
 }
 
 void ShareDialog::on_facebook_button_clicked() {
 	qDebug("ShareDialog::on_facebook_button_clicked");
 	actions_taken |= Facebook;
-	QDesktopServices::openUrl(QUrl("http://www.facebook.com/sharer.php?u=" + share_url + "&t=" + share_text));
+	QDesktopServices::openUrl(QUrl("http://www.facebook.com/sharer.php?u=" + share_url /* + "&t=" + share_text */ ));
 }
 
 void ShareDialog::on_twitter_button_clicked() {
 	qDebug("ShareDialog::on_twitter_button_clicked");
 	actions_taken |= Twitter;
-	QDesktopServices::openUrl(QUrl("http://twitter.com/intent/tweet?text=" + share_text + "&url=" + share_url + "/&via=smplayer_dev"));
+
+	QString text = tr("SMPlayer is a free media player for PC. It plays all formats and can even download Youtube videos.",
+					  "This text is to be published on twitter and the translation should not be more than 99 characters long");
+
+	qDebug("ShareDialog::on_twitter_button_clicked: length: %d", text.length());
+	if (text.length() > 99) {
+		qDebug("ShareDialog::on_twitter_button_clicked: the translation text is too long (%d), it shouldn't be longer than 99 characters. Using the English text.", text.length());
+		text = "SMPlayer is a free media player for PC. It plays all formats and can even download Youtube videos.";
+	}
+	//text = text.replace("SMPlayer", "#SMPlayer");
+	text = QUrl::toPercentEncoding(text);
+	QString url = "http://twitter.com/intent/tweet?text=" + text + "&url=" + QUrl::toPercentEncoding(share_url) + "/&via=smplayer_dev"; 
+	QDesktopServices::openUrl(QUrl::fromEncoded(url.toLatin1()));
 }
 
 #include "moc_sharedialog.cpp"

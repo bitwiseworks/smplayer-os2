@@ -70,6 +70,10 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 	vdpau_button->hide();
 #endif
 
+#ifndef AUTO_SHUTDOWN_PC
+	shutdown_widget->hide();
+#endif
+
 	// Channels combo
 	channels_combo->addItem( "2", MediaSettings::ChStereo );
 	channels_combo->addItem( "4", MediaSettings::ChSurround );
@@ -198,6 +202,9 @@ void PrefGeneral::setData(Preferences * pref) {
 	setSubtitleTrack( pref->initial_subtitle_track );
 	setCloseOnFinish( pref->close_on_finish );
 	setPauseWhenHidden( pref->pause_when_hidden );
+#ifdef AUTO_SHUTDOWN_PC
+	shutdown_check->setChecked( pref->auto_shutdown_pc );
+#endif
 
 	setEq2( pref->use_soft_video_eq );
 	setUseAudioEqualizer( pref->use_audio_equalizer );
@@ -287,6 +294,10 @@ void PrefGeneral::getData(Preferences * pref) {
 
 	pref->close_on_finish = closeOnFinish();
 	pref->pause_when_hidden = pauseWhenHidden();
+
+#ifdef AUTO_SHUTDOWN_PC
+	pref->auto_shutdown_pc = shutdown_check->isChecked();
+#endif
 
 	TEST_AND_SET(pref->use_soft_video_eq, eq2());
 	TEST_AND_SET(pref->use_soft_vol, softVol());
@@ -900,14 +911,19 @@ void PrefGeneral::createHelp() {
            "SMPlayer will be stored. If the folder is not valid the "
            "screenshot feature will be disabled.") );
 
-	setWhatsThis(close_on_finish_check, tr("Close when finished"),
-		tr("If this option is checked, the main window will be automatically "
-		   "closed when the current file/playlist finishes.") );
-
 	setWhatsThis(pause_if_hidden_check, tr("Pause when minimized"),
 		tr("If this option is enabled, the file will be paused when the "
            "main window is hidden. When the window is restored, playback "
            "will be resumed.") );
+
+	setWhatsThis(close_on_finish_check, tr("Close when finished"),
+		tr("If this option is checked, the main window will be automatically "
+		   "closed when the current file/playlist finishes.") );
+
+#ifdef AUTO_SHUTDOWN_PC
+	setWhatsThis(shutdown_check, tr("Shut down computer"),
+		tr("If this option is enabled, the computer will shut down just after SMPlayer is closed.") );
+#endif
 
 	// Video tab
 	addSectionTitle(tr("Video"));

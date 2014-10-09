@@ -16,40 +16,45 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _IMAGES_H_
-#define _IMAGES_H_
+#ifndef IMAGES_H
+#define IMAGES_H
 
-#include <QPixmap>
 #include <QString>
+#include <QPixmap>
 #include <QIcon>
 
-/* Warning: don't use this until global->preferences is created! */
+#define USE_RESOURCES
+#define SMCODE
+
 class Images
 {
 
 public:
-	static QPixmap icon(QString name, int size=-1, bool png = true);
-	static QPixmap flippedIcon(QString name, int size=-1, bool png = true);
+	static void setThemesPath(const QString & folder);
+	static void setTheme(const QString & name);
 
-	static QPixmap resize(QPixmap *p, int size=20);
-	static QPixmap flip(QPixmap *p);
+	static QPixmap icon(QString name, int size=-1);
+	static QPixmap flippedIcon(QString name, int size=-1);
 
 	//! Returns the filename of the icon
 	static QString file(const QString & icon_name);
 
-	static QIcon multiIcon(QString name, QString fallback_icon);
-
+#ifdef SMCODE
 	static QString styleSheet();
 	static QString themesDirectory();
+#endif
 
 private:
-	//! Return the filename for the icon
-	static QString filename(const QString & name, bool png);
+	static QPixmap resize(QPixmap *p, int size=20);
+	static QPixmap flip(QPixmap *p);
 
-	//! Try to load an icon. \a icon_name is the filename of the
-	//! icon without path. Return a null pixmap if loads fails.
-	static QPixmap loadIcon(const QString & icon_name);
+	static QString current_theme;
+	static QString themes_path;
+
+#ifdef USE_RESOURCES
+	static QString resourceFilename();
+	static QString last_resource_loaded;
+#endif
 };
 
 #endif
-

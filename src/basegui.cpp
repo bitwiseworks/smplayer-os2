@@ -116,14 +116,21 @@
 #include "sharedialog.h"
 #endif
 
+#ifdef AUTO_SHUTDOWN_PC
+#include "shutdowndialog.h"
+#include "shutdown.h"
+#endif
+
 using namespace Global;
 
 BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
 	: QMainWindow( parent, flags )
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef AVOID_SCREENSAVER
 	/* Disable screensaver by event */
 	just_stopped = false;
+#endif
 #endif
 	ignore_show_hide_events = false;
 
@@ -1675,9 +1682,9 @@ void BaseGui::retranslateStrings() {
 
 	showConfigAct->change( Images::icon("show_config"), tr("&Open configuration folder") );
 #ifdef REMINDER_ACTIONS
-	donateAct->change( Images::icon("donate"), tr("&Donate") );
+	donateAct->change( Images::icon("donate"), tr("&Donate / Share with your friends") );
 #endif
-	aboutThisAct->change( Images::icon("logo_small"), tr("About &SMPlayer") );
+	aboutThisAct->change( Images::icon("logo"), tr("About &SMPlayer") );
 
 #ifdef SHARE_MENU
 	facebookAct->change("&Facebook");
@@ -3033,9 +3040,17 @@ void BaseGui::updateMediaInfo() {
 }
 
 void BaseGui::newMediaLoaded() {
-    qDebug("BaseGui::newMediaLoaded");
+	qDebug("BaseGui::newMediaLoaded");
 
-	pref->history_recents->addItem( core->mdat.filename );
+	QString stream_title = core->mdat.stream_title;
+	qDebug("BaseGui::newMediaLoaded: mdat.stream_title: %s", stream_title.toUtf8().constData());
+
+	if (!stream_title.isEmpty()) {
+		pref->history_recents->addItem( core->mdat.filename, stream_title );
+		//pref->history_recents->list();
+	} else {
+		pref->history_recents->addItem( core->mdat.filename );
+	}
 	updateRecents();
 
 	// If a VCD, Audio CD or DVD, add items to playlist
@@ -3322,7 +3337,11 @@ void BaseGui::updateRecents() {
 				filename = filename.left(80) + "...";
 			}
 
-			QAction * a = recentfiles_menu->addAction( QString("%1. " + filename ).arg( i.insert( i.size()-1, '&' ), 3, ' ' ));
+			QString show_name = filename;
+			QString title = pref->history_recents->title(n);
+			if (!title.isEmpty()) show_name = title;
+
+			QAction * a = recentfiles_menu->addAction( QString("%1. " + show_name ).arg( i.insert( i.size()-1, '&' ), 3, ' ' ));
 			a->setStatusTip(fullname);
 			a->setData(n);
 			connect(a, SIGNAL(triggered()), this, SLOT(openRecent()));
@@ -4566,6 +4585,7 @@ void BaseGui::dropEvent( QDropEvent *e ) {
 		#ifdef Q_OS_WIN
 		files = Helper::resolveSymlinks(files); // Check for Windows shortcuts
 		#endif
+		files.sort();
 
 		if (files.count() == 1) {
 			QFileInfo fi( files[0] );
@@ -4686,7 +4706,20 @@ void BaseGui::playlistHasFinished() {
 	qDebug("BaseGui::playlistHasFinished: arg_close_on_finish: %d, pref->close_on_finish: %d", arg_close_on_finish, pref->close_on_finish);
 
 	if (arg_close_on_finish != 0) {
-		if ((arg_close_on_finish == 1) || (pref->close_on_finish)) exitAct->trigger();
+		if ((arg_close_on_finish == 1) || (pref->close_on_finish)) {
+			#ifdef AUTO_SHUTDOWN_PC
+			if (pref->auto_shutdown_pc) {
+				ShutdownDialog d(this);
+				if (d.exec() == QDialog::Accepted) {
+					qDebug("BaseGui::playlistHasFinished: the PC will shut down");
+					Shutdown::shutdown();
+				} else {
+					qDebug("BaseGui::playlistHasFinished: shutdown aborted");
+				}
+			}
+			#endif
+			exitAct->trigger();
+		}
 	}
 }
 
@@ -4700,6 +4733,7 @@ void BaseGui::displayState(Core::State state) {
 	if (state == Core::Stopped) setWindowCaption( "SMPlayer" );
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef AVOID_SCREENSAVER
 	/* Disable screensaver by event */
 	just_stopped = false;
 	
@@ -4708,6 +4742,7 @@ void BaseGui::displayState(Core::State state) {
 		int time = 1000 * 60; // 1 minute
 		QTimer::singleShot( time, this, SLOT(clear_just_stopped()) );
 	}
+#endif
 #endif
 }
 
@@ -4966,13 +5001,17 @@ void BaseGui::loadQss(QString filename) {
 	file.open(QFile::ReadOnly);
 	QString styleSheet = QLatin1String(file.readAll());
 
+#ifdef USE_RESOURCES
+	Images::setTheme(pref->iconset);
+	QString path = ":/" + pref->iconset;
+#else
 	QDir current = QDir::current();
 	QString td = Images::themesDirectory();
-	QString relativePath = current.relativeFilePath(td);
+	QString path = current.relativeFilePath(td);
+#endif
 	styleSheet.replace(QRegExp("url\\s*\\(\\s*([^\\);]+)\\s*\\)", Qt::CaseSensitive, QRegExp::RegExp2),
-						QString("url(%1\\1)").arg(relativePath + "/"));
-	qDebug("styeSheet: %s", styleSheet.toUtf8().constData());
-
+						QString("url(%1\\1)").arg(path + "/"));
+	//qDebug("BaseGui::loadQss: styeSheet: %s", styleSheet.toUtf8().constData());
 	qApp->setStyleSheet(styleSheet);
 }
 
@@ -5249,10 +5288,12 @@ bool BaseGui::winEvent ( MSG * m, long * result ) {
 #endif
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef AVOID_SCREENSAVER
 void BaseGui::clear_just_stopped() {
 	qDebug("BaseGui::clear_just_stopped");
 	just_stopped = false;
 }
+#endif
 #endif
 
 #include "moc_basegui.cpp"

@@ -304,6 +304,8 @@ void PanelSeeker::changeEvent(QEvent *e)
 
 void PanelSeeker::timerEvent(QTimerEvent *t)
 {
+    if (bufferingPix.width() < 1) return;
+
     if(!state.testFlag(Buffering))
     {
         killTimer(t->timerId());
@@ -351,6 +353,20 @@ void PanelSeeker::wheelEvent(QWheelEvent *e)
     if(!dragDelayTimer->isActive())
         dragDelayTimer->start();
 
+}
+
+void PanelTimeSeeker::wheelEvent(QWheelEvent *e) {
+	qDebug("PanelTimeSeeker::wheelEvent: delta: %d", e->delta());
+	e->accept();
+
+	if (e->orientation() == Qt::Vertical) {
+		if (e->delta() >= 0)
+			emit wheelUp();
+		else
+			emit wheelDown();
+	} else {
+		qDebug("PanelTimeSeeker::wheelEvent: horizontal event received, doing nothing");
+	}
 }
 
 #include "moc_panelseeker.cpp"

@@ -15,11 +15,14 @@
 /* version 0.3.1 from 16.03.2012 Silvan (get the version from version.cpp) */
 /* version 0.3.2 from 29.03.2012 Silvan (don't delete the installdir completely) */
 /* version 0.3.3 from 03.12.2012 Silvan (include skinn support) */
-/* version 0.3.4 from 28.11.2013 Silvan (added branding, added diff) */
+/* version 0.4.0 from 28.11.2013 Silvan (added branding, added diff) */
+/* version 1.0.0 from 09.10.2014 Silvan (add shortcuts to install,   */
+/*                                       add themes to install,      */
+/*                                       changes skin handling)      */
 
 /* init the version string (don't forget to change) */
-version = "0.4.0"
-version_date = "28.11.2013"
+version = "1.0.0"
+version_date = "09.10.2014"
 '@echo off'
 
 parse arg command option
@@ -33,11 +36,13 @@ sourceDir = FixDir(filespec('D', scriptFile) || filespec('P', scriptFile))
 os2Dir     = sourceDir || '\os2'
 srcDir     = sourceDir || '\src'
 skinDir    = '..\skins\themes'
+themesDir  = '..\themes\themes'
 vendorDir  = sourceDir || '\..\vendor\current'
 diffDir    = sourceDir || '\..\'
 installDir = buildDir || '\install'
-installDirT= installDir || '\translations'
-installDirS= installDir || '\themes'
+installDirTranslations= installDir || '\translations'
+installDirThemes= installDir || '\themes'
+installDirShortCuts= installDir || '\shortcuts'
 qErrorFile = buildDir||'\qmake.err'
 qOutFile   = buildDir||'\qmake.out'
 mErrorFile = buildDir||'\make.err'
@@ -55,6 +60,7 @@ say
 say "Build directory :" buildDir
 say "Source directory:" sourceDir
 say "Skin directory  :" skinDir
+say "Themes directory:" themesDir
 say
 say "SMPlayer version:" SMPlayer_version
 say "         build  :" SMPlayer_build 
@@ -126,14 +132,21 @@ select
 
 /* create the installDir,and the translation subdir */
 	ok = SysMkDir(installDir)
-	ok = SysMkDir(installDirT)
-	ok = SysMkDir(installDirS)
+	ok = SysMkDir(installDirTranslations)
+	ok = SysMkDir(installDirThemes)
+	ok = SysMkDir(installDirShortCuts)
 
 /* copy the exe */
 	ok = SysCopyObject(buildDir||'\src\smplayer.exe',installDir)
 
 /* copy the skins */
-	cmdtorun = 'xcopy ' || skinDir || '\* ' || installDirS || ' /s' 
+	ok = doSkinThemes(skinDir, 'S')
+
+/* copy the themes */
+	ok = doSkinThemes(themesDir, 'T')
+
+/* copy the shortcuts */
+	cmdtorun = 'copy ' || srcDir || '\shortcuts\*.keys ' || installDirShortCuts 
         address cmd cmdtorun
 
 /* copy the readme */
@@ -151,7 +164,7 @@ select
         do i = 1 to rm.0
 	    fileName = filespec('N',rm.i)
 	    fileName = left(fileName,lastpos('.', fileName)-1) || '.qm'
-            cmdtorun = 'lrelease ' || rm.i || ' -qm ' || installDir || '\translations\' || fileName
+            cmdtorun = 'lrelease ' || rm.i || ' -qm ' || installDirTranslations || '\' || fileName
 	    address cmd cmdtorun
         end
 
@@ -295,6 +308,34 @@ version: procedure expose SMPlayer_version SMPlayer_build srcDir
     end
 
     return
+
+/**
+ *  creates skins and themes in the installation directory
+ */ 
+doSkinThemes: procedure expose installDirThemes
+
+    parse arg inputDir, skinTheme
+    ok = SysFileTree(inputDir || '\*', rm.,'DO')
+
+    do i = 1 to rm.0
+       name = substr(rm.i, lastpos('\', rm.i)+1)
+       nameIn = inputDir || '\' || name || '.qrc'
+       nameOutDir = installDirThemes || '\' || name 
+       nameOut = nameOutDir || '\' || name || '.rcc'
+       ok = SysMkDir(nameOutDir)
+       cmdtorun = 'rcc -binary ' || nameIn || ' -o ' || nameOut
+       address cmd cmdtorun 
+
+       if skinTheme == 'S' then do
+          cmdtorun = 'copy ' || rm.i || '\main.css ' || nameOutDir
+       end
+       else do
+          cmdtorun = 'copy ' || rm.i || '\readme.txt ' || nameOutDir
+       end
+
+       address cmd cmdtorun 
+    end
+    return '0'
 
 help:
     say "Parameters:"
