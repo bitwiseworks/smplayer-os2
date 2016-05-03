@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,6 +86,7 @@ QString CLHelp::help(bool html) {
 	QString options = QString("%1 [-minigui] [-defaultgui] [-mpcgui] [-config-path %2] "
                         "[-send-action %3] [-actions %4] "
                         "[-close-at-end] [-no-close-at-end] [-fullscreen] [-no-fullscreen] "
+                        "[-ontop] [-no-ontop] "
                         "[-sub %5] [-pos x y] [-size %6 %7] "
                         "[-add-to-playlist] [-help|--help|-h|-?] "
                         "[%8] [%8]...")
@@ -156,8 +157,17 @@ QString CLHelp::help(bool html) {
 	s += formatHelp( "-no-fullscreen", QObject::tr(
 		"the video will be played in window mode."), html );
 
+	s += formatHelp( "-ontop", QObject::tr(
+		"sets the stay on top option to always."), html );
+
+	s += formatHelp( "-no-ontop", QObject::tr(
+		"sets the stay on top option to never."), html );
+
 	s += formatHelp( "-sub", QObject::tr(
 		"specifies the subtitle file to be loaded for the first video."), html );
+
+	s += formatHelp( "-media-title", QObject::tr(
+		"sets the media title for the first video."), html );
 
 	s += formatHelp( "-pos", QObject::tr(
 		"specifies the coordinates where the main window will be displayed."), html );

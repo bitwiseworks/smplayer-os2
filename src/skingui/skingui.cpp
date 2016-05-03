@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -87,33 +87,12 @@ SkinGui::SkinGui( QWidget * parent, Qt::WindowFlags flags )
 
 	statusBar()->hide();
 
-	changeStyleSheet(pref->iconset);
+	applyStyles();
 	mediaBarPanel->setVolume(50);
 }
 
 SkinGui::~SkinGui() {
 	saveConfig();
-}
-
-void SkinGui::changeStyleSheet(QString style) {
-	if (style.isEmpty())  {
-		qApp->setStyleSheet("");
-	} 
-	else {
-		QString qss = Images::styleSheet();
-#ifdef USE_RESOURCES
-		Images::setTheme(pref->iconset);
-		QString path = ":/" + pref->iconset;
-#else
-		QDir current = QDir::current();
-		QString td = Images::themesDirectory();
-		QString path = current.relativeFilePath(td);
-#endif
-		qss.replace(QRegExp("url\\s*\\(\\s*([^\\);]+)\\s*\\)", Qt::CaseSensitive, QRegExp::RegExp2),
-							QString("url(%1\\1)").arg(path + "/"));
-		//qDebug("SkinGui::changeStyleSheet: qss: %s", qss.toLatin1().constData());
-		qApp->setStyleSheet(qss);
-	}
 }
 
 void SkinGui::createActions() {
@@ -152,6 +131,9 @@ void SkinGui::createActions() {
 
 	viewVideoInfoAct = new MyAction(this, "toggle_video_info_skingui" );
 	viewVideoInfoAct->setCheckable(true);
+
+	scrollTitleAct = new MyAction(this, "toggle_scroll_title_skingui" );
+	scrollTitleAct->setCheckable(true);
 }
 
 #if AUTODISABLE_ACTIONS
@@ -170,6 +152,7 @@ void SkinGui::disableActionsOnStop() {
 	timeslider_action->disable();
 	volumeslider_action->disable();
 }
+#endif // AUTODISABLE_ACTIONS
 
 void SkinGui::togglePlayAction(Core::State state) {
 	qDebug("SkinGui::togglePlayAction");
@@ -182,7 +165,6 @@ void SkinGui::togglePlayAction(Core::State state) {
 		playOrPauseAct->setChecked(false);
 	}
 }
-#endif // AUTODISABLE_ACTIONS
 
 void SkinGui::createMenus() {
 	menuBar()->setObjectName("menubar");
@@ -205,6 +187,7 @@ void SkinGui::createMenus() {
 
 	statusbar_menu = new QMenu(this);
 	statusbar_menu->addAction(viewVideoInfoAct);
+	statusbar_menu->addAction(scrollTitleAct);
 	optionsMenu->addMenu(statusbar_menu);
 }
 
@@ -225,7 +208,7 @@ void SkinGui::createMainToolBars() {
 	toolbar1 = new EditableToolbar( this );
 	toolbar1->setObjectName("toolbar");
 	toolbar1->setMovable(false);
-	toolbar1->setFixedHeight(35);
+	//toolbar1->setFixedHeight(35);
 	addToolBar(Qt::TopToolBarArea, toolbar1);
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList toolbar1_actions;
@@ -315,6 +298,9 @@ void SkinGui::createControlWidget() {
 
 	connect( viewVideoInfoAct, SIGNAL(toggled(bool)),
              mediaBarPanel, SLOT(setResolutionVisible(bool)) );
+
+	connect( scrollTitleAct, SIGNAL(toggled(bool)),
+             mediaBarPanel, SLOT(setScrollingEnabled(bool)) );
 
 	mediaBarPanelAction = controlwidget->addWidget(mediaBarPanel);
 }
@@ -419,6 +405,7 @@ void SkinGui::retranslateStrings() {
 #endif
 
 	viewVideoInfoAct->change(Images::icon("view_video_info"), tr("&Video info") );
+	scrollTitleAct->change(Images::icon("scroll_title"), tr("&Scroll title") );
 }
 
 void SkinGui::displayTime(QString text) {
@@ -429,9 +416,11 @@ void SkinGui::displayState(Core::State state) {
 	BaseGuiPlus::displayState(state);
 
 	switch (state) {
-		case Core::Playing:		mediaBarPanel->displayMessage( tr("Playing %1").arg(core->mdat.filename)); break;
+		//case Core::Playing:		mediaBarPanel->displayMessage( tr("Playing %1").arg(core->mdat.filename)); break;
+		case Core::Playing:		mediaBarPanel->displayMessage( tr("Playing") ); break;
 		case Core::Paused:		mediaBarPanel->displayMessage( tr("Pause") ); break;
 		case Core::Stopped:		mediaBarPanel->displayMessage( tr("Stop") ); break;
+		case Core::Buffering:	/* mediaBarPanel->displayMessage( tr("Buffering...") ); */ break;
 	}
 }
 
@@ -479,7 +468,7 @@ void SkinGui::aboutToEnterFullscreen() {
 	floating_control->setAnimated(pref->floating_control_animated);
 	floating_control->setActivationArea( (AutohideWidget::Activation) pref->floating_activation_area);
 	floating_control->setHideDelay(pref->floating_hide_delay);
-	QTimer::singleShot(500, floating_control, SLOT(activate()));
+	QTimer::singleShot(100, floating_control, SLOT(activate()));
 
 
 	// Save visibility of toolbars
@@ -539,6 +528,7 @@ void SkinGui::saveConfig() {
 	set->beginGroup( "skin_gui");
 
 	set->setValue("video_info", viewVideoInfoAct->isChecked());
+	set->setValue("scroll_title", scrollTitleAct->isChecked());
 
 	set->setValue("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible);
 	set->setValue("compact_toolbar1_was_visible", compact_toolbar1_was_visible);
@@ -561,6 +551,13 @@ void SkinGui::saveConfig() {
 	#endif
 	set->setValue("toolbar1_version", TOOLBAR_VERSION);
 	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	set->setValue("toolbar1", toolbar1->iconSize());
+	#if defined(SKIN_EDITABLE_CONTROL)
+	set->setValue("floating_control", iw->iconSize());
+	#endif
+	set->endGroup();
 #endif
 
 	set->endGroup();
@@ -574,6 +571,7 @@ void SkinGui::loadConfig() {
 	set->beginGroup( "skin_gui");
 
 	viewVideoInfoAct->setChecked(set->value("video_info", false).toBool());
+	scrollTitleAct->setChecked(set->value("scroll_title", false).toBool());
 
 	fullscreen_toolbar1_was_visible = set->value("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible).toBool();
 	compact_toolbar1_was_visible = set->value("compact_toolbar1_was_visible", compact_toolbar1_was_visible).toBool();
@@ -610,6 +608,13 @@ void SkinGui::loadConfig() {
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
 	iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
 	floating_control->adjustSize();
+	#endif
+	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	toolbar1->setIconSize(set->value("toolbar1", toolbar1->iconSize()).toSize());
+	#if defined(SKIN_EDITABLE_CONTROL)
+	iw->setIconSize(set->value("floating_control", iw->iconSize()).toSize());
 	#endif
 	set->endGroup();
 #endif

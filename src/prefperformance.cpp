@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,10 +21,7 @@
 #include "images.h"
 #include "global.h"
 #include "preferences.h"
-
-#ifdef YOUTUBE_SUPPORT
-#include "retrieveyoutubeurl.h"
-#endif
+#include "playerid.h"
 
 using namespace Global;
 
@@ -32,6 +29,20 @@ PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
 	: PrefWidget(parent, f )
 {
 	setupUi(this);
+
+	hwdec_combo->addItem(tr("None"), "no");
+	hwdec_combo->addItem(tr("Auto"), "auto");
+	#ifdef Q_OS_LINUX
+	hwdec_combo->addItem("vdpau", "vdpau");
+	hwdec_combo->addItem("vaapi", "vaapi");
+	hwdec_combo->addItem("vaapi-copy", "vaapi-copy");
+	#endif
+	#ifdef Q_OS_OSX
+	hwdec_combo->addItem("vda", "vda");
+	#endif
+	#ifdef Q_OS_WIN
+	hwdec_combo->addItem("dxva2-copy", "dxva2-copy");
+	#endif
 
 	// Priority is only for windows, so we disable for other systems
 #ifndef Q_OS_WIN
@@ -42,25 +53,9 @@ PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
 	fast_chapter_check->hide();
 #endif
 
-#ifdef YOUTUBE_SUPPORT
-	yt_quality_combo->addItem( "240p (flv)", RetrieveYoutubeUrl::FLV_240p );
-
-	yt_quality_combo->addItem( "360p (flv)", RetrieveYoutubeUrl::FLV_360p );
-	yt_quality_combo->addItem( "360p (mp4)", RetrieveYoutubeUrl::MP4_360p );
-	yt_quality_combo->addItem( "360p (webm)", RetrieveYoutubeUrl::WEBM_360p );
-
-	yt_quality_combo->addItem( "480p (flv)", RetrieveYoutubeUrl::FLV_480p );
-	yt_quality_combo->addItem( "480p (webm)", RetrieveYoutubeUrl::WEBM_480p );
-
-	yt_quality_combo->addItem( "720p (mp4)", RetrieveYoutubeUrl::MP4_720p );
-	yt_quality_combo->addItem( "720p (webm)", RetrieveYoutubeUrl::WEBM_720p );
-
-	yt_quality_combo->addItem( "1080p (mp4)", RetrieveYoutubeUrl::MP4_1080p );
-	yt_quality_combo->addItem( "1080p (webm)", RetrieveYoutubeUrl::WEBM_1080p );
-#else
-	yt_label->hide();
-	yt_quality_combo->hide();
-	yt_line->hide();
+#ifndef OBSOLETE_FAST_AUDIO_CHANGE
+	fast_audio_label->hide();
+	fast_audio_combo->hide();
 #endif
 
 	retranslateStrings();
@@ -112,12 +107,11 @@ void PrefPerformance::setData(Preferences * pref) {
 #if !SMART_DVD_CHAPTERS
 	setFastChapterSeeking( pref->fast_chapter_change );
 #endif
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	setFastAudioSwitching( pref->fast_audio_change );
-	setThreads( pref->threads );
-
-#ifdef YOUTUBE_SUPPORT
-	setYTQuality( pref->yt_quality );
 #endif
+	setThreads( pref->threads );
+	setHwdec( pref->hwdec );
 }
 
 void PrefPerformance::getData(Preferences * pref) {
@@ -138,12 +132,11 @@ void PrefPerformance::getData(Preferences * pref) {
 #if !SMART_DVD_CHAPTERS
 	TEST_AND_SET(pref->fast_chapter_change, fastChapterSeeking());
 #endif
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	pref->fast_audio_change = fastAudioSwitching();
-	TEST_AND_SET(pref->threads, threads());
-
-#ifdef YOUTUBE_SUPPORT
-	pref->yt_quality = YTQuality();
 #endif
+	TEST_AND_SET(pref->threads, threads());
+	TEST_AND_SET(pref->hwdec, hwdec());
 }
 
 void PrefPerformance::setCacheForFiles(int n) {
@@ -244,6 +237,7 @@ bool PrefPerformance::fastChapterSeeking() {
 }
 #endif
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 void PrefPerformance::setFastAudioSwitching(Preferences::OptionState value) {
 	fast_audio_combo->setState(value);
 }
@@ -251,6 +245,7 @@ void PrefPerformance::setFastAudioSwitching(Preferences::OptionState value) {
 Preferences::OptionState PrefPerformance::fastAudioSwitching() {
 	return fast_audio_combo->state();
 }
+#endif
 
 void PrefPerformance::setThreads(int v) {
 	threads_spin->setValue(v);
@@ -260,16 +255,16 @@ int PrefPerformance::threads() {
 	return threads_spin->value();
 }
 
-#ifdef YOUTUBE_SUPPORT
-void PrefPerformance::setYTQuality(int q) {
-	yt_quality_combo->setCurrentIndex(yt_quality_combo->findData(q));
+void PrefPerformance::setHwdec(const QString & v) {
+	int idx = hwdec_combo->findData(v);
+	if (idx < 0) idx = 0;
+	hwdec_combo->setCurrentIndex(idx);
 }
 
-int PrefPerformance::YTQuality() {
-	int index = yt_quality_combo->currentIndex();
-    return yt_quality_combo->itemData(index).toInt();
+QString PrefPerformance::hwdec() {
+	int idx = hwdec_combo->currentIndex();
+	return hwdec_combo->itemData(idx).toString();
 }
-#endif
 
 void PrefPerformance::createHelp() {
 	clearHelp();
@@ -279,9 +274,9 @@ void PrefPerformance::createHelp() {
 	// Performance tab
 #ifdef Q_OS_WIN
 	setWhatsThis(priority_combo, tr("Priority"), 
-		tr("Set process priority for mplayer according to the predefined "
+		tr("Set process priority for %1 according to the predefined "
            "priorities available under Windows.<br>"
-           "<b>Warning:</b> Using realtime priority can cause system lockup."));
+           "<b>Warning:</b> Using realtime priority can cause system lockup.").arg(PLAYER_NAME));
 #endif
 
 	setWhatsThis(framedrop_check, tr("Allow frame drop"),
@@ -295,9 +290,26 @@ void PrefPerformance::createHelp() {
 		tr("Sets the number of threads to use for decoding. Only for "
            "MPEG-1/2 and H.264") );
 
-	setWhatsThis(coreavc_check, tr("Use CoreAVC if no other codec specified"),
-		tr("Try to use non-free CoreAVC codec when no other codec is specified "
-           "and non-VDPAU video output selected. Requires MPlayer build with CoreAVC support."));
+	setWhatsThis(hwdec_combo, tr("Hardware decoding"),
+		tr("Sets the hardware video decoding API. "
+		   "If hardware decoding is not possible, software decoding will be used instead.") + " " +
+		tr("Available options:") +
+			"<ul>"
+			"<li>" + tr("None: only software decoding will be used.") + "</li>"
+			"<li>" + tr("Auto: it tries to automatically enable hardware decoding using the first available method.") + "</li>"
+			#ifdef Q_OS_LINUX
+			"<li>" + tr("vdpau: for the vdpau and opengl video outputs.") + "</li>"
+			"<li>" + tr("vaapi: for the opengl and vaapi video outputs. For Intel GPUs only.") + "</li>"
+			"<li>" + tr("vaapi-copy: it copies video back into system RAM. For Intel GPUs only.") + "</li>"
+			#endif
+			#ifdef Q_OS_WIN
+			"<li>" + tr("dxva2-copy: it copies video back to system RAM. Experimental.") + "</li>"
+			#endif
+			"</ul>"
+		#ifdef MPLAYER_SUPPORT
+		+ tr("This option only works with mpv.")
+		#endif
+		);
 
 	setWhatsThis(loopfilter_combo, tr("Skip loop filter"),
 		tr("This option allows to skips the loop filter (AKA deblocking) "
@@ -315,6 +327,12 @@ void PrefPerformance::createHelp() {
            "skipped only on videos which height is %1 or "
            "greater.").arg(pref->HD_height) +"<br>" );
 
+	setWhatsThis(coreavc_check, tr("Use CoreAVC if no other codec specified"),
+		tr("Try to use the non-free CoreAVC codec when no other codec is specified "
+           "and a non-VDPAU video output is selected.") +" "+
+        tr("Requires a %1 build with CoreAVC support.").arg(PLAYER_NAME));
+
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	setWhatsThis(fast_audio_combo, tr("Fast audio track switching"),
 		tr("Possible values:<br> "
            "<b>Yes</b>: it will try the fastest method "
@@ -323,16 +341,12 @@ void PrefPerformance::createHelp() {
            "change the audio track.<br> "
            "<b>Auto</b>: SMPlayer will decide what to do according to the "
            "MPlayer version." ) );
+#endif
 
 #if !SMART_DVD_CHAPTERS
 	setWhatsThis(fast_chapter_check, tr("Fast seek to chapters in dvds"),
 		tr("If checked, it will try the fastest method to seek to chapters "
            "but it might not work with some discs.") );
-#endif
-
-#ifdef YOUTUBE_SUPPORT
-	setWhatsThis(yt_quality_combo, tr("Youtube quality"),
-		tr("Select the preferred quality for youtube videos.") );
 #endif
 
 	addSectionTitle(tr("Cache"));

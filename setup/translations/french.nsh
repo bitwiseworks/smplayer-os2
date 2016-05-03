@@ -12,7 +12,7 @@ ${LangFileString} Installer_No_Admin "Vous devez être connecté comme administr
 ${LangFileString} SMPlayer_Is_Running "Une instance de SMPlayer est en cours d'exécution.  Veuillez quitter SMPlayer puis réessayer l'installation."
 
 ${LangFileString} OS_Not_Supported "Système d'exploitation non supporté.$\nSMPlayer ${SMPLAYER_VERSION} requiert au minimum Windows XP et pourrait ne pas fonctionner correctement sur votre système.$\nSouhaitez-vous vraiment continuer l'installation ?"
-${LangFileString} Win64_Required "Ce programme nécessite une version 64bits de Windiws pour pouvoir être installé."
+${LangFileString} Win64_Required "Ce programme nécessite une version 64bits de Windows pour pouvoir être installé."
 ${LangFileString} Existing_32bitInst "Une installation de SMPlayer 32 bits existe.  Vous devez désinstaller SMPlayer 32 bits d'abord."
 ${LangFileString} Existing_64bitInst "Une installation de SMPlayer 64 bits existe.  Vous devez désinstaller SMPlayer 64 bits d'abord."
 
@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Ce programme va vous guider à travers l'ins
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Raccourcis"
 ${LangFileString} MPlayerGroupTitle "Composants de MPlayer"
+${LangFileString} MPlayerMPVGroupTitle "Moteur de lecture"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (requis)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, bibliothèques partagées et documentation."
@@ -34,7 +35,7 @@ ${LangFileString} Section_StartMenu "Menu Démarrer"
 ${LangFileString} Section_StartMenu_Desc "Crée une entrée pour SMPlayer dans le menu Démarrer."
 
 ${LangFileString} Section_MPlayer "MPlayer (requis)"
-${LangFileString} Section_MPlayer_Desc "MPlayer; requis pour la lecture."
+${LangFileString} Section_MPlayer_Desc "MPlayer ; requis pour la lecture."
 
 ${LangFileString} Section_MPlayerCodecs "Codecs binaires"
 !ifdef WIN64
@@ -43,13 +44,15 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Les codecs binaires ne sont pas su
 ${LangFileString} Section_MPlayerCodecs_Desc "Codecs optionnels pour MPlayer. (Connexion Internet requise durant l'installation.)"
 !endif
 
+${LangFileString} Section_MPV_Desc "Une version améliorée de MPlayer et MPlayer2"
+
 ${LangFileString} Section_MEncoder_Desc "Programme permettant d'encoder ou de convertir des flux audio et/ou vidéos supportés par MPlayer."
 
 ${LangFileString} Section_IconThemes "Thèmes d'icônes"
 ${LangFileString} Section_IconThemes_Desc "Thèmes d'icônes supplémentaires pour SMPlayer."
 
 ${LangFileString} Section_Translations "Langues"
-${LangFileString} Section_Translations_Desc "Fichiers de langues (autres qie l'anglais) pour SMPlayer."
+${LangFileString} Section_Translations_Desc "Fichiers de langues (autres que l'anglais) pour SMPlayer."
 
 ${LangFileString} Section_ResetSettings_Desc "Supprimer les préférences de SMPlayer datant d'une précédente installation."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Cliquez sur « Suivant » une fois prêt à 
 ${LangFileString} Reinstall_Msg3_3 "Cliquez sur « Désinstaller » une fois prêt à continuer."
 ${LangFileString} Reinstall_Msg4 "Changer les paramètres d'installation."
 ${LangFileString} Reinstall_Msg5 "Réinitialiser ma configuration de SMPlayer"
+
+${LangFileString} Remove_Settings_Confirmation "Are you sure you want to reset your SMPlayer settings? This action cannot be reversed."
 
 ${LangFileString} Type_Reinstall "Réinstaller la même version."
 ${LangFileString} Type_Downgrade "Installer une version plus ancienne."
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Supprime les raccourcis..."
 ${LangFileString} Info_Rest_Assoc "Restaure les associations de fichier..."
 ${LangFileString} Info_RollBack "Défait les changements..."
 ${LangFileString} Info_Files_Extract "Extrait les fichiers..."
+${LangFileString} Info_SMTube_Backup "Sauvegarde de SMTube…"
+${LangFileString} Info_SMTube_Restore "Restauration de SMTube depuis une précédente installation…"
+${LangFileString} Info_MPV_Backup "Backing up mpv..."
+${LangFileString} Info_MPV_Restore "Restoring mpv from previous installation..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Downloading mpv..."
+${LangFileString} MPV_DL_Retry "mpv was not successfully installed. Retry?"
+${LangFileString} MPV_DL_Failed "Failed to download mpv: '$R0'."
+${LangFileString} MPV_Inst_Failed "Failed to install mpv."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
+${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
+${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."
+${LangFileString} Info_Cleaning_SMPlayer "Cleaning SMPlayer settings..."

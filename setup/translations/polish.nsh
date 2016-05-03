@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Instalator poprowadzi Cię przez proces inst
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Skróty"
 ${LangFileString} MPlayerGroupTitle "Komponenty MPlayera"
+${LangFileString} MPlayerMPVGroupTitle "Silnik multimediów"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (wymagany)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, biblioteki współdzielone, dokumentacja."
@@ -43,13 +44,15 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Kodeki binarne nie są obsługiwan
 ${LangFileString} Section_MPlayerCodecs_Desc "Opcjonalne kodeki do MPlayera. (Wymagane połączenie z internetem)"
 !endif
 
-${LangFileString} Section_MEncoder_Desc "Jest to prosty koder (kompresor) filmów, zaprojektowany do kodowania filmów otwieralnych MPlayerem do innych obsługiwanych formatów"
+${LangFileString} Section_MPV_Desc "Bogaty w funkcje fork MPlayera i MPlayera2"
+
+${LangFileString} Section_MEncoder_Desc "Konkurencyjny program dla MPlayera, który może być używany do kodowania lub przetwarzania obsługiwanych strumieni dźwięku i wideo."
 
 ${LangFileString} Section_IconThemes "Zestawy Ikon"
 ${LangFileString} Section_IconThemes_Desc "Dodatkowe zestawy ikon do SMPlayera."
 
-${LangFileString} Section_Translations "Tłumaczenia"
-${LangFileString} Section_Translations_Desc "Tłumaczenia na inne języki."
+${LangFileString} Section_Translations "Języki"
+${LangFileString} Section_Translations_Desc "Nieangielskie pliki językowe dla SMPlayer."
 
 ${LangFileString} Section_ResetSettings_Desc "Usuwa preferencje SMPlayera pozostawione z poprzednich instalacji."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Kliknij Dalej, gdy będziesz gotów."
 ${LangFileString} Reinstall_Msg3_3 "Kliknij Odinstaluj, gdy będziesz gotów."
 ${LangFileString} Reinstall_Msg4 "Zmiana Ustawień Instalacji"
 ${LangFileString} Reinstall_Msg5 "Zresetuj moją konfigurację SMPlayera"
+
+${LangFileString} Remove_Settings_Confirmation "Czy na pewno chcesz zresetować ustawienia SMPlayera? Ta czynność nie może zostać odwrócona."
 
 ${LangFileString} Type_Reinstall "zainstaluj ponownie"
 ${LangFileString} Type_Downgrade "aktualizuj do starszej wersji"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Usuwanie Skrótów..."
 ${LangFileString} Info_Rest_Assoc "Przywracanie skojarzeń plików..."
 ${LangFileString} Info_RollBack "Cofanie zmian..."
 ${LangFileString} Info_Files_Extract "Wypakowywanie plików..."
+${LangFileString} Info_SMTube_Backup "Tworzenie kopii zapasowej SMTube..."
+${LangFileString} Info_SMTube_Restore "Przywracanie SMTube z poprzedniej instalacji..."
+${LangFileString} Info_MPV_Backup "Tworzenie kopii zapasowej mpv..."
+${LangFileString} Info_MPV_Restore "Przywracanie mpv z poprzedniej instalacji..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Pobieranie mpv..."
+${LangFileString} MPV_DL_Retry "Instalacja mpv nie powiodła się. Ponowić próbę?"
+${LangFileString} MPV_DL_Failed "Błąd pobierania mpv: '$R0'."
+${LangFileString} MPV_Inst_Failed "Błąd instalacji mpv."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "Instalacja youtube-dl nie powiodła się. Ponowić próbę?"
+${LangFileString} YTDL_DL_Failed "Błąd pobierania youtube-dl: '$R0'."
+${LangFileString} YTDL_Update_Check "Sprawdzanie aktualizacji youtube-dl..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Czyszczenie pamięci podręcznej czcionki..."
+${LangFileString} Info_Cleaning_SMPlayer "Czyszczenie ustawień SMPlayera..."

@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Program instalacije će vas voditi kroz inst
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Prečaci"
 ${LangFileString} MPlayerGroupTitle "Mplayer komponente"
+${LangFileString} MPlayerMPVGroupTitle "Multimedijski pogon"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (potrebno)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, zajedeničke knjižnice i dokumentacija."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Binarni kôdeki nisu podržani  u 
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Neobavezni kôdeki za MPlayer. (Potrebna je internet veza za instalaciju)"
 !endif
+
+${LangFileString} Section_MPV_Desc "Značajkama bogat fork MPlayera && MPlayera2"
 
 ${LangFileString} Section_MEncoder_Desc "Prateći program za MPlayer koji se može koristiti za enkôdiranje ili transformiranje podržanih zvučnih ili video streamova."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Kliknite 'Sljedeće' kada ste spremni za nas
 ${LangFileString} Reinstall_Msg3_3 "Kliknite 'Deinstaliraj' kada ste spremni za nastavak."
 ${LangFileString} Reinstall_Msg4 "Promijeni postavke instalacije"
 ${LangFileString} Reinstall_Msg5 "Vrati na početno SMPlayer podešavanja"
+
+${LangFileString} Remove_Settings_Confirmation "Sigurno želite vratiti izvorne SMPlayer postavke? Ova radnja se ne može poništiti."
 
 ${LangFileString} Type_Reinstall "reinstaliraj"
 ${LangFileString} Type_Downgrade "nadogradi na stariju inačicu"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Brisanje prečaca..."
 ${LangFileString} Info_Rest_Assoc "Vraćanje na početno pridruživanja datoteka..."
 ${LangFileString} Info_RollBack "Vraćanje promjena..."
 ${LangFileString} Info_Files_Extract "Raspakiravanje datoteka..."
+${LangFileString} Info_SMTube_Backup "Sigurnosno kopiranje SMTubea..."
+${LangFileString} Info_SMTube_Restore "Vraćanje sigurnosne kopije prijašnje instalacije SMTuba..."
+${LangFileString} Info_MPV_Backup "Sigurnosno kopiranje mpv-a..."
+${LangFileString} Info_MPV_Restore "Vraćanje sigurnosne kopije prijašnje instalacije mpv-a..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Preuzimanje mpv-a..."
+${LangFileString} MPV_DL_Retry "mpv nije uspješno instaliran. Pokušaj ponovno?"
+${LangFileString} MPV_DL_Failed "Neuspjelo preuzimanje mpv-a: '$R0'."
+${LangFileString} MPV_Inst_Failed "Neuspjelo instaliranje mpv-a."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "YouTube-dl nije uspješno instaliran. Pokušaj ponovno?"
+${LangFileString} YTDL_DL_Failed "Neuspjelo preuzimanje Youtube-dl: '$R0'."
+${LangFileString} YTDL_Update_Check "Provjeravanje youtube-dl nadopuna..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Brisanje priručne memorije slova..."
+${LangFileString} Info_Cleaning_SMPlayer "Brisanje SMPlayer postavki..."

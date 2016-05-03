@@ -286,9 +286,9 @@ Si vous avez une carte son qui ne prend pas en charge l'Çchantillonnage
 4. LICENCE, COPYRIGHT, RêCLAMATIONS
 ===================================
 
-SMPlayer est un copyright (C) 2006-2014 de RVM <rvm@users.sourceforge.net>.
+SMPlayer est un copyright (C) 2006-2016 de RVM <rvm@users.sourceforge.net>.
 
-Le portage OS/2 est un copyright (C) 2008-2014 de Silvan Scherrer.
+Le portage OS/2 est un copyright (C) 2008-2016 de Silvan Scherrer.
 
 Ce programme est un gratuiciel ; vous pouvez le redistribuer et/ou
 le modifier selon les termes de la licence Publique GÇnÇrale GNU
@@ -350,6 +350,9 @@ suivantes :
 
 8. HISTORIQUE DES VERSIONS
 ==========================
+
+2016-05-03
+  * Mise Ö jour Ö la version 16.4.0 de SMPlayer
 
 2014-10-09
   * Mise Ö jour Ö la version 14.9.0 de SMPlayer

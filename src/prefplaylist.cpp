@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,14 +24,7 @@ PrefPlaylist::PrefPlaylist(QWidget * parent, Qt::WindowFlags f)
 	: PrefWidget(parent, f )
 {
 	setupUi(this);
-
-	media_to_add_combo->addItem(tr("None"), Preferences::NoFiles);
-	media_to_add_combo->addItem(tr("Video files"), Preferences::VideoFiles);
-	media_to_add_combo->addItem(tr("Audio files"), Preferences::AudioFiles);
-	media_to_add_combo->addItem(tr("Video and audio files"), Preferences::MultimediaFiles);
-	media_to_add_combo->addItem(tr("Consecutive files"), Preferences::ConsecutiveFiles);
-
-	createHelp();
+	retranslateStrings();
 }
 
 PrefPlaylist::~PrefPlaylist()
@@ -48,6 +41,16 @@ QPixmap PrefPlaylist::sectionIcon() {
 
 void PrefPlaylist::retranslateStrings() {
 	retranslateUi(this);
+
+	int index = media_to_add_combo->currentIndex();
+	media_to_add_combo->clear();
+	media_to_add_combo->addItem(tr("None"), Preferences::NoFiles);
+	media_to_add_combo->addItem(tr("Video files"), Preferences::VideoFiles);
+	media_to_add_combo->addItem(tr("Audio files"), Preferences::AudioFiles);
+	media_to_add_combo->addItem(tr("Video and audio files"), Preferences::MultimediaFiles);
+	media_to_add_combo->addItem(tr("Consecutive files"), Preferences::ConsecutiveFiles);
+	media_to_add_combo->setCurrentIndex(index);
+
 	createHelp();
 }
 
@@ -113,6 +116,14 @@ bool PrefPlaylist::playFilesFromStart() {
 	return play_from_start_check->isChecked();
 }
 
+void PrefPlaylist::setIgnorePlayerErrors(bool b) {
+	ignore_errors_check->setChecked(b);
+}
+
+bool PrefPlaylist::ignorePlayerErrors() {
+	return ignore_errors_check->isChecked();
+}
+
 void PrefPlaylist::createHelp() {
 	clearHelp();
 
@@ -151,6 +162,10 @@ void PrefPlaylist::createHelp() {
 		tr("If this option is checked, a copy of the playlist will be saved "
            "in the smplayer configuration when smplayer is closed, and it will "
            "reloaded automatically when smplayer is run again."));
+
+	setWhatsThis(ignore_errors_check, tr("Play next file even if the previous file failed"),
+		tr("If this option is enabled, the playlist will ignore playback errors from a previous file "
+           "and will play the next file in the list.") );
 }
 
 #include "moc_prefplaylist.cpp"

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MPLAYERVERSION_H_
-#define _MPLAYERVERSION_H_
+#ifndef MPLAYERVERSION_H
+#define MPLAYERVERSION_H
 
 #include <QString>
 
@@ -26,6 +26,7 @@
 #define MPLAYER_1_0_RC3_SVN 31272
 #define MPLAYER_1_0_RC4_SVN 33472
 #define MPLAYER_1_1 34992
+#define MPLAYER_1_2 37540
 
 class MplayerVersion {
 public:
@@ -39,13 +40,26 @@ public:
 
 	static bool isMplayerAtLeast(int svn_revision);
 
-	static bool isMplayer2() { return is_mplayer2; };
+	static bool isMPV() { return is_mpv; };
 
 	static QString toString(int mplayer_svn);
 
+	static QString mpvVersion() { return mpv_version; };
+
+#ifdef MPLAYER2_SUPPORT
+	static bool isMplayer2() { return is_mplayer2; };
+	static QString mplayer2Version() { return mplayer2_version; };
+#endif
+
+
 protected:
+	static QString mpv_version;
+	static bool is_mpv;
+
+#ifdef MPLAYER2_SUPPORT
 	static QString mplayer2_version;
-	static bool is_mplayer2; 
+	static bool is_mplayer2;
+#endif
 };
 
 #endif

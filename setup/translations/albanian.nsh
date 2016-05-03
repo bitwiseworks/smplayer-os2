@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Programi i instalimit do ju ndihmoj hap pas 
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Shortcuts"
 ${LangFileString} MPlayerGroupTitle "Komponentet e MPlayer."
+${LangFileString} MPlayerMPVGroupTitle "Multimedia Engine"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (nevojitet)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, libraritë dinamike, dhe dokumentacioni."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Codec-ët binary nuk suportohen n�
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Codec-ët shtesë për MPlayer. (Nevojitet Lidhje në Internet për instalimin)"
 !endif
+
+${LangFileString} Section_MPV_Desc "A feature-rich fork of MPlayer && MPlayer2"
 
 ${LangFileString} Section_MEncoder_Desc "Nje program qe perdor MPlayer mund te perdoret per te enkoduar ose transformuar file audio ose video te suportuar."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Kliko Next kur te jeni gati për të vazhdua
 ${LangFileString} Reinstall_Msg3_3 "Kliko Uninstall kur te jeni gati për të vazhduar."
 ${LangFileString} Reinstall_Msg4 "Ndrysho karakteristikat e Instalimit"
 ${LangFileString} Reinstall_Msg5 "Reseto configurimin tim te SMPlayer"
+
+${LangFileString} Remove_Settings_Confirmation "Are you sure you want to reset your SMPlayer settings? This action cannot be reversed."
 
 ${LangFileString} Type_Reinstall "riinstallo"
 ${LangFileString} Type_Downgrade "downgrade"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Duke fshire Shortcuts..."
 ${LangFileString} Info_Rest_Assoc "Duke gjetur file associations..."
 ${LangFileString} Info_RollBack "Kthimi mbrapa i ndryshimeve..."
 ${LangFileString} Info_Files_Extract "Ekstratimi i file..."
+${LangFileString} Info_SMTube_Backup "Backing up SMTube..."
+${LangFileString} Info_SMTube_Restore "Restoring SMTube from previous installation..."
+${LangFileString} Info_MPV_Backup "Backing up mpv..."
+${LangFileString} Info_MPV_Restore "Restoring mpv from previous installation..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Downloading mpv..."
+${LangFileString} MPV_DL_Retry "mpv was not successfully installed. Retry?"
+${LangFileString} MPV_DL_Failed "Failed to download mpv: '$R0'."
+${LangFileString} MPV_Inst_Failed "Failed to install mpv."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
+${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
+${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."
+${LangFileString} Info_Cleaning_SMPlayer "Cleaning SMPlayer settings..."

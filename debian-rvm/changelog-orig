@@ -1,3 +1,94 @@
+smplayer (16.4.0) precise; urgency=low
+
+  * The Windows installer now includes mpv as well.
+  * Now it's easier to switch between mplayer and mpv (Preferences -> General,
+    select either mplayer or mpv as multimedia engine).
+  * The extrastereo filter works again when using mpv.
+  * Possibility to use the VLC shortcuts. (Preferences -> Keyboard and
+    mouse, click the load button, select vlc.keys)
+  * Possibility to enable mouse gestures (when the mouse is dragged up or down
+    in the video window the volume changes. If dragged left or right it
+    changes the time position).
+    You can enable this option in Preferences -> Keyboard and
+    mouse -> Mouse -> Drag function: seek and volume.
+  * A fix for saving bookmarks.
+  * The option for streaming sites in Preferences -> Network is
+    different now, and allows these values:
+     Disabled: support for video sites is turned off
+     Auto: enables the internal support for YouTube and uses mpv + youtube-dl
+     for the rest of sites
+     YouTube: only the internal support for YouTube will be used
+     mpv + youtube-dl: uses mpv + youtube-dl for all sites
+  * An animated icon has been added in the status bar to indicate when the player
+    is buffering.
+  * A new layout is used to display the media information (Options -> View info and
+    properties).
+
+ -- Ricardo Villalba <rvm@users.sourceforge.net>  Tue, 29 Mar 2016 00:22:02 +0200
+
+smplayer (16.1.0) trusty; urgency=low
+
+  * Fix for YouTube.
+  * The screenshots work again with older versions of mplayer/mpv.
+  * Possibility to add bookmarks (menu Browse), which allows to mark your
+    favorite parts of the video for a quick access.
+  * New option 'Prevent window to get outside of screen' in
+    Preferences -> Interface.
+
+ -- Ricardo Villalba <rvm@users.sourceforge.net>  Mon, 11 Jan 2016 19:18:43 +0100
+
+smplayer (15.11.0) precise; urgency=low
+
+  * Fix for YouTube.
+  * (Experimental) Support for YouTube live streams.
+  * The thumbnail generator is much faster now.
+  * New options to seek to the previous or next subtitle (mpv only).
+  * New option (Preferences -> General) to select the image format for
+    screenshots (mpv only).
+  * Fix a crash when changing the GUI.
+  * New option (Preferences -> Interface) to center the window
+    automatically.
+  * Display a tooltip in the time slider with the corresponding time of
+    the mouse position.
+  * Now there's an option in the configuration of the find subtitles window
+    which allows to specify if the language code should be appended to the
+    subtitle filename.
+  * (Fix for Windows) The main window will be centered if it's partially
+    outside of the desktop after an auto resize.
+  * When adding files to the playlist the first item is moved to its
+    correct place in the list.
+  * (Experimental) New action to start/stop capturing the playback stream.
+  * Disable the extrastereo and karaoke filters when using mpv.
+
+ -- Ricardo Villalba <rvm@users.sourceforge.net>  Sun, 29 Nov 2015 01:08:58 +0100
+
+smplayer (15.9.0) precise; urgency=low
+
+  * Support for the 3D stereo filter.
+  * We added support for mpv, which is a player based on MPlayer with
+    new features and bug fixes.
+  * Now it's possible to select a secondary subtitle track which is
+    displayed on top of the screen (mpv only).
+  * New option to set a template for screenshots (mpv only).
+  * Now it's possible to play videos from streaming sites (besides Youtube)
+    like DailyMotion, Vimeo, Vevo and many more (mpv only).
+  * Option to step back one frame (mpv only).
+  * The Windows installer now allows to choose the playback engine to install:
+    mplayer or mpv.
+  * Better support for YouTube (VEVO videos).
+  * Possibility to set a proxy.
+  * Allow duplicate items in the playlist.
+  * New action (assigned by default to key "I") shows the current playback
+    time, total time and percentage, for 2 seconds on the OSD.
+  * Add the possibility to use the mouse buttons for "next chapter" and
+    "previous chapter".
+  * New option to delete a file in the playlist from the filesystem.
+  * Add support for MPRIS2.
+  * Possibility to compile SMPlayer without mplayer or mpv support.
+  * The new H2O theme is now the default theme.
+
+ -- Ricardo Villalba <rvm@users.sourceforge.net>  Mon, 28 Sep 2015 23:58:00 +0200
+
 smplayer (14.9.0) precise; urgency=low
 
   * Fix for Youtube.

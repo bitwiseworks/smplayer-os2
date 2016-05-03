@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -71,6 +71,7 @@ public slots:
 	void setVolume(int v);
 	void setSeeker(int v);
 	void setResolutionVisible(bool b);
+	void setScrollingEnabled(bool b);
 
 signals:
 	void volumeChanged(int);

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include "helper.h"
 #include "desktopinfo.h"
 #include "editabletoolbar.h"
+#include "images.h"
 #include <QStatusBar>
 #include <QMenu>
 
@@ -53,6 +54,8 @@ MiniGui::MiniGui( QWidget * parent, Qt::WindowFlags flags )
 	if (pref->compact_mode) {
 		controlwidget->hide();
 	}
+
+	applyStyles();
 }
 
 MiniGui::~MiniGui() {
@@ -70,11 +73,16 @@ QMenu * MiniGui::createPopupMenu() {
 
 void MiniGui::createActions() {
 	timeslider_action = createTimeSliderAction(this);
-	timeslider_action->disable();
 
 #if USE_VOLUME_BAR
 	volumeslider_action = createVolumeSliderAction(this);
+#endif
+
+#if AUTODISABLE_ACTIONS
+	timeslider_action->disable();
+	#if USE_VOLUME_BAR
 	volumeslider_action->disable();
+	#endif
 #endif
 
 	time_label_action = new TimeLabelAction(this);
@@ -124,6 +132,7 @@ void MiniGui::createFloatingControl() {
 
 	EditableToolbar * iw = new EditableToolbar(floating_control);
 	iw->setObjectName("floating_control");
+	connect(iw, SIGNAL(iconSizeChanged(const QSize &)), this, SLOT(adjustFloatingControlSize()));
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList floatingcontrol_actions;
@@ -159,6 +168,9 @@ void MiniGui::createFloatingControl() {
 void MiniGui::retranslateStrings() {
 	BaseGuiPlus::retranslateStrings();
 
+	// Change the icon of the play/pause action
+	playOrPauseAct->setIcon(Images::icon("play"));
+
 	controlwidget->setWindowTitle( tr("Control bar") );
 
 #if USE_CONFIGURABLE_TOOLBARS
@@ -187,6 +199,17 @@ void MiniGui::disableActionsOnStop() {
 }
 #endif // AUTODISABLE_ACTIONS
 
+void MiniGui::togglePlayAction(Core::State state) {
+	qDebug("MiniGui::togglePlayAction");
+	BaseGui::togglePlayAction(state);
+
+	if (state == Core::Playing) {
+		playOrPauseAct->setIcon(Images::icon("pause"));
+	} else {
+		playOrPauseAct->setIcon(Images::icon("play"));
+	}
+}
+
 void MiniGui::aboutToEnterFullscreen() {
 	BaseGuiPlus::aboutToEnterFullscreen();
 
@@ -195,7 +218,7 @@ void MiniGui::aboutToEnterFullscreen() {
 	floating_control->setAnimated(pref->floating_control_animated);
 	floating_control->setActivationArea( (AutohideWidget::Activation) pref->floating_activation_area);
 	floating_control->setHideDelay(pref->floating_hide_delay);
-	QTimer::singleShot(500, floating_control, SLOT(activate()));
+	QTimer::singleShot(100, floating_control, SLOT(activate()));
 
 	if (!pref->compact_mode) {
 		controlwidget->hide();
@@ -234,6 +257,16 @@ QSize MiniGui::minimumSizeHint() const {
 }
 #endif
 
+void MiniGui::adjustFloatingControlSize() {
+	qDebug("MiniGui::adjustFloatingControlSize");
+	//floating_control->adjustSize();
+	QWidget *iw = floating_control->internalWidget();
+	QSize iws = iw->size();
+	QMargins m = floating_control->contentsMargins();
+	int new_height = iws.height() + m.top() + m.bottom();
+	if (new_height < 32) new_height = 32;
+	floating_control->resize(floating_control->width(), new_height);
+}
 
 void MiniGui::saveConfig() {
 	QSettings * set = settings;
@@ -254,6 +287,11 @@ void MiniGui::saveConfig() {
 	set->setValue("controlwidget", controlwidget->actionsToStringList() );
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
 	set->setValue("floating_control", iw->actionsToStringList() );
+	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	set->setValue("controlwidget", controlwidget->iconSize());
+	set->setValue("floating_control", iw->iconSize());
 	set->endGroup();
 #endif
 
@@ -289,8 +327,14 @@ void MiniGui::loadConfig() {
 	controlwidget->setActionsFromStringList( set->value("controlwidget", controlwidget->defaultActions()).toStringList() );
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
 	iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
-	floating_control->adjustSize();
 	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	controlwidget->setIconSize(set->value("controlwidget", controlwidget->iconSize()).toSize());
+	iw->setIconSize(set->value("floating_control", iw->iconSize()).toSize());
+	set->endGroup();
+
+	floating_control->adjustSize();
 #endif
 
 	restoreState( set->value( "toolbars_state" ).toByteArray(), Helper::qtVersion() );

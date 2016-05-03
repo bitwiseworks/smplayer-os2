@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -146,6 +146,8 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 
 	file_downloader = new FileDownloader(this);
 	file_downloader->setModal(false);
+	file_downloader->hide();
+
 	connect( file_downloader, SIGNAL(downloadFailed(QString)),
              this, SLOT(showError(QString)), Qt::QueuedConnection );
 	connect( file_downloader, SIGNAL(downloadFinished(const QByteArray &)),
@@ -176,6 +178,7 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	os_server = "http://api.opensubtitles.org/xml-rpc";
 	osclient->setServer(os_server);
 
+#ifdef FS_USE_PROXY
 	// Proxy
 	use_proxy = false;
 	proxy_type = QNetworkProxy::HttpProxy;
@@ -185,6 +188,7 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	proxy_password = "";
 
 	setupProxy();
+#endif
 }
 
 FindSubtitlesWindow::~FindSubtitlesWindow() {
@@ -194,9 +198,12 @@ FindSubtitlesWindow::~FindSubtitlesWindow() {
 void FindSubtitlesWindow::setSettings(QSettings * settings) {
 	set = settings;
 	loadSettings();
+#ifdef FS_USE_PROXY
 	setupProxy();
+#endif
 }
 
+#ifdef FS_USE_PROXY
 void FindSubtitlesWindow::setProxy(QNetworkProxy proxy) {
 	/*
 	downloader->abort();
@@ -211,6 +218,7 @@ void FindSubtitlesWindow::setProxy(QNetworkProxy proxy) {
 	qDebug("FindSubtitlesWindow::setProxy: host: '%s' port: %d type: %d",
            proxy.hostName().toUtf8().constData(), proxy.port(), proxy.type());
 }
+#endif
 
 void FindSubtitlesWindow::retranslateStrings() {
 	retranslateUi(this);
@@ -760,27 +768,48 @@ void FindSubtitlesWindow::on_configure_button_clicked() {
 	FindSubtitlesConfigDialog d(this);
 
 	d.setServer( os_server );
+	#ifdef OS_SEARCH_WORKAROUND
+	d.setRetries(osclient->retries());
+	#endif
+	#ifdef FS_USE_PROXY
 	d.setUseProxy( use_proxy );
 	d.setProxyHostname( proxy_host );
 	d.setProxyPort( proxy_port );
 	d.setProxyUsername( proxy_username );
 	d.setProxyPassword( proxy_password );
 	d.setProxyType( proxy_type );
+	#endif
+
+	#ifdef DOWNLOAD_SUBS
+	d.setAppendLang(include_lang_on_filename);
+	#endif
 
 	if (d.exec() == QDialog::Accepted) {
 		os_server = d.server();
+		#ifdef OS_SEARCH_WORKAROUND
+		osclient->setRetries( d.retries() );
+		#endif
+		#ifdef FS_USE_PROXY
 		use_proxy = d.useProxy();
 		proxy_host = d.proxyHostname();
 		proxy_port = d.proxyPort();
 		proxy_username = d.proxyUsername();
 		proxy_password = d.proxyPassword();
 		proxy_type = d.proxyType();
+		#endif
 
 		osclient->setServer(os_server);
+		#ifdef FS_USE_PROXY
 		setupProxy();
+		#endif
+
+		#ifdef DOWNLOAD_SUBS
+		include_lang_on_filename = d.appendLang();
+		#endif
 	}
 }
 
+#ifdef FS_USE_PROXY
 void FindSubtitlesWindow::setupProxy() {
 	QNetworkProxy proxy;
 
@@ -802,6 +831,7 @@ void FindSubtitlesWindow::setupProxy() {
 
 	setProxy(proxy);
 }
+#endif
 
 void FindSubtitlesWindow::saveSettings() {
 	qDebug("FindSubtitlesWindow::saveSettings");
@@ -809,16 +839,23 @@ void FindSubtitlesWindow::saveSettings() {
 	set->beginGroup("findsubtitles");
 
 	set->setValue("xmlrpc_server", os_server);
+#ifdef OS_SEARCH_WORKAROUND
+	set->setValue("retries", osclient->retries());
+#endif
+
 	set->setValue("language", language());
 #ifdef DOWNLOAD_SUBS
 	set->setValue("include_lang_on_filename", includeLangOnFilename());
 #endif
+
+#ifdef FS_USE_PROXY
 	set->setValue("proxy/use_proxy", use_proxy);
 	set->setValue("proxy/type", proxy_type);
 	set->setValue("proxy/host", proxy_host);
 	set->setValue("proxy/port", proxy_port);
 	set->setValue("proxy/username", proxy_username);
 	set->setValue("proxy/password", proxy_password);
+#endif
 
 	set->endGroup();
 }
@@ -829,16 +866,23 @@ void FindSubtitlesWindow::loadSettings() {
 	set->beginGroup("findsubtitles");
 
 	os_server = set->value("xmlrpc_server", os_server).toString();
+#ifdef OS_SEARCH_WORKAROUND
+	osclient->setRetries( set->value("retries", osclient->retries()).toInt() );
+#endif
+
 	setLanguage( set->value("language", language()).toString() );
 #ifdef DOWNLOAD_SUBS
 	setIncludeLangOnFilename( set->value("include_lang_on_filename", includeLangOnFilename()).toBool() );
 #endif
+
+#ifdef FS_USE_PROXY
 	use_proxy = set->value("proxy/use_proxy", use_proxy).toBool();
 	proxy_type = set->value("proxy/type", proxy_type).toInt();
 	proxy_host = set->value("proxy/host", proxy_host).toString();
 	proxy_port = set->value("proxy/port", proxy_port).toInt();
 	proxy_username = set->value("proxy/username", proxy_username).toString();
 	proxy_password = set->value("proxy/password", proxy_password).toString();
+#endif
 
 	set->endGroup();
 }

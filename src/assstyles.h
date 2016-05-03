@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _ASSSTYLES_H_
-#define _ASSSTYLES_H_
+#ifndef ASSSTYLES_H
+#define ASSSTYLES_H
 
 #include <QString>
 
@@ -26,6 +26,10 @@ class QSettings;
 class AssStyles {
 
 public:
+	enum HAlignment { Left = 1, HCenter = 2, Right = 3 };
+	enum VAlignment { Bottom = 0, VCenter = 1, Top = 2 };
+	enum BorderStyle { Outline = 1, Opaque = 3 };
+
 	AssStyles();
 
 	QString fontname;
@@ -47,7 +51,7 @@ public:
 	void save(QSettings * set);
 	void load(QSettings * set);
 
-	bool exportStyles(const QString & filename);
+	bool exportStyles(const QString & filename) const;
 	QString toString();
 };
 

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ Extensions::Extensions()
 	_subtitles << "srt" << "sub" << "ssa" << "ass" << "idx" << "txt" << "smi"
                << "rt" << "utf" << "aqt";
 
-	_playlist << "m3u" << "m3u8" << "pls";
+	_playlist << "m3u" << "m3u8" << "pls" << "xspf";
 
 	_multimedia = _video;
 	for (int n = 0; n < _audio.count(); n++) {

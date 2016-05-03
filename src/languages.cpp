@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ QMap<QString,QString> Languages::list() {
 	l["sg"] = tr("Sango");
 	l["si"] = tr("Sinhala");
 	l["sk"] = tr("Slovak");
-	l["sl"] = tr("Slovenian");
+	l["sl"] = tr("Slovene");
 	l["sm"] = tr("Samoan");
 	l["sn"] = tr("Shona");
 	l["so"] = tr("Somali");
@@ -232,6 +232,7 @@ QMap<QString,QString> Languages::most_used_list() {
 
 QMap<QString,QString> Languages::translations() {
 	QMap <QString,QString> m;
+	m["am"] = QString::fromUtf8("አማርኛ"); //tr("Amharic");
 	m["ar"] = QString::fromUtf8("العربية"); //tr("Arabic");
 	m["ar_SY"] = tr("Arabic - Syria");
 	m["bg"] = QString::fromUtf8("Български"); //tr("Bulgarian");
@@ -245,6 +246,7 @@ QMap<QString,QString> Languages::translations() {
 	m["es"] =  QString::fromUtf8("Español"); //tr("Spanish");
 	m["et"] = "Eesti"; //tr("Estonian");
 	m["eu"] = "Euskara"; //tr("Basque");
+	m["fa"] = QString::fromUtf8("فارسی"); //tr("Persian");
 	m["fi"] = "Suomen kieli"; //tr("Finnish");
 	m["fr"] = QString::fromUtf8("Français"); // tr("French");
 	m["gl"] = "Galego"; //tr("Galician");
@@ -268,7 +270,8 @@ QMap<QString,QString> Languages::translations() {
 	m["ro_RO"] = QString::fromUtf8("Română"); //tr("Romanian");
 	m["ru_RU"] = QString::fromUtf8("Русский"); //tr("Russian");
 	m["sk"] = "Slovensky"; //tr("Slovak");
-	m["sl_SI"] = "Slovenski"; //tr("Slovenian");
+	m["sl_SI"] = "Slovenski"; //tr("Slovene");
+	m["sq_AL"] = "Shqip"; //tr("Albanian");
 	m["sr"] = QString::fromUtf8("Српски"); //tr("Serbian");
 	m["sv"] = "Svenska"; //tr("Swedish");
 	m["th"] = QString::fromUtf8("ไทย"); //tr("Thai");
@@ -311,6 +314,27 @@ QMap<QString,QString> Languages::encodings() {
 	l["CP1250"] = tr( "Slavic/Central European Windows");
 	l["CP1256"] = tr( "Arabic Windows");
 	l["CP1253"] = tr("Modern Greek Windows");
+
+	return l;
+}
+
+QMap<QString,QString> Languages::enca() {
+	QMap<QString,QString> l;
+
+	l["be"] = tr("Belarusian");
+	l["bg"] = tr("Bulgarian");
+	l["cs"] = tr("Czech");
+	l["et"] = tr("Estonian");
+	l["hr"] = tr("Croatian");
+	l["hu"] = tr("Hungarian");
+	l["lt"] = tr("Lithuanian");
+	l["lv"] = tr("Latvian");
+	l["pl"] = tr("Polish");
+	l["ru"] = tr("Russian");
+	l["sk"] = tr("Slovak");
+	l["sl"] = tr("Slovene");
+	l["uk"] = tr("Ukrainian");
+	l["zh"] = tr("Chinese");
 
 	return l;
 }

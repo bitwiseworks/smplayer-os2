@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ FindSubtitlesConfigDialog::FindSubtitlesConfigDialog( QWidget* parent, Qt::Windo
 {
 	setupUi(this);
 
+#ifdef FS_USE_PROXY
 	proxy_type_combo->addItem( tr("HTTP"), QNetworkProxy::HttpProxy);
 	proxy_type_combo->addItem( tr("SOCKS5"), QNetworkProxy::Socks5Proxy);
 
@@ -35,6 +36,18 @@ FindSubtitlesConfigDialog::FindSubtitlesConfigDialog( QWidget* parent, Qt::Windo
         tr("The password for the proxy. <b>Warning:</b> the password will be saved "
            "as plain text in the configuration file.") );
 	proxy_type_combo->setWhatsThis( tr("Select the proxy type to be used.") );
+#else
+	proxy_group->hide();
+#endif
+
+#ifndef OS_SEARCH_WORKAROUND
+	retries_label->hide();
+	retries_spin->hide();
+#endif
+
+#ifndef DOWNLOAD_SUBS
+	misc_group->hide();
+#endif
 
 	layout()->setSizeConstraint(QLayout::SetFixedSize);
 }
@@ -50,6 +63,27 @@ QString FindSubtitlesConfigDialog::server() {
 	return server_edit->text();
 }
 
+#ifdef OS_SEARCH_WORKAROUND
+void FindSubtitlesConfigDialog::setRetries(int n) {
+	retries_spin->setValue(n);
+}
+
+int FindSubtitlesConfigDialog::retries() {
+	return retries_spin->value();
+}
+#endif
+
+#ifdef DOWNLOAD_SUBS
+void FindSubtitlesConfigDialog::setAppendLang(bool b) {
+	addlang_check->setChecked(b);
+}
+
+bool FindSubtitlesConfigDialog::appendLang() {
+	return addlang_check->isChecked();
+}
+#endif
+
+#ifdef FS_USE_PROXY
 void FindSubtitlesConfigDialog::setUseProxy(bool b) {
 	use_proxy_check->setChecked(b);
 }
@@ -100,5 +134,6 @@ int FindSubtitlesConfigDialog::proxyType() {
 	int index = proxy_type_combo->currentIndex();
 	return proxy_type_combo->itemData(index).toInt();
 }
+#endif
 
 #include "moc_findsubtitlesconfigdialog.cpp"

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "prefplaylist.h"
 #include "preftv.h"
 #include "prefupdates.h"
+#include "prefnetwork.h"
 
 #if USE_ASSOCIATIONS
 #include "prefassociations.h"
@@ -64,6 +65,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 	//help_window->adjustSize();
 	help_window->setWindowTitle( tr("SMPlayer - Help") );
 	help_window->setWindowIcon( Images::icon("logo") );
+	help_window->setOpenExternalLinks(true);
 
 	page_general = new PrefGeneral;
 	addSection( page_general );
@@ -96,6 +98,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 	page_updates = new PrefUpdates;
 	addSection( page_updates );
+
+	page_network = new PrefNetwork;
+	addSection( page_network );
 
 	page_advanced = new PrefAdvanced;
 	addSection( page_advanced );
@@ -179,6 +184,7 @@ void PreferencesDialog::setData(Preferences * pref) {
 	page_playlist->setData(pref);
 	page_tv->setData(pref);
 	page_updates->setData(pref);
+	page_network->setData(pref);
 
 #if USE_ASSOCIATIONS
 	page_associations->setData(pref);
@@ -196,6 +202,7 @@ void PreferencesDialog::getData(Preferences * pref) {
 	page_playlist->getData(pref);
 	page_tv->getData(pref);
 	page_updates->getData(pref);
+	page_network->getData(pref);
 
 #if USE_ASSOCIATIONS
 	page_associations->getData(pref);
@@ -213,6 +220,7 @@ bool PreferencesDialog::requiresRestart() {
 	if (!need_restart) need_restart = page_playlist->requiresRestart();
 	if (!need_restart) need_restart = page_tv->requiresRestart();
 	if (!need_restart) need_restart = page_updates->requiresRestart();
+	if (!need_restart) need_restart = page_network->requiresRestart();
 
 	return need_restart;
 }

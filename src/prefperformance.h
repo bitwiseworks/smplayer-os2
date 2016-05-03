@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PREFPERFORMANCE_H_
-#define _PREFPERFORMANCE_H_
+#ifndef PREFPERFORMANCE_H
+#define PREFPERFORMANCE_H
 
 #include "ui_prefperformance.h"
 #include "prefwidget.h"
@@ -80,8 +80,10 @@ protected:
 	bool fastChapterSeeking();
 #endif
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	void setFastAudioSwitching(Preferences::OptionState value);
 	Preferences::OptionState fastAudioSwitching();
+#endif
 
 	void setThreads(int v);
 	int threads();
@@ -89,10 +91,8 @@ protected:
 	void setCoreavcUsage(bool b);
 	bool coreavcUsage();
 
-#ifdef YOUTUBE_SUPPORT
-	void setYTQuality(int q);
-	int YTQuality();
-#endif
+	void setHwdec(const QString & v);
+	QString hwdec();
 
 protected:
 	virtual void retranslateStrings();

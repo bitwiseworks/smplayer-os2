@@ -14,25 +14,73 @@ DEFINES += SINGLE_INSTANCE
 DEFINES += FIND_SUBTITLES
 DEFINES += VIDEOPREVIEW
 DEFINES += YOUTUBE_SUPPORT
-DEFINES += YT_USE_SCRIPT
 DEFINES += BLURAY_SUPPORT
 DEFINES += GUI_CHANGE_ON_RUNTIME
 DEFINES += LOG_MPLAYER
 DEFINES += LOG_SMPLAYER
+DEFINES += DEFAULTGUI
+DEFINES += MINIGUI
 DEFINES += MPCGUI
 DEFINES += SKINS
+!os2 {
+DEFINES += MPRIS2
+}
 DEFINES += UPDATE_CHECKER
 DEFINES += CHECK_UPGRADED
-DEFINES += REMINDER_ACTIONS
-#DEFINES += USE_FONTCONFIG_OPTIONS
 !os2 {
 DEFINES += AUTO_SHUTDOWN_PC
+}
+DEFINES += CAPTURE_STREAM
+DEFINES += BOOKMARKS
+DEFINES += MOUSE_GESTURES
+
+!os2 {
+DEFINES += MPV_SUPPORT
+}
+DEFINES += MPLAYER_SUPPORT
+
+# Whether to include support for the obsolete mplayer2 or not
+# (requires MPLAYER_SUPPORT)
+DEFINES += MPLAYER2_SUPPORT
+
+# Note to distro maintainers:
+# By disabling SHARE_ACTIONS or SHARE_WIDGET
+# you're preventing SMPlayer to receive donations and thus
+# SERIOUSLY HURTING THE DEVELOPMENT AND PUTTING
+# AT RISK THE CONTINUATION OF THIS PROJECT
+# Please don't.
+
+DEFINES += SHARE_ACTIONS
+DEFINES += SHARE_WIDGET
+
+
+#DEFINES += SIMPLE_BUILD
+
+contains( DEFINES, SIMPLE_BUILD ) {
+	DEFINES -= SINGLE_INSTANCE
+	DEFINES -= FIND_SUBTITLES
+	DEFINES -= VIDEOPREVIEW
+	DEFINES -= LOG_MPLAYER
+	DEFINES -= LOG_SMPLAYER
+	DEFINES -= MINIGUI
+	DEFINES -= MPCGUI
+	DEFINES -= SKINS
+	DEFINES -= MPRIS2
+	DEFINES -= UPDATE_CHECKER
+	DEFINES -= CHECK_UPGRADED
+	DEFINES -= SHARE_ACTIONS
+	DEFINES -= SHARE_WIDGET
+	DEFINES -= AUTO_SHUTDOWN_PC
+	DEFINES -= BOOKMARKS
 }
 
 isEqual(QT_MAJOR_VERSION, 5) {
 	QT += widgets gui
 	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x040000
 	DEFINES -= MPCGUI
+	win32 {
+		DEFINES -= MPRIS2
+	}
 }
 
 contains(QT_VERSION, ^4\\.[0-3]\\..*) {
@@ -67,6 +115,7 @@ contains(QT_VERSION, ^4\\.[0-3]\\..*) {
 HEADERS += guiconfig.h \
 	config.h \
 	constants.h \
+	links.h \
 	svn_revision.h \
 	version.h \
 	chapters.h \
@@ -83,7 +132,8 @@ HEADERS += guiconfig.h \
 	desktopinfo.h \
 	myprocess.h \
 	mplayerversion.h \
-	mplayerprocess.h \
+	playerid.h \
+	playerprocess.h \
 	infoprovider.h \
 	mplayerwindow.h \
 	mediadata.h \
@@ -129,6 +179,7 @@ HEADERS += guiconfig.h \
 	prefplaylist.h \
 	preftv.h \
 	prefupdates.h \
+	prefnetwork.h \
 	filepropertiesdialog.h \
 	multilineinputdialog.h \
 	playlist.h \
@@ -141,6 +192,7 @@ HEADERS += guiconfig.h \
 	timeslider.h \
 	inputdvddirectory.h \
 	inputurl.h \
+	stereo3ddialog.h \
 	myaction.h \
 	myactiongroup.h \
 	filedialog.h \
@@ -151,14 +203,13 @@ HEADERS += guiconfig.h \
 	favorites.h \
 	tvlist.h \
 	favoriteeditor.h \
+	statewidget.h \
 	basegui.h \
 	baseguiplus.h \
 	autohidewidget.h \
 	widgetactions.h \
 	toolbareditor.h \
 	editabletoolbar.h \
-	defaultgui.h \
-	minigui.h \
 	clhelp.h \
 	cleanconfig.h \
 	smplayer.h \
@@ -180,7 +231,8 @@ SOURCES	+= version.cpp \
 	desktopinfo.cpp \
 	myprocess.cpp \
 	mplayerversion.cpp \
-	mplayerprocess.cpp \
+	playerid.cpp \
+	playerprocess.cpp \
 	infoprovider.cpp \
 	mplayerwindow.cpp \
 	mediadata.cpp \
@@ -225,6 +277,7 @@ SOURCES	+= version.cpp \
 	prefplaylist.cpp \
 	preftv.cpp \
 	prefupdates.cpp \
+	prefnetwork.cpp \
 	filepropertiesdialog.cpp \
 	multilineinputdialog.cpp \
 	playlist.cpp \
@@ -237,6 +290,7 @@ SOURCES	+= version.cpp \
 	timeslider.cpp \
 	inputdvddirectory.cpp \
 	inputurl.cpp \
+	stereo3ddialog.cpp \
 	myaction.cpp \
 	myactiongroup.cpp \
 	filedialog.cpp \
@@ -247,14 +301,13 @@ SOURCES	+= version.cpp \
 	favorites.cpp \
 	tvlist.cpp \
 	favoriteeditor.cpp \
+	statewidget.cpp \
 	basegui.cpp \
 	baseguiplus.cpp \
 	autohidewidget.cpp \
 	widgetactions.cpp \
 	toolbareditor.cpp \
 	editabletoolbar.cpp \
-	defaultgui.cpp \
-	minigui.cpp \
 	clhelp.cpp \
 	cleanconfig.cpp \
 	smplayer.cpp \
@@ -265,9 +318,19 @@ FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
         eqslider.ui seekwidget.ui inputurl.ui videoequalizer.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
-        prefplaylist.ui preftv.ui prefupdates.ui favoriteeditor.ui \
-        about.ui inputmplayerversion.ui errordialog.ui timedialog.ui \
+        prefplaylist.ui preftv.ui prefupdates.ui prefnetwork.ui favoriteeditor.ui \
+        about.ui inputmplayerversion.ui errordialog.ui timedialog.ui stereo3ddialog.ui \
         toolbareditor.ui multilineinputdialog.ui
+
+contains( DEFINES, MPV_SUPPORT ) {
+	HEADERS += mpvprocess.h inforeadermpv.h
+	SOURCES += mpvprocess.cpp inforeadermpv.cpp
+}
+
+contains( DEFINES, MPLAYER_SUPPORT ) {
+	HEADERS += mplayerprocess.h inforeadermplayer.h
+	SOURCES += mplayerprocess.cpp inforeadermplayer.cpp
+}
 
 # qtsingleapplication
 contains( DEFINES, SINGLE_INSTANCE ) {
@@ -281,6 +344,7 @@ contains( DEFINES, SINGLE_INSTANCE ) {
 # Find subtitles dialog
 contains( DEFINES, FIND_SUBTITLES ) {
 	DEFINES += DOWNLOAD_SUBS
+	DEFINES += OS_SEARCH_WORKAROUND
 	#DEFINES += USE_QUAZIP
 
 	INCLUDEPATH += findsubtitles
@@ -339,19 +403,40 @@ contains( DEFINES, DOWNLOAD_SUBS ) {
 
 # Youtube support
 contains( DEFINES, YOUTUBE_SUPPORT ) {
+	DEFINES += YT_USE_SCRIPT
 	INCLUDEPATH += youtube
 	DEPENDPATH += youtube
 
-	HEADERS += youtube/retrieveyoutubeurl.h youtube/ytsig.h
-	SOURCES += youtube/retrieveyoutubeurl.cpp youtube/ytsig.cpp
+	HEADERS += youtube/retrieveyoutubeurl.h youtube/loadpage.h
+	SOURCES += youtube/retrieveyoutubeurl.cpp youtube/loadpage.cpp
 
 	contains( DEFINES, YT_USE_SCRIPT ) {
-		HEADERS += youtube/codedownloader.h
-		SOURCES += youtube/codedownloader.cpp
+		DEFINES += YT_USE_SIG
+		DEFINES += YT_USE_YTSIG
 		QT += script
-	} else {
-		#DEFINES += YTSIG_STATIC
 	}
+
+	contains( DEFINES, YT_USE_SIG ) {
+		HEADERS += youtube/sig.h
+		SOURCES += youtube/sig.cpp
+	}
+
+	contains( DEFINES, YT_USE_YTSIG ) {
+		HEADERS += youtube/ytsig.h youtube/codedownloader.h
+		SOURCES += youtube/ytsig.cpp youtube/codedownloader.cpp
+	}
+}
+
+# defaultgui
+contains( DEFINES, DEFAULTGUI ) {
+	HEADERS += defaultgui.h
+	SOURCES += defaultgui.cpp
+}
+
+# minigui
+contains( DEFINES, MINIGUI ) {
+	HEADERS += minigui.h
+	SOURCES += minigui.cpp
 }
 
 # mpcgui
@@ -377,10 +462,20 @@ contains( DEFINES, SKINS ) {
 	FORMS += skingui/mediapanel.ui skingui/mediabarpanel.ui
 }
 
+contains( DEFINES, MPRIS2 ) {
+	INCLUDEPATH += mpris2
+	DEPENDPATH += mpris2
+
+	HEADERS += mpris2/mediaplayer2.h mpris2/mediaplayer2player.h mpris2/mpris2.h
+	SOURCES += mpris2/mediaplayer2.cpp mpris2/mediaplayer2player.cpp mpris2/mpris2.cpp
+
+	QT += dbus
+}
+
 # Update checker
 contains( DEFINES, UPDATE_CHECKER ) {
-	HEADERS += updatechecker.h
-	SOURCES += updatechecker.CPP
+	HEADERS += updatechecker.h updatecheckerdata.h
+	SOURCES += updatechecker.cpp updatecheckerdata.cpp
 }
 
 # Videopreview
@@ -394,10 +489,25 @@ contains( DEFINES, VIDEOPREVIEW ) {
 	FORMS += videopreview/videopreviewconfigdialog.ui
 }
 
-contains( DEFINES, REMINDER_ACTIONS ) {
+
+!contains(DEFINES, SHARE_ACTIONS) | !contains(DEFINES, SHARE_WIDGET) {
+	message("Note to distro maintainers:")
+	message("By disabling SHARE_ACTIONS or SHARE_WIDGET")
+	message("you're preventing SMPlayer to receive donations and thus")
+	message("SERIOUSLY HURTING THE DEVELOPMENT AND PUTTING")
+	message("AT RISK THE CONTINUATION OF THIS PROJECT")
+	message("Please don't.")
+}
+
+contains( DEFINES, SHARE_ACTIONS ) {
 	HEADERS += sharedialog.h
 	SOURCES += sharedialog.cpp
 	FORMS += sharedialog.ui
+}
+
+contains( DEFINES, SHARE_WIDGET|SHARE_ACTIONS ) {
+	HEADERS += sharewidget.h sharedata.h
+	SOURCES += sharewidget.cpp sharedata.cpp
 }
 
 contains( DEFINES, AUTO_SHUTDOWN_PC ) {
@@ -406,6 +516,12 @@ contains( DEFINES, AUTO_SHUTDOWN_PC ) {
 	FORMS += shutdowndialog.ui
 
 	unix { QT += dbus }
+}
+
+contains( DEFINES, BOOKMARKS ) {
+	HEADERS += inputbookmark.h bookmarkdialog.h
+	SOURCES += inputbookmark.cpp bookmarkdialog.cpp
+	FORMS += inputbookmark.ui bookmarkdialog.ui
 }
 
 unix {
@@ -425,7 +541,7 @@ win32 {
 	DEFINES += SCREENSAVER_OFF
 	DEFINES += AVOID_SCREENSAVER
 	#DEFINES += FONTCACHE_DIALOG
-	DEFINES += USE_FONTCONFIG_OPTIONS
+	#DEFINES += FONTS_HACK
 
 	contains( DEFINES, SCREENSAVER_OFF ) {
 		HEADERS += screensaver.h
@@ -473,7 +589,7 @@ os2 {
 	# define the vendor part
 	DEF_FILE_VENDOR = bww bitwise works GmbH
 	DEF_FILE_VERSION = $$APPLICATION_VERSION
-	DEF_FILE_DESCRIPTION = eCS (OS/2) port of SMPlayer
+	DEF_FILE_DESCRIPTION = OS/2 and OS/2-based systems port of SMPlayer
 }
 
 
@@ -499,4 +615,7 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_he_IL.ts translations/smplayer_th.ts \
                translations/smplayer_ms_MY.ts translations/smplayer_uz.ts \
                translations/smplayer_nn_NO.ts translations/smplayer_id.ts \
-               translations/smplayer_ar.ts translations/smplayer_en_GB.ts
+               translations/smplayer_ar.ts translations/smplayer_en_GB.ts \
+               translations/smplayer_sq_AL.ts translations/smplayer_am.ts \
+               translations/smplayer_fa.ts
+

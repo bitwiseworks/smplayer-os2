@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #include "widgetactions.h"
 #include "colorutils.h"
 #include <QLabel>
+#include <QDebug>
 
 #if MINI_ARROW_BUTTONS
 #include <QToolButton>
@@ -80,6 +81,16 @@ int TimeSliderAction::pos() {
 		return s->pos();
 	} else {
 		return -1;
+	}
+}
+
+void TimeSliderAction::setDuration(double t) {
+	qDebug() << "TimeSliderAction::setDuration:" << t;
+	total_time = t;
+	QList<QWidget *> l = createdWidgets();
+	for (int n=0; n < l.count(); n++) {
+		TimeSlider *s = (TimeSlider*) l[n];
+		s->setDuration(t);
 	}
 }
 

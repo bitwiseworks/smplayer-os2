@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,16 +31,20 @@ MediaSettings::~MediaSettings() {
 }
 
 void MediaSettings::reset() {
+	qDebug("MediaSettings::reset");
+
 	current_sec = 0;
 	//current_sub_id = SubNone; 
 	current_sub_id = NoneSelected;
+#ifdef MPV_SUPPORT
+	current_secondary_sub_id = NoneSelected;
+#endif
 #if PROGRAM_SWITCH
 	current_program_id = NoneSelected;
 #endif
 	current_video_id = NoneSelected;
 	current_audio_id = NoneSelected;
 	current_title_id = NoneSelected;
-	current_chapter_id = NoneSelected;
 	current_angle_id = NoneSelected;
 
 	aspect_ratio_id = AspectAuto;
@@ -79,12 +83,17 @@ void MediaSettings::reset() {
 	current_denoiser = NoDenoise;
 	current_unsharp = 0;
 
+	stereo3d_in = "none";
+	stereo3d_out = QString::null;
+
 	//current_deinterlacer = NoDeinterlace;
 	current_deinterlacer = pref->initial_deinterlace;
 
 	add_letterbox = false;
 
-    karaoke_filter = false;
+#ifdef MPLAYER_SUPPORT
+	karaoke_filter = false;
+#endif
 	extrastereo_filter = false;
 	volnorm_filter = pref->initial_volnorm;
 
@@ -92,10 +101,6 @@ void MediaSettings::reset() {
 	stereo_mode = pref->initial_stereo_mode; //Stereo; // (0)
 
 	zoom_factor = pref->initial_zoom_factor; // 1.0;
-
-#if USE_MPLAYER_PANSCAN
-	panscan_factor = 0;
-#endif
 
 	starting_time = -1; // Not set yet.
 
@@ -107,8 +112,17 @@ void MediaSettings::reset() {
 	A_marker = -1;
 	B_marker = -1;
 
+#ifdef BOOKMARKS
+	// Initialize bookmarks
+	bookmarks.clear();
+	bookmarks.insert(0, "");
+#endif
+
 	is264andHD = false;
 
+	current_demuxer = "unknown";
+
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	forced_demuxer="";
 	if (pref->use_lavf_demuxer) forced_demuxer = "lavf";
 
@@ -118,6 +132,7 @@ void MediaSettings::reset() {
 	original_demuxer="";
 	original_video_codec="";
 	original_audio_codec="";
+#endif
 
 	mplayer_additional_options="";
 	mplayer_additional_video_filters="";
@@ -181,13 +196,15 @@ void MediaSettings::list() {
 
 	qDebug("  current_sec: %f", current_sec);
 	qDebug("  current_sub_id: %d", current_sub_id);
+#ifdef MPV_SUPPORT
+	qDebug("  current_secondary_sub_id: %d", current_secondary_sub_id);
+#endif
 #if PROGRAM_SWITCH
 	qDebug("  current_program_id: %d", current_program_id);
 #endif
 	qDebug("  current_video_id: %d", current_video_id);
 	qDebug("  current_audio_id: %d", current_audio_id);
 	qDebug("  current_title_id: %d", current_title_id);
-	qDebug("  current_chapter_id: %d", current_chapter_id);
 	qDebug("  current_angle_id: %d", current_angle_id);
 
 	qDebug("  aspect_ratio_id: %d", aspect_ratio_id);
@@ -223,11 +240,16 @@ void MediaSettings::list() {
 	qDebug("  current_denoiser: %d", current_denoiser);
 	qDebug("  current_unsharp: %d", current_unsharp);
 
+	qDebug("  stereo3d_in: %s", stereo3d_in.toUtf8().constData());
+	qDebug("  stereo3d_out: %s", stereo3d_out.toUtf8().constData());
+
 	qDebug("  current_deinterlacer: %d", current_deinterlacer);
 
 	qDebug("  add_letterbox: %d", add_letterbox);
 
+#ifdef MPLAYER_SUPPORT
 	qDebug("  karaoke_filter: %d", karaoke_filter);
+#endif
 	qDebug("  extrastereo_filter: %d", extrastereo_filter);
 	qDebug("  volnorm_filter: %d", volnorm_filter);
 
@@ -235,10 +257,6 @@ void MediaSettings::list() {
 	qDebug("  stereo_mode: %d", stereo_mode);
 
 	qDebug("  zoom_factor: %f", zoom_factor);
-
-#if USE_MPLAYER_PANSCAN
-	qDebug("  panscan_factor: %f", zoom_factor);
-#endif
 
 	qDebug("  rotate: %d", rotate);
 	qDebug("  flip: %d", flip);
@@ -248,6 +266,9 @@ void MediaSettings::list() {
 	qDebug("  A_marker: %d", A_marker);
 	qDebug("  B_marker: %d", B_marker);
 
+	qDebug("  current_demuxer: '%s'", current_demuxer.toUtf8().data());
+
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	qDebug("  forced_demuxer: '%s'", forced_demuxer.toUtf8().data());
 	qDebug("  forced_video_codec: '%s'", forced_video_codec.toUtf8().data());
 	qDebug("  forced_audio_codec: '%s'", forced_video_codec.toUtf8().data());
@@ -255,6 +276,7 @@ void MediaSettings::list() {
 	qDebug("  original_demuxer: '%s'", original_demuxer.toUtf8().data());
 	qDebug("  original_video_codec: '%s'", original_video_codec.toUtf8().data());
 	qDebug("  original_audio_codec: '%s'", original_video_codec.toUtf8().data());
+#endif
 
 	qDebug("  mplayer_additional_options: '%s'", mplayer_additional_options.toUtf8().data());
 	qDebug("  mplayer_additional_video_filters: '%s'", mplayer_additional_video_filters.toUtf8().data());
@@ -269,20 +291,34 @@ void MediaSettings::list() {
 }
 
 #ifndef NO_USE_INI_FILES
-void MediaSettings::save(QSettings * set) {
+void MediaSettings::save(QSettings * set, int player_id) {
 	qDebug("MediaSettings::save");
 
-	//QSettings * set = settings;
+	set->beginGroup("player_" + QString::number(player_id));
 
-	/*set->beginGroup( "mediasettings" );*/
+	set->setValue( "current_demuxer", current_demuxer);
+#if ALLOW_DEMUXER_CODEC_CHANGE
+	set->setValue( "forced_demuxer", forced_demuxer);
+	set->setValue( "forced_video_codec", forced_video_codec);
+	set->setValue( "forced_audio_codec", forced_audio_codec);
+	set->setValue( "original_demuxer", original_demuxer);
+	set->setValue( "original_video_codec", original_video_codec);
+	set->setValue( "original_audio_codec", original_audio_codec);
+#endif
 
-	set->setValue( "current_sec", current_sec );
-
-	QString demuxer_section = "demuxer_default";
-	if (!forced_demuxer.isEmpty()) demuxer_section = "demuxer_" + forced_demuxer;
+	// Save the tracks ID in a demuxer section
+	QString demuxer_section = QString("demuxer_%1").arg(current_demuxer);
+#if ALLOW_DEMUXER_CODEC_CHANGE
+	if (!forced_demuxer.isEmpty()) {
+		demuxer_section = QString("demuxer_%1").arg(forced_demuxer);
+	}
+#endif
 
 	set->beginGroup(demuxer_section);
 	set->setValue( "current_sub_id", current_sub_id );
+	#ifdef MPV_SUPPORT
+	set->setValue( "current_secondary_sub_id", current_secondary_sub_id );
+	#endif
 	#if PROGRAM_SWITCH
 	set->setValue( "current_program_id", current_program_id );
 	#endif
@@ -290,8 +326,12 @@ void MediaSettings::save(QSettings * set) {
 	set->setValue( "current_audio_id", current_audio_id );
 	set->endGroup();
 
+	set->endGroup(); // player
+
+
+	set->setValue( "current_sec", current_sec );
+
 	set->setValue( "current_title_id", current_title_id );
-	set->setValue( "current_chapter_id", current_chapter_id );
 	set->setValue( "current_angle_id", current_angle_id );
 
 	set->setValue( "aspect_ratio", aspect_ratio_id );
@@ -329,11 +369,16 @@ void MediaSettings::save(QSettings * set) {
 	set->setValue( "current_denoiser", current_denoiser);
 	set->setValue( "current_unsharp", current_unsharp);
 
+	set->setValue( "stereo3d_in", stereo3d_in);
+	set->setValue( "stereo3d_out", stereo3d_out);
+
 	set->setValue( "current_deinterlacer", current_deinterlacer);
 
 	set->setValue( "add_letterbox", add_letterbox );
 
+#ifdef MPLAYER_SUPPORT
 	set->setValue( "karaoke_filter", karaoke_filter);
+#endif
 	set->setValue( "extrastereo_filter", extrastereo_filter);
 	set->setValue( "volnorm_filter", volnorm_filter);
 
@@ -341,10 +386,6 @@ void MediaSettings::save(QSettings * set) {
 	set->setValue( "stereo_mode", stereo_mode);
 
 	set->setValue( "zoom_factor", zoom_factor);
-
-#if USE_MPLAYER_PANSCAN
-	set->setValue( "panscan_factor", zoom_factor);
-#endif
 
 	set->setValue( "rotate", rotate );
 	set->setValue( "flip", flip);
@@ -354,13 +395,23 @@ void MediaSettings::save(QSettings * set) {
 	set->setValue( "A_marker", A_marker);
 	set->setValue( "B_marker", B_marker);
 
-	set->setValue( "forced_demuxer", forced_demuxer);
-	set->setValue( "forced_video_codec", forced_video_codec);
-	set->setValue( "forced_audio_codec", forced_audio_codec);
-
-	set->setValue( "original_demuxer", original_demuxer);
-	set->setValue( "original_video_codec", original_video_codec);
-	set->setValue( "original_audio_codec", original_audio_codec);
+#ifdef BOOKMARKS
+	// Save bookmarks
+	bool save_bookmarks = true;
+	QMap<int, QString>::const_iterator i = bookmarks.constBegin();
+	if (save_bookmarks) {
+		set->beginWriteArray("bookmarks");
+		int count = 0;
+		while (i != bookmarks.constEnd()) {
+			set->setArrayIndex(count);
+			set->setValue("time", i.key());
+			set->setValue("name", i.value());
+			i++;
+			count++;
+		}
+		set->endArray();
+	}
+#endif
 
 	set->setValue( "mplayer_additional_options", mplayer_additional_options);
 	set->setValue( "mplayer_additional_video_filters", mplayer_additional_video_filters);
@@ -372,36 +423,51 @@ void MediaSettings::save(QSettings * set) {
 	set->setValue( "starting_time", starting_time );
 
 	set->setValue( "is264andHD", is264andHD );
-
-	/*set->endGroup();*/
 }
 
-void MediaSettings::load(QSettings * set) {
+void MediaSettings::load(QSettings * set, int player_id) {
 	qDebug("MediaSettings::load");
 
-	//QSettings * set = settings;
+	set->beginGroup("player_" + QString::number(player_id));
 
-	/*set->beginGroup( "mediasettings" );*/
+	current_demuxer = set->value( "current_demuxer", current_demuxer).toString();
+#if ALLOW_DEMUXER_CODEC_CHANGE
+	forced_demuxer = set->value( "forced_demuxer", forced_demuxer).toString();
+	if (pref->use_lavf_demuxer) forced_demuxer = "lavf";
+	forced_video_codec = set->value( "forced_video_codec", forced_video_codec).toString();
+	forced_audio_codec = set->value( "forced_audio_codec", forced_audio_codec).toString();
+	original_demuxer = set->value( "original_demuxer", original_demuxer).toString();
+	original_video_codec = set->value( "original_video_codec", original_video_codec).toString();
+	original_audio_codec = set->value( "original_audio_codec", original_audio_codec).toString();
+#endif
+
+	// Load the tracks ID from a demuxer section
+	QString demuxer_section = QString("demuxer_%1").arg(current_demuxer);
+#if ALLOW_DEMUXER_CODEC_CHANGE
+	if (!forced_demuxer.isEmpty()) {
+		demuxer_section = QString("demuxer_%1").arg(forced_demuxer);
+	}
+#endif
+	qDebug("MediaSettings::load: demuxer_section: %s", demuxer_section.toUtf8().constData());
+
+	set->beginGroup(demuxer_section);
+	current_sub_id = set->value( "current_sub_id", NoneSelected ).toInt();
+	#ifdef MPV_SUPPORT
+	current_secondary_sub_id = set->value( "current_secondary_sub_id", NoneSelected ).toInt();
+	#endif
+	#if PROGRAM_SWITCH
+	current_program_id = set->value( "current_program_id", NoneSelected ).toInt();
+	#endif
+	current_video_id = set->value( "current_video_id", NoneSelected ).toInt();
+	current_audio_id = set->value( "current_audio_id", NoneSelected ).toInt();
+	set->endGroup();
+
+	set->endGroup(); // player
+
 
 	current_sec = set->value( "current_sec", current_sec).toDouble();
 
-	forced_demuxer = set->value( "forced_demuxer", forced_demuxer).toString();
-	if (pref->use_lavf_demuxer) forced_demuxer = "lavf";
-
-	QString demuxer_section = "demuxer_default";
-	if (!forced_demuxer.isEmpty()) demuxer_section = "demuxer_" + forced_demuxer;
-
-	set->beginGroup(demuxer_section);
-	current_sub_id = set->value( "current_sub_id", current_sub_id ).toInt();
-	#if PROGRAM_SWITCH
-	current_program_id = set->value( "current_program_id", current_program_id ).toInt();
-	#endif
-	current_video_id = set->value( "current_video_id", current_video_id ).toInt();
-	current_audio_id = set->value( "current_audio_id", current_audio_id ).toInt();
-	set->endGroup();
-
 	current_title_id = set->value( "current_title_id", current_title_id ).toInt();
-	current_chapter_id = set->value( "current_chapter_id", current_chapter_id ).toInt();
 	current_angle_id = set->value( "current_angle_id", current_angle_id ).toInt();
 
 	aspect_ratio_id = set->value( "aspect_ratio", aspect_ratio_id ).toInt();
@@ -439,11 +505,16 @@ void MediaSettings::load(QSettings * set) {
 	current_denoiser = set->value( "current_denoiser", current_denoiser).toInt();
 	current_unsharp = set->value( "current_unsharp", current_unsharp).toInt();
 
+	stereo3d_in = set->value( "stereo3d_in", stereo3d_in).toString();
+	stereo3d_out = set->value( "stereo3d_out", stereo3d_out).toString();
+
 	current_deinterlacer = set->value( "current_deinterlacer", current_deinterlacer ).toInt();
 
 	add_letterbox = set->value( "add_letterbox", add_letterbox ).toBool();
 
+#ifdef MPLAYER_SUPPORT
 	karaoke_filter = set->value( "karaoke_filter", karaoke_filter).toBool();
+#endif
 	extrastereo_filter = set->value( "extrastereo_filter", extrastereo_filter).toBool();
 	volnorm_filter = set->value( "volnorm_filter", volnorm_filter).toBool();
 
@@ -451,10 +522,6 @@ void MediaSettings::load(QSettings * set) {
 	stereo_mode = set->value( "stereo_mode", stereo_mode).toInt();
 
 	zoom_factor = set->value( "zoom_factor", zoom_factor).toDouble();
-
-#if USE_MPLAYER_PANSCAN
-	panscan_factor = set->value( "panscan_factor", panscan_factor).toDouble();
-#endif
 
 	rotate = set->value( "rotate", rotate).toInt();
 	flip = set->value( "flip", flip).toBool();
@@ -464,12 +531,20 @@ void MediaSettings::load(QSettings * set) {
 	A_marker = set->value( "A_marker", A_marker).toInt();
 	B_marker = set->value( "B_marker", B_marker).toInt();
 
-	forced_video_codec = set->value( "forced_video_codec", forced_video_codec).toString();
-	forced_audio_codec = set->value( "forced_audio_codec", forced_audio_codec).toString();
-
-	original_demuxer = set->value( "original_demuxer", original_demuxer).toString();
-	original_video_codec = set->value( "original_video_codec", original_video_codec).toString();
-	original_audio_codec = set->value( "original_audio_codec", original_audio_codec).toString();
+#ifdef BOOKMARKS
+	// Load bookmarks
+	int n_bookmarks = set->beginReadArray("bookmarks");
+	if (n_bookmarks > 0) {
+		bookmarks.clear();
+		for (int i = 0; i < n_bookmarks; ++i) {
+			set->setArrayIndex(i);
+			int time = set->value("time").toInt();
+			QString name = set->value("name").toString();
+			bookmarks.insert(time, name);
+		}
+	}
+	set->endArray();
+#endif
 
 	mplayer_additional_options = set->value( "mplayer_additional_options", mplayer_additional_options).toString();
 	mplayer_additional_video_filters = set->value( "mplayer_additional_video_filters", mplayer_additional_video_filters).toString();
@@ -481,8 +556,6 @@ void MediaSettings::load(QSettings * set) {
 	starting_time = set->value( "starting_time", starting_time ).toDouble();
 
 	is264andHD = set->value( "is264andHD", is264andHD ).toBool();
-
-	/*set->endGroup();*/
 
 	// ChDefault not used anymore
 	if (audio_use_channels == ChDefault) audio_use_channels = ChStereo;

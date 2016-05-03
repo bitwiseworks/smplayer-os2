@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,8 +30,16 @@
 #include "desktopinfo.h"
 #include "editabletoolbar.h"
 
+#if !USE_CONFIGURABLE_TOOLBARS
+#include "favorites.h"
+#endif
+
 #if DOCK_PLAYLIST
 #include "playlistdock.h"
+#endif
+
+#ifdef BUFFERING_ANIMATION
+#include "statewidget.h"
 #endif
 
 #include <QMenu>
@@ -41,6 +49,7 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QMenuBar>
+#include <QMovie>
 
 #define TOOLBAR_VERSION 1
 
@@ -62,8 +71,8 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
 
 	createActions();
 	createMainToolBars();
-    createControlWidget();
-    createControlWidgetMini();
+	createControlWidget();
+	createControlWidgetMini();
 	createFloatingControl();
 	createMenus();
 
@@ -98,6 +107,8 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
 			floating_control->activate();
 		}
 	}
+
+	applyStyles();
 }
 
 DefaultGui::~DefaultGui() {
@@ -118,10 +129,12 @@ void DefaultGui::createActions() {
 	qDebug("DefaultGui::createActions");
 
 	timeslider_action = createTimeSliderAction(this);
-	timeslider_action->disable();
-
 	volumeslider_action = createVolumeSliderAction(this);
+
+#if AUTODISABLE_ACTIONS
+	timeslider_action->disable();
 	volumeslider_action->disable();
+#endif
 
 	// Create the time label
 	time_label_action = new TimeLabelAction(this);
@@ -176,6 +189,17 @@ void DefaultGui::disableActionsOnStop() {
 }
 #endif // AUTODISABLE_ACTIONS
 
+void DefaultGui::togglePlayAction(Core::State state) {
+	qDebug("DefaultGui::togglePlayAction");
+	BaseGui::togglePlayAction(state);
+
+	if (state == Core::Playing) {
+		playOrPauseAct->setIcon(Images::icon("pause"));
+	} else {
+		playOrPauseAct->setIcon(Images::icon("play"));
+	}
+}
+
 void DefaultGui::createMenus() {
 	toolbar_menu = new QMenu(this);
 	toolbar_menu->addAction(toolbar1->toggleViewAction());
@@ -226,12 +250,15 @@ void DefaultGui::createMainToolBars() {
 	toolbar1->setDefaultActions(toolbar1_actions);
 #else
 	toolbar1->addAction(openFileAct);
-	toolbar1->addAction(openDVDAct);
+	/* toolbar1->addAction(openDVDAct); */
 	toolbar1->addAction(openURLAct);
+	toolbar1->addAction(favorites->menuAction());
 	toolbar1->addSeparator();
+	/*
 	toolbar1->addAction(compactAct);
 	toolbar1->addAction(fullscreenAct);
 	toolbar1->addSeparator();
+	*/
 	toolbar1->addAction(screenshotAct);
 	toolbar1->addSeparator();
 	toolbar1->addAction(showPropertiesAct);
@@ -244,6 +271,9 @@ void DefaultGui::createMainToolBars() {
 	//toolbar1->addSeparator();
 	//toolbar1->addAction(timeslider_action);
 	//toolbar1->addAction(volumeslider_action);
+
+	QToolButton * button = qobject_cast<QToolButton *>(toolbar1->widgetForAction(favorites->menuAction()));
+	button->setPopupMode(QToolButton::InstantPopup);
 #endif
 
 	toolbar2 = new QToolBar( this );
@@ -256,7 +286,7 @@ void DefaultGui::createMainToolBars() {
 	toolbar2->addWidget(select_audio);
 
 	select_subtitle = new QPushButton( this );
-	select_subtitle->setMenu( subtitlestrack_menu );
+	select_subtitle->setMenu( subtitles_track_menu );
 	toolbar2->addWidget(select_subtitle);
 
 	/*
@@ -326,7 +356,7 @@ void DefaultGui::createControlWidget() {
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList controlwidget_actions;
-	controlwidget_actions << "play" << "pause_and_frame_step" << "stop" << "separator";
+	controlwidget_actions << "play_or_pause" << "stop" << "separator";
 	#if MINI_ARROW_BUTTONS
 	controlwidget_actions << "rewindbutton_action";
 	#else
@@ -341,8 +371,11 @@ void DefaultGui::createControlWidget() {
 	controlwidget_actions << "separator" << "fullscreen" << "mute" << "volumeslider_action";
 	controlwidget->setDefaultActions(controlwidget_actions);
 #else
+	/*
 	controlwidget->addAction(playAct);
 	controlwidget->addAction(pauseAndStepAct);
+	*/
+	controlwidget->addAction(playOrPauseAct);
 	controlwidget->addAction(stopAct);
 
 	controlwidget->addSeparator();
@@ -385,6 +418,7 @@ void DefaultGui::createFloatingControl() {
 
 	EditableToolbar * iw = new EditableToolbar(floating_control);
 	iw->setObjectName("floating_control");
+	connect(iw, SIGNAL(iconSizeChanged(const QSize &)), this, SLOT(adjustFloatingControlSize()));
 
 #if USE_CONFIGURABLE_TOOLBARS
 	QStringList floatingcontrol_actions;
@@ -481,6 +515,12 @@ void DefaultGui::createStatusBar() {
 	video_info_display->setAlignment(Qt::AlignRight);
 	video_info_display->setFrameShape(QFrame::NoFrame);
 
+#ifdef BUFFERING_ANIMATION
+	state_widget = new StateWidget(statusBar());
+	connect(core, SIGNAL(stateChanged(Core::State)), state_widget, SLOT(watchState(Core::State)));
+	statusBar()->addPermanentWidget(state_widget);
+#endif
+
 	statusBar()->setAutoFillBackground(true);
 
 	ColorUtils::setBackgroundColor( statusBar(), QColor(0,0,0) );
@@ -498,11 +538,11 @@ void DefaultGui::createStatusBar() {
 	statusBar()->addPermanentWidget( video_info_display );
 	statusBar()->addPermanentWidget( ab_section_display );
 
-    statusBar()->showMessage( tr("Welcome to SMPlayer") );
+	statusBar()->showMessage( tr("Ready") );
 	statusBar()->addPermanentWidget( frame_display, 0 );
 	frame_display->setText( "0" );
 
-    statusBar()->addPermanentWidget( time_display, 0 );
+	statusBar()->addPermanentWidget( time_display, 0 );
 	time_display->setText(" 00:00:00 / 00:00:00 ");
 
 	time_display->show();
@@ -513,6 +553,9 @@ void DefaultGui::createStatusBar() {
 
 void DefaultGui::retranslateStrings() {
 	BaseGuiPlus::retranslateStrings();
+
+	// Change the icon of the play/pause action
+	playOrPauseAct->setIcon(Images::icon("play"));
 
 	toolbar_menu->menuAction()->setText( tr("&Toolbars") );
 	toolbar_menu->menuAction()->setIcon( Images::icon("toolbars") );
@@ -537,6 +580,10 @@ void DefaultGui::retranslateStrings() {
 	editControl1Act->change( tr("Edit &control bar") );
 	editControl2Act->change( tr("Edit m&ini control bar") );
 	editFloatingControlAct->change( tr("Edit &floating control") );
+#endif
+
+#ifdef BUFFERING_ANIMATION
+	state_widget->setAnimation(Images::file("buffering.gif"));
 #endif
 }
 
@@ -611,7 +658,7 @@ void DefaultGui::aboutToEnterFullscreen() {
 	// Show floating_control
 	reconfigureFloatingControl();
 	floating_control->deactivate(); // Hide the control in case it was running from compact mode
-	QTimer::singleShot(500, floating_control, SLOT(activate()));
+	QTimer::singleShot(100, floating_control, SLOT(activate()));
 
 
 	// Save visibility of toolbars
@@ -655,7 +702,7 @@ void DefaultGui::aboutToEnterCompactMode() {
 	// Show floating_control
 	if (pref->floating_display_in_compact_mode) {
 		reconfigureFloatingControl();
-		QTimer::singleShot(500, floating_control, SLOT(activate()));
+		QTimer::singleShot(100, floating_control, SLOT(activate()));
 	}
 
 
@@ -720,6 +767,16 @@ QSize DefaultGui::minimumSizeHint() const {
 }
 #endif
 
+void DefaultGui::adjustFloatingControlSize() {
+	qDebug("DefaultGui::adjustFloatingControlSize");
+	//floating_control->adjustSize();
+	QWidget *iw = floating_control->internalWidget();
+	QSize iws = iw->size();
+	QMargins m = floating_control->contentsMargins();
+	int new_height = iws.height() + m.top() + m.bottom();
+	if (new_height < 32) new_height = 32;
+	floating_control->resize(floating_control->width(), new_height);
+}
 
 void DefaultGui::saveConfig() {
 	qDebug("DefaultGui::saveConfig");
@@ -753,6 +810,13 @@ void DefaultGui::saveConfig() {
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
 	set->setValue("floating_control", iw->actionsToStringList() );
 	set->setValue("toolbar1_version", TOOLBAR_VERSION);
+	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	set->setValue("toolbar1", toolbar1->iconSize());
+	set->setValue("controlwidget", controlwidget->iconSize());
+	set->setValue("controlwidget_mini", controlwidget_mini->iconSize());
+	set->setValue("floating_control", iw->iconSize());
 	set->endGroup();
 #endif
 
@@ -806,8 +870,16 @@ void DefaultGui::loadConfig() {
 	controlwidget_mini->setActionsFromStringList( set->value("controlwidget_mini", controlwidget_mini->defaultActions()).toStringList() );
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
 	iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
-	floating_control->adjustSize();
 	set->endGroup();
+
+	set->beginGroup("toolbars_icon_size");
+	toolbar1->setIconSize(set->value("toolbar1", toolbar1->iconSize()).toSize());
+	controlwidget->setIconSize(set->value("controlwidget", controlwidget->iconSize()).toSize());
+	controlwidget_mini->setIconSize(set->value("controlwidget_mini", controlwidget_mini->iconSize()).toSize());
+	iw->setIconSize(set->value("floating_control", iw->iconSize()).toSize());
+	set->endGroup();
+
+	floating_control->adjustSize();
 #endif
 
 	restoreState( set->value( "toolbars_state" ).toByteArray(), Helper::qtVersion() );

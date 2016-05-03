@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FILESETTINGS_HASH_H_
-#define _FILESETTINGS_HASH_H_
+#ifndef FILESETTINGS_HASH_H
+#define FILESETTINGS_HASH_H
 
 #include "filesettingsbase.h"
 
@@ -29,9 +29,9 @@ public:
 
 	virtual bool existSettingsFor(QString filename);
 
-	virtual void loadSettingsFor(QString filename, MediaSettings & mset);
+	virtual void loadSettingsFor(QString filename, MediaSettings & mset, int player);
 
-	virtual void saveSettingsFor(QString filename, MediaSettings & mset);
+	virtual void saveSettingsFor(QString filename, MediaSettings & mset, int player);
 
 private:
 	QString configFile(const QString & filename, QString * output_dir = 0);

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# M T <michtrz@gmail.com>, 2014
-# to_ba, 2014
+# Ettore Atalan <atalanttore@googlemail.com>, 2015-2016
+# M T <michtrz@gmail.com>, 2014,2016
+# Tobias Bannert <tobannert@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2014-03-12 14:42+0000\n"
-"Last-Translator: to_ba\n"
-"Language-Team: German (http://www.transifex.com/projects/p/smplayer/language/de/)\n"
+"PO-Revision-Date: 2016-03-21 15:20+0000\n"
+"Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
+"Language-Team: German (http://www.transifex.com/rvm/smplayer/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -76,6 +77,10 @@ msgstr "Verknüpfung"
 msgid "MPlayer Components"
 msgstr "MPlayer-Komponenten"
 
+# MPlayerMPVGroupTitle
+msgid "Multimedia Engine"
+msgstr "Multimedia-Modul"
+
 # Section_SMPlayer
 msgid "SMPlayer (required)"
 msgstr "SMPlayer (erforderlich)"
@@ -116,6 +121,10 @@ msgstr "Binärcodecs"
 msgid ""
 "Optional codecs for MPlayer. (Internet Connection required for installation)"
 msgstr "Optionale Codecs für MPlayer. (Internetverbindung benötigt für Installation)"
+
+# Section_MPV_Desc
+msgid "A feature-rich fork of MPlayer && MPlayer2"
+msgstr "Eine funktionsreiche Abspaltung von MPlayer && MPlayer2"
 
 # Section_MEncoder_Desc
 msgid ""
@@ -195,9 +204,15 @@ msgstr "Installationseinstellungen ändern"
 msgid "Reset my SMPlayer configuration"
 msgstr "Meine SMPlayer-Konfiguration zurücksetzen"
 
+# Remove_Settings_Confirmation
+msgid ""
+"Are you sure you want to reset your SMPlayer settings? This action cannot be"
+" reversed."
+msgstr "Sind Sie sicher, dass Sie Ihre SMPlayer-Einstellungen zurücksetzen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+
 # Type_Reinstall
 msgid "reinstall"
-msgstr "Erneut installierten"
+msgstr "Erneut installieren"
 
 # Type_Downgrade
 msgid "downgrade"
@@ -260,11 +275,11 @@ msgstr "Der SMPlayer ist eine komplette grafische Oberfläche für den MPlayer, 
 
 # Info_Codecs_Backup
 msgid "Backing up codecs from previous installation..."
-msgstr "Codecs aus vorheriger Installation sichern …"
+msgstr "Codecs werden aus vorheriger Installation gesichert …"
 
 # Info_Codecs_Restore
 msgid "Restoring codecs from previous installation..."
-msgstr "Codecs aus vorheriger Installation wiederherstellen …"
+msgstr "Codecs werden aus vorheriger Installation wiederhergestellt …"
 
 # Info_Del_Files
 msgid "Deleting Files..."
@@ -284,12 +299,64 @@ msgstr "Dateizuordnungen werden wiederhergestellt …"
 
 # Info_RollBack
 msgid "Rolling back changes..."
-msgstr "Zurücksetzen der Änderungen …"
+msgstr "Änderungen werden zurückgesetzt …"
 
 # Info_Files_Extract
 msgid "Extracting files..."
 msgstr "Dateien werden entpackt …"
 
+# Info_SMTube_Backup
+msgid "Backing up SMTube..."
+msgstr "SMTube wird gesichert ..."
+
+# Info_SMTube_Restore
+msgid "Restoring SMTube from previous installation..."
+msgstr "SMTube wird aus vorheriger Installation wiederhergestellt ..."
+
+# Info_MPV_Backup
+msgid "Backing up mpv..."
+msgstr "mpv wird gesichert …"
+
+# Info_MPV_Restore
+msgid "Restoring mpv from previous installation..."
+msgstr "mpv wird aus vorheriger Installation wiederhergestellt …"
+
+# MPV_DL_Msg
+msgid "Downloading mpv..."
+msgstr "mpv wird heruntergeladen …"
+
+# MPV_DL_Retry
+msgid "mpv was not successfully installed. Retry?"
+msgstr "mpv ist nicht erfolgreich installiert worden. Erneut versuchen?"
+
+# MPV_DL_Failed
+msgid "Failed to download mpv: '$R0'."
+msgstr "Fehler beim Herunterladen von mpv: »$R0«."
+
+# MPV_Inst_Failed
+msgid "Failed to install mpv."
+msgstr "Fehler beim Installieren von mpv."
+
+# YTDL_DL_Retry
+msgid "youtube-dl was not successfully installed. Retry?"
+msgstr "youtube-dl ist nicht erfolgreich installiert worden. Erneut versuchen?"
+
+# YTDL_DL_Failed
+msgid "Failed to download youtube-dl: '$R0'."
+msgstr "Fehler beim Herunterladen von youtube-dl: »$R0«."
+
+# YTDL_Update_Check
+msgid "Checking for youtube-dl updates..."
+msgstr "Es wird nach Aktualisierungen für youtube-dl gesucht …"
+
+# Info_Cleaning_Fontconfig
+msgid "Cleaning fontconfig cache..."
+msgstr "Schriftzwischenspeicher wird bereinigt …"
+
+# Info_Cleaning_SMPlayer
+msgid "Cleaning SMPlayer settings..."
+msgstr "SMPlayer-Einstellungen werden bereinigt …"
+
 # Section_MPlayerCodecs_Desc
 msgid "Binary codecs are not supported in this version."
-msgstr "Binär-Codecs werden in dieser Version nicht unterstützt."
+msgstr "Binärcodecs werden in dieser Version nicht unterstützt."

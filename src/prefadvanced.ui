@@ -102,7 +102,7 @@
        <item>
         <widget class="QCheckBox" name="mplayer_use_window_check">
          <property name="text">
-          <string>&amp;Run MPlayer in its own window</string>
+          <string notr="true">&amp;Run PLAYER in its own window</string>
          </property>
         </widget>
        </item>
@@ -123,7 +123,7 @@
        <item>
         <widget class="QCheckBox" name="shortnames_check">
          <property name="text">
-          <string>&amp;Pass short filenames (8+3) to MPlayer</string>
+          <string notr="true">&amp;Pass short filenames (8+3) to PLAYER</string>
          </property>
         </widget>
        </item>
@@ -137,7 +137,14 @@
        <item>
         <widget class="QCheckBox" name="mplayer_crashes_check">
          <property name="text">
-          <string>R&amp;eport MPlayer crashes</string>
+          <string notr="true">R&amp;eport PLAYER crashes</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="use_playlist_check">
+         <property name="text">
+          <string notr="true">Pa&amp;ss the PLAYLIST option to MPlayer (security risk)</string>
          </property>
         </widget>
        </item>
@@ -296,7 +303,7 @@
      </widget>
      <widget class="QWidget" name="tab2">
       <attribute name="title">
-       <string>Options for MP&amp;layer</string>
+       <string notr="true">O&amp;ptions for PLAYER</string>
       </attribute>
       <layout class="QVBoxLayout">
        <property name="spacing">
@@ -306,9 +313,9 @@
         <number>9</number>
        </property>
        <item>
-        <widget class="QLabel" name="textLabel3_2">
+        <widget class="QLabel" name="options_info_label">
          <property name="text">
-          <string>Here you can pass extra options to MPlayer.
+          <string notr="true">Here you can pass extra options to PLAYER.
 Write them separated by spaces.
 Example: -flip -nosound</string>
          </property>
@@ -370,7 +377,7 @@ Example: -flip -nosound</string>
          <property name="text">
           <string>You can also pass additional video filters.
 Separate them with &quot;,&quot;. Do not use spaces!
-Example: scale=512:-2,eq2=1.1</string>
+Example: scale=512:-2,mirror</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignVCenter</set>
@@ -429,7 +436,7 @@ Example: scale=512:-2,eq2=1.1</string>
         <widget class="QLabel" name="textLabel5_2">
          <property name="text">
           <string>And finally audio filters. Same rule as for video filters.
-Example: resample=44100:0:0,volnorm</string>
+Example: extrastereo,karaoke</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignVCenter</set>
@@ -537,13 +544,13 @@ Example: resample=44100:0:0,volnorm</string>
        <item>
         <widget class="QGroupBox" name="mplayer_log_box">
          <property name="title">
-          <string>MPlayer</string>
+          <string notr="true">PLAYER</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QCheckBox" name="log_mplayer_check">
             <property name="text">
-             <string>Log MPlayer &amp;output</string>
+             <string notr="true">Log PLAYER &amp;output</string>
             </property>
            </widget>
           </item>
@@ -582,7 +589,7 @@ Example: resample=44100:0:0,volnorm</string>
              <item row="1" column="1">
               <widget class="QCheckBox" name="log_mplayer_save_check">
                <property name="text">
-                <string>A&amp;utosave MPlayer log to file</string>
+                <string notr="true">A&amp;utosave PLAYER log to file</string>
                </property>
               </widget>
              </item>
@@ -735,6 +742,7 @@ Example: resample=44100:0:0,volnorm</string>
   <tabstop>shortnames_check</tabstop>
   <tabstop>repaint_video_background_check</tabstop>
   <tabstop>mplayer_crashes_check</tabstop>
+  <tabstop>use_playlist_check</tabstop>
   <tabstop>correct_pts_combo</tabstop>
   <tabstop>actions_to_run_edit</tabstop>
   <tabstop>colorkey_view</tabstop>

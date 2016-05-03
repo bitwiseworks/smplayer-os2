@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef _PREFERENCES_H_
-#define _PREFERENCES_H_
+#ifndef PREFERENCES_H
+#define PREFERENCES_H
 
 /* Global settings */
 
@@ -30,7 +30,7 @@
 #include "assstyles.h"
 
 #ifdef UPDATE_CHECKER
-#include "updatechecker.h"
+#include "updatecheckerdata.h"
 #endif
 
 class Recents;
@@ -47,9 +47,11 @@ public:
                     BelowNormal = 4, Idle = 5 };
 	enum WheelFunction { DoNothing = 1, Seeking = 2, Volume = 4, Zoom = 8,
                          ChangeSpeed = 16 };
+	enum DragFunction { DragDisabled = 0, MoveWindow = 1, Gestures = 2 };
 	enum OptionState { Detect = -1, Disabled = 0, Enabled = 1 };
 	enum H264LoopFilter { LoopDisabled = 0, LoopEnabled = 1, LoopDisabledOnHD = 2 };
 	enum AutoAddToPlaylistFilter { NoFiles = 0, VideoFiles = 1, AudioFiles = 2, MultimediaFiles = 3, ConsecutiveFiles = 4 };
+	enum Streaming { NoStreaming = 0, StreamingAuto = 1, StreamingYT = 2, StreamingYTDL = 3 };
 
 	Q_DECLARE_FLAGS(WheelFunctions, WheelFunction);
 
@@ -79,7 +81,14 @@ public:
 	QString ao; // audio output
 
 	bool use_screenshot;
+#ifdef MPV_SUPPORT
+	QString screenshot_template;
+	QString screenshot_format;
+#endif
 	QString screenshot_directory;
+#ifdef CAPTURE_STREAM
+	QString capture_directory;
+#endif
 
 	// SMPlayer will remember all media settings for all videos.
 	// This options allow to disable it:
@@ -148,6 +157,8 @@ public:
 
 	// Misc
 	int osd;
+	double osd_scale; // mpv
+	double subfont_osd_scale; // mplayer
 	int osd_delay; //<! Delay in ms to show the OSD.
 
 	QString file_settings_method; //!< Method to be used for saving file settings
@@ -185,12 +196,16 @@ public:
 	H264LoopFilter h264_skip_loop_filter;
 	int HD_height; //!< An HD is a video which height is equal or greater than this.
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	OptionState fast_audio_change; // If activated, not restart mplayer
+#endif
+
 #if !SMART_DVD_CHAPTERS
 	bool fast_chapter_change;
 #endif
 
 	int threads; //!< number of threads to use for decoding (-lavdopts threads <1-8>)
+	QString hwdec; //!< hardware video decoding (mpv only)
 
 	int cache_for_files;
 	int cache_for_streams;
@@ -199,29 +214,19 @@ public:
 	int cache_for_audiocds;
 	int cache_for_tv;
 
-#ifdef YOUTUBE_SUPPORT
-	int yt_quality;
-	QString yt_user_agent;
-	bool yt_use_https_main;
-	bool yt_use_https_vi;
-#endif
-
 
 	/* *********
 	   Subtitles
 	   ********* */
 
-	QString font_file;
-	QString font_name;
-	bool use_fontconfig;
 	QString subcp; // -subcp
 	bool use_enca;
 	QString enca_lang;
-	int font_autoscale; // -subfont-autoscale
 	int subfuzziness;
 	bool autoload_sub;
 
 	bool use_ass_subtitles;
+	bool enable_ass_styles;
 	int ass_line_spacing;
 
 	bool use_forced_subs_only;
@@ -230,9 +235,6 @@ public:
 
 	bool subtitles_on_screenshots;
 
-	//! Use the new sub_vob, sub_demux and sub_file commands
-	//! instead of sub_select
-	OptionState use_new_sub_commands; 
 	OptionState change_sub_scale_should_restart;
 
 	//! If true, loading an external subtitle will be done
@@ -247,7 +249,7 @@ public:
 
 	//! If false, options requiring freetype won't be used
 	bool freetype_support;
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	bool use_windowsfontdir;
 #endif
 
@@ -298,6 +300,11 @@ public:
     //! to play
 	bool use_edl_files;
 
+#ifdef MPLAYER_SUPPORT
+	//! If true it will pass to mplayer the -playlist option
+	bool use_playlist_option;
+#endif
+
 	//! Preferred connection method: ipv4 or ipv6
 	bool prefer_ipv4;
 
@@ -323,6 +330,10 @@ public:
 
 	int time_to_kill_mplayer;
 
+#ifdef MPRIS2
+	bool use_mpris2;
+#endif
+
 
 	/* *********
 	   GUI stuff
@@ -340,7 +351,8 @@ public:
 	QString style; 	//!< SMPlayer look
 #endif
 
-	bool move_when_dragging; //!< Move the main window when the video area is dragged
+	bool center_window; //!< Center the main window when playback starts
+	bool center_window_if_outside; //!< Center the main window after an autoresize if it's outside of the screen
 
 	// Function of mouse buttons:
 	QString mouse_left_click_function;
@@ -353,6 +365,8 @@ public:
 
 	WheelFunctions wheel_function_cycle;
 	bool wheel_function_seeking_reverse;
+
+	int drag_function;
 
 	// Configurable seeking
 	int seeking1; // By default 10s
@@ -369,7 +383,7 @@ public:
 	//! percentage (with fractions) instead of time.
 	bool relative_seeking;  
 #endif
-	bool precise_seeking; //! Enable precise_seeking (only available with mplayer2)
+	bool precise_seeking; //! Enable precise_seeking (only available with mpv)
 
 	bool reset_stop; //! Pressing the stop button resets the position
 
@@ -439,7 +453,29 @@ public:
 	int initial_tv_deinterlace;
 	QString last_dvb_channel;
 	QString last_tv_channel;
-	
+
+
+    /* ********
+       Network
+       ******** */
+
+	// Streaming
+	int streaming_type;
+	#ifdef YOUTUBE_SUPPORT
+	int yt_quality;
+	QString yt_user_agent;
+	bool yt_use_https_main;
+	bool yt_use_https_vi;
+	#endif
+
+	// Proxy
+	bool use_proxy;
+	int proxy_type;
+	QString proxy_host;
+	int proxy_port;
+	QString proxy_username;
+	QString proxy_password;
+
 
     /* ***********
        Directories
@@ -493,8 +529,10 @@ public:
 	//! the version can't be parsed from mplayer output
 	int mplayer_user_supplied_version;
 
+#ifdef MPLAYER2_SUPPORT
 	bool mplayer_is_mplayer2; //! True if the detected version is mplayer2
 	QString mplayer2_detected_version;
+#endif
 
 
     /* *********

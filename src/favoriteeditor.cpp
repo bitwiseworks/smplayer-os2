@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -250,7 +250,7 @@ void FavoriteEditor::on_add_submenu_button_clicked() {
 		n++;
 	} while (QFile::exists(filename));
 
-	qDebug("FavoriteEditor::on_add_submenu_button_clicked: choosen filename: '%s'", filename.toUtf8().constData());
+	qDebug("FavoriteEditor::on_add_submenu_button_clicked: chosen filename: '%s'", filename.toUtf8().constData());
 
 
 	int row = table->currentRow();
@@ -258,7 +258,7 @@ void FavoriteEditor::on_add_submenu_button_clicked() {
 	table->insertRow(row);
 
 	QTableWidgetItem * icon_item = new QTableWidgetItem;
-	icon_item->setData( Qt::UserRole, Images::file("openfolder.png") );
+	icon_item->setData( Qt::UserRole, Images::file("openfolder") );
 	icon_item->setIcon( Images::icon("openfolder") );
 	icon_item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 

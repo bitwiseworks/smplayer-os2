@@ -6,10 +6,6 @@
   !error "Version information not defined (or incomplete). You must define: VER_MAJOR, VER_MINOR, VER_BUILD."
 !endif
 
-!ifdef WIN64
-  !define DISABLE_CODECS
-!endif
-
 ;--------------------------------
 ;Compressor
 
@@ -46,8 +42,6 @@
   !define SMPLAYER_UNINST_EXE "uninst.exe"
   !define SMPLAYER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\SMPlayer"
 
-  !define CODEC_VERSION "windows-essential-20071007"
-
 ;--------------------------------
 ;General
 
@@ -55,9 +49,17 @@
   Name "SMPlayer ${SMPLAYER_VERSION}"
   BrandingText "SMPlayer for Windows v${SMPLAYER_VERSION}"
 !ifdef WIN64
+  !ifdef QT5
+  OutFile "output\Qt5\smplayer-${SMPLAYER_VERSION}-x64-qt5.exe"
+  !else
   OutFile "output\smplayer-${SMPLAYER_VERSION}-x64.exe"
+  !endif
 !else
+  !ifdef QT5
+  OutFile "output\Qt5\smplayer-${SMPLAYER_VERSION}-win32-qt5.exe"
+  !else
   OutFile "output\smplayer-${SMPLAYER_VERSION}-win32.exe"
+  !endif
 !endif
 
   ;Version tab properties
@@ -105,9 +107,11 @@
   Var Reinstall_Uninstall
   Var Reinstall_UninstallButton
   Var Reinstall_UninstallButton_State
-!ifndef DISABLE_CODECS
+!ifndef WIN64
   Var Restore_Codecs
 !endif
+  Var Restore_YTDL
+  Var Restore_SMTube
   Var SMPlayer_Path
   Var SMPlayer_UnStrPath
   Var SMPlayer_StartMenuFolder
@@ -135,8 +139,8 @@
   !define MUI_COMPONENTSPAGE_SMALLDESC
 
   ;Finish page
-  !define MUI_FINISHPAGE_LINK "http://smplayer.sourceforge.net"
-  !define MUI_FINISHPAGE_LINK_LOCATION "http://smplayer.sourceforge.net"
+  !define MUI_FINISHPAGE_LINK "http://www.smplayer.info"
+  !define MUI_FINISHPAGE_LINK_LOCATION "http://www.smplayer.info"
   !define MUI_FINISHPAGE_NOREBOOTSUPPORT
   !define MUI_FINISHPAGE_RUN $INSTDIR\smplayer.exe
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
@@ -210,6 +214,7 @@
 
   !insertmacro MUI_LANGUAGE "English"
   !insertmacro MUI_LANGUAGE "Albanian"
+  ;!insertmacro MUI_LANGUAGE "Amharic"
   !insertmacro MUI_LANGUAGE "Arabic"
   !insertmacro MUI_LANGUAGE "Basque"
   !insertmacro MUI_LANGUAGE "Bulgarian"
@@ -218,9 +223,11 @@
   !insertmacro MUI_LANGUAGE "Czech"
   !insertmacro MUI_LANGUAGE "Danish"
   !insertmacro MUI_LANGUAGE "Dutch"
+  !insertmacro MUI_LANGUAGE "Farsi"
   !insertmacro MUI_LANGUAGE "Finnish"
   !insertmacro MUI_LANGUAGE "French"
   !insertmacro MUI_LANGUAGE "German"
+  !insertmacro MUI_LANGUAGE "Greek"
   !insertmacro MUI_LANGUAGE "Hebrew"
   !insertmacro MUI_LANGUAGE "Hungarian"
   !insertmacro MUI_LANGUAGE "Italian"
@@ -231,6 +238,7 @@
   !insertmacro MUI_LANGUAGE "Polish"
   !insertmacro MUI_LANGUAGE "Portuguese"
   !insertmacro MUI_LANGUAGE "PortugueseBR"
+  !insertmacro MUI_LANGUAGE "Romanian"
   !insertmacro MUI_LANGUAGE "Russian"
   !insertmacro MUI_LANGUAGE "Serbian"
   !insertmacro MUI_LANGUAGE "SimpChinese"
@@ -240,11 +248,16 @@
   !insertmacro MUI_LANGUAGE "Thai"
   !insertmacro MUI_LANGUAGE "TradChinese"
   !insertmacro MUI_LANGUAGE "Ukrainian"
+  !insertmacro MUI_LANGUAGE "Galician"
+  !insertmacro MUI_LANGUAGE "Indonesian"
+  !insertmacro MUI_LANGUAGE "Turkish"
+  !insertmacro MUI_LANGUAGE "Vietnamese"
 
 ;Custom translations for setup
 
   !insertmacro LANGFILE_INCLUDE "translations\english.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\albanian.nsh"
+  ;!insertmacro LANGFILE_INCLUDE "translations\amharic.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\arabic.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\basque.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\bulgarian.nsh"
@@ -253,9 +266,11 @@
   !insertmacro LANGFILE_INCLUDE "translations\czech.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\danish.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\dutch.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\farsi.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\finnish.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\french.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\german.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\greek.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\hebrew.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\hungarian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\italian.nsh"
@@ -266,6 +281,7 @@
   !insertmacro LANGFILE_INCLUDE "translations\polish.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\portuguese.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\portuguesebrazil.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\romanian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\russian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\serbian.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\simpchinese.nsh"
@@ -275,6 +291,10 @@
   !insertmacro LANGFILE_INCLUDE "translations\thai.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\tradchinese.nsh"
   !insertmacro LANGFILE_INCLUDE "translations\ukrainian.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\galician.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\indonesian.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\turkish.nsh"
+  !insertmacro LANGFILE_INCLUDE "translations\vietnamese.nsh"
 
 ;--------------------------------
 ;Reserve Files
@@ -302,9 +322,11 @@ Section $(Section_SMPlayer) SecSMPlayer
       Quit
     ${ElseIf} $Reinstall_OverwriteButton_State == 1
 
-!ifndef DISABLE_CODECS
+!ifndef WIN64
       Call Backup_Codecs
 !endif
+      Call Backup_YTDL
+      Call Backup_SMTube
 
       ${If} "$INSTDIR" == "$SMPlayer_Path"
         ExecWait '"$SMPlayer_UnStrPath" /S /R _?=$SMPlayer_Path'
@@ -329,29 +351,19 @@ Section $(Section_SMPlayer) SecSMPlayer
   SetOutPath "$INSTDIR\imageformats"
   File /r "${SMPLAYER_BUILD_DIR}\imageformats\*.*"
 
+  ;Open fonts
+  ; SetOutPath "$INSTDIR\open-fonts"
+  ; File /r "${SMPLAYER_BUILD_DIR}\open-fonts\*.*"
+
   ;Qt platforms (Qt 5+)
+!ifdef QT5
   SetOutPath "$INSTDIR\platforms"
-  File /nonfatal /r "${SMPLAYER_BUILD_DIR}\platforms\*.*"
+  File /r "${SMPLAYER_BUILD_DIR}\platforms\*.*"
+!endif
 
   ;SMPlayer key shortcuts
   SetOutPath "$INSTDIR\shortcuts"
   File /r "${SMPLAYER_BUILD_DIR}\shortcuts\*.*"
-
-!ifndef DISABLE_CODECS
-  SetOutPath "$PLUGINSDIR"
-  File 7za.exe
-!endif
-
-  ;Initialize to 0 if don't exist (based on error flag)
-  ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer
-  ${If} ${Errors}
-    WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer 0x0
-  ${EndIf}
-
-  ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs
-  ${If} ${Errors}
-    WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs 0x0
-  ${EndIf}
 
 SectionEnd
 
@@ -372,8 +384,10 @@ SectionGroup $(ShortcutGroupTitle)
     !insertmacro MUI_STARTMENU_WRITE_BEGIN SMP_SMenu
       CreateDirectory "$SMPROGRAMS\$SMPlayer_StartMenuFolder"
       CreateShortCut "$SMPROGRAMS\$SMPlayer_StartMenuFolder\SMPlayer.lnk" "$INSTDIR\smplayer.exe"
-      CreateShortCut "$SMPROGRAMS\$SMPlayer_StartMenuFolder\SMTube.lnk" "$INSTDIR\smtube.exe"
-      WriteINIStr    "$SMPROGRAMS\$SMPlayer_StartMenuFolder\SMPlayer on the Web.url" "InternetShortcut" "URL" "http://smplayer.sourceforge.net"
+      ${If} $Restore_SMTube == 1
+        CreateShortCut "$SMPROGRAMS\$SMPlayer_StartMenuFolder\SMTube.lnk" "$INSTDIR\smtube.exe"
+      ${EndIf}
+      WriteINIStr    "$SMPROGRAMS\$SMPlayer_StartMenuFolder\SMPlayer on the Web.url" "InternetShortcut" "URL" "http://www.smplayer.info"
       CreateShortCut "$SMPROGRAMS\$SMPlayer_StartMenuFolder\Uninstall SMPlayer.lnk" "$INSTDIR\${SMPLAYER_UNINST_EXE}"
     !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -382,81 +396,53 @@ SectionGroup $(ShortcutGroupTitle)
 SectionGroupEnd
 
 ;--------------------------------
-;MPlayer & MPlayer Codecs
-SectionGroup $(MPlayerGroupTitle)
+;MPlayer & MPV
+SectionGroup $(MPlayerMPVGroupTitle)
 
-  Section $(Section_MPlayer) SecMPlayer
-
-    SectionIn RO
+  ${MementoSection} "MPlayer" SecMPlayer
 
     SetOutPath "$INSTDIR\mplayer"
-    File /r /x mplayer.exe /x mencoder.exe /x mplayer64.exe /x mencoder64.exe /x *.exe.debug /x buildinfo /x buildinfo64 "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
+    File /r /x mplayer.exe /x mencoder.exe /x mplayer64.exe /x mencoder64.exe /x *.exe.debug /x gdb.exe /x gdb64.exe /x vfw2menc.exe /x buildinfo /x buildinfo64 /x buildinfo-mencoder-32 /x buildinfo-mencoder-debug-32 /x buildinfo-mplayer-32 /x buildinfo-mplayer-debug-32 /x buildinfo-mencoder-64 /x buildinfo-mencoder-debug-64 /x buildinfo-mplayer-64 /x buildinfo-mplayer-debug-64 "${SMPLAYER_BUILD_DIR}\mplayer\*.*"
 !ifdef WIN64
     File /oname=mplayer.exe "${SMPLAYER_BUILD_DIR}\mplayer\mplayer64.exe"
+    RMDir "$INSTDIR\mplayer\codecs"
 !else
     File "${SMPLAYER_BUILD_DIR}\mplayer\mplayer.exe"
 !endif
 
-    WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_MPlayer 0x1
+  ${MementoSectionEnd}
 
-  SectionEnd
+  ${MementoSection} "MPV" SecMPV
 
-!ifndef DISABLE_CODECS
-  Section /o $(Section_MPlayerCodecs) SecCodecs
-
-    AddSize 22931
-
-    ${If} $Restore_Codecs == 1
-      DetailPrint $(Info_Codecs_Restore)
-      CopyFiles /SILENT "$PLUGINSDIR\codecbak\*" "$INSTDIR\mplayer\codecs"
-      Goto check_codecs
-    ${ElseIf} ${FileExists} "$EXEDIR\${CODEC_VERSION}.zip"
-      CopyFiles /SILENT "$EXEDIR\${CODEC_VERSION}.zip" "$PLUGINSDIR"
-      Goto extract_codecs
-    ${EndIf}
-
-    retry_codecs_dl:
-
-    DetailPrint $(Codecs_DL_Msg)
-!ifdef USE_INETC
-    inetc::get /CONNECTTIMEOUT 15000 /RESUME "" /BANNER $(Codecs_DL_Msg) /CAPTION $(Codecs_DL_Msg) \
-    "http://www.mplayerhq.hu/MPlayer/releases/codecs/${CODEC_VERSION}.zip" \
-    "$PLUGINSDIR\${CODEC_VERSION}.zip" /END
-    Pop $R0
-    StrCmp $R0 OK +4 0
+  SetOutPath "$INSTDIR\mpv"
+!ifdef WIN64
+  File /r /x mpv.exe /x mpv.com /x mpv64.exe /x mpv64.com /x fonts /x mpv "${SMPLAYER_BUILD_DIR}\mpv\*.*"
+  File /oname=mpv.exe "${SMPLAYER_BUILD_DIR}\mpv\mpv64.exe"
+  File /oname=mpv.com "${SMPLAYER_BUILD_DIR}\mpv\mpv64.com"
 !else
-    NSISdl::download /TIMEOUT=15000 \
-    "http://www.mplayerhq.hu/MPlayer/releases/codecs/${CODEC_VERSION}.zip" \
-    "$PLUGINSDIR\${CODEC_VERSION}.zip" /END
-    Pop $R0
-    StrCmp $R0 "success" +4 0
+  File /r /x mpv64.exe /x mpv64.com "${SMPLAYER_BUILD_DIR}\mpv\*.*"
 !endif
-      DetailPrint $(Codecs_DL_Failed)
-      MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(Codecs_DL_Retry) /SD IDCANCEL IDRETRY retry_codecs_dl
-      Goto check_codecs
 
-    extract_codecs:
+  IfFileExists "$PLUGINSDIR\youtube-dl.exe" 0 YTDL
+    CopyFiles /SILENT "$PLUGINSDIR\youtube-dl.exe" "$INSTDIR\mpv"
 
-    DetailPrint $(Info_Files_Extract)
-    nsExec::Exec '"$PLUGINSDIR\7za.exe" x "$PLUGINSDIR\${CODEC_VERSION}.zip" -y -o"$PLUGINSDIR"'
+    DetailPrint $(YTDL_Update_Check)
+    NsExec::ExecToLog '"$INSTDIR\mpv\youtube-dl.exe" -U'
 
-    CreateDirectory "$INSTDIR\mplayer\codecs"
-    CopyFiles /SILENT "$PLUGINSDIR\${CODEC_VERSION}\*" "$INSTDIR\mplayer\codecs"
+    Goto skip_ytdl
 
-    check_codecs:
+  YTDL:
+  NSISdl::download /TIMEOUT=30000 \
+  "http://yt-dl.org/latest/youtube-dl.exe" \
+  "$INSTDIR\mpv\youtube-dl.exe" /END
+  Pop $R0
+  StrCmp $R0 "success" +3 0
+    DetailPrint $(YTDL_DL_Failed)
+    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(YTDL_DL_Retry) /SD IDCANCEL IDRETRY YTDL
 
-    IfFileExists "$INSTDIR\mplayer\codecs\*.dll" 0 codecsInstFailed
-        WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs 0x1
-        Goto done
-      codecsInstFailed:
-        DetailPrint $(Codecs_Inst_Failed)
-        WriteRegDWORD HKLM "${SMPLAYER_REG_KEY}" Installed_Codecs 0x0
-        Sleep 5000
+  skip_ytdl:
 
-    done:
-
-  SectionEnd
-!endif
+  ${MementoSectionEnd}
 
 SectionGroupEnd
 
@@ -478,9 +464,39 @@ ${MementoSection} $(Section_Translations) SecTranslations
 
 ${MementoSectionEnd}
 
-Section /o $(Reinstall_Msg5) SecResetSettings
+Section -RestorePrograms
 
-    NsExec::Exec '"$INSTDIR\smplayer.exe" -delete-config'
+  ${If} $Restore_SMTube == 1
+    DetailPrint $(Info_SMTube_Restore)
+    CreateDirectory "$INSTDIR\docs\smtube"
+    CreateDirectory "$INSTDIR\translations"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\smtube.exe" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\docs\smtube\*" "$INSTDIR\docs\smtube"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\translations\*" "$INSTDIR\translations"
+!ifdef QT5
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5WebKit.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Sql.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Qml.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Quick.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Positioning.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Multimedia.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Sensors.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5WebChannel.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5WebKitWidgets.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5OpenGL.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5PrintSupport.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5MultimediaWidgets.dll" "$INSTDIR"
+!else
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\QtWebKit4.dll" "$INSTDIR"
+!endif
+  ${EndIf}
+
+!ifndef WIN64
+  ${If} $Restore_Codecs == 1
+    DetailPrint $(Info_Codecs_Restore)
+    CopyFiles /SILENT "$PLUGINSDIR\codecbak\*" "$INSTDIR\mplayer\codecs"
+  ${EndIf}
+!endif
 
 SectionEnd
 
@@ -512,19 +528,32 @@ Section -Post
 !endif
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "DisplayIcon" "$INSTDIR\smplayer.exe"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "DisplayVersion" "${SMPLAYER_VERSION}"
-  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "HelpLink" "http://forum.smplayer.info"
+  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "HelpLink" "http://www.smplayer.info/forum"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "Publisher" "Ricardo Villalba"
   WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "UninstallString" "$INSTDIR\${SMPLAYER_UNINST_EXE}"
-  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLInfoAbout" "http://smplayer.sourceforge.net"
-  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLUpdateInfo" "http://smplayer.sourceforge.net"
+  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLInfoAbout" "http://www.smplayer.info"
+  WriteRegStr HKLM "${SMPLAYER_UNINST_KEY}" "URLUpdateInfo" "http://www.smplayer.info"
   WriteRegDWORD HKLM "${SMPLAYER_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${SMPLAYER_UNINST_KEY}" "NoRepair" "1"
 
-  ;Clean up empty directories
-  RMDir "$INSTDIR\platforms"
-!ifdef WIN64
-  RMDir "$INSTDIR\mplayer\codecs"
-!endif
+  DetailPrint $(Info_Cleaning_Fontconfig)
+  SetDetailsPrint none
+  Delete "$LOCALAPPDATA\fontconfig\cache\CACHEDIR.TAG"
+  Delete "$LOCALAPPDATA\fontconfig\cache\*.cache*"
+  RMDir "$LOCALAPPDATA\fontconfig\cache"
+  RMDir "$LOCALAPPDATA\fontconfig"
+  SetDetailsPrint both
+
+  ${If} $Reinstall_RemoveSettings_State == 1
+    DetailPrint $(Info_Cleaning_SMPlayer)
+    SetDetailsPrint none
+    NsExec::Exec '"$INSTDIR\smplayer.exe" -delete-config'
+    SetDetailsPrint both
+  ${EndIf}
+
+  Sleep 2500
+
+  ;SetAutoClose false
 
 SectionEnd
 
@@ -537,12 +566,9 @@ ${MementoSectionDone}
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktopShortcut} $(Section_DesktopShortcut_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenuShortcut} $(Section_StartMenu_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMPlayer} $(Section_MPlayer_Desc)
-!ifndef DISABLE_CODECS
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecCodecs} $(Section_MPlayerCodecs_Desc)
-!endif
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecMPV} $(Section_MPV_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecThemes} $(Section_IconThemes_Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${SecTranslations} $(Section_Translations_Desc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecResetSettings} $(Section_ResetSettings_Desc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -639,14 +665,35 @@ ${MementoSectionDone}
   RMDir /r "$INSTDIR\docs"
   RMDir /r "$INSTDIR\imageformats"
   RMDir /r "$INSTDIR\mplayer"
+  RMDir /r "$INSTDIR\mpv"
+  ; RMDir /r "$INSTDIR\open-fonts"
   RMDir /r "$INSTDIR\platforms"
   RMDir /r "$INSTDIR\shortcuts"
   RMDir /r "$INSTDIR\themes"
   RMDir /r "$INSTDIR\translations"
-  Delete "$INSTDIR\*.txt"
-  Delete "$INSTDIR\icudt51.dll"
-  Delete "$INSTDIR\icuin51.dll"
-  Delete "$INSTDIR\icuuc51.dll"
+
+  ;Txt
+  Delete "$INSTDIR\Copying.txt"
+  Delete "$INSTDIR\Copying_BSD.txt"
+  Delete "$INSTDIR\Copying_libmaia.txt"
+  Delete "$INSTDIR\Copying_openssl.txt"
+  Delete "$INSTDIR\dvdmenus.txt"
+  Delete "$INSTDIR\Finding_subtitles.txt"
+  Delete "$INSTDIR\Install.txt"
+  Delete "$INSTDIR\Notes_about_mpv.txt"
+  Delete "$INSTDIR\Not_so_obvious_things.txt"
+  Delete "$INSTDIR\Portable_Edition.txt"
+  Delete "$INSTDIR\Readme.txt"
+  Delete "$INSTDIR\Release_notes.txt"
+  Delete "$INSTDIR\Watching_TV.txt"
+
+  ;Binaries
+  Delete "$INSTDIR\smplayer.exe"
+  Delete "$INSTDIR\smtube.exe"
+  Delete "$INSTDIR\dxlist.exe"
+  Delete "$INSTDIR\icudt5*.dll"
+  Delete "$INSTDIR\icuin5*.dll"
+  Delete "$INSTDIR\icuuc5*.dll"
   Delete "$INSTDIR\libgcc_s_*.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libwinpthread-1.dll"
@@ -656,9 +703,6 @@ ${MementoSectionDone}
   Delete "$INSTDIR\libeay32.dll"
   Delete "$INSTDIR\ssleay32.dll"
   Delete "$INSTDIR\sample.avi"
-  Delete "$INSTDIR\smplayer.exe"
-  Delete "$INSTDIR\smtube.exe"
-  Delete "$INSTDIR\dxlist.exe"
 
   ;Delete registry keys
   SetDetailsPrint textonly
@@ -700,7 +744,11 @@ FunctionEnd
 
 Function .onInit
 
+!ifdef WIN64
+  ${Unless} ${AtLeastWinVista}
+!else
   ${Unless} ${AtLeastWinXP}
+!endif
     MessageBox MB_YESNO|MB_ICONSTOP $(OS_Not_Supported) /SD IDNO IDYES installonoldwindows
     Abort
   installonoldwindows:
@@ -790,6 +838,15 @@ Function .onInstFailed
 
 FunctionEnd
 
+Function .onSelChange
+
+  ${Unless} ${SectionIsSelected} ${SecMPlayer}
+  ${AndUnless} ${SectionIsSelected} ${SecMPV}
+    !insertmacro SelectSection ${SecMPlayer}
+  ${EndUnless}
+
+FunctionEnd
+
 Function CheckPreviousVersion
 
   ClearErrors
@@ -827,10 +884,10 @@ Function CheckPreviousVersion
 
 FunctionEnd
 
-!ifndef DISABLE_CODECS
+!ifndef WIN64
 Function Backup_Codecs
 
-  ${IfNot} ${SectionIsSelected} ${SecCodecs}
+  ${IfNot} ${SectionIsSelected} ${SecMPlayer}
     Return
   ${EndIf}
 
@@ -846,18 +903,63 @@ Function Backup_Codecs
 FunctionEnd
 !endif
 
-Function LoadPreviousSettings
+Function Backup_YTDL
 
-  ;MPlayer codecs section doesn't use Memento so we need to restore it manually
-  ;32-bit only
-!ifndef DISABLE_CODECS
-    ReadRegDWORD $R0 HKLM "${SMPLAYER_REG_KEY}" "Installed_Codecs"
-    ${If} $R0 == 1
-      !insertmacro SelectSection ${SecCodecs}
-    ${EndIf}
+  ${IfNot} ${SectionIsSelected} ${SecMPV}
+    Return
+  ${EndIf}
+
+  IfFileExists "$SMPlayer_Path\mpv\youtube-dl.exe" 0 NoBackup
+    CopyFiles /SILENT "$SMPlayer_Path\mpv\youtube-dl.exe" "$PLUGINSDIR\youtube-dl.exe"
+
+    StrCpy $Restore_YTDL 1
+    Return
+  NoBackup:
+    StrCpy $Restore_YTDL 0
+
+FunctionEnd
+
+Function Backup_SMTube
+
+  IfFileExists "$SMPlayer_Path\smtube.exe" 0 NoBackup
+!ifdef QT5
+    IfFileExists "$SMPlayer_Path\Qt5WebKit.dll" 0 NoBackup
+!else
+    IfFileExists "$SMPlayer_Path\QtWebKit4.dll" 0 NoBackup
+!endif
+      DetailPrint $(Info_SMTube_Backup)
+      CreateDirectory "$PLUGINSDIR\smtubebak\translations"
+      CreateDirectory "$PLUGINSDIR\smtubebak\docs\smtube"
+      CopyFiles /SILENT "$SMPlayer_Path\smtube.exe" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\docs\smtube\*" "$PLUGINSDIR\smtubebak\docs\smtube"
+      CopyFiles /SILENT "$SMPlayer_Path\translations\smtube*.qm" "$PLUGINSDIR\smtubebak\translations"
+!ifdef QT5
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKit.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Sql.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Qml.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Quick.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Positioning.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Multimedia.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5Sensors.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebChannel.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKitWidgets.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5OpenGL.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5PrintSupport.dll" "$PLUGINSDIR\smtubebak"
+      CopyFiles /SILENT "$SMPlayer_Path\Qt5MultimediaWidgets.dll" "$PLUGINSDIR\smtubebak"
+!else
+      CopyFiles /SILENT "$SMPlayer_Path\QtWebKit4.dll" "$PLUGINSDIR\smtubebak"
 !endif
 
-  ;Gets start menu folder name
+    StrCpy $Restore_SMTube 1
+    Return
+  NoBackup:
+    StrCpy $Restore_SMTube 0
+
+FunctionEnd
+
+Function LoadPreviousSettings
+
+  ;Gets previous start menu folder name
   !insertmacro MUI_STARTMENU_GETFOLDER "SMP_SMenu" $SMPlayer_StartMenuFolder
 
   ${MementoSectionRestore}
@@ -912,6 +1014,7 @@ Function PageReinstall
   ${NSD_OnClick} $Reinstall_OverwriteButton PageReinstallUpdate
   ${NSD_OnClick} $Reinstall_UninstallButton PageReinstallUpdate
   ${NSD_OnClick} $Reinstall_ChgSettings PageReinstallUpdate
+  ${NSD_OnClick} $Reinstall_RemoveSettings RemoveSettingsUpdate
 
   Call PageReinstallUpdate
 
@@ -926,8 +1029,16 @@ Function PageReinstallLeave
   ${NSD_GetState} $Reinstall_ChgSettings $Reinstall_ChgSettings_State
   ${NSD_GetState} $Reinstall_RemoveSettings $Reinstall_RemoveSettings_State
 
+FunctionEnd
+
+Function RemoveSettingsUpdate
+
+  ${NSD_GetState} $Reinstall_RemoveSettings $Reinstall_RemoveSettings_State
+
   ${If} $Reinstall_RemoveSettings_State == 1
-    !insertmacro SelectSection ${SecResetSettings}
+    MessageBox MB_YESNO|MB_ICONQUESTION|MB_DEFBUTTON2 $(Remove_Settings_Confirmation) /SD IDNO IDYES reset_done
+      ${NSD_SetState} $Reinstall_RemoveSettings 0
+    reset_done:
   ${EndIf}
 
 FunctionEnd

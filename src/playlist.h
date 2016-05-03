@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 */
 
 
-#ifndef _PLAYLIST_H_
-#define _PLAYLIST_H_
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
 
 #include <QList>
 #include <QStringList>
 #include <QWidget>
+#include <QProcess>
 
 class PlaylistItem {
 
@@ -118,6 +119,8 @@ public slots:
 	virtual void sortBy(int section);
 	// <--
 
+	virtual void deleteSelectedFileFromDisk();
+
 	virtual bool maybeSave();
     virtual void load();
     virtual bool save();
@@ -128,6 +131,9 @@ public slots:
 	virtual void load_pls(QString file);
 	virtual bool save_pls(QString file);
 
+	void loadXSPF(const QString & filename);
+	bool saveXSPF(const QString & filename);
+
 	virtual void getMediaInfo();
 
 	void setModified(bool);
@@ -137,12 +143,14 @@ public slots:
 	void setAutoGetInfo(bool b) { automatically_get_info = b; };
 	void setSavePlaylistOnExit(bool b) { save_playlist_in_config = b; };
 	void setPlayFilesFromStart(bool b) { play_files_from_start = b; };
+	void setIgnorePlayerErrors(bool b) { ignore_player_errors = b; };
 
 public:
 	bool directoryRecursion() { return recursive_add_directory; };
 	bool autoGetInfo() { return automatically_get_info; };
 	bool savePlaylistOnExit() { return save_playlist_in_config; };
 	bool playFilesFromStart() { return play_files_from_start; };
+	bool ignorePlayerErrors() { return ignore_player_errors; };
 
 	QList<PlaylistItem> playlist(){return pl;};
 
@@ -181,6 +189,9 @@ protected slots:
 	virtual void loadSettings();
 
 	virtual void maybeSaveSettings();
+
+	void playerFailed(QProcess::ProcessError);
+	void playerFinishedWithError(int);
 
 protected:
 	void createTable();
@@ -235,6 +246,8 @@ protected:
 	MyAction * removeSelectedAct;
 	MyAction * removeAllAct;
 
+	MyAction * deleteSelectedFileFromDiskAct;
+
 private:
 	bool modified;
 	QTimer * save_timer;
@@ -243,10 +256,11 @@ private:
 	bool recursive_add_directory;
 	bool automatically_get_info;
 	bool save_playlist_in_config;
-	bool play_files_from_start; 
+	bool play_files_from_start;
 	int row_spacing;
 
 	bool automatically_play_next;
+	bool ignore_player_errors;
 };
 
 

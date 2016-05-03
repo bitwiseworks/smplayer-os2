@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ bool TVSettings::existSettingsFor(QString filename) {
 	return saved;
 }
 
-void TVSettings::loadSettingsFor(QString filename, MediaSettings & mset) {
+void TVSettings::loadSettingsFor(QString filename, MediaSettings & mset, int player) {
 	qDebug("TVSettings::loadSettingsFor: '%s'", filename.toUtf8().constData());
 
 	QString group_name = filenameToGroupname(filename);
@@ -63,12 +63,13 @@ void TVSettings::loadSettingsFor(QString filename, MediaSettings & mset) {
 	qDebug("TVSettings::loadSettingsFor: group_name: '%s'", group_name.toUtf8().constData());
 
 	mset.reset();
+
 	my_settings->beginGroup( group_name );
-	mset.load(my_settings);
+	mset.load(my_settings, player);
 	my_settings->endGroup();
 }
 
-void TVSettings::saveSettingsFor(QString filename, MediaSettings & mset) {
+void TVSettings::saveSettingsFor(QString filename, MediaSettings & mset, int player) {
 	qDebug("TVSettings::saveSettingsFor: '%s'", filename.toUtf8().constData());
 
 	QString group_name = filenameToGroupname(filename);
@@ -77,7 +78,7 @@ void TVSettings::saveSettingsFor(QString filename, MediaSettings & mset) {
 
 	my_settings->beginGroup( group_name );
 	my_settings->setValue("saved", true);
-	mset.save(my_settings);
+	mset.save(my_settings, player);
 	my_settings->endGroup();
 }
 

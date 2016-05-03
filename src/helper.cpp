@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <QDir>
 #include <QTextCodec>
 #include <QWidget>
-//#include <QDebug>
+#include <QDebug>
 #include "config.h"
 #include "extensions.h"
 
@@ -60,15 +60,19 @@ QString Helper::dvdForPref(const QString & dvd_id, int title) {
 */
 
 QString Helper::formatTime(int secs) {
-	int t = secs;
-    int hours = (int) t / 3600;
-    t -= hours*3600;
-    int minutes = (int) t / 60;
-    t -= minutes*60;
-    int seconds = t;
+	bool negative = (secs < 0);
+	secs = abs(secs);
 
-    QString tf;
-    return tf.sprintf("%02d:%02d:%02d",hours,minutes,seconds);
+	int t = secs;
+	int hours = (int) t / 3600;
+	t -= hours*3600;
+	int minutes = (int) t / 60;
+	t -= minutes*60;
+	int seconds = t;
+
+	//qDebug() << "Helper::formatTime:" << hours << ":" << minutes << ":" << seconds;
+
+	return QString("%1%2:%3:%4").arg(negative ? "-" : "").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 }
 
 QString Helper::timeForJumps(int secs) {
@@ -242,7 +246,11 @@ QStringList Helper::searchForConsecutiveFiles(const QString & initial_file) {
 		qDebug("Helper::searchForConsecutiveFiles: adding consecutive files");
 		while ( !matching_files.isEmpty() ) {
 			qDebug("Helper::searchForConsecutiveFiles: '%s' exists, added to the list", matching_files[0].toUtf8().constData());
-			files_to_add << path  + "/" + matching_files[0];
+			QString filename = path  + "/" + matching_files[0];
+			#ifdef Q_OS_WIN
+			filename = QDir::toNativeSeparators(filename);
+			#endif
+			files_to_add << filename;
 			current_number++;
 			next_name = basename.left(pos) + QString("%1").arg(current_number, digits, 10, QLatin1Char('0'));
 			next_name.replace(QRegExp("([\\[\\]?*])"), "[\\1]");
@@ -268,10 +276,13 @@ QStringList Helper::filesInDirectory(const QString & initial_file, const QString
 
 	QStringList r;
 	for (int n = 0; n < all_files.count(); n++) {
-		if (all_files[n] != current_file) {
+		//if (all_files[n] != current_file) {
 			QString s = path +"/" + all_files[n];
+			#ifdef Q_OS_WIN
+			s = QDir::toNativeSeparators(s);
+			#endif
 			r << s;
-		}
+		//}
 	}
 
 	//qDebug() << "Helper::filesInDirectory: result:" << r;
@@ -310,5 +321,31 @@ QStringList Helper::resolveSymlinks(const QStringList & files) {
 		}
 	}
 	return list;
+}
+#endif
+
+#ifndef Q_OS_WIN
+QString Helper::findExecutable(const QString & name) {
+	QByteArray env = qgetenv("PATH");
+#ifdef Q_OS_OS2
+	QString newName = name;
+	if (!newName.endsWith(".exe", Qt::CaseInsensitive))
+		newName.append(".exe");
+#endif
+	QStringList search_paths = QString::fromLocal8Bit(env.constData()).split(':', QString::SkipEmptyParts);
+	for (int n = 0; n < search_paths.count(); n++) {
+#ifdef Q_OS_OS2
+		QString candidate = search_paths[n] + "/" + newName;
+#else
+		QString candidate = search_paths[n] + "/" + name;
+#endif
+		qDebug("Helper::findExecutable: candidate: %s", candidate.toUtf8().constData());
+		QFileInfo info(candidate);
+		if (info.isFile() && info.isExecutable()) {
+			qDebug("Helper::findExecutable: executable found: %s", candidate.toUtf8().constData());
+			return candidate;
+		}
+	}
+	return QString::null;
 }
 #endif

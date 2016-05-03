@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -59,13 +59,8 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 	qDebug("icon_dir: %s", icon_dir.absolutePath().toUtf8().data());
 	QStringList iconsets = icon_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	for (int n=0; n < iconsets.count(); n++) {
-		QString theme_dir = Paths::configPath() + "/themes/" + iconsets[n];
-		#ifdef USE_RESOURCES
-		if (!QFile::exists(theme_dir + "/" + iconsets[n] + ".rcc")) continue;
-		#endif
-
 		#ifdef SKINS
-		QString css_file = theme_dir + "/main.css";
+		QString css_file = Paths::configPath() + "/themes/" + iconsets[n] + "/main.css";
 		bool is_skin = QFile::exists(css_file);
 		//qDebug("***** %s %d", css_file.toUtf8().constData(), is_skin);
 		if (is_skin) {
@@ -81,13 +76,8 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 	qDebug("icon_dir: %s", icon_dir.absolutePath().toUtf8().data());
 	iconsets = icon_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	for (int n=0; n < iconsets.count(); n++) {
-		QString theme_dir = Paths::themesPath() + "/" + iconsets[n];
-		#ifdef USE_RESOURCES
-		if (!QFile::exists(theme_dir + "/" + iconsets[n] + ".rcc")) continue;
-		#endif
-
 		#ifdef SKINS
-		QString css_file = theme_dir + "/main.css";
+		QString css_file = Paths::themesPath() + "/" + iconsets[n] + "/main.css";
 		bool is_skin = QFile::exists(css_file);
 		//qDebug("***** %s %d", css_file.toUtf8().constData(), is_skin);
 		if ((is_skin) && (skin_combo->findText( iconsets[n] ) == -1)) {
@@ -118,6 +108,9 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 	connect(gui_combo, SIGNAL(currentIndexChanged(int)),
             this, SLOT(GUIChanged(int)));
 #endif
+
+	connect(mainwindow_resize_combo, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(resizeMethodChanged(int)));
 
 #ifndef SEEKBAR_RESOLUTION
 	seeking_method_group->hide();
@@ -173,7 +166,7 @@ void PrefInterface::retranslateStrings() {
 	timeslider_behaviour_combo->setCurrentIndex(timeslider_pos);
 
 	// Icons
-	resize_window_icon->setPixmap( Images::icon("resize_window") );
+	/* resize_window_icon->setPixmap( Images::icon("resize_window") ); */
 	/* volume_icon->setPixmap( Images::icon("speaker") ); */
 
 #ifdef SINGLE_INSTANCE
@@ -187,15 +180,15 @@ void PrefInterface::retranslateStrings() {
 	seek4->setLabel( tr("Mouse &wheel jump") );
 
 	if (qApp->isLeftToRight()) {
-		seek1->setIcon( Images::icon("forward10s") );
-		seek2->setIcon( Images::icon("forward1m") );
-		seek3->setIcon( Images::icon("forward10m") );
+		seek1->setIcon( Images::icon("forward10s", 32) );
+		seek2->setIcon( Images::icon("forward1m", 32) );
+		seek3->setIcon( Images::icon("forward10m", 32) );
 	} else {
-		seek1->setIcon( Images::flippedIcon("forward10s") );
-		seek2->setIcon( Images::flippedIcon("forward1m") );
-		seek3->setIcon( Images::flippedIcon("forward10m") );
+		seek1->setIcon( Images::flippedIcon("forward10s", 32) );
+		seek2->setIcon( Images::flippedIcon("forward1m", 32) );
+		seek3->setIcon( Images::flippedIcon("forward10m", 32) );
 	}
-	seek4->setIcon( Images::icon("mouse", seek1->icon()->width()) );
+	seek4->setIcon( Images::icon("mouse",32) );
 
 	// Language combo
 	int language_item = language_combo->currentIndex();
@@ -211,8 +204,12 @@ void PrefInterface::retranslateStrings() {
 
 	int gui_index = gui_combo->currentIndex();
 	gui_combo->clear();
+#ifdef DEFAULTGUI
 	gui_combo->addItem( tr("Basic GUI"), "DefaultGUI");
+#endif
+#ifdef MINIGUI
 	gui_combo->addItem( tr("Mini GUI"), "MiniGUI");
+#endif
 #ifdef MPCGUI
 	gui_combo->addItem( tr("Mpc GUI"), "MpcGUI");
 #endif
@@ -238,7 +235,8 @@ void PrefInterface::setData(Preferences * pref) {
 	setResizeMethod( pref->resize_method );
 	setSaveSize( pref->save_window_size_on_exit );
 
-	move_when_dragging_check->setChecked(pref->move_when_dragging);
+	center_window_check->setChecked(pref->center_window);
+	center_if_outside_check->setChecked(pref->center_window_if_outside);
 
 #ifdef SINGLE_INSTANCE
 	setUseSingleInstance(pref->use_single_instance);
@@ -305,7 +303,8 @@ void PrefInterface::getData(Preferences * pref) {
 	pref->resize_method = resizeMethod();
 	pref->save_window_size_on_exit = saveSize();
 
-	pref->move_when_dragging = move_when_dragging_check->isChecked();
+	pref->center_window = center_window_check->isChecked();
+	pref->center_window_if_outside = center_if_outside_check->isChecked();
 
 #ifdef SINGLE_INSTANCE
 	pref->use_single_instance = useSingleInstance();
@@ -477,6 +476,10 @@ void PrefInterface::GUIChanged(int index) {
 	}
 }
 #endif
+
+void PrefInterface::resizeMethodChanged(int index) {
+	center_if_outside_check->setEnabled(index != 0);
+}
 
 #ifdef SINGLE_INSTANCE
 void PrefInterface::setUseSingleInstance(bool b) {
@@ -657,15 +660,19 @@ void PrefInterface::createHelp() {
         tr("The main window can be resized automatically. Select the option "
            "you prefer.") );
 
+	setWhatsThis(center_if_outside_check, tr("Prevent window to get outside of screen"),
+		tr("If after an autoresize the main window gets outside of the screen this option "
+           "will center the window to prevent it.") );
+
+	setWhatsThis(center_window_check, tr("Center window"),
+        tr("When this option is enabled, the main window will be centered on the desktop.") );
+
 	setWhatsThis(save_size_check, tr("Remember position and size"),
         tr("If you check this option, the position and size of the main "
            "window will be saved and restored when you run SMPlayer again.") );
 
 	setWhatsThis(hide_video_window_on_audio_check, tr("Hide video window when playing audio files"),
         tr("If this option is enabled the video window will be hidden when playing audio files.") );
-
-	setWhatsThis(move_when_dragging_check, tr("Move the window when the video area is dragged"),
-        tr("If this option is checked, the main window will be moved if you drag the mouse over the video area.") );
 
 	setWhatsThis(language_combo, tr("Language"),
 		tr("Here you can change the language of the application.") );
@@ -675,12 +682,16 @@ void PrefInterface::createHelp() {
         tr("The <b>Basic GUI</b> provides the traditional interface, with the "
            "toolbar and control bar.") +" "+ 
         tr("The <b>Mini GUI</b> provides a more simple interface, without toolbar and a control bar with few "
-           "buttons.") +" "+
-        tr("The <b>Skinnable GUI</b> provides an interface where several skins are available.")
+           "buttons.")
 #ifdef MPCGUI
         +" "+
         tr("The <b>Mpc GUI</b> looks like the interface in Media Player Classic.")
 #endif
+#ifdef SKINS
+        +" "+
+        tr("The <b>Skinnable GUI</b> provides an interface where several skins are available.")
+#endif
+
         );
 
 	setWhatsThis(iconset_combo, tr("Icon set"),
@@ -735,7 +746,7 @@ void PrefInterface::createHelp() {
 		tr("By default when the stop button is pressed the time position is remembered "
            "so if you press play button the media will resume at the same point. You need "
            "to press the stop button twice to reset the time position, but if this "
-           "option is checked the time position will be set to 0 with only once "
+           "option is checked the time position will be set to 0 with only one "
            "press of the stop button.") );
 
 #ifdef SINGLE_INSTANCE

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,22 +17,22 @@
 */
 
 
-#ifndef _EQSLIDER_H_
-#define _EQSLIDER_H_
+#ifndef EQSLIDER_H
+#define EQSLIDER_H
 
 #include "ui_eqslider.h"
 #include <QPixmap>
 
 class EqSlider : public QWidget, public Ui::EqSlider
 {
-    Q_OBJECT
+	Q_OBJECT
 	Q_PROPERTY(QPixmap icon READ icon WRITE setIcon)
 	Q_PROPERTY(QString label READ label WRITE setLabel)
 	Q_PROPERTY(int value READ value WRITE setValue)
 
 public:
-    EqSlider( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-    ~EqSlider();
+	EqSlider( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+	~EqSlider();
 
 public slots:
 	void setIcon( QPixmap i);

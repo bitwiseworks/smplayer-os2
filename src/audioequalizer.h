@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef _AUDIOOEQUALIZER_H_
-#define _AUDIOOEQUALIZER_H_
+#ifndef AUDIOEQUALIZER_H
+#define AUDIOEQUALIZER_H
 
 #include <QWidget>
 #include <QHideEvent>
@@ -49,6 +49,7 @@ public:
 signals:
 	void visibilityChanged();
 	void applyClicked(AudioEqualizerList new_values);
+	void valuesChanged(AudioEqualizerList values);
 
 public slots:
 	void reset();
@@ -57,6 +58,7 @@ public slots:
 protected slots:
 	void applyButtonClicked();
 	void presetChanged(int index);
+	void updatePresetCombo();
 
 protected:
 	virtual void hideEvent( QHideEvent * );

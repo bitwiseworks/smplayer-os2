@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -112,7 +112,9 @@ void CodeDownloader::save(QByteArray bytes) {
 }
 
 void CodeDownloader::updateDataReadProgress(qint64 bytes_read, qint64 total_bytes) {
+#ifndef QT_NO_DEBUG_OUTPUT
 	qDebug() << "CodeDownloader::updateDataReadProgress: " << bytes_read << " " << total_bytes;
+#endif
 	if (total_bytes > -1) {
 		setMaximum(total_bytes);
 		setValue(bytes_read);

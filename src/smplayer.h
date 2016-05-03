@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SMPLAYER_H_
-#define _SMPLAYER_H_
+#ifndef SMPLAYER_H
+#define SMPLAYER_H
 
 #include <QObject>
 #include <QString>
@@ -54,7 +54,7 @@ private:
 #endif
 	void showInfo();
 	void deleteConfig();
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	void createFontFile();
 #endif
 
@@ -64,6 +64,7 @@ private:
 	QString subtitle_file;
 	QString actions_list; //!< Actions to be run on startup
 	QString gui_to_use;
+	QString media_title; //!< Force a title for the first file
 
 	// Change position and size
 	bool move_gui;

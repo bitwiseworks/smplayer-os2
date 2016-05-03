@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef _SUBTRACKS_H_
-#define _SUBTRACKS_H_
+#ifndef SUBTRACKS_H
+#define SUBTRACKS_H
 
 #include <QString>
 #include <QFileInfo>
@@ -48,8 +48,11 @@ public:
 	QString displayName() {
 		QString dname="";
 
-	    if (!_name.isEmpty()) {
+		if (!_name.isEmpty()) {
 			dname = _name;
+			if (!_lang.isEmpty()) {
+				dname += " ["+ _lang + "]";
+			}
 		}
 		else
 		if (!_lang.isEmpty()) {

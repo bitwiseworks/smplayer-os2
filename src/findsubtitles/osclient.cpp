@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ OSClient::OSClient(QObject* parent) :
 	, search_size(0) 
 #ifdef OS_SEARCH_WORKAROUND
 	, best_search_count(0)
+	, search_retries(8)
 #endif
 {
 	rpc = new MaiaXmlRpcClient(QUrl("http://api.opensubtitles.org/xml-rpc"), this);
@@ -34,9 +35,11 @@ void OSClient::setServer(const QString & server) {
 	rpc->setUrl(QUrl(server));
 }
 
+#ifdef FS_USE_PROXY
 void OSClient::setProxy(const QNetworkProxy & proxy) {
 	rpc->setProxy(proxy);
 }
+#endif
 
 void OSClient::login() {
 	qDebug("OSClient::login");
@@ -59,6 +62,8 @@ void OSClient::search(const QString & hash, qint64 file_size) {
 	search_hash = hash;
 	search_size = file_size;
 
+	disconnect(this, SIGNAL(loggedIn()), this, SLOT(doSearch()));
+
 	#if 0
 	if (logged_in) {
 		doSearch();
@@ -75,7 +80,7 @@ void OSClient::search(const QString & hash, qint64 file_size) {
 #ifdef OS_SEARCH_WORKAROUND
 void OSClient::doSearch() {
 	best_search_count = -1;
-	for (int n = 1; n < 8; n++) doSearch(n);
+	for (int n = 1; n <= search_retries; n++) doSearch(n);
 }
 
 void OSClient::doSearch(int nqueries) {

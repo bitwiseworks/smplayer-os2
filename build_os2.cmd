@@ -54,7 +54,7 @@ SMPlayer_build = ''
 call version
 internal_build = translate(SMPlayer_version, '_', '.')
 
-title = "SMPlayer for eCS (OS/2) build script v" || version || " from " || version_date
+title = "SMPlayer for OS/2 and OS/2-based systems build script v" || version || " from " || version_date
 say title
 say
 say "Build directory :" buildDir

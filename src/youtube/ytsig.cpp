@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +17,15 @@
 */
 
 #include "ytsig.h"
-
-#ifdef YT_USE_SCRIPT
 #include <QtScript>
+
+QString YTSig::script_filename;
+
+QString YTSig::script;
+QString YTSig::default_script;
+
+QString YTSig::parsed_ts;
+
 
 QString YTSig::aclara(const QString & text, const QString & player, const QString & function_name) {
 	int dot = text.indexOf('.');
@@ -51,7 +57,7 @@ QString YTSig::aclara(const QString & text, const QString & player, const QStrin
 		args << text << player;
 	}
 
-	//qDebug("YTSig::aclara: function_name: %s", function_name.toLatin1().constData());
+	//qDebug() << "YTSig::aclara: function_name:" << function_name;
 
 	QScriptValue aclarar = engine.globalObject().property(fname);
 	QString res = aclarar.call(QScriptValue(), args).toString();
@@ -59,21 +65,21 @@ QString YTSig::aclara(const QString & text, const QString & player, const QStrin
 	//qDebug() << res;
 
 	if (res.isEmpty()) {
-		qDebug("YTSig::aclara: signature length not supported: %d: %s", text.size(), text.toLatin1().constData());
+		qDebug() << "YTSig::aclara: signature length not supported:" << text.size() << ":" << text;
 	}
 
 	return res;
 }
 
 void YTSig::reloadScriptFile() {
-	qDebug("YTSig::reloadScriptFile: %s", script_file.toUtf8().constData());
+	qDebug() << "YTSig::reloadScriptFile:" << script_filename;
 
-	if (!QFile::exists(script_file)) {
-		qDebug("YTSig::reloadScriptFile: file doesn't exist.");
+	if (!QFile::exists(script_filename)) {
+		qDebug() << "YTSig::reloadScriptFile: file doesn't exist.";
 		return;
 	}
 
-	QFile f(script_file);
+	QFile f(script_filename);
 	f.open(QIODevice::ReadOnly);
 	QByteArray bytes = f.readAll();
 	f.close();
@@ -86,39 +92,12 @@ void YTSig::reloadScriptFile() {
 		QRegExp rx("D: ([\\d,a-z,A-Z-]+)");
 		if (rx.indexIn(bytes)) {
 			QByteArray d = rx.cap(1).toLatin1();
-			//qDebug("YTSig::reloadScriptFile: d: %s", d.constData());
+			qDebug() << "YTSig::reloadScriptFile: d:" << d;
 			parsed_ts = QByteArray::fromBase64(d);
 		}
 
 	}
 }
-
-QString YTSig::script;
-QString YTSig::script_file;
-
-QString YTSig::default_script;
-
-#else // YT_USE_SCRIPT
-
-#ifdef YTSIG_STATIC
-#include "ytsig_priv.cpp"
-#else
-QString YTSig::aclara(const QString & text, const QString & player, const QString & function_name) {
-	QString res;
-
-	int dot = text.indexOf('.');
-	qDebug("YTSig::aclara (2): length: %d (%d.%d)", text.size(), dot, text.size()-dot-1);
-
-	/*
-	qDebug("%d: orig: %s", text.size(), text.toLatin1().constData());
-	qDebug("%d: conv: %s", text.size(), res.toLatin1().constData());
-	*/
-
-	return res;
-}
-#endif
-
-#endif // YT_USE_SCRIPT
 
 void YTSig::check(QString & u) {
 	if (!parsed_ts.isEmpty()) {
@@ -126,4 +105,3 @@ void YTSig::check(QString & u) {
 	}
 }
 
-QString YTSig::parsed_ts;

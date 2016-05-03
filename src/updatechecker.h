@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,42 +20,43 @@
 #ifndef UPDATE_CHECKER_H
 #define UPDATE_CHECKER_H
 
-#include <QObject>
-#include <QDate>
+#include <QWidget>
+#include <QUrl>
 
-class QSettings;
 class QNetworkAccessManager;
-
-class UpdateCheckerData {
-public:
-	UpdateCheckerData() { enabled = true; days_to_check = 7; };
-	void save(QSettings * set);
-	void load(QSettings * set);
-
-	QDate last_checked;
-	bool enabled;
-	int days_to_check;
-	QString last_known_version;
-};
+class UpdateCheckerData;
 
 class UpdateChecker : public QObject {
 	Q_OBJECT
 
 public:
-	UpdateChecker(QObject * parent, UpdateCheckerData * data);
+	UpdateChecker(QWidget * parent, UpdateCheckerData * data);
 	~UpdateChecker();
 
-	void saveVersion(QString v);
+	void check();
 
 protected slots:
 	void gotReply();
+	void gotReplyFromUserRequest();
+	void reportNewVersionAvailable(const QString &);
+	void reportNoNewVersionFound(const QString &);
+	void reportError(int, QString);
 
 signals:
-	void newVersionFound(QString);
+	void newVersionFound(const QString & new_version);
+	void noNewVersionFound(const QString & version);
+	void errorOcurred(int error_number, QString error_str);
 
 protected:
+	void saveVersion(QString v);
+	static QString formattedVersion(const QString & version);
+	static QString parseVersion(const QByteArray & data, const QString & name);
+
 	QNetworkAccessManager * net_manager;
 	UpdateCheckerData * d;
+
+	QUrl check_url;
+	QByteArray user_agent;
 };
 
 #endif

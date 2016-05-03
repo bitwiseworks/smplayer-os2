@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ QString Images::themes_path;
 
 #ifdef USE_RESOURCES
 QString Images::last_resource_loaded;
+bool Images::has_rcc = false;
 
 QString Images::resourceFilename() {
 	QString filename = QString::null;
@@ -70,11 +71,15 @@ void Images::setTheme(const QString & name) {
 	}
 
 	QString rs_file = resourceFilename();
-	if (QFile::exists(rs_file)) {
+	if ((!rs_file.isEmpty()) && (QFile::exists(rs_file))) {
 		qDebug() << "Images::setTheme: loading" << rs_file;
 		QResource::registerResource(rs_file);
 		last_resource_loaded = rs_file;
+		has_rcc = true;
+	} else {
+		has_rcc = false;
 	}
+	qDebug() << "Images::setTheme: has_rcc:" << has_rcc;
 #endif
 }
 
@@ -90,13 +95,26 @@ QString Images::file(const QString & name) {
 	}
 #endif
 
-#ifdef USE_RESOURCES
-	QString icon_name = ":/" + current_theme + "/"+ name + ".png";
-#else
-	QString icon_name = themes_path +"/"+ current_theme + "/"+ name + ".png";
-#endif
-	if (!QFile::exists(icon_name)) {
-		icon_name = ":/icons-png/" + name + ".png";
+	QString icon_name;
+	if (!current_theme.isEmpty()) {
+	#ifdef USE_RESOURCES
+		if (has_rcc) {
+			icon_name = ":/" + current_theme + "/"+ name;
+		} else {
+			icon_name = themes_path +"/"+ current_theme + "/"+ name;
+		}
+	#else
+		icon_name = themes_path +"/"+ current_theme + "/"+ name;
+	#endif
+	}
+
+	bool has_extension = name.contains(".");
+	if (!has_extension) icon_name += ".png";
+
+	//qDebug() << "Images::file:" << icon_name;
+	if ((icon_name.isEmpty()) || (!QFile::exists(icon_name))) {
+		icon_name = ":/default-theme/" + name;
+		if (!has_extension) icon_name += ".png";
 	}
 
 	//qDebug() << "Images::file:" << icon_name;

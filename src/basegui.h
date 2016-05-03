@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _BASEGUI_H_
-#define _BASEGUI_H_
+#ifndef BASEGUI_H
+#define BASEGUI_H
 
 #include <QMainWindow>
 #include <QNetworkProxy>
@@ -33,6 +33,10 @@
 /* Disable screensaver by event */
 #include <windows.h>
 #endif
+#endif
+
+#ifdef MOUSE_GESTURES
+	#define MG_DELAYED_SEEK
 #endif
 
 //#define SHARE_MENU
@@ -62,13 +66,16 @@ class Favorites;
 class TVList;
 class UpdateChecker;
 
+#ifdef SHARE_WIDGET
+class ShareWidget;
+#endif
 
 class BaseGui : public QMainWindow
 {
     Q_OBJECT
     
 public:
-    BaseGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+	BaseGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 	~BaseGui();
 
 	/* Return true if the window shouldn't show on startup */
@@ -86,6 +93,9 @@ public:
 	//! Saves the line from the smplayer output
 	void recordSmplayerLog(QString line);
 #endif
+
+	Core * getCore() { return core; };
+	Playlist * getPlaylist() { return playlist; };
 
 public slots:
 	virtual void open(QString file); // Generic open, autodetect type.
@@ -112,7 +122,7 @@ public slots:
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpCheckUpdates();
-#ifdef REMINDER_ACTIONS
+#ifdef SHARE_ACTIONS
 	virtual void helpDonate();
 #endif
 	virtual void helpShowConfig();
@@ -158,6 +168,11 @@ public slots:
 	virtual void showGotoDialog();
 	virtual void showSubDelayDialog();
 	virtual void showAudioDelayDialog();
+	virtual void showStereo3dDialog();
+#ifdef BOOKMARKS
+	virtual void showAddBookmarkDialog();
+	virtual void showBookmarkDialog();
+#endif
 
 	virtual void exitFullscreen();
 	virtual void toggleFullscreen();
@@ -217,21 +232,18 @@ protected slots:
 	void displayWarningAboutOldMplayer();
 #endif
 
-#ifdef UPDATE_CHECKER
-	void reportNewVersionAvailable(QString);
-#endif
-
 #ifdef CHECK_UPGRADED
 	void checkIfUpgraded();
 #endif
 
-#ifdef REMINDER_ACTIONS
+#if defined(SHARE_ACTIONS) && !defined(SHARE_WIDGET)
 	void checkReminder();
 #endif
 
 #ifdef YOUTUBE_SUPPORT
+	void YTNoSslSupport();
 	void YTNoSignature(const QString &);
-	#ifdef YT_USE_SCRIPT
+	#ifdef YT_USE_YTSIG
 	void YTUpdateScript();
 	#endif
 #endif
@@ -240,14 +252,15 @@ protected slots:
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
-	virtual void togglePlayAction(Core::State);
 #endif
+	virtual void togglePlayAction(Core::State);
 
 	void changeSizeFactor(int factor);
 	void toggleDoubleSize();
 	void resizeMainWindow(int w, int h);
 	void resizeWindow(int w, int h);
 	virtual void hidePanel();
+	void centerWindow();
 
 	/* virtual void playlistVisibilityChanged(); */
 
@@ -281,7 +294,11 @@ protected slots:
 	virtual void loadActions();
 	virtual void saveActions();
 
+	virtual void processMouseMovedDiff(QPoint diff);
 	virtual void moveWindowDiff(QPoint diff);
+#ifdef MG_DELAYED_SEEK
+	virtual void delayedSeek();
+#endif
 
 	// Single instance stuff
 #ifdef SINGLE_INSTANCE
@@ -297,9 +314,11 @@ protected slots:
 
 	// stylesheet
 #if ALLOW_CHANGE_STYLESHEET
-	virtual void loadQss(QString filename);
+	virtual QString loadQss(QString filename);
 	virtual void changeStyleSheet(QString style);
 #endif
+
+	void applyStyles();
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef AVOID_SCREENSAVER
@@ -348,8 +367,13 @@ signals:
 protected:
 	virtual void retranslateStrings();
 	virtual void changeEvent(QEvent * event);
+#if QT_VERSION < 0x050000
 	virtual void hideEvent( QHideEvent * );
 	virtual void showEvent( QShowEvent * );
+#else
+	virtual bool event(QEvent * e);
+	bool was_minimized;
+#endif
 #ifdef Q_OS_WIN
 	#ifdef AVOID_SCREENSAVER
 	/* Disable screensaver by event */
@@ -378,8 +402,12 @@ protected:
 	void setActionsEnabled(bool);
 #endif
 	void createMenus();
+#ifdef BOOKMARKS
+	void updateBookmarks();
+#endif
 	void updateRecents();
 	void configureDiscDevices();
+	void setupNetworkProxy();
 	/* virtual void closeEvent( QCloseEvent * e ); */
 
 protected:
@@ -411,6 +439,7 @@ protected:
 	MyAction * pauseAndStepAct;
 	MyAction * stopAct;
 	MyAction * frameStepAct;
+	MyAction * frameBackStepAct;
 	MyAction * rewind1Act;
 	MyAction * rewind2Act;
 	MyAction * rewind3Act;
@@ -440,11 +469,15 @@ protected:
 	MyAction * videoEqualizerAct;
 	MyAction * screenshotAct;
 	MyAction * screenshotsAct;
+#ifdef CAPTURE_STREAM
+	MyAction * capturingAct;
+#endif
 #ifdef VIDEOPREVIEW
 	MyAction * videoPreviewAct;
 #endif
 	MyAction * flipAct;
 	MyAction * mirrorAct;
+	MyAction * stereo3dAct;
 	MyAction * postProcessingAct;
 	MyAction * phaseAct;
 	MyAction * deblockAct;
@@ -463,7 +496,9 @@ protected:
 	MyAction * incAudioDelayAct;
 	MyAction * audioDelayAct; // Ask for delay
 	MyAction * extrastereoAct;
+#ifdef MPLAYER_SUPPORT
 	MyAction * karaokeAct;
+#endif
 	MyAction * volnormAct;
 	MyAction * loadAudioAct;
 	MyAction * unloadAudioAct;
@@ -480,7 +515,11 @@ protected:
 	MyAction * decSubStepAct;
 	MyAction * incSubScaleAct;
 	MyAction * decSubScaleAct;
-	MyAction * useAssAct;
+#ifdef MPV_SUPPORT
+	MyAction * seekNextSubAct;
+	MyAction * seekPrevSubAct;
+#endif
+	MyAction * useCustomSubStyleAct;
 	MyAction * useForcedSubsOnlyAct;
 	MyAction * subVisibilityAct;
 #ifdef FIND_SUBTITLES
@@ -507,11 +546,11 @@ protected:
 	MyAction * showFAQAct;
 	MyAction * showCLOptionsAct; // Command line options
 	MyAction * showCheckUpdatesAct;
-#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_SCRIPT)
+#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_YTSIG)
 	MyAction * updateYTAct;
 #endif
 	MyAction * showConfigAct;
-#ifdef REMINDER_ACTIONS
+#ifdef SHARE_ACTIONS
 	MyAction * donateAct;
 #endif
 	MyAction * aboutThisAct;
@@ -523,6 +562,10 @@ protected:
 	MyAction * hotmailAct;
 	MyAction * yahooAct;
 #endif
+
+	// OSD
+	MyAction * incOSDScaleAct;
+	MyAction * decOSDScaleAct;
 
 	// Playlist
 	MyAction * playPrevAct;
@@ -558,6 +601,7 @@ protected:
 	MyAction * nextWheelFunctionAct;
 
 	MyAction * showFilenameAct;
+	MyAction * showTimeAct;
 	MyAction * toggleDeinterlaceAct;
 
 	// Moving and zoom
@@ -572,10 +616,6 @@ protected:
 	MyAction * autoZoom169Act;
 	MyAction * autoZoom235Act;
 
-#if USE_MPLAYER_PANSCAN
-	MyAction * incPanscanAct;
-	MyAction * decPanscanAct;
-#endif
 
 	// OSD Action Group 
 	MyActionGroup * osdGroup;
@@ -695,9 +735,20 @@ protected:
 	MyActionGroup * videoTrackGroup;
 	MyActionGroup * audioTrackGroup;
 	MyActionGroup * subtitleTrackGroup;
+#ifdef MPV_SUPPORT
+	MyActionGroup * secondarySubtitleTrackGroup;
+#endif
 	MyActionGroup * titleGroup;
-	MyActionGroup * angleGroup;
 	MyActionGroup * chapterGroup;
+	MyActionGroup * angleGroup;
+#ifdef BOOKMARKS
+	MyActionGroup * bookmarkGroup;
+	MyAction * addBookmarkAct;
+	MyAction * editBookmarksAct;
+
+	MyAction * prevBookmarkAct;
+	MyAction * nextBookmarkAct;
+#endif
 
 #if DVDNAV_SUPPORT
 	MyAction * dvdnavUpAct;
@@ -721,7 +772,10 @@ protected:
 	QMenu *helpMenu;
 
 	QMenu * disc_menu;
-	QMenu * subtitlestrack_menu;
+	QMenu * subtitles_track_menu;
+#ifdef MPV_SUPPORT
+	QMenu * secondary_subtitles_track_menu;
+#endif
 #if PROGRAM_SWITCH
 	QMenu * programtrack_menu;
 #endif
@@ -730,6 +784,9 @@ protected:
 	QMenu * titles_menu;
 	QMenu * chapters_menu;
 	QMenu * angles_menu;
+#ifdef BOOKMARKS
+	QMenu * bookmark_menu;
+#endif
 	QMenu * aspect_menu;
 	QMenu * osd_menu;
 	QMenu * deinterlace_menu;
@@ -794,6 +851,10 @@ protected:
 	UpdateChecker * update_checker;
 #endif
 
+#ifdef SHARE_WIDGET
+	ShareWidget * sharewidget;
+#endif
+
 	QStringList actions_list;
 
 	QString pending_actions_to_run;
@@ -801,6 +862,11 @@ protected:
 	// Force settings from command line
 	int arg_close_on_finish; // -1 = not set, 1 = true, 0 = false
 	int arg_start_in_fullscreen; // -1 = not set, 1 = true, 0 = false
+
+#ifdef MG_DELAYED_SEEK
+	QTimer * delayed_seek_timer;
+	int delayed_seek_value;
+#endif
 
 private:
 	QString default_style;

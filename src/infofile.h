@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,34 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _INFOFILE_H_
-#define _INFOFILE_H_
+#ifndef INFOFILE_H
+#define INFOFILE_H
+
+#define INFO_SIMPLE_LAYOUT
 
 #include "mediadata.h"
 #include <QString>
 
-class InfoFile 
+class InfoFile : public QObject
 {
+	Q_OBJECT
 
 public:
-	InfoFile();
+	InfoFile(QObject * parent = 0);
 	~InfoFile();
 
 	QString getInfo(MediaData md);
 
 protected:
-	QString title(QString text);
+	QString title(QString text, QString icon);
 	QString openPar(QString text);
 	QString closePar();
 	QString openItem();
 	QString closeItem();
 
+	QString addTrackColumns(QStringList l);
+
 	QString addItem( QString tag, QString value );
+	QString addTrack(int n, QString lang, QString name, int ID, QString type = "");
 
+	QString defaultStyle();
+	QString style();
+
+#ifndef INFO_SIMPLE_LAYOUT
 	int row;
-
-private:
-	inline QString tr( const char * sourceText, const char * comment = 0, int n = -1 );
+#endif
 };
 
 #endif

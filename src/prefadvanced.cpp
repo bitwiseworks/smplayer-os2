@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "images.h"
 #include "preferences.h"
 #include "paths.h"
+#include "playerid.h"
 #include <QColorDialog>
 
 #define LOGS_TAB 3
@@ -50,6 +51,10 @@ PrefAdvanced::PrefAdvanced(QWidget * parent, Qt::WindowFlags f)
 
 #ifndef LOG_SMPLAYER
 	smplayer_log_box->hide();
+#endif
+
+#ifndef MPLAYER_SUPPORT
+	use_playlist_check->hide();
 #endif
 
 #if !defined(LOG_MPLAYER) && !defined(LOG_SMPLAYER)
@@ -85,6 +90,18 @@ void PrefAdvanced::retranslateStrings() {
 	monitor_aspect_icon->setPixmap( Images::icon("monitor") );
 
 	monitoraspect_combo->setItemText(0, tr("Auto") );
+
+	mplayer_use_window_check->setText( tr("&Run %1 in its own window").arg(PLAYER_NAME) );
+	shortnames_check->setText( tr("&Pass short filenames (8+3) to %1").arg(PLAYER_NAME) );
+	mplayer_crashes_check->setText( tr("R&eport %1 crashes").arg(PLAYER_NAME) );
+	advanced_tab->setTabText(1, tr("O&ptions for %1").arg(PLAYER_NAME) );
+	options_info_label->setText( tr("Here you can pass extra options to %1.").arg(PLAYER_NAME) +"<br>"+
+		tr("Write them separated by spaces.") + "<br>" + tr("Example:") + " -volume 50 -fps 25" );
+	mplayer_log_box->setTitle(PLAYER_NAME);
+	log_mplayer_check->setText( tr("Log %1 &output").arg(PLAYER_NAME) );
+	log_mplayer_save_check->setText( tr("A&utosave %1 log to file").arg(PLAYER_NAME) );
+
+	use_playlist_check->setText( tr("Pa&ss the %1 option to MPlayer (security risk)").arg("-playlist") );
 
 	createHelp();
 }
@@ -127,6 +144,10 @@ void PrefAdvanced::setData(Preferences * pref) {
 	setUseShortNames( pref->use_short_pathnames );
 
 	setMplayerCrashes( pref->report_mplayer_crashes );
+
+#ifdef MPLAYER_SUPPORT
+	use_playlist_check->setChecked(pref->use_playlist_option);
+#endif
 }
 
 void PrefAdvanced::getData(Preferences * pref) {
@@ -197,6 +218,10 @@ void PrefAdvanced::getData(Preferences * pref) {
 	pref->use_short_pathnames = useShortNames();
 
 	pref->report_mplayer_crashes = mplayerCrashes();
+
+#ifdef MPLAYER_SUPPORT
+	pref->use_playlist_option = use_playlist_check->isChecked();
+#endif
 }
 
 void PrefAdvanced::setMonitorAspect(QString asp) {
@@ -426,13 +451,13 @@ void PrefAdvanced::createHelp() {
 	setWhatsThis(monitoraspect_combo, tr("Monitor aspect"),
         tr("Select the aspect ratio of your monitor.") );
 
-	setWhatsThis(mplayer_use_window_check, tr("Run MPlayer in its own window"),
-        tr("If you check this option, the MPlayer video window won't be "
+	setWhatsThis(mplayer_use_window_check, tr("Run %1 in its own window").arg(PLAYER_NAME),
+        tr("If you check this option, the %1 video window won't be "
            "embedded in SMPlayer's main window but instead it will use its "
            "own window. Note that mouse and keyboard events will be handled "
-           "directly by MPlayer, that means key shortcuts and mouse clicks "
-           "probably won't work as expected when the MPlayer window has the "
-           "focus.") );
+           "directly by %1, that means key shortcuts and mouse clicks "
+           "probably won't work as expected when the %1 window has the "
+           "focus.").arg(PLAYER_NAME) );
 
 	setWhatsThis(idx_check, tr("Rebuild index if needed"),
 		tr("Rebuilds index of files if no index was found, allowing seeking. "
@@ -442,16 +467,11 @@ void PrefAdvanced::createHelp() {
            "<b>Note:</b> the creation of the index may take some time.") );
 
 	setWhatsThis(lavf_demuxer_check, tr("Use the lavf demuxer by default"),
-		tr("If this option is checked, the lavf demuxer will be used for all formats.") +" "+
-		tr("Notice: mplayer2 already uses the lavf demuxer by default so "
-		   "enabling this option with mplayer2 won't have any effect."));
+		tr("If this option is checked, the lavf demuxer will be used for all formats."));
 
 #ifdef Q_OS_WIN
-	setWhatsThis(shortnames_check, tr("Pass short filenames (8+3) to MPlayer"),
-		tr("Currently MPlayer can't open filenames which contains characters "
-           "outside the local codepage. Checking this option will make "
-           "SMPlayer to pass to MPlayer the short version of the filenames, "
-           "and thus it will able to open them.") );
+	setWhatsThis(shortnames_check, tr("Pass short filenames (8+3) to %1").arg(PLAYER_NAME),
+		tr("If this option is checked, SMPlayer will pass to %1 the short version of the filenames.").arg(PLAYER_NAME) );
 #endif
 
 #if REPAINT_BACKGROUND_OPTION
@@ -462,20 +482,28 @@ void PrefAdvanced::createHelp() {
 #endif
 
 	setWhatsThis(mplayer_crashes_check, 
-		tr("Report MPlayer crashes"),
+		tr("Report %1 crashes").arg(PLAYER_NAME),
 		tr("If this option is checked, a window will appear to inform "
-           "about MPlayer crashes. Otherwise those failures will be "
-           "silently ignored.") );
+           "about %1 crashes. Otherwise those failures will be "
+           "silently ignored.").arg(PLAYER_NAME) );
+
+#ifdef MPLAYER_SUPPORT
+	setWhatsThis(use_playlist_check, tr("Pass the %1 option to MPlayer (security risk)").arg("-playlist"),
+		tr("This option may be needed to play playlist files (m3u, pls...). "
+           "However it can involve a security risk when playing internet sources because "
+           "the way MPlayer parses and uses playlist files is not "
+           "safe against maliciously constructed files.") );
+#endif
 
 	setWhatsThis(correct_pts_combo, tr("Correct pts"),
-		tr("Switches MPlayer to an experimental mode where timestamps for "
+		tr("Switches %1 to an experimental mode where timestamps for "
            "video frames are calculated differently and video filters which "
            "add new frames or modify timestamps of existing ones are "
            "supported. The more accurate timestamps can be visible for "
            "example when playing subtitles timed to scene changes with the "
            "SSA/ASS library enabled. Without correct pts the subtitle timing "
            "will typically be off by some frames. This option does not work "
-           "correctly with some demuxers and codecs.") );
+           "correctly with some demuxers and codecs.").arg(PLAYER_NAME) );
 
 	setWhatsThis(actions_to_run_edit, tr("Actions list"),
 		tr("Here you can specify a list of <i>actions</i> which will be "
@@ -486,8 +514,8 @@ void PrefAdvanced::createHelp() {
            "enable or disable the action.") +"<br>"+
 		tr("Example:") +" <i>auto_zoom compact true</i><br>" +
 		tr("Limitation: the actions are run only when a file is opened and "
-           "not when the mplayer process is restarted (e.g. you select an "
-           "audio or video filter).") );
+           "not when the %1 process is restarted (e.g. you select an "
+           "audio or video filter).").arg(PLAYER_NAME) );
 
 #if USE_COLORKEY
 	setWhatsThis(colorkey_view, tr("Colorkey"),
@@ -501,19 +529,19 @@ void PrefAdvanced::createHelp() {
 		   "shown in window title. "
            "Otherwise only the filename will be shown.") );
 
-	addSectionTitle(tr("Options for MPlayer"));
+	addSectionTitle(tr("Options for %1").arg(PLAYER_NAME));
 
 	setWhatsThis(mplayer_args_edit, tr("Options"),
-        tr("Here you can type options for MPlayer. Write them separated "
-           "by spaces.") );
+        tr("Here you can type options for %1.").arg(PLAYER_NAME) +" "+
+        tr("Write them separated by spaces."));
 
 	setWhatsThis(mplayer_vfilters_edit, tr("Video filters"),
-        tr("Here you can add video filters for MPlayer. Write them separated "
-           "by commas. Don't use spaces!") );
+        tr("Here you can add video filters for %1.").arg(PLAYER_NAME) +" "+
+        tr("Write them separated by commas. Don't use spaces!"));
 
 	setWhatsThis(mplayer_afilters_edit, tr("Audio filters"),
-        tr("Here you can add audio filters for MPlayer. Write them separated "
-           "by commas. Don't use spaces!") );
+        tr("Here you can add audio filters for %1.").arg(PLAYER_NAME) +" "+
+        tr("Write them separated by commas. Don't use spaces!"));
 
 	addSectionTitle(tr("Network"));
 
@@ -539,21 +567,21 @@ void PrefAdvanced::createHelp() {
 #endif
 
 #ifdef LOG_MPLAYER
-	setWhatsThis(log_mplayer_check, tr("Log MPlayer output"),
-		tr("If checked, SMPlayer will store the output of MPlayer "
-           "(you can see it in <b>Options -> View logs -> MPlayer</b>). "
+	setWhatsThis(log_mplayer_check, tr("Log %1 output").arg(PLAYER_NAME),
+		tr("If checked, SMPlayer will store the output of %1 "
+           "(you can see it in <b>Options -> View logs -> %1</b>). "
            "In case of problems this log can contain important information, "
-           "so it's recommended to keep this option checked.") );
+           "so it's recommended to keep this option checked.").arg(PLAYER_NAME) );
 
-	setWhatsThis(log_mplayer_save_check, tr("Autosave MPlayer log"),
-		tr("If this option is checked, the MPlayer log will be saved to the "
+	setWhatsThis(log_mplayer_save_check, tr("Autosave %1 log").arg(PLAYER_NAME),
+		tr("If this option is checked, the %1 log will be saved to the "
            "specified file every time a new file starts to play. "
            "It's intended for external applications, so they can get "
-           "info about the file you're playing.") );
+           "info about the file you're playing.").arg(PLAYER_NAME) );
 
-	setWhatsThis(log_mplayer_save_name, tr("Autosave MPlayer log filename"),
+	setWhatsThis(log_mplayer_save_name, tr("Autosave %1 log filename").arg(PLAYER_NAME),
  		tr("Enter here the path and filename that will be used to save the "
-           "MPlayer log.") );
+           "%1 log.").arg(PLAYER_NAME) );
 #endif
 
 #ifdef LOG_SMPLAYER

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "assstyles.h"
 #include "filedialog.h"
 #include "languages.h"
+#include "playerid.h"
 
 #include <QInputDialog>
 
@@ -32,15 +33,20 @@ PrefSubtitles::PrefSubtitles(QWidget * parent, Qt::WindowFlags f)
 {
 	setupUi(this);
 
-	ttf_font_edit->setDialogType(FileChooser::GetFileName);
-#ifdef Q_OS_WIN
-	ttf_font_edit->setOptions(QFileDialog::DontUseNativeDialog);
-#endif
+	ass_subs->setEnabled(false);
+
+	connect(ass_custom_check, SIGNAL(toggled(bool)),
+            ass_subs, SLOT(setEnabled(bool)));
+
+	/*
+	connect(use_ass_check, SIGNAL(toggled(bool)),
+            tab2, SLOT(setEnabled(bool)));
+	*/
 
 	connect( style_border_style_combo, SIGNAL(currentIndexChanged(int)),
              this, SLOT(checkBorderStyleCombo(int)) );
 
-#ifndef Q_OS_WIN
+#ifndef FONTS_HACK
 	windowsfontdir_check->hide();
 #endif
 
@@ -61,12 +67,10 @@ QPixmap PrefSubtitles::sectionIcon() {
 
 
 void PrefSubtitles::retranslateStrings() {
-	int font_autoscale_item = font_autoscale_combo->currentIndex();
 	int font_autoload_item = font_autoload_combo->currentIndex();
 
 	retranslateUi(this);
 
-	font_autoscale_combo->setCurrentIndex(font_autoscale_item);
 	font_autoload_combo->setCurrentIndex(font_autoload_item);
 
 	// Encodings combo
@@ -82,63 +86,55 @@ void PrefSubtitles::retranslateStrings() {
 		i.next();
 		font_encoding_combo->addItem( i.value() + " (" + i.key() + ")", i.key() );
 	}
-	l = Languages::list(); i = l;
+
+	l = Languages::enca(); 
+	i = l;
 	while (i.hasNext()) {
 		i.next();
 		enca_lang_combo->addItem( i.value() + " (" + i.key() + ")", i.key() );
 	}
+
 	font_encoding_combo->model()->sort(0);
 	enca_lang_combo->model()->sort(0);
 	//font_encoding_combo->setCurrentIndex(font_encoding_item);
 	setFontEncoding(current_encoding);
 	setEncaLang(current_enca_lang);
 
-	sub_pos_label->setNum( sub_pos_slider->value() );
-
-	ttf_font_edit->setCaption(tr("Choose a ttf file"));
-	ttf_font_edit->setFilter(tr("Truetype Fonts") + " (*.ttf)");
-
 	// Ass styles
 	int alignment_item = style_alignment_combo->currentIndex();
 	style_alignment_combo->clear();
-	style_alignment_combo->addItem(tr("Left", "horizontal alignment"), 1);
-	style_alignment_combo->addItem(tr("Centered", "horizontal alignment"), 2);
-	style_alignment_combo->addItem(tr("Right", "horizontal alignment"), 3);
+	style_alignment_combo->addItem(tr("Left", "horizontal alignment"), AssStyles::Left);
+	style_alignment_combo->addItem(tr("Centered", "horizontal alignment"), AssStyles::HCenter);
+	style_alignment_combo->addItem(tr("Right", "horizontal alignment"), AssStyles::Right);
 	style_alignment_combo->setCurrentIndex(alignment_item);
 
 	int valignment_item = style_valignment_combo->currentIndex();
 	style_valignment_combo->clear();
-	style_valignment_combo->addItem(tr("Bottom", "vertical alignment"));
-	style_valignment_combo->addItem(tr("Middle", "vertical alignment"));
-	style_valignment_combo->addItem(tr("Top", "vertical alignment"));
+	style_valignment_combo->addItem(tr("Bottom", "vertical alignment"), AssStyles::Bottom);
+	style_valignment_combo->addItem(tr("Middle", "vertical alignment"), AssStyles::VCenter);
+	style_valignment_combo->addItem(tr("Top", "vertical alignment"), AssStyles::Top);
 	style_valignment_combo->setCurrentIndex(valignment_item);
 
 	int borderstyle_item = style_border_style_combo->currentIndex();
 	style_border_style_combo->clear();
-	style_border_style_combo->addItem(tr("Outline", "border style"), 1);
-	style_border_style_combo->addItem(tr("Opaque box", "border style"), 3);
+	style_border_style_combo->addItem(tr("Outline", "border style"), AssStyles::Outline);
+	style_border_style_combo->addItem(tr("Opaque box", "border style"), AssStyles::Opaque);
 	style_border_style_combo->setCurrentIndex(borderstyle_item);
 
 	createHelp();
 }
 
 void PrefSubtitles::setData(Preferences * pref) {
-	setFontName( pref->font_name );
-	setFontFile( pref->font_file );
-	setUseFontconfig( pref->use_fontconfig );
-	setFontAutoscale( pref->font_autoscale );
-	setFontTextscale( pref->initial_sub_scale );
 	setAssFontScale( pref->initial_sub_scale_ass );
 	setAutoloadSub( pref->autoload_sub );
 	setFontFuzziness( pref->subfuzziness );
 	setFontEncoding( pref->subcp );
 	setUseEnca( pref->use_enca );
 	setEncaLang( pref->enca_lang );
-	setUseFontASS( pref->use_ass_subtitles );
 	setAssLineSpacing( pref->ass_line_spacing );
-	setSubPos( pref->initial_sub_pos );
 	setSubtitlesOnScreenshots( pref->subtitles_on_screenshots );
 	setFreetypeSupport( pref->freetype_support );
+	use_ass_check->setChecked( pref->use_ass_subtitles );
 
 	// Load ass styles
 	style_font_combo->setCurrentText(pref->ass_styles.fontname);
@@ -160,7 +156,9 @@ void PrefSubtitles::setData(Preferences * pref) {
 	setForceAssStyles(pref->force_ass_styles);
 	setCustomizedAssStyle(pref->user_forced_ass_style);
 
-#ifdef Q_OS_WIN
+	ass_custom_check->setChecked(pref->enable_ass_styles);
+
+#ifdef FONTS_HACK
 	windowsfontdir_check->setChecked(pref->use_windowsfontdir);
 	if (!windowsfontdir_check->isChecked()) on_windowsfontdir_check_toggled(false);
 #endif
@@ -169,22 +167,16 @@ void PrefSubtitles::setData(Preferences * pref) {
 void PrefSubtitles::getData(Preferences * pref) {
 	requires_restart = false;
 
-	TEST_AND_SET(pref->font_name, fontName());
-	TEST_AND_SET(pref->font_file, fontFile());
-	TEST_AND_SET(pref->use_fontconfig, useFontconfig());
-	TEST_AND_SET(pref->font_autoscale, fontAutoscale());
-	pref->initial_sub_scale = fontTextscale();
 	pref->initial_sub_scale_ass = assFontScale();
 	TEST_AND_SET(pref->autoload_sub, autoloadSub());
 	TEST_AND_SET(pref->subfuzziness, fontFuzziness());
 	TEST_AND_SET(pref->subcp, fontEncoding());
 	TEST_AND_SET(pref->use_enca, useEnca());
 	TEST_AND_SET(pref->enca_lang, encaLang());
-	TEST_AND_SET(pref->use_ass_subtitles, useFontASS());
 	TEST_AND_SET(pref->ass_line_spacing, assLineSpacing());
-	pref->initial_sub_pos = subPos();
 	TEST_AND_SET(pref->subtitles_on_screenshots, subtitlesOnScreenshots());
 	TEST_AND_SET(pref->freetype_support, freetypeSupport());
+	TEST_AND_SET(pref->use_ass_subtitles, use_ass_check->isChecked());
 
 	// Save ass styles
 	TEST_AND_SET(pref->ass_styles.fontname, style_font_combo->currentText());
@@ -208,7 +200,9 @@ void PrefSubtitles::getData(Preferences * pref) {
 	TEST_AND_SET(pref->force_ass_styles, forceAssStyles());
 	TEST_AND_SET(pref->user_forced_ass_style, customizedAssStyle());
 
-#ifdef Q_OS_WIN
+	TEST_AND_SET(pref->enable_ass_styles, ass_custom_check->isChecked());
+
+#ifdef FONTS_HACK
 	pref->use_windowsfontdir = windowsfontdir_check->isChecked();
 #endif
 }
@@ -222,47 +216,6 @@ void PrefSubtitles::checkBorderStyleCombo( int index ) {
 }
 
 
-void PrefSubtitles::setFontName(QString font_name) {
-	fontCombo->setCurrentText(font_name);
-}
-
-QString PrefSubtitles::fontName() {
-	return fontCombo->currentText();
-}
-
-void PrefSubtitles::setFontFile(QString font_file) {
-	ttf_font_edit->setText( font_file );
-}
-
-QString PrefSubtitles::fontFile() {
-	return ttf_font_edit->text();
-}
-
-
-void PrefSubtitles::setUseFontconfig(bool b) {
-	system_font_button->setChecked(b);
-	ttf_font_button->setChecked(!b);
-}
-
-bool PrefSubtitles::useFontconfig() {
-	return system_font_button->isChecked();
-}
-
-void PrefSubtitles::setFontAutoscale(int n) {
-	font_autoscale_combo->setCurrentIndex(n);
-}
-
-int PrefSubtitles::fontAutoscale() {
-	return font_autoscale_combo->currentIndex();
-}
-
-void PrefSubtitles::setFontTextscale(double n) {
-	font_text_scale_spin->setValue(n);
-}
-
-double PrefSubtitles::fontTextscale() {
-	return font_text_scale_spin->value();
-}
 
 void PrefSubtitles::setAssFontScale(double n) {
 	ass_font_scale_spin->setValue(n);
@@ -308,23 +261,6 @@ bool PrefSubtitles::useEnca() {
 	return use_enca_check->isChecked();
 }
 
-void PrefSubtitles::setSubPos(int pos) {
-	sub_pos_slider->setValue(pos);
-}
-
-int PrefSubtitles::subPos() {
-	return sub_pos_slider->value();
-}
-
-void PrefSubtitles::setUseFontASS(bool v) {
-	ass_subs_button->setChecked(v);
-	normal_subs_button->setChecked(!v);
-}
-
-bool PrefSubtitles::useFontASS() {
-	return ass_subs_button->isChecked();
-}
-
 void PrefSubtitles::setFontFuzziness(int n) {
 	font_autoload_combo->setCurrentIndex(n);
 }
@@ -357,12 +293,14 @@ bool PrefSubtitles::forceAssStyles() {
 	return force_ass_styles->isChecked();
 }
 
+/*
 void PrefSubtitles::on_ass_subs_button_toggled(bool b) {
-	if (b) 
+	if (b)
 		stackedWidget->setCurrentIndex(1);
 	 else 
 		stackedWidget->setCurrentIndex(0);
 }
+*/
 
 void PrefSubtitles::on_ass_customize_button_clicked() {
 	bool ok;
@@ -412,19 +350,14 @@ bool PrefSubtitles::freetypeSupport() {
 
 void PrefSubtitles::on_freetype_check_toggled(bool b) {
 	qDebug("PrefSubtitles:on_freetype_check_toggled: %d", b);
-	if (!b) {
-		ass_subs_button->setChecked(false);
-		normal_subs_button->setChecked(true);
-	}
 }
 
+#ifdef FONTS_HACK
 void PrefSubtitles::on_windowsfontdir_check_toggled(bool b) {
 	qDebug("PrefSubtitles::on_windowsfontdir_check_toggled: %d", b);
 
-#ifdef Q_OS_WIN
 	if (b) {
 		style_font_combo->setFontsFromDir(QString::null);
-		fontCombo->setFontsFromDir(QString::null);
 	} else {
 		QString fontdir = Paths::fontPath();
 		//QString fontdir = "/tmp/fonts/";
@@ -432,15 +365,17 @@ void PrefSubtitles::on_windowsfontdir_check_toggled(bool b) {
 
 		// Calling setFontsFromDir resets the fonts in other comboboxes!
 		// So the font list is copied from the previous combobox
+		/*
 		QString current_text = fontCombo->currentText();
 		fontCombo->clear();
 		for (int n=0; n < style_font_combo->count(); n++) {
 			fontCombo->addItem( style_font_combo->itemText(n) );
 		}
 		fontCombo->setCurrentText(current_text);
+		*/
 	}
-#endif
 }
+#endif
 
 void PrefSubtitles::createHelp() {
 	clearHelp();
@@ -464,8 +399,8 @@ void PrefSubtitles::createHelp() {
 		tr("When this option is on, the encoding of the subtitles will be "
            "tried to be autodetected for the given language. "
            "It will fall back to the default encoding if the autodetection "
-           "fails. This option requires a MPlayer compiled with ENCA "
-           "support.") );
+           "fails. This option requires a %1 with ENCA "
+           "support.").arg(PLAYER_NAME) );
 
 	setWhatsThis(enca_lang_combo, tr("Subtitle language"),
 		tr("Select the language for which you want the encoding to be guessed "
@@ -476,14 +411,18 @@ void PrefSubtitles::createHelp() {
         tr("If this option is checked, the subtitles will appear in the "
            "screenshots. <b>Note:</b> it may cause some troubles sometimes." ) );
 
+	setWhatsThis(use_ass_check, tr("Use the ASS library"),
+		tr("This option enables the ASS library, which allows to display "
+           "subtitles with multiple colors, fonts...") );
+
 	setWhatsThis(freetype_check, tr("Freetype support"), 
 		tr("You should normally not disable this option. Do it only if your "
-           "MPlayer is compiled without freetype support. "
-           "<b>Disabling this option could make that subtitles won't work "
-           "at all!</b>") );
+           "%1 is compiled without freetype support. "
+           "<b>Disabling this option could make subtitles not to work "
+           "at all!</b>").arg(PLAYER_NAME));
 
-#ifdef Q_OS_WIN
-	setWhatsThis(windowsfontdir_check, tr("Enable Windows fonts"), 
+#ifdef FONTS_HACK
+	setWhatsThis(windowsfontdir_check, tr("Enable Windows fonts"),
 		tr("If this option is enabled the Windows system fonts will be "
            "available for subtitles. There's an inconvenience: a font cache have "
            "to be created which can take some time.") +"<br>"+
@@ -493,52 +432,9 @@ void PrefSubtitles::createHelp() {
 
 	addSectionTitle(tr("Font"));
 
-	setWhatsThis(normal_subs_button, tr("Enable normal subtitles"), 
-        tr("Click this button to select the normal/traditional subtitles. "
-           "This kind of subtitles can only display white subtitles."));
-
-	setWhatsThis(ass_subs_button, tr("Enable SSA/ASS subtitles"), 
-		tr("Click this button to enable the new SSA/ASS library. "
-           "This allows to display subtitles with multiple colors, fonts..."));
-
-	addSectionTitle(tr("Normal subtitles"));
-
-	setWhatsThis(ttf_font_edit, tr("TTF font"), 
-        tr("Here you can select a ttf font to be used for the subtitles. "
-           "Usually you'll find a lot of ttf fonts in %1")
-#ifdef Q_OS_WIN
-        .arg("<i>C:\\Windows\\Fonts\\</i>")
-#else
-#ifdef Q_OS_OS2
-        .arg("<i>C:\\PSFONTS</i>")
-#else
-        .arg("<i>/usr/X11R6/lib/X11/fonts/truetype/</i>")
-#endif
-#endif
-        );
-
-	setWhatsThis(fontCombo, tr("System font"), 
-        tr("Here you can select a system font to be used for the subtitles "
-           "and OSD.") );
-
-	setWhatsThis(font_autoscale_combo, tr("Autoscale"), 
-        tr("Select the subtitle autoscaling method.") );
-
 	QString scale_note = tr("This option does NOT change the size of the "
-   		   "subtitles in the current video. To do so, use the options "
+           "subtitles in the current video. To do so, use the options "
            "<i>Size+</i> and <i>Size-</i> in the subtitles menu.");
-
-	setWhatsThis(font_text_scale_spin, tr("Default scale"),
-		tr("This option specifies the default font scale for normal "
-           "subtitles which will be used for new opened files.") +"<br>"+
-		scale_note);
-
-	setWhatsThis(sub_pos_slider, tr("Subtitle position"),
-		tr("This option specifies the position of the subtitles over the "
-           "video window. <i>100</i> means the bottom, while <i>0</i> means "
-           "the top." ) );
-
-	addSectionTitle(tr("SSA/ASS subtitles"));
 
 	setWhatsThis(ass_font_scale_spin, tr("Default scale"),
 		tr("This option specifies the default font scale for SSA/ASS "
@@ -603,7 +499,7 @@ void PrefSubtitles::createHelp() {
         tr("If border style is set to <i>outline</i>, this option specifies "
            "the depth of the drop shadow behind the text in pixels.") );
 
-	setWhatsThis(force_ass_styles, tr("Apply style to ass files too"), 
+	setWhatsThis(force_ass_styles, tr("Apply style to ASS files too"), 
         tr("If this option is checked, the style defined above will be "
            "applied to ass subtitles too.") );
 }

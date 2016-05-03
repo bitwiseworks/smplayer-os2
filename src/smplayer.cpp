@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
 */
 
 #include "smplayer.h"
-#include "defaultgui.h"
-#include "minigui.h"
 #include "global.h"
 #include "paths.h"
 #include "translator.h"
@@ -27,7 +25,15 @@
 #include "clhelp.h"
 #include "cleanconfig.h"
 #include "myapplication.h"
-#include "images.h"
+#include "baseguiplus.h"
+
+#ifdef DEFAULTGUI
+#include "defaultgui.h"
+#endif
+
+#ifdef MINIGUI
+#include "minigui.h"
+#endif
 
 #ifdef MPCGUI
 #include "mpcgui.h"
@@ -89,7 +95,7 @@ SMPlayer::SMPlayer(const QString & config_path, QObject * parent )
 	translator->load( pref->language );
 	showInfo();
 
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	createFontFile();
 #endif
 }
@@ -120,22 +126,10 @@ BaseGui * SMPlayer::gui() {
 			QString theme_dir = Paths::themesPath() + "/" + theme;
 			qDebug("SMPlayer::gui: user_theme_dir: %s", user_theme_dir.toUtf8().constData());
 			qDebug("SMPlayer::gui: theme_dir: %s", theme_dir.toUtf8().constData());
-			#ifdef USE_RESOURCES
-			QString user_theme_resource = user_theme_dir +"/"+ theme +".rcc";
-			QString theme_resource = theme_dir +"/"+ theme +".rcc";
-			qDebug("SMPlayer::gui: user_theme_resource: %s", user_theme_resource.toUtf8().constData());
-			qDebug("SMPlayer::gui: theme_resource: %s", theme_resource.toUtf8().constData());
-			if ((QFile::exists(user_theme_resource)) || (QFile::exists(theme_resource))) {
-			#else
 			if ((QDir(theme_dir).exists()) || (QDir(user_theme_dir).exists())) {
-			#endif
 				if (pref->iconset.isEmpty()) pref->iconset = theme;
 			} else {
-				#ifdef USE_RESOURCES
-				qDebug("SMPlayer::gui: skin resource file doesn't exist. Falling back to default gui.");
-				#else
 				qDebug("SMPlayer::gui: skin folder doesn't exist. Falling back to default gui.");
-				#endif
 				gui_to_use = "DefaultGUI";
 				pref->iconset = "";
 				pref->gui = gui_to_use;
@@ -166,15 +160,26 @@ BaseGui * SMPlayer::createGUI(QString gui_name) {
 		gui = new SkinGui(0);
 	else
 #endif
+#ifdef MINIGUI
 	if (gui_name.toLower() == "minigui") 
 		gui = new MiniGui(0);
 	else
+#endif
 #ifdef MPCGUI
 	if (gui_name.toLower() == "mpcgui")
 		gui = new MpcGui(0);
 	else
 #endif
+#ifdef DEFAULTGUI
+	if (gui_name.toLower() == "defaultgui")
 		gui = new DefaultGui(0);
+	else
+#endif
+	{
+		// No GUI
+		qWarning() << "SMPlayer::createGUI: there's no GUI available!";
+		gui = new BaseGuiPlus(0);
+	}
 
 	gui->setForceCloseOnFinish(close_at_end);
 	gui->setForceStartInFullscreen(start_in_fullscreen);
@@ -226,7 +231,7 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 	}
 
 
-    QString action; // Action to be passed to running instance
+	QString action; // Action to be passed to running instance
 	bool show_help = false;
 
 	if (!pref->gui.isEmpty()) gui_to_use = pref->gui;
@@ -287,6 +292,13 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 			} else {
 				printf("Error: expected parameter for -sub\r\n");
 				return ErrorArgument;
+			}
+		}
+		else
+		if (argument == "-media-title") {
+			if (n+1 < args.count()) {
+				n++;
+				if (media_title.isEmpty()) media_title = args[n];
 			}
 		}
 		else
@@ -355,6 +367,14 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 		if (argument == "-defaultgui") {
 			gui_to_use = "DefaultGUI";
 		}
+		else
+		if (argument == "-ontop") {
+			pref->stay_on_top = Preferences::AlwaysOnTop;
+		}
+		else
+		if (argument == "-no-ontop") {
+			pref->stay_on_top = Preferences::NeverOnTop;
+		}
 #ifdef SKINS
 		else
 		if (argument == "-skingui") {
@@ -401,6 +421,10 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 					a->sendMessage("load_sub " + subtitle_file);
 				}
 
+				if (!media_title.isEmpty()) {
+					a->sendMessage("media_title " + files_to_play[0] + " <<sep>> " + media_title);
+				}
+
 				if (!files_to_play.isEmpty()) {
 					/* a->sendMessage("open_file " + files_to_play[0]); */
 					QString command = "open_files";
@@ -437,6 +461,7 @@ void SMPlayer::start() {
 	if (!gui()->startHidden() || !files_to_play.isEmpty() ) gui()->show();
 	if (!files_to_play.isEmpty()) {
 		if (!subtitle_file.isEmpty()) gui()->setInitialSubtitle(subtitle_file);
+		if (!media_title.isEmpty()) gui()->getCore()->addForcedTitle(files_to_play[0], media_title);
 		gui()->openFiles(files_to_play);
 	}
 
@@ -468,7 +493,7 @@ void SMPlayer::createConfigDirectory() {
 }
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 void SMPlayer::createFontFile() {
 	qDebug("SMPlayer::createFontFile");
 	QString output = Paths::configPath() + "/fonts.conf";
@@ -486,10 +511,20 @@ void SMPlayer::createFontFile() {
 	}
 
 	QString input = Paths::appPath() + "/mplayer/fonts/fonts.conf";
-	qDebug("SMPlayer::createFontFile: input: %s", input.toLatin1().constData());
+	if (!QFile::exists(input)) {
+		qDebug("SMPlayer::createFontFile: %s doesn't exist", input.toUtf8().constData());
+		input = Paths::appPath() + "/mplayer/mpv/fonts.conf";
+		if (!QFile::exists(input)) {
+			qDebug("SMPlayer::createFontFile: %s doesn't exist", input.toUtf8().constData());
+			qWarning("SMPlayer::createFontFile: failed to create fonts.conf");
+			return;
+		}
+	}
+	qDebug("SMPlayer::createFontFile: input: %s", input.toUtf8().constData());
 	QFile infile(input);
 	if (infile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QString text = infile.readAll();
+		text = text.replace("<!-- <dir>WINDOWSFONTDIR</dir> -->", "<dir>WINDOWSFONTDIR</dir>");
 		text = text.replace("<dir>WINDOWSFONTDIR</dir>", "<dir>" + Paths::fontPath() + "</dir>");
 		//qDebug("SMPlayer::createFontFile: %s", text.toUtf8().constData());
 
@@ -516,6 +551,12 @@ void SMPlayer::showInfo() {
 		#endif
 		#if QT_VERSION >= 0x040803
 		case QSysInfo::WV_WINDOWS8: win_ver = "Windows 8/Server 2012"; break;
+		#endif
+		#if ((QT_VERSION >= 0x040806 && QT_VERSION < 0x050000) || (QT_VERSION >= 0x050200))
+		case QSysInfo::WV_WINDOWS8_1: win_ver = "Windows 8.1/Server 2012 R2"; break;
+		#endif
+		#if ((QT_VERSION >= 0x040807 && QT_VERSION < 0x050000) || (QT_VERSION >= 0x050500))
+		case QSysInfo::WV_WINDOWS10: win_ver = "Windows 10"; break;
 		#endif
 		case QSysInfo::WV_NT_based: win_ver = "NT-based Windows"; break;
 		default: win_ver = QString("Unknown/Unsupported Windows OS"); break;
@@ -552,7 +593,7 @@ void SMPlayer::showInfo() {
 	qDebug(" * ini path: '%s'", Paths::iniPath().toUtf8().data());
 	qDebug(" * file for subtitles' styles: '%s'", Paths::subtitleStyleFile().toUtf8().data());
 	qDebug(" * current path: '%s'", QDir::currentPath().toUtf8().data());
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	qDebug(" * font path: '%s'", Paths::fontPath().toUtf8().data());
 #endif
 }
@@ -583,7 +624,11 @@ void SMPlayer::myMessageOutput( QtMsgType type, const char *msg ) {
 #if QT_VERSION >= 0x050000
 	orig_line = msg;
 #else
+	#ifdef Q_OS_WIN
+	orig_line = QString::fromLocal8Bit(msg);
+	#else
 	orig_line = QString::fromUtf8(msg);
+	#endif
 #endif
 
 	switch ( type ) {

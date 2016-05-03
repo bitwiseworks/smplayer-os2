@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PREFGENERAL_H_
-#define _PREFGENERAL_H_
+#ifndef PREFGENERAL_H
+#define PREFGENERAL_H
 
 #include "ui_prefgeneral.h"
 #include "prefwidget.h"
@@ -34,6 +34,10 @@
 
 #ifdef Q_OS_OS2
 #define MPLAYER_KAI_VERSION 30994
+#endif
+
+#if defined(MPV_SUPPORT) && defined(MPLAYER_SUPPORT)
+#define MPLAYER_MPV_SELECTION
 #endif
 
 class PrefGeneral : public PrefWidget, public Ui::PrefGeneral
@@ -69,6 +73,11 @@ protected:
 
 	void setScreenshotDir( QString path );
 	QString screenshotDir();
+
+#ifdef MPV_SUPPORT
+	void setScreenshotFormat(const QString format);
+	QString screenshotFormat();
+#endif
 
 	void setVO( QString vo_driver );
 	QString VO();
@@ -185,6 +194,9 @@ protected:
 	Preferences::OptionState scaleTempoFilter();
 
 protected slots:
+#ifdef MPLAYER_MPV_SELECTION
+	void player_combo_changed(int);
+#endif
 	void vo_combo_changed(int);
 	void ao_combo_changed(int);
 

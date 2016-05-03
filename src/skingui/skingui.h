@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _SKINGUI_H_
-#define _SKINGUI_H_
+#ifndef SKINGUI_H
+#define SKINGUI_H
 
 #include "guiconfig.h"
 #include "baseguiplus.h"
@@ -82,9 +82,8 @@ protected slots:
 #if AUTODISABLE_ACTIONS
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
-	virtual void togglePlayAction(Core::State);
 #endif
-	virtual void changeStyleSheet(QString style);
+	virtual void togglePlayAction(Core::State);
 
 protected:
 	MediaBarPanel* mediaBarPanel;
@@ -112,6 +111,7 @@ protected:
 #endif
 
 	MyAction * viewVideoInfoAct;
+	MyAction * scrollTitleAct;
 
 	QMenu * toolbar_menu;
 	QMenu * statusbar_menu;
