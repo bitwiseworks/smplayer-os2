@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,12 +26,12 @@ class ShareDialog : public QDialog, public Ui::ShareDialog
 	Q_OBJECT
 
 public:
-	enum Action { Donate = 1, Facebook = 2, Twitter = 4 };
-
 	ShareDialog( QWidget* parent = 0, Qt::WindowFlags f = 0 );
 	~ShareDialog();
 
 	bool isRemindChecked();
+
+	void setActions(int a) { actions_taken = a; }
 	int actions() { return actions_taken; }
 
 	void showRemindCheck(bool b);

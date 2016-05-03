@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,21 +16,22 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CORE_H_
-#define _CORE_H_
+#ifndef CORE_H
+#define CORE_H
 
 #include <QObject>
 #include <QProcess> // For QProcess::ProcessError
 #include "mediadata.h"
 #include "mediasettings.h"
-#include "mplayerprocess.h"
+#include "playerprocess.h"
+
 #include "config.h"
 
 #ifndef NO_USE_INI_FILES
 class FileSettingsBase;
 #endif
 
-class MplayerProcess;
+class PlayerProcess;
 class MplayerWindow;
 class QSettings;
 
@@ -49,12 +50,12 @@ class Core : public QObject
     Q_OBJECT
     
 public:
-	enum State { Stopped = 0, Playing = 1, Paused = 2 };
+	enum State { Stopped = 0, Playing = 1, Paused = 2, Buffering = 3 };
 
-    Core( MplayerWindow *mpw, QWidget* parent = 0 );
-    ~Core();
+	Core( MplayerWindow *mpw, QWidget* parent = 0 );
+	~Core();
 
-    MediaData mdat;
+	MediaData mdat;
 	MediaSettings mset;
 
 	//! Return the current state
@@ -63,6 +64,8 @@ public:
 	//! Return a string with the name of the current state,
 	//! so it can be printed on debugging messages.
 	QString stateToString();
+
+	void addForcedTitle(const QString & file, const QString & title) { forced_titles[file] = title; };
 
 protected:
 	//! Change the current state (Stopped, Playing or Paused)
@@ -107,8 +110,12 @@ public slots:
     void pause_and_frame_step();
 	void pause();
 	void frameStep();
+	void frameBackStep();
 	void screenshot();	//!< Take a screenshot of current frame
 	void screenshots();	//!< Start/stop taking screenshot of each frame
+#ifdef CAPTURE_STREAM
+	void switchCapturing();
+#endif
 
 	//! Public restart, for the GUI.
 	void restart();
@@ -117,12 +124,13 @@ public slots:
 	void reload();
 
 #ifdef SEEKBAR_RESOLUTION
-    void goToPosition( int value );
-    void goToPos( double perc );
+	void goToPosition( int value );
+	void goToPos( double perc );
 #else
-    void goToPos( int perc );
+	void goToPos( int perc );
 #endif
-    void goToSec( double sec );
+	void goToSec( double sec );
+	void goToSec(int sec) { goToSec( (double) sec); }
 
 	void setAMarker(); //!< Set A marker to current sec
 	void setAMarker(int sec);
@@ -142,10 +150,13 @@ public slots:
 	void toggleMirror(bool b);
 
 	// Audio filters
+#ifdef MPLAYER_SUPPORT
 	void toggleKaraoke();
 	void toggleKaraoke(bool b);
+#endif
 	void toggleExtrastereo();
 	void toggleExtrastereo(bool b);
+
 	void toggleVolnorm();
 	void toggleVolnorm(bool b);
 
@@ -168,17 +179,23 @@ public slots:
 	void changeDenoise(int);
 	void changeUnsharp(int);
 	void changeLetterbox(bool);
+	void changeLetterboxOnFullscreen(bool);
 	void changeUpscale(bool);
+	void changeStereo3d(const QString & in, const QString & out);
 
 	void seek(int secs);
 	void sforward(); 	// + 10 seconds
 	void srewind(); 	// - 10 seconds
-    void forward(); 	// + 1 minute
-    void rewind(); 		// -1 minute
-    void fastforward();	// + 10 minutes
-    void fastrewind();	// - 10 minutes
+	void forward(); 	// + 1 minute
+	void rewind(); 		// -1 minute
+	void fastforward();	// + 10 minutes
+	void fastrewind();	// - 10 minutes
 	void forward(int secs);
 	void rewind(int secs);
+#ifdef MPV_SUPPORT
+	void seekToNextSub();
+	void seekToPrevSub();
+#endif
 	void wheelUp();
 	void wheelDown();
 
@@ -193,9 +210,11 @@ public slots:
 	void halveSpeed();
 	void normalSpeed();
 
-    void setVolume(int volume, bool force = false);
+	void setVolume(int volume, bool force = false);
 	void switchMute();
 	void mute(bool b);
+	void incVolume(int step);
+	void decVolume(int step);
 	void incVolume();
 	void decVolume();
 
@@ -231,6 +250,10 @@ public slots:
 	void incSubScale();
 	void decSubScale();
 
+	void changeOSDScale(double value);
+	void incOSDScale();
+	void decOSDScale();
+
 	//! Select next line in subtitle file
 	void incSubStep();
 	//! Select previous line in subtitle file
@@ -258,8 +281,11 @@ public slots:
 	void setAudioEq9(int value);
 
 	void changeDeinterlace(int);
-    void changeSubtitle(int);
+	void changeSubtitle(int);
 	void nextSubtitle();
+#ifdef MPV_SUPPORT
+	void changeSecondarySubtitle(int);
+#endif
 	void changeAudio(int ID, bool allow_restart = true);
 	void nextAudio();
 	void changeVideo(int ID, bool allow_restart = true);
@@ -278,6 +304,11 @@ public slots:
 	void changeOSD(int);
 	void nextOSD();
 	void nextWheelFunction();
+
+#ifdef BOOKMARKS
+	void nextBookmark();
+	void prevBookmark();
+#endif
 
 	#if 0
 	void changeSize(int); // Size of the window
@@ -299,16 +330,11 @@ public slots:
 	void autoZoomFor169();
 	void autoZoomFor235();
 
-#if USE_MPLAYER_PANSCAN
-	void changePanscan(double);
-	void incPanscan();
-	void decPanscan();
-#endif
-
 	void showFilenameOnOSD();
+	void showTimeOnOSD();
 	void toggleDeinterlace();
 
-	void changeUseAss(bool);
+	void changeUseCustomSubStyle(bool);
 	void toggleForcedSubsOnly(bool);
 
 	void changeClosedCaptionChannel(int);
@@ -329,8 +355,8 @@ public slots:
 	void dvdnavMouse();
 #endif
 
-    // Pass a command to mplayer by stdin:
-    void tellmp(const QString & command);
+	//! Change fullscreen when using the player own window
+	void changeFullscreenMode(bool b);
 
 	//! Wrapper for the osd_show_text slave command
 	void displayTextOnOSD(QString text, int duration = 3000, int level = 1, 
@@ -340,6 +366,8 @@ public:
 	//! Returns the number of the first chapter in 
 	//! files. In some versions of mplayer is 0, in others 1
 	static int firstChapter();
+	int firstDVDTitle();
+	int firstBlurayTitle();
 
 #ifndef NO_USE_INI_FILES
 	void changeFileSettingsMethod(QString method);
@@ -348,7 +376,7 @@ public:
 protected:
 	//! Returns the prefix to keep pausing on slave commands
 	QString pausing_prefix();
-	QString seek_cmd(double secs, int mode);
+	void seek_cmd(double secs, int mode);
 
 protected slots:
     void changeCurrentSec(double sec);
@@ -358,6 +386,8 @@ protected slots:
 	void gotVO(QString);
 	void gotAO(QString);
 	void gotStartingTime(double);
+	void gotVideoBitrate(int);
+	void gotAudioBitrate(int);
 
 	void finishRestart();
     void processFinished();
@@ -367,6 +397,7 @@ protected slots:
 	void displayScreenshotName(QString filename);
 	void displayUpdatingFontCache();
 	void displayBuffering();
+	void displayPlaying();
 
 	void streamTitleChanged(QString);
 	void streamTitleAndUrlChanged(QString,QString);
@@ -387,10 +418,17 @@ protected slots:
 #if NOTIFY_AUDIO_CHANGES
 	void initAudioTrack(const Tracks &);
 #endif
+#if NOTIFY_VIDEO_CHANGES
+	void initVideoTrack(const Tracks &);
+#endif
 #if NOTIFY_SUB_CHANGES
 	void initSubtitleTrack(const SubTracks &);
 	void setSubtitleTrackAgain(const SubTracks &);
 #endif
+#if NOTIFY_CHAPTER_CHANGES
+	void updateChapterInfo(const Chapters &);
+#endif
+
 #if DVDNAV_SUPPORT
 	void dvdTitleChanged(int);
 	void durationChanged(double);
@@ -405,7 +443,6 @@ protected slots:
 #ifdef YOUTUBE_SUPPORT
 	void connectingToYT(QString host);
 	void YTFailed(int error_number, QString error_str);
-	/* void YTNoSignature(); */
 	void YTNoVideoUrl();
 #endif
 
@@ -434,6 +471,8 @@ protected:
 
 	//! Returns true if changing the subscale requires to restart mplayer
 	bool subscale_need_restart();
+
+	int adjustVolume(int v, int max_vol);
 
 signals:
 	void buffering();
@@ -485,13 +524,14 @@ signals:
 
 #ifdef YOUTUBE_SUPPORT
 	void signatureNotFound(const QString &);
+	void noSslSupport();
 #endif
 
 	void receivedForbidden();
 
 protected:
-    MplayerProcess * proc;
-    MplayerWindow * mplayerwindow;
+	PlayerProcess * proc;
+	MplayerWindow * mplayerwindow;
 
 #ifndef NO_USE_INI_FILES
 	FileSettingsBase * file_settings;
@@ -507,7 +547,7 @@ protected:
 #ifdef YOUTUBE_SUPPORT
 	RetrieveYoutubeUrl * yt;
 #endif
-    
+
 private:
 	// Some variables to proper restart
 	bool we_are_restarting;
@@ -522,6 +562,8 @@ private:
 #if DVDNAV_SUPPORT
 	bool dvdnav_title_is_menu;
 #endif
+
+	QMap<QString,QString> forced_titles;
 };
-    
+
 #endif

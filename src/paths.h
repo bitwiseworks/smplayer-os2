@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PATHS_H_
-#define _PATHS_H_
+#ifndef PATHS_H
+#define PATHS_H
 
 #include <QString>
 
@@ -47,7 +47,7 @@ public:
 
 	static QString subtitleStyleFile();
 
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	static QString fontPath();
 #endif
 

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,6 +83,24 @@ void TVList::parse_channels_conf(Services services) {
 			}
 		}
 	}
+}
+
+QString TVList::findChannelsFile() {
+	QString channels_file;
+
+	QString file = QDir::homePath() + "/.mplayer/channels.conf.ter";
+	if (QFile::exists(file)) return file;
+
+	file = QDir::homePath() + "/.mplayer/channels.conf";
+	if (QFile::exists(file)) return file;
+
+	file = QDir::homePath() + "/.config/mpv/channels.conf.ter";
+	if (QFile::exists(file)) return file;
+
+	file = QDir::homePath() + "/.config/mpv/channels.conf";
+	if (QFile::exists(file)) return file;
+
+	return QString::null;
 }
 #endif
 

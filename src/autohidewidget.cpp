@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ AutohideWidget::AutohideWidget(QWidget * parent)
 	, animation(0)
 #endif
 {
-	setBackgroundRole(QPalette::Base);
+	setBackgroundRole(QPalette::Window);
 	setAutoFillBackground(true);
 	setLayoutDirection(Qt::LeftToRight);
 

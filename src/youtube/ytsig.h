@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,15 +28,13 @@ public:
 
 	static void check(QString & u);
 
-#ifdef YT_USE_SCRIPT
-	static void setScriptFile(const QString & f) { script_file = f; reloadScriptFile(); };
+	static void setScriptFile(const QString & f) { script_filename = f; reloadScriptFile(); };
 
 private:
 	static QString script;
 	static QString default_script;
-	static QString script_file;
+	static QString script_filename;
 	static void reloadScriptFile();
-#endif
 
 private:
 	static QString parsed_ts;

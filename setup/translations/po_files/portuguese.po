@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sérgio Marques <smarquespt@gmail.com>, 2014
+# Sérgio Marques <smarquespt@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2014-02-25 14:03+0000\n"
+"PO-Revision-Date: 2016-03-21 23:19+0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/smplayer/language/pt/)\n"
+"Language-Team: Portuguese (http://www.transifex.com/rvm/smplayer/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,6 +75,10 @@ msgstr "Atalhos"
 msgid "MPlayer Components"
 msgstr "Componentes MPlayer"
 
+# MPlayerMPVGroupTitle
+msgid "Multimedia Engine"
+msgstr "Reprodutor multimédia"
+
 # Section_SMPlayer
 msgid "SMPlayer (required)"
 msgstr "SMPlayer (obrigatório)"
@@ -116,6 +120,10 @@ msgid ""
 "Optional codecs for MPlayer. (Internet Connection required for installation)"
 msgstr "Codificadores opcionais para o MPlayer. (Precisa de uma ligação à Internet)"
 
+# Section_MPV_Desc
+msgid "A feature-rich fork of MPlayer && MPlayer2"
+msgstr "Um reprodutor baseado no MPlayer e no MPlayer2"
+
 # Section_MEncoder_Desc
 msgid ""
 "A companion program to MPlayer that can be used to encode or transform "
@@ -140,7 +148,7 @@ msgstr "Idiomas adicionais para o SMPlayer."
 
 # Section_ResetSettings_Desc
 msgid "Deletes SMPlayer preferences leftover from previous installations."
-msgstr "Elimina as preferências de uma anterior instalação do SMPlayer."
+msgstr "Remove as preferências de uma anterior instalação do SMPlayer."
 
 # MPlayer_Codec_Msg
 msgid ""
@@ -148,7 +156,7 @@ msgid ""
 "implemented natively, like newer RealVideo variants and a lot of uncommon "
 "formats.[:n:]Note that they are not necessary to play most common formats "
 "like DVDs, MPEG-1/2/4, etc."
-msgstr "O pacote de codificadores adiciona suporte aos formatos que ainda não foram implementados no MPlayer, tais como as novas variantes RealVideo e outros formatos menos utilizados.[:n:]Estes codificadores não são necessários para os formatos mais comuns como DVDs, MPEG-1/2/4, etc."
+msgstr "O pacote de codificadores adiciona suporte aos formatos que ainda não foram implementados no MPlayer, tais como as novas variantes RealVideo e outros formatos menos utilizados.[:n:]Estes codificadores não são necessários para os formatos mais comuns como DVD, MPEG-1/2/4, etc."
 
 # Reinstall_Header_Text
 msgid "Select Install Type"
@@ -194,6 +202,12 @@ msgstr "Alterar definições de instalação"
 msgid "Reset my SMPlayer configuration"
 msgstr "Reiniciar configurações do SMPlayer"
 
+# Remove_Settings_Confirmation
+msgid ""
+"Are you sure you want to reset your SMPlayer settings? This action cannot be"
+" reversed."
+msgstr "Tem a certeza de que deseja repor as definições do SMPlayer? Esta ação não pode ser revertida."
+
 # Type_Reinstall
 msgid "reinstall"
 msgstr "Reinstalar"
@@ -212,7 +226,7 @@ msgstr "Iniciar"
 
 # Codecs_DL_Msg
 msgid "Downloading MPlayer Codecs..."
-msgstr "A transferir os codificadores MPlayer..."
+msgstr "A descarregar os codificadores MPlayer..."
 
 # Codecs_DL_Retry
 msgid "MPlayer codecs were not successfully installed. Retry?"
@@ -220,7 +234,7 @@ msgstr "Os codificadores MPlayer não foram instalados corretamente. Tentar nova
 
 # Codecs_DL_Failed
 msgid "Failed to download MPlayer codecs: '$R0'."
-msgstr "Falha ao transferir os codificadores MPlayer: '$R0'."
+msgstr "Falha ao descarregar os codificadores MPlayer: '$R0'."
 
 # Codecs_Inst_Failed
 msgid "Failed to install MPlayer codecs."
@@ -255,7 +269,7 @@ msgid ""
 "SMPlayer is a complete front-end for MPlayer, from basic features like "
 "playing videos, DVDs, VCDs to more advanced features like support for "
 "MPlayer filters, edl lists, and more."
-msgstr "O SMPlayer é uma interface gráfica para o MPlayer, com funções simples como a reprodução de vídeos, DVDs e VCDs bem como outras mais avançadas (suporte a filtros MPlayer, listas e mais)."
+msgstr "O SMPlayer é uma interface gráfica para o MPlayer, com funções simples como a reprodução de vídeos, DVD e VCD bem como outras mais avançadas (suporte a filtros MPlayer, listas e mais)."
 
 # Info_Codecs_Backup
 msgid "Backing up codecs from previous installation..."
@@ -288,6 +302,58 @@ msgstr "A reverter alterações..."
 # Info_Files_Extract
 msgid "Extracting files..."
 msgstr "A extrair ficheiros..."
+
+# Info_SMTube_Backup
+msgid "Backing up SMTube..."
+msgstr "A criar backup do SMTube..."
+
+# Info_SMTube_Restore
+msgid "Restoring SMTube from previous installation..."
+msgstr "A restaurar o SMTube da instalação anterior..."
+
+# Info_MPV_Backup
+msgid "Backing up mpv..."
+msgstr "A criar backup do mpv..."
+
+# Info_MPV_Restore
+msgid "Restoring mpv from previous installation..."
+msgstr "A restaurar o mpv da instalação anterior..."
+
+# MPV_DL_Msg
+msgid "Downloading mpv..."
+msgstr "A descarregar o mpv..."
+
+# MPV_DL_Retry
+msgid "mpv was not successfully installed. Retry?"
+msgstr "O mpv não foi instalado. Tentar novamente?"
+
+# MPV_DL_Failed
+msgid "Failed to download mpv: '$R0'."
+msgstr "Falha ao descarregar o mpv: '$R0'."
+
+# MPV_Inst_Failed
+msgid "Failed to install mpv."
+msgstr "Falha ao instalar o mpv."
+
+# YTDL_DL_Retry
+msgid "youtube-dl was not successfully installed. Retry?"
+msgstr "youtube-dl não foi instalada. Tentar novamente?"
+
+# YTDL_DL_Failed
+msgid "Failed to download youtube-dl: '$R0'."
+msgstr "Falha ao descarregar a youtube-dl: '$R0'."
+
+# YTDL_Update_Check
+msgid "Checking for youtube-dl updates..."
+msgstr "A procurar atualizações para youtube-dl..."
+
+# Info_Cleaning_Fontconfig
+msgid "Cleaning fontconfig cache..."
+msgstr "A limpar cache de fontes..."
+
+# Info_Cleaning_SMPlayer
+msgid "Cleaning SMPlayer settings..."
+msgstr "A limpar definições do SMPlayer..."
 
 # Section_MPlayerCodecs_Desc
 msgid "Binary codecs are not supported in this version."

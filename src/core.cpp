@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include <QRegExp>
 #include <QTextStream>
 #include <QUrl>
+#include <QNetworkProxy>
 
 #ifdef Q_OS_OS2
 #include <QEventLoop>
@@ -41,6 +42,7 @@
 #include "colorutils.h"
 #include "discname.h"
 #include "filters.h"
+#include "tvlist.h"
 
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef Q_OS_WIN
@@ -60,9 +62,11 @@
 
 #ifdef YOUTUBE_SUPPORT
 #include "retrieveyoutubeurl.h"
-  #ifdef YT_USE_SCRIPT
+  #ifdef YT_USE_YTSIG
   #include "ytsig.h"
   #endif
+
+  #define PREF_YT_ENABLED pref->streaming_type == Preferences::StreamingYT || pref->streaming_type == Preferences::StreamingAuto
 #endif
 
 using namespace Global;
@@ -94,7 +98,7 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	tv_settings = new TVSettings(Paths::iniPath());
 #endif
 
-    proc = new MplayerProcess(this);
+	proc = PlayerProcess::createPlayerProcess(pref->mplayer_bin);
 
 	// Do this the first
 	connect( proc, SIGNAL(processExited()),
@@ -136,6 +140,12 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	connect( proc, SIGNAL(receivedCacheMessage(QString)),
 			 this, SIGNAL(buffering()));
 	*/
+
+	connect( proc, SIGNAL(receivedBuffering()),
+			 this, SIGNAL(buffering()));
+
+	connect( proc, SIGNAL(receivedPlaying()),
+			 this, SLOT(displayPlaying()));
 
 	connect( proc, SIGNAL(receivedCacheEmptyMessage(QString)),
 			 this, SIGNAL(buffering()));
@@ -185,6 +195,9 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	connect( proc, SIGNAL(receivedStartingTime(double)),
              this, SLOT(gotStartingTime(double)) );
 
+	connect( proc, SIGNAL(receivedVideoBitrate(int)), this, SLOT(gotVideoBitrate(int)) );
+	connect( proc, SIGNAL(receivedAudioBitrate(int)), this, SLOT(gotAudioBitrate(int)) );
+
 	connect( proc, SIGNAL(receivedStreamTitle(QString)),
              this, SLOT(streamTitleChanged(QString)) );
 
@@ -208,6 +221,15 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	connect( proc, SIGNAL(audioInfoChanged(const Tracks &)), 
              this, SLOT(initAudioTrack(const Tracks &)), Qt::QueuedConnection );
 #endif
+#if NOTIFY_VIDEO_CHANGES
+	connect( proc, SIGNAL(videoInfoChanged(const Tracks &)),
+             this, SLOT(initVideoTrack(const Tracks &)), Qt::QueuedConnection );
+#endif
+#if NOTIFY_CHAPTER_CHANGES
+	connect( proc, SIGNAL(chaptersChanged(const Chapters &)), 
+             this, SLOT(updateChapterInfo(const Chapters &)), Qt::QueuedConnection );
+#endif
+
 #if DVDNAV_SUPPORT
 	connect( proc, SIGNAL(receivedDVDTitle(int)), 
              this, SLOT(dvdTitleChanged(int)), Qt::QueuedConnection );
@@ -270,10 +292,15 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	yt->setUseHttpsMain(pref->yt_use_https_main);
 	yt->setUseHttpsVi(pref->yt_use_https_vi);
 
-	connect(yt, SIGNAL(gotPreferredUrl(const QString &)), this, SLOT(openYT(const QString &)));
+	#ifdef YT_USE_SIG
+	QSettings * sigset = new QSettings(Paths::configPath() + "/sig.ini", QSettings::IniFormat, this);
+	yt->setSettings(sigset);
+	#endif
+
+	connect(yt, SIGNAL(gotPreferredUrl(const QString &, int)), this, SLOT(openYT(const QString &)));
 	connect(yt, SIGNAL(connecting(QString)), this, SLOT(connectingToYT(QString)));
 	connect(yt, SIGNAL(errorOcurred(int,QString)), this, SLOT(YTFailed(int,QString)));
-	/* connect(yt, SIGNAL(signatureNotFound()), this, SLOT(YTNoSignature())); */
+	connect(yt, SIGNAL(noSslSupport()), this, SIGNAL(noSslSupport()));
 	connect(yt, SIGNAL(signatureNotFound(const QString&)), this, SIGNAL(signatureNotFound(const QString&)));
 	connect(yt, SIGNAL(gotEmptyList()), this, SLOT(YTNoVideoUrl()));
 #endif
@@ -287,9 +314,9 @@ Core::~Core() {
 	saveMediaInfo();
 #endif
 
-    if (proc->isRunning()) stopMplayer();
-    proc->terminate();
-    delete proc;
+	if (proc->isRunning()) stopMplayer();
+	proc->terminate();
+	delete proc;
 
 #ifndef NO_USE_INI_FILES
 	delete file_settings;
@@ -320,6 +347,7 @@ void Core::changeFileSettingsMethod(QString method) {
 #endif
 
 void Core::setState(State s) {
+	//qDebug() << "Core::setState: old state:" << _state << "new state:" << s;
 	if (s != _state) {
 		_state = s;
 		emit stateChanged(_state);
@@ -365,11 +393,11 @@ void Core::saveMediaInfo() {
 	}
 
 	if ( (mdat.type == TYPE_FILE) && (!mdat.filename.isEmpty()) ) {
-		file_settings->saveSettingsFor(mdat.filename, mset);
+		file_settings->saveSettingsFor(mdat.filename, mset, proc->player());
 	}
 	else
 	if ( (mdat.type == TYPE_TV) && (!mdat.filename.isEmpty()) ) {
-		tv_settings->saveSettingsFor(mdat.filename, mset);
+		tv_settings->saveSettingsFor(mdat.filename, mset, proc->player());
 	}
 }
 #endif // NO_USE_INI_FILES
@@ -388,25 +416,16 @@ void Core::updateWidgets() {
 }
 
 
-void Core::tellmp(const QString & command) {
-	qDebug("Core::tellmp: '%s'", command.toUtf8().data());
-
-    //qDebug("Command: '%s'", command.toUtf8().data());
-    if (proc->isRunning()) {
-		proc->writeToStdin( command );
-    } else {
-		qWarning(" tellmp: no process running: %s", command.toUtf8().data());
-    }
+void Core::changeFullscreenMode(bool b) {
+	proc->setFullscreen(b);
 }
 
 void Core::displayTextOnOSD(QString text, int duration, int level, QString prefix) {
 	qDebug("Core::displayTextOnOSD: '%s'", text.toUtf8().constData());
 
 	if (proc->isRunning()) {
-		QString str = QString("osd_show_text \"%1\" %2 %3\n").arg(text.toUtf8().constData()).arg(duration).arg(level);
-		if (!prefix.isEmpty()) str = prefix + " " + str;
-		qDebug("Core::displayTextOnOSD: command: '%s'", str.toUtf8().constData());
-		proc->write(str.toLatin1());
+		proc->setPausingPrefix(prefix);
+		proc->showOSDText(text, duration, level);
 	}
 }
 
@@ -426,7 +445,7 @@ void Core::open(QString file, int seek) {
 #if DVDNAV_SUPPORT
 		openDVD( DiscName::joinDVD(0, file, pref->use_dvdnav) );
 #else
-		openDVD( DiscName::joinDVD(1, file, false) );
+		openDVD( DiscName::joinDVD(firstDVDTitle(), file, false) );
 #endif
 	}
 	else
@@ -445,9 +464,9 @@ void Core::open(QString file, int seek) {
 		if (Helper::directoryContainsDVD(file)) {
 			qDebug("Core::open: * directory contains a dvd");
 #if DVDNAV_SUPPORT
-			openDVD( DiscName::joinDVD(1, file, pref->use_dvdnav) );
+			openDVD( DiscName::joinDVD(firstDVDTitle(), file, pref->use_dvdnav) );
 #else
-			openDVD( DiscName::joinDVD(1, file, false) );
+			openDVD( DiscName::joinDVD(firstDVDTitle(), file, false) );
 #endif
 		} else {
 			qDebug("Core::open: * directory doesn't contain a dvd");
@@ -543,12 +562,6 @@ void Core::YTFailed(int /*error_number*/, QString /*error_str*/) {
 	emit showMessage( tr("Unable to retrieve the Youtube page") );
 }
 
-/*
-void Core::YTNoSignature() {
-	emit showMessage( tr("Video protected. It can't be played."), 5000 );
-}
-*/
-
 void Core::YTNoVideoUrl() {
 	emit showMessage( tr("Unable to locate the URL of the video") );
 }
@@ -579,7 +592,10 @@ void Core::loadSub(const QString & sub ) {
 		just_loaded_external_subs = true;
 
 		QFileInfo fi(sub);
-		if ((pref->fast_load_sub) && (fi.suffix().toLower() != "idx") && (mset.external_subtitles_fps == MediaSettings::SFPS_None)) {
+		bool is_idx = (fi.suffix().toLower() == "idx");
+		if (proc->isMPV()) is_idx = false; // Hack to ignore the idx extension with mpv
+
+		if ((pref->fast_load_sub) && (!is_idx) && (mset.external_subtitles_fps == MediaSettings::SFPS_None)) {
 			QString sub_file = sub;
 			#ifdef Q_OS_WIN
 			if (pref->use_short_pathnames) {
@@ -589,7 +605,7 @@ void Core::loadSub(const QString & sub ) {
 				sub_file = sub_file.replace("\\","/");
 			}
 			#endif
-			tellmp( "sub_load \""+ sub_file +"\"" );
+			proc->setExternalSubtitleFile(sub_file);
 		} else {
 			restartPlay();
 		}
@@ -669,7 +685,6 @@ void Core::openDVD(int title) {
 	mset.reset();
 
 	mset.current_title_id = title;
-	mset.current_chapter_id = 1;
 	mset.current_angle_id = 1;
 
 	initializeMenus();
@@ -699,7 +714,6 @@ void Core::openVCD(int title) {
 	mset.reset();
 
 	mset.current_title_id = title;
-	mset.current_chapter_id = -1;
 	mset.current_angle_id = -1;
 
 	/* initializeMenus(); */
@@ -728,7 +742,6 @@ void Core::openAudioCD(int title) {
 	mset.reset();
 
 	mset.current_title_id = title;
-	mset.current_chapter_id = -1;
 	mset.current_angle_id = -1;
 
 	/* initializeMenus(); */
@@ -776,7 +789,6 @@ void Core::openDVD(QString dvd_url) {
 	mset.reset();
 
 	mset.current_title_id = title;
-	mset.current_chapter_id = firstChapter();
 	mset.current_angle_id = 1;
 
 	/* initializeMenus(); */
@@ -825,7 +837,6 @@ void Core::openBluRay(QString bluray_url) {
 	mset.reset();
 
 	mset.current_title_id = title;
-	mset.current_chapter_id = firstChapter();
 	mset.current_angle_id = 1;
 
 	/* initializeMenus(); */
@@ -877,7 +888,7 @@ void Core::openTV(QString channel_id) {
 			qDebug("Core::openTV: we have settings for this file!!!");
 
 			// In this case we read info from config
-			tv_settings->loadSettingsFor(channel_id, mset);
+			tv_settings->loadSettingsFor(channel_id, mset, proc->player());
 			qDebug("Core::openTV: media settings read");
 		}
 	}
@@ -892,20 +903,22 @@ void Core::openStream(QString name) {
 	qDebug("Core::openStream: '%s'", name.toUtf8().data());
 
 #ifdef YOUTUBE_SUPPORT
-	// Check if the stream is a youtube url
-	QString yt_full_url = yt->fullUrl(name);
-	if (!yt_full_url.isEmpty()) {
-		qDebug("Core::openStream: youtube url detected: %s", yt_full_url.toLatin1().constData());
-		name = yt_full_url;
-		yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
-		qDebug("Core::openStream: user_agent: '%s'", pref->yt_user_agent.toUtf8().constData());
-		/*if (!pref->yt_user_agent.isEmpty()) yt->setUserAgent(pref->yt_user_agent); */
-		yt->setUserAgent(pref->yt_user_agent);
-		#ifdef YT_USE_SCRIPT
-		YTSig::setScriptFile( Paths::configPath() + "/yt.js" );
-		#endif
-		yt->fetchPage(name);
-		return;
+	if (PREF_YT_ENABLED) {
+		// Check if the stream is a youtube url
+		QString yt_full_url = yt->fullUrl(name);
+		if (!yt_full_url.isEmpty()) {
+			qDebug("Core::openStream: youtube url detected: %s", yt_full_url.toLatin1().constData());
+			name = yt_full_url;
+			yt->setPreferredQuality( (RetrieveYoutubeUrl::Quality) pref->yt_quality );
+			qDebug("Core::openStream: user_agent: '%s'", pref->yt_user_agent.toUtf8().constData());
+			/*if (!pref->yt_user_agent.isEmpty()) yt->setUserAgent(pref->yt_user_agent); */
+			yt->setUserAgent(pref->yt_user_agent);
+			#ifdef YT_USE_YTSIG
+			YTSig::setScriptFile( Paths::configPath() + "/yt.js" );
+			#endif
+			yt->fetchPage(name);
+			return;
+		}
 	}
 #endif
 
@@ -958,7 +971,7 @@ void Core::playNewFile(QString file, int seek) {
 
 		// In this case we read info from config
 		if (!pref->dont_remember_media_settings) {
-			file_settings->loadSettingsFor(file, mset);
+			file_settings->loadSettingsFor(file, mset, proc->player());
 			qDebug("Core::playNewFile: Media settings read");
 
 			// Resize the window and set the aspect as soon as possible
@@ -1024,10 +1037,12 @@ void Core::initPlaying(int seek) {
 	if (seek > -1) start_sec = seek;
 
 #ifdef YOUTUBE_SUPPORT
-	// Avoid to pass to mplayer the youtube page url
-	if (mdat.type == TYPE_STREAM) {
-		if (mdat.filename == yt->origUrl()) {
-			mdat.filename = yt->latestPreferredUrl();
+	if (PREF_YT_ENABLED) {
+		// Avoid to pass to mplayer the youtube page url
+		if (mdat.type == TYPE_STREAM) {
+			if (mdat.filename == yt->origUrl()) {
+				mdat.filename = yt->latestPreferredUrl();
+			}
 		}
 	}
 #endif
@@ -1047,6 +1062,9 @@ void Core::newMediaPlaying() {
 	mdat.type = type;
 
 	initializeMenus(); // Old
+
+	// Copy the demuxer
+	mset.current_demuxer = mdat.demuxer;
 
 	// Video
 	if ( (mset.current_video_id == MediaSettings::NoneSelected) && 
@@ -1096,11 +1114,6 @@ void Core::newMediaPlaying() {
 	}
 #endif
 
-	if (mdat.n_chapters > 0) {
-		// Just to show the first chapter checked in the menu
-		mset.current_chapter_id = firstChapter();
-	}
-
 	mdat.initialized = true;
 
 	// MPlayer doesn't display the length in ID_LENGTH for audio CDs...
@@ -1138,12 +1151,18 @@ void Core::finishRestart() {
 		mdat.demuxer = proc->mediaData().demuxer;
 	}
 
+	if (forced_titles.contains(mdat.filename)) {
+		mdat.clip_name = forced_titles[mdat.filename];
+	}
+
 #ifdef YOUTUBE_SUPPORT
-	// Change the real url with the youtube page url and set the title
-	if (mdat.type == TYPE_STREAM) {
-		if (mdat.filename == yt->latestPreferredUrl()) {
-			mdat.filename = yt->origUrl();
-			mdat.stream_title = yt->urlTitle();
+	if (PREF_YT_ENABLED) {
+		// Change the real url with the youtube page url and set the title
+		if (mdat.type == TYPE_STREAM) {
+			if (mdat.filename == yt->latestPreferredUrl()) {
+				mdat.filename = yt->origUrl();
+				mdat.stream_title = yt->urlTitle();
+			}
 		}
 	}
 #endif
@@ -1200,6 +1219,7 @@ void Core::finishRestart() {
 		// Normal restart, subtitles haven't changed
 		// Recover current subtitle
 		changeSubtitle( mset.current_sub_id );
+		changeSecondarySubtitle( mset.current_secondary_sub_id );
 	}
 #endif
 
@@ -1210,22 +1230,35 @@ void Core::finishRestart() {
 	if (pref->mplayer_additional_options.contains("-volume")) {
 		qDebug("Core::finishRestart: don't set volume since -volume is used");
 	} else {
+		// Code to set the volume, used when mplayer didn't have the -volume option
+		/*
 		if (pref->global_volume) {
 			bool was_muted = pref->mute;
 			setVolume( pref->volume, true);
 			if (was_muted) mute(true);
 		} else {
 			bool was_muted = mset.mute;
-			 setVolume( mset.volume, true );
+			setVolume( mset.volume, true );
 			if (was_muted) mute(true);
+		}
+		*/
+		int vol = (pref->global_volume ? pref->volume : mset.volume);
+		volumeChanged(vol);
+
+		if (proc->isMPlayer() && pref->mute) {
+			// Set mute here because mplayer doesn't have an option to set mute from the command line
+			mute(true);
 		}
 	}
 
+#if 0
+// Old. Gamma already set with option -gamma
 	if (pref->change_video_equalizer_on_startup && (mset.gamma != 0)) {
 		int gamma = mset.gamma;
 		mset.gamma = -1000; // if mset.gamma == new value, mset.gamma is not changed!
 		setGamma( gamma );
 	}
+#endif
 	// Hack to be sure that the equalizers are up to date
 	emit videoEqualizerNeedsUpdate();
 	emit audioEqualizerNeedsUpdate();
@@ -1243,6 +1276,7 @@ void Core::finishRestart() {
 
 	emit mediaLoaded();
 	emit mediaInfoChanged();
+	emit newDuration(mdat.duration);
 
 	updateWidgets(); // New
 
@@ -1291,7 +1325,7 @@ void Core::play() {
 	qDebug("Core::play");
 
 	if ((proc->isRunning()) && (state()==Paused)) {
-		tellmp("pause"); // Unpauses
+		proc->setPause(false);
 	}
 	else
 	if ((proc->isRunning()) && (state()==Playing)) {
@@ -1318,21 +1352,19 @@ void Core::pause_and_frame_step() {
 	
 	if (proc->isRunning()) {
 		if (state() == Paused) {
-			tellmp("frame_step");
-		}
-		else {
-			tellmp("pause");
+			proc->frameStep();
+		} else {
+			proc->setPause(true);
 		}
 	}
 }
 
 void Core::pause() {
-	qDebug("Core::pause");
 	qDebug("Core::pause: current state: %s", stateToString().toUtf8().data());
 
 	if (proc->isRunning()) {
 		// Pauses and unpauses
-		tellmp("pause");
+		if (state() == Paused) proc->setPause(false); else proc->setPause(true);
 	}
 }
 
@@ -1348,7 +1380,15 @@ void Core::frameStep() {
 	qDebug("Core::frameStep");
 
 	if (proc->isRunning()) {
-		tellmp("frame_step");
+		proc->frameStep();
+	}
+}
+
+void Core::frameBackStep() {
+	qDebug("Core::frameBackStep");
+
+	if (proc->isRunning()) {
+		proc->frameBackStep();
 	}
 }
 
@@ -1358,7 +1398,8 @@ void Core::screenshot() {
 	if ( (!pref->screenshot_directory.isEmpty()) && 
          (QFileInfo(pref->screenshot_directory).isDir()) ) 
 	{
-		tellmp( pausing_prefix() + " screenshot 0");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->takeScreenshot(PlayerProcess::Single, pref->subtitles_on_screenshots);
 		qDebug("Core::screenshot: taken screenshot");
 	} else {
 		qDebug("Core::screenshot: error: directory for screenshots not valid");
@@ -1372,12 +1413,19 @@ void Core::screenshots() {
 	if ( (!pref->screenshot_directory.isEmpty()) && 
          (QFileInfo(pref->screenshot_directory).isDir()) ) 
 	{
-		tellmp( "screenshot 1");
+		proc->takeScreenshot(PlayerProcess::Multiple, pref->subtitles_on_screenshots);
 	} else {
 		qDebug("Core::screenshots: error: directory for screenshots not valid");
 		emit showMessage( tr("Screenshots NOT taken, folder not configured") );
 	}
 }
+
+#ifdef CAPTURE_STREAM
+void Core::switchCapturing() {
+	qDebug("Core::switchCapturing");
+	proc->switchCapturing();
+}
+#endif
 
 void Core::processFinished()
 {
@@ -1395,6 +1443,8 @@ void Core::processFinished()
 	int exit_code = proc->exitCode();
 	qDebug("Core::processFinished: exit_code: %d", exit_code);
 	if (exit_code != 0) {
+		setState(Stopped);
+		emit stateChanged(Stopped);
 		emit mplayerFinishedWithError(exit_code);
 	}
 }
@@ -1432,12 +1482,12 @@ void Core::goToPosition(int value) {
 
 void Core::goToPos(double perc) {
 	qDebug("Core::goToPos: per: %f", perc);
-	tellmp( seek_cmd(perc, 1) );
+	seek_cmd(perc, 1);
 }
 #else
 void Core::goToPos(int perc) {
 	qDebug("Core::goToPos: per: %d", perc);
-	tellmp( seek_cmd(perc, 1) );
+	seek_cmd(perc, 1);
 }
 #endif
 
@@ -1466,8 +1516,6 @@ void Core::startMplayer( QString file, double seek ) {
 	yt->close();
 #endif
 
-	bool is_mkv = (QFileInfo(file).suffix().toLower() == "mkv");
-
 	// DVD
 	QString dvd_folder;
 	int dvd_title = -1;
@@ -1477,7 +1525,7 @@ void Core::startMplayer( QString file, double seek ) {
 		if (dvd_folder.isEmpty()) dvd_folder = pref->dvd_device;
 		dvd_title = disc_data.title;
 		file = disc_data.protocol + "://";
-		if (dvd_title > 0) file += QString::number(dvd_title);
+		if (dvd_title > -1) file += QString::number(dvd_title);
 	}
 
 	// Check URL playlist
@@ -1524,67 +1572,62 @@ void Core::startMplayer( QString file, double seek ) {
 
 	proc->clearArguments();
 
-	// Set working directory to screenshot directory
-	if (screenshot_enabled) {
-		qDebug("Core::startMplayer: setting working directory to '%s'", pref->screenshot_directory.toUtf8().data());
-		proc->setWorkingDirectory( pref->screenshot_directory );
-	}
+	// Set the screenshot directory
+	/* deleted (done later) */
 
 	// Use absolute path, otherwise after changing to the screenshot directory
 	// the mplayer path might not be found if it's a relative path
 	// (seems to be necessary only for linux)
 	QString mplayer_bin = pref->mplayer_bin;
 	QFileInfo fi(mplayer_bin);
-    if (fi.exists() && fi.isExecutable() && !fi.isDir()) {
-        mplayer_bin = fi.absoluteFilePath();
+	if (fi.exists() && fi.isExecutable() && !fi.isDir()) {
+		mplayer_bin = fi.absoluteFilePath();
 	}
 
+#ifdef MPLAYER2_SUPPORT
 	if (fi.baseName().toLower() == "mplayer2") {
 		if (!pref->mplayer_is_mplayer2) {
 			qDebug("Core::startMplayer: this seems mplayer2");
 			pref->mplayer_is_mplayer2 = true;
 		}
 	}
+#endif
 
-	proc->addArgument( mplayer_bin );
-
-	proc->addArgument("-noquiet");
+	proc->setExecutable(mplayer_bin);
+	proc->setFixedOptions();
 
 #ifdef LOG_MPLAYER
 	if (pref->verbose_log) {
-		proc->addArgument("-v");
+		proc->setOption("verbose");
 	}
 #endif
 
 	if (pref->fullscreen && pref->use_mplayer_window) {
-		proc->addArgument("-fs");
+		proc->setOption("fs", true);
 	} else {
 		// No mplayer fullscreen mode
-#if !USE_MPLAYER_PANSCAN
-		proc->addArgument("-nofs");
-#else
-		// The command 'panscan' requires -fs
-		proc->addArgument("-fs");
-#endif
+		proc->setOption("fs", false);
 	}
 
-	proc->addArgument("-nomouseinput");
-
+#if !ALLOW_DEMUXER_CODEC_CHANGE
+	if (pref->use_lavf_demuxer) {
+		proc->setOption("demuxer", "lavf");
+	}
+#else
 	// Demuxer and audio and video codecs:
 	if (!mset.forced_demuxer.isEmpty()) {
-		proc->addArgument("-demuxer");
-		proc->addArgument(mset.forced_demuxer);
+		proc->setOption("demuxer", mset.forced_demuxer);
 	}
 	if (!mset.forced_audio_codec.isEmpty()) {
-		proc->addArgument("-ac");
-		proc->addArgument(mset.forced_audio_codec);
+		proc->setOption("ac", mset.forced_audio_codec);
 	}
 	if (!mset.forced_video_codec.isEmpty()) {
-		proc->addArgument("-vc");
-		proc->addArgument(mset.forced_video_codec);
+		proc->setOption("vc", mset.forced_video_codec);
 	}
-#ifndef Q_OS_WIN
-	else {
+	else
+#endif
+	{
+		#ifndef Q_OS_WIN
 		/* if (pref->vo.startsWith("x11")) { */ // My card doesn't support vdpau, I use x11 to test
 		if (pref->vo.startsWith("vdpau")) {
 			QString c;
@@ -1594,105 +1637,96 @@ void Core::startMplayer( QString file, double seek ) {
 			if (pref->vdpau.ffvc1vdpau) c += "ffvc1vdpau,";
 			if (pref->vdpau.ffodivxvdpau) c += "ffodivxvdpau,";
 			if (!c.isEmpty()) {
-				proc->addArgument("-vc");
-				proc->addArgument(c);
+				proc->setOption("vc", c);
 			}
 		}
-#endif	
 		else {
+		#endif
 			if (pref->coreavc) {
-				proc->addArgument("-vc");
-				proc->addArgument("coreserve,");
+				proc->setOption("vc", "coreserve,");
 			}
+		#ifndef Q_OS_WIN
 		}
-#ifndef Q_OS_WIN
+		#endif
 	}
-#endif
 
 	if (pref->use_hwac3) {
-		proc->addArgument("-afm");
-		proc->addArgument("hwac3");
+		proc->setOption("afm", "hwac3");
 	}
 
 
-	QString lavdopts;
+	if (proc->isMPlayer()) {
+		// MPlayer
+		QString lavdopts;
 
-	if ( (pref->h264_skip_loop_filter == Preferences::LoopDisabled) || 
-         ((pref->h264_skip_loop_filter == Preferences::LoopDisabledOnHD) && 
-          (mset.is264andHD)) )
-	{
-		if (!lavdopts.isEmpty()) lavdopts += ":";
-		lavdopts += "skiploopfilter=all";
+		if ( (pref->h264_skip_loop_filter == Preferences::LoopDisabled) || 
+	         ((pref->h264_skip_loop_filter == Preferences::LoopDisabledOnHD) && 
+	          (mset.is264andHD)) )
+		{
+			if (!lavdopts.isEmpty()) lavdopts += ":";
+			lavdopts += "skiploopfilter=all";
+		}
+
+		if (pref->threads > 1) {
+			if (!lavdopts.isEmpty()) lavdopts += ":";
+			lavdopts += "threads=" + QString::number(pref->threads);
+		}
+
+		if (!lavdopts.isEmpty()) {
+			proc->setOption("lavdopts", lavdopts);
+		}
 	}
+	else {
+		// MPV
+		if ( (pref->h264_skip_loop_filter == Preferences::LoopDisabled) || 
+	         ((pref->h264_skip_loop_filter == Preferences::LoopDisabledOnHD) && 
+	          (mset.is264andHD)) )
+		{
+			proc->setOption("skiploopfilter");
+		}
 
-	if (pref->threads > 1) {
-		if (!lavdopts.isEmpty()) lavdopts += ":";
-		lavdopts += "threads=" + QString::number(pref->threads);
-	}
-
-	if (!lavdopts.isEmpty()) {
-		proc->addArgument("-lavdopts");
-		proc->addArgument(lavdopts);
-	}
-
-	proc->addArgument("-sub-fuzziness");
-	proc->addArgument( QString::number(pref->subfuzziness) );
-
-	proc->addArgument("-identify");
-
-	if (MplayerVersion::isMplayerAtLeast(27667)) {
-		// From r27667 the number of chapters can be obtained from ID_CHAPTERS
-		mset.current_chapter_id = 0; // Reset chapters
-	} else {
-		// We need this to get info about mkv chapters
-		if (is_mkv) {
-			proc->addArgument("-msglevel");
-			proc->addArgument("demux=6");
-
-			// **** Reset chapter *** 
-			// Select first chapter, otherwise we cannot
-			// resume playback at the same point
-			// (time would be relative to chapter)
-			mset.current_chapter_id = 0;
+		if (pref->threads > 1) {
+			proc->setOption("threads", QString::number(pref->threads));
 		}
 	}
 
-	proc->addArgument("-slave");
+	if (!pref->hwdec.isEmpty()) proc->setOption("hwdec", pref->hwdec);
 
-	if (!pref->vo.isEmpty()) {
-		proc->addArgument( "-vo");
-		proc->addArgument( pref->vo );
-	} else {
-		proc->addArgument("-vo");
-#ifdef Q_OS_WIN
-		if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA) {
-			proc->addArgument("direct3d,");
+	proc->setOption("sub-fuzziness", pref->subfuzziness);
+
+	if (pref->vo != "player_default") {
+		if (!pref->vo.isEmpty()) {
+			proc->setOption("vo", pref->vo );
 		} else {
-			proc->addArgument("directx,");
+			#ifdef Q_OS_WIN
+			if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA) {
+				proc->setOption("vo", "direct3d,");
+			} else {
+				proc->setOption("vo", "directx,");
+			}
+			#else
+			proc->setOption("vo", "xv,");
+			#endif
 		}
-#else
-		proc->addArgument("xv,");
-#endif
 	}
 
 #if USE_ADAPTER
 	if (pref->adapter > -1) {
-		proc->addArgument("-adapter");
-		proc->addArgument(QString::number(pref->adapter));
+		proc->setOption("adapter", QString::number(pref->adapter));
 	}
 #endif
 
-	if (!pref->ao.isEmpty()) {
-		proc->addArgument( "-ao");
-		proc->addArgument( pref->ao );
+	if (pref->ao != "player_default") {
+		if (!pref->ao.isEmpty()) {
+			proc->setOption("ao", pref->ao );
+		}
 	}
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 	if (pref->vo.startsWith("x11")) {
-		proc->addArgument( "-zoom");
+		proc->setOption("zoom");
 	}
 #endif
-	proc->addArgument("-nokeepaspect");
 
 	// Performance options
 	#ifdef Q_OS_WIN
@@ -1715,189 +1749,129 @@ void Core::startMplayer( QString file, double seek ) {
 		case Preferences::Idle: 		p = "idle"; break;
 		default: 						p = "normal";
 	}
-	proc->addArgument("-priority");
-	proc->addArgument( p );
+	proc->setOption("priority", p);
 	/*
 	SetPriorityClass(GetCurrentProcess(), app_p);
 	qDebug("Core::startMplayer: priority of smplayer process set to %d", app_p);
 	*/
 	#endif
 
-	if (pref->frame_drop) {
-		proc->addArgument("-framedrop");
+	if (pref->frame_drop && pref->hard_frame_drop) {
+		proc->setOption("framedrop", "decoder+vo");
 	}
-
+	else
+	if (pref->frame_drop) {
+		proc->setOption("framedrop", "vo");
+	}
+	else
 	if (pref->hard_frame_drop) {
-		proc->addArgument("-hardframedrop");
+		proc->setOption("framedrop", "decoder");
 	}
 
 	if (pref->autosync) {
-		proc->addArgument("-autosync");
-		proc->addArgument( QString::number( pref->autosync_factor ) );
+		proc->setOption("autosync", QString::number(pref->autosync_factor));
 	}
 
 	if (pref->use_mc) {
-		proc->addArgument("-mc");
-		proc->addArgument( QString::number( pref->mc_value ) );
+		proc->setOption("mc", QString::number(pref->mc_value));
 	}
 
-	if (pref->use_direct_rendering) {
-		proc->addArgument("-dr");
-	} else {
-		proc->addArgument("-nodr");
-	}
-
-	if (pref->use_double_buffer) {
-		proc->addArgument("-double");
-	} else {
-		proc->addArgument("-nodouble");
-	}
-
-#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
-	if (!pref->use_mplayer_window) {
-		proc->addArgument( "-input" );
-		if (MplayerVersion::isMplayerAtLeast(29058)) {
-			proc->addArgument( "nodefault-bindings:conf=/dev/null" );
-		} else {
-			proc->addArgument( "conf=" + Paths::dataPath() +"/input.conf" );
-		}
-	}
-#endif
+	proc->setOption("dr", pref->use_direct_rendering);
+	proc->setOption("double", pref->use_double_buffer);
 
 #ifdef Q_WS_X11
-	if (pref->disable_screensaver) {
-		proc->addArgument("-stop-xscreensaver");
-	} else {
-		proc->addArgument("-nostop-xscreensaver");
-	}
+	proc->setOption("stop-xscreensaver", pref->disable_screensaver);
 #endif
 
 	if (!pref->use_mplayer_window) {
-		proc->addArgument("-wid");
+		proc->disableInput();
+		proc->setOption("keepaspect", false);
+
 #if defined(Q_OS_OS2)
 		#define WINIDFROMHWND(hwnd) ( ( hwnd ) - 0x80000000UL )
-		proc->addArgument( QString::number( WINIDFROMHWND( (int) mplayerwindow->videoLayer()->winId() ) ));
+		proc->setOption("wid", QString::number( WINIDFROMHWND( (int) mplayerwindow->videoLayer()->winId() ) ));
 #else
-		proc->addArgument( QString::number( (qint64) mplayerwindow->videoLayer()->winId() ) );
+		proc->setOption("wid", QString::number( (qint64) mplayerwindow->videoLayer()->winId() ) );
 #endif
 
 #if USE_COLORKEY
 		#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 		if ((pref->vo.startsWith("directx")) || (pref->vo.startsWith("kva")) || (pref->vo.isEmpty())) {
-			proc->addArgument("-colorkey");
-			//proc->addArgument( "0x"+QString::number(pref->color_key, 16) );
-			proc->addArgument( ColorUtils::colorToRGB(pref->color_key) );
+			proc->setOption("colorkey", ColorUtils::colorToRGB(pref->color_key));
 		} else {
 		#endif
+			/*
 			qDebug("Core::startMplayer: * not using -colorkey for %s", pref->vo.toUtf8().data());
 			qDebug("Core::startMplayer: * report if you can't see the video"); 
+			*/
 		#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 		}
 		#endif
 #endif
 
 		// Square pixels
-		proc->addArgument("-monitorpixelaspect");
-		proc->addArgument("1");
+		proc->setOption("monitorpixelaspect", "1");
 	} else {
 		// no -wid
+		proc->setOption("keepaspect", true);
 		if (!pref->monitor_aspect.isEmpty()) {
-			proc->addArgument("-monitoraspect");
-			proc->addArgument( pref->monitor_aspect );
+			proc->setOption("monitoraspect", pref->monitor_aspect);
 		}
 	}
+
+	// OSD
+	proc->setOption("osd-scale", proc->isMPlayer() ? pref->subfont_osd_scale : pref->osd_scale);
 
 	// Subtitles fonts
 	if ((pref->use_ass_subtitles) && (pref->freetype_support)) {
 		// ASS:
-		proc->addArgument("-ass");
-		proc->addArgument("-embeddedfonts");
+		proc->setOption("ass");
+		proc->setOption("embeddedfonts");
 
-		proc->addArgument("-ass-line-spacing");
-		proc->addArgument(QString::number(pref->ass_line_spacing));
+		proc->setOption("ass-line-spacing", QString::number(pref->ass_line_spacing));
 
-		proc->addArgument( "-ass-font-scale");
-		proc->addArgument( QString::number(mset.sub_scale_ass) );
+		proc->setOption("ass-font-scale", QString::number(mset.sub_scale_ass));
 
-		if (!pref->mplayer_is_mplayer2) {
-			proc->addArgument( "-noflip-hebrew" ); // It seems to be necessary to display arabic subtitles correctly when using -ass
+		#ifdef MPLAYER2_SUPPORT
+		if (!pref->mplayer_is_mplayer2)
+		#endif
+		{
+			proc->setOption("flip-hebrew",false); // It seems to be necessary to display arabic subtitles correctly when using -ass
 		}
 
-		if (!pref->force_ass_styles) {
-			// Load the styles.ass file
-			if (!QFile::exists(Paths::subtitleStyleFile())) {
-				// If file doesn't exist, create it
-				pref->ass_styles.exportStyles(Paths::subtitleStyleFile());
-			}
-			if (QFile::exists(Paths::subtitleStyleFile())) {
-				proc->addArgument("-ass-styles");
-				proc->addArgument( Paths::subtitleStyleFile() );
-			} else {
-				qWarning("Core::startMplayer: '%s' doesn't exist", Paths::subtitleStyleFile().toUtf8().constData());
-			}
-		} else {
-			// Force styles for ass subtitles too
-			proc->addArgument("-ass-force-style");
+		if (pref->enable_ass_styles) {
+			QString ass_force_style;
 			if (!pref->user_forced_ass_style.isEmpty()) {
-				proc->addArgument(pref->user_forced_ass_style);
+				ass_force_style = pref->user_forced_ass_style;
 			} else {
-				proc->addArgument(pref->ass_styles.toString());
+				ass_force_style = pref->ass_styles.toString();
+			}
+
+			if (proc->isMPV()) {
+				// MPV
+				proc->setSubStyles(pref->ass_styles);
+				if (pref->force_ass_styles) {
+					proc->setOption("ass-force-style", ass_force_style);
+				}
+			} else {
+				// MPlayer
+				if (!pref->force_ass_styles) {
+					proc->setSubStyles(pref->ass_styles, Paths::subtitleStyleFile());
+				} else {
+					proc->setOption("ass-force-style", ass_force_style);
+				}
 			}
 		}
+
 		// Use the same font for OSD
-#if !defined(Q_OS_OS2)
-		if ((pref->use_fontconfig) && (!pref->ass_styles.fontname.isEmpty())) {
-			#ifdef USE_FONTCONFIG_OPTIONS
-			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
-				proc->addArgument("-fontconfig");
-			}
-			#endif
-			proc->addArgument("-font");
-			proc->addArgument( pref->ass_styles.fontname );
-		}
-#endif
+		// deleted
+
 		// Set the size of OSD
-		if (pref->freetype_support) {
-			proc->addArgument("-subfont-autoscale");
-			proc->addArgument("0");
-			if (!pref->mplayer_is_mplayer2) { // Prevent huge OSD in mplayer2
-				proc->addArgument("-subfont-osd-scale");
-				proc->addArgument(QString::number(pref->ass_styles.fontsize));
-			}
-			proc->addArgument("-subfont-text-scale"); // Old versions (like 1.0rc2) need this
-			proc->addArgument(QString::number(pref->ass_styles.fontsize));
-		}
+		// deleted
 	} else {
 		// NO ASS:
-		if (pref->freetype_support) proc->addArgument("-noass");
-#if !defined(Q_OS_OS2)
-		if ( (pref->use_fontconfig) && (!pref->font_name.isEmpty()) ) {
-			#ifdef USE_FONTCONFIG_OPTIONS
-			if (!pref->mplayer_is_mplayer2) { // -fontconfig removed from mplayer2
-				proc->addArgument("-fontconfig");
-			}
-			#endif
-			proc->addArgument("-font");
-			proc->addArgument( pref->font_name );
-		}
-#endif
-		if ( (!pref->use_fontconfig) && (!pref->font_file.isEmpty()) ) {
-			#ifdef USE_FONTCONFIG_OPTIONS
-			if (!pref->mplayer_is_mplayer2) { // -nofontconfig removed from mplayer2
-				proc->addArgument("-nofontconfig");
-			}
-			#endif
-			proc->addArgument("-font");
-			proc->addArgument( pref->font_file );
-		}
-
-		if (pref->freetype_support) {
-			proc->addArgument( "-subfont-autoscale");
-			proc->addArgument( QString::number( pref->font_autoscale ) );
-
-			proc->addArgument( "-subfont-text-scale");
-			proc->addArgument( QString::number(mset.sub_scale) );
-		}
+		if (pref->freetype_support) proc->setOption("noass");
+		proc->setOption("subfont-text-scale", QString::number(mset.sub_scale));
 	}
 
 	// Subtitle encoding
@@ -1915,20 +1889,16 @@ void Core::startMplayer( QString file, double seek ) {
 		}
 
 		if (!encoding.isEmpty()) {
-			proc->addArgument("-subcp");
-			proc->addArgument( encoding );
+			proc->setOption("subcp", encoding);
 		}
 	}
 
 	if (mset.closed_caption_channel > 0) {
-		proc->addArgument("-subcc");
-		if (MplayerVersion::isMplayerAtLeast(32607)) {
-			proc->addArgument( QString::number( mset.closed_caption_channel ) );
-		}
+		proc->setOption("subcc", QString::number(mset.closed_caption_channel));
 	}
 
 	if (pref->use_forced_subs_only) {
-		proc->addArgument("-forcedsubsonly");
+		proc->setOption("forcedsubsonly");
 	}
 
 #if PROGRAM_SWITCH
@@ -1936,27 +1906,26 @@ void Core::startMplayer( QString file, double seek ) {
          (mset.current_video_id == MediaSettings::NoneSelected) && 
          (mset.current_audio_id == MediaSettings::NoneSelected)*/ )
 	{
-		proc->addArgument("-tsprog");
-		proc->addArgument( QString::number( mset.current_program_id ) );
+		proc->setOption("tsprog", QString::number(mset.current_program_id));
 	}
 	// Don't set video and audio track if using -tsprog
 	else {
 #endif
 
+#if 1
 	if (mset.current_video_id != MediaSettings::NoneSelected) {
-		proc->addArgument("-vid");
-		proc->addArgument( QString::number( mset.current_video_id ) );
+		proc->setOption("vid", QString::number(mset.current_video_id));
 	}
 
 	if (mset.external_audio.isEmpty()) {
 		if (mset.current_audio_id != MediaSettings::NoneSelected) {
 			// Workaround for MPlayer bug #1321 (http://bugzilla.mplayerhq.hu/show_bug.cgi?id=1321)
 			if (mdat.audios.numItems() != 1) {
-				proc->addArgument("-aid");
-				proc->addArgument( QString::number( mset.current_audio_id ) );
+				proc->setOption("aid", QString::number(mset.current_audio_id));
 			}
 		}
 	}
+#endif
 
 #if PROGRAM_SWITCH
 	}
@@ -1968,7 +1937,10 @@ void Core::startMplayer( QString file, double seek ) {
 		just_loaded_external_subs = true; // Big ugly hack :(
 	}
 	if (!mset.external_subtitles.isEmpty()) {
-		if (QFileInfo(mset.external_subtitles).suffix().toLower()=="idx") {
+		bool is_idx = (QFileInfo(mset.external_subtitles).suffix().toLower()=="idx");
+		if (proc->isMPV()) is_idx = false; // Hack to ignore the idx extension with mpv
+
+		if (is_idx) {
 			// sub/idx subtitles
 			QFileInfo fi;
 
@@ -1981,16 +1953,16 @@ void Core::startMplayer( QString file, double seek ) {
 
 			QString s = fi.path() +"/"+ fi.completeBaseName();
 			qDebug("Core::startMplayer: subtitle file without extension: '%s'", s.toUtf8().data());
-			proc->addArgument("-vobsub");
-			proc->addArgument( s );
+			proc->setOption("vobsub", s);
 		} else {
-			proc->addArgument("-sub");
 			#ifdef Q_OS_WIN
 			if (pref->use_short_pathnames)
-				proc->addArgument(Helper::shortPathName(mset.external_subtitles));
+				proc->setOption("sub", Helper::shortPathName(mset.external_subtitles));
 			else
 			#endif
-			proc->addArgument( mset.external_subtitles );
+			{
+				proc->setOption("sub", mset.external_subtitles);
+			}
 		}
 		if (mset.external_subtitles_fps != MediaSettings::SFPS_None) {
 			QString fps;
@@ -2003,85 +1975,79 @@ void Core::startMplayer( QString file, double seek ) {
 				case MediaSettings::SFPS_29970: fps = "30000/1001"; break;
 				default: fps = "25";
 			}
-			proc->addArgument("-subfps");
-			proc->addArgument( fps );
+			proc->setOption("subfps", fps);
 		}
 	}
 
 	if (!mset.external_audio.isEmpty()) {
-		proc->addArgument("-audiofile");
 		#ifdef Q_OS_WIN
 		if (pref->use_short_pathnames)
-			proc->addArgument(Helper::shortPathName(mset.external_audio));
+			proc->setOption("audiofile", Helper::shortPathName(mset.external_audio));
 		else
 		#endif
-		proc->addArgument( mset.external_audio );
+		{
+			proc->setOption("audiofile", mset.external_audio);
+		}
 	}
 
-	proc->addArgument("-subpos");
-	proc->addArgument( QString::number(mset.sub_pos) );
+	proc->setOption("subpos", QString::number(mset.sub_pos));
 
-	if (mset.audio_delay!=0) {
-		proc->addArgument("-delay");
-		proc->addArgument( QString::number( (double) mset.audio_delay/1000 ) );
+	if (mset.audio_delay != 0) {
+		proc->setOption("delay", QString::number((double) mset.audio_delay/1000));
 	}
 
-	if (mset.sub_delay!=0) {
-		proc->addArgument("-subdelay");
-		proc->addArgument( QString::number( (double) mset.sub_delay/1000 ) );
+	if (mset.sub_delay != 0) {
+		proc->setOption("subdelay", QString::number((double) mset.sub_delay/1000));
 	}
 
 	// Contrast, brightness...
 	if (pref->change_video_equalizer_on_startup) {
 		if (mset.contrast != 0) {
-			proc->addArgument("-contrast");
-			proc->addArgument( QString::number( mset.contrast ) );
+			proc->setOption("contrast", QString::number(mset.contrast));
 		}
 	
 		if (mset.brightness != 0) {
-			proc->addArgument("-brightness");
-			proc->addArgument( QString::number( mset.brightness ) );
+			proc->setOption("brightness", QString::number(mset.brightness));
 		}
 
 		if (mset.hue != 0) {
-			proc->addArgument("-hue");
-			proc->addArgument( QString::number( mset.hue ) );
+			proc->setOption("hue", QString::number(mset.hue));
 		}
 
 		if (mset.saturation != 0) {
-			proc->addArgument("-saturation");
-			proc->addArgument( QString::number( mset.saturation ) );
+			proc->setOption("saturation", QString::number(mset.saturation));
+		}
+
+		if (mset.gamma != 0) {
+			proc->setOption("gamma", QString::number(mset.gamma));
 		}
 	}
 
-	// Set volume, requires mplayer svn r27872
-	bool use_volume_option = (MplayerVersion::isMplayerAtLeast(27872));
 
 	if (pref->mplayer_additional_options.contains("-volume")) {
 		qDebug("Core::startMplayer: don't set volume since -volume is used");
 	} else {
-		if (pref->global_volume) {
-			if (use_volume_option) {
-				proc->addArgument("-volume");
-				proc->addArgument( QString::number( pref->volume ) );
-			}
-		} else {
-			if (use_volume_option) {
-				proc->addArgument("-volume");
-				// Note: mset.volume may not be right, it can be the volume of the previous video if
-				// playing a new one, but I think it's better to use anyway the current volume on
-				// startup than set it to 0 or something.
-				// The right volume will be set later, when the video starts to play.
-				proc->addArgument( QString::number( mset.volume ) );
-			}
+		int vol = (pref->global_volume ? pref->volume : mset.volume);
+		if (proc->isMPV()) {
+			vol = adjustVolume(vol, pref->use_soft_vol ? pref->softvol_max : 100);
 		}
+		proc->setOption("volume", QString::number(vol));
+	}
+
+	if (pref->mute) {
+		proc->setOption("mute");
 	}
 
 
 	if (mdat.type==TYPE_DVD) {
 		if (!dvd_folder.isEmpty()) {
-			proc->addArgument("-dvd-device");
-			proc->addArgument( dvd_folder );
+			#ifdef Q_OS_WIN
+			if (pref->use_short_pathnames) {
+				proc->setOption("dvd-device", Helper::shortPathName(dvd_folder));
+			}
+			else
+			#endif
+			proc->setOption("dvd-device", dvd_folder);
 		} else {
 			qWarning("Core::startMplayer: dvd device is empty!");
 		}
@@ -2089,22 +2055,12 @@ void Core::startMplayer( QString file, double seek ) {
 
 	if ((mdat.type==TYPE_VCD) || (mdat.type==TYPE_AUDIO_CD)) {
 		if (!pref->cdrom_device.isEmpty()) {
-			proc->addArgument("-cdrom-device");
-			proc->addArgument( pref->cdrom_device );
+			proc->setOption("cdrom-device", pref->cdrom_device);
 		}
 	}
 
-	if (mset.current_chapter_id > 0) {
-		proc->addArgument("-chapter");
-		int chapter = mset.current_chapter_id;
-		// Fix for older versions of mplayer:
-		if ((mdat.type == TYPE_DVD) && (firstChapter() == 0)) chapter++;
-		proc->addArgument( QString::number( chapter ) );
-	}
-
 	if (mset.current_angle_id > 0) {
-		proc->addArgument("-dvdangle");
-		proc->addArgument( QString::number( mset.current_angle_id ) );
+		proc->setOption("dvdangle", QString::number( mset.current_angle_id));
 	}
 
 
@@ -2126,320 +2082,314 @@ void Core::startMplayer( QString file, double seek ) {
 		default: cache = 0;
 	}
 
-	if (cache > 31) { // Minimum value for cache = 32
-		proc->addArgument("-cache");
-		proc->addArgument( QString::number( cache ) );
-	} else {
-		proc->addArgument("-nocache");
-	}
+	proc->setOption("cache", QString::number(cache));
 
 	if (mset.speed != 1.0) {
-		proc->addArgument("-speed");
-		proc->addArgument( QString::number( mset.speed ) );
+		proc->setOption("speed", QString::number(mset.speed));
 	}
 
 	if (mdat.type != TYPE_TV) {
 		// Play A - B
 		if ((mset.A_marker > -1) && (mset.B_marker > mset.A_marker)) {
-			proc->addArgument("-ss");
-			proc->addArgument( QString::number( mset.A_marker ) );
-			proc->addArgument("-endpos");
-			proc->addArgument( QString::number( mset.B_marker - mset.A_marker ) );
+			proc->setOption("ss", QString::number(mset.A_marker));
+			proc->setOption("endpos", QString::number(mset.B_marker - mset.A_marker));
 		}
 		else
 		// If seek < 5 it's better to allow the video to start from the beginning
 		if ((seek >= 5) && (!mset.loop)) {
-			proc->addArgument("-ss");
-			proc->addArgument( QString::number( seek ) );
+			proc->setOption("ss", QString::number(seek));
 		}
 	}
 
 	// Enable the OSD later, to avoid a lot of messages to be
 	// printed on startup
-	proc->addArgument("-osdlevel");
-	proc->addArgument( "0" );
+	proc->setOption("osdlevel", "0");
 
 	if (pref->use_idx) {
-		proc->addArgument("-idx");
+		proc->setOption("idx");
 	}
 
 	if (mdat.type == TYPE_STREAM) {
 		if (pref->prefer_ipv4) {
-			proc->addArgument("-prefer-ipv4");
+			proc->setOption("prefer-ipv4");
 		} else {
-			proc->addArgument("-prefer-ipv6");
+			proc->setOption("prefer-ipv6");
 		}
 	}
 
 	if (pref->use_correct_pts != Preferences::Detect) {
-		if (pref->use_correct_pts == Preferences::Enabled) {
-			proc->addArgument("-correct-pts");
-		} else {
-			if (pref->mplayer_detected_version > 0) {
-				if (MplayerVersion::isMplayerAtLeast(26842)) {
-					proc->addArgument("-nocorrect-pts");
-				} else {
-					proc->addArgument("-no-correct-pts");
-				}
-			} else {
-				qDebug("Core::startMplayer: unknown version of mplayer, not passing -no(-)correct-pts");
-			}
-		}
+		proc->setOption("correct-pts", (pref->use_correct_pts == Preferences::Enabled));
 	}
 
 	bool force_noslices = false;
 
 #ifndef Q_OS_WIN
-	if ((pref->vdpau.disable_video_filters) && (pref->vo.startsWith("vdpau"))) {
-		qDebug("Core::startMplayer: using vdpau, video filters are ignored");
-		goto end_video_filters;
+	if (proc->isMPlayer()) {
+		if ((pref->vdpau.disable_video_filters) && (pref->vo.startsWith("vdpau"))) {
+			qDebug("Core::startMplayer: using vdpau, video filters are ignored");
+			goto end_video_filters;
+		}
+	} else {
+		// MPV
+		if (!pref->hwdec.isEmpty() && pref->hwdec != "no") {
+			qDebug("Core::startMplayer: hardware decoding is enabled. The video filters will be ignored");
+			goto end_video_filters;
+		}
 	}
 #endif
 
 	// Video filters:
 	// Phase
 	if (mset.phase_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( "phase=A" );
+		proc->addVF("phase", "A");
 	}
 
 	// Deinterlace
 	if (mset.current_deinterlacer != MediaSettings::NoDeinterlace) {
-		proc->addArgument("-vf-add");
 		switch (mset.current_deinterlacer) {
-			case MediaSettings::L5: 		proc->addArgument("pp=l5"); break;
-			case MediaSettings::Yadif: 		proc->addArgument("yadif"); break;
-			case MediaSettings::LB:			proc->addArgument("pp=lb"); break;
-			case MediaSettings::Yadif_1:	proc->addArgument("yadif=1"); break;
-			case MediaSettings::Kerndeint:	proc->addArgument("kerndeint=5"); break;
+			case MediaSettings::L5: 		proc->addVF("l5"); break;
+			case MediaSettings::Yadif: 		proc->addVF("yadif"); break;
+			case MediaSettings::LB:			proc->addVF("lb"); break;
+			case MediaSettings::Yadif_1:	proc->addVF("yadif", "1"); break;
+			case MediaSettings::Kerndeint:	proc->addVF("kerndeint", "5"); break;
 		}
+	}
+
+	// 3D stereo
+	if (mset.stereo3d_in != "none" && !mset.stereo3d_out.isEmpty()) {
+		proc->addStereo3DFilter(mset.stereo3d_in, mset.stereo3d_out);
 	}
 
 	// Denoise
 	if (mset.current_denoiser != MediaSettings::NoDenoise) {
-		proc->addArgument("-vf-add");
 		if (mset.current_denoiser==MediaSettings::DenoiseSoft) {
-			proc->addArgument( pref->filters->item("denoise_soft").filter() );
+			proc->addVF("hqdn3d", pref->filters->item("denoise_soft").options());
 		} else {
-			proc->addArgument( pref->filters->item("denoise_normal").filter() );
+			proc->addVF("hqdn3d", pref->filters->item("denoise_normal").options());
 		}
 	}
 
 	// Unsharp
 	if (mset.current_unsharp != 0) {
-		proc->addArgument("-vf-add");
 		if (mset.current_unsharp == 1) {
-			proc->addArgument( pref->filters->item("blur").filter() );
+			proc->addVF("blur", pref->filters->item("blur").options());
 		} else {
-			proc->addArgument( pref->filters->item("sharpen").filter() );
+			proc->addVF("sharpen", pref->filters->item("sharpen").options());
 		}
 	}
 
 	// Deblock
 	if (mset.deblock_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( pref->filters->item("deblock").filter() );
+		proc->addVF("deblock", pref->filters->item("deblock").options());
 	}
 
 	// Dering
 	if (mset.dering_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( "pp=dr" );
+		proc->addVF("dering");
 	}
 
 	// Gradfun
 	if (mset.gradfun_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( pref->filters->item("gradfun").filter() );
+		proc->addVF("gradfun", pref->filters->item("gradfun").options());
 	}
 
 	// Upscale
 	if (mset.upscaling_filter) {
 		int width = DesktopInfo::desktop_size(mplayerwindow).width();
-		proc->addArgument("-sws");
-		proc->addArgument("9");
-		proc->addArgument("-vf-add");
-		proc->addArgument("scale="+QString::number(width)+":-2");
+		proc->setOption("sws", "9");
+		proc->addVF("scale", QString::number(width) + ":-2");
 	}
 
 	// Addnoise
 	if (mset.noise_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( pref->filters->item("noise").filter() );
+		proc->addVF("noise", pref->filters->item("noise").options());
 	}
 
 	// Postprocessing
 	if (mset.postprocessing_filter) {
-		proc->addArgument("-vf-add");
-		proc->addArgument("pp");
-		proc->addArgument("-autoq");
-		proc->addArgument( QString::number(pref->autoq) );
+		proc->addVF("postprocessing");
+		proc->setOption("autoq", QString::number(pref->autoq));
 	}
 
 
 	// Letterbox (expand)
 	if ((mset.add_letterbox) || (pref->fullscreen && pref->add_blackborders_on_fullscreen)) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( QString("expand=:::::%1,harddup").arg( DesktopInfo::desktop_aspectRatio(mplayerwindow)) );
-		// Note: on some videos (h264 for instance) the subtitles doesn't disappear, 
-		// appearing the new ones on top of the old ones. It seems adding another 
-		// filter after expand fixes the problem. I chose harddup 'cos I think 
-		// it will be harmless in mplayer. 
-		// Anyway, if you know a proper way to fix the problem, please tell me.
+		proc->addVF("expand", QString("aspect=%1").arg( DesktopInfo::desktop_aspectRatio(mplayerwindow)));
 	}
 
 	// Software equalizer
 	if ( (pref->use_soft_video_eq) ) {
-		proc->addArgument("-vf-add");
-		QString eq_filter = "eq2,hue";
+		proc->addVF("eq2");
+		proc->addVF("hue");
 		if ( (pref->vo == "gl") || (pref->vo == "gl2") || (pref->vo == "gl_tiled")
 #ifdef Q_OS_WIN
              || (pref->vo == "directx:noaccel")
 #endif
-		    ) eq_filter += ",scale";
-		proc->addArgument(eq_filter);
+		    )
+		{
+			proc->addVF("scale");
+		}
 	}
 
 	// Additional video filters, supplied by user
 	// File
 	if ( !mset.mplayer_additional_video_filters.isEmpty() ) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( mset.mplayer_additional_video_filters );
+		proc->setOption("vf-add", mset.mplayer_additional_video_filters);
 	}
 	// Global
 	if ( !pref->mplayer_additional_video_filters.isEmpty() ) {
-		proc->addArgument("-vf-add");
-		proc->addArgument( pref->mplayer_additional_video_filters );
+		proc->setOption("vf-add", pref->mplayer_additional_video_filters);
 	}
 
 	// Filters for subtitles on screenshots
 	if ((screenshot_enabled) && (pref->subtitles_on_screenshots)) 
 	{
 		if (pref->use_ass_subtitles) {
-			proc->addArgument("-vf-add");
-			proc->addArgument("ass");
+			proc->addVF("subs_on_screenshots", "ass");
 		} else {
-			proc->addArgument("-vf-add");
-			proc->addArgument("expand=osd=1");
-			//proc->addArgument("-noslices");
+			proc->addVF("subs_on_screenshots");
 			force_noslices = true;
 		}
 	}
 
 	// Rotate
 	if (mset.rotate != MediaSettings::NoRotate) {
-		proc->addArgument( "-vf-add" );
-		proc->addArgument( QString("rotate=%1").arg(mset.rotate) );
+		proc->addVF("rotate", QString::number(mset.rotate));
 	}
 
 	// Flip
 	if (mset.flip) {
-		proc->addArgument( "-vf-add" );
-		// expand + flip doesn't work well, a workaround is to add another
-		// filter between them, so that's why harddup is here
-		proc->addArgument("harddup,flip");
+		proc->addVF("flip");
 	}
 
 	// Mirror
 	if (mset.mirror) {
-		proc->addArgument( "-vf-add" );
-		proc->addArgument("mirror");
+		proc->addVF("mirror");
 	}
 
 	// Screenshots
-	if (screenshot_enabled)	{
-		proc->addArgument("-vf-add");
-		proc->addArgument("screenshot");
+	#ifdef MPLAYER_SUPPORT
+	if (screenshot_enabled && proc->isMPlayer()) {
+		QString dir = pref->screenshot_directory;
+		#ifdef Q_OS_WIN
+		if (pref->use_short_pathnames) dir = Helper::shortPathName(pref->screenshot_directory);
+		#endif
+		proc->enableScreenshots(dir);
 	}
+	#endif
 
 #ifndef Q_OS_WIN
 	end_video_filters:
 #endif
 
+	#ifdef MPV_SUPPORT
+	if (screenshot_enabled && proc->isMPV()) {
+		QString dir = pref->screenshot_directory;
+		#ifdef Q_OS_WIN
+		if (pref->use_short_pathnames) dir = Helper::shortPathName(pref->screenshot_directory);
+		#endif
+		proc->enableScreenshots(dir, pref->screenshot_template, pref->screenshot_format);
+	}
+	#endif
+
 	// slices
 	if ((pref->use_slices) && (!force_noslices)) {
-		proc->addArgument("-slices");
+		proc->setOption("slices", true);
 	} else {
-		proc->addArgument("-noslices");
+		proc->setOption("slices", false);
 	}
 
 
 	// Audio channels
 	if (mset.audio_use_channels != 0) {
-		proc->addArgument("-channels");
-		proc->addArgument( QString::number( mset.audio_use_channels ) );
+		proc->setOption("channels", QString::number(mset.audio_use_channels));
 	}
 
-	// Audio filters
-	QString af="";
-	if (mset.karaoke_filter) {
-		af="karaoke";
-	}
+	if (!pref->use_hwac3) {
 
-	// Stereo mode
-	if (mset.stereo_mode != 0) {
-		switch (mset.stereo_mode) {
-			case MediaSettings::Left: af += "channels=2:2:0:1:0:0"; break;
-			case MediaSettings::Right: af += "channels=2:2:1:0:1:1"; break;
-			case MediaSettings::Mono: af += "pan=1:0.5:0.5"; break;
-			case MediaSettings::Reverse: af += "channels=2:2:0:1:1:0"; break;
+		// Audio filters
+		#ifdef MPLAYER_SUPPORT
+		if (mset.karaoke_filter) {
+			proc->addAF("karaoke");
 		}
-	}
+		#endif
 
-	if (mset.extrastereo_filter) {
-		if (!af.isEmpty()) af += ",";
-		af += "extrastereo";
-	}
+		// Stereo mode
+		if (mset.stereo_mode != 0) {
+			switch (mset.stereo_mode) {
+				case MediaSettings::Left: proc->addAF("channels", "2:2:0:1:0:0"); break;
+				case MediaSettings::Right: proc->addAF("channels", "2:2:1:0:1:1"); break;
+				case MediaSettings::Mono: proc->addAF("pan", "1:0.5:0.5"); break;
+				case MediaSettings::Reverse: proc->addAF("channels", "2:2:0:1:1:0"); break;
+			}
+		}
 
-	if (mset.volnorm_filter) {
-		if (!af.isEmpty()) af += ",";
-		af += pref->filters->item("volnorm").filter();
-	}
+		if (mset.extrastereo_filter) {
+			proc->addAF("extrastereo");
+		}
 
-	bool use_scaletempo = (pref->use_scaletempo == Preferences::Enabled);
-	if (pref->use_scaletempo == Preferences::Detect) {
-		use_scaletempo = (MplayerVersion::isMplayerAtLeast(24924));
-	}
-	if (use_scaletempo) {
-		if (!af.isEmpty()) af += ",";
-		af += "scaletempo";
-	}
+		if (mset.volnorm_filter) {
+			proc->addAF("volnorm", pref->filters->item("volnorm").options());
+		}
 
-	// Audio equalizer
-	if (pref->use_audio_equalizer) {
-		if (!af.isEmpty()) af += ",";
-		AudioEqualizerList l = pref->global_audio_equalizer ? pref->audio_equalizer : mset.audio_equalizer;
-		af += "equalizer=" + Helper::equalizerListToString(l);
-	}
+		bool use_scaletempo = (pref->use_scaletempo == Preferences::Enabled);
+		if (pref->use_scaletempo == Preferences::Detect) {
+			use_scaletempo = (MplayerVersion::isMplayerAtLeast(24924));
+		}
+		if (use_scaletempo) {
+			proc->addAF("scaletempo");
+		}
 
+		// Audio equalizer
+		if (pref->use_audio_equalizer) {
+			AudioEqualizerList l = pref->global_audio_equalizer ? pref->audio_equalizer : mset.audio_equalizer;
+			proc->addAF("equalizer", Helper::equalizerListToString(l));
+		}
 
-	// Additional audio filters, supplied by user
-	// File
-	if ( !pref->mplayer_additional_audio_filters.isEmpty() ) {
-		if (!af.isEmpty()) af += ",";
-		af += pref->mplayer_additional_audio_filters;
-	}
-	// Global
-	if ( !mset.mplayer_additional_audio_filters.isEmpty() ) {
-		if (!af.isEmpty()) af += ",";
-		af += mset.mplayer_additional_audio_filters;
-	}
-
-	if (!af.isEmpty()) {
+		// Additional audio filters, supplied by user
+		// File
+		if ( !pref->mplayer_additional_audio_filters.isEmpty() ) {
+			proc->setOption("af-add", pref->mplayer_additional_audio_filters);
+		}
+		// Global
+		if ( !mset.mplayer_additional_audio_filters.isEmpty() ) {
+			proc->setOption("af-add", mset.mplayer_additional_audio_filters);
+		}
+	} else {
 		// Don't use audio filters if using the S/PDIF output
-		if (pref->use_hwac3) {
 			qDebug("Core::startMplayer: audio filters are disabled when using the S/PDIF output!");
-		} else {
-			proc->addArgument("-af");
-			proc->addArgument( af );
-		}
 	}
 
 	if (pref->use_soft_vol) {
-		proc->addArgument("-softvol");
-		proc->addArgument("-softvol-max");
-		proc->addArgument( QString::number(pref->softvol_max) );
+		proc->setOption("softvol");
+		proc->setOption("softvol-max", QString::number(pref->softvol_max));
 	}
+
+#ifdef MPV_SUPPORT
+	if (pref->streaming_type == Preferences::StreamingAuto) {
+		bool is_youtube = false;
+		#ifdef YOUTUBE_SUPPORT
+		if (PREF_YT_ENABLED) is_youtube = (file == yt->latestPreferredUrl());
+		#endif
+		qDebug() << "Core::startMplayer: is_youtube:" << is_youtube;
+		proc->setOption("enable_streaming_sites_support", !is_youtube);
+	} else {
+		proc->setOption("enable_streaming_sites_support", pref->streaming_type == Preferences::StreamingYTDL);
+	}
+#endif
+
+#ifndef Q_OS_WIN
+	if (proc->isMPV() && file.startsWith("dvb:")) {
+		QString channels_file = TVList::findChannelsFile();
+		qDebug("Core::startMplayer: channels_file: %s", channels_file.toUtf8().constData());
+		if (!channels_file.isEmpty()) proc->setChannelsFile(channels_file);
+	}
+#endif
+
+#ifdef CAPTURE_STREAM
+	// Set the capture directory
+	proc->setCaptureDirectory(pref->capture_directory);
+#endif
 
 	// Load edl file
 	if (pref->use_edl_files) {
@@ -2457,8 +2407,7 @@ void Core::startMplayer( QString file, double seek ) {
 
 		qDebug("Core::startMplayer: edl file: '%s'", edl_f.toUtf8().data());
 		if (!edl_f.isEmpty()) {
-			proc->addArgument("-edl");
-			proc->addArgument(edl_f);
+			proc->setOption("edl", edl_f);
 		}
 	}
 
@@ -2466,46 +2415,70 @@ void Core::startMplayer( QString file, double seek ) {
 	// File
 	if (!mset.mplayer_additional_options.isEmpty()) {
 		QStringList args = MyProcess::splitArguments(mset.mplayer_additional_options);
-        QStringList::Iterator it = args.begin();
-        while( it != args.end() ) {
- 			proc->addArgument( (*it) );
-			++it;
+		for (int n = 0; n < args.count(); n++) {
+			QString arg = args[n].simplified();
+			if (!arg.isEmpty()) {
+				proc->addUserOption(arg);
+			}
 		}
 	}
+
 	// Global
 	if (!pref->mplayer_additional_options.isEmpty()) {
 		QString additional_options = pref->mplayer_additional_options;
+		#ifdef MPLAYER2_SUPPORT
 		// mplayer2 doesn't support -fontconfig and -nofontconfig
 		if (pref->mplayer_is_mplayer2) {
 			additional_options.replace("-fontconfig", "");
 			additional_options.replace("-nofontconfig", "");
 		}
+		#endif
 		QStringList args = MyProcess::splitArguments(additional_options);
 		for (int n = 0; n < args.count(); n++) {
 			QString arg = args[n].simplified();
 			if (!arg.isEmpty()) {
 				qDebug("arg %d: %s", n, arg.toUtf8().constData());
-				proc->addArgument(arg);
+				proc->addUserOption(arg);
 			}
 		}
+
 	}
 
-	// File to play
-	if (url_is_playlist) {
-		proc->addArgument("-playlist");
+	// Last checks for the file
+
+	// Open https URLs with ffmpeg
+	#if 0
+	// It doesn't seem necessary anymore
+	if (proc->isMPlayer() && file.startsWith("https")) {
+		file = "ffmpeg://" + file;
 	}
+	#endif
+
+#if DVDNAV_SUPPORT
+	if (proc->isMPV() && file.startsWith("dvdnav:")) {
+		// Hack to open the DVD menu with MPV
+		file = "dvd://menu";
+	}
+#endif
 
 #ifdef Q_OS_WIN
-	if (pref->use_short_pathnames)
-		proc->addArgument(Helper::shortPathName(file));
-	else
+	if (pref->use_short_pathnames) {
+		file = Helper::shortPathName(file);
+	}
 #endif
-	proc->addArgument( file );
+
+#ifdef MPLAYER_SUPPORT
+	if (proc->isMPlayer()) {
+		proc->setMedia(file, pref->use_playlist_option ? url_is_playlist : false);
+	} else
+#endif
+	{
+		proc->setMedia(file, false); // Don't use playlist with mpv
+	}
 
 	// It seems the loop option must be after the filename
 	if (mset.loop) {
-		proc->addArgument("-loop");
-		proc->addArgument("0");
+		proc->setOption("loop", "0");
 	}
 
 	emit aboutToStartPlaying();
@@ -2517,13 +2490,19 @@ void Core::startMplayer( QString file, double seek ) {
 	QString line_for_log = commandline + "\n";
 	emit logLineAvailable(line_for_log);
 
-#ifdef Q_OS_WIN
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	if ((pref->use_proxy) && (pref->proxy_type == QNetworkProxy::HttpProxy) && (!pref->proxy_host.isEmpty())) {
+		QString proxy = QString("http://%1:%2@%3:%4").arg(pref->proxy_username).arg(pref->proxy_password).arg(pref->proxy_host).arg(pref->proxy_port);
+		env.insert("http_proxy", proxy);
+	}
+	//qDebug("Core::startMplayer: env: %s", env.toStringList().join(",").toUtf8().constData());
+	#ifdef FONTS_HACK
 	if (!pref->use_windowsfontdir) {
 		env.insert("FONTCONFIG_FILE", Paths::configPath() + "/fonts.conf");
 	}
+	#endif
 	proc->setProcessEnvironment(env);
-#endif
+
 	if ( !proc->start() ) {
 	    // error handling
 		qWarning("Core::startMplayer: mplayer process didn't start");
@@ -2535,7 +2514,7 @@ void Core::stopMplayer() {
 	qDebug("Core::stopMplayer");
 
 	if (!proc->isRunning()) {
-		qWarning("Core::stopMplayer: mplayer in not running!");
+		qWarning("Core::stopMplayer: mplayer is not running!");
 		return;
 	}
 
@@ -2544,7 +2523,7 @@ void Core::stopMplayer() {
 
 	connect(proc, SIGNAL(processExited()), &eventLoop, SLOT(quit()));
 
-	tellmp("quit");
+	proc->quit();
 
 	QTimer::singleShot(5000, &eventLoop, SLOT(quit()));
 	eventLoop.exec(QEventLoop::ExcludeUserInputEvents);
@@ -2554,8 +2533,8 @@ void Core::stopMplayer() {
 		proc->kill();
 	}
 #else
-    tellmp("quit");
-    
+	proc->quit();
+
 	qDebug("Core::stopMplayer: Waiting mplayer to finish...");
 	if (!proc->waitForFinished(pref->time_to_kill_mplayer)) {
 		qWarning("Core::stopMplayer: process didn't finish. Killing it...");
@@ -2570,26 +2549,21 @@ void Core::stopMplayer() {
 void Core::goToSec( double sec ) {
 	qDebug("Core::goToSec: %f", sec);
 
-    if (sec < 0) sec = 0;
-    if (sec > mdat.duration ) sec = mdat.duration - 20;
-    tellmp( seek_cmd(sec, 2) );
+	if (sec < 0) sec = 0;
+	if (sec > mdat.duration ) sec = mdat.duration - 20;
+	seek_cmd(sec, 2);
 }
 
 
 void Core::seek(int secs) {
 	qDebug("Core::seek: %d", secs);
 	if ( (proc->isRunning()) && (secs!=0) ) {
-		tellmp( seek_cmd(secs, 0) );
+		seek_cmd(secs, 0);
 	}
 }
 
-QString Core::seek_cmd(double secs, int mode) {
-	QString s = QString("seek %1 %2").arg(secs).arg(mode);
-	if (MplayerVersion::isMplayer2()) {
-		//hr-seek
-		if (pref->precise_seeking) s += " 1"; else s += " -1";
-	}
-	return s;
+void Core::seek_cmd(double secs, int mode) {
+	proc->seek(secs, mode, pref->precise_seeking);
 }
 
 void Core::sforward() {
@@ -2635,6 +2609,18 @@ void Core::rewind(int secs) {
 	qDebug("Core::rewind: %d", secs);
 	seek(-secs);
 }
+
+#ifdef MPV_SUPPORT
+void Core::seekToNextSub() {
+	qDebug("Core::seekToNextSub");
+	proc->seekSub(1);
+}
+
+void Core::seekToPrevSub() {
+	qDebug("Core::seekToPrevSub");
+	proc->seekSub(-1);
+}
+#endif
 
 void Core::wheelUp() {
 	qDebug("Core::wheelUp");
@@ -2718,7 +2704,7 @@ void Core::toggleRepeat(bool b) {
 			// Use slave command
 			int v = -1; // no loop
 			if (mset.loop) v = 0; // infinite loop
-			tellmp( QString("loop %1 1").arg(v) );
+			proc->setLoop(v);
 		} else {
 			// Restart mplayer
 			if (proc->isRunning()) restartPlay();
@@ -2727,35 +2713,8 @@ void Core::toggleRepeat(bool b) {
 }
 
 
-void Core::toggleFlip() {
-	qDebug("Core::toggleFlip");
-	toggleFlip( !mset.flip );
-}
-
-void Core::toggleFlip(bool b) {
-	qDebug("Core::toggleFlip: %d", b);
-
-	if (mset.flip != b) {
-		mset.flip = b;
-		if (proc->isRunning()) restartPlay();
-	}
-}
-
-void Core::toggleMirror() {
-	qDebug("Core::toggleMirror");
-	toggleMirror( !mset.mirror );
-}
-
-void Core::toggleMirror(bool b) {
-	qDebug("Core::toggleMirror: %d", b);
-
-	if (mset.mirror != b) {
-		mset.mirror = b;
-		if (proc->isRunning()) restartPlay();
-	}
-}
-
 // Audio filters
+#ifdef MPLAYER_SUPPORT
 void Core::toggleKaraoke() {
 	toggleKaraoke( !mset.karaoke_filter );
 }
@@ -2766,12 +2725,13 @@ void Core::toggleKaraoke(bool b) {
 		mset.karaoke_filter = b;
 		if (MplayerVersion::isMplayerAtLeast(31030)) {
 			// Change filter without restarting
-			if (b) tellmp("af_add karaoke"); else tellmp("af_del karaoke");
+			proc->enableKaraoke(b);
 		} else {
 			restartPlay();
 		}
 	}
 }
+#endif
 
 void Core::toggleExtrastereo() {
 	toggleExtrastereo( !mset.extrastereo_filter );
@@ -2783,7 +2743,7 @@ void Core::toggleExtrastereo(bool b) {
 		mset.extrastereo_filter = b;
 		if (MplayerVersion::isMplayerAtLeast(31030)) {
 			// Change filter without restarting
-			if (b) tellmp("af_add extrastereo"); else tellmp("af_del extrastereo");
+			proc->enableExtrastereo(b);
 		} else {
 			restartPlay();
 		}
@@ -2801,7 +2761,7 @@ void Core::toggleVolnorm(bool b) {
 		if (MplayerVersion::isMplayerAtLeast(31030)) {
 			// Change filter without restarting
 			QString f = pref->filters->item("volnorm").filter();
-			if (b) tellmp("af_add " + f); else tellmp("af_del volnorm");
+			proc->enableVolnorm(b, pref->filters->item("volnorm").options());
 		} else {
 			restartPlay();
 		}
@@ -2826,6 +2786,40 @@ void Core::setStereoMode(int mode) {
 
 
 // Video filters
+
+#define CHANGE_VF(Filter, Enable, Option) \
+	if (proc->isMPV()) { \
+		proc->changeVF(Filter, Enable, Option); \
+	} else { \
+		restartPlay(); \
+	}
+
+void Core::toggleFlip() {
+	qDebug("Core::toggleFlip");
+	toggleFlip( !mset.flip );
+}
+
+void Core::toggleFlip(bool b) {
+	qDebug("Core::toggleFlip: %d", b);
+	if (mset.flip != b) {
+		mset.flip = b;
+		CHANGE_VF("flip", b, QVariant());
+	}
+}
+
+void Core::toggleMirror() {
+	qDebug("Core::toggleMirror");
+	toggleMirror( !mset.mirror );
+}
+
+void Core::toggleMirror(bool b) {
+	qDebug("Core::toggleMirror: %d", b);
+	if (mset.mirror != b) {
+		mset.mirror = b;
+		CHANGE_VF("mirror", b, QVariant());
+	}
+}
+
 void Core::toggleAutophase() {
 	toggleAutophase( !mset.phase_filter );
 }
@@ -2834,7 +2828,7 @@ void Core::toggleAutophase( bool b ) {
 	qDebug("Core::toggleAutophase: %d", b);
 	if ( b != mset.phase_filter) {
 		mset.phase_filter = b;
-		restartPlay();
+		CHANGE_VF("phase", b, "A");
 	}
 }
 
@@ -2846,7 +2840,7 @@ void Core::toggleDeblock(bool b) {
 	qDebug("Core::toggleDeblock: %d", b);
 	if ( b != mset.deblock_filter ) {
 		mset.deblock_filter = b;
-		restartPlay();
+		CHANGE_VF("deblock", b, pref->filters->item("deblock").options());
 	}
 }
 
@@ -2858,7 +2852,7 @@ void Core::toggleDering(bool b) {
 	qDebug("Core::toggleDering: %d", b);
 	if ( b != mset.dering_filter) {
 		mset.dering_filter = b;
-		restartPlay();
+		CHANGE_VF("dering", b, QVariant());
 	}
 }
 
@@ -2870,7 +2864,7 @@ void Core::toggleGradfun(bool b) {
 	qDebug("Core::toggleGradfun: %d", b);
 	if ( b != mset.gradfun_filter) {
 		mset.gradfun_filter = b;
-		restartPlay();
+		CHANGE_VF("gradfun", b, pref->filters->item("gradfun").options());
 	}
 }
 
@@ -2880,9 +2874,9 @@ void Core::toggleNoise() {
 
 void Core::toggleNoise(bool b) {
 	qDebug("Core::toggleNoise: %d", b);
-	if ( b!= mset.noise_filter ) {
+	if ( b != mset.noise_filter ) {
 		mset.noise_filter = b;
-		restartPlay();
+		CHANGE_VF("noise", b, QVariant());
 	}
 }
 
@@ -2894,23 +2888,57 @@ void Core::togglePostprocessing(bool b) {
 	qDebug("Core::togglePostprocessing: %d", b);
 	if ( b != mset.postprocessing_filter ) {
 		mset.postprocessing_filter = b;
-		restartPlay();
+		CHANGE_VF("postprocessing", b, QVariant());
 	}
 }
 
 void Core::changeDenoise(int id) {
 	qDebug( "Core::changeDenoise: %d", id );
 	if (id != mset.current_denoiser) {
-		mset.current_denoiser = id;
-		restartPlay();
+		if (proc->isMPlayer()) {
+			mset.current_denoiser = id;
+			restartPlay();
+		} else {
+			// MPV
+			QString dsoft = pref->filters->item("denoise_soft").options();
+			QString dnormal = pref->filters->item("denoise_normal").options();
+			// Remove previous filter
+			switch (mset.current_denoiser) {
+				case MediaSettings::DenoiseSoft: proc->changeVF("hqdn3d", false, dsoft); break;
+				case MediaSettings::DenoiseNormal: proc->changeVF("hqdn3d", false, dnormal); break;
+			}
+			// New filter
+			mset.current_denoiser = id;
+			switch (mset.current_denoiser) {
+				case MediaSettings::DenoiseSoft: proc->changeVF("hqdn3d", true, dsoft); break;
+				case MediaSettings::DenoiseNormal: proc->changeVF("hqdn3d", true, dnormal); break;
+			}
+		}
 	}
 }
 
 void Core::changeUnsharp(int id) {
 	qDebug( "Core::changeUnsharp: %d", id );
 	if (id != mset.current_unsharp) {
-		mset.current_unsharp = id;
-		restartPlay();
+		if (proc->isMPlayer()) {
+			mset.current_unsharp = id;
+			restartPlay();
+		} else {
+			// MPV
+			// Remove previous filter
+			switch (mset.current_unsharp) {
+				// Current is blur
+				case 1: proc->changeVF("blur", false); break;
+				// Current if sharpen
+				case 2: proc->changeVF("sharpen", false); break;
+			}
+			// New filter
+			mset.current_unsharp = id;
+			switch (mset.current_unsharp) {
+				case 1: proc->changeVF("blur", true); break;
+				case 2: proc->changeVF("sharpen", true); break;
+			}
+		}
 	}
 }
 
@@ -2918,7 +2946,32 @@ void Core::changeUpscale(bool b) {
 	qDebug( "Core::changeUpscale: %d", b );
 	if (mset.upscaling_filter != b) {
 		mset.upscaling_filter = b;
-		restartPlay();
+		int width = DesktopInfo::desktop_size(mplayerwindow).width();
+		CHANGE_VF("scale", b, QString::number(width) + ":-2");
+	}
+}
+
+void Core::changeStereo3d(const QString & in, const QString & out) {
+	qDebug("Core::changeStereo3d: in: %s out: %s", in.toUtf8().constData(), out.toUtf8().constData());
+
+	if ((mset.stereo3d_in != in) || (mset.stereo3d_out != out)) {
+		if (proc->isMPlayer()) {
+			mset.stereo3d_in = in;
+			mset.stereo3d_out = out;
+			restartPlay();
+		} else {
+			// Remove previous filter
+			if (mset.stereo3d_in != "none" && !mset.stereo3d_out.isEmpty()) {
+				proc->changeStereo3DFilter(false, mset.stereo3d_in, mset.stereo3d_out);
+			}
+
+			// New filter
+			mset.stereo3d_in = in;
+			mset.stereo3d_out = out;
+			if (mset.stereo3d_in != "none" && !mset.stereo3d_out.isEmpty()) {
+				proc->changeStereo3DFilter(true, mset.stereo3d_in, mset.stereo3d_out);
+			}
+		}
 	}
 }
 
@@ -2929,7 +2982,8 @@ void Core::setBrightness(int value) {
 	if (value < -100) value = -100;
 
 	if (value != mset.brightness) {
-		tellmp(pausing_prefix() + " brightness " + QString::number(value) + " 1");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->setBrightness(value);
 		mset.brightness = value;
 		displayMessage( tr("Brightness: %1").arg(value) );
 		emit videoEqualizerNeedsUpdate();
@@ -2944,7 +2998,8 @@ void Core::setContrast(int value) {
 	if (value < -100) value = -100;
 
 	if (value != mset.contrast) {
-		tellmp(pausing_prefix() + " contrast " + QString::number(value) + " 1");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->setContrast(value);
 		mset.contrast = value;
 		displayMessage( tr("Contrast: %1").arg(value) );
 		emit videoEqualizerNeedsUpdate();
@@ -2958,7 +3013,8 @@ void Core::setGamma(int value) {
 	if (value < -100) value = -100;
 
 	if (value != mset.gamma) {
-		tellmp(pausing_prefix() + " gamma " + QString::number(value) + " 1");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->setGamma(value);
 		mset.gamma= value;
 		displayMessage( tr("Gamma: %1").arg(value) );
 		emit videoEqualizerNeedsUpdate();
@@ -2972,7 +3028,8 @@ void Core::setHue(int value) {
 	if (value < -100) value = -100;
 
 	if (value != mset.hue) {
-		tellmp(pausing_prefix() + " hue " + QString::number(value) + " 1");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->setHue(value);
 		mset.hue = value;
 		displayMessage( tr("Hue: %1").arg(value) );
 		emit videoEqualizerNeedsUpdate();
@@ -2986,7 +3043,8 @@ void Core::setSaturation(int value) {
 	if (value < -100) value = -100;
 
 	if (value != mset.saturation) {
-		tellmp(pausing_prefix() + " saturation " + QString::number(value) + " 1");
+		proc->setPausingPrefix(pausing_prefix());
+		proc->setSaturation(value);
 		mset.saturation = value;
 		displayMessage( tr("Saturation: %1").arg(value) );
 		emit videoEqualizerNeedsUpdate();
@@ -3040,7 +3098,7 @@ void Core::setSpeed( double value ) {
 	if (value > 100) value = 100;
 
 	mset.speed = value;
-	tellmp( "speed_set " + QString::number( value ) );
+	proc->setSpeed(value);
 
 	displayMessage( tr("Speed: %1").arg(value) );
 }
@@ -3089,6 +3147,13 @@ void Core::normalSpeed() {
 	setSpeed(1);
 }
 
+int Core::adjustVolume(int v, int max_vol) {
+	//qDebug() << "Core::adjustVolume: v:" << v << "max_vol:" << max_vol;
+	if (max_vol < 100) max_vol = 100;
+	int vol = v * max_vol / 100;
+	return vol;
+}
+
 void Core::setVolume(int volume, bool force) {
 	qDebug("Core::setVolume: %d", volume);
 
@@ -3100,11 +3165,18 @@ void Core::setVolume(int volume, bool force) {
 	if (current_volume > 100) current_volume = 100;
 	if (current_volume < 0) current_volume = 0;
 
-	if (state() == Paused) {
-		// Change volume later, after quiting pause
-		change_volume_after_unpause = true;
+	if (proc->isMPV()) {
+		// MPV
+		int vol = adjustVolume(current_volume, pref->use_soft_vol ? pref->softvol_max : 100);
+		proc->setVolume(vol);
 	} else {
-		tellmp("volume " + QString::number(current_volume) + " 1");
+		// MPlayer
+		if (state() == Paused) {
+			// Change volume later, after quiting pause
+			change_volume_after_unpause = true;
+		} else {
+			proc->setVolume(current_volume);
+		}
 	}
 
 	if (pref->global_volume) {
@@ -3131,8 +3203,8 @@ void Core::switchMute() {
 void Core::mute(bool b) {
 	qDebug("Core::mute");
 
-	int v = (b ? 1 : 0);
-	tellmp( pausing_prefix() + " mute " + QString::number(v) );
+	proc->setPausingPrefix(pausing_prefix());
+	proc->mute(b);
 
 	if (pref->global_volume) {
 		pref->mute = b;
@@ -3143,22 +3215,33 @@ void Core::mute(bool b) {
 	updateWidgets();
 }
 
+void Core::incVolume(int step) {
+	//qDebug("Core::incVolume");
+	int vol = pref->global_volume ? pref->volume : mset.volume;
+	setVolume(vol + step);
+}
+
+void Core::decVolume(int step) {
+	//qDebug("Core::incVolume");
+	int vol = pref->global_volume ? pref->volume : mset.volume;
+	setVolume(vol - step);
+}
+
 void Core::incVolume() {
 	qDebug("Core::incVolume");
-	int new_vol = (pref->global_volume ? pref->volume + pref->min_step : mset.volume + pref->min_step);
-	setVolume(new_vol);
+	incVolume(pref->min_step);
 }
 
 void Core::decVolume() {
 	qDebug("Core::incVolume");
-	int new_vol = (pref->global_volume ? pref->volume - pref->min_step : mset.volume - pref->min_step);
-	setVolume(new_vol);
+	decVolume(pref->min_step);
 }
 
 void Core::setSubDelay(int delay) {
 	qDebug("Core::setSubDelay: %d", delay);
 	mset.sub_delay = delay;
-	tellmp( pausing_prefix() + " sub_delay " + QString::number( (double) mset.sub_delay/1000 ) +" 1");
+	proc->setPausingPrefix(pausing_prefix());
+	proc->setSubDelay((double) mset.sub_delay/1000);
 	displayMessage( tr("Subtitle delay: %1 ms").arg(delay) );
 }
 
@@ -3175,7 +3258,8 @@ void Core::decSubDelay() {
 void Core::setAudioDelay(int delay) {
 	qDebug("Core::setAudioDelay: %d", delay);
 	mset.audio_delay = delay;
-	tellmp( pausing_prefix() + " audio_delay " + QString::number( (double) mset.audio_delay/1000 ) +" 1");
+	proc->setPausingPrefix(pausing_prefix());
+	proc->setAudioDelay((double) mset.audio_delay/1000);
 	displayMessage( tr("Audio delay: %1 ms").arg(delay) );
 }
 
@@ -3194,7 +3278,7 @@ void Core::incSubPos() {
 
 	mset.sub_pos++;
 	if (mset.sub_pos > 100) mset.sub_pos = 100;
-	tellmp("sub_pos " + QString::number( mset.sub_pos ) + " 1");
+	proc->setSubPos(mset.sub_pos);
 }
 
 void Core::decSubPos() {
@@ -3202,7 +3286,7 @@ void Core::decSubPos() {
 
 	mset.sub_pos--;
 	if (mset.sub_pos < 0) mset.sub_pos = 0;
-	tellmp("sub_pos " + QString::number( mset.sub_pos ) + " 1");
+	proc->setSubPos(mset.sub_pos);
 }
 
 bool Core::subscale_need_restart() {
@@ -3231,7 +3315,7 @@ void Core::changeSubScale(double value) {
 			if (need_restart) {
 				restartPlay();
 			} else {
-				tellmp("sub_scale " + QString::number( mset.sub_scale_ass ) + " 1");
+				proc->setSubScale(mset.sub_scale_ass);
 			}
 			displayMessage( tr("Font scale: %1").arg(mset.sub_scale_ass) );
 		}
@@ -3242,8 +3326,7 @@ void Core::changeSubScale(double value) {
 			if (need_restart) {
 				restartPlay();
 			} else {
-				tellmp("sub_scale " + QString::number( mset.sub_scale ) + " 1");
-				
+				proc->setSubScale(mset.sub_scale);
 			}
 			displayMessage( tr("Font scale: %1").arg(mset.sub_scale) );
 		}
@@ -3272,20 +3355,54 @@ void Core::decSubScale() {
 	}
 }
 
+void Core::changeOSDScale(double value) {
+	qDebug("Core::changeOSDScale: %f", value);
+
+	if (value < 0) value = 0;
+
+	if (proc->isMPlayer()) {
+		if (value != pref->subfont_osd_scale) {
+			pref->subfont_osd_scale = value;
+			restartPlay();
+		}
+	} else {
+		if (value != pref->osd_scale) {
+			pref->osd_scale = value;
+			proc->setOSDScale(pref->osd_scale);
+		}
+	}
+}
+
+void Core::incOSDScale() {
+	if (proc->isMPlayer()) {
+		changeOSDScale(pref->subfont_osd_scale + 1);
+	} else {
+		changeOSDScale(pref->osd_scale + 0.20);
+	}
+}
+
+void Core::decOSDScale() {
+	if (proc->isMPlayer()) {
+		changeOSDScale(pref->subfont_osd_scale - 1);
+	} else {
+		changeOSDScale(pref->osd_scale - 0.20);
+	}
+}
+
 void Core::incSubStep() {
 	qDebug("Core::incSubStep");
-	tellmp("sub_step +1");
+	proc->setSubStep(+1);
 }
 
 void Core::decSubStep() {
 	qDebug("Core::decSubStep");
-	tellmp("sub_step -1");
+	proc->setSubStep(-1);
 }
 
 void Core::changeSubVisibility(bool visible) {
 	qDebug("Core::changeSubVisilibity: %d", visible);
 	pref->sub_visibility = visible;
-	tellmp(QString("sub_visibility %1").arg(pref->sub_visibility ? 1 : 0));
+	proc->setSubtitlesVisibility(pref->sub_visibility);
 
 	if (pref->sub_visibility) 
 		displayMessage( tr("Subtitles on") );
@@ -3310,15 +3427,13 @@ void Core::setAudioEqualizer(AudioEqualizerList values, bool restart) {
 	}
 
 	if (!restart) {
-		const char *command = "af_cmdline equalizer ";
-		if (!MplayerVersion::isMplayerAtLeast(32505))
-			command = "af_eq_set_bands ";
-		tellmp( command + Helper::equalizerListToString(values) );
+		proc->setAudioEqualizer(Helper::equalizerListToString(values));
 	} else {
 		restartPlay();
 	}
 
-	emit audioEqualizerNeedsUpdate();
+	// Infinite recursion
+	//emit audioEqualizerNeedsUpdate();
 }
 
 void Core::updateAudioEqualizer() {
@@ -3381,6 +3496,11 @@ void Core::changeCurrentSec(double sec) {
 
 	if (mset.starting_time != -1) {
 		mset.current_sec -= mset.starting_time;
+
+		// handle PTS rollover at MPEG-TS
+		if (mset.current_sec < 0 && mset.current_demuxer == "mpegts") {
+			mset.current_sec += 8589934592.0 / 90000.0;	// 2^33 / 90 kHz
+		}
 	}
 	
 	if (state() != Playing) {
@@ -3426,6 +3546,13 @@ void Core::gotStartingTime(double time) {
 	}
 }
 
+void Core::gotVideoBitrate(int b) {
+	mdat.video_bitrate = b;
+}
+
+void Core::gotAudioBitrate(int b) {
+	mdat.audio_bitrate = b;
+}
 
 void Core::changePause() {
 	qDebug("Core::changePause");
@@ -3437,9 +3564,30 @@ void Core::changePause() {
 void Core::changeDeinterlace(int ID) {
 	qDebug("Core::changeDeinterlace: %d", ID);
 
-	if (ID!=mset.current_deinterlacer) {
-		mset.current_deinterlacer = ID;
-		restartPlay();
+	if (ID != mset.current_deinterlacer) {
+		if (proc->isMPlayer()) {
+			mset.current_deinterlacer = ID;
+			restartPlay();
+		} else {
+			// MPV
+			// Remove previous filter
+			switch (mset.current_deinterlacer) {
+				case MediaSettings::L5:			proc->changeVF("l5", false); break;
+				case MediaSettings::Yadif:		proc->changeVF("yadif", false); break;
+				case MediaSettings::LB:			proc->changeVF("lb", false); break;
+				case MediaSettings::Yadif_1:	proc->changeVF("yadif", false, "1"); break;
+				case MediaSettings::Kerndeint:	proc->changeVF("kerndeint", false, "5"); break;
+			}
+			mset.current_deinterlacer = ID;
+			// New filter
+			switch (mset.current_deinterlacer) {
+				case MediaSettings::L5:			proc->changeVF("l5", true); break;
+				case MediaSettings::Yadif:		proc->changeVF("yadif", true); break;
+				case MediaSettings::LB:			proc->changeVF("lb", true); break;
+				case MediaSettings::Yadif_1:	proc->changeVF("yadif", true, "1"); break;
+				case MediaSettings::Kerndeint:	proc->changeVF("kerndeint", true, "5"); break;
+			}
+		}
 	}
 }
 
@@ -3460,41 +3608,17 @@ void Core::changeSubtitle(int ID) {
 	
 	qDebug("Core::changeSubtitle: ID: %d", ID);
 
-	bool use_new_commands = (pref->use_new_sub_commands == Preferences::Enabled);
-	if (pref->use_new_sub_commands == Preferences::Detect) {
-		use_new_commands = (MplayerVersion::isMplayerAtLeast(25158));
-	}
-
-	if (!use_new_commands) {
-		// Old command sub_select
-		tellmp( "sub_select " + QString::number(ID) );
+	int real_id = -1;
+	if (ID == -1) {
+		proc->disableSubtitles();
 	} else {
-		// New commands
-		int real_id = -1;
-		if (ID == -1) {
-			tellmp( "sub_source -1" );
+		bool valid_item = ( (ID >= 0) && (ID < mdat.subs.numItems()) );
+		if (!valid_item) qWarning("Core::changeSubtitle: ID: %d is not valid!", ID);
+		if ( (mdat.subs.numItems() > 0) && (valid_item) ) {
+			real_id = mdat.subs.itemAt(ID).ID();
+			proc->setSubtitle(mdat.subs.itemAt(ID).type(), real_id);
 		} else {
-			bool valid_item = ( (ID >= 0) && (ID < mdat.subs.numItems()) );
-			if (!valid_item) qWarning("Core::changeSubtitle: ID: %d is not valid!", ID);
-			if ( (mdat.subs.numItems() > 0) && (valid_item) ) {
-				real_id = mdat.subs.itemAt(ID).ID();
-				switch (mdat.subs.itemAt(ID).type()) {
-					case SubData::Vob:
-						tellmp( "sub_vob " + QString::number(real_id) );
-						break;
-					case SubData::Sub:
-						tellmp( "sub_demux " + QString::number(real_id) );
-						break;
-					case SubData::File:
-						tellmp( "sub_file " + QString::number(real_id) );
-						break;
-					default: {
-						qWarning("Core::changeSubtitle: unknown type!");
-					}
-				}
-			} else {
-				qWarning("Core::changeSubtitle: subtitle list is empty!");
-			}
+			qWarning("Core::changeSubtitle: subtitle list is empty!");
 		}
 	}
 
@@ -3518,6 +3642,33 @@ void Core::nextSubtitle() {
 	}
 }
 
+#ifdef MPV_SUPPORT
+void Core::changeSecondarySubtitle(int ID) {
+	// MPV only
+	qDebug("Core::changeSecondarySubtitle: %d", ID);
+
+	mset.current_secondary_sub_id = ID;
+	if (ID == MediaSettings::SubNone) {
+		ID = -1;
+	}
+	if (ID == MediaSettings::NoneSelected) {
+		ID = -1;
+	}
+
+	if (ID == -1) {
+		proc->disableSecondarySubtitles();
+	} else {
+		int real_id = -1;
+		bool valid_item = ( (ID >= 0) && (ID < mdat.subs.numItems()) );
+		if (!valid_item) qWarning("Core::changeSecondarySubtitle: ID: %d is not valid!", ID);
+		if ( (mdat.subs.numItems() > 0) && (valid_item) ) {
+			real_id = mdat.subs.itemAt(ID).ID();
+			proc->setSecondarySubtitle(real_id);
+		}
+	}
+}
+#endif
+
 void Core::changeAudio(int ID, bool allow_restart) {
 	qDebug("Core::changeAudio: ID: %d, allow_restart: %d", ID, allow_restart);
 
@@ -3526,32 +3677,36 @@ void Core::changeAudio(int ID, bool allow_restart) {
 		qDebug("changeAudio: ID: %d", ID);
 
 		bool need_restart = false;
+		#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 		if (allow_restart) {
 			need_restart = (pref->fast_audio_change == Preferences::Disabled);
 			if (pref->fast_audio_change == Preferences::Detect) {
 				need_restart = (!MplayerVersion::isMplayerAtLeast(21441));
 			}
 		}
+		#endif
 
 		if (need_restart) {
-			restartPlay(); 
+			restartPlay();
 		} else {
-			tellmp("switch_audio " + QString::number(ID) );
+			proc->setAudio(ID);
 			// Workaround for a mplayer problem in windows,
 			// volume is too loud after changing audio.
 
 			// Workaround too for a mplayer problem in linux,
 			// the volume is reduced if using -softvol-max.
 
-			if (pref->mplayer_additional_options.contains("-volume")) {
-				qDebug("Core::changeAudio: don't set volume since -volume is used");
-			} else {
-				if (pref->global_volume) {
-					setVolume( pref->volume, true);
-					if (pref->mute) mute(true);
+			if (proc->isMPlayer()) {
+				if (pref->mplayer_additional_options.contains("-volume")) {
+					qDebug("Core::changeAudio: don't set volume since -volume is used");
 				} else {
-					setVolume( mset.volume, true );
-					if (mset.mute) mute(true); // if muted, mute again
+					if (pref->global_volume) {
+						setVolume( pref->volume, true);
+						if (pref->mute) mute(true);
+					} else {
+						setVolume( mset.volume, true );
+						if (mset.mute) mute(true); // if muted, mute again
+					}
 				}
 			}
 			updateWidgets();
@@ -3593,9 +3748,9 @@ void Core::changeVideo(int ID, bool allow_restart) {
 		} else {
 			if (mdat.demuxer == "nsv") {
 				// Workaround a problem with the nsv demuxer
-				qWarning("Core::changeVideo: not calling set_property switch_video with nsv to prevent mplayer go crazy");
+				qWarning("Core::changeVideo: not changing the video with nsv to prevent mplayer go crazy");
 			} else {
-				tellmp("set_property switch_video " + QString::number(ID) );
+				proc->setVideo(ID);
 			}
 		}
 	}
@@ -3623,10 +3778,7 @@ void Core::changeProgram(int ID) {
 
 	if (ID != mset.current_program_id) {
 		mset.current_program_id = ID;
-		tellmp("set_property switch_program " + QString::number(ID) );
-
-		tellmp("get_property switch_audio");
-		tellmp("get_property switch_video");
+		proc->setTSProgram(ID);
 
 		/*
 		mset.current_video_id = MediaSettings::NoneSelected;
@@ -3658,7 +3810,7 @@ void Core::changeTitle(int ID) {
 	if (mdat.type == TYPE_DVD) {
 		#if DVDNAV_SUPPORT
 		if (mdat.filename.startsWith("dvdnav:")) {
-			tellmp("switch_title " + QString::number(ID));
+			proc->setTitle(ID);
 		} else {
 		#endif
 			DiscData disc_data = DiscName::split(mdat.filename);
@@ -3686,39 +3838,7 @@ void Core::changeTitle(int ID) {
 
 void Core::changeChapter(int ID) {
 	qDebug("Core::changeChapter: ID: %d", ID);
-
-	if (mdat.type != TYPE_DVD) {
-		/*
-		if (mdat.chapters.find(ID) > -1) {
-			double start = mdat.chapters.item(ID).start();
-			qDebug("Core::changeChapter: start: %f", start);
-			goToSec(start);
-			mset.current_chapter_id = ID;
-		} else {
-		*/
-			tellmp("seek_chapter " + QString::number(ID) +" 1");
-			mset.current_chapter_id = ID;
-			//updateWidgets();
-		/*
-		}
-		*/
-	} else {
-#if SMART_DVD_CHAPTERS
-		if (pref->cache_for_dvds == 0) {
-#else
-		if (pref->fast_chapter_change) {
-#endif
-			tellmp("seek_chapter " + QString::number(ID) +" 1");
-			mset.current_chapter_id = ID;
-			updateWidgets();
-		} else {
-			stopMplayer();
-			mset.current_chapter_id = ID;
-			//goToPos(0);
-			mset.current_sec = 0;
-			restartPlay();
-		}
-	}
+	proc->setChapter(ID);
 }
 
 int Core::firstChapter() {
@@ -3729,41 +3849,30 @@ int Core::firstChapter() {
 		return 0;
 }
 
+int Core::firstDVDTitle() {
+	if (proc->isMPV()) {
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
+int Core::firstBlurayTitle() {
+	if (proc->isMPV()) {
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
 void Core::prevChapter() {
 	qDebug("Core::prevChapter");
-
-	int last_chapter = 0;
-	int first_chapter = firstChapter();
-
-	int ID = mdat.chapters.itemBeforeTime(mset.current_sec).ID();
-
-	if (ID == -1) {
-		last_chapter = mdat.n_chapters + firstChapter() - 1;
-
-		ID = mset.current_chapter_id - 1;
-		if (ID < first_chapter) {
-			ID = last_chapter;
-		}
-	}
-
-	changeChapter(ID);
+	proc->previousChapter();
 }
 
 void Core::nextChapter() {
 	qDebug("Core::nextChapter");
-
-	int last_chapter = mdat.n_chapters + firstChapter() - 1;
-
-	int ID = mdat.chapters.itemAfterTime(mset.current_sec).ID();
-
-	if (ID == -1) {
-		ID = mset.current_chapter_id + 1;
-		if (ID > last_chapter) {
-			ID = firstChapter();
-		}
-	}
-
-	changeChapter(ID);
+	proc->nextChapter();
 }
 
 void Core::changeAngle(int ID) {
@@ -3783,11 +3892,14 @@ void Core::changeAspectRatio( int ID ) {
 	double asp = mset.aspectToNum( (MediaSettings::Aspect) ID);
 
 	if (!pref->use_mplayer_window) {
-		mplayerwindow->setAspect( asp );
+		mplayerwindow->setAspect(asp);
 	} else {
 		// Using mplayer own window
 		if (!mdat.novideo) {
-			tellmp("switch_ratio " + QString::number(asp));
+			if (ID == MediaSettings::AspectAuto) {
+				asp = mdat.video_aspect;
+			}
+			proc->setAspect(asp);
 		}
 	}
 
@@ -3860,15 +3972,23 @@ void Core::changeLetterbox(bool b) {
 
 	if (mset.add_letterbox != b) {
 		mset.add_letterbox = b;
-		restartPlay();
+		CHANGE_VF("letterbox", b, DesktopInfo::desktop_aspectRatio(mplayerwindow));
 	}
+}
+
+void Core::changeLetterboxOnFullscreen(bool b) {
+	qDebug("Core::changeLetterboxOnFullscreen: %d", b);
+	CHANGE_VF("letterbox", b, DesktopInfo::desktop_aspectRatio(mplayerwindow));
 }
 
 void Core::changeOSD(int v) {
 	qDebug("Core::changeOSD: %d", v);
 
 	pref->osd = v;
-	tellmp( pausing_prefix() + " osd " + QString::number( pref->osd ) );
+
+	proc->setPausingPrefix(pausing_prefix());
+	proc->setOSD(pref->osd);
+
 	updateWidgets();
 }
 
@@ -3884,8 +4004,27 @@ void Core::changeRotate(int r) {
 	qDebug("Core::changeRotate: %d", r);
 
 	if (mset.rotate != r) {
-		mset.rotate = r;
-		restartPlay();
+		if (proc->isMPlayer()) {
+			mset.rotate = r;
+			restartPlay();
+		} else {
+			// MPV
+			// Remove previous filter
+			switch (mset.rotate) {
+				case MediaSettings::Clockwise_flip: proc->changeVF("rotate", false, MediaSettings::Clockwise_flip); break;
+				case MediaSettings::Clockwise: proc->changeVF("rotate", false, MediaSettings::Clockwise); break;
+				case MediaSettings::Counterclockwise: proc->changeVF("rotate", false, MediaSettings::Counterclockwise); break;
+				case MediaSettings::Counterclockwise_flip: proc->changeVF("rotate", false, MediaSettings::Counterclockwise_flip); break;
+			}
+			mset.rotate = r;
+			// New filter
+			switch (mset.rotate) {
+				case MediaSettings::Clockwise_flip: proc->changeVF("rotate", true, MediaSettings::Clockwise_flip); break;
+				case MediaSettings::Clockwise: proc->changeVF("rotate", true, MediaSettings::Clockwise); break;
+				case MediaSettings::Counterclockwise: proc->changeVF("rotate", true, MediaSettings::Counterclockwise); break;
+				case MediaSettings::Counterclockwise_flip: proc->changeVF("rotate", true, MediaSettings::Counterclockwise_flip); break;
+			}
+		}
 	}
 }
 
@@ -4010,42 +4149,24 @@ void Core::decZoom() {
 	changeZoom( mset.zoom_factor - ZOOM_STEP );
 }
 
-#if USE_MPLAYER_PANSCAN
-void Core::changePanscan(double p) {
-	 qDebug("Core::changePanscan: %f", p);
-
-	if (p < 0.1) p = 0;
-	if (p > 1) p = 1;
-
-	mset.panscan_factor = p;
-	tellmp(QString("panscan %1 1").arg(mset.panscan_factor));
-	displayMessage( QString("Panscan: %1").arg(mset.panscan_factor) );
-}
-
-void Core::incPanscan() {
-	changePanscan(mset.panscan_factor + .1);
-}
-
-void Core::decPanscan() {
-	changePanscan(mset.panscan_factor - .1);
-}
-#endif
-
 void Core::showFilenameOnOSD() {
-	tellmp("osd_show_property_text \"${filename}\" 5000 0");
+	proc->showFilenameOnOSD();
+}
+
+void Core::showTimeOnOSD() {
+	proc->showTimeOnOSD();
 }
 
 void Core::toggleDeinterlace() {
 	qDebug("Core::toggleDeinterlace");
-
-	tellmp("step_property deinterlace");
+	proc->toggleDeinterlace();
 }
 
-void Core::changeUseAss(bool b) {
-	qDebug("Core::changeUseAss: %d", b);
+void Core::changeUseCustomSubStyle(bool b) {
+	qDebug("Core::changeUseCustomSubStyle: %d", b);
 
-	if (pref->use_ass_subtitles != b) {
-		pref->use_ass_subtitles = b;
+	if (pref->enable_ass_styles != b) {
+		pref->enable_ass_styles = b;
 		if (proc->isRunning()) restartPlay();
 	}
 }
@@ -4056,9 +4177,7 @@ void Core::toggleForcedSubsOnly(bool b) {
 	if (pref->use_forced_subs_only != b) {
 		pref->use_forced_subs_only = b;
 		//if (proc->isRunning()) restartPlay();
-		int v = 0;
-		if (b) v = 1;
-		tellmp( QString("forced_subs_only %1").arg(v) );
+		proc->setSubForcedOnly(b);
 	}
 }
 
@@ -4090,46 +4209,44 @@ void Core::prevClosedCaptionChannel() {
 // dvdnav buttons
 void Core::dvdnavUp() {
 	qDebug("Core::dvdnavUp");
-	tellmp("dvdnav up");
+	proc->discButtonPressed("up");
 }
 
 void Core::dvdnavDown() {
 	qDebug("Core::dvdnavDown");
-	tellmp("dvdnav down");
+	proc->discButtonPressed("down");
 }
 
 void Core::dvdnavLeft() {
 	qDebug("Core::dvdnavLeft");
-	tellmp("dvdnav left");
+	proc->discButtonPressed("left");
 }
 
 void Core::dvdnavRight() {
 	qDebug("Core::dvdnavRight");
-	tellmp("dvdnav right");
+	proc->discButtonPressed("right");
 }
 
 void Core::dvdnavMenu() {
 	qDebug("Core::dvdnavMenu");
-	tellmp("dvdnav menu");
+	proc->discButtonPressed("menu");
 }
 
 void Core::dvdnavSelect() {
 	qDebug("Core::dvdnavSelect");
-	tellmp("dvdnav select");
+	proc->discButtonPressed("select");
 }
 
 void Core::dvdnavPrev() {
 	qDebug("Core::dvdnavPrev");
-	tellmp("dvdnav prev");
+	proc->discButtonPressed("prev");
 }
 
 void Core::dvdnavMouse() {
 	qDebug("Core::dvdnavMouse");
 
 	if ((state() == Playing) && (mdat.filename.startsWith("dvdnav:"))) {
-		//QPoint p = mplayerwindow->videoLayer()->mapFromGlobal(QCursor::pos());
-		//tellmp(QString("set_mouse_pos %1 %2").arg(p.x()).arg(p.y()));
-		tellmp("dvdnav mouse");
+		proc->discButtonPressed("mouse");
 	}
 }
 #endif
@@ -4144,14 +4261,19 @@ void Core::displayMessage(QString text) {
 }
 
 void Core::displayScreenshotName(QString filename) {
-	qDebug("Core::displayScreenshotName");
-	//QString text = tr("Screenshot saved as %1").arg(filename);
-	QString text = QString("Screenshot saved as %1").arg(filename);
+	qDebug("Core::displayScreenshotName: %s", filename.toUtf8().constData());
 
+	QFileInfo fi(filename);
+
+	QString text = tr("Screenshot saved as %1").arg(fi.fileName());
+	//QString text = QString("Screenshot saved as %1").arg(fi.fileName());
+
+#ifdef MPLAYER2_SUPPORT
 	if (MplayerVersion::isMplayer2()) {
 		displayTextOnOSD(text, 3000, 1, "");
 	}
 	else
+#endif
 	if (MplayerVersion::isMplayerAtLeast(27665)) {
 		displayTextOnOSD(text, 3000, 1, "pausing_keep_force");
 	}
@@ -4171,7 +4293,14 @@ void Core::displayUpdatingFontCache() {
 }
 
 void Core::displayBuffering() {
-	emit showMessage(tr("Buffering..."));
+	setState(Buffering);
+//	emit showMessage(tr("Buffering..."));
+}
+
+void Core::displayPlaying() {
+	qDebug("Core::displayPlaying");
+	setState(Buffering);
+	emit showMessage(tr("Starting..."), 60000);
 }
 
 void Core::gotWindowResolution(int w, int h) {
@@ -4261,11 +4390,11 @@ void Core::watchState(Core::State state) {
 	#endif
 #endif
 
-	if ((state == Playing) && (change_volume_after_unpause)) {
+	if ((proc->isMPlayer()) && (state == Playing) && (change_volume_after_unpause)) {
 		// Delayed volume change
 		qDebug("Core::watchState: delayed volume change");
 		int volume = (pref->global_volume ? pref->volume : mset.volume);
-		tellmp("volume " + QString::number(volume) + " 1");
+		proc->setVolume(volume);
 		change_volume_after_unpause = false;
 	}
 }
@@ -4318,6 +4447,15 @@ void Core::initAudioTrack() {
 
 		changeAudio( audio );
 	}
+}
+#endif
+
+#if NOTIFY_VIDEO_CHANGES
+void Core::initVideoTrack(const Tracks & videos) {
+	qDebug("Core::initVideoTrack");
+	mdat.videos = videos;
+	initializeMenus();
+	updateWidgets();
 }
 #endif
 
@@ -4403,9 +4541,12 @@ void Core::initSubtitleTrack(const SubTracks & subs) {
 		qDebug("Core::initSubtitleTrack: just_loaded_external_subs: true");
 		restore_subs = false;
 		just_loaded_external_subs = false;
-		
+
 		QFileInfo fi(mset.external_subtitles);
-		if (fi.suffix().toLower() != "idx") {
+		bool is_idx = (fi.suffix().toLower() == "idx");
+		if (proc->isMPV()) is_idx = false; // Hack to ignore the idx extension with mpv
+
+		if (!is_idx) {
 			// The loaded subtitle file is the last one, so
 			// try to select that one.
 			if (mdat.subs.numItems() > 0) {
@@ -4463,12 +4604,25 @@ void Core::initSubtitleTrack(const SubTracks & subs) {
 		}
 	}
 end:
+
+#ifdef MPV_SUPPORT
+	changeSecondarySubtitle(mset.current_secondary_sub_id);
+#endif
 	updateWidgets();
 }
 
 void Core::setSubtitleTrackAgain(const SubTracks &) {
 	qDebug("Core::setSubtitleTrackAgain");
 	changeSubtitle( mset.current_sub_id );
+}
+#endif
+
+#if NOTIFY_CHAPTER_CHANGES
+void Core::updateChapterInfo(const Chapters & chapters) {
+	qDebug("Core::updateChapterInfo");
+	mdat.chapters = chapters;
+	initializeMenus();
+	updateWidgets();
 }
 #endif
 
@@ -4486,17 +4640,28 @@ void Core::durationChanged(double length) {
 }
 
 void Core::askForInfo() {
-	if ((state() == Playing) && (mdat.filename.startsWith("dvdnav:"))) {
-		tellmp( pausing_prefix() + " get_property length");
+	if (proc->isMPlayer()) {
+		if ((state() == Playing) && (mdat.filename.startsWith("dvdnav:"))) {
+			proc->setPausingPrefix(pausing_prefix());
+			proc->askForLength();
+		}
 	}
 }
 
 void Core::dvdnavUpdateMousePos(QPoint pos) {
-	//qDebug("Core::dvdnavUpdateMousePos");
+#if 0
+	bool under_mouse = mplayerwindow->videoLayer()->underMouse();
+
+	qDebug("Core::dvdnavUpdateMousePos: %d %d", pos.x(), pos.y());
+	qDebug("Core::dvdnavUpdateMousePos: state: %d", state());
+	qDebug("Core::dvdnavUpdateMousePos: filename: %s", mdat.filename.toUtf8().constData());
+	qDebug("Core::dvdnavUpdateMousePos: dvdnav_title_is_menu: %d", dvdnav_title_is_menu);
+	qDebug("Core::dvdnavUpdateMousePos: under mouse: %d", under_mouse);
+#endif
 	if ((state() == Playing) && (mdat.filename.startsWith("dvdnav:")) && (dvdnav_title_is_menu)) {
-		if (mplayerwindow->videoLayer()->underMouse()) {
-			tellmp(QString("set_mouse_pos %1 %2").arg(pos.x()).arg(pos.y()));
-		}
+		//if (under_mouse) {
+			proc->discSetMousePos(pos.x(), pos.y());
+		//}
 	}
 }
 
@@ -4508,17 +4673,18 @@ void Core::dvdTitleIsMenu() {
 void Core::dvdTitleIsMovie() {
 	qDebug("Core::dvdTitleIsMovie");
 	dvdnav_title_is_menu = false;
-
 }
 #endif
 
 QString Core::pausing_prefix() {
 	qDebug("Core::pausing_prefix");
 
+#ifdef MPLAYER2_SUPPORT
 	if (MplayerVersion::isMplayer2()) {
 		return QString::null;
 	}
 	else
+#endif
 	if ( (pref->use_pausing_keep_force) && 
          (MplayerVersion::isMplayerAtLeast(27665)) ) 
 	{
@@ -4527,5 +4693,46 @@ QString Core::pausing_prefix() {
 		return "pausing_keep";
 	}
 }
+
+#ifdef BOOKMARKS
+void Core::prevBookmark() {
+	qDebug("Core::prevBookmark");
+
+	if (mset.bookmarks.count() > 0) {
+		QMapIterator<int, QString> i(mset.bookmarks);
+		i.toBack();
+		int last_time = i.peekPrevious().key();
+		while (i.hasPrevious()) {
+			i.previous();
+			int time = i.key();
+			if (time < (mset.current_sec -2)) {
+				goToSec(time);
+				return;
+			}
+		}
+		// Go to last bookmark
+		goToSec(last_time);
+	}
+}
+
+void Core::nextBookmark() {
+	qDebug("Core::nextBookmark");
+
+	if (mset.bookmarks.count() > 0) {
+		QMapIterator<int, QString> i(mset.bookmarks);
+		int first_time = i.peekNext().key();
+		while (i.hasNext()) {
+			i.next();
+			int time = i.key();
+			if (time > mset.current_sec) {
+				goToSec(time);
+				return;
+			}
+		}
+		// Go to first bookmark
+		goToSec(first_time);
+	}
+}
+#endif
 
 #include "moc_core.cpp"

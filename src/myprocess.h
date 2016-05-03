@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MY_PROCESS_H_
-#define _MY_PROCESS_H_
+#ifndef MY_PROCESS_H
+#define MY_PROCESS_H
 
 #include <QProcess>
 #include <QTemporaryFile>
@@ -42,7 +42,10 @@ class MyProcess : public QProcess
 public:
 	MyProcess ( QObject * parent = 0 );
 
-	void addArgument(const QString & a); 	//!< Add an argument
+	virtual void setExecutable(const QString & p) { program = p; };
+	QString executable() { return program; };
+
+	virtual void addArgument(const QString & a); 	//!< Add an argument
 
 	void clearArguments(); 		//!< Clear the list of arguments
 	QStringList arguments(); 	//!< Return the list of arguments
@@ -68,7 +71,7 @@ protected:
 	//! Called from readStdOut() and readTmpFile() to do all the work
 	void genericRead(QByteArray buffer);
 
-private:
+protected:
 	QString program;
 	QStringList arg;
 

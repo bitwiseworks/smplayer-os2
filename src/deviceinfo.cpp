@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,15 +17,25 @@
 */
 
 #include "deviceinfo.h"
+#include "paths.h"
 #include <QProcess>
 #include <QFile>
+#include <QSettings>
 
 #ifdef Q_OS_WIN
 
 DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
 	qDebug("DeviceInfo::retrieveDevices: %d", type);
 	
-	DeviceList l;
+	QString inifile = Paths::configPath() + "/device_info.ini";
+	QSettings set(inifile, QSettings::IniFormat);
+	QString section_name = "display_devices";
+	if (type == Sound) section_name = "dsound_devices";
+	
+	// Check if we already have the list stored in the INI file
+	DeviceList l = loadList(&set, section_name);
+	if (l.count() > 0) return l;
+	
 	QRegExp rx_device("^(\\d+): (.*)");
 	
 	if (QFile::exists("dxlist.exe")) {
@@ -50,6 +60,8 @@ DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
 		}
 	}
 	
+	saveList(&set, section_name, l);
+	
 	return l;
 }
 
@@ -66,7 +78,13 @@ DeviceList DeviceInfo::displayDevices() {
 DeviceList DeviceInfo::alsaDevices() {
 	qDebug("DeviceInfo::alsaDevices");
 
-	DeviceList l;
+	QString inifile = Paths::configPath() + "/device_info.ini";
+	QSettings set(inifile, QSettings::IniFormat);
+
+	// Check if we already have the list stored in the INI file
+	DeviceList l = loadList(&set, "alsa_devices");
+	if (l.count() > 0) return l;
+
 	QRegExp rx_device("^card\\s([0-9]+).*\\[(.*)\\],\\sdevice\\s([0-9]+):");
 
 	QProcess p;
@@ -92,13 +110,21 @@ DeviceList DeviceInfo::alsaDevices() {
 		qDebug("DeviceInfo::alsaDevices: could not start aplay, error %d", p.error());
 	}
 
+	saveList(&set, "alsa_devices", l);
+
 	return l;
 }
 
 DeviceList DeviceInfo::xvAdaptors() {
 	qDebug("DeviceInfo::xvAdaptors");
 
-	DeviceList l;
+	QString inifile = Paths::configPath() + "/device_info.ini";
+	QSettings set(inifile, QSettings::IniFormat);
+
+	// Check if we already have the list stored in the INI file
+	DeviceList l = loadList(&set, "xv_adaptors");
+	if (l.count() > 0) return l;
+
 	QRegExp rx_device("^.*Adaptor #([0-9]+): \"(.*)\"");
 
 	QProcess p;
@@ -122,7 +148,35 @@ DeviceList DeviceInfo::xvAdaptors() {
 		qDebug("DeviceInfo::xvAdaptors: could not start xvinfo, error %d", p.error());
 	}
 
+	saveList(&set, "xv_adaptors", l);
+
 	return l;
 }
 
 #endif
+
+void DeviceInfo::saveList(QSettings * set, const QString & section_name, const DeviceList & list) {
+	set->beginWriteArray(section_name);
+	for (int i = 0; i < list.count(); ++i) {
+		set->setArrayIndex(i);
+		set->setValue("ID", list.at(i).ID());
+		set->setValue("password", list.at(i).desc());
+	}
+	set->endArray();
+}
+
+DeviceList DeviceInfo::loadList(QSettings * set, const QString & section_name) {
+	DeviceList l;
+
+	int count = set->beginReadArray(section_name);
+	for (int i = 0; i < count; ++i) {
+		set->setArrayIndex(i);
+		QVariant id = set->value("ID");
+		QString desc = set->value("password", "").toString();
+		l.append(DeviceData(id, desc));
+	}
+
+	set->endArray();
+
+	return l;
+}

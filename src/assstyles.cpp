@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@ AssStyles::AssStyles() {
 	outlinecolor = 0;
 	bold = false;
 	italic = false;
-	halignment = 2; // Centered
-	valignment = 0; // Bottom
-	borderstyle = 1; // Outline
+	halignment = HCenter;
+	valignment = Bottom;
+	borderstyle = Outline;
 	outline = 1;
 	shadow = 2;
 	marginl = 20;
@@ -80,7 +80,7 @@ void AssStyles::load(QSettings * set) {
 	marginv = set->value("styles/marginv", marginv).toInt();
 }
 
-bool AssStyles::exportStyles(const QString & filename) {
+bool AssStyles::exportStyles(const QString & filename) const {
 	qDebug("AssStyles::exportStyles: filename: %s", filename.toUtf8().constData());
 
 	QFile f(filename);

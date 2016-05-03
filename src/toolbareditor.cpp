@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,6 +66,14 @@ ToolbarEditor::ToolbarEditor( QWidget* parent, Qt::WindowFlags f )
 ToolbarEditor::~ToolbarEditor() {
 }
 
+void ToolbarEditor::setIconSize(int size) {
+	iconsize_spin->setValue(size);
+}
+
+int ToolbarEditor::iconSize() {
+	return iconsize_spin->value();
+}
+
 void ToolbarEditor::populateList(QListWidget * w, QList<QAction *> actions_list, bool add_separators) {
 	w->clear();
 
@@ -77,15 +85,21 @@ void ToolbarEditor::populateList(QListWidget * w, QList<QAction *> actions_list,
 				QListWidgetItem * i = new QListWidgetItem;
 				QString text = fixname(action->text(), action->objectName());
 				i->setText(text + " ("+ action->objectName() +")");
-				i->setIcon(action->icon());
+				QIcon icon = action->icon();
+				if (icon.isNull()) {
+					icon = Images::icon("empty_icon");
+				}
+				i->setIcon(icon);
 				i->setData(Qt::UserRole, action->objectName());
 				w->addItem(i);
 			}
 			else
 			if ((action->isSeparator()) && (add_separators)) {
 				QListWidgetItem * i = new QListWidgetItem;
-				i->setText(tr("(separator)"));
+				//i->setText(tr("(separator)"));
+				i->setText("---------");
 				i->setData(Qt::UserRole, "separator");
+				i->setIcon(Images::icon("empty_icon"));
 				w->addItem(i);
 			}
 		}
@@ -177,8 +191,10 @@ void ToolbarEditor::on_separator_button_clicked() {
 	qDebug("ToolbarEditor::on_separator_button_clicked");
 
 	QListWidgetItem * i = new QListWidgetItem;
-	i->setText(tr("(separator)"));
+	//i->setText(tr("(separator)"));
+	i->setText("---------");
 	i->setData(Qt::UserRole, "separator");
+	i->setIcon(Images::icon("empty_icon"));
 
 	int row = active_actions_list->currentRow();
 	if (row > -1) {

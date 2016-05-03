@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FINDSUBTITLESCONFIGDIALOG_H_
-#define _FINDSUBTITLESCONFIGDIALOG_H_
+#ifndef FINDSUBTITLESCONFIGDIALOG_H
+#define FINDSUBTITLESCONFIGDIALOG_H
 
 #include "ui_findsubtitlesconfigdialog.h"
 
@@ -33,6 +33,17 @@ public:
 	void setServer(QString server);
 	QString server();
 
+#ifdef OS_SEARCH_WORKAROUND
+	void setRetries(int n);
+	int retries();
+#endif
+
+#ifdef DOWNLOAD_SUBS
+	void setAppendLang(bool b);
+	bool appendLang();
+#endif
+
+#ifdef FS_USE_PROXY
 	// Proxy
 	void setUseProxy(bool b);
 	bool useProxy();
@@ -51,6 +62,7 @@ public:
 
 	void setProxyType(int type);
 	int proxyType();
+#endif
 };
 
 #endif

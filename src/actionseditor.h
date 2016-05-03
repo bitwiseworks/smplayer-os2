@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 /* This is based on qq14-actioneditor-code.zip from Qt */
 
-#ifndef _ACTIONSEDITOR_H_
-#define _ACTIONSEDITOR_H_
+#ifndef ACTIONSEDITOR_H
+#define ACTIONSEDITOR_H
 
 #include <QWidget>
 #include <QList>
@@ -77,6 +77,7 @@ protected:
 	int findActionName(const QString & name);
 	int findActionAccel(const QString & accel, int ignoreRow = -1);
 	bool hasConflicts();
+	static bool containsShortcut(const QString & accel, const QString & shortcut);
 
 protected slots:
 #if !USE_SHORTCUTGETTER

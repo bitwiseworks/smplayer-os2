@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _WIDGETACTIONS_H_
-#define _WIDGETACTIONS_H_
+#ifndef WIDGETACTIONS_H
+#define WIDGETACTIONS_H
 
 #include <QWidgetAction>
 #include "timeslider.h"
@@ -64,6 +64,8 @@ public:
 public slots:
 	virtual void setPos(int);
 	virtual int pos();
+	virtual void setDuration(double);
+	virtual double duration() { return total_time; };
 #if ENABLE_DELAYED_DRAGGING
 	void setDragDelay(int);
 	int dragDelay();
@@ -71,6 +73,9 @@ public slots:
 private:
 	int drag_delay;
 #endif
+
+private:
+	double total_time;
 
 signals:
 	void posChanged(int value);

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -129,7 +129,7 @@ MplayerLayer::MplayerLayer(QWidget* parent, Qt::WindowFlags f)
 	setAttribute(Qt::WA_NativeWindow);
 	#endif
 	setAttribute(Qt::WA_PaintUnclipped);
-	setAttribute(Qt::WA_PaintOnScreen);
+	//setAttribute(Qt::WA_PaintOnScreen);
 	#endif
 #endif
 }
@@ -160,9 +160,7 @@ void MplayerLayer::playingStarted() {
 	playing = true;
 
 #ifndef Q_OS_WIN
-	#if QT_VERSION >= 0x050000
 	setAttribute(Qt::WA_PaintOnScreen);
-	#endif
 #endif
 
 	Screen::playingStarted();
@@ -173,9 +171,7 @@ void MplayerLayer::playingStopped() {
 	playing = false;
 
 #ifndef Q_OS_WIN
-	#if QT_VERSION >= 0x050000
 	setAttribute(Qt::WA_PaintOnScreen, false);
-	#endif
 #endif
 
 	repaint();
@@ -209,9 +205,10 @@ MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f)
 #if LOGO_ANIMATION
 	, animated_logo(false)
 #endif
-	, mouse_drag_tracking(false)
-	, isMoving(false)
-	, startDrag(QPoint(0,0))
+	, corner_widget(0)
+    , drag_state(NOT_DRAGGING)
+    , start_drag(QPoint(0,0))
+    , mouse_drag_tracking(false)
 {
 	setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( this, QColor(0,0,0) );
@@ -253,6 +250,18 @@ MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f)
 MplayerWindow::~MplayerWindow() {
 }
 
+void MplayerWindow::setCornerWidget(QWidget * w) {
+	corner_widget = w;
+
+	QHBoxLayout * blayout = new QHBoxLayout;
+	blayout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding));
+	blayout->addWidget(corner_widget);
+
+	QVBoxLayout * layout = new QVBoxLayout(this);
+	layout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Expanding));
+	layout->addLayout(blayout);
+}
+
 #if USE_COLORKEY
 void MplayerWindow::setColorKey( QColor c ) {
 	ColorUtils::setBackgroundColor( mplayerlayer, c );
@@ -267,6 +276,10 @@ void MplayerWindow::retranslateStrings() {
 }
 
 void MplayerWindow::setLogoVisible( bool b) {
+	if (corner_widget) {
+		corner_widget->setVisible(b);
+	}
+
 #if !LOGO_ANIMATION
 	logo->setVisible(b);
 #else
@@ -467,53 +480,74 @@ void MplayerWindow::wheelEvent( QWheelEvent * e ) {
 	}
 }
 
-/* the code in eventFilter is based on dragmovecharm.cpp, under license GPL 2 or 3:
-   https://qt.gitorious.org/qt-labs/graphics-dojo/source/8000ca3b229344ed2ba2ae81ed5ebaee86e9d63a:dragmove/dragmovecharm.cpp
-*/
 bool MplayerWindow::eventFilter( QObject * object, QEvent * event ) {
-	//qDebug() << "MplayerWindow::eventFilter" << object;
 
-	if (!mouse_drag_tracking) return false;
+    if (!mouse_drag_tracking)
+        return false;
 
-	QWidget * w = qobject_cast<QWidget*>(object);
-	if (!w) return false;
+    QEvent::Type type = event->type();
+    if (type != QEvent::MouseButtonPress
+        && type != QEvent::MouseButtonRelease
+        && type != QEvent::MouseMove)
+        return false;
 
-	QEvent::Type type = event->type();
-	if (type != QEvent::MouseButtonPress && type != QEvent::MouseButtonRelease && type != QEvent::MouseMove) {
-		return false;
-	}
+    QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent*>(event);
+    if (!mouseEvent)
+        return false;
 
-	QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent*>(event);
-	if (!mouseEvent || mouseEvent->modifiers() != Qt::NoModifier) {
-		return false;
-	}
-	Qt::MouseButton button = mouseEvent->button();
+    if (mouseEvent->modifiers() != Qt::NoModifier) {
+        drag_state = NOT_DRAGGING;
+        return false;
+    }
 
-	bool consumed = false;
+    if (type == QEvent::MouseButtonPress) {
+        if (mouseEvent->button() != Qt::LeftButton) {
+            drag_state = NOT_DRAGGING;
+            return false;
+        }
 
-	if (type == QEvent::MouseButtonPress && button == Qt::LeftButton) {
-		startDrag = mouseEvent->globalPos();
-		//qDebug() << "MplayerWindow::eventFilter: startDrag:" << startDrag << "obj:" << object->objectName();
-		isMoving = true;
-		event->accept();
-		consumed = true;
-	}
+        drag_state = START_DRAGGING;
+        start_drag = mouseEvent->globalPos();
+        // Don't filter, so others can have a look at it too
+        return false;
+    }
 
-	if (type == QEvent::MouseButtonRelease) {
-		startDrag = QPoint(0, 0);
-		isMoving = false;
-	}
+    if (type == QEvent::MouseButtonRelease) {
+        if (drag_state != DRAGGING || mouseEvent->button() != Qt::LeftButton) {
+            drag_state = NOT_DRAGGING;
+            return false;
+        }
 
-	if (type == QEvent::MouseMove && isMoving) {
-		QPoint pos = mouseEvent->globalPos();
-		QPoint diff = pos - startDrag;
-		//qDebug() << "MplayerWindow:eventFilter: diff" << diff << "obj:" << object->objectName();
-		emit mouseMovedDiff(diff);
-		startDrag = pos;
-		consumed = true;
-	}
+        // Stop dragging and eat event
+        drag_state = NOT_DRAGGING;
+        event->accept();
+        return true;
+    }
 
-	return consumed;
+    // type == QEvent::MouseMove
+    if (drag_state == NOT_DRAGGING)
+        return false;
+
+    // buttons() note the s
+    if (mouseEvent->buttons() != Qt::LeftButton) {
+        drag_state = NOT_DRAGGING;
+        return false;
+    }
+
+    QPoint pos = mouseEvent->globalPos();
+    QPoint diff = pos - start_drag;
+    if (drag_state == START_DRAGGING) {
+        // Don't start dragging before moving at least DRAG_THRESHOLD pixels
+        if (abs(diff.x()) < DRAG_THRESHOLD && abs(diff.y()) < DRAG_THRESHOLD)
+            return false;
+
+        drag_state = DRAGGING;
+    }
+
+    emit mouseMovedDiff(diff);
+    start_drag = pos;
+    event->accept();
+    return true;
 }
 
 QSize MplayerWindow::sizeHint() const {

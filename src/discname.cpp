@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ QString DiscName::joinDVD(int title, const QString & device, bool use_dvdnav) {
 
 QString DiscName::join(const DiscData & d) {
 	QString s = d.protocol + "://";
-	if (d.title > 0) s += QString::number(d.title);
+	/* if (d.title > 0) */ s += QString::number(d.title);
 	if (!d.device.isEmpty()) s+= "/" + removeTrailingSlash(d.device);
 
 	qDebug("DiscName::join: result: '%s'", s.toUtf8().constData());

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <QRegExp>
 #include <QApplication>
 #include <QAction>
+#include <QDebug>
 
 #include "images.h"
 #include "filedialog.h"
@@ -102,13 +103,15 @@ QString ActionsEditor::shortcutsToString(QList <QKeySequence> shortcuts_list) {
 		if (n < (shortcuts_list.count()-1)) accelText += ", ";
 	}
 
+	//qDebug("ActionsEditor::shortcutsToString: accelText: '%s'", accelText.toUtf8().constData());
+
 	return accelText;
 }
 
 QList <QKeySequence> ActionsEditor::stringToShortcuts(QString shortcuts) {
 	QList <QKeySequence> shortcuts_list;
 
-	QStringList l = shortcuts.split(',');
+	QStringList l = shortcuts.split(", ");
 
 	for (int n=0; n < l.count(); n++) {
 		//qDebug("%s", l[n].toUtf8().data());
@@ -120,7 +123,7 @@ QList <QKeySequence> ActionsEditor::stringToShortcuts(QString shortcuts) {
 #else
 		QString s = QKeySequence( l[n].simplified() );
 #endif
-		
+
 		//Work-around for Simplified-Chinese
 		s.replace( QString::fromUtf8("左"), "Left");
 		s.replace( QString::fromUtf8("下"), "Down");
@@ -146,16 +149,18 @@ ActionsEditor::ActionsEditor(QWidget * parent, Qt::WindowFlags f)
 {
 	latest_dir = Paths::shortcutsPath();
 
-    actionsTable = new QTableWidget(0, COL_NAME +1, this);
+	actionsTable = new QTableWidget(0, COL_NAME +1, this);
 	actionsTable->setSelectionMode( QAbstractItemView::SingleSelection );
 	actionsTable->verticalHeader()->hide();
 
 #if QT_VERSION >= 0x050000
 	actionsTable->horizontalHeader()->setSectionResizeMode(COL_DESC, QHeaderView::Stretch);
 	actionsTable->horizontalHeader()->setSectionResizeMode(COL_NAME, QHeaderView::Stretch);
+	actionsTable->horizontalHeader()->setSectionResizeMode(COL_CONFLICTS, QHeaderView::ResizeToContents);
 #else
 	actionsTable->horizontalHeader()->setResizeMode(COL_DESC, QHeaderView::Stretch);
 	actionsTable->horizontalHeader()->setResizeMode(COL_NAME, QHeaderView::Stretch);
+	actionsTable->horizontalHeader()->setResizeMode(COL_CONFLICTS, QHeaderView::ResizeToContents);
 #endif
 
 	actionsTable->setAlternatingRowColors(true);
@@ -253,7 +258,7 @@ void ActionsEditor::addActions(QWidget *widget) {
 void ActionsEditor::updateView() {
 	actionsTable->setRowCount( actionsList.count() );
 
-    QAction *action;
+	QAction *action;
 	QString accelText;
 
 #if !USE_SHORTCUTGETTER
@@ -282,6 +287,8 @@ void ActionsEditor::updateView() {
 
 		// Shortcut column
 		QTableWidgetItem * i_shortcut = new QTableWidgetItem(accelText);
+		int column_height = i_shortcut->sizeHint().height();
+		i_shortcut->setSizeHint(QSize(150, column_height));
 
 		// Set flags
 #if !USE_SHORTCUTGETTER
@@ -371,7 +378,8 @@ void ActionsEditor::editShortcut() {
 		QString result = d.exec( i->text() );
 
 		if (!result.isNull()) {
-		    QString accelText = QKeySequence(result).toString(QKeySequence::PortableText);
+			//qDebug("ActionsEditor::editShortcut: result: '%s'", result.toUtf8().constData());
+			QString accelText = QKeySequence(result).toString(QKeySequence::PortableText);
 			i->setText(accelText);
 			if (hasConflicts()) qApp->beep();
 		}
@@ -386,13 +394,31 @@ int ActionsEditor::findActionName(const QString & name) {
 	return -1;
 }
 
+bool ActionsEditor::containsShortcut(const QString & accel, const QString & shortcut) {
+	QStringList shortcut_list = accel.split(", ");
+	QString s;
+	foreach(s, shortcut_list) {
+		s = s.trimmed();
+		//qDebug("ActionsEditor::containsShortcut: comparing '%s' with '%s'", s.toUtf8().constData(), shortcut.toUtf8().constData());
+		if (s == shortcut) return true;
+	}
+	return false;
+}
+
 int ActionsEditor::findActionAccel(const QString & accel, int ignoreRow) {
-	for (int row=0; row < actionsTable->rowCount(); row++) {
+	QStringList shortcuts = accel.split(", ");
+	QString shortcut;
+
+	for (int row = 0; row < actionsTable->rowCount(); row++) {
 		QTableWidgetItem * i = actionsTable->item(row, COL_SHORTCUT);
-		if ( (i) && (i->text() == accel) ) {
-			if (ignoreRow == -1) return row;
-			else
-			if (ignoreRow != row) return row;
+		if (i && row != ignoreRow) {
+			if (!i->text().isEmpty()) {
+				foreach(shortcut, shortcuts) {
+					if (containsShortcut(i->text(), shortcut.trimmed())) {
+						return row;
+					}
+				}
+			}
 		}
 	}
 	return -1;
@@ -405,7 +431,7 @@ bool ActionsEditor::hasConflicts() {
 	QString accelText;
 	QTableWidgetItem *i;
 
-	for (int n=0; n < actionsTable->rowCount(); n++) {
+	for (int n = 0; n < actionsTable->rowCount(); n++) {
 		//actionsTable->setText( n, COL_CONFLICTS, " ");
 		i = actionsTable->item( n, COL_CONFLICTS );
 		if (i) i->setIcon( QPixmap() );
@@ -415,7 +441,7 @@ bool ActionsEditor::hasConflicts() {
 			accelText = i->text();
 			if (!accelText.isEmpty()) {
 				found = findActionAccel( accelText, n );
-				if ( (found != -1) && (found != n) ) {
+				if ( (found != -1) /*&& (found != n)*/ ) {
 					conflict = true;
 					//actionsTable->setText( n, COL_CONFLICTS, "!");
 					actionsTable->item( n, COL_CONFLICTS )->setIcon( Images::icon("conflict") );
@@ -496,36 +522,43 @@ void ActionsEditor::loadActionsTable() {
 }
 
 bool ActionsEditor::loadActionsTable(const QString & filename) {
-	qDebug("ActionsEditor::loadActions: '%s'", filename.toUtf8().data());
+	qDebug() << "ActionsEditor::loadActions:" <<  filename;
 
-	QRegExp rx("^(.*)\\t(.*)");
 	int row;
 
-    QFile f( filename );
-    if ( f.open( QIODevice::ReadOnly ) ) {
+	QFile f( filename );
+	if ( f.open( QIODevice::ReadOnly ) ) {
 
 #if !USE_SHORTCUTGETTER
 		dont_validate = true;
 #endif
 
-        QTextStream stream( &f );
+		QTextStream stream( &f );
 		stream.setCodec("UTF-8");
 
-        QString line;
-        while ( !stream.atEnd() ) {
-            line = stream.readLine();
-			qDebug("line: '%s'", line.toUtf8().data());
-			if (rx.indexIn(line) > -1) {
-				QString name = rx.cap(1);
-				QString accelText = rx.cap(2);
-				qDebug(" name: '%s' accel: '%s'", name.toUtf8().data(), accelText.toUtf8().data());
+		QString line;
+		while ( !stream.atEnd() ) {
+			line = stream.readLine().trimmed();
+			qDebug() << "ActionsEditor::loadActions: line:" << line;
+			QString name;
+			QString accelText;
+			int pos = line.indexOf(QRegExp("\\t|\\s"));
+			//qDebug() << "ActionsEditor::loadActions: pos:" << pos;
+			if (pos == -1) {
+				name = line;
+			} else {
+				name = line.left(pos);
+				accelText = line.mid(pos+1).trimmed();
+			}
+			qDebug() << "ActionsEditor::loadActions: name:" << name << "accel:" << accelText;
+			if (!name.isEmpty()) {
 				row = findActionName(name);
 				if (row > -1) {
-					qDebug("Action found!");
+					qDebug() << "ActionsEditor::loadActions: action found!";
 					actionsTable->item(row, COL_SHORTCUT)->setText(accelText);
-				}				
+				}
 			} else {
-				qDebug(" wrong line");
+				qDebug() << "ActionsEditor::loadActions: error in line";
 			}
 		}
 		f.close();

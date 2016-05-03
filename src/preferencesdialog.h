@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _PREFERENCESDIALOG_H_
-#define _PREFERENCESDIALOG_H_
+#ifndef PREFERENCESDIALOG_H
+#define PREFERENCESDIALOG_H
 
 #include "ui_preferencesdialog.h"
 
@@ -41,6 +41,7 @@ class PrefAdvanced;
 class PrefPlaylist;
 class PrefTV;
 class PrefUpdates;
+class PrefNetwork;
 class PrefAssociations;
 
 class Preferences;
@@ -62,7 +63,8 @@ public:
 	PrefInput * mod_input() { return page_input; };
 	PrefAdvanced * mod_advanced() { return page_advanced; };
 	PrefPlaylist * mod_playlist() { return page_playlist; };
-	PrefUpdates * mod_updtes() { return page_updates; };
+	PrefUpdates * mod_updates() { return page_updates; };
+	PrefNetwork * mod_network() { return page_network; };
 
 	void addSection(PrefWidget *w);
 
@@ -102,6 +104,7 @@ protected:
 	PrefPlaylist * page_playlist;
 	PrefTV * page_tv;
 	PrefUpdates * page_updates;
+	PrefNetwork * page_network;
 	PrefAdvanced * page_advanced;
 
 #if USE_ASSOCIATIONS
@@ -111,10 +114,10 @@ protected:
 	QTextBrowser * help_window;
 
 private:
-    QPushButton * okButton;
-    QPushButton * cancelButton;
+	QPushButton * okButton;
+	QPushButton * cancelButton;
 	QPushButton * applyButton;
-    QPushButton * helpButton;
+	QPushButton * helpButton;
 };
 
 #endif

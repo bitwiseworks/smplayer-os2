@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 */
 
 
-#ifndef _HELPER_H_
-#define _HELPER_H_
+#ifndef HELPER_H
+#define HELPER_H
 
 #include <QString>
 #include <QStringList>
@@ -67,6 +67,12 @@ public:
 
 #ifdef Q_OS_WIN
 	static QStringList resolveSymlinks(const QStringList & files);
+#endif
+
+#ifndef Q_OS_WIN
+	//! Tries to find the executable in the path.
+	//! Returns the path if found or QString::null if not.
+	static QString findExecutable(const QString & name);
 #endif
 
 private:

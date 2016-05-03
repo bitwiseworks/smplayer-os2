@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 
 	mainwindow_pos = pos();
 
-	tray = new QSystemTrayIcon( Images::icon("logo", 22), this );
+	tray = new QSystemTrayIcon(this);
 
 	tray->setToolTip( "SMPlayer" );
 	connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), 
@@ -156,6 +156,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 
 BaseGuiPlus::~BaseGuiPlus() {
 	saveConfig();
+	tray->hide();
 }
 
 bool BaseGuiPlus::startHidden() {
@@ -205,6 +206,8 @@ void BaseGuiPlus::quit() {
 
 void BaseGuiPlus::retranslateStrings() {
 	BaseGui::retranslateStrings();
+
+	tray->setIcon(Images::icon("logo", 22));
 
 	quitAct->change( Images::icon("exit"), tr("&Quit") );
 	showTrayAct->change( Images::icon("systray"), tr("S&how icon in system tray") );
@@ -609,6 +612,8 @@ TimeSliderAction * BaseGuiPlus::createTimeSliderAction(QWidget * parent) {
 
 	connect(timeslider_action, SIGNAL(wheelUp()), core, SLOT(wheelUp()));
 	connect(timeslider_action, SIGNAL(wheelDown()), core, SLOT(wheelDown()));
+
+	connect(core, SIGNAL(newDuration(double)), timeslider_action, SLOT(setDuration(double)));
 
 	return timeslider_action;
 }

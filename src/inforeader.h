@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,19 +17,13 @@
 */
 
 
-#ifndef _INFOREADER_H_
-#define _INFOREADER_H_
+#ifndef INFOREADER_H
+#define INFOREADER_H
 
 #include <QObject>
 #include <QList>
-
-#define USE_QPROCESS 1
-
-#if USE_QPROCESS
-class QProcess;
-#else
-class MyProcess;
-#endif
+#include <QStringList>
+#include "config.h"
 
 class InfoData {
 
@@ -44,8 +38,16 @@ public:
 	void setName(QString name) { _name = name; };
 	void setDesc(QString desc) { _desc = desc; };
 
-	QString name() { return _name; };
-	QString desc() { return _desc; };
+	QString name() const { return _name; };
+	QString desc() const { return _desc; };
+
+	bool operator<(const InfoData & other) const {
+		return name() < other.name();
+	}
+
+	bool operator==(const InfoData & other) const {
+		return name() == other.name();
+	}
 
 private:
 	QString _name, _desc;
@@ -62,48 +64,57 @@ public:
 	InfoReader( QString mplayer_bin, QObject * parent = 0 );
 	~InfoReader();
 
+	void setPlayerBin(const QString & bin);
+	QString playerBin() { return mplayerbin; }
+
 	void getInfo();
 
 	InfoList voList() { return vo_list; };
 	InfoList aoList() { return ao_list; };
+
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	InfoList demuxerList() { return demuxer_list; };
 	InfoList vcList() { return vc_list; };
 	InfoList acList() { return ac_list; };
-
-	int mplayerVersion() { return mplayer_svn; };
-
-	//! Returns an InfoReader objects. If it didn't exist before, one
-	//! is created and getInfo() is called.
-	static InfoReader * obj();
-
-protected slots:
-	virtual void readLine(QByteArray);
-
-protected:
-	bool run(QString options);
-	void list();
-
-protected:
-#if USE_QPROCESS
-	QProcess * proc;
-#else
-	MyProcess * proc;
 #endif
+	QStringList vfList() { return vf_list; };
+	QStringList optionList() { return option_list; };
+
+	int mplayerSVN() { return mplayer_svn; };
+	QString mpvVersion() { return mpv_version; };
+	QString mplayer2Version() { return mplayer2_version; };
+	bool isMplayer2() { return is_mplayer2; };
+	bool isMPV() { return is_mpv; };
+
+	QString playerVersion();
+
+	//! Returns an InfoReader object. If it didn't exist before, one
+	//! is created.
+	static InfoReader * obj(const QString & mplayer_bin = QString::null);
+
+protected:
 	QString mplayerbin;
 
 	InfoList vo_list;
 	InfoList ao_list;
+
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	InfoList demuxer_list;
 	InfoList vc_list;
 	InfoList ac_list;
+#endif
+	QStringList vf_list;
+	QStringList option_list;
 
 	int mplayer_svn;
+	QString mpv_version;
+	QString mplayer2_version;
+	bool is_mplayer2, is_mpv;
 
 private:
-	bool waiting_for_key;
-	int reading_type;
-
 	static InfoReader * static_obj;
+	static QStringList convertInfoListToList(InfoList l);
+	static InfoList convertListToInfoList(QStringList l);
 };
 
 #endif

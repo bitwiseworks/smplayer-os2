@@ -18,11 +18,12 @@ ${LangFileString} Existing_64bitInst "Pemasangan 64-bit SMPlayer sudah wujud. An
 
 ; Welcome page
 ${LangFileString} WelcomePage_Title "Persediaan $(^NameDA)"
-${LangFileString} WelcomePage_Text "Persediaan akan bantu anda melalui pemasangan $(^NameDA).$\r$\n$\r$\nAdalah disarankan anda tutup semua kejadian SMPlayer sebelum memulakan persediaan. Ia bertujuan untuk mengemaskini fail program yang berkaitan tanpa perlu membut semula komputer anda.$\r$\n$\r$\n$_CLICK"
+${LangFileString} WelcomePage_Text "Persediaan akan membantu anda melalui pemasangan $(^NameDA).$\r$\n$\r$\nAdalah disarankan anda tutup semua kejadian SMPlayer sebelum memulakan persediaan. Ia bertujuan untuk mengemaskini fail program yang berkaitan tanpa perlu membut semula komputer anda.$\r$\n$\r$\n$_CLICK"
 
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Pintasan"
 ${LangFileString} MPlayerGroupTitle "Komponen MPlayer"
+${LangFileString} MPlayerMPVGroupTitle "Enjin Multimedia"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (diperlukan)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, pustaka terkongsi, dan dokumentasi."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Kodeks binari tidak disokong dalam
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Kodeks pilihan untuk MPlayer. (Sambungan Internet diperlukan untuk pemasangan)"
 !endif
+
+${LangFileString} Section_MPV_Desc "Cabang kaya-fitur bagi MPlayer && MPlayer2"
 
 ${LangFileString} Section_MEncoder_Desc "Program yang diperlukan oleh MPlayer yang dapat digunakan untuk mengenkod atau jelma audio disokong atau strim video."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Klik Berikutnya bila sedia diteruskan."
 ${LangFileString} Reinstall_Msg3_3 "Klik Nyahpasang bila sedia diteruskan."
 ${LangFileString} Reinstall_Msg4 "Ubah Tetapan Pemasangan"
 ${LangFileString} Reinstall_Msg5 "Tetap semula konfigurasi SMPlayer saya"
+
+${LangFileString} Remove_Settings_Confirmation "Anda pasti mahu menetap semula tetapan SMPlayer anda? Tindakan ini tidak boleh dikembalikan."
 
 ${LangFileString} Type_Reinstall "pasang semula"
 ${LangFileString} Type_Downgrade "nyahtatar"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Memadam Pintasan..."
 ${LangFileString} Info_Rest_Assoc "Memulihkan perkaitan fail..."
 ${LangFileString} Info_RollBack "Mengembali perubahan..."
 ${LangFileString} Info_Files_Extract "Mengekstrak fail..."
+${LangFileString} Info_SMTube_Backup "Menyandar SMTube..."
+${LangFileString} Info_SMTube_Restore "Memulihkan SMTube dari pemasangan terdahulu..."
+${LangFileString} Info_MPV_Backup "Menyandar mpv..."
+${LangFileString} Info_MPV_Restore "Memulihkan mpv dari pemasangan terdahulu..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Memuat turun mpv..."
+${LangFileString} MPV_DL_Retry "mpv gagal dipasang. Cuba lagi?"
+${LangFileString} MPV_DL_Failed "Gagal memuat turun mpv: '$R0'."
+${LangFileString} MPV_Inst_Failed "Gagal memasang mpv."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl gagal dipasang. Cuba lagi?"
+${LangFileString} YTDL_DL_Failed "Gagal memuat turun youtube-dl: '$R0'."
+${LangFileString} YTDL_Update_Check "Memeriksa kemaskini youtube-dl..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Membersihkan cache konfig fon..."
+${LangFileString} Info_Cleaning_SMPlayer "Membersihkan tetapan SMPlayer..."

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,15 +17,20 @@
 */
 
 #include "timeslider.h"
+#include "helper.h"
 
 #include <QWheelEvent>
 #include <QTimer>
+#include <QToolTip>
+#include <QDebug>
 
 #define DEBUG 0
 
 TimeSlider::TimeSlider( QWidget * parent ) : MySlider(parent)
+	, dont_update(false)
+	, position(0)
+	, total_time(0)
 {
-	dont_update = false;
 	setMinimum(0);
 #ifdef SEEKBAR_RESOLUTION
 	setMaximum(SEEKBAR_RESOLUTION);
@@ -145,13 +150,31 @@ void TimeSlider::wheelEvent(QWheelEvent * e) {
 	e->accept();
 
 	if (e->orientation() == Qt::Vertical) {
-	    if (e->delta() >= 0)
-	        emit wheelUp();
-	    else
-	        emit wheelDown();
+		if (e->delta() >= 0)
+			emit wheelUp();
+		else
+			emit wheelDown();
 	} else {
 		qDebug("Timeslider::wheelEvent: horizontal event received, doing nothing");
 	}
+}
+
+bool TimeSlider::event(QEvent *event) {
+	if (event->type() == QEvent::ToolTip) {
+		QHelpEvent * help_event = static_cast<QHelpEvent *>(event);
+		//qDebug() << "TimeSlider::event: total_time:" << total_time << "x:" << help_event->x();
+		int pos_in_slider = help_event->x() * maximum() / width();
+		int time = pos_in_slider * total_time / maximum();
+		//qDebug() << "TimeSlider::event: time:" << time;
+		if (time >= 0 && time <= total_time) {
+			QToolTip::showText(help_event->globalPos(), Helper::formatTime(time), this);
+		} else {
+			QToolTip::hideText();
+			event->ignore();
+		}
+		return true;
+	}
+	return QWidget::event(event);
 }
 
 #include "moc_timeslider.cpp"

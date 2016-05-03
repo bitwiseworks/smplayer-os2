@@ -1,3 +1,394 @@
+Version 16.4:
+
+(2016-03-25)
+ * Add translations for Amharic and Persian (unfinished).
+
+(2016-03-25)
+ * A new layout is used to display the media information (Options -> View
+  info and properties).
+
+(2016-03-16)
+ * Update the system tray icon when changing themes.
+
+(2016-03-15)
+ * Possibility to compile without mplayer2 support.
+   (Support for mplayer2 will be removed soon).
+
+(2016-03-14)
+ * Add an animated icon for buffering.
+
+(2016-03-07)
+ * The option to support streaming sites in Preferences -> Network is
+   different now, and allows these values:
+     Disabled: support for video sites is turned off
+     Auto: enables internal support for YouTube and uses mpv + youtube-dl
+           for the rest of the sites
+     YouTube: only the internal support for YouTube will be used
+     mpv + youtube-dl: uses mpv + youtube-dl for all sites
+
+(2016-03-04)
+ * A fix for saving bookmarks.
+ * (Linux) Look for the smtube executable in the system path.
+
+(2016-02-26)
+ * New smplayer.spec (works for Fedora and openSUSE).
+
+(2016-02-20)
+ * The option "Move the window when the video area is dragged" in
+   Preferences -> Interface has been removed.
+ * New option in Preferences -> Keyboard and mouse to specify the
+   function to use when the mouse is dragged.
+
+(2016-02-19)
+ * Possibility to compile SMPlayer without the mini GUI and the default GUI.
+
+(2016-02-12)
+ * (Experimental) Mouse gestures. When the mouse is dragged up or down in the
+   video window it changes the volume. If dragged left or right it changes
+   the time position.
+
+(2016-02-09)
+ * Add vlc.keys.
+
+(2016-02-02)
+ * Allow to read the shortcut's file using spaces as separators.
+
+(2016-01-19)
+ * Add a combobox in preferences -> general to choose mplayer or mpv.
+
+(2016-01-17)
+ * Include mpv in the Windows installer.
+
+(2016-01-16)
+ * Add a function to save XSPF files.
+ * (mpv) Add the extrastereo filter.
+
+(2016-01-15)
+ * Remove the fast_audio_change option since it's obsolete.
+
+
+Version 16.1:
+
+(2016-01-07)
+ * (mpv) Allow screenshots to work with hardware acceleration enabled.
+
+(2016-01-06)
+ * Add a shortcut for the add_bookmark action.
+ * Add icons for the bookmarks actions.
+
+(2015-12-29)
+ * (Qt5) Try to fix a problem when exiting from fullscreen and the option
+   to stay on top is set to "while playing".
+
+(2015-12-23)
+ * (Experimental) Simplify changing style and stylesheet.
+
+(2015-12-22)
+ * (Screenshots) Keep compatibility with older versions of mplayer.
+
+(2015-12-18)
+ * Fix for Youtube.
+
+(2015-12-16)
+ * (mpv) If the option --screenshot-directory is not available change
+   the working directory so that screenshots work.
+
+(2015-12-14)
+ * Add option 'Prevent window to get outside of screen' in
+   Preferences -> Interface.
+
+(2015-12-12)
+ * Update stayontop after entering and exiting the fullscreen mode.
+
+(2015-12-04)
+ * Don't auto center the window if there's no video.
+ * (mpv) Fix playback with -v
+
+(2015-12-03)
+ * Add the option 'Pass the -playlist option to MPlayer' to
+   Preferences -> Advanced.
+
+(2015-11-29)
+ * Simplify the code for previous and next chapter.
+ * Enable bookmarks.
+
+
+Version 15.11:
+
+(2015-11-22)
+ * The thumbnail generator is faster now.
+
+(2015-11-15)
+ * (Experimental) Add support for Youtube live streams.
+
+(2015-11-12)
+ * When adding files to the playlist move the first item to its 
+   correct place in the list.
+
+(2015-11-10)
+ * Fix for Youtube.
+
+(2015-11-07)
+ * Identify MPlayer 1.2.
+
+(2015-11-04)
+ * Add the possibility to set bookmarks in the videos.
+
+(2015-10-28)
+ * Don't use -playlist with mplayer by default.
+
+(2015-10-26)
+ * (mplayer) Don't add ffmpeg:// to the URL when playing https
+   streams. It seems it's not necessary anymore.
+
+(2015-10-23)
+ * New action to start/stop capturing the playback stream.
+   The captured stream will be saved to the folder specified in
+   the smplayer.ini option capture_directory with the name
+   capture_NNNN.dump.
+   It only works correctly with mpeg. With other formats the
+   dumped stream won't play back.
+
+(2015-10-18)
+ * Add a new option in Preferences -> General to select the
+   image format for screenshots. It only works with mpv.
+
+(2015-10-17)
+ * Fix a crash when changing the GUI.
+ * Set the screenshot directory in mpv with the option
+   --screenshot-directory= and in mplayer with the prefix option
+   for the screenshot filter, instead of changing the player's
+   working directory.
+   This requires recent versions of mplayer and mpv. With
+   older versions the screenshots will be saved in the
+   player's working directory.
+
+(2015-10-15)
+ * (Windows) Center the main window if it's partially outside of
+   the desktop after an auto resize.
+
+(2015-10-12)
+ * Add an option in the find subtitles configuration window to
+   append or not the language code to the subtitle filename.
+
+(2015-10-07)
+ * New options to seek to the previous or next subtitle (mpv only).
+
+(2015-10-06)
+ * (mpv) Disable the extrastereo and karaoke filters.
+
+(2015-10-04)
+ * Display in the time sliders a tooltip with the corresponding
+   time of the mouse position.
+
+(2015-10-02)
+ * Add an option in Preferences -> Interface to automatically
+   center the window.
+
+(2015-09-30)
+ * (mpv) Notify pause once
+
+
+[b]Version 15.9[/b]:
+
+(2015-09-08)
+ * (Qt 5) Fix YouTube (URL not found).
+
+(2015-09-05)
+ * Fix the openfolder icon in the favorites list.
+
+(2015-09-01)
+ * Use the DefaultGUI with the H2O theme as default.
+
+(2015-08-18)
+ * Apply patch to show the language in the subtitle display name.
+
+(2015-08-03)
+ * Possibility to compile without mplayer or mpv support.
+
+(2015-07-24)
+ * Apply patch by Wilbert Hengs (wstudios at xs4all dot nl).
+   It prevents the action for the left mouse button to run when
+   dragging the video window.
+
+(2015-07-22)
+ * Fix for video track in mpv.
+
+(2015-07-19)
+ * Update the links to the SMPlayer website.
+
+(2015-07-09)
+ * New YouTube code.
+
+(2015-06-24)
+ * Possibility to disable MPRIS2 in smplayer.ini (option use_mpris2).
+
+(2015-06-22)
+ * Fix volume when using softvol with newer versions of mpv.
+
+(2015-06-12)
+ * (Windows) Disable MPRIS2 with Qt 5.
+
+(2015-06-10)
+ * Reduce the time to activate the floating control from 500ms to 100ms.
+
+(2015-06-05)
+ * Add option for command-line: -media-title
+
+(2015-06-02)
+ * Fix thumbnail creation with newer versions of mpv.
+
+(2015-05-28)
+ * (mpv) Use --input-file=/dev/stdin instead of --slave-broken.
+
+(2015-05-21)
+ * Fix the audio and video bitrate info with newer versions of mpv.
+
+(2015-04-23)
+ * Apply patch to handle PTS rollover at MPEG-TS.
+
+(2015-04-13)
+ * Add a 3D stereo filter.
+
+(2015-04-10)
+ * Add support for MPRIS D-Bus Interface (http://specifications.freedesktop.org/mpris-spec/latest/)
+   Based on a patch for smplayer2 (https://github.com/lachs0r/SMPlayer2/commit/cea863e6b75f00c93da95d1a73d696cf717adf78.patch)
+   and a patch by WiseLord (http://forum.smplayer.info/viewtopic.php?p=11548#p11548)
+
+(2015-03-22)
+ * (mpv) Use the --sub-text-* options to set the style of the subtitles since
+   the option --ass-styles doesn't work anymore for this.
+
+(2015-03-13)
+ * Add the possibility to delete a file in the playlist from the filesystem.
+   Based on a patch by capt.d.:
+   http://forum.smplayer.info/viewtopic.php?p=11220#p11220
+
+(2015-03-04)
+ * Add the possibility to use the mouse buttons for the actions
+   "next chapter" and "previous chapter".
+
+(2015-03-02)
+ * The kerndeint filter works with mpv.
+ * Changing the deinterlace filter doesn't restart mpv.
+
+(2015-02-28)
+ * Now the rotate filter doesn't restart mpv.
+
+(2015-02-26)
+ * The flip and mirror options don't restart mpv.
+ * The deblock, dering, denoise and phase filters don't restart mpv.
+
+(2015-02-25)
+ * The blur and sharpen filters don't restart mpv.
+
+(2015-02-23)
+ * Change the play/pause icon according to the player state in the default
+   and mini GUIs.
+
+(2015-02-19)
+ * Now the following filters don't restart mpv when they are turned on/off:
+   add black borders, gradfun, add noise and software scaling.
+
+(2015-02-18)
+ * New action show_time (assigned by default to key I). It shows the current
+   playback time, total time and percentage, for 2 seconds on the OSD.
+ * (Experimental) Now, if using mpv, the option to add black borders doesn't
+   restart mpv.
+
+(2015-02-14)
+ * Allow duplicate items in the playlist.
+
+(2015-02-06)
+ * Add new option in the playlist section in preferences:
+   "Play next file even if the previous file failed"
+   If the option is enabled, when a file fails to play (mplayer crashes or
+   exits with an error code), the playlist will play the next file in the
+   list.
+
+(2015-02-01)
+ * Add an option in the toolbar editor to set the size of the icons.
+   (Currently it doesn't look good if you increase the size of the icons
+   in the skin gui).
+
+(2015-01-31)
+ * Add the options -ontop and -no-ontop for the command line.
+   They just change the "Stay on top" options in the preferences.
+
+(2015-01-21)
+ * Add a combobox in Preferences -> Performance to select the hardware
+   decoding option (mpv only).
+
+(2015-01-18)
+ * (mpv) Don't use the pp filter if it's not available 
+
+(2015-01-16)
+ * Fix for Youtube.
+
+(2014-12-31)
+ * (Videopreview) Use -nofontconfig to prevent to create the font cache.
+
+(2014-12-16)
+ * New version of the installer, which offers the user the possibility
+   to install mpv (will be downloaded). By redxii.
+
+(2014-12-12)
+ * Add an option to change the size of the OSD.
+
+(2014-11-29)
+ * Add an option to enable or disable the internal Youtube support.
+ * Add an option to enable streaming sites (requires mpv and youtube-dl).
+
+(2014-11-27)
+ * (Windows) Replace / with \ in the screenshot folder name.
+ * Move the Youtube options from the performance section to the network
+   section.
+
+(2014-11-26)
+ * Add the possibility to select a secondary subtitle track, which is 
+   displayed on top of the screen. (mpv only)
+
+(2014-11-25)
+ * Add an option to disable the scroll of the title in the skingui.
+
+(2014-11-20)
+ * Replace the option 'Use SSA/ASS library' in the subtitles menu with 
+   'Use custom style'.
+
+(2014-11-18)
+ * Add an option to go back one frame (frame_back_step). Only works with mpv.
+ * Add an option in Preferences -> General to set the template for screenshots
+  (works only with mpv).
+
+(2014-11-16)
+ * Add support for mpv.
+   It took 25 days. 6983 lines were changed.
+   It's not complete yet, some things may not work yet, but
+   I think the most important things work.
+   Notice: it requires mpv 0.6.2 or greater.
+ * During the process of adding support for mpv, the options to customize
+   the non ASS font were removed.
+ * Add the Albanian translation.
+ * Add Notes_about_mpv.txt.
+
+(2014-10-08)
+ * (Bugfix) Prevent to pass the filename twice to mplayer when using
+   use_short_pathnames.
+
+(2014-09-25)
+ * Add options in Preferences -> Network to set a proxy.
+
+(2014-09-14)
+ * (Qt 5) Fix the option pause when minimized.
+
+(2014-09-10)
+ * Open https URLs with ffmpeg://
+ * (Themes and skins) Now if the resource file (*.rcc) is not found
+   the images will be loaded from PNGs files, as in previous versions.
+   This will make easier for users to customize themes, since they
+   won't need to create the rcc files.
+
+
 [b]Version 14.9.0[/b]:
 
 (2014-08-20)

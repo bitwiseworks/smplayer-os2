@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MEDIASETTINGS_H_
-#define _MEDIASETTINGS_H_
+#ifndef MEDIASETTINGS_H
+#define MEDIASETTINGS_H
 
 
 /* Settings the user has set for this file, and that we need to */
@@ -58,6 +58,9 @@ public:
 
 	double current_sec;
 	int current_sub_id;
+#ifdef MPV_SUPPORT
+	int current_secondary_sub_id;
+#endif
 
 #if PROGRAM_SWITCH
 	int current_program_id;
@@ -67,7 +70,6 @@ public:
 	int current_audio_id;
 
 	int current_title_id;
-	int current_chapter_id;
 	int current_angle_id;
 
 	int aspect_ratio_id;
@@ -113,7 +115,12 @@ public:
 	int current_denoiser;
 	int current_unsharp;
 
+	QString stereo3d_in;
+	QString stereo3d_out;
+
+#ifdef MPLAYER_SUPPORT
 	bool karaoke_filter;
+#endif
 	bool extrastereo_filter;
 	bool volnorm_filter;
 
@@ -121,10 +128,6 @@ public:
 	int stereo_mode;
 
 	double zoom_factor; // mplayerwindow zoom
-
-#if USE_MPLAYER_PANSCAN
-	double panscan_factor;
-#endif
 
 	int rotate;
 	bool flip; //!< Flip image
@@ -134,6 +137,10 @@ public:
 	int A_marker;
 	int B_marker;
 
+#ifdef BOOKMARKS
+	QMap<int, QString> bookmarks;
+#endif
+
 	// This a property of the video and it should be
     // in mediadata, but we have to save it to preserve 
 	// this data among restarts.
@@ -142,6 +149,9 @@ public:
 	//! The codec of the video is ffh264 and it's high definition
 	bool is264andHD;
 
+	QString current_demuxer;
+
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	// Advanced settings
 	QString forced_demuxer;
 	QString forced_video_codec;
@@ -151,6 +161,7 @@ public:
 	QString original_demuxer;
 	QString original_video_codec;
 	QString original_audio_codec;
+#endif
 
 	// Options to mplayer (for this file only)
 	QString mplayer_additional_options;
@@ -160,12 +171,12 @@ public:
 	// Some things that were before in mediadata
 	// They can vary, because of filters, so better here
 
-	//Resolution used by mplayer
-    //Can be bigger that video resolution
-    //because of the aspect ratio or expand filter
-    int win_width;
-    int win_height;
-    double win_aspect();
+	// Resolution used by mplayer
+	// Can be bigger that video resolution
+	// because of the aspect ratio or expand filter
+	int win_width;
+	int win_height;
+	double win_aspect();
 
 	//! Returns the aspect as a double. Returns 0 if aspect == AspectNone.
 	double aspectToNum(Aspect aspect);
@@ -174,8 +185,8 @@ public:
 	void list();
 
 #ifndef NO_USE_INI_FILES
-	void save(QSettings * set);
-	void load(QSettings * set);
+	void save(QSettings * set, int player_id);
+	void load(QSettings * set, int player_id);
 #endif
 };
 

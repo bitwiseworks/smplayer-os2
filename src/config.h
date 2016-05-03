@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,10 +16,15 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <Qt>
+
+#define NOTIFY_SUB_CHANGES 1
+#define NOTIFY_AUDIO_CHANGES 1
+#define NOTIFY_VIDEO_CHANGES 0
+#define NOTIFY_CHAPTER_CHANGES 1
 
 
 // STYLE_SWITCHING
@@ -97,14 +102,21 @@
 
 // DVDNAV_SUPPORT
 // if 1, smplayer will be compiled with support for mplayer's dvdnav
-
+#ifdef MPLAYER_SUPPORT
 #define DVDNAV_SUPPORT 1
+#endif
 
 
 // PROGRAM_SWITCH
 // support for program switch in ts files
 
-#define PROGRAM_SWITCH 1
+#define PROGRAM_SWITCH 0
+
+
+// ALLOW_DEMUXER_CODE_CHANGE
+// support changing of demuxer and video and audio codecs
+
+#define ALLOW_DEMUXER_CODEC_CHANGE 1
 
 
 // Adds or not the "Repaint the background of the video window" option.
@@ -126,12 +138,6 @@
 #if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 #define REPORT_OLD_MPLAYER 1
 #endif
-
-
-// If 1, smplayer will add support for the mplayer slave command
-// "panscan".
-
-#define USE_MPLAYER_PANSCAN 0
 
 
 // If 1, the background logo will be animated

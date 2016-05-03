@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include <QPushButton>
 #include "images.h"
 #include "infofile.h"
-
+#include "playerid.h"
 
 FilePropertiesDialog::FilePropertiesDialog( QWidget* parent, Qt::WindowFlags f )
 	: QDialog(parent, f)
@@ -36,11 +36,17 @@ FilePropertiesDialog::FilePropertiesDialog( QWidget* parent, Qt::WindowFlags f )
 	applyButton = buttonBox->button(QDialogButtonBox::Apply);
 	connect( applyButton, SIGNAL(clicked()), this, SLOT(apply()) );
 
+#if ALLOW_DEMUXER_CODEC_CHANGE
 	codecs_set = false;
-
-	// Read codec info from InfoReader:
-	InfoReader *i = InfoReader::obj();
-	setCodecs( i->vcList(), i->acList(), i->demuxerList() );
+#else
+	// Hide unused tabs
+	int i = tabWidget->indexOf(demuxer_page);
+	if (i != -1) tabWidget->removeTab(i);
+	i = tabWidget->indexOf(vc_page);
+	if (i != -1) tabWidget->removeTab(i);
+	i = tabWidget->indexOf(ac_page);
+	if (i != -1) tabWidget->removeTab(i);
+#endif
 
 	retranslateStrings();
 }
@@ -72,6 +78,15 @@ void FilePropertiesDialog::retranslateStrings() {
 	applyButton->setText( tr("Apply") );
 #endif
 
+#if ALLOW_DEMUXER_CODEC_CHANGE
+	int tab_idx = 4;
+#else
+	int tab_idx = 1;
+#endif
+	tabWidget->setTabText(tab_idx, tr("O&ptions for %1").arg(PLAYER_NAME) );
+	groupBox->setTitle( tr("Additional Options for %1").arg(PLAYER_NAME) );
+	options_info_label->setText( tr("Here you can pass extra options to %1.").arg(PLAYER_NAME) +"<br>"+
+		tr("Write them separated by spaces.") + "<br>" + tr("Example:") + " -volume 50 -fps 25" );
 }
 
 void FilePropertiesDialog::accept() {
@@ -89,11 +104,20 @@ void FilePropertiesDialog::apply() {
 	emit applied();
 }
 
+#if ALLOW_DEMUXER_CODEC_CHANGE
 void FilePropertiesDialog::setCodecs(InfoList vc, InfoList ac, InfoList demuxer) 
 {
 	vclist = vc;
 	aclist = ac;
 	demuxerlist = demuxer;
+
+	qSort(vclist);
+	qSort(aclist);
+	qSort(demuxerlist);
+
+	vc_listbox->clear();
+	ac_listbox->clear();
+	demuxer_listbox->clear();
 
 	InfoList::iterator it;
 
@@ -109,7 +133,7 @@ void FilePropertiesDialog::setCodecs(InfoList vc, InfoList ac, InfoList demuxer)
 		demuxer_listbox->addItem( (*it).name() +" - "+ (*it).desc() );
 	}
 
-	codecs_set = true;	
+	codecs_set = true;
 }
 
 void FilePropertiesDialog::setDemuxer(QString demuxer, QString original_demuxer) {
@@ -188,6 +212,7 @@ int FilePropertiesDialog::find(QString s, InfoList &list) {
 	}
 	return -1;
 }
+#endif
 
 void FilePropertiesDialog::setMplayerAdditionalArguments(QString args) {
 	mplayer_args_edit->setText(args);

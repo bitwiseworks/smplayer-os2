@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 #include "videopreview.h"
 #include "videopreviewconfigdialog.h"
+#include "playerid.h"
 #include <QProcess>
 #include <QRegExp>
 #include <QDir>
@@ -42,6 +43,11 @@
 
 #define RENAME_PICTURES 0
 
+#define N_OUTPUT_FRAMES 1
+
+// MPlayer2 doesn't support png outdir
+/* #define VP_USE_PNG_OUTDIR */
+
 VideoPreview::VideoPreview(QString mplayer_path, QWidget * parent) : QWidget(parent, Qt::Window)
 {
 	setMplayerPath(mplayer_path);
@@ -62,7 +68,7 @@ VideoPreview::VideoPreview(QString mplayer_path, QWidget * parent) : QWidget(par
 	output_dir = "smplayer_preview";
 	full_output_dir = QDir::tempPath() +"/"+ output_dir;
 
-	progress = new QProgressDialog(this);
+	progress = new QProgressDialog(parent != 0 ? parent : this);
 	progress->setMinimumDuration(0);
 	connect( progress, SIGNAL(canceled()), this, SLOT(cancelPressed()) );
 
@@ -166,10 +172,7 @@ void VideoPreview::clearThumbnails() {
 }
 
 QString VideoPreview::framePicture() {
-	if (prop.extract_format == PNG)
-		return "00000005.png";
-	else
-		return "00000005.jpg";
+	return QString("0000000%1.%2").arg(N_OUTPUT_FRAMES == 1 ? 1 : N_OUTPUT_FRAMES-1).arg(prop.extract_format == PNG ? "png" : "jpg");
 }
 
 bool VideoPreview::createThumbnails() {
@@ -241,7 +244,7 @@ bool VideoPreview::extractImages() {
 
 		if (canceled) return false;
 
-		if (!runMplayer(current_time, aspect_ratio)) return false;
+		if (!runPlayer(current_time, aspect_ratio)) return false;
 
 		QString frame_picture = full_output_dir + "/" + framePicture();
 		if (!QFile::exists(frame_picture)) {
@@ -267,33 +270,65 @@ bool VideoPreview::extractImages() {
 	return true;
 }
 
-bool VideoPreview::runMplayer(int seek, double aspect_ratio) {
+bool VideoPreview::runPlayer(int seek, double aspect_ratio) {
 	QStringList args;
-	args << "-nosound";
 
-	if (prop.extract_format == PNG) {
-		args << "-vo"
-		<< "png:outdir=\""+full_output_dir+"\"";
-	} else {
-		args << "-vo"
-		<< "jpeg:outdir=\""+full_output_dir+"\"";
+	if (PlayerID::player(mplayer_bin) == PlayerID::MPV) {
+		#ifdef MPV_SUPPORT
+		// MPV
+		args << "--no-config" << "--no-audio" << "--no-cache";
+		args << "--frames=" + QString::number(N_OUTPUT_FRAMES);
+		args << "--framedrop=no" << "--start=" + QString::number(seek);
+		if (aspect_ratio != 0) {
+			args << "--video-aspect=" + QString::number(aspect_ratio);
+		}
+		if (!prop.dvd_device.isEmpty()) args << "--dvd-device=" + prop.dvd_device;
+		QString format = (prop.extract_format == PNG) ? "png:png-compression=0" : "jpg";
+		args << QString("--vo=image=format=%1:outdir=\"%2\"").arg(format).arg(full_output_dir);
+		
+		#ifdef Q_OS_WIN
+		args << "--use-text-osd=no";
+		#endif
+		#endif // MPV_SUPPORT
 	}
+	else {
+		#ifdef MPLAYER_SUPPORT
+		// MPlayer
+		args << "-nosound" << "-nocache" << "-noframedrop";
 
-	args << "-frames" << "6" << "-ss" << QString::number(seek);
+		if (prop.extract_format == PNG) {
+			args << "-vo"
+			#ifdef VP_USE_PNG_OUTDIR
+			<< "png:outdir=\""+full_output_dir+"\"";
+			#else
+			<< "png";
+			#endif
+		} else {
+			args << "-vo"
+			<< "jpeg:outdir=\""+full_output_dir+"\"";
+		}
 
-	if (aspect_ratio != 0) {
-		args << "-aspect" << QString::number(aspect_ratio) << "-zoom";
+		args << "-frames" << QString::number(N_OUTPUT_FRAMES) << "-ss" << QString::number(seek);
+
+		if (aspect_ratio != 0) {
+			args << "-aspect" << QString::number(aspect_ratio) << "-zoom";
+		}
+
+		if (!prop.dvd_device.isEmpty()) {
+			args << "-dvd-device" << prop.dvd_device;
+		}
+
+		#ifdef Q_OS_WIN
+		args << "-nofontconfig";
+		#endif
+
+		/*
+		if (display_osd) {
+			args << "-vf" << "expand=osd=1" << "-osdlevel" << "2";
+		}
+		*/
+		#endif // MPLAYER_SUPPORT
 	}
-
-	if (!prop.dvd_device.isEmpty()) {
-		args << "-dvd-device" << prop.dvd_device;
-	}
-
-	/*
-	if (display_osd) {
-		args << "-vf" << "expand=osd=1" << "-osdlevel" << "2";
-	}
-	*/
 
 	args << prop.input_video;
 
@@ -302,6 +337,9 @@ bool VideoPreview::runMplayer(int seek, double aspect_ratio) {
 	qDebug("VideoPreview::runMplayer: command: %s", command.toUtf8().constData());
 
 	QProcess p;
+	#ifndef VP_USE_PNG_OUTDIR
+	p.setWorkingDirectory(full_output_dir);
+	#endif
 	p.start(mplayer_bin, args);
 	if (!p.waitForFinished()) {
 		qDebug("VideoPreview::runMplayer: error running process");
@@ -442,10 +480,38 @@ VideoInfo VideoPreview::getInfo(const QString & mplayer_path, const QString & fi
 	p.setProcessChannelMode( QProcess::MergedChannels );
 
 	QStringList args;
-	args << "-vo" << "null" << "-ao" << "null" << "-frames" << "1" << "-identify" << "-nocache" << "-noquiet" << filename;
 
-	if (!prop.dvd_device.isEmpty()) {
-		args << "-dvd-device" << prop.dvd_device;
+	if (PlayerID::player(mplayer_path) == PlayerID::MPV) {
+		#ifdef MPV_SUPPORT
+		// MPV
+		args << "--term-playing-msg="
+                "ID_LENGTH=${=length}\n"
+                "ID_VIDEO_WIDTH=${=width}\n"
+                "ID_VIDEO_HEIGHT=${=height}\n"
+                "ID_VIDEO_FPS=${=fps}\n"
+                "ID_VIDEO_ASPECT=${=video-aspect}\n"
+                "ID_VIDEO_BITRATE=${=video-bitrate}\n"
+                "ID_AUDIO_BITRATE=${=audio-bitrate}\n"
+                "ID_AUDIO_RATE=${=audio-samplerate}\n"
+                "ID_VIDEO_FORMAT=${=video-format}";
+
+		args << "--vo=null" << "-ao=null" << "--frames=1" << "--no-quiet" << "--no-cache" << "--no-config";
+		if (!prop.dvd_device.isEmpty()) args << "--dvd-device=" + prop.dvd_device;
+		args << filename;
+		#endif // MPV_SUPPORT
+	}
+	else {
+		#ifdef MPLAYER_SUPPORT
+		// MPlayer
+		args << "-vo" << "null" << "-ao" << "null" << "-frames" << "1" << "-identify" << "-nocache" << "-noquiet";
+		if (!prop.dvd_device.isEmpty()) args << "-dvd-device" << prop.dvd_device;
+
+		#ifdef Q_OS_WIN
+		args << "-nofontconfig";
+		#endif
+
+		args << filename;
+		#endif // MPLAYER_SUPPORT
 	}
 
 	p.start(mplayer_path, args);

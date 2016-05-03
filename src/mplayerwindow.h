@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,6 +41,11 @@ class QTimer;
 #define ZOOM_MIN 0.5
 
 #define DELAYED_RESIZE 0
+
+// Number of pixels the window has to be dragged at least before dragging starts
+#define DRAG_THRESHOLD 4
+
+enum TDragState {NOT_DRAGGING, START_DRAGGING, DRAGGING};
 
 //! Screen is a widget that hides the mouse cursor after some seconds if not moved.
 
@@ -163,6 +168,9 @@ public:
 	bool animatedLogo() { return animated_logo; }
 #endif
 
+	void setCornerWidget(QWidget * w);
+	QWidget * cornerWidget() { return corner_widget; };
+
 public slots:
 	void setLogoVisible(bool b);
 	void showLogo() { setLogoVisible(true); };
@@ -241,10 +249,12 @@ protected:
 	bool animated_logo;
 #endif
 
+	QWidget * corner_widget;
+
 private:
+	TDragState drag_state;
+	QPoint start_drag;
 	bool mouse_drag_tracking;
-	bool isMoving;
-	QPoint startDrag;
 };
 
 #endif

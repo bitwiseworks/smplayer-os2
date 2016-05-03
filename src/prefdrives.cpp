@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -226,7 +226,7 @@ void PrefDrives::createHelp() {
 #if DVDNAV_SUPPORT
 	setWhatsThis(use_dvdnav_check, tr("Enable DVD menus"),
 		tr("If this option is checked, SMPlayer will play DVDs using "
-           "dvdnav. Requires a recent version of MPlayer compiled with dvdnav "
+           "dvdnav. Requires a version of MPlayer with dvdnav "
            "support.") +"<br>" +
         tr("<b>Note 1</b>: cache will be disabled, this can affect performance.") +"<br>"+
         tr("<b>Note 2</b>: you may want to assign the action "

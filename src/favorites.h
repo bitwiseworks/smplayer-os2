@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FAVORITES_H_
-#define _FAVORITES_H_
+#ifndef FAVORITES_H
+#define FAVORITES_H
 
 #include <QMenu>
 #include <QString>
@@ -38,7 +38,15 @@ public:
 
 	void setName(QString name) { _name = name; };
 	void setFile(QString file) { _file = file; };
-	void setIcon(QString file) { _icon = file; };
+	void setIcon(QString file) {
+		// Fix wrong icon
+		if (file == ":/icons-png/openfolder.png" ||
+		    file == ":/default-theme/openfolder.png.png")
+		{
+			file = ":/default-theme/openfolder.png";
+		}
+		_icon = file;
+	};
 	void setSubentry(bool b) { is_subentry = b; }
 
 	QString name() { return _name; };

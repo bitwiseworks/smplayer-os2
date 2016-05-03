@@ -5,16 +5,16 @@ echo.
 echo Warning: it will only work with sources from the SVN and the command svn has to be in the path
 echo.
 
-set /P QTVER="Qt Version (Default: 4.8.4): "
-if "%QTVER%"=="" set QTVER=4.8.4
+set /P QTVER="Qt Version (Default: 4.8.6): "
+if "%QTVER%"=="" set QTVER=4.8.6
 
 set OUTPUT_DIR=smplayer-build
 
 set SMPLAYER_DIR=svn\smplayer
-set SMTUBE_DIR=svn\smtube
 set SMPLAYER_THEMES_DIR=svn\smplayer-themes
 set SMPLAYER_SKINS_DIR=svn\smplayer-skins
 set MPLAYER_DIR=mplayer
+set MPV_DIR=mpv
 rem set QT_DIR=C:\QtSDK\Desktop\Qt\%QTVER%\mingw
 set QT_DIR=C:\Qt\%QTVER%
 
@@ -33,14 +33,26 @@ copy %QT_DIR%\bin\QtGui4.dll %OUTPUT_DIR%
 copy %QT_DIR%\bin\QtNetwork4.dll %OUTPUT_DIR%
 copy %QT_DIR%\bin\QtXml4.dll %OUTPUT_DIR%
 copy %QT_DIR%\bin\QtScript4.dll %OUTPUT_DIR%
+copy %QT_DIR%\bin\QtDBus4.dll %OUTPUT_DIR%
 copy %QT_DIR%\bin\mingwm10.dll %OUTPUT_DIR%
 if %QTVER% geq 4.6.0 (
 copy %QT_DIR%\bin\libgcc_s_dw2-1.dll %OUTPUT_DIR%
+)
+if %QTVER% geq 4.8.0 (
+copy %QT_DIR%\bin\libwinpthread-1.dll %OUTPUT_DIR%
+copy "%QT_DIR%\bin\libstdc++-6.dll" %OUTPUT_DIR%
 )
 copy openssl\*.dll %OUTPUT_DIR%
 
 mkdir %OUTPUT_DIR%\imageformats
 copy %QT_DIR%\plugins\imageformats\qjpeg4.dll %OUTPUT_DIR%\imageformats\
+
+echo.
+echo ######            Fonts            #######
+echo.
+
+rem mkdir %OUTPUT_DIR%\open-fonts
+rem copy open-fonts\*.* %OUTPUT_DIR%\open-fonts\
 
 echo.
 echo ######        Translations         #######
@@ -73,6 +85,26 @@ echo.
 
 mkdir %OUTPUT_DIR%\themes\
 
+mkdir %OUTPUT_DIR%\themes\Breeze
+copy %SMPLAYER_THEMES_DIR%\themes\Breeze\Breeze.rcc %OUTPUT_DIR%\themes\Breeze\
+copy %SMPLAYER_THEMES_DIR%\themes\Breeze\README.txt %OUTPUT_DIR%\themes\Breeze\
+
+mkdir %OUTPUT_DIR%\themes\Breeze-dark
+copy %SMPLAYER_THEMES_DIR%\themes\Breeze-dark\Breeze-dark.rcc %OUTPUT_DIR%\themes\Breeze-dark\
+copy %SMPLAYER_THEMES_DIR%\themes\Breeze-dark\README.txt %OUTPUT_DIR%\themes\Breeze-dark\
+
+mkdir %OUTPUT_DIR%\themes\Faenza
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza\Faenza.rcc %OUTPUT_DIR%\themes\Faenza\
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza\README.txt %OUTPUT_DIR%\themes\Faenza\
+
+mkdir %OUTPUT_DIR%\themes\Faenza-Darkest
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza-Darkest\Faenza-Darkest.rcc %OUTPUT_DIR%\themes\Faenza-Darkest\
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza-Darkest\README.txt %OUTPUT_DIR%\themes\Faenza-Darkest\
+
+mkdir %OUTPUT_DIR%\themes\Faenza-Silver
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza-Silver\Faenza-Silver.rcc %OUTPUT_DIR%\themes\Faenza-Silver\
+copy %SMPLAYER_THEMES_DIR%\themes\Faenza-Silver\README.txt %OUTPUT_DIR%\themes\Faenza-Silver\
+
 mkdir %OUTPUT_DIR%\themes\Gartoon
 copy %SMPLAYER_THEMES_DIR%\themes\Gartoon\Gartoon.rcc %OUTPUT_DIR%\themes\Gartoon\
 copy %SMPLAYER_THEMES_DIR%\themes\Gartoon\README.txt %OUTPUT_DIR%\themes\Gartoon\
@@ -80,6 +112,11 @@ copy %SMPLAYER_THEMES_DIR%\themes\Gartoon\README.txt %OUTPUT_DIR%\themes\Gartoon
 mkdir %OUTPUT_DIR%\themes\Gnome
 copy %SMPLAYER_THEMES_DIR%\themes\Gnome\Gnome.rcc %OUTPUT_DIR%\themes\Gnome\
 copy %SMPLAYER_THEMES_DIR%\themes\Gnome\README.txt %OUTPUT_DIR%\themes\Gnome\
+
+mkdir %OUTPUT_DIR%\themes\H2O
+copy %SMPLAYER_THEMES_DIR%\themes\H2O\H2O.rcc %OUTPUT_DIR%\themes\H2O\
+copy %SMPLAYER_THEMES_DIR%\themes\H2O\README.txt %OUTPUT_DIR%\themes\H2O\
+copy %SMPLAYER_THEMES_DIR%\themes\H2O\style.qss %OUTPUT_DIR%\themes\H2O\
 
 mkdir %OUTPUT_DIR%\themes\Monochrome
 copy %SMPLAYER_THEMES_DIR%\themes\Monochrome\Monochrome.rcc %OUTPUT_DIR%\themes\Monochrome\
@@ -108,6 +145,10 @@ copy %SMPLAYER_THEMES_DIR%\themes\Oxygen\README.txt %OUTPUT_DIR%\themes\Oxygen\
 mkdir %OUTPUT_DIR%\themes\Oxygen-Air
 copy %SMPLAYER_THEMES_DIR%\themes\Oxygen-Air\Oxygen-Air.rcc %OUTPUT_DIR%\themes\Oxygen-Air\
 copy %SMPLAYER_THEMES_DIR%\themes\Oxygen-Air\README.txt %OUTPUT_DIR%\themes\Oxygen-Air\
+
+mkdir %OUTPUT_DIR%\themes\Oxygen-KDE
+copy %SMPLAYER_THEMES_DIR%\themes\Oxygen-KDE\Oxygen-KDE.rcc %OUTPUT_DIR%\themes\Oxygen-KDE\
+copy %SMPLAYER_THEMES_DIR%\themes\Oxygen-KDE\README.txt %OUTPUT_DIR%\themes\Oxygen-KDE\
 
 mkdir %OUTPUT_DIR%\themes\Oxygen-Refit
 copy %SMPLAYER_THEMES_DIR%\themes\Oxygen-Refit\Oxygen-Refit.rcc %OUTPUT_DIR%\themes\Oxygen-Refit\
@@ -165,11 +206,8 @@ echo.
 xcopy %MPLAYER_DIR% %OUTPUT_DIR%\mplayer\ /E
 
 echo.
-echo ######           SMTUBE           #######
+echo ######           MPV               #######
 echo.
-copy %SMTUBE_DIR%\src\release\smtube.exe %OUTPUT_DIR%
-copy %SMTUBE_DIR%\src\translations\*.qm %OUTPUT_DIR%\translations
-mkdir %OUTPUT_DIR%\docs\smtube
-copy %SMTUBE_DIR%\*.txt %OUTPUT_DIR%\docs\smtube
+xcopy %MPV_DIR% %OUTPUT_DIR%\mpv\ /E
 
 echo.

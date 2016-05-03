@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -169,6 +169,11 @@ void MediaBarPanel::setSeeker(int v) {
 void MediaBarPanel::setResolutionVisible(bool b) { 
 	qDebug("MediaBarPanel::setResolutionVisible: %d", b);
 	mediaPanel->setResolutionVisible(b); 
+}
+
+void MediaBarPanel::setScrollingEnabled(bool b) { 
+	qDebug("MediaBarPanel::setScrollingEnabled: %d", b);
+	mediaPanel->setScrollingEnabled(b);
 }
 
 #include "moc_mediabarpanel.cpp"

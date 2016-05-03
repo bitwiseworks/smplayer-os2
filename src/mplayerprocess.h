@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,40 +16,17 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MPLAYERPROCESS_H_
-#define _MPLAYERPROCESS_H_
+#ifndef MPLAYERPROCESS_H
+#define MPLAYERPROCESS_H
 
 #include <QString>
-#include "myprocess.h"
+#include "playerprocess.h"
 #include "mediadata.h"
 #include "config.h"
 
-#ifdef Q_OS_OS2
-#include <QThread>
-#include <qt_os2.h>
-#endif
-
-#define NOTIFY_SUB_CHANGES 1
-#define NOTIFY_AUDIO_CHANGES 1
-
-#ifdef Q_OS_OS2
-class PipeThread : public QThread
-{
-public:
-	PipeThread(const QByteArray t, const HPIPE pipe);
-	~PipeThread();
-	void run();
-
-private:
-	HPIPE hpipe;
-	QByteArray text;
-};
-#endif
-
-
 class QStringList;
 
-class MplayerProcess : public MyProcess 
+class MplayerProcess : public PlayerProcess
 {
 	Q_OBJECT
 
@@ -58,57 +35,86 @@ public:
 	~MplayerProcess();
 
 	bool start();
-	void writeToStdin(QString text);
 
-	MediaData mediaData() { return md; };
+	// Command line options
+	void setMedia(const QString & media, bool is_playlist = false);
+	void setFixedOptions();
+	void disableInput();
+	void setOption(const QString & option_name, const QVariant & value = QVariant());
+	void addUserOption(const QString & option);
+	void addVF(const QString & filter_name, const QVariant & value = QVariant());
+	void addAF(const QString & filter_name, const QVariant & value = QVariant());
+	void addStereo3DFilter(const QString & in, const QString & out);
+	void setSubStyles(const AssStyles & styles, const QString & assStylesFile = QString::null);
 
-signals:
-	void processExited();
-	void lineAvailable(QString line);
-
-	void receivedCurrentSec(double sec);
-	void receivedCurrentFrame(int frame);
-	void receivedPause();
-	void receivedWindowResolution(int,int);
-	void receivedNoVideo();
-	void receivedVO(QString);
-	void receivedAO(QString);
-	void receivedEndOfFile();
-	void mplayerFullyLoaded();
-	void receivedStartingTime(double sec);
-
-	void receivedCacheMessage(QString);
-	void receivedCacheEmptyMessage(QString);
-	void receivedCreatingIndex(QString);
-	void receivedConnectingToMessage(QString);
-	void receivedResolvingMessage(QString);
-	void receivedScreenshot(QString);
-	void receivedUpdatingFontCache();
-	void receivedScanningFont(QString);
-	void receivedForbiddenText();
-
-	void receivedStreamTitle(QString);
-	void receivedStreamTitleAndUrl(QString,QString);
-
-	void failedToParseMplayerVersion(QString line_with_mplayer_version);
-
-#if NOTIFY_SUB_CHANGES
-	//! Emitted if a new subtitle has been added or an old one changed
-	void subtitleInfoChanged(const SubTracks &);
-
-	//! Emitted when subtitle info has been received but there wasn't anything new
-	void subtitleInfoReceivedAgain(const SubTracks &);
+	// Slave commands
+	void quit();
+	void setVolume(int v);
+	void setOSD(int o);
+	void setAudio(int ID);
+	void setVideo(int ID);
+	void setSubtitle(int type, int ID);
+	void disableSubtitles();
+	void setSecondarySubtitle(int /*ID*/) {};
+	void disableSecondarySubtitles() {};
+	void setSubtitlesVisibility(bool b);
+	void seek(double secs, int mode, bool precise);
+	void mute(bool b);
+	void setPause(bool b);
+	void frameStep();
+	void frameBackStep();
+	void showOSDText(const QString & text, int duration, int level);
+	void showFilenameOnOSD();
+	void showTimeOnOSD();
+	void setContrast(int value);
+	void setBrightness(int value);
+	void setHue(int value);
+	void setSaturation(int value);
+	void setGamma(int value);
+	void setChapter(int ID);
+	void nextChapter();
+	void previousChapter();
+	void setExternalSubtitleFile(const QString & filename);
+	void setSubPos(int pos);
+	void setSubScale(double value);
+	void setSubStep(int value);
+#ifdef MPV_SUPPORT
+	void seekSub(int value);
 #endif
-#if NOTIFY_AUDIO_CHANGES
-	//! Emitted if a new audio track been added or an old one changed
-    void audioInfoChanged(const Tracks &);
+	void setSubForcedOnly(bool b);
+	void setSpeed(double value);
+	void enableKaraoke(bool b);
+	void enableExtrastereo(bool b);
+	void enableVolnorm(bool b, const QString & option);
+	void setAudioEqualizer(const QString & values);
+	void setAudioDelay(double delay);
+	void setSubDelay(double delay);
+	void setLoop(int v);
+	void takeScreenshot(ScreenshotType t, bool include_subtitles = false);
+#ifdef CAPTURE_STREAM
+	void switchCapturing();
 #endif
-
+	void setTitle(int ID);
+	void changeVF(const QString & filter, bool enable, const QVariant & option = QVariant());
+	void changeStereo3DFilter(bool enable, const QString & in, const QString & out);
 #if DVDNAV_SUPPORT
-	void receivedDVDTitle(int);
-	void receivedDuration(double);
-	void receivedTitleIsMenu();
-	void receivedTitleIsMovie();
+	void discSetMousePos(int x, int y);
+	void discButtonPressed(const QString & button_name);
+#endif
+	void setAspect(double aspect);
+	void setFullscreen(bool b);
+#if PROGRAM_SWITCH
+	void setTSProgram(int ID);
+#endif
+	void toggleDeinterlace();
+	void askForLength();
+	void setOSDScale(double value);
+	void setChannelsFile(const QString &) {};
+
+	void enableScreenshots(const QString & dir, const QString & templ = QString::null, const QString & format = QString::null);
+
+#ifdef CAPTURE_STREAM
+	void setCaptureDirectory(const QString & dir);
 #endif
 
 protected slots:
@@ -116,25 +122,11 @@ protected slots:
 	void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 	void gotError(QProcess::ProcessError);
 
-#if defined(Q_OS_OS2)
-	void MPpipeOpen();
-	void MPpipeClose();
-	void MPpipeWrite(const QByteArray text);
-#endif
-
 private:
 	bool notified_mplayer_is_running;
 	bool received_end_of_file;
 
-	MediaData md;
-
 	int last_sub_id;
-
-#if defined(Q_OS_OS2) 
-	PipeThread *pipeThread;       
-	HPIPE hpipe;
-	PID pidMP;
-#endif
 
 	int mplayer_svn;
 
@@ -153,6 +145,5 @@ private:
 	int dvd_current_title;
 	int br_current_title;
 };
-
 
 #endif

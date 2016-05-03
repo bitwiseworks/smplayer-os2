@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,9 +85,9 @@ void MediaData::reset() {
 
 QString MediaData::displayName(bool show_tag) {
 	if (show_tag) {
-		if (!clip_name.isEmpty()) return clip_name;
-		else
 		if (!stream_title.isEmpty()) return stream_title;
+		else
+		if (!clip_name.isEmpty()) return clip_name;
 	}
 
 	QFileInfo fi(filename);

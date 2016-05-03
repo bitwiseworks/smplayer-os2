@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _DEFAULTGUI_H_
-#define _DEFAULTGUI_H_
+#ifndef DEFAULTGUI_H
+#define DEFAULTGUI_H
+
+#define BUFFERING_ANIMATION
 
 #include "guiconfig.h"
 #include "baseguiplus.h"
@@ -37,6 +39,10 @@ class MyAction;
 
 #if MINI_ARROW_BUTTONS
 class SeekingButton;
+#endif
+
+#ifdef BUFFERING_ANIMATION
+class StateWidget;
 #endif
 
 class DefaultGui : public BaseGuiPlus
@@ -90,6 +96,9 @@ protected slots:
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
 #endif
+	virtual void togglePlayAction(Core::State state);
+
+	void adjustFloatingControlSize();
 
 protected:
 	void reconfigureFloatingControl();
@@ -99,6 +108,9 @@ protected:
 	QLabel * frame_display;
 	QLabel * ab_section_display;
 	QLabel * video_info_display;
+#ifdef BUFFERING_ANIMATION
+	StateWidget * state_widget;
+#endif
 
 	EditableToolbar * controlwidget;
 	EditableToolbar * controlwidget_mini;

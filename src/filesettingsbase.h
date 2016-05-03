@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FILESETTINGS_BASE_H_
-#define _FILESETTINGS_BASE_H_
+#ifndef FILESETTINGS_BASE_H
+#define FILESETTINGS_BASE_H
 
 #include <QString>
 
@@ -31,9 +31,9 @@ public:
 
 	virtual bool existSettingsFor(QString filename) = 0;
 
-	virtual void loadSettingsFor(QString filename, MediaSettings & mset) = 0;
+	virtual void loadSettingsFor(QString filename, MediaSettings & mset, int player) = 0;
 
-	virtual void saveSettingsFor(QString filename, MediaSettings & mset) = 0;
+	virtual void saveSettingsFor(QString filename, MediaSettings & mset, int player) = 0;
 
 protected:
 	QString output_directory;

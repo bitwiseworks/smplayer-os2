@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Setup이 $(^NameDA)의 설치를 도와줄 �
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "바로가기"
 ${LangFileString} MPlayerGroupTitle "MPlayer 구성 요소"
+${LangFileString} MPlayerMPVGroupTitle "멀티미디어 엔진"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (필수)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, 공유 라이브러리와 문서."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "이 버전에서 바이너리 코�
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "MPlayer용 추가 코덱. (설치시 인터넷 연결이 필요함)"
 !endif
+
+${LangFileString} Section_MPV_Desc "다기능의 MPlayer && MPlayer2를 이용한 개발"
 
 ${LangFileString} Section_MEncoder_Desc "지원하는 오디오 비디오 스트림을 인코딩하거나 변환하는데 사용할 수 있는 MPlayer의 추가 프로그램."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "준비가 되었으면 다음을 누르세�
 ${LangFileString} Reinstall_Msg3_3 "준비가 되었으면 제거를 누르세요."
 ${LangFileString} Reinstall_Msg4 "설치 설정을 변경합니다"
 ${LangFileString} Reinstall_Msg5 "내 SMPlayer 설정을 초기화합니다"
+
+${LangFileString} Remove_Settings_Confirmation "SMPlayer 설정을 초기화할까요? 초기화 후에는 복원할 수 없습니다."
 
 ${LangFileString} Type_Reinstall "재설치"
 ${LangFileString} Type_Downgrade "다운그레이드"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "바로가기 삭제하는 중..."
 ${LangFileString} Info_Rest_Assoc "파일 연결 복원하는 중..."
 ${LangFileString} Info_RollBack "변경점을 원상 복원하는 중..."
 ${LangFileString} Info_Files_Extract "파일 압축을 해제하는 중..."
+${LangFileString} Info_SMTube_Backup "SMTube를 백업하는 중..."
+${LangFileString} Info_SMTube_Restore "SMTube는 이전 설치에서 복원하는 중..."
+${LangFileString} Info_MPV_Backup "mpv 백업 중..."
+${LangFileString} Info_MPV_Restore "이전에 설치한 mpv 복원 중..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "mpv 다운로드 중..."
+${LangFileString} MPV_DL_Retry "mpv 설치에 실패했습니다. 재시도할까요?"
+${LangFileString} MPV_DL_Failed "mpv 다운로드 실패: '$R0'."
+${LangFileString} MPV_Inst_Failed "mpv를 설치하지 못했습니다."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl 설치에 실패했습니다. 재시도할까요?"
+${LangFileString} YTDL_DL_Failed "youtube-dl 다운로드 실패: '$R0'."
+${LangFileString} YTDL_Update_Check "youtube-dl 업데이트 확인 중..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "fontconfig 캐쉬 정리 중..."
+${LangFileString} Info_Cleaning_SMPlayer "SMPlayer 설정 정리 중..."

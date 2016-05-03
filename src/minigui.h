@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _MINI_GUI_H_
-#define _MINI_GUI_H_
+#ifndef MINI_GUI_H
+#define MINI_GUI_H
 
 #include "baseguiplus.h"
 #include "guiconfig.h"
@@ -48,6 +48,9 @@ protected slots:
 	virtual void enableActionsOnPlaying();
 	virtual void disableActionsOnStop();
 #endif
+	virtual void togglePlayAction(Core::State state);
+
+	void adjustFloatingControlSize();
 
 protected:
 	virtual void retranslateStrings();

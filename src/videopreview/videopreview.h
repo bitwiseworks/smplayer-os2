@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _VIDEOPREVIEW_H_
-#define _VIDEOPREVIEW_H_
+#ifndef VIDEOPREVIEW_H
+#define VIDEOPREVIEW_H
 
 #include <QWidget>
 #include <QString>
@@ -117,7 +117,7 @@ protected:
 
 protected:
 	bool extractImages();
-	bool runMplayer(int seek, double aspect_ratio);
+	bool runPlayer(int seek, double aspect_ratio);
 	bool addPicture(const QString & filename, int num, int time); 
 	void displayVideoInfo(const VideoInfo & i);
 	void cleanDir(QString directory);

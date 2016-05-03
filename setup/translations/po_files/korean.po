@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sheppaul <sheppaul@naver.com>, 2014
+# Potato <sheppaul@naver.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2014-02-25 11:45+0000\n"
-"Last-Translator: sheppaul <sheppaul@naver.com>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/smplayer/language/ko/)\n"
+"PO-Revision-Date: 2016-03-21 01:54+0000\n"
+"Last-Translator: Potato <sheppaul@naver.com>\n"
+"Language-Team: Korean (http://www.transifex.com/rvm/smplayer/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,6 +75,10 @@ msgstr "바로가기"
 msgid "MPlayer Components"
 msgstr "MPlayer 구성 요소"
 
+# MPlayerMPVGroupTitle
+msgid "Multimedia Engine"
+msgstr "멀티미디어 엔진"
+
 # Section_SMPlayer
 msgid "SMPlayer (required)"
 msgstr "SMPlayer (필수)"
@@ -115,6 +119,10 @@ msgstr "바이너리 코덱"
 msgid ""
 "Optional codecs for MPlayer. (Internet Connection required for installation)"
 msgstr "MPlayer용 추가 코덱. (설치시 인터넷 연결이 필요함)"
+
+# Section_MPV_Desc
+msgid "A feature-rich fork of MPlayer && MPlayer2"
+msgstr "다기능의 MPlayer && MPlayer2를 이용한 개발"
 
 # Section_MEncoder_Desc
 msgid ""
@@ -193,6 +201,12 @@ msgstr "설치 설정을 변경합니다"
 # Reinstall_Msg5
 msgid "Reset my SMPlayer configuration"
 msgstr "내 SMPlayer 설정을 초기화합니다"
+
+# Remove_Settings_Confirmation
+msgid ""
+"Are you sure you want to reset your SMPlayer settings? This action cannot be"
+" reversed."
+msgstr "SMPlayer 설정을 초기화할까요? 초기화 후에는 복원할 수 없습니다."
 
 # Type_Reinstall
 msgid "reinstall"
@@ -288,6 +302,58 @@ msgstr "변경점을 원상 복원하는 중..."
 # Info_Files_Extract
 msgid "Extracting files..."
 msgstr "파일 압축을 해제하는 중..."
+
+# Info_SMTube_Backup
+msgid "Backing up SMTube..."
+msgstr "SMTube를 백업하는 중..."
+
+# Info_SMTube_Restore
+msgid "Restoring SMTube from previous installation..."
+msgstr "SMTube는 이전 설치에서 복원하는 중..."
+
+# Info_MPV_Backup
+msgid "Backing up mpv..."
+msgstr "mpv 백업 중..."
+
+# Info_MPV_Restore
+msgid "Restoring mpv from previous installation..."
+msgstr "이전에 설치한 mpv 복원 중..."
+
+# MPV_DL_Msg
+msgid "Downloading mpv..."
+msgstr "mpv 다운로드 중..."
+
+# MPV_DL_Retry
+msgid "mpv was not successfully installed. Retry?"
+msgstr "mpv 설치에 실패했습니다. 재시도할까요?"
+
+# MPV_DL_Failed
+msgid "Failed to download mpv: '$R0'."
+msgstr "mpv 다운로드 실패: '$R0'."
+
+# MPV_Inst_Failed
+msgid "Failed to install mpv."
+msgstr "mpv를 설치하지 못했습니다."
+
+# YTDL_DL_Retry
+msgid "youtube-dl was not successfully installed. Retry?"
+msgstr "youtube-dl 설치에 실패했습니다. 재시도할까요?"
+
+# YTDL_DL_Failed
+msgid "Failed to download youtube-dl: '$R0'."
+msgstr "youtube-dl 다운로드 실패: '$R0'."
+
+# YTDL_Update_Check
+msgid "Checking for youtube-dl updates..."
+msgstr "youtube-dl 업데이트 확인 중..."
+
+# Info_Cleaning_Fontconfig
+msgid "Cleaning fontconfig cache..."
+msgstr "fontconfig 캐쉬 정리 중..."
+
+# Info_Cleaning_SMPlayer
+msgid "Cleaning SMPlayer settings..."
+msgstr "SMPlayer 설정 정리 중..."
 
 # Section_MPlayerCodecs_Desc
 msgid "Binary codecs are not supported in this version."

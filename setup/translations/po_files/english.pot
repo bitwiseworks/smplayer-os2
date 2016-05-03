@@ -53,6 +53,10 @@ msgstr ""
 msgid "MPlayer Components"
 msgstr ""
 
+# MPlayerMPVGroupTitle
+msgid "Multimedia Engine"
+msgstr ""
+
 # Section_SMPlayer
 msgid "SMPlayer (required)"
 msgstr ""
@@ -91,6 +95,10 @@ msgstr ""
 
 # Section_MPlayerCodecs_Desc
 msgid "Optional codecs for MPlayer. (Internet Connection required for installation)"
+msgstr ""
+
+# Section_MPV_Desc
+msgid "A feature-rich fork of MPlayer && MPlayer2"
 msgstr ""
 
 # Section_MEncoder_Desc
@@ -163,6 +171,10 @@ msgstr ""
 
 # Reinstall_Msg5
 msgid "Reset my SMPlayer configuration"
+msgstr ""
+
+# Remove_Settings_Confirmation
+msgid "Are you sure you want to reset your SMPlayer settings? This action cannot be reversed."
 msgstr ""
 
 # Type_Reinstall
@@ -253,3 +265,58 @@ msgstr ""
 msgid "Extracting files..."
 msgstr ""
 
+# Info_SMTube_Backup
+msgid "Backing up SMTube..."
+msgstr ""
+
+# Info_SMTube_Restore
+msgid "Restoring SMTube from previous installation..."
+msgstr ""
+
+# Info_MPV_Backup
+msgid "Backing up mpv..."
+msgstr ""
+
+# Info_MPV_Restore
+msgid "Restoring mpv from previous installation..."
+msgstr ""
+
+# MPV_DL_Msg
+msgid "Downloading mpv..."
+msgstr ""
+
+# MPV_DL_Retry
+msgid "mpv was not successfully installed. Retry?"
+msgstr ""
+
+# MPV_DL_Failed
+msgid "Failed to download mpv: '$R0'."
+msgstr ""
+
+# MPV_Inst_Failed
+msgid "Failed to install mpv."
+msgstr ""
+
+# YTDL_DL_Retry
+msgid "youtube-dl was not successfully installed. Retry?"
+msgstr ""
+
+# YTDL_DL_Failed
+msgid "Failed to download youtube-dl: '$R0'."
+msgstr ""
+
+# YTDL_Update_Check
+msgid "Checking for youtube-dl updates..."
+msgstr ""
+
+# Info_Cleaning_Fontconfig
+msgid "Cleaning fontconfig cache..."
+msgstr ""
+
+# Info_Cleaning_SMPlayer
+msgid "Cleaning SMPlayer settings..."
+msgstr ""
+
+# Section_MPlayerCodecs_Desc
+msgid "Binary codecs are not supported in this version."
+msgstr ""

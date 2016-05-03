@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -291,22 +291,23 @@ void Favorites::load() {
 	QRegExp info1("^#EXTINF:(.*),(.*),(.*)");
 	QRegExp info2("^#EXTINF:(.*),(.*),(.*),(.*)");
 
-    QFile f( _filename );
-    if ( f.open( QIODevice::ReadOnly ) ) {
+	QFile f( _filename );
+	if ( f.open( QIODevice::ReadOnly ) ) {
 
 		f_list.clear();
 
 		Favorite fav;
 
-        QTextStream stream( &f );
+		QTextStream stream( &f );
 		stream.setCodec("UTF-8");
 
-        QString line;
-        while ( !stream.atEnd() ) {
-            line = stream.readLine(); // line of text excluding '\n'
+		QString line;
+		while ( !stream.atEnd() ) {
+			line = stream.readLine().trimmed();
+			if (line.isEmpty()) continue; // Ignore empty lines
 			//qDebug("info2.indexIn: %d", info2.indexIn(line));
 			//qDebug("info1.indexIn: %d", info1.indexIn(line));
-            //qDebug( " * line: '%s'", line.toUtf8().data() );
+			//qDebug( " * line: '%s'", line.toUtf8().data() );
 			if (m3u_id.indexIn(line)!=-1) {
 				//#EXTM3U
 				// Ignore line
@@ -340,8 +341,8 @@ void Favorites::load() {
 				fav.setIcon("");
 				fav.setSubentry(false);
 			}
-        }
-        f.close();
+		}
+		f.close();
 	}
 }
 

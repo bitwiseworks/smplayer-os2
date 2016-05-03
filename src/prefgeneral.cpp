@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,9 +24,24 @@
 #include "mediasettings.h"
 #include "paths.h"
 #include "vdpauproperties.h"
+#include "playerid.h"
 
 #if USE_ALSA_DEVICES || USE_DSOUND_DEVICES
 #include "deviceinfo.h"
+#endif
+
+#ifdef MPLAYER_MPV_SELECTION
+ #define PLAYER_COMBO_MPLAYER 0
+ #define PLAYER_COMBO_MPV 1
+ #define PLAYER_COMBO_OTHER 2
+
+ #ifdef Q_OS_WIN
+  #define PLAYER_COMBO_MPLAYER_PATH "mplayer/mplayer.exe"
+  #define PLAYER_COMBO_MPV_PATH "mpv/mpv.exe"
+ #else
+  #define PLAYER_COMBO_MPLAYER_PATH "mplayer"
+  #define PLAYER_COMBO_MPV_PATH "mpv"
+ #endif
 #endif
 
 PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
@@ -39,6 +54,7 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 
 	// Read driver info from InfoReader:
 	InfoReader * i = InfoReader::obj();
+	i->getInfo();
 	vo_list = i->voList();
 	ao_list = i->aoList();
 
@@ -74,12 +90,29 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 	shutdown_widget->hide();
 #endif
 
+#ifdef MPV_SUPPORT
+	screenshot_format_combo->addItems(QStringList() << "png" << "ppm" << "pgm" << "pgmyuv" << "tga" << "jpg" << "jpeg");
+#else
+	screenshot_template_label->hide();
+	screenshot_template_edit->hide();
+	screenshot_format_label->hide();
+	screenshot_format_combo->hide();
+#endif
+
 	// Channels combo
 	channels_combo->addItem( "2", MediaSettings::ChStereo );
 	channels_combo->addItem( "4", MediaSettings::ChSurround );
 	channels_combo->addItem( "6", MediaSettings::ChFull51 );
 	channels_combo->addItem( "7", MediaSettings::ChFull61 );
 	channels_combo->addItem( "8", MediaSettings::ChFull71 );
+
+#ifdef MPLAYER_MPV_SELECTION
+	connect(player_combo, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(player_combo_changed(int)));
+#else
+	player_combo->hide();
+	player_spacer->changeSize(0, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+#endif
 
 	connect(vo_combo, SIGNAL(currentIndexChanged(int)),
             this, SLOT(vo_combo_changed(int)));
@@ -103,6 +136,15 @@ QPixmap PrefGeneral::sectionIcon() {
 
 void PrefGeneral::retranslateStrings() {
 	retranslateUi(this);
+
+#ifdef MPLAYER_MPV_SELECTION
+	int player_item = player_combo->currentIndex();
+	player_combo->clear();
+	player_combo->addItem("mplayer", PLAYER_COMBO_MPLAYER);
+	player_combo->addItem("mpv", PLAYER_COMBO_MPV);
+	player_combo->addItem(tr("Other..."), PLAYER_COMBO_OTHER);
+	player_combo->setCurrentIndex(player_item);
+#endif
 
 	channels_combo->setItemText(0, tr("2 (Stereo)") );
 	channels_combo->setItemText(1, tr("4 (4.0 Surround)") );
@@ -134,7 +176,7 @@ void PrefGeneral::retranslateStrings() {
     volume_icon->setPixmap( Images::icon("speaker") );
 	*/
 
-	mplayerbin_edit->setCaption(tr("Select the mplayer executable"));
+	mplayerbin_edit->setCaption(tr("Select the %1 executable").arg(PLAYER_NAME));
 #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	mplayerbin_edit->setFilter(tr("Executables") +" (*.exe)");
 #else
@@ -152,6 +194,10 @@ void PrefGeneral::retranslateStrings() {
            "Example: <b>es|esp|spa</b> will select the track if it matches with "
             "<i>es</i>, <i>esp</i> or <i>spa</i>."));
 
+#ifndef MPLAYER_MPV_SELECTION
+	executable_label->setText( tr("%1 &executable:").arg(PLAYER_NAME) );
+#endif
+
 	createHelp();
 }
 
@@ -160,6 +206,10 @@ void PrefGeneral::setData(Preferences * pref) {
 
 	setUseScreenshots( pref->use_screenshot );
 	setScreenshotDir( pref->screenshot_directory );
+#ifdef MPV_SUPPORT
+	screenshot_template_edit->setText( pref->screenshot_template );
+	setScreenshotFormat(pref->screenshot_format);
+#endif
 
 	QString vo = pref->vo;
 	if (vo.isEmpty()) {
@@ -259,27 +309,29 @@ void PrefGeneral::getData(Preferences * pref) {
 
 		qDebug("PrefGeneral::getData: mplayer binary has changed, getting version number");
 		// Forces to get info from mplayer to update version number
-		InfoReader i( pref->mplayer_bin );
-		i.getInfo(); 
+		InfoReader * i = InfoReader::obj();
+		i->getInfo();
 		// Update the drivers list at the same time
-		//setDrivers( i.voList(), i.aoList() );
-#ifdef Q_OS_OS2
-		vo_list = i.voList();
-		ao_list = i.aoList();
+		vo_list = i->voList();
+		ao_list = i->aoList();
 		updateDriverCombos();
-#endif
 	}
 
 	TEST_AND_SET(pref->use_screenshot, useScreenshots());
 	TEST_AND_SET(pref->screenshot_directory, screenshotDir());
+#ifdef MPV_SUPPORT
+	TEST_AND_SET(pref->screenshot_template, screenshot_template_edit->text());
+	TEST_AND_SET(pref->screenshot_format, screenshotFormat());
+#endif
+
 	TEST_AND_SET(pref->vo, VO());
-    TEST_AND_SET(pref->ao, AO());
+	TEST_AND_SET(pref->ao, AO());
 
 	bool dont_remember_ms = !rememberSettings();
     TEST_AND_SET(pref->dont_remember_media_settings, dont_remember_ms);
 
 	bool dont_remember_time = !rememberTimePos();
-    TEST_AND_SET(pref->dont_remember_time_pos, dont_remember_time);
+	TEST_AND_SET(pref->dont_remember_time_pos, dont_remember_time);
 
 	if (pref->file_settings_method != fileSettingsMethod()) {
 		pref->file_settings_method = fileSettingsMethod();
@@ -287,7 +339,7 @@ void PrefGeneral::getData(Preferences * pref) {
 	}
 
 	pref->audio_lang = audioLang();
-    pref->subtitle_lang = subtitleLang();
+	pref->subtitle_lang = subtitleLang();
 
 	pref->initial_audio_track = audioTrack();
 	pref->initial_subtitle_track = subtitleTrack();
@@ -346,11 +398,14 @@ void PrefGeneral::getData(Preferences * pref) {
 }
 
 void PrefGeneral::updateDriverCombos() {
-	int vo_current = vo_combo->currentIndex();
-	int ao_current = ao_combo->currentIndex();
+	QString current_vo = VO();
+	QString current_ao = AO();
 
 	vo_combo->clear();
 	ao_combo->clear();
+
+	vo_combo->addItem(tr("Default"), "player_default");
+	ao_combo->addItem(tr("Default"), "player_default");
 
 	QString vo;
 	for ( int n = 0; n < vo_list.count(); n++ ) {
@@ -444,15 +499,38 @@ void PrefGeneral::updateDriverCombos() {
 	}
 	ao_combo->addItem( tr("User defined..."), "user_defined" );
 
-	vo_combo->setCurrentIndex( vo_current );
-	ao_combo->setCurrentIndex( ao_current );
+	setVO(current_vo);
+	setAO(current_ao);
 }
 
 void PrefGeneral::setMplayerPath( QString path ) {
-	mplayerbin_edit->setText( path );	
+	mplayerbin_edit->setText( path );
+
+#ifdef MPLAYER_MPV_SELECTION
+	if (path == PLAYER_COMBO_MPLAYER_PATH) {
+		player_combo->setCurrentIndex(PLAYER_COMBO_MPLAYER);
+	}
+	else
+	if (path == PLAYER_COMBO_MPV_PATH) {
+		player_combo->setCurrentIndex(PLAYER_COMBO_MPV);
+	}
+	else {
+		player_combo->setCurrentIndex(PLAYER_COMBO_OTHER);
+	}
+#endif
 }
 
 QString PrefGeneral::mplayerPath() {
+#ifdef MPLAYER_MPV_SELECTION
+	if (player_combo->currentIndex() == PLAYER_COMBO_MPLAYER) {
+		return PLAYER_COMBO_MPLAYER_PATH;
+	}
+	else
+	if (player_combo->currentIndex() == PLAYER_COMBO_MPV) {
+		return PLAYER_COMBO_MPV_PATH;
+	}
+	else
+#endif
 	return mplayerbin_edit->text();
 }
 
@@ -471,6 +549,18 @@ void PrefGeneral::setScreenshotDir( QString path ) {
 QString PrefGeneral::screenshotDir() {
 	return screenshot_edit->text();
 }
+
+#ifdef MPV_SUPPORT
+void PrefGeneral::setScreenshotFormat(const QString format) {
+	int i = screenshot_format_combo->findText(format);
+	if (i < 0) i = 0;
+	screenshot_format_combo->setCurrentIndex(i);
+}
+
+QString PrefGeneral::screenshotFormat() {
+	return screenshot_format_combo->currentText();
+}
+#endif
 
 void PrefGeneral::setVO( QString vo_driver ) {
 	int idx = vo_combo->findData( vo_driver );
@@ -825,6 +915,21 @@ Preferences::OptionState PrefGeneral::scaleTempoFilter() {
 	return scaletempo_combo->state();
 }
 
+#ifdef MPLAYER_MPV_SELECTION
+void PrefGeneral::player_combo_changed(int idx) {
+	qDebug("PrefGeneral::player_combo_changed: %d", idx);
+	int d = player_combo->itemData(idx).toInt();
+	if (d == PLAYER_COMBO_OTHER) {
+		player_spacer->changeSize(0, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+		mplayerbin_edit->setVisible(true);
+		//mplayerbin_edit->setFocus();
+	} else {
+		player_spacer->changeSize(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+		mplayerbin_edit->setVisible(false);
+	}
+}
+#endif
+
 void PrefGeneral::vo_combo_changed(int idx) {
 	qDebug("PrefGeneral::vo_combo_changed: %d", idx);
 	bool visible = (vo_combo->itemData(idx).toString() == "user_defined");
@@ -875,11 +980,15 @@ void PrefGeneral::createHelp() {
 
 	addSectionTitle(tr("General"));
 
-	setWhatsThis(mplayerbin_edit, tr("MPlayer executable"), 
-		tr("Here you must specify the mplayer "
-           "executable that SMPlayer will use.<br>"
-           "SMPlayer requires at least MPlayer 1.0rc1 (although a recent "
-           "revision from SVN is highly recommended).") + "<br><b>" +
+#ifdef MPLAYER_MPV_SELECTION
+	setWhatsThis(player_combo, tr("Multimedia engine"),
+		tr("Select which multimedia engine you want to use, either MPlayer or mpv.") +" "+
+		tr("The option 'other' allows you to manually select the path of the executable.") );
+#endif
+
+	setWhatsThis(mplayerbin_edit, tr("%1 executable").arg(PLAYER_NAME),
+		tr("Here you must specify the %1 "
+           "executable that SMPlayer will use.").arg(PLAYER_NAME) + "<br><b>" +
         tr("If this setting is wrong, SMPlayer won't be able to play "
            "anything!") + "</b>");
 
@@ -910,6 +1019,28 @@ void PrefGeneral::createHelp() {
 		tr("Here you can specify a folder where the screenshots taken by "
            "SMPlayer will be stored. If the folder is not valid the "
            "screenshot feature will be disabled.") );
+
+#ifdef MPV_SUPPORT
+	setWhatsThis(screenshot_template_edit, tr("Template for screenshots"),
+		tr("This option specifies the filename template used to save screenshots.") + " " +
+		tr("For example %1 would save the screenshot as 'moviename_0001.png'.").arg("%F_%04n") + "<br>" +
+		tr("%1 specifies the filename of the video without the extension, "
+		   "%2 adds a 4 digit number padded with zeros.").arg("%F").arg("%04n") + " " +
+		tr("For a full list of the template specifiers visit this link:") + 
+		" <a href=\"http://mpv.io/manual/stable/#options-screenshot-template\">"
+		"http://mpv.io/manual/stable/#options-screenshot-template</a>"
+		#ifdef MPLAYER_SUPPORT
+		+ "<br>" + tr("This option only works with mpv.")
+		#endif
+		);
+
+	setWhatsThis(screenshot_format_combo, tr("Format for screenshots"),
+		tr("This option allows to choose the image file type used for saving screenshots.")
+		#ifdef MPLAYER_SUPPORT
+		+ " " + tr("This option only works with mpv.")
+		#endif
+		);
+#endif
 
 	setWhatsThis(pause_if_hidden_check, tr("Pause when minimized"),
 		tr("If this option is enabled, the file will be paused when the "
@@ -1060,7 +1191,7 @@ void PrefGeneral::createHelp() {
            "option is enabled.") );
 
 	setWhatsThis(channels_combo, tr("Channels by default"),
-		tr("Requests the number of playback channels. MPlayer "
+		tr("Requests the number of playback channels. %1 "
            "asks the decoder to decode the audio into as many channels as "
            "specified. Then it is up to the decoder to fulfill the "
            "requirement. This is usually only important when playing "
@@ -1068,11 +1199,10 @@ void PrefGeneral::createHelp() {
            "the decoding by default and correctly downmixes the audio "
            "into the requested number of channels. "
            "<b>Note</b>: This option is honored by codecs (AC3 only), "
-           "filters (surround) and audio output drivers (OSS at least).") );
+           "filters (surround) and audio output drivers (OSS at least).").arg(PLAYER_NAME) );
 
 	setWhatsThis(scaletempo_combo, tr("High speed playback without altering pitch"),
-		tr("Allows to change the playback speed without altering pitch. "
-           "Requires at least MPlayer dev-SVN-r24924.") );
+		tr("Allows to change the playback speed without altering pitch.") );
 
 	setWhatsThis(global_volume_check, tr("Global volume"),
 		tr("If this option is checked, the same volume will be used for "

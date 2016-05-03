@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,12 +24,14 @@
 #include "urlhistory.h"
 #include "filters.h"
 #include "autohidewidget.h"
+#include "helper.h"
 
 #include <QSettings>
 #include <QFileInfo>
 #include <QRegExp>
 #include <QDir>
 #include <QLocale>
+#include <QNetworkProxy>
 
 #if QT_VERSION >= 0x050000
 #include <QStandardPaths>
@@ -86,6 +88,10 @@ void Preferences::reset() {
 	ao = "";
 
 	use_screenshot = true;
+#ifdef MPV_SUPPORT
+	screenshot_template = "cap_%F_%p_%02n";
+	screenshot_format = "jpg";
+#endif
 	screenshot_directory="";
 #ifdef PORTABLE_APP
 	screenshot_directory= "./screenshots";
@@ -96,6 +102,10 @@ void Preferences::reset() {
 		screenshot_directory = default_screenshot_path;
 	}
 	#endif
+#endif
+
+#ifdef CAPTURE_STREAM
+	capture_directory = "";
 #endif
 
 	dont_remember_media_settings = false;
@@ -132,7 +142,11 @@ void Preferences::reset() {
 	vdpau.disable_video_filters = true;
 #endif
 
+#ifdef Q_OS_WIN
+	use_soft_vol = false;
+#else
 	use_soft_vol = true;
+#endif
 	softvol_max = 110; // 110 = default value in mplayer
 	use_scaletempo = Detect;
 	use_hwac3 = false;
@@ -155,6 +169,8 @@ void Preferences::reset() {
 	min_step = 4;
 
 	osd = None;
+	osd_scale = 1;
+	subfont_osd_scale = 3;
 	osd_delay = 2200;
 
 	file_settings_method = "hash"; // Possible values: normal & hash
@@ -198,13 +214,17 @@ void Preferences::reset() {
 	h264_skip_loop_filter = LoopEnabled;
 	HD_height = 720;
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	// MPlayer 1.0rc1 require restart, new versions don't
 	fast_audio_change = Detect;
+#endif
+
 #if !SMART_DVD_CHAPTERS
 	fast_chapter_change = false;
 #endif
 
 	threads = 1;
+	hwdec = "no";
 
 	cache_for_files = 2048;
 	cache_for_streams = 2048;
@@ -213,30 +233,19 @@ void Preferences::reset() {
 	cache_for_audiocds = 1024;
 	cache_for_tv = 3000;
 
-#ifdef YOUTUBE_SUPPORT
-	yt_quality = RetrieveYoutubeUrl::MP4_720p;
-	//yt_user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:5.0.1) Gecko/20100101 Firefox/5.0.1";
-	yt_user_agent = "";
-	yt_use_https_main = false;
-	yt_use_https_vi = false;
-#endif
-
 
     /* *********
        Subtitles
        ********* */
 
-	font_file = "";
-	font_name = "";
-	use_fontconfig = false;
 	subcp = "ISO-8859-1";
 	use_enca = false;
 	enca_lang = QString(QLocale::system().name()).section("_",0,0);
-	font_autoscale = 1;
 	subfuzziness = 1;
 	autoload_sub = true;
 
 	use_ass_subtitles = true;
+	enable_ass_styles = true;
 	ass_line_spacing = 0;
 
 	use_forced_subs_only = false;
@@ -245,7 +254,6 @@ void Preferences::reset() {
 
 	subtitles_on_screenshots = false;
 
-	use_new_sub_commands = Detect;
 	change_sub_scale_should_restart = Detect;
 
 	fast_load_sub = true;
@@ -258,7 +266,7 @@ void Preferences::reset() {
 	user_forced_ass_style.clear();
 
 	freetype_support = true;
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	use_windowsfontdir = false;
 #endif
 
@@ -283,7 +291,7 @@ void Preferences::reset() {
 	use_lavf_demuxer = false;
 
 	mplayer_additional_options="";
-	#ifdef PORTABLE_APP
+	#if defined(PORTABLE_APP) && defined(FONTS_HACK)
 	mplayer_additional_options="-nofontconfig";
 	#endif
     mplayer_additional_video_filters="";
@@ -312,6 +320,10 @@ void Preferences::reset() {
 
 	use_edl_files = true;
 
+#ifdef MPLAYER_SUPPORT
+	use_playlist_option = false;
+#endif
+
 	prefer_ipv4 = true;
 
 	use_short_pathnames = false;
@@ -327,6 +339,10 @@ void Preferences::reset() {
 	show_tag_in_window_title = true;
 
 	time_to_kill_mplayer = 1000;
+
+#ifdef MPRIS2
+	use_mpris2 = true;
+#endif
 
 
     /* *********
@@ -345,8 +361,8 @@ void Preferences::reset() {
 	style="";
 #endif
 
-	move_when_dragging = false;
-
+	center_window = false;
+	center_window_if_outside = true;
 
 #if DVDNAV_SUPPORT
 	mouse_left_click_function = "dvdnav_mouse";
@@ -361,6 +377,8 @@ void Preferences::reset() {
 	wheel_function = Seeking;
 	wheel_function_cycle = Seeking | Volume | Zoom | ChangeSpeed;
 	wheel_function_seeking_reverse = false;
+
+	drag_function = DragDisabled;
 
 	seeking1 = 10;
 	seeking2 = 60;
@@ -403,13 +421,9 @@ void Preferences::reset() {
 
 	allow_video_movement = false;
 
-#ifdef SKINS
-	gui = "SkinGUI";
-	iconset = "Gonzo";
-#else
 	gui = "DefaultGUI";
-	iconset = "";
-#endif
+	iconset = "H2O";
+
 
 #if USE_MINIMUMSIZE
 	gui_minimum_width = 0; // 0 == disabled
@@ -442,6 +456,32 @@ void Preferences::reset() {
 	initial_tv_deinterlace = MediaSettings::Yadif_1;
 	last_dvb_channel = "";
 	last_tv_channel = "";
+
+
+    /* ********
+       Network
+       ******** */
+
+#ifdef MPV_SUPPORT
+	streaming_type = StreamingAuto;
+#else
+	streaming_type = StreamingYT;
+#endif
+#ifdef YOUTUBE_SUPPORT
+	yt_quality = RetrieveYoutubeUrl::MP4_720p;
+	//yt_user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:5.0.1) Gecko/20100101 Firefox/5.0.1";
+	yt_user_agent = "";
+	yt_use_https_main = false;
+	yt_use_https_vi = false;
+#endif
+
+	// Proxy
+	use_proxy = false;
+	proxy_type = QNetworkProxy::HttpProxy;
+	proxy_host = "";
+	proxy_port = 0;
+	proxy_username = "";
+	proxy_password = "";
 
 
     /* ***********
@@ -488,8 +528,10 @@ void Preferences::reset() {
 
 	mplayer_detected_version = -1; //None version parsed yet
 	mplayer_user_supplied_version = -1;
+#ifdef MPLAYER2_SUPPORT
 	mplayer_is_mplayer2 = false;
 	mplayer2_detected_version = QString::null;
+#endif
 
 
     /* *********
@@ -560,10 +602,18 @@ void Preferences::save() {
 	set->setValue("driver/audio_output", ao);
 
 	set->setValue("use_screenshot", use_screenshot);
+	#ifdef MPV_SUPPORT
+	set->setValue("screenshot_template", screenshot_template);
+	set->setValue("screenshot_format", screenshot_format);
+	#endif
 	#if QT_VERSION >= 0x040400
 	set->setValue("screenshot_folder", screenshot_directory);
 	#else
 	set->setValue("screenshot_directory", screenshot_directory);
+	#endif
+
+	#ifdef CAPTURE_STREAM
+	set->setValue("capture_directory", capture_directory);
 	#endif
 
 	set->setValue("dont_remember_media_settings", dont_remember_media_settings);
@@ -622,6 +672,8 @@ void Preferences::save() {
 	set->setValue("min_step", min_step);
 
 	set->setValue("osd", osd);
+	set->setValue("osd_scale", osd_scale);
+	set->setValue("subfont_osd_scale", subfont_osd_scale);
 	set->setValue("osd_delay", osd_delay);
 
 	set->setValue("file_settings_method", file_settings_method);
@@ -667,12 +719,16 @@ void Preferences::save() {
 	set->setValue("h264_skip_loop_filter", h264_skip_loop_filter);
 	set->setValue("HD_height", HD_height);
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	set->setValue("fast_audio_change", fast_audio_change);
+#endif
+
 #if !SMART_DVD_CHAPTERS
 	set->setValue("fast_chapter_change", fast_chapter_change);
 #endif
 
 	set->setValue("threads", threads);
+	set->setValue("hwdec", hwdec);
 
 	set->setValue("cache_for_files", cache_for_files);
 	set->setValue("cache_for_streams", cache_for_streams);
@@ -683,15 +739,6 @@ void Preferences::save() {
 
 	set->endGroup(); // performance
 
-#ifdef YOUTUBE_SUPPORT
-	set->beginGroup("youtube");
-	set->setValue("quality", yt_quality);
-	set->setValue("user_agent", yt_user_agent);
-	set->setValue("yt_use_https_main", yt_use_https_main);
-	set->setValue("yt_use_https_vi", yt_use_https_vi);
-	set->endGroup();
-#endif
-
 
     /* *********
        Subtitles
@@ -699,18 +746,14 @@ void Preferences::save() {
 
 	set->beginGroup("subtitles");
 
-	set->setValue("font_file", font_file);
-	set->setValue("font_name", font_name);
-
-	set->setValue("use_fontconfig", use_fontconfig);
 	set->setValue("subcp", subcp);
 	set->setValue("use_enca", use_enca);
 	set->setValue("enca_lang", enca_lang);
-	set->setValue("font_autoscale", font_autoscale);
 	set->setValue("subfuzziness", subfuzziness);
 	set->setValue("autoload_sub", autoload_sub);
 
 	set->setValue("use_ass_subtitles", use_ass_subtitles);
+	set->setValue("enable_ass_styles", enable_ass_styles);
 	set->setValue("ass_line_spacing", ass_line_spacing);
 	set->setValue("use_forced_subs_only", use_forced_subs_only);
 
@@ -718,7 +761,6 @@ void Preferences::save() {
 
 	set->setValue("subtitles_on_screenshots", subtitles_on_screenshots);
 
-	set->setValue("use_new_sub_commands", use_new_sub_commands);
 	set->setValue("change_sub_scale_should_restart", change_sub_scale_should_restart);
 
 	set->setValue("fast_load_sub", fast_load_sub);
@@ -729,7 +771,7 @@ void Preferences::save() {
 	set->setValue("user_forced_ass_style", user_forced_ass_style);
 
 	set->setValue("freetype_support", freetype_support);
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	set->setValue("use_windowsfontdir", use_windowsfontdir);
 #endif
 
@@ -779,6 +821,10 @@ void Preferences::save() {
 
 	set->setValue("use_edl_files", use_edl_files);
 
+#ifdef MPLAYER_SUPPORT
+	set->setValue("use_playlist_option", use_playlist_option);
+#endif
+
 	set->setValue("prefer_ipv4", prefer_ipv4);
 
 	set->setValue("use_short_pathnames", use_short_pathnames);
@@ -794,6 +840,10 @@ void Preferences::save() {
 	set->setValue("show_tag_in_window_title", show_tag_in_window_title);
 
 	set->setValue("time_to_kill_mplayer", time_to_kill_mplayer);
+
+#ifdef MPRIS2
+	set->setValue("use_mpris2", use_mpris2);
+#endif
 
 	set->endGroup(); // advanced
 
@@ -816,7 +866,8 @@ void Preferences::save() {
 	set->setValue("style", style);
 #endif
 
-	set->setValue("move_when_dragging", move_when_dragging);
+	set->setValue("center_window", center_window);
+	set->setValue("center_window_if_outside", center_window_if_outside);
 
 	set->setValue("mouse_left_click_function", mouse_left_click_function);
 	set->setValue("mouse_right_click_function", mouse_right_click_function);
@@ -827,6 +878,8 @@ void Preferences::save() {
 	set->setValue("mouse_wheel_function", wheel_function);
 	set->setValue("wheel_function_cycle", (int) wheel_function_cycle);
 	set->setValue("wheel_function_seeking_reverse", wheel_function_seeking_reverse);
+
+	set->setValue("drag_function", drag_function);
 
 	set->setValue("seeking1", seeking1);
 	set->setValue("seeking2", seeking2);
@@ -903,6 +956,34 @@ void Preferences::save() {
 	set->setValue("last_tv_channel", last_tv_channel);
 	set->endGroup(); // tv
 
+
+    /* ********
+       Network
+       ******** */
+
+	set->beginGroup("streaming");
+	set->setValue("streaming_type", streaming_type);
+
+	#ifdef YOUTUBE_SUPPORT
+	set->beginGroup("streaming/youtube");
+	set->setValue("quality", yt_quality);
+	set->setValue("user_agent", yt_user_agent);
+	set->setValue("yt_use_https_main", yt_use_https_main);
+	set->setValue("yt_use_https_vi", yt_use_https_vi);
+	set->endGroup();
+	#endif
+	set->endGroup(); // streaming
+
+	set->beginGroup("proxy");
+	set->setValue("use_proxy", use_proxy);
+	set->setValue("type", proxy_type);
+	set->setValue("host", proxy_host);
+	set->setValue("port", proxy_port);
+	set->setValue("username", proxy_username);
+	set->setValue("password", proxy_password);
+	set->endGroup(); // proxy
+
+
     /* ***********
        Directories
        *********** */
@@ -960,8 +1041,10 @@ void Preferences::save() {
 	set->beginGroup( "mplayer_info");
 	set->setValue("mplayer_detected_version", mplayer_detected_version);
 	set->setValue("mplayer_user_supplied_version", mplayer_user_supplied_version);
+#ifdef MPLAYER2_SUPPORT
 	set->setValue("is_mplayer2", mplayer_is_mplayer2);
 	set->setValue("mplayer2_detected_version", mplayer2_detected_version);
+#endif
 	set->endGroup(); // mplayer_info
 
 
@@ -1053,11 +1136,19 @@ void Preferences::load() {
 	ao = set->value("driver/audio_output", ao).toString();
 
 	use_screenshot = set->value("use_screenshot", use_screenshot).toBool();
+	#ifdef MPV_SUPPORT
+	screenshot_template = set->value("screenshot_template", screenshot_template).toString();
+	screenshot_format = set->value("screenshot_format", screenshot_format).toString();
+	#endif
 	#if QT_VERSION >= 0x040400
 	screenshot_directory = set->value("screenshot_folder", screenshot_directory).toString();
 	setupScreenshotFolder();
 	#else
 	screenshot_directory = set->value("screenshot_directory", screenshot_directory).toString();
+	#endif
+
+	#ifdef CAPTURE_STREAM
+	capture_directory = set->value("capture_directory", capture_directory).toString();
 	#endif
 
 	dont_remember_media_settings = set->value("dont_remember_media_settings", dont_remember_media_settings).toBool();
@@ -1117,6 +1208,8 @@ void Preferences::load() {
 	min_step = set->value("min_step", min_step).toInt();
 
 	osd = set->value("osd", osd).toInt();
+	osd_scale = set->value("osd_scale", osd_scale).toDouble();
+	subfont_osd_scale = set->value("subfont_osd_scale", subfont_osd_scale).toDouble();
 	osd_delay = set->value("osd_delay", osd_delay).toInt();
 
 	file_settings_method = set->value("file_settings_method", file_settings_method).toString();
@@ -1162,12 +1255,16 @@ void Preferences::load() {
 	h264_skip_loop_filter = (H264LoopFilter) set->value("h264_skip_loop_filter", h264_skip_loop_filter).toInt();
 	HD_height = set->value("HD_height", HD_height).toInt();
 
+#ifdef OBSOLETE_FAST_AUDIO_CHANGE
 	fast_audio_change = (OptionState) set->value("fast_audio_change", fast_audio_change).toInt();
+#endif
+
 #if !SMART_DVD_CHAPTERS
 	fast_chapter_change = set->value("fast_chapter_change", fast_chapter_change).toBool();
 #endif
 
 	threads = set->value("threads", threads).toInt();
+	hwdec = set->value("hwdec", hwdec).toString();
 
 	cache_for_files = set->value("cache_for_files", cache_for_files).toInt();
 	cache_for_streams = set->value("cache_for_streams", cache_for_streams).toInt();
@@ -1178,15 +1275,6 @@ void Preferences::load() {
 
 	set->endGroup(); // performance
 
-#ifdef YOUTUBE_SUPPORT
-	set->beginGroup("youtube");
-	yt_quality = set->value("quality", yt_quality).toInt();
-	yt_user_agent = set->value("user_agent", yt_user_agent).toString();
-	yt_use_https_main = set->value("yt_use_https_main", yt_use_https_main).toBool();
-	yt_use_https_vi = set->value("yt_use_https_vi", yt_use_https_vi).toBool();
-	set->endGroup();
-#endif
-
 
     /* *********
        Subtitles
@@ -1194,18 +1282,14 @@ void Preferences::load() {
 
 	set->beginGroup("subtitles");
 
-	font_file = set->value("font_file", font_file).toString();
-	font_name = set->value("font_name", font_name).toString();
-
-	use_fontconfig = set->value("use_fontconfig", use_fontconfig).toBool();
 	subcp = set->value("subcp", subcp).toString();
 	use_enca = set->value("use_enca", use_enca).toBool();
 	enca_lang = set->value("enca_lang", enca_lang).toString();
-	font_autoscale = set->value("font_autoscale", font_autoscale).toInt();
 	subfuzziness = set->value("subfuzziness", subfuzziness).toInt();
 	autoload_sub = set->value("autoload_sub", autoload_sub).toBool();
 
 	use_ass_subtitles = set->value("use_ass_subtitles", use_ass_subtitles).toBool();
+	enable_ass_styles = set->value("enable_ass_styles", enable_ass_styles).toBool();
 	ass_line_spacing = set->value("ass_line_spacing", ass_line_spacing).toInt();
 
 	use_forced_subs_only = set->value("use_forced_subs_only", use_forced_subs_only).toBool();
@@ -1214,7 +1298,6 @@ void Preferences::load() {
 
 	subtitles_on_screenshots = set->value("subtitles_on_screenshots", subtitles_on_screenshots).toBool();
 
-	use_new_sub_commands = (OptionState) set->value("use_new_sub_commands", use_new_sub_commands).toInt();
 	change_sub_scale_should_restart = (OptionState) set->value("change_sub_scale_should_restart", change_sub_scale_should_restart).toInt();
 
 	fast_load_sub = set->value("fast_load_sub", fast_load_sub).toBool();
@@ -1225,7 +1308,7 @@ void Preferences::load() {
 	user_forced_ass_style = set->value("user_forced_ass_style", user_forced_ass_style).toString();
 
 	freetype_support = set->value("freetype_support", freetype_support).toBool();
-#ifdef Q_OS_WIN
+#ifdef FONTS_HACK
 	use_windowsfontdir = set->value("use_windowsfontdir", use_windowsfontdir).toBool();
 #endif
 
@@ -1280,6 +1363,10 @@ void Preferences::load() {
 
 	use_edl_files = set->value("use_edl_files", use_edl_files).toBool();
 
+#ifdef MPLAYER_SUPPORT
+	use_playlist_option = set->value("use_playlist_option", use_playlist_option).toBool();
+#endif
+
 	prefer_ipv4 = set->value("prefer_ipv4", prefer_ipv4).toBool();
 
 	use_short_pathnames = set->value("use_short_pathnames", use_short_pathnames).toBool();
@@ -1293,6 +1380,10 @@ void Preferences::load() {
 	show_tag_in_window_title = set->value("show_tag_in_window_title", show_tag_in_window_title).toBool();
 
 	time_to_kill_mplayer = set->value("time_to_kill_mplayer", time_to_kill_mplayer).toInt();
+
+#ifdef MPRIS2
+	use_mpris2 = set->value("use_mpris2", use_mpris2).toBool();
+#endif
 
 	set->endGroup(); // advanced
 
@@ -1315,7 +1406,8 @@ void Preferences::load() {
 	style = set->value("style", style).toString();
 #endif
 
-	move_when_dragging = set->value("move_when_dragging", move_when_dragging).toBool();
+	center_window = set->value("center_window", center_window).toBool();
+	center_window_if_outside = set->value("center_window_if_outside", center_window_if_outside).toBool();
 
 	mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
 	mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();
@@ -1329,6 +1421,8 @@ void Preferences::load() {
 		wheel_function_cycle = (WheelFunctions) wheel_function_cycle_int;
 	}
 	wheel_function_seeking_reverse = set->value("wheel_function_seeking_reverse", wheel_function_seeking_reverse).toBool();
+
+	drag_function = set->value("drag_function", drag_function).toInt();
 
 	seeking1 = set->value("seeking1", seeking1).toInt();
 	seeking2 = set->value("seeking2", seeking2).toInt();
@@ -1406,6 +1500,33 @@ void Preferences::load() {
 	set->endGroup(); // tv
 
 
+    /* ********
+       Network
+       ******** */
+
+	set->beginGroup("streaming");
+	streaming_type = set->value("streaming_type", streaming_type).toInt();
+
+	#ifdef YOUTUBE_SUPPORT
+	set->beginGroup("streaming/youtube");
+	yt_quality = set->value("quality", yt_quality).toInt();
+	yt_user_agent = set->value("user_agent", yt_user_agent).toString();
+	yt_use_https_main = set->value("yt_use_https_main", yt_use_https_main).toBool();
+	yt_use_https_vi = set->value("yt_use_https_vi", yt_use_https_vi).toBool();
+	set->endGroup();
+	#endif
+	set->endGroup(); // streaming
+
+	set->beginGroup("proxy");
+	use_proxy = set->value("use_proxy", use_proxy).toBool();
+	proxy_type = set->value("type", proxy_type).toInt();
+	proxy_host = set->value("host", proxy_host).toString();
+	proxy_port = set->value("port", proxy_port).toInt();
+	proxy_username = set->value("username", proxy_username).toString();
+	proxy_password = set->value("password", proxy_password).toString();
+	set->endGroup(); // proxy
+
+
     /* ***********
        Directories
        *********** */
@@ -1460,9 +1581,10 @@ void Preferences::load() {
 	set->beginGroup( "mplayer_info");
 	mplayer_detected_version = set->value("mplayer_detected_version", mplayer_detected_version).toInt();
 	mplayer_user_supplied_version = set->value("mplayer_user_supplied_version", mplayer_user_supplied_version).toInt();
+#ifdef MPLAYER2_SUPPORT
 	mplayer_is_mplayer2 = set->value("is_mplayer2", mplayer_is_mplayer2).toBool();
 	mplayer2_detected_version = set->value("mplayer2_detected_version", mplayer2_detected_version).toString();
-
+#endif
 	set->endGroup(); // mplayer_info
 
 
@@ -1516,8 +1638,8 @@ void Preferences::load() {
        SMPlayer info
        ********* */
 
-#ifdef CHECK_UPGRADED
 	set->beginGroup("smplayer");
+#ifdef CHECK_UPGRADED
 	smplayer_stable_version = set->value("stable_version", smplayer_stable_version).toString();
 	check_if_upgraded = set->value("check_if_upgraded", check_if_upgraded).toBool();
 #endif
@@ -1561,7 +1683,7 @@ void Preferences::load() {
 			time_to_kill_mplayer = 1000;
 
 			resize_method = Never;
-			move_when_dragging = false;
+			//move_when_dragging = false;
 		}
 		config_version = CURRENT_CONFIG_VERSION;
 	}
@@ -1569,18 +1691,44 @@ void Preferences::load() {
 #ifdef Q_OS_WIN
 	// Check if the mplayer binary exists and try to fix it
 	if (!QFile::exists(mplayer_bin)) {
-		qWarning("mplayer_bin '%s' doesn' exist", mplayer_bin.toLatin1().constData());
+		qWarning("mplayer_bin '%s' doesn't exist", mplayer_bin.toLatin1().constData());
 		bool fixed = false;
 		if (QFile::exists("mplayer/mplayer.exe")) {
 			mplayer_bin = "mplayer/mplayer.exe";
 			fixed = true;
-		} else
+		}
+		else
 		if (QFile::exists("mplayer/mplayer2.exe")) {
 			mplayer_bin = "mplayer/mplayer2.exe";
 			fixed = true;
 		}
+		else
+		if (QFile::exists("mpv/mpv.exe")) {
+			mplayer_bin = "mpv/mpv.exe";
+			fixed = true;
+		}
 		if (fixed) {
 			qWarning("mplayer_bin changed to '%s'", mplayer_bin.toLatin1().constData());
+		}
+	}
+#endif
+#ifdef Q_OS_LINUX
+	if (!QFile::exists(mplayer_bin)) {
+		QString app_path = Helper::findExecutable(mplayer_bin);
+		//qDebug("Preferences::load: app_path: %s", app_path.toUtf8().constData());
+		if (!app_path.isEmpty()) {
+			mplayer_bin = app_path;
+		} else {
+			// Executable not found, try to find an alternative
+			if (mplayer_bin.startsWith("mplayer")) {
+				app_path = Helper::findExecutable("mpv");
+				if (!app_path.isEmpty()) mplayer_bin = app_path;
+			}
+			else
+			if (mplayer_bin.startsWith("mpv")) {
+				app_path = Helper::findExecutable("mplayer");
+				if (!app_path.isEmpty()) mplayer_bin = app_path;
+			}
 		}
 	}
 #endif
@@ -1628,7 +1776,7 @@ void Preferences::setupScreenshotFolder() {
 			qWarning("Preferences::setupScreenshotFolder: folder '%s' does not exist. Using /tmp as fallback", pdir.toUtf8().constData());
 			pdir = "/tmp";
 		}
-		QString default_screenshot_path = pdir + "/smplayer_screenshots";
+		QString default_screenshot_path = QDir::toNativeSeparators(pdir + "/smplayer_screenshots");
 		if (!QFile::exists(default_screenshot_path)) {
 			qDebug("Preferences::setupScreenshotFolder: creating '%s'", default_screenshot_path.toUtf8().constData());
 			if (!QDir().mkdir(default_screenshot_path)) {
@@ -1638,6 +1786,9 @@ void Preferences::setupScreenshotFolder() {
 		if (QFile::exists(default_screenshot_path)) {
 			screenshot_directory = default_screenshot_path;
 		}
+	}
+	else {
+		screenshot_directory = QDir::toNativeSeparators(screenshot_directory);
 	}
 #endif
 }

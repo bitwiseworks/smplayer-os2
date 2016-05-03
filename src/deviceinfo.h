@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,12 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _DEVICEINFO_H_
-#define _DEVICEINFO_H_
+#ifndef DEVICEINFO_H
+#define DEVICEINFO_H
 
 #include <QString>
 #include <QVariant>
 #include <QList>
+
+class QSettings;
 
 class DeviceData {
 
@@ -33,8 +35,8 @@ public:
 	void setID(QVariant ID) { _id = ID; };
 	void setDesc(QString desc) { _desc = desc; };
 
-	QVariant ID() { return _id; };
-	QString desc() { return _desc; };
+	QVariant ID() const { return _id; };
+	QString desc() const { return _desc; };
 
 private:
 	QVariant _id;
@@ -57,6 +59,9 @@ public:
 #endif
 
 protected:
+	static void saveList(QSettings * set, const QString & section_name, const DeviceList & list);
+	static DeviceList loadList(QSettings * set, const QString & section_name);
+
 #ifdef Q_OS_WIN
 	enum DeviceType { Sound = 0, Display = 1 };
 

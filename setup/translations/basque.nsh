@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "Ezartzaileak $(^NameDA)-ren ezarpenean zehar
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Lasterbideak"
 ${LangFileString} MPlayerGroupTitle "MPlayer Osagaiak"
+${LangFileString} MPlayerMPVGroupTitle "Multimedia Gailua"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (beharrezkoa)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, elkarbanatutako liburutegiak, eta agiritza."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Binario kodekak ez daude sostengat
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Aukerazko kodekak MPlayer-entzat. (Internet Elkarketa beharrezkoa da ezarpenerako)"
 !endif
+
+${LangFileString} Section_MPV_Desc "MPlayer eta MPlayer2-ren ezaugarri-aberatseko adar bat"
 
 ${LangFileString} Section_MEncoder_Desc "MPlayer laguntzen duen programa bat erabili daiteke kodeatzeko edo eraldatzeko sostengatutako audio edo bideo jarioak."
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "Klikatu Hurrengoa jarraitzeko gertu zaudenea
 ${LangFileString} Reinstall_Msg3_3 "Klikatu Kendu jarraitzeko gertu zaudenean."
 ${LangFileString} Reinstall_Msg4 "Aldatu Ezarpenaren Hobespenak"
 ${LangFileString} Reinstall_Msg5 "Berrezarri SMPlayer itxurapena"
+
+${LangFileString} Remove_Settings_Confirmation "Zihur zaude zure SMPlayer ezarpenak berrezartzea nahi dituzula? Ekintza hau ezin da desegin."
 
 ${LangFileString} Type_Reinstall "berrezarri"
 ${LangFileString} Type_Downgrade "aurrekoratu"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Lasterbideak Ezabatzen..."
 ${LangFileString} Info_Rest_Assoc "Agiri elkarketak leheneratzen..."
 ${LangFileString} Info_RollBack "Aldaketak desegiten..."
 ${LangFileString} Info_Files_Extract "Agiriak ateratzen..."
+${LangFileString} Info_SMTube_Backup "SMTube babeskopiatzen..."
+${LangFileString} Info_SMTube_Restore "SMTube aurreko ezarpenetik leheneratzen"
+${LangFileString} Info_MPV_Backup "mpv babeskopiatzen..."
+${LangFileString} Info_MPV_Restore "mpv aurreko ezarpenetik leheneratzen..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "mpv jeisten..."
+${LangFileString} MPV_DL_Retry "mpv ez da ongi ezarri. Saiatu berriro?"
+${LangFileString} MPV_DL_Failed "Hutsegitea mpv jeisterakoan: '$R0'."
+${LangFileString} MPV_Inst_Failed "Hutsegitea mpv ezartzerakoan."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl ez da ongi ezarri. Berriro saiatu?"
+${LangFileString} YTDL_DL_Failed "Hutsegitea youtube-dl jeisterakoan: '$R0'."
+${LangFileString} YTDL_Update_Check "youtube-dl eguneraketarik dagoen egiaztatzen..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "fonconfig katxea garbitzen..."
+${LangFileString} Info_Cleaning_SMPlayer "SMPlayer ezarpenak garbitzen..."

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
     umplayer, Copyright (C) 2010 Ori Rejwan
 
     This program is free software; you can redistribute it and/or modify
@@ -127,6 +127,10 @@ void MediaPanel::rearrangeWidgets(bool resolution_visible) {
 
 void MediaPanel::setResolutionVisible(bool b) {
 	rearrangeWidgets(b);
+}
+
+void MediaPanel::setScrollingEnabled(bool b) {
+	mediaLabel->setScrollingEnabled(b);
 }
 
 void MediaPanel::paintEvent(QPaintEvent * e) {
@@ -281,8 +285,10 @@ void ScrollingLabel::updateLabel() {
 		scrollPos = 0;
 	}
 
-	if (rect.width() > width()) {
-		timerId = startTimer(20);
+	if (scrolling_enabled) {
+		if (rect.width() > width()) {
+			timerId = startTimer(20);
+		}
 	}
 }
 
@@ -292,13 +298,19 @@ void ScrollingLabel::timerEvent(QTimerEvent * t) {
 	update();
 }
 
-
 ScrollingLabel::ScrollingLabel(QWidget* parent ) {
 	scrollPos =0;
 	timerId = -1;
+	scrolling_enabled = false;
 	textRect = QRect();
 	setAttribute(Qt::WA_StyledBackground, true);
 	setText("SMPlayer");
+}
+
+void ScrollingLabel::setScrollingEnabled(bool b) {
+	scrolling_enabled = b;
+	updateLabel();
+	repaint();
 }
 
 void ScrollingLabel::resizeEvent(QResizeEvent *) {

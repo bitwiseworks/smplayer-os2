@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 //! This class disables and restores the windows screensaver 
 
-#ifndef _WINSCREENSAVER_H_
-#define _WINSCREENSAVER_H_
+#ifndef WINSCREENSAVER_H
+#define WINSCREENSAVER_H
 
 #ifdef Q_OS_OS2
 #include <QLibrary>

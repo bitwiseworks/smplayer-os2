@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "A configuração lhe guiará através da ins
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "Atalhos"
 ${LangFileString} MPlayerGroupTitle "Componentes do MPlayer"
+${LangFileString} MPlayerMPVGroupTitle "Motor multimídia"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (necessário)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer, bibliotecas compartilhadas e documentação."
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Codecs binários não são suporta
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "Codecs opcionais para o MPlayer. (Necessita conexão com a Internet para instalação)"
 !endif
+
+${LangFileString} Section_MPV_Desc "Um derivado do MPlayer && MPlayer2 cheio de funcionalidades"
 
 ${LangFileString} Section_MEncoder_Desc "Um programa acompanhante do MPlayer que pode ser usado para codificar ou transformar fluxos de áudio ou vídeo suportados."
 
@@ -69,6 +72,8 @@ ${LangFileString} Reinstall_Msg3_3 "Clique em Desinstalar quando estiver pronto 
 ${LangFileString} Reinstall_Msg4 "Altere as configurações da instalação"
 ${LangFileString} Reinstall_Msg5 "Reinicie minhas configurações do SMPlayer"
 
+${LangFileString} Remove_Settings_Confirmation "Tem certeza que deseja reiniciar as configurações do SMPlayer? Essa ação não pode ser desfeita."
+
 ${LangFileString} Type_Reinstall "reinstalar"
 ${LangFileString} Type_Downgrade "downgrade"
 ${LangFileString} Type_Upgrade "atualizar"
@@ -78,7 +83,7 @@ ${LangFileString} StartBtn "Iniciar"
 ; Codecs Section
 ${LangFileString} Codecs_DL_Msg "Baixando codecs do MPlayer..."
 ${LangFileString} Codecs_DL_Retry "Os codecs do Mplayer não foram instalados corretamente. Tentar novamente?"
-${LangFileString} Codecs_DL_Failed "Falha ao baixar o codecs do MPlayer: '$R0'."
+${LangFileString} Codecs_DL_Failed "Falha ao baixar os codecs do MPlayer: '$R0'."
 ${LangFileString} Codecs_Inst_Failed "Falha ao instalar os codecs do MPlayer."
 
 ; Uninstaller
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "Deletando atalhos..."
 ${LangFileString} Info_Rest_Assoc "Restaurando associações de arquivos..."
 ${LangFileString} Info_RollBack "Revertendo alterações..."
 ${LangFileString} Info_Files_Extract "Extraindo arquivos..."
+${LangFileString} Info_SMTube_Backup "Fazendo backup do SMTube..."
+${LangFileString} Info_SMTube_Restore "Restaurando o SMTube da instalação anterior..."
+${LangFileString} Info_MPV_Backup "Fazendo backup do mpv..."
+${LangFileString} Info_MPV_Restore "Restaurando o mpv da instalação anterior..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "Baixando o mpv..."
+${LangFileString} MPV_DL_Retry "O mpv não foi instalado corretamente. Tentar novamente?"
+${LangFileString} MPV_DL_Failed "Falha ao baixar o mpv: '$R0'."
+${LangFileString} MPV_Inst_Failed "Falha ao instalar o mpv."
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "O youtube-dl não foi instalado corretamente. Tentar novamente?"
+${LangFileString} YTDL_DL_Failed "Falha ao baixar o youtube-dl:'$R0'."
+${LangFileString} YTDL_Update_Check "Buscando por atualizações do youtube-dl..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "Limpando cache do fontconfig..."
+${LangFileString} Info_Cleaning_SMPlayer "Limpando as configurações do SMPlayer..."

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2013 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,15 +16,28 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RETRIEVEYOUTUBEURL_
-#define _RETRIEVEYOUTUBEURL_
+#ifndef RETRIEVEYOUTUBEURL_H
+#define RETRIEVEYOUTUBEURL_H
 
 #include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QMap>
+#include "loadpage.h"
+
+#ifdef YT_USE_SIG
+#include "sig.h"
+#endif
+
+class QSettings;
 
 #define YT_GET_VIDEOINFO
 //#define YT_DASH_SUPPORT
+#define YT_LIVE_STREAM
+
+#ifdef YT_GET_VIDEOINFO
+#define YT_DISCARD_HTTPS
+#endif
+
+typedef QMap<int,QString> UrlMap;
 
 class RetrieveYoutubeUrl : public QObject
 {
@@ -43,78 +56,121 @@ public:
 	RetrieveYoutubeUrl( QObject* parent = 0 );
 	~RetrieveYoutubeUrl();
 
-	void fetchPage(const QString & url);
-	void close();
-
-	static void setUserAgent(const QString & s) { user_agent = s; };
-	static QString userAgent() { return user_agent; };
-
 	void setPreferredQuality(Quality q) { preferred_quality = q; }
 	Quality preferredQuality() { return preferred_quality; }
 
-	static QString findPreferredUrl(const QMap<int, QString>& urlMap, Quality q);
-	QString findPreferredUrl();
+	void setUserAgent(const QString & s) { LoadPage::setDefaultUserAgent(s); };
+	QString userAgent() { return LoadPage::defaultUserAgent(); };
+
+	void fetchPage(const QString & url);
+
+#ifdef YT_USE_SIG
+	void setSettings(QSettings * settings);
+#endif
 
 #ifdef YT_DASH_SUPPORT
-	static QString findBestAudio(const QMap<int, QString>& urlMap);
+	static int findBestAudio(const QMap<int, QString>& url_map); // Returns the itag
 #endif
 
 	QString urlTitle() { return url_title; }
+	QString origUrl() { return yt_url; }
+
 	QString latestPreferredUrl() { return latest_preferred_url; }
-	QString origUrl() { return orig_url; }
 
 	bool isUrlSupported(const QString & url);
 	QString fullUrl(const QString & url);
 
-	static void setUseHttpsMain(bool b) { use_https_main = b; };
-	static void setUseHttpsVi(bool b) { use_https_vi = b; };
-	static bool useHttpsMain() { return use_https_main; };
-	static bool useHttpsVi() { return use_https_vi; };
+	void setUseHttpsMain(bool b) { use_https_main = b; };
+	void setUseHttpsVi(bool b) { use_https_vi = b; };
+	bool useHttpsMain() { return use_https_main; };
+	bool useHttpsVi() { return use_https_vi; };
+
+	static int findPreferredUrl(const UrlMap & url_map, Quality q); // Returns the itag
+	static QString extensionForItag(int itag);
+
+	void close() { /* FIXME: do something */ };
 
 signals:
 	void gotUrls(const QMap<int, QString>&);
-	void gotPreferredUrl(const QString &);
+	//void gotPreferredUrl(const QString &);
+	void gotPreferredUrl(const QString & url, int itag);
 	void gotEmptyList();
-#ifdef YT_GET_VIDEOINFO
-	void gotVideoInfo(const QMap<int, QString>&, QString, QString);
-#endif
-
 	void connecting(QString host);
 	void errorOcurred(int error_number, QString error_str);
-
 	void signatureNotFound(const QString & title);
+	void noSslSupport();
 
 protected slots:
-	void gotResponse();
-	void parse(QByteArray text);
+	void videoPageLoaded(QByteArray page);
 #ifdef YT_GET_VIDEOINFO
-	void gotVideoInfoResponse();
-	void parseVideoInfo(QByteArray text);
-	void fetchVideoInfoPage(QString url = QString::null);
+	void videoInfoPageLoaded(QByteArray page);
 #endif
+#ifdef YT_USE_SIG
+	void playerPageLoaded(QByteArray page);
+#endif
+#ifdef YT_LIVE_STREAM
+	void streamPageLoaded(QByteArray page);
+#endif
+
+	void processVideoPage();
 
 protected:
-	static QString sanitizeForUnicodePoint(QString string);
-	static void htmlDecode(QString& string);
-	QString getVideoID(QString video_url);
-
-	QMap<int, QString> urlMap;
-	QString url_title;
-	QString orig_url;
-	QString latest_preferred_url;
-
-	Quality preferred_quality;
-	static QString user_agent;
-	static bool use_https_main;
-	static bool use_https_vi;
-
+	void fetchVideoPage(const QString & url);
 #ifdef YT_GET_VIDEOINFO
-	QString video_id;
+	void fetchVideoInfoPage(const QString & url);
 #endif
+#ifdef YT_USE_SIG
+	void fetchPlayerPage(const QString & player_name);
+#endif
+#ifdef YT_LIVE_STREAM
+	void fetchStreamPage(const QString & url);
+#endif
+
+	QString getVideoID(QString video_url);
+	UrlMap extractURLs(QString fmtArray, bool allow_https, bool use_player);
+
+	void finish(const UrlMap & url_map);
+
+#ifdef YT_USE_SCRIPT
+	QString aclara(const QString & text, const QString & player = "");
+#endif
+
+	static QString sanitizeForUnicodePoint(QString string);
 
 private:
 	QNetworkAccessManager* manager;
-	QNetworkReply* reply;
+	LoadPage * dl_video_page;
+
+#ifdef YT_GET_VIDEOINFO
+	LoadPage * dl_video_info_page;
+#endif
+
+#ifdef YT_USE_SIG
+	LoadPage * dl_player_page;
+	Sig sig;
+	QSettings * set;
+#else
+	QString html5_player;
+#endif
+
+#ifdef YT_LIVE_STREAM
+	LoadPage * dl_stream_page;
+#endif
+
+	QString video_page;
+	QString url_title;
+
+	Quality preferred_quality;
+	bool use_https_main;
+	bool use_https_vi;
+
+	QString yt_url;
+	QString video_id;
+
+	QString latest_preferred_url;
+
+	bool failed_to_decrypt_signature;
 };
 
 #endif
+

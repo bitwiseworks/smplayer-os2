@@ -1,5 +1,5 @@
     SMPlayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -93,4 +93,7 @@
        license: GPL
 
      * http://en.wikipedia.org/wiki/File:Computer_on_fire.svg
-       license: public domain
+       license: Public Domain
+
+     * http://www.pd4pic.com/anaglyph-3d-cellophane-glasses-3dimensional-movie.html
+       license: Public Domain CC0

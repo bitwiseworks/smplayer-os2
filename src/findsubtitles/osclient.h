@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,8 +21,6 @@
 
 #include "maiaXmlRpcClient.h"
 
-#define OS_SEARCH_WORKAROUND
-
 class OSSubtitle {
 public:
 	QString movie, releasename, link, iso639, language, date;
@@ -34,12 +32,21 @@ class OSClient : public QObject {
 
 public:
 	OSClient(QObject* parent = 0);
+
+	QList<OSSubtitle> subtitleList() { return s_list; };
+
+#ifdef FS_USE_PROXY
 	void setProxy(const QNetworkProxy & proxy);
+#endif
+
+#ifdef OS_SEARCH_WORKAROUND
+	void setRetries(int n) { search_retries = n; };
+	int retries() { return search_retries; };
+#endif
 
 public slots:
 	void setServer(const QString & server);
 	void search(const QString & hash, qint64 file_size);
-	QList<OSSubtitle> subtitleList() { return s_list; };
 
 private slots:
 	void login();
@@ -68,6 +75,7 @@ private:
 	qint64 search_size;
 #ifdef OS_SEARCH_WORKAROUND
 	int best_search_count;
+	int search_retries;
 #endif
 	QList <OSSubtitle> s_list;
 };

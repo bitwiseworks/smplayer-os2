@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,11 +54,14 @@ void EditableToolbar::edit() {
 	e.setAllActions(allActions());
 	e.setActiveActions(this->actions());
 	e.setDefaultActions(defaultActions());
+	e.setIconSize(iconSize().width());
 
 	if (e.exec() == QDialog::Accepted) {
 		QStringList r = e.activeActionsToStringList();
 		qDebug("EditableToolbar::edit: list: %s", r.join(",").toUtf8().constData());
 		setActionsFromStringList(r);
+		resize(width(), e.iconSize());
+		setIconSize(QSize(e.iconSize(), e.iconSize()));
 	}
 }
 

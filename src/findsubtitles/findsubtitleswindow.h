@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2014 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,11 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FINDSUBTITLESWINDOW_H_
-#define _FINDSUBTITLESWINDOW_H_
+#ifndef FINDSUBTITLESWINDOW_H
+#define FINDSUBTITLESWINDOW_H
 
 #include "ui_findsubtitleswindow.h"
+
+#ifdef FS_USE_PROXY
 #include <QNetworkProxy>
+#endif
 
 class OSClient;
 class QStandardItemModel;
@@ -93,8 +96,10 @@ protected:
 	virtual void retranslateStrings();
 	virtual void changeEvent(QEvent * event);
 
+#ifdef FS_USE_PROXY
 	void setProxy(QNetworkProxy proxy);
 	void setupProxy();
+#endif
 
 	void saveSettings();
 	void loadSettings();
@@ -133,6 +138,7 @@ protected:
 	// Opensubtitles server
 	QString os_server;
 
+#ifdef FS_USE_PROXY
 	// Proxy
 	bool use_proxy;
 	int proxy_type;
@@ -140,6 +146,7 @@ protected:
 	int proxy_port;
 	QString proxy_username;
 	QString proxy_password;
+#endif
 
 	QSettings * set;
 };

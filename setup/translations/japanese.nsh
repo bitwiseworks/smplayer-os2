@@ -23,6 +23,7 @@ ${LangFileString} WelcomePage_Text "セットアップは $(^NameDA) のイン�
 ; Components Page
 ${LangFileString} ShortcutGroupTitle "ショートカット"
 ${LangFileString} MPlayerGroupTitle "MPlayer コンポーネント"
+${LangFileString} MPlayerMPVGroupTitle "マルチメディア エンジン"
 
 ${LangFileString} Section_SMPlayer "SMPlayer (必須)"
 ${LangFileString} Section_SMPlayer_Desc "SMPlayer、共有ライブラリ、およびドキュメントです。"
@@ -42,6 +43,8 @@ ${LangFileString} Section_MPlayerCodecs_Desc "バイナリ コーデックはこ
 !else
 ${LangFileString} Section_MPlayerCodecs_Desc "MPlayer のオプション コーデックです。(インストールにはインターネット接続が必要です)"
 !endif
+
+${LangFileString} Section_MPV_Desc "MPlayer と MPlayer2 の機能豊富なフォークです"
 
 ${LangFileString} Section_MEncoder_Desc "サポートされたオーディオまたはビデオ ストリームのエンコードや変換に使用できる MPlayer の姉妹プログラムです。"
 
@@ -68,6 +71,8 @@ ${LangFileString} Reinstall_Msg3_2 "続行するには [次へ] をクリック�
 ${LangFileString} Reinstall_Msg3_3 "続行するには [アンインストール] をクリックします。"
 ${LangFileString} Reinstall_Msg4 "インストール構成を変更する"
 ${LangFileString} Reinstall_Msg5 "SMPlayer の設定をリセットする"
+
+${LangFileString} Remove_Settings_Confirmation "SMPlayer の設定をリセットしてもよろしいですか? この動作は元に戻せません。"
 
 ${LangFileString} Type_Reinstall "再インストール"
 ${LangFileString} Type_Downgrade "ダウングレード"
@@ -100,3 +105,22 @@ ${LangFileString} Info_Del_Shortcuts "ショートカットを削除していま
 ${LangFileString} Info_Rest_Assoc "ファイルの関連付けを復元しています..."
 ${LangFileString} Info_RollBack "変更を元に戻しています..."
 ${LangFileString} Info_Files_Extract "ファイルを展開しています..."
+${LangFileString} Info_SMTube_Backup "SMTube をバックアップしています..."
+${LangFileString} Info_SMTube_Restore "以前のインストールからの SMTube を復元しています..."
+${LangFileString} Info_MPV_Backup "mpv をバックアップしています..."
+${LangFileString} Info_MPV_Restore "以前のインストールからの mpv を復元しています..."
+
+; MPV
+${LangFileString} MPV_DL_Msg "mpv をダウンロードしています..."
+${LangFileString} MPV_DL_Retry "mpv は正常にインストールされませんでした。再試行しますか?"
+${LangFileString} MPV_DL_Failed "mpv のダウンロードに失敗しました: '$R0'。"
+${LangFileString} MPV_Inst_Failed "mpv のインストールに失敗しました。"
+
+; YouTube-DL
+${LangFileString} YTDL_DL_Retry "youtube-dl は正常にインストールされませんでした。再試行しますか?"
+${LangFileString} YTDL_DL_Failed "youtube-dl のダウンロードに失敗しました: '$R0'。"
+${LangFileString} YTDL_Update_Check "youtube-dl の更新を確認しています..."
+
+; Post install
+${LangFileString} Info_Cleaning_Fontconfig "fontconfig キャッシュをクリーンアップしてます..."
+${LangFileString} Info_Cleaning_SMPlayer "SMPlayer の設定をクリーンアップしています..."
