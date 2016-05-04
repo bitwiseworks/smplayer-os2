@@ -331,8 +331,11 @@ QString Helper::findExecutable(const QString & name) {
 	QString newName = name;
 	if (!newName.endsWith(".exe", Qt::CaseInsensitive))
 		newName.append(".exe");
-#endif
+	QStringList search_paths = QString::fromLocal8Bit(env.constData()).split(';', QString::SkipEmptyParts);
+	search_paths += qApp->applicationDirPath();
+#else
 	QStringList search_paths = QString::fromLocal8Bit(env.constData()).split(':', QString::SkipEmptyParts);
+#endif
 	for (int n = 0; n < search_paths.count(); n++) {
 #ifdef Q_OS_OS2
 		QString candidate = search_paths[n] + "/" + newName;
