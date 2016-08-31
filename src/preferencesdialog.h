@@ -27,7 +27,7 @@
 #endif
 */
 
-class QTextBrowser;
+class InfoWindow;
 class QPushButton;
 
 class PrefWidget;
@@ -50,6 +50,7 @@ class Preferences;
 class PreferencesDialog : public QDialog, public Ui::PreferencesDialog
 {
 	Q_OBJECT
+	Q_PROPERTY(bool iconMode READ isIconMode WRITE setIconMode)
 
 public:
 	enum Section { General=0, Drives=1, Performance=2,
@@ -77,6 +78,9 @@ public:
 	// Return true if the mplayer process should be restarted.
 	bool requiresRestart();
 
+	void setIconMode(bool);
+	bool isIconMode() { return icon_mode; };
+
 public slots:
 	void showSection(Section s);
 
@@ -102,7 +106,9 @@ protected:
 	PrefInterface * page_interface;
 	PrefInput * page_input;
 	PrefPlaylist * page_playlist;
+#ifdef TV_SUPPORT
 	PrefTV * page_tv;
+#endif
 	PrefUpdates * page_updates;
 	PrefNetwork * page_network;
 	PrefAdvanced * page_advanced;
@@ -111,13 +117,15 @@ protected:
 	PrefAssociations* page_associations;
 #endif
 
-	QTextBrowser * help_window;
+	InfoWindow * help_window;
 
 private:
 	QPushButton * okButton;
 	QPushButton * cancelButton;
 	QPushButton * applyButton;
 	QPushButton * helpButton;
+
+	bool icon_mode;
 };
 
 #endif

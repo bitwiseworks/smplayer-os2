@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Malay" "Melayu"
+!else
+!insertmacro LANGFILE "Malay" = "Bahasa Melayu" =
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Pemasang sudah berjalan."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Anda mesti mendaftar masuk sebagai pentadb
 ${LangFileString} SMPlayer_Is_Running "Satu kejadian SMPlayer sedang berjalan. Sila keluar SMPlayer dan cuba lagi."
 
 ${LangFileString} OS_Not_Supported "Sistem pengoperasian tidak disokong.$\nSMPlayer ${SMPLAYER_VERSION} memerlukan sekurang-kurangnya Windows XP dan tidak dapat berfungsi dengan baik pada sistem anda.$\nAnda pasti mahu teruskan pemasangan?"
+${LangFileString} OS_Not_Supported_VistaRequired "Sistem pengoperasian tidak disokong.$\nSMPlayer ${SMPLAYER_VERSION} memerlukan sekurang-kurangnya Windows Vista dan tidak dapat berfungsi dengan baik pada sistem anda.$\nAnda pasti mahu teruskan pemasangan?"
 ${LangFileString} Win64_Required "Sistem pengoperasian Windows 64-bit diperlukan untuk memasang perisian ini."
 ${LangFileString} Existing_32bitInst "Pemasangan 32-bit SMPlayer sudah wujud. Anda mesti nyahpasang SMPlayer 32-bit dahulu."
 ${LangFileString} Existing_64bitInst "Pemasangan 64-bit SMPlayer sudah wujud. Anda mesti nyahpasang SMPlayer 64-bit dahulu."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Gagal memasang mpv."
 ${LangFileString} YTDL_DL_Retry "youtube-dl gagal dipasang. Cuba lagi?"
 ${LangFileString} YTDL_DL_Failed "Gagal memuat turun youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Memeriksa kemaskini youtube-dl..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Membersihkan cache konfig fon..."

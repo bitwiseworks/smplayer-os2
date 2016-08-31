@@ -4,47 +4,47 @@ msgstr "المرمِّزات الثنائية غير مدعومة في هذا ا
 
 # Info_Cleaning_SMPlayer
 msgid "Cleaning SMPlayer settings..."
-msgstr ""
+msgstr "تنظيف إعدادات SMPlayer..."
 
 # Info_Cleaning_Fontconfig
 msgid "Cleaning fontconfig cache..."
-msgstr ""
+msgstr "تنظيف مخبئية إعدادات الخطوط ..."
 
 # YTDL_Update_Check
 msgid "Checking for youtube-dl updates..."
-msgstr ""
+msgstr "التحري عن تحديثات مكتبة اليوتيوب youtube-dl..."
 
 # YTDL_DL_Failed
 msgid "Failed to download youtube-dl: '$R0'."
-msgstr ""
+msgstr "فشل تنزيل مكتبة اليوتيوب youtube-dl: '$R0'."
 
 # YTDL_DL_Retry
 msgid "youtube-dl was not successfully installed. Retry?"
-msgstr ""
+msgstr "لم تُبَّت مكتبة اليوتيوب youtube-dl بنجاح. إعادة المحاولة؟"
 
 # MPV_Inst_Failed
 msgid "Failed to install mpv."
-msgstr ""
+msgstr "فشل تثبيت mpv."
 
 # MPV_DL_Failed
 msgid "Failed to download mpv: '$R0'."
-msgstr ""
+msgstr "فشل تنزيل mpv. '$R0'."
 
 # MPV_DL_Retry
 msgid "mpv was not successfully installed. Retry?"
-msgstr ""
+msgstr "لم يُثبَّت mpv بنجاح. إعادة المحاولة؟"
 
 # MPV_DL_Msg
 msgid "Downloading mpv..."
-msgstr ""
+msgstr "تنزيل mpv..."
 
 # Info_MPV_Restore
 msgid "Restoring mpv from previous installation..."
-msgstr ""
+msgstr "تجري استعادة mpv من تثبيت سابق..."
 
 # Info_MPV_Backup
 msgid "Backing up mpv..."
-msgstr ""
+msgstr "يجري النسخ الاحتياطي لـ mpv..."
 
 # Info_SMTube_Restore
 msgid "Restoring SMTube from previous installation..."
@@ -159,6 +159,7 @@ msgid ""
 "Are you sure you want to reset your SMPlayer settings? This action cannot be "
 "reversed."
 msgstr ""
+"أأنت متأكد بأنك تريد تصفير إعدادات SMPlayer؟ لا يمكن التراجع عن هذا الإجراء."
 
 # Reinstall_Msg5
 msgid "Reset my SMPlayer configuration"
@@ -334,6 +335,16 @@ msgstr ""
 msgid "A 64-bit Windows operating system is required to install this software."
 msgstr "يتطلب نظام تشغيل ويندوز Windows 64-بت لتثبيت هذا البرنامج."
 
+# OS_Not_Supported_VistaRequired
+msgid ""
+"Unsupported operating system.[:n:]SMPlayer ${SMPLAYER_VERSION} requires at "
+"least Windows Vista and may not work correctly on your system.[:n:]Do you "
+"really want to continue with the installation?"
+msgstr ""
+"نظام تشغيلي غير مدعوم.[:n:]SMPlayer ${SMPLAYER_VERSION} يتطلب على الأقل "
+"ويندوز فيستا Windows Vista و قد لا يعمل بصورة صحيحة على نظامك.[:n:]أتريد حقاً "
+"الإستمرار بالتثبيت؟"
+
 # OS_Not_Supported
 msgid ""
 "Unsupported operating system.[:n:]SMPlayer ${SMPLAYER_VERSION} requires at "
@@ -365,8 +376,8 @@ msgstr "المثبِّت مشتغل سلفاً."
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2016-02-25 00:24+0000\n"
-"Last-Translator: Ricardo Villalba <rvm@users.sourceforge.net>\n"
+"PO-Revision-Date: 2016-07-15 07:52+0000\n"
+"Last-Translator: Riyadh\n"
 "Language-Team: Arabic (http://www.transifex.com/rvm/smplayer/language/ar/)\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"

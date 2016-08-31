@@ -21,8 +21,17 @@
 
 #include <QDir>
 
-int main( int argc, char ** argv ) 
+#ifdef HDPI_SUPPORT
+#include "paths.h"
+#include "hdpisupport.h"
+#endif
+
+int main( int argc, char ** argv )
 {
+#ifdef HDPI_SUPPORT
+	HDPISupport * hdpi = new HDPISupport(Paths::configPath());
+#endif
+
 	MyApplication a( "smplayer", argc, argv );
 	/*
 	if (a.isRunning()) { 
@@ -82,6 +91,10 @@ int main( int argc, char ** argv )
 	int r = a.exec();
 
 	delete smplayer;
+
+#ifdef HDPI_SUPPORT
+	delete hdpi;
+#endif
 
 	return r;
 }

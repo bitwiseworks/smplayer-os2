@@ -50,6 +50,10 @@
 
 #endif
 
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
+
 //#define NO_SMPLAYER_SUPPORT
 
 #ifndef NO_SMPLAYER_SUPPORT
@@ -64,7 +68,7 @@
 #define COL_USER 5
 
 FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
-	: QDialog(parent,f)
+	: QWidget(parent,f)
 {
 	setupUi(this);
 
@@ -107,6 +111,10 @@ FindSubtitlesWindow::FindSubtitlesWindow( QWidget * parent, Qt::WindowFlags f )
 	view->header()->setSortIndicator(COL_LANG, Qt::AscendingOrder);
 	view->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	view->setContextMenuPolicy( Qt::CustomContextMenu );
+
+#if QT_VERSION >= 0x050000
+	MyScroller::setScroller(view->viewport());
+#endif
 
 	connect(view, SIGNAL(activated(const QModelIndex &)),
             this, SLOT(itemActivated(const QModelIndex &)) );

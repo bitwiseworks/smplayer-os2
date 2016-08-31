@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Turkish" "Türkçe"
+!else
+!insertmacro LANGFILE "Turkish" = "Türkçe" "Turkce"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Kurulum zaten çalışıyor."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Bu programı yüklerken yönetici olarak o
 ${LangFileString} SMPlayer_Is_Running "SMPlayer bir örneği çalışıyor. SMPlayer'ı kapatın ve tekrar deneyin."
 
 ${LangFileString} OS_Not_Supported "İşletim sistemi desteklenmiyor.$\nSMPlayer ${SMPLAYER_VERSION} en az Windows XP gerektirir ve sisteminizde düzgün çalışmayabilir.$\nGerçekten kuruluma devam etmek istiyor musunuz?"
+${LangFileString} OS_Not_Supported_VistaRequired "İşletim sistemi desteklenmiyor.$\nSMPlayer ${SMPLAYER_VERSION} en az Windows Vista gerektirir ve sisteminizde düzgün çalışmayabilir.$\nGerçekten kuruluma devam etmek istiyor musunuz?"
 ${LangFileString} Win64_Required "Bu yazılım kurulumu için 64-bit Windows işletim sistemi gerekli."
 ${LangFileString} Existing_32bitInst "SMPlayer için varolan bir 32-bit yükleme var. Öncelikle 32-bit SMPlayer'ı kaldırmanız gerekir."
 ${LangFileString} Existing_64bitInst "SMPlayer için varolan bir 64-bit yükleme var. Öncelikle 64-bit SMPlayer'ı kaldırmanız gerekir."
@@ -44,9 +49,9 @@ ${LangFileString} Section_MPlayerCodecs_Desc "İkili Kodekler bu sürüm için d
 ${LangFileString} Section_MPlayerCodecs_Desc "MPlayer için isteğe bağlı kodekler. (Kurulum için internet bağlantısı gereklidir)"
 !endif
 
-${LangFileString} Section_MPV_Desc "A feature-rich fork of MPlayer && MPlayer2"
+${LangFileString} Section_MPV_Desc "Özellik açısından zengin bir MPlayer && MPlayer2 çatallaması"
 
-${LangFileString} Section_MEncoder_Desc "A companion program to MPlayer that can be used to encode or transform supported audio or video streams."
+${LangFileString} Section_MEncoder_Desc "Desteklenen ses veya video yayınlarını çözmek veya dönüştürmek için kullanılabilen, MPlayer'a eşlik eden bir program."
 
 ${LangFileString} Section_IconThemes "Simge Temaları"
 ${LangFileString} Section_IconThemes_Desc "SMPlayer için ek simge temaları."
@@ -72,7 +77,7 @@ ${LangFileString} Reinstall_Msg3_3 "Hazır olduğunuzda devam etmek Kaldır'ı t
 ${LangFileString} Reinstall_Msg4 "Kurulum Ayarlarını Değiştir"
 ${LangFileString} Reinstall_Msg5 "SMPlayer yapılandırmasını sıfırla"
 
-${LangFileString} Remove_Settings_Confirmation "Are you sure you want to reset your SMPlayer settings? This action cannot be reversed."
+${LangFileString} Remove_Settings_Confirmation "SMPlayer ayarlarını sıfırlamak istediğine emin misin? Bu eylem geri alınamaz."
 
 ${LangFileString} Type_Reinstall "tekrar kur"
 ${LangFileString} Type_Downgrade "gerilet"
@@ -107,20 +112,26 @@ ${LangFileString} Info_RollBack "Değişiklikler geri alınıyor..."
 ${LangFileString} Info_Files_Extract "Dosyaları ayıklanıyor..."
 ${LangFileString} Info_SMTube_Backup "SMTube Yedekleniyor..."
 ${LangFileString} Info_SMTube_Restore "SMTube önceki kurulumdan geri yükleniyor..."
-${LangFileString} Info_MPV_Backup "Backing up mpv..."
-${LangFileString} Info_MPV_Restore "Restoring mpv from previous installation..."
+${LangFileString} Info_MPV_Backup "Mpv yedekleniyor..."
+${LangFileString} Info_MPV_Restore "Mpv önceki kurulumdan geri yükleniyor..."
 
 ; MPV
-${LangFileString} MPV_DL_Msg "Downloading mpv..."
-${LangFileString} MPV_DL_Retry "mpv was not successfully installed. Retry?"
-${LangFileString} MPV_DL_Failed "Failed to download mpv: '$R0'."
-${LangFileString} MPV_Inst_Failed "Failed to install mpv."
+${LangFileString} MPV_DL_Msg "Mpv indiriliyor..."
+${LangFileString} MPV_DL_Retry "mpv kurulamadı. Tekrar denemek ister misiniz?"
+${LangFileString} MPV_DL_Failed "Mpv indirilirken bir hata oldu: '$R0'."
+${LangFileString} MPV_Inst_Failed "Mpv kurulamadı."
 
 ; YouTube-DL
-${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
-${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
-${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+${LangFileString} YTDL_DL_Retry "youtube-dl kurulamadı. Tekrar denemek ister misiniz?"
+${LangFileString} YTDL_DL_Failed "Youtube-dl indirilemedi : '$R0'."
+${LangFileString} YTDL_Update_Check "Youtube-dl için güncelleme kontrolü... "
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
-${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."
-${LangFileString} Info_Cleaning_SMPlayer "Cleaning SMPlayer settings..."
+${LangFileString} Info_Cleaning_Fontconfig "Yazı türü yapılandırma önbelleğini temizleme"
+${LangFileString} Info_Cleaning_SMPlayer "SMPlayer ayarlarını temizleme..."

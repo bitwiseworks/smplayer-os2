@@ -28,11 +28,8 @@
 #include "config.h"
 #include "guiconfig.h"
 
-#ifdef Q_OS_WIN
 #ifdef AVOID_SCREENSAVER
-/* Disable screensaver by event */
 #include <windows.h>
-#endif
 #endif
 
 #ifdef MOUSE_GESTURES
@@ -40,10 +37,16 @@
 #endif
 
 //#define SHARE_MENU
+//#define DETECT_MINIMIZE_WORKAROUND
+
+#if !defined(Q_OS_WIN) && QT_VERSION >= 0x050000 && QT_VERSION < 0x050501
+#define NUMPAD_WORKAROUND
+#endif
 
 class QWidget;
 class QMenu;
 class LogWindow;
+class InfoWindow;
 class MplayerWindow;
 
 class QLabel;
@@ -207,6 +210,7 @@ protected slots:
 	virtual void exitFullscreenOnStop();
 	virtual void exitFullscreenIfNeeded();
 	virtual void playlistHasFinished();
+	virtual void addToPlaylistCurrentFile();
 
 	virtual void displayState(Core::State state);
 	virtual void displayMessage(QString message, int time);
@@ -320,11 +324,15 @@ protected slots:
 
 	void applyStyles();
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-#ifdef AVOID_SCREENSAVER
-	/* Disable screensaver by event */
+	virtual void setTabletMode(bool);
+
+#ifdef Q_OS_WIN
+	void checkSystemTabletMode();
+	void systemTabletModeChanged(bool);
+	
+	#ifdef AVOID_SCREENSAVER
 	void clear_just_stopped();
-#endif
+	#endif
 #endif
 
 #ifdef LOG_MPLAYER
@@ -343,6 +351,7 @@ signals:
 	void ABMarkersChanged(int secs_a, int secs_b);
 	void videoInfoChanged(int width, int height, double fps);
 	void timeChanged(QString time_ready_to_print);
+	void timeChanged(double current_time);
 
 	/*
 	void wheelUp();
@@ -364,21 +373,29 @@ signals:
 	void guiChanged(QString gui);
 #endif
 
+	void preferencesChanged();
+	void tabletModeChanged(bool new_mode);
+
 protected:
 	virtual void retranslateStrings();
 	virtual void changeEvent(QEvent * event);
-#if QT_VERSION < 0x050000
+#ifndef DETECT_MINIMIZE_WORKAROUND
 	virtual void hideEvent( QHideEvent * );
 	virtual void showEvent( QShowEvent * );
 #else
 	virtual bool event(QEvent * e);
 	bool was_minimized;
 #endif
+
 #ifdef Q_OS_WIN
-	#ifdef AVOID_SCREENSAVER
-	/* Disable screensaver by event */
 	virtual bool winEvent ( MSG * m, long * result );
+	#if QT_VERSION >= 0x050000
+	virtual bool nativeEvent(const QByteArray &eventType, void * message, long * result);
 	#endif
+#endif
+
+#ifdef NUMPAD_WORKAROUND
+	void keyPressEvent(QKeyEvent *event);
 #endif
 
 	virtual void aboutToEnterFullscreen();
@@ -396,12 +413,13 @@ protected:
 	void createPreferencesDialog();
 	void createFilePropertiesDialog();
 	void setDataToFileProperties();
-	void initializeGui();
+
 	void createActions();
 #if AUTODISABLE_ACTIONS
 	void setActionsEnabled(bool);
 #endif
 	void createMenus();
+	virtual void populateMainMenu();
 #ifdef BOOKMARKS
 	void updateBookmarks();
 #endif
@@ -540,6 +558,7 @@ protected:
 #ifdef LOG_SMPLAYER
 	MyAction * showLogSmplayerAct;
 #endif
+	MyAction * tabletModeAct;
 
 	// Menu Help
 	MyAction * showFirstStepsAct;
@@ -768,6 +787,7 @@ protected:
 	QMenu *audioMenu;
 	QMenu *subtitlesMenu;
 	QMenu *browseMenu;
+	QMenu *viewMenu;
 	QMenu *optionsMenu;
 	QMenu *helpMenu;
 
@@ -801,7 +821,7 @@ protected:
 	QMenu * videofilter_menu;
 	QMenu * audiofilter_menu;
 #if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
-	QMenu * logs_menu;
+	//QMenu * logs_menu;
 #endif
 	QMenu * zoom_menu;
 	QMenu * rotate_menu;
@@ -818,6 +838,7 @@ protected:
 
 	QMenu * popup;
 	QMenu * recentfiles_menu;
+	QMenu * access_menu;
 
 #ifdef LOG_MPLAYER
 	LogWindow * mplayer_log_window;
@@ -825,7 +846,7 @@ protected:
 #ifdef LOG_SMPLAYER
 	LogWindow * smplayer_log_window;
 #endif
-	LogWindow * clhelp_window;
+	InfoWindow * clhelp_window;
 
 	PreferencesDialog *pref_dialog;
 	FilePropertiesDialog *file_dialog;
@@ -844,8 +865,10 @@ protected:
 
 	Favorites * favorites;
 
+#ifdef TV_SUPPORT
 	TVList * tvlist;
 	TVList * radiolist;
+#endif
 
 #ifdef UPDATE_CHECKER
 	UpdateChecker * update_checker;
@@ -877,11 +900,8 @@ private:
 	QSize win_size;
 	bool was_maximized;
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef AVOID_SCREENSAVER
-	/* Disable screensaver by event */
 	bool just_stopped;
-#endif
 #endif
 
 #ifdef LOG_MPLAYER
@@ -893,6 +913,6 @@ private:
 
 	bool ignore_show_hide_events;
 };
-    
+
 #endif
 

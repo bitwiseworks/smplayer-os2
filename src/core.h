@@ -27,18 +27,14 @@
 
 #include "config.h"
 
-#ifndef NO_USE_INI_FILES
 class FileSettingsBase;
-#endif
 
 class PlayerProcess;
 class MplayerWindow;
 class QSettings;
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 class WinScreenSaver;
-#endif
 #endif
 
 #ifdef YOUTUBE_SUPPORT
@@ -88,7 +84,9 @@ public slots:
 #endif
 	void openVCD(int title = -1);
 	void openAudioCD(int title = -1);
+#ifdef TV_SUPPORT
 	void openTV(QString channel_id);
+#endif
 
 #ifdef YOUTUBE_SUPPORT
 	void openYT(const QString & url);
@@ -369,9 +367,7 @@ public:
 	int firstDVDTitle();
 	int firstBlurayTitle();
 
-#ifndef NO_USE_INI_FILES
 	void changeFileSettingsMethod(QString method);
-#endif
 
 protected:
 	//! Returns the prefix to keep pausing on slave commands
@@ -446,11 +442,9 @@ protected slots:
 	void YTNoVideoUrl();
 #endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 	void enableScreensaver();
 	void disableScreensaver();
-#endif
 #endif
 
 protected:
@@ -462,11 +456,10 @@ protected:
     void startMplayer(QString file, double seek = -1 );
 	void stopMplayer();
 
-#ifndef NO_USE_INI_FILES
 	void saveMediaInfo();
-#endif
+	void restoreSettingsForMedia(const QString & name, int type);
 
-    void initializeMenus();
+	void initializeMenus();
 	void updateWidgets();
 
 	//! Returns true if changing the subscale requires to restart mplayer
@@ -479,6 +472,7 @@ signals:
 	void aboutToStartPlaying(); // Signal emited just before to start mplayer
 	void mediaLoaded();
 	void mediaInfoChanged();
+	void mediaDataReceived(const MediaData &);
 	//! Sends the filename and title of the stream playing in this moment
 	void mediaPlaying(const QString & filename, const QString & title);
 	void stateChanged(Core::State state);
@@ -533,15 +527,13 @@ protected:
 	PlayerProcess * proc;
 	MplayerWindow * mplayerwindow;
 
-#ifndef NO_USE_INI_FILES
 	FileSettingsBase * file_settings;
+#ifdef TV_SUPPORT
 	FileSettingsBase * tv_settings;
 #endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 	WinScreenSaver * win_screensaver;
-#endif
 #endif
 
 #ifdef YOUTUBE_SUPPORT

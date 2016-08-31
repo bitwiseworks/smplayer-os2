@@ -47,6 +47,7 @@ void MPVProcess::setMedia(const QString & media, bool is_playlist) {
 			"INFO_LENGTH=${=duration:${=length}}\n"
 
 			"INFO_DEMUXER=${=demuxer}\n"
+			"INFO_SEEKABLE=${=seekable}\n"
 			"INFO_TITLES=${=disc-titles}\n"
 			"INFO_CHAPTERS=${=chapters}\n"
 			"INFO_TRACKS_COUNT=${=track-list/count}\n"
@@ -149,6 +150,10 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 		}
 	}
 	else
+	if (option_name == "cache_auto") {
+		arg << "--cache=auto";
+	}
+	else
 	if (option_name == "ss") {
 		arg << "--start=" + value.toString();
 	}
@@ -242,13 +247,20 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 	}
 	else
 	if (option_name == "softvol") {
-		arg << "--softvol=yes";
-	}
-	else
-	if (option_name == "softvol-max") {
-		int v = value.toInt();
-		if (v < 100) v = 100;
-		arg << "--softvol-max=" + QString::number(v);
+		if (value.toString() == "off") {
+			if (isOptionAvailable("--volume-max")) {
+				arg << "--volume-max=100";
+			}
+		} else {
+			int v = value.toInt();
+			if (v < 100) v = 100;
+			if (isOptionAvailable("--volume-max")) {
+				arg << "--volume-max=" + QString::number(v);
+			} else {
+				arg << "--softvol=yes";
+				arg << "--softvol-max=" + QString::number(v);
+			}
+		}
 	}
 	else
 	if (option_name == "subfps") {
@@ -339,6 +351,13 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 		arg << "--mute=yes";
 	}
 	else
+	if (option_name == "scaletempo") {
+		if (isOptionAvailable("--audio-pitch-correction")) {
+			bool enabled = value.toBool();
+			if (enabled) arg << "--audio-pitch-correction=yes"; else arg << "--audio-pitch-correction=no";
+		}
+	}
+	else
 	if (option_name == "vf-add") {
 		if (!value.isNull()) arg << "--vf-add=" + value.toString();
 	}
@@ -366,7 +385,8 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 	    option_name == "autosync" ||
 	    option_name == "dvd-device" || option_name == "cdrom-device" ||
 	    option_name == "demuxer" ||
-	    option_name == "frames")
+	    option_name == "frames" ||
+	    option_name == "ab-loop-a" || option_name == "ab-loop-b")
 	{
 		QString s = "--" + option_name;
 		if (!value.isNull()) s += "=" + value.toString();
@@ -714,6 +734,19 @@ void MPVProcess::setLoop(int v) {
 	writeToStdin(QString("set loop %1").arg(o));
 }
 
+void MPVProcess::setAMarker(int sec) {
+	writeToStdin(QString("set ab-loop-a %1").arg(sec));
+}
+
+void MPVProcess::setBMarker(int sec) {
+	writeToStdin(QString("set ab-loop-b %1").arg(sec));
+}
+
+void MPVProcess::clearABMarkers() {
+	writeToStdin("set ab-loop-a no");
+	writeToStdin("set ab-loop-b no");
+}
+
 void MPVProcess::takeScreenshot(ScreenshotType t, bool include_subtitles) {
 	writeToStdin(QString("screenshot %1 %2").arg(include_subtitles ? "subtitles" : "video").arg(t == Single ? "single" : "each-frame"));
 }
@@ -907,6 +940,10 @@ void MPVProcess::setSubStyles(const AssStyles & styles, const QString &) {
 
 	if (isOptionAvailable("--sub-text-bold")) {
 		arg << QString("--sub-text-bold=%1").arg(styles.bold ? "yes" : "no");
+	}
+
+	if (isOptionAvailable("--sub-text-italic")) {
+		arg << QString("--sub-text-italic=%1").arg(styles.italic ? "yes" : "no");
 	}
 
 	QString halign;

@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Farsi" "فارسی"
+!else
+!insertmacro LANGFILE "Farsi" "Persian" "فارسی" "Farsi"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "نصب کننده شما آماده اجرا است"
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "در هنگام نصب شما باید ب�
 ${LangFileString} SMPlayer_Is_Running "یک نمونه از smplayer در حال اجراست ، لطفا smplayer را ببندید و دوباره تلاش کنید"
 
 ${LangFileString} OS_Not_Supported "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows XP and may not work correctly on your system.$\nDo you really want to continue with the installation?"
+${LangFileString} OS_Not_Supported_VistaRequired "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows Vista and may not work correctly on your system.$\nDo you really want to continue with the installation?"
 ${LangFileString} Win64_Required "یک ویندوز 64 بیتی درخواست نصب این نرم افزار را دارد"
 ${LangFileString} Existing_32bitInst "یک نسخه 32 بیتی از SMPlayer نصب شده است ، ابتدا آن نسخه 32 بیتی را حذف نمایید."
 ${LangFileString} Existing_64bitInst "یک نسخه 64 بیتی از smplayer نصب شده است . شما باید ابتدا این نسخه 64 بیتی smplayer را حذف کنید."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Failed to install mpv."
 ${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
 ${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."

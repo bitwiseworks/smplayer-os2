@@ -70,6 +70,7 @@ VideoPreview::VideoPreview(QString mplayer_path, QWidget * parent) : QWidget(par
 
 	progress = new QProgressDialog(parent != 0 ? parent : this);
 	progress->setMinimumDuration(0);
+	progress->reset(); // Prevent the dialog to be shown on initialization (Qt 5.5)
 	connect( progress, SIGNAL(canceled()), this, SLOT(cancelPressed()) );
 
 	w_contents = new QWidget(this);
@@ -285,10 +286,12 @@ bool VideoPreview::runPlayer(int seek, double aspect_ratio) {
 		if (!prop.dvd_device.isEmpty()) args << "--dvd-device=" + prop.dvd_device;
 		QString format = (prop.extract_format == PNG) ? "png:png-compression=0" : "jpg";
 		args << QString("--vo=image=format=%1:outdir=\"%2\"").arg(format).arg(full_output_dir);
-		
+
+		/*
 		#ifdef Q_OS_WIN
-		args << "--use-text-osd=no";
+		args << "--use-text-osd=no"; // option removed in mpv 0.12
 		#endif
+		*/
 		#endif // MPV_SUPPORT
 	}
 	else {
@@ -402,7 +405,8 @@ bool VideoPreview::addPicture(const QString & filename, int num, int time) {
 
 void VideoPreview::displayVideoInfo(const VideoInfo & i) {
 	// Display info about the video
-	QTime t = QTime().addSecs(i.length);
+	QTime t(0,0);
+	t = t.addSecs(i.length);
 
 	QString aspect = QString::number(i.aspect);
 	if (fabs(1.77 - i.aspect) < 0.1) aspect = "16:9";

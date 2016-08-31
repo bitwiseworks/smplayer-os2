@@ -98,7 +98,6 @@ set VER_MINOR=
 set VER_BUILD=
 set VER_REVISION=
 set VER_REV_CMD=
-set DEF_QT5=
 set /p ALL_PKG_VER="Version: "
 echo.
 
@@ -160,14 +159,8 @@ goto end
 echo --- SMPlayer NSIS Package [32-bit] ---
 echo.
 
-if exist %TOP_LEVEL_DIR%\smplayer-build\Qt5Core.dll (
-  set DEF_QT5=/DQT5
-) else (
-  set DEF_QT5=
-)
-
 if exist %TOP_LEVEL_DIR%\smplayer-build (
-  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% %DEF_QT5% %TOP_LEVEL_DIR%\smplayer.nsi
+  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% %TOP_LEVEL_DIR%\smplayer.nsi
 )
 
 if not "%USER_CHOICE%" == "10"  goto end
@@ -176,14 +169,8 @@ if not "%USER_CHOICE%" == "10"  goto end
 echo --- SMPlayer NSIS Package [64-bit] ---
 echo.
 
-if exist %TOP_LEVEL_DIR%\smplayer-build64\Qt5Core.dll (
-  set DEF_QT5="/DQT5"
-) else (
-  set DEF_QT5=
-)
-
 if exist %TOP_LEVEL_DIR%\smplayer-build64 (
-  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% /DWIN64 %DEF_QT5% %TOP_LEVEL_DIR%\smplayer.nsi
+  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% /DWIN64 %TOP_LEVEL_DIR%\smplayer.nsi
 )
 
 goto end
@@ -207,18 +194,10 @@ REM if not exist "%PORTABLE_EXE_DIR%\smtube-portable.exe" (
 REM  echo Warning: SMTube portable EXE not found!
 REM )
 
-if exist %TOP_LEVEL_DIR%\smplayer-build\Qt5Core.dll (
-  set QT5_SUFFIX="-qt5"
-  set QT5_OUTPUT_DIR="\Qt5"
-) else (
-  set QT5_SUFFIX=""
-  set QT5_OUTPUT_DIR=""
-)
+ren "%SMPLAYER_DIR%" "smplayer-portable-%PORTABLE_PKG_VER%"
+set SMPLAYER_PORTABLE_DIR="%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%"
 
-ren "%SMPLAYER_DIR%" "smplayer-portable-%PORTABLE_PKG_VER%%QT5_SUFFIX%"
-set SMPLAYER_PORTABLE_DIR="%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%%QT5_SUFFIX%"
-
-if not exist "%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%%QT5_SUFFIX%" (
+if not exist "%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%" (
   echo Oops! Unable to find renamed directory, make sure no files are opened.
   goto end
 )
@@ -258,7 +237,7 @@ copy /y "%PORTABLE_EXE_DIR%\smplayer-portable.exe" "%SMPLAYER_PORTABLE_DIR%\smpl
 REM copy /y "%PORTABLE_EXE_DIR%\smtube-portable.exe" "%SMPLAYER_PORTABLE_DIR%\smtube.exe"
 
 echo Finalizing package...
-7za a -t7z "%OUTPUT_DIR%%QT5_OUTPUT_DIR%\smplayer-portable-%PORTABLE_PKG_VER%%QT5_SUFFIX%.7z" "%SMPLAYER_PORTABLE_DIR%" -xr!*.bak* -xr!qxtcore.dll -xr!mplayer64.exe -xr!mencoder.exe -xr!mencoder64.exe -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!gdb.exe -xr!gdb64.exe -xr!vfw2menc.exe -xr!buildinfo -xr!buildinfo64 -xr!buildinfo-mencoder-32 -xr!buildinfo-mencoder-debug-32 -xr!buildinfo-mplayer-32 -xr!buildinfo-mplayer-debug-32 -xr!buildinfo-mencoder-64 -xr!buildinfo-mencoder-debug-64 -xr!buildinfo-mplayer-64 -xr!buildinfo-mplayer-debug-64 -xr!mpv64.exe -xr!mpv64.com -mx9 >nul
+7za a -t7z "%OUTPUT_DIR%\smplayer-portable-%PORTABLE_PKG_VER%.7z" "%SMPLAYER_PORTABLE_DIR%" -xr!*.bak* -xr!qxtcore.dll -xr!mplayer64.exe -xr!mencoder.exe -xr!mencoder64.exe -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!gdb.exe -xr!gdb64.exe -xr!vfw2menc.exe -xr!buildinfo -xr!buildinfo64 -xr!buildinfo-mencoder-32 -xr!buildinfo-mencoder-debug-32 -xr!buildinfo-mplayer-32 -xr!buildinfo-mplayer-debug-32 -xr!buildinfo-mencoder-64 -xr!buildinfo-mencoder-debug-64 -xr!buildinfo-mplayer-64 -xr!buildinfo-mplayer-debug-64 -xr!mpv64.exe -xr!mpv64.com -mx9 >nul
 
 echo.
 echo Restoring source folder(s) back to its original state...
@@ -294,18 +273,10 @@ REM if not exist "%PORTABLE_EXE_DIR%\smtube-portable64.exe" (
 REM  echo Warning: SMTube portable EXE not found!
 REM )
 
-if exist %TOP_LEVEL_DIR%\smplayer-build64\Qt5Core.dll (
-  set QT5_SUFFIX="-qt5"
-  set QT5_OUTPUT_DIR="\Qt5"
-) else (
-  set QT5_SUFFIX=""
-  set QT5_OUTPUT_DIR=""
-)
+ren "%SMPLAYER_DIR64%" "smplayer-portable-%PORTABLE_PKG_VER%-x64"
+set SMPLAYER_PORTABLE_DIR="%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64"
 
-ren "%SMPLAYER_DIR64%" "smplayer-portable-%PORTABLE_PKG_VER%-x64%QT5_SUFFIX%"
-set SMPLAYER_PORTABLE_DIR="%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64%QT5_SUFFIX%"
-
-if not exist "%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64%QT5_SUFFIX%" (
+if not exist "%TOP_LEVEL_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64" (
   echo Oops! Unable to find renamed directory, make sure no files are opened.
   goto end
 )
@@ -359,7 +330,7 @@ copy /y "%PORTABLE_EXE_DIR%\smplayer-portable64.exe" "%SMPLAYER_PORTABLE_DIR%\sm
 REM copy /y "%PORTABLE_EXE_DIR%\smtube-portable64.exe" "%SMPLAYER_PORTABLE_DIR%\smtube.exe"
 
 echo Finalizing package...
-7za a -t7z "%OUTPUT_DIR%%QT5_OUTPUT_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64%QT5_SUFFIX%.7z" "%SMPLAYER_PORTABLE_DIR%" -xr!*.bak* -xr!qxtcore.dll -xr!mencoder.exe -xr!mencoder64.exe  -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!gdb.exe -xr!gdb64.exe -xr!vfw2menc.exe -xr!codecs -xr!buildinfo -xr!buildinfo64 -xr!buildinfo-mencoder-32 -xr!buildinfo-mencoder-debug-32 -xr!buildinfo-mplayer-32 -xr!buildinfo-mplayer-debug-32 -xr!buildinfo-mencoder-64 -xr!buildinfo-mencoder-debug-64 -xr!buildinfo-mplayer-64 -xr!buildinfo-mplayer-debug-64 -mx9 >nul
+7za a -t7z "%OUTPUT_DIR%\smplayer-portable-%PORTABLE_PKG_VER%-x64.7z" "%SMPLAYER_PORTABLE_DIR%" -xr!*.bak* -xr!qxtcore.dll -xr!mencoder.exe -xr!mencoder64.exe  -xr!mplayer64.exe.debug -xr!mencoder64.exe.debug -xr!mplayer.exe.debug -xr!mencoder.exe.debug -xr!gdb.exe -xr!gdb64.exe -xr!vfw2menc.exe -xr!codecs -xr!buildinfo -xr!buildinfo64 -xr!buildinfo-mencoder-32 -xr!buildinfo-mencoder-debug-32 -xr!buildinfo-mplayer-32 -xr!buildinfo-mplayer-debug-32 -xr!buildinfo-mencoder-64 -xr!buildinfo-mencoder-debug-64 -xr!buildinfo-mplayer-64 -xr!buildinfo-mplayer-debug-64 -mx9 >nul
 
 echo.
 echo Restoring source folder(s) back to its original state...
@@ -393,27 +364,15 @@ goto end
 
 :portablesfx
 
-if exist %TOP_LEVEL_DIR%\smplayer-build\Qt5Core.dll (
-  set DEF_QT5=/DQT5
-) else (
-  set DEF_QT5=
-)
-
 if exist %PORTABLE_EXE_DIR%\smplayer-portable.exe (
   if exist %TOP_LEVEL_DIR%\smplayer-build (
-  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% %DEF_QT5% %TOP_LEVEL_DIR%\smportable.nsi
+  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% %TOP_LEVEL_DIR%\smportable.nsi
   )
-)
-
-if exist %TOP_LEVEL_DIR%\smplayer-build64\Qt5Core.dll (
-  set DEF_QT5=/DQT5
-) else (
-  set DEF_QT5=
 )
 
 if exist %PORTABLE_EXE_DIR%\smplayer-portable64.exe (
   if exist %TOP_LEVEL_DIR%\smplayer-build64 (
-  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% /DWIN64 %DEF_QT5% %TOP_LEVEL_DIR%\smportable.nsi
+  %MAKENSIS_EXE_PATH% /V3 /DVER_MAJOR=%VER_MAJOR% /DVER_MINOR=%VER_MINOR% /DVER_BUILD=%VER_BUILD% %VER_REV_CMD% /DWIN64 %TOP_LEVEL_DIR%\smportable.nsi
   )
 )
 
@@ -457,7 +416,7 @@ goto end
 
 :end
 
-pause
+timeout /t 10
 
 :superend
 set ALL_PKG_VER=

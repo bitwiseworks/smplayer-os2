@@ -23,13 +23,14 @@
 #include "images.h"
 #include "playlist.h"
 
-#ifdef Q_OS_WIN
-#include "favorites.h"
-#else
+#ifdef TV_SUPPORT
 #include "tvlist.h"
+#else
+#include "favorites.h"
 #endif
 
 #include "widgetactions.h"
+#include "myactiongroup.h"
 
 #include <QMenu>
 #include <QCloseEvent>
@@ -44,23 +45,44 @@
 #define PLAYLIST_ON_SIDES 1
 #endif
 
+#ifdef SCREENS_SUPPORT
+#include <QVBoxLayout>
+#include <QLabel>
+#include "mplayerwindow.h"
+#include "infowindow.h"
+
+#if QT_VERSION >= 0x050000
+#include <QScreen>
+#include <QWindow>
+#endif
+#endif
+
+#ifdef GLOBALSHORTCUTS
+#include "globalshortcuts/globalshortcuts.h"
+#include "preferencesdialog.h"
+#include "prefinput.h"
+#endif
+
 using namespace Global;
 
 BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	: BaseGui( parent, flags )
+#ifdef SCREENS_SUPPORT
+	, screens_info_window(0)
+	, detached_label(0)
+#endif
+	, mainwindow_visible(true)
+	, trayicon_playlist_was_visible(false)
+	, widgets_size(0)
+#if DOCK_PLAYLIST
+	, fullscreen_playlist_was_visible(false)
+	, fullscreen_playlist_was_floating(false)
+	, compact_playlist_was_visible(false)
+	, ignore_playlist_events(false)
+#endif
 {
 	// Initialize variables
-	mainwindow_visible = true;
 	//infowindow_visible = false;
-	trayicon_playlist_was_visible = false;
-	widgets_size = 0;
-#if DOCK_PLAYLIST
-	fullscreen_playlist_was_visible = false;
-	fullscreen_playlist_was_floating = false;
-	compact_playlist_was_visible = false;
-	ignore_playlist_events = false;
-#endif
-
 	mainwindow_pos = pos();
 
 	tray = new QSystemTrayIcon(this);
@@ -70,26 +92,16 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
              this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
 	quitAct = new MyAction(QKeySequence("Ctrl+Q"), this, "quit");
-    connect( quitAct, SIGNAL(triggered()), this, SLOT(quit()) );
-	openMenu->addAction(quitAct);
+	connect( quitAct, SIGNAL(triggered()), this, SLOT(quit()) );
 
 	showTrayAct = new MyAction(this, "show_tray_icon" );
 	showTrayAct->setCheckable(true);
 	connect( showTrayAct, SIGNAL(toggled(bool)),
              tray, SLOT(setVisible(bool)) );
 
-#ifndef Q_OS_OS2
-	optionsMenu->addAction(showTrayAct);
-#else
-	trayAvailable();
-	connect( optionsMenu, SIGNAL(aboutToShow()),
-             this, SLOT(trayAvailable()) );
-#endif
-
 	showAllAct = new MyAction(this, "restore/hide");
 	connect( showAllAct, SIGNAL(triggered()),
              this, SLOT(toggleShowAll()) );
-
 
 	context_menu = new QMenu(this);
 	context_menu->addAction(showAllAct);
@@ -100,7 +112,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	context_menu->addAction(openDVDAct);
 	context_menu->addAction(openURLAct);
 	context_menu->addMenu(favorites);
-#ifndef Q_OS_WIN
+#if defined(TV_SUPPORT) && !defined(Q_OS_WIN)
 	context_menu->addMenu(tvlist);
 	context_menu->addMenu(radiolist);
 #endif
@@ -115,7 +127,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	context_menu->addAction(showPreferencesAct);
 	context_menu->addSeparator();
 	context_menu->addAction(quitAct);
-	
+
 	tray->setContextMenu( context_menu );
 
 #if DOCK_PLAYLIST
@@ -149,14 +161,84 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	ignore_playlist_events = false;
 #endif // DOCK_PLAYLIST
 
-	retranslateStrings();
+#ifdef DETACH_VIDEO_OPTION
+	detachVideoAct = new MyAction(this, "detach_video");
+	detachVideoAct->setCheckable(true);
+	connect(detachVideoAct, SIGNAL(toggled(bool)), this, SLOT(detachVideo(bool)));
+#endif
 
-    loadConfig();
+#ifdef SCREENS_SUPPORT
+	sendToScreen_menu = new QMenu(this);
+	sendToScreen_menu->menuAction()->setObjectName("send_to_screen_menu");
+
+	sendToScreenGroup = new MyActionGroup(this);
+	connect(sendToScreenGroup, SIGNAL(activated(int)), this, SLOT(sendVideoToScreen(int)));
+
+	updateSendToScreen();
+
+	showScreensInfoAct = new MyAction(this, "screens_info");
+	connect(showScreensInfoAct, SIGNAL(triggered()), this, SLOT(showScreensInfo()));
+
+	#if QT_VERSION >= 0x040600 && QT_VERSION < 0x050000
+	connect(qApp->desktop(), SIGNAL(screenCountChanged(int)), this, SLOT(updateSendToScreen()));
+	#endif
+	#if QT_VERSION >= 0x050000
+	connect(qApp, SIGNAL(screenAdded(QScreen *)), this, SLOT(updateSendToScreen()));
+	#endif
+	#if QT_VERSION >= 0x050400
+	connect(qApp, SIGNAL(screenRemoved(QScreen *)), this, SLOT(updateSendToScreen()));
+	#endif
+	#if QT_VERSION >= 0x050600
+	connect(qApp, SIGNAL(primaryScreenChanged(QScreen *)), this, SLOT(updateSendToScreen()));
+	#endif
+
+	// Label that replaces the mplayerwindow when detached
+	detached_label = new QLabel(panel);
+	detached_label->setAlignment(Qt::AlignCenter);
+	panel->layout()->addWidget(detached_label);
+	detached_label->hide();
+#endif
+
+#ifdef GLOBALSHORTCUTS
+	global_shortcuts = new GlobalShortcuts(this);
+	global_shortcuts->setEnabled(pref->use_global_shortcuts);
+	connect(this, SIGNAL(preferencesChanged()), this, SLOT(updateGlobalShortcuts()));
+#endif
+
+	retranslateStrings();
+	loadConfig();
 }
 
 BaseGuiPlus::~BaseGuiPlus() {
 	saveConfig();
 	tray->hide();
+}
+
+void BaseGuiPlus::populateMainMenu() {
+	qDebug("BaseGuiPlus::populateMainMenu");
+
+	BaseGui::populateMainMenu();
+
+	if (!pref->tablet_mode) {
+		openMenu->addAction(quitAct);
+		optionsMenu->addAction(showTrayAct);
+	}
+
+#ifdef DETACH_VIDEO_OPTION
+	optionsMenu->addAction(detachVideoAct);
+#endif
+
+#ifdef SCREENS_SUPPORT
+	videoMenu->insertMenu(videosize_menu->menuAction(), sendToScreen_menu);
+	//optionsMenu->addMenu(sendToScreen_menu);
+
+	if (!pref->tablet_mode) {
+		viewMenu->addSeparator();
+		viewMenu->addAction(showScreensInfoAct);
+	}
+
+	access_menu->insertMenu(tabletModeAct, sendToScreen_menu);
+#endif
 }
 
 bool BaseGuiPlus::startHidden() {
@@ -216,6 +298,19 @@ void BaseGuiPlus::retranslateStrings() {
 
 #if DOCK_PLAYLIST
     playlistdock->setWindowTitle( tr("Playlist") );
+#endif
+
+#ifdef DETACH_VIDEO_OPTION
+	detachVideoAct->change("Detach video");
+#endif
+
+#ifdef SCREENS_SUPPORT
+	sendToScreen_menu->menuAction()->setText( tr("Send &video to screen") );
+	sendToScreen_menu->menuAction()->setIcon(Images::icon("send_to_screen"));
+	showScreensInfoAct->change(tr("Information about connected &screens"));
+
+	detached_label->setText("<img src=\"" + Images::file("send_to_screen") + "\">" +
+		"<p style=\"color: white;\">" + tr("Video is sent to an external screen") +"</p");
 #endif
 }
 
@@ -410,7 +505,9 @@ void BaseGuiPlus::aboutToEnterFullscreen() {
 	if ((playlist_screen == mainwindow_screen) /* || 
         (!fullscreen_playlist_was_floating) */ ) 
 	{
+		#if QT_VERSION < 0x050000 || !defined(Q_OS_LINUX)
 		playlistdock->setFloating(true);
+		#endif
 		playlistdock->hide();
 	}
 #endif
@@ -582,6 +679,20 @@ void BaseGuiPlus::shrinkWindow() {
 
 #endif
 
+#ifdef GLOBALSHORTCUTS
+void BaseGuiPlus::showPreferencesDialog() {
+	qDebug("BaseGuiPlus::showPreferencesDialog");
+	global_shortcuts->setEnabled(false);
+	BaseGui::showPreferencesDialog();
+}
+
+void BaseGuiPlus::updateGlobalShortcuts() {
+	qDebug("BaseGuiPlus::updateGlobalShortcuts");
+	global_shortcuts->setEnabled(pref->use_global_shortcuts);
+}
+#endif
+
+
 // Convenience functions intended for other GUI's
 TimeSliderAction * BaseGuiPlus::createTimeSliderAction(QWidget * parent) {
 	TimeSliderAction * timeslider_action = new TimeSliderAction( parent );
@@ -622,7 +733,7 @@ VolumeSliderAction * BaseGuiPlus::createVolumeSliderAction(QWidget * parent) {
 	VolumeSliderAction * volumeslider_action = new VolumeSliderAction(parent);
 	volumeslider_action->setObjectName("volumeslider_action");
 
-	connect( volumeslider_action, SIGNAL( valueChanged(int) ), 
+	connect( volumeslider_action, SIGNAL( valueChanged(int) ),
              core, SLOT( setVolume(int) ) );
 	connect( core, SIGNAL(volumeChanged(int)),
              volumeslider_action, SLOT(setValue(int)) );
@@ -630,16 +741,224 @@ VolumeSliderAction * BaseGuiPlus::createVolumeSliderAction(QWidget * parent) {
 	return volumeslider_action;
 }
 
-#ifdef Q_OS_OS2
-// we test if xcenter is available at all. if not disable the tray action. this is possible when xcenter is not opened or crashed
-void BaseGuiPlus::trayAvailable() {
-	if (!tray->isSystemTrayAvailable()) {
-			optionsMenu->removeAction(showTrayAct);
+TimeLabelAction * BaseGuiPlus::createTimeLabelAction(TimeLabelAction::TimeLabelType type, QWidget * parent) {
+	TimeLabelAction * time_label_action = new TimeLabelAction(type, parent);
+	time_label_action->setObjectName("timelabel_action");
+
+	connect(this, SIGNAL(timeChanged(double)), time_label_action, SLOT(setCurrentTime(double)));
+	connect(core, SIGNAL(newDuration(double)), time_label_action, SLOT(setTotalTime(double)));
+
+	return time_label_action;
+}
+
+#ifdef SCREENS_SUPPORT
+void BaseGuiPlus::showScreensInfo() {
+	qDebug("BaseGuiPlus::showScreensInfo");
+
+	/*
+	updateSendToScreen();
+	*/
+
+	if (!screens_info_window) {
+		screens_info_window = new InfoWindow(this);
+		screens_info_window->setWindowTitle(tr("Information about connected screens"));
 	}
-	else {
-		optionsMenu->addAction(showTrayAct);
+
+	QString t = "<h1>" + tr("Connected screens") + "</h1>";
+#if QT_VERSION >= 0x050000
+	QList<QScreen *> screen_list = qApp->screens();
+	t += "<p>" + tr("Number of screens: %1").arg(screen_list.count());
+	QString screen_name = qApp->primaryScreen()->name();
+	#ifdef Q_OS_WIN
+	screen_name = screen_name.replace("\\\\.\\","");
+	#endif
+	t += "<p>" + tr("Primary screen: %1").arg(screen_name);
+
+	t += "<ul>";
+	foreach(QScreen *screen, screen_list) {
+		screen_name = screen->name();
+		#ifdef Q_OS_WIN
+		screen_name = screen_name.replace("\\\\.\\","");
+		#endif
+		t += "<li>" + tr("Information for screen %1").arg(screen_name);
+		t += "<ul>";
+		t += "<li>" + tr("Available geometry: %1 %2 %3 x %4").arg(screen->availableGeometry().x()).arg(screen->availableGeometry().y())
+						.arg(screen->availableGeometry().width()).arg(screen->availableGeometry().height()) + "</li>";
+		t += "<li>" + tr("Available size: %1 x %2").arg(screen->availableSize().width()).arg(screen->availableSize().height()) + "</li>";
+		t += "<li>" + tr("Available virtual geometry: %1 %2 %3 x %4").arg(screen->availableVirtualGeometry().x())
+						.arg(screen->availableVirtualGeometry().y())
+						.arg(screen->availableVirtualGeometry().width())
+						.arg(screen->availableVirtualGeometry().height()) + "</li>";
+		t += "<li>" + tr("Available virtual size: %1 x %2").arg(screen->availableVirtualSize().width())
+						.arg(screen->availableVirtualSize().height()) + "</li>";
+		t += "<li>" + tr("Depth: %1 bits").arg(screen->depth()) + "</li>";
+		t += "<li>" + tr("Geometry: %1 %2 %3 x %4").arg(screen->geometry().x()).arg(screen->geometry().y())
+						.arg(screen->geometry().width()).arg(screen->geometry().height()) + "</li>";
+		t += "<li>" + tr("Logical DPI: %1").arg(screen->logicalDotsPerInch()) + "</li>";
+		//t += "<li>" + tr("Orientation: %1").arg(screen->orientation()) + "</li>";
+		t += "<li>" + tr("Physical DPI: %1").arg(screen->physicalDotsPerInch()) + "</li>";
+		t += "<li>" + tr("Physical size: %1 x %2 mm").arg(screen->physicalSize().width()).arg(screen->physicalSize().height()) + "</li>";
+		//t += "<li>" + tr("Primary orientation: %1").arg(screen->primaryOrientation()) + "</li>";
+		t += "<li>" + tr("Refresh rate: %1 Hz").arg(screen->refreshRate()) + "</li>";
+		t += "<li>" + tr("Size: %1 x %2").arg(screen->size().width()).arg(screen->size().height()) + "</li>";
+		t += "<li>" + tr("Virtual geometry: %1 %2 %3 x %4").arg(screen->virtualGeometry().x()).arg(screen->virtualGeometry().y())
+						.arg(screen->virtualGeometry().width()).arg(screen->virtualGeometry().height()) + "</li>";
+		t += "<li>" + tr("Virtual size: %1 x %2").arg(screen->virtualSize().width()).arg(screen->virtualSize().height()) + "</li>";
+		t += "</ul></li>";
+	}
+	t += "</ul>";
+#else
+	QDesktopWidget * dw = qApp->desktop();
+	t += "<p>" + tr("Number of screens: %1").arg(dw->screenCount());
+	t += "<p>" + tr("Primary screen: %1").arg(dw->primaryScreen()+1);
+
+	t += "<ul>";
+	for (int n = 0; n < dw->screenCount(); n++) {
+		t += "<li>" + tr("Information for screen %1").arg(n+1);
+		t += "<ul>";
+		t += "<li>" + tr("Available geometry: %1 %2 %3 x %4").arg(dw->availableGeometry(n).x()).arg(dw->availableGeometry(n).y())
+						.arg(dw->availableGeometry(n).width()).arg(dw->availableGeometry(n).height()) + "</li>";
+		t += "<li>" + tr("Geometry: %1 %2 %3 x %4").arg(dw->screenGeometry(n).x()).arg(dw->screenGeometry(n).y())
+						.arg(dw->screenGeometry(n).width()).arg(dw->screenGeometry(n).height()) + "</li>";
+		t += "</ul></li>";
+	}
+	t += "</ul>";
+#endif
+
+	screens_info_window->setHtml(t);
+	screens_info_window->show();
+}
+
+void BaseGuiPlus::updateSendToScreen() {
+	qDebug("BaseGuiPlus::updateSendToScreen");
+
+	sendToScreenGroup->clear(true);
+
+#if QT_VERSION >= 0x050000
+	QList<QScreen *> screen_list = qApp->screens();
+	int n_screens = screen_list.count();
+#else
+	QDesktopWidget * dw = qApp->desktop();
+	int n_screens = dw->screenCount();
+#endif
+
+	for (int n = 0; n < n_screens; n++) {
+		QString name;
+		#if QT_VERSION >= 0x050000
+		name = screen_list[n]->name();
+		#ifdef Q_OS_WIN
+		name = name.replace("\\\\.\\","");
+		#endif
+		bool is_primary_screen = (screen_list[n] == qApp->primaryScreen());
+		#else
+		bool is_primary_screen = (n == dw->primaryScreen());
+		#endif
+		MyAction * screen_item = new MyActionGroupItem(this, sendToScreenGroup, QString("send_to_screen_%1").arg(n+1).toLatin1().constData(), n);
+		QString desc = "&" + QString::number(n+1);
+		if (!name.isEmpty()) desc += " - " + name;
+		if (is_primary_screen) desc += " (" + tr("Primary screen") + ")";
+		screen_item->change(desc);
+	}
+
+	sendToScreen_menu->clear();
+	sendToScreen_menu->addActions(sendToScreenGroup->actions());
+	
+	if (n_screens == 1 && isVideoDetached()) detachVideo(false);
+}
+
+void BaseGuiPlus::sendVideoToScreen(int screen) {
+	qDebug() << "BaseGuiPlus::sendVideoToScreen:" << screen;
+
+#if QT_VERSION >= 0x050000
+	QList<QScreen *> screen_list = qApp->screens();
+	int n_screens = screen_list.count();
+#else
+	QDesktopWidget * dw = qApp->desktop();
+	int n_screens = dw->screenCount();
+#endif
+
+	if (screen < n_screens) {
+		#if QT_VERSION >= 0x050000
+		bool is_primary_screen = (screen_list[screen] == qApp->primaryScreen());
+		QRect geometry = screen_list[screen]->geometry();
+		#else
+		bool is_primary_screen = (screen == dw->primaryScreen());
+		QRect geometry = dw->screenGeometry(screen);	
+		qDebug() << "BaseGuiPlus::sendVideoToScreen: screen geometry:" << geometry;
+		#endif
+		qDebug() << "BaseGuiPlus::sendVideoToScreen: is_primary_screen:" << is_primary_screen;
+		//is_primary_screen = false;
+		if (is_primary_screen) {
+			mplayerwindow->showNormal();
+			detachVideo(false);
+		} else {
+			detachVideo(true);
+			//#if QT_VERSION >= 0x050000
+			//mplayerwindow->windowHandle()->setScreen(screen_list[screen]); // Doesn't work
+			//#else
+			mplayerwindow->move(geometry.x(), geometry.y());
+			//#endif
+			qApp->processEvents();
+			//toggleFullscreen(true);
+			mplayerwindow->showFullScreen();
+		}
+	} else {
+		// Error
+		qWarning() << "BaseGuiPlus::sendVideoToScreen: screen" << screen << "is not valid";
 	}
 }
+
+bool BaseGuiPlus::isVideoDetached() {
+	return (mplayerwindow->parent() == 0);
+}
+
+void BaseGuiPlus::detachVideo(bool detach) {
+	qDebug() << "BaseGuiPlus::detachVideo:" << detach;
+
+	if (detach) {
+		if (!isVideoDetached()) {
+			toggleFullscreen(false);
+			fullscreenAct->setEnabled(false);
+
+			panel->layout()->removeWidget(mplayerwindow);
+			mplayerwindow->setParent(0);
+			mplayerwindow->setWindowTitle(tr("SMPlayer external screen output"));
+
+			detached_label->show();
+		}
+		mplayerwindow->show();
+	} else {
+		if (isVideoDetached()) {
+			fullscreenAct->setEnabled(true);
+
+			detached_label->hide();
+
+			mplayerwindow->setWindowTitle(QString::null);
+			mplayerwindow->setParent(panel);
+			panel->layout()->addWidget(mplayerwindow);
+		}
+	}
+}
+
+/*
+void BaseGuiPlus::toggleFullscreen(bool b) {
+	qDebug() << "BaseGuiPlus::toggleFullscreen:" << b;
+	if (!isVideoDetached()) {
+		BaseGui::toggleFullscreen(b);
+	} else {
+		if (b == pref->fullscreen) return;
+		pref->fullscreen = b;
+
+		if (pref->fullscreen) {
+			//aboutToEnterFullscreen();
+			mplayerwindow->showFullScreen();
+		} else {
+			mplayerwindow->showNormal();
+			//aboutToExitFullscreen();
+		}
+	}
+}
+*/
 #endif
 
 #include "moc_baseguiplus.cpp"

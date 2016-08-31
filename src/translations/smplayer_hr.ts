@@ -1,70 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="hr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.0">
 <context>
     <name>About</name>
     <message>
-        <location filename="../about.cpp" line="50"/>
+        <location filename="../about.cpp" line="61"/>
         <source>Version: %1</source>
         <translation>Inačica: %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="60"/>
+        <location filename="../about.cpp" line="71"/>
         <source>Links:</source>
         <translation>Poveznice:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="61"/>
+        <location filename="../about.cpp" line="72"/>
         <source>Official website:</source>
         <translation>Službena web stranica:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="62"/>
+        <location filename="../about.cpp" line="73"/>
         <source>Support forum:</source>
         <translation>Forum podrške:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="73"/>
+        <location filename="../about.cpp" line="84"/>
         <source>SMPlayer is a graphical interface for %1.</source>
         <translation>SMPlayer je grafičko sučelje za %1.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="160"/>
+        <location filename="../about.cpp" line="171"/>
         <source>Click here to know the translators from the transifex teams</source>
         <translation>Kliknite ovdje kako bi vidjeli timove prevoditelja s transifexa</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="156"/>
+        <location filename="../about.cpp" line="167"/>
         <source>Many people contributed with translations.</source>
         <translation>Mnogo ljudi je doprinjelo s prijevodima.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="157"/>
+        <location filename="../about.cpp" line="168"/>
         <source>You can also help to translate SMPlayer into your own language.</source>
         <translation>Vi isto tako možete pomoći u prijevodu SMPlayera na vaš jezik.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="158"/>
+        <location filename="../about.cpp" line="169"/>
         <source>Visit %1 and join a translation team.</source>
         <translation>Posjetite %1 i pridružite se prevoditeljskom timu.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="46"/>
+        <location filename="../about.cpp" line="57"/>
         <source>Using %1</source>
         <translation>Koristi se %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="69"/>
+        <location filename="../about.cpp" line="80"/>
         <source>SMPlayer is a graphical interface for %1 and %2.</source>
         <translation>SMPlayer je grafičko sučelje za %1 i %2.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="82"/>
+        <location filename="../about.cpp" line="93"/>
         <source>Subtitles service powered by %1</source>
         <translation>Uslugu podnaslova pruža %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="185"/>
+        <location filename="../about.cpp" line="196"/>
         <source>&lt;b&gt;%1&lt;/b&gt; (%2)</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; (%2)</translation>
     </message>
@@ -107,37 +105,37 @@
         <translation>&amp;Licenca</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="52"/>
+        <location filename="../about.cpp" line="63"/>
         <source>Portable Edition</source>
         <translation>Prijenosno izdanje</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="58"/>
+        <location filename="../about.cpp" line="69"/>
         <source>Using Qt %1 (compiled with Qt %2)</source>
         <translation>Koristi se Qt %1 (kompajlirano s Qt %2)</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="116"/>
+        <location filename="../about.cpp" line="127"/>
         <source>SMPlayer logo by %1</source>
         <translation>SMPlayer logotip dizajnirao je %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="97"/>
+        <location filename="../about.cpp" line="108"/>
         <source>Read the entire license</source>
         <translation>Pročitajte cijelu licencu</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="105"/>
+        <location filename="../about.cpp" line="116"/>
         <source>Read a translation</source>
         <translation>Pročitajte prijevod</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="117"/>
+        <location filename="../about.cpp" line="128"/>
         <source>Packages for Windows created by %1</source>
         <translation>Pakete za Windowse napravio je %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="118"/>
+        <location filename="../about.cpp" line="129"/>
         <source>Many other people contributed with patches. See the Changelog for details.</source>
         <translation>Mnoge druge osobe su doprinijele svojim dodacima i popravcima. Pogledajte zapis promjena za pojedinosti.</translation>
     </message>
@@ -145,76 +143,76 @@
 <context>
     <name>ActionsEditor</name>
     <message>
-        <location filename="../actionseditor.cpp" line="217"/>
+        <location filename="../actionseditor.cpp" line="219"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="217"/>
+        <location filename="../actionseditor.cpp" line="219"/>
         <source>Description</source>
         <translation>Opis</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="217"/>
+        <location filename="../actionseditor.cpp" line="219"/>
         <source>Shortcut</source>
         <translation>Prečac</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="219"/>
+        <location filename="../actionseditor.cpp" line="221"/>
         <source>&amp;Save</source>
         <translation>&amp;Spremi</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="222"/>
+        <location filename="../actionseditor.cpp" line="224"/>
         <source>&amp;Load</source>
         <translation>&amp;Učitaj</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="461"/>
-        <location filename="../actionseditor.cpp" line="511"/>
+        <location filename="../actionseditor.cpp" line="463"/>
+        <location filename="../actionseditor.cpp" line="513"/>
         <source>Key files</source>
         <translation>Key datoteke</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="459"/>
+        <location filename="../actionseditor.cpp" line="461"/>
         <source>Choose a filename</source>
         <translation>Odaberi naziv datoteke</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="470"/>
+        <location filename="../actionseditor.cpp" line="472"/>
         <source>Confirm overwrite?</source>
         <translation>Potvrdi prepisivanje?</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="471"/>
+        <location filename="../actionseditor.cpp" line="473"/>
         <source>The file %1 already exists.
 Do you want to overwrite?</source>
         <translation>Datoteka %1 već postoji.
 Želite ju prepisati?</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="510"/>
+        <location filename="../actionseditor.cpp" line="512"/>
         <source>Choose a file</source>
         <translation>Odaberi datoteku</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="483"/>
-        <location filename="../actionseditor.cpp" line="517"/>
+        <location filename="../actionseditor.cpp" line="485"/>
+        <location filename="../actionseditor.cpp" line="519"/>
         <source>Error</source>
         <translation>Greška</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="484"/>
+        <location filename="../actionseditor.cpp" line="486"/>
         <source>The file couldn&apos;t be saved</source>
         <translation>Datoteka ne može biti spremljena</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="518"/>
+        <location filename="../actionseditor.cpp" line="520"/>
         <source>The file couldn&apos;t be loaded</source>
         <translation>Datoteka ne može biti učitana</translation>
     </message>
     <message>
-        <location filename="../actionseditor.cpp" line="226"/>
+        <location filename="../actionseditor.cpp" line="228"/>
         <source>&amp;Change shortcut...</source>
         <translation>&amp;Promijeni prečac...</translation>
     </message>
@@ -222,160 +220,165 @@ Do you want to overwrite?</source>
 <context>
     <name>AudioEqualizer</name>
     <message>
-        <location filename="../audioequalizer.cpp" line="181"/>
+        <location filename="../audioequalizer.cpp" line="189"/>
         <source>Audio Equalizer</source>
         <translation>Zvučni ekvalizator</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="184"/>
-        <location filename="../audioequalizer.cpp" line="185"/>
-        <location filename="../audioequalizer.cpp" line="186"/>
-        <location filename="../audioequalizer.cpp" line="187"/>
-        <location filename="../audioequalizer.cpp" line="188"/>
+        <location filename="../audioequalizer.cpp" line="192"/>
+        <location filename="../audioequalizer.cpp" line="193"/>
+        <location filename="../audioequalizer.cpp" line="194"/>
+        <location filename="../audioequalizer.cpp" line="195"/>
+        <location filename="../audioequalizer.cpp" line="196"/>
         <source>%1 Hz</source>
         <translation>%1 Hz</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="189"/>
-        <location filename="../audioequalizer.cpp" line="190"/>
-        <location filename="../audioequalizer.cpp" line="191"/>
-        <location filename="../audioequalizer.cpp" line="192"/>
-        <location filename="../audioequalizer.cpp" line="193"/>
+        <location filename="../audioequalizer.cpp" line="197"/>
+        <location filename="../audioequalizer.cpp" line="198"/>
+        <location filename="../audioequalizer.cpp" line="199"/>
+        <location filename="../audioequalizer.cpp" line="200"/>
+        <location filename="../audioequalizer.cpp" line="201"/>
         <source>%1 kHz</source>
         <translation>%1 kHz</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="195"/>
+        <location filename="../audioequalizer.cpp" line="203"/>
         <source>&amp;Preset</source>
         <translation>&amp;Predložci</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="196"/>
+        <location filename="../audioequalizer.cpp" line="204"/>
         <source>&amp;Apply</source>
         <translation>&amp;Primjeni</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="197"/>
+        <location filename="../audioequalizer.cpp" line="205"/>
         <source>&amp;Reset</source>
         <translation>&amp;Vrati zadano</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="198"/>
+        <location filename="../audioequalizer.cpp" line="206"/>
         <source>&amp;Set as default values</source>
         <translation>&amp;Postavi kao zadane vrijednosti</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="203"/>
+        <location filename="../audioequalizer.cpp" line="207"/>
+        <source>&amp;Close</source>
+        <translation>&amp;Zatvori</translation>
+    </message>
+    <message>
+        <location filename="../audioequalizer.cpp" line="212"/>
         <source>Flat</source>
         <translation>Flat</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="204"/>
+        <location filename="../audioequalizer.cpp" line="213"/>
         <source>Classical</source>
         <translation>Klasičan</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="205"/>
+        <location filename="../audioequalizer.cpp" line="214"/>
         <source>Club</source>
         <translation>Klub</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="206"/>
+        <location filename="../audioequalizer.cpp" line="215"/>
         <source>Dance</source>
         <translation>Dance</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="207"/>
+        <location filename="../audioequalizer.cpp" line="216"/>
         <source>Full bass</source>
         <translation>Pun bas</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="208"/>
+        <location filename="../audioequalizer.cpp" line="217"/>
         <source>Full bass and treble</source>
         <translation>Pun bas i Treble</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="209"/>
+        <location filename="../audioequalizer.cpp" line="218"/>
         <source>Full treble</source>
         <translation>Pun Treble</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="210"/>
+        <location filename="../audioequalizer.cpp" line="219"/>
         <source>Headphones</source>
         <translation>Slušalice</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="211"/>
+        <location filename="../audioequalizer.cpp" line="220"/>
         <source>Large hall</source>
         <translation>Velika dvorana</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="212"/>
+        <location filename="../audioequalizer.cpp" line="221"/>
         <source>Live</source>
         <translation>Live</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="213"/>
+        <location filename="../audioequalizer.cpp" line="222"/>
         <source>Party</source>
         <translation>Party</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="214"/>
+        <location filename="../audioequalizer.cpp" line="223"/>
         <source>Pop</source>
         <translation>Pop</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="215"/>
+        <location filename="../audioequalizer.cpp" line="224"/>
         <source>Reggae</source>
         <translation>Reggae</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="216"/>
+        <location filename="../audioequalizer.cpp" line="225"/>
         <source>Rock</source>
         <translation>Rock</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="217"/>
+        <location filename="../audioequalizer.cpp" line="226"/>
         <source>Ska</source>
         <translation>Ska</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="218"/>
+        <location filename="../audioequalizer.cpp" line="227"/>
         <source>Soft</source>
         <translation>Soft</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="219"/>
+        <location filename="../audioequalizer.cpp" line="228"/>
         <source>Soft rock</source>
         <translation>Soft rock</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="220"/>
+        <location filename="../audioequalizer.cpp" line="229"/>
         <source>Techno</source>
         <translation>Techno</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="221"/>
+        <location filename="../audioequalizer.cpp" line="230"/>
         <source>Custom</source>
         <translation>Prilagođeno</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="226"/>
+        <location filename="../audioequalizer.cpp" line="235"/>
         <source>Use the current values as default values for new videos.</source>
         <translation>Koristi trenutne vrijednosti kao zadane vrijednosti za nove video zapise.</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="228"/>
+        <location filename="../audioequalizer.cpp" line="237"/>
         <source>Set all controls to zero.</source>
         <translation>Postavi sve kontrole na nulu.</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="244"/>
+        <location filename="../audioequalizer.cpp" line="252"/>
         <source>Information</source>
         <translation>Informacije</translation>
     </message>
     <message>
-        <location filename="../audioequalizer.cpp" line="245"/>
+        <location filename="../audioequalizer.cpp" line="253"/>
         <source>The current values have been stored to be used as default.</source>
         <translation>Trenutne vrijednosti spremljene su kao zadane.</translation>
     </message>
@@ -383,1482 +386,1545 @@ Do you want to overwrite?</source>
 <context>
     <name>BaseGui</name>
     <message>
-        <location filename="../basegui.cpp" line="1909"/>
+        <location filename="../basegui.cpp" line="1914"/>
         <source>&amp;Open</source>
         <translation>&amp;Otvori</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1910"/>
+        <location filename="../basegui.cpp" line="1915"/>
         <source>&amp;Play</source>
         <translation>&amp;Reprodukcija</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1911"/>
+        <location filename="../basegui.cpp" line="1916"/>
         <source>&amp;Video</source>
         <translation>&amp;Slika</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1912"/>
+        <location filename="../basegui.cpp" line="1917"/>
         <source>&amp;Audio</source>
         <translation>&amp;Zvuk</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1913"/>
+        <location filename="../basegui.cpp" line="1918"/>
         <source>&amp;Subtitles</source>
         <translation>&amp;Podnaslovi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1914"/>
+        <location filename="../basegui.cpp" line="1919"/>
         <source>&amp;Browse</source>
         <translation>&amp;Pregled</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1915"/>
+        <location filename="../basegui.cpp" line="1921"/>
         <source>Op&amp;tions</source>
         <translation>Mo&amp;gućnosti</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1916"/>
+        <location filename="../basegui.cpp" line="1922"/>
         <source>&amp;Help</source>
         <translation>&amp;Pomoć</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1644"/>
+        <location filename="../basegui.cpp" line="1648"/>
         <source>&amp;File...</source>
         <translation>&amp;Datoteka...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1645"/>
+        <location filename="../basegui.cpp" line="1649"/>
         <source>D&amp;irectory...</source>
         <translation>Di&amp;rektorij...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1646"/>
+        <location filename="../basegui.cpp" line="1650"/>
         <source>&amp;Playlist...</source>
         <translation>&amp;Popis izvođenja...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1649"/>
+        <location filename="../basegui.cpp" line="1653"/>
         <source>&amp;DVD from drive</source>
         <translation>&amp;DVD s diska</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1650"/>
+        <location filename="../basegui.cpp" line="1654"/>
         <source>D&amp;VD from folder...</source>
         <translation>D&amp;VD s mape...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1655"/>
+        <location filename="../basegui.cpp" line="1659"/>
         <source>&amp;URL...</source>
         <translation>&amp;URL...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1932"/>
+        <location filename="../basegui.cpp" line="1938"/>
         <source>&amp;Clear</source>
         <translation>&amp;Očisti</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1930"/>
+        <location filename="../basegui.cpp" line="1936"/>
         <source>&amp;Recent files</source>
         <translation>&amp;Nedavne datoteke</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1679"/>
+        <location filename="../basegui.cpp" line="1683"/>
         <source>P&amp;lay</source>
         <translation>R&amp;eproduciraj</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1682"/>
+        <location filename="../basegui.cpp" line="1686"/>
         <source>&amp;Pause</source>
         <translation>&amp;Pauziraj</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1683"/>
+        <location filename="../basegui.cpp" line="1687"/>
         <source>&amp;Stop</source>
         <translation>&amp;Zaustavi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1684"/>
+        <location filename="../basegui.cpp" line="1688"/>
         <source>&amp;Frame step</source>
         <translation>&amp;Pomak sličice</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1703"/>
+        <location filename="../basegui.cpp" line="1707"/>
         <source>&amp;Normal speed</source>
         <translation>&amp;Normalna brzina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1705"/>
+        <location filename="../basegui.cpp" line="1709"/>
         <source>&amp;Double speed</source>
         <translation>&amp;Dvostruka brzina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1706"/>
+        <location filename="../basegui.cpp" line="1710"/>
         <source>Speed &amp;-10%</source>
         <translation>Brzina &amp;-10%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1707"/>
+        <location filename="../basegui.cpp" line="1711"/>
         <source>Speed &amp;+10%</source>
         <translation>Brzina &amp;+10%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1798"/>
+        <location filename="../basegui.cpp" line="1802"/>
         <source>&amp;Off</source>
         <comment>closed captions menu</comment>
         <translation>&amp;Isključi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1948"/>
+        <location filename="../basegui.cpp" line="1956"/>
         <source>Sp&amp;eed</source>
         <translation>Br&amp;zina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1698"/>
+        <location filename="../basegui.cpp" line="1702"/>
         <source>&amp;Repeat</source>
         <translation>&amp;Ponovi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1714"/>
+        <location filename="../basegui.cpp" line="1718"/>
         <source>&amp;Fullscreen</source>
         <translation>&amp;Cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1715"/>
+        <location filename="../basegui.cpp" line="1719"/>
         <source>&amp;Compact mode</source>
         <translation>&amp;Jednostavni prozor</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1958"/>
+        <location filename="../basegui.cpp" line="1966"/>
         <source>Si&amp;ze</source>
         <translation>Ve&amp;ličina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1968"/>
+        <location filename="../basegui.cpp" line="1976"/>
         <source>&amp;Aspect ratio</source>
         <translation>&amp;Omjer slike</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2007"/>
-        <location filename="../basegui.cpp" line="3446"/>
-        <location filename="../basegui.cpp" line="3460"/>
+        <location filename="../basegui.cpp" line="2015"/>
+        <location filename="../basegui.cpp" line="3512"/>
+        <location filename="../basegui.cpp" line="3526"/>
         <source>&amp;None</source>
         <translation>&amp;Nepoznato</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2008"/>
+        <location filename="../basegui.cpp" line="2016"/>
         <source>&amp;Lowpass5</source>
         <translation>&amp;Lowpass5</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2011"/>
+        <location filename="../basegui.cpp" line="2019"/>
         <source>Linear &amp;Blend</source>
         <translation>Linear &amp;Blend</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1971"/>
+        <location filename="../basegui.cpp" line="1979"/>
         <source>&amp;Deinterlace</source>
         <translation>&amp;Raspletanje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1741"/>
+        <location filename="../basegui.cpp" line="1745"/>
         <source>&amp;Postprocessing</source>
         <translation>&amp;Dodatna obrada</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1742"/>
+        <location filename="../basegui.cpp" line="1746"/>
         <source>&amp;Autodetect phase</source>
         <translation>&amp;Automatsko otkrivanje faze</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1743"/>
+        <location filename="../basegui.cpp" line="1747"/>
         <source>&amp;Deblock</source>
         <translation>&amp;Deblokiraj</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1744"/>
+        <location filename="../basegui.cpp" line="1748"/>
         <source>De&amp;ring</source>
         <translation>De&amp;ring</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1746"/>
+        <location filename="../basegui.cpp" line="1750"/>
         <source>Add n&amp;oise</source>
         <translation>Dodaj š&amp;um</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1974"/>
+        <location filename="../basegui.cpp" line="1982"/>
         <source>F&amp;ilters</source>
         <translation>F&amp;ilteri</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1716"/>
+        <location filename="../basegui.cpp" line="1720"/>
         <source>&amp;Equalizer</source>
         <translation>&amp;Ekvalizator</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1717"/>
+        <location filename="../basegui.cpp" line="1721"/>
         <source>&amp;Screenshot</source>
         <translation>&amp;Snimka zaslona</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1980"/>
+        <location filename="../basegui.cpp" line="1988"/>
         <source>S&amp;tay on top</source>
         <translation>O&amp;stani na vrhu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1764"/>
+        <location filename="../basegui.cpp" line="1768"/>
         <source>&amp;Extrastereo</source>
         <translation>&amp;Ekstrastereo</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1766"/>
+        <location filename="../basegui.cpp" line="1770"/>
         <source>&amp;Karaoke</source>
         <translation>&amp;Karaoke</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2041"/>
+        <location filename="../basegui.cpp" line="2050"/>
         <source>&amp;Filters</source>
         <translation>&amp;Filtri</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2051"/>
-        <location filename="../basegui.cpp" line="2057"/>
+        <location filename="../basegui.cpp" line="2060"/>
+        <location filename="../basegui.cpp" line="2066"/>
         <source>&amp;Stereo</source>
         <translation>&amp;Stereo</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2052"/>
+        <location filename="../basegui.cpp" line="2061"/>
         <source>&amp;4.0 Surround</source>
         <translation>&amp;4.0 Surround</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2053"/>
+        <location filename="../basegui.cpp" line="2062"/>
         <source>&amp;5.1 Surround</source>
         <translation>&amp;5.1 Surround</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2044"/>
+        <location filename="../basegui.cpp" line="2053"/>
         <source>&amp;Channels</source>
         <translation>&amp;Kanali</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2058"/>
+        <location filename="../basegui.cpp" line="2067"/>
         <source>&amp;Left channel</source>
         <translation>&amp;Lijevi kanal</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2059"/>
+        <location filename="../basegui.cpp" line="2068"/>
         <source>&amp;Right channel</source>
         <translation>&amp;Desni kanal</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2047"/>
+        <location filename="../basegui.cpp" line="2056"/>
         <source>&amp;Stereo mode</source>
         <translation>&amp;Stereo način</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1754"/>
+        <location filename="../basegui.cpp" line="1758"/>
         <source>&amp;Mute</source>
         <translation>&amp;Utišaj</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1755"/>
+        <location filename="../basegui.cpp" line="1759"/>
         <source>Volume &amp;-</source>
         <translation>Glasnoća zvuka &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1756"/>
+        <location filename="../basegui.cpp" line="1760"/>
         <source>Volume &amp;+</source>
         <translation>Glasnoća zvuka &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1757"/>
+        <location filename="../basegui.cpp" line="1761"/>
         <source>&amp;Delay -</source>
         <translation>&amp;Kašnjenje -</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1758"/>
+        <location filename="../basegui.cpp" line="1762"/>
         <source>D&amp;elay +</source>
         <translation>P&amp;rednačenje +</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2067"/>
+        <location filename="../basegui.cpp" line="2076"/>
         <source>&amp;Select</source>
         <translation>&amp;Odaberi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1771"/>
+        <location filename="../basegui.cpp" line="1775"/>
         <source>&amp;Load...</source>
         <translation>&amp;Učitaj...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1773"/>
+        <location filename="../basegui.cpp" line="1777"/>
         <source>Delay &amp;-</source>
         <translation>Kašnjenje &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1774"/>
+        <location filename="../basegui.cpp" line="1778"/>
         <source>Delay &amp;+</source>
         <translation>Prednjačenje &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1776"/>
+        <location filename="../basegui.cpp" line="1780"/>
         <source>&amp;Up</source>
         <translation>&amp;Gore</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1777"/>
+        <location filename="../basegui.cpp" line="1781"/>
         <source>&amp;Down</source>
         <translation>&amp;Dolje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2083"/>
+        <location filename="../basegui.cpp" line="2094"/>
         <source>&amp;Title</source>
         <translation>&amp;Naslov</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2086"/>
+        <location filename="../basegui.cpp" line="2097"/>
         <source>&amp;Chapter</source>
         <translation>&amp;Poglavlje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2089"/>
+        <location filename="../basegui.cpp" line="2100"/>
         <source>&amp;Angle</source>
         <translation>&amp;Ugao</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1813"/>
+        <location filename="../basegui.cpp" line="1817"/>
         <source>&amp;Playlist</source>
         <translation>&amp;Popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2005"/>
+        <location filename="../basegui.cpp" line="2013"/>
         <source>&amp;Disabled</source>
         <translation>&amp;Onemogući</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2121"/>
+        <location filename="../basegui.cpp" line="2132"/>
         <source>&amp;OSD</source>
         <translation>&amp;OSD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2130"/>
-        <source>&amp;View logs</source>
-        <translation>&amp;Pogledaj zapise</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1815"/>
+        <location filename="../basegui.cpp" line="1819"/>
         <source>P&amp;references</source>
         <translation>O&amp;sobitosti</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1842"/>
+        <location filename="../basegui.cpp" line="1847"/>
         <source>About &amp;SMPlayer</source>
         <translation>O &amp;SMPlayeru</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3483"/>
-        <location filename="../basegui.cpp" line="3499"/>
-        <location filename="../basegui.cpp" line="3515"/>
-        <location filename="../basegui.cpp" line="3530"/>
-        <location filename="../basegui.cpp" line="3564"/>
-        <location filename="../basegui.cpp" line="3584"/>
-        <location filename="../basegui.cpp" line="3660"/>
+        <location filename="../basegui.cpp" line="3549"/>
+        <location filename="../basegui.cpp" line="3565"/>
+        <location filename="../basegui.cpp" line="3581"/>
+        <location filename="../basegui.cpp" line="3596"/>
+        <location filename="../basegui.cpp" line="3630"/>
+        <location filename="../basegui.cpp" line="3650"/>
+        <location filename="../basegui.cpp" line="3726"/>
         <source>&lt;empty&gt;</source>
         <translation>&lt;prazno&gt;</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4090"/>
+        <location filename="../basegui.cpp" line="4167"/>
         <source>Video</source>
         <translation>Slika</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4091"/>
-        <location filename="../basegui.cpp" line="4328"/>
+        <location filename="../basegui.cpp" line="4168"/>
+        <location filename="../basegui.cpp" line="4405"/>
         <source>Audio</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4092"/>
+        <location filename="../basegui.cpp" line="4169"/>
         <source>Playlists</source>
         <translation>Playliste</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4093"/>
-        <location filename="../basegui.cpp" line="4308"/>
-        <location filename="../basegui.cpp" line="4329"/>
+        <location filename="../basegui.cpp" line="4170"/>
+        <location filename="../basegui.cpp" line="4385"/>
+        <location filename="../basegui.cpp" line="4406"/>
         <source>All files</source>
         <translation>Sve datoteke</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4088"/>
-        <location filename="../basegui.cpp" line="4305"/>
-        <location filename="../basegui.cpp" line="4326"/>
+        <location filename="../basegui.cpp" line="4165"/>
+        <location filename="../basegui.cpp" line="4382"/>
+        <location filename="../basegui.cpp" line="4403"/>
         <source>Choose a file</source>
         <translation>Odaberi datoteku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1817"/>
+        <location filename="../basegui.cpp" line="1821"/>
         <source>&amp;YouTube%1 browser</source>
         <translation>&amp;YouTube%1 preglednik</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1840"/>
+        <location filename="../basegui.cpp" line="1845"/>
         <source>&amp;Donate / Share with your friends</source>
         <translation>&amp;Donirajte / Podijelite sa svojim prijateljima</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4144"/>
+        <location filename="../basegui.cpp" line="4221"/>
         <source>SMPlayer - Information</source>
         <translation>SMPlayer - Informacije</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4145"/>
+        <location filename="../basegui.cpp" line="4222"/>
         <source>The CDROM / DVD drives are not configured yet.
 The configuration dialog will be shown now, so you can do it.</source>
         <translation>CDROM / DVD pogoni još nisu postavljeni.
 Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4258"/>
+        <location filename="../basegui.cpp" line="4335"/>
         <source>Select the Blu-ray folder</source>
         <translation>Odaberi Blu-ray mapu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4271"/>
+        <location filename="../basegui.cpp" line="4348"/>
         <source>Choose a directory</source>
         <translation>Odaberi direktorij</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4307"/>
+        <location filename="../basegui.cpp" line="4384"/>
         <source>Subtitles</source>
         <translation>Podnaslovi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4926"/>
+        <location filename="../basegui.cpp" line="5004"/>
         <source>Error detected</source>
         <translation>Greška otkrivena</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4927"/>
+        <location filename="../basegui.cpp" line="5005"/>
         <source>Unfortunately this video can&apos;t be played.</source>
         <translation>Nažalost ova video snimka se ne može reproducirati.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5118"/>
+        <location filename="../basegui.cpp" line="5234"/>
         <source>Pause</source>
         <translation>Pauza</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5119"/>
+        <location filename="../basegui.cpp" line="5235"/>
         <source>Stop</source>
         <translation>Zaustavi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1687"/>
+        <location filename="../basegui.cpp" line="1691"/>
         <source>Play / Pause</source>
         <translation>Reprodukcija / Pauza</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1690"/>
+        <location filename="../basegui.cpp" line="1694"/>
         <source>Pause / Frame step</source>
         <translation>Pauza / Korak sličice</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1761"/>
-        <location filename="../basegui.cpp" line="1772"/>
+        <location filename="../basegui.cpp" line="1765"/>
+        <location filename="../basegui.cpp" line="1776"/>
         <source>U&amp;nload</source>
         <translation>U&amp;kloni</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1647"/>
+        <location filename="../basegui.cpp" line="1651"/>
         <source>V&amp;CD</source>
         <translation>V&amp;CD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1656"/>
+        <location filename="../basegui.cpp" line="1660"/>
         <source>C&amp;lose</source>
         <translation>Z&amp;atvori</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1814"/>
-        <source>View &amp;info and properties...</source>
-        <translation>Pogledaj &amp;informacije i svojstva...</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1729"/>
+        <location filename="../basegui.cpp" line="1733"/>
         <source>Zoom &amp;-</source>
         <translation>Smanji &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1730"/>
+        <location filename="../basegui.cpp" line="1734"/>
         <source>Zoom &amp;+</source>
         <translation>Uvećaj &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1731"/>
+        <location filename="../basegui.cpp" line="1735"/>
         <source>&amp;Reset</source>
         <translation>&amp;Vrati zadano</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1735"/>
+        <location filename="../basegui.cpp" line="1739"/>
         <source>Move &amp;left</source>
         <translation>Pomakni &amp;lijevo</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1736"/>
+        <location filename="../basegui.cpp" line="1740"/>
         <source>Move &amp;right</source>
         <translation>Pomakni &amp;desno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1737"/>
+        <location filename="../basegui.cpp" line="1741"/>
         <source>Move &amp;up</source>
         <translation>Pomakni &amp;gore</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1738"/>
+        <location filename="../basegui.cpp" line="1742"/>
         <source>Move &amp;down</source>
         <translation>Pomakni &amp;dolje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1781"/>
+        <location filename="../basegui.cpp" line="1785"/>
         <source>&amp;Previous line in subtitles</source>
         <translation>&amp;Prijašnji redak u podnaslovu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1783"/>
+        <location filename="../basegui.cpp" line="1787"/>
         <source>N&amp;ext line in subtitles</source>
         <translation>S&amp;ljedeći redak u podnaslovu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2139"/>
+        <location filename="../basegui.cpp" line="1826"/>
+        <location filename="../basegui.cpp" line="2154"/>
         <source>%1 log</source>
         <translation>%1 zapis</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2142"/>
+        <location filename="../basegui.cpp" line="1829"/>
+        <location filename="../basegui.cpp" line="2157"/>
         <source>SMPlayer log</source>
         <translation>SMPlayer zapis</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2155"/>
-        <location filename="../basegui.cpp" line="2156"/>
-        <location filename="../basegui.cpp" line="2157"/>
+        <location filename="../basegui.cpp" line="1840"/>
+        <source>Update the &amp;YouTube code</source>
+        <translation>Nadopuni &amp;Youtube kôd</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2170"/>
+        <location filename="../basegui.cpp" line="2171"/>
+        <location filename="../basegui.cpp" line="2172"/>
         <source>-%1</source>
         <translation>-%1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2159"/>
-        <location filename="../basegui.cpp" line="2160"/>
-        <location filename="../basegui.cpp" line="2161"/>
+        <location filename="../basegui.cpp" line="2174"/>
+        <location filename="../basegui.cpp" line="2175"/>
+        <location filename="../basegui.cpp" line="2176"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1867"/>
+        <location filename="../basegui.cpp" line="1872"/>
         <source>Dec volume (2)</source>
         <translation>Smanji glasnoću zvuka (2)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1652"/>
+        <location filename="../basegui.cpp" line="1656"/>
         <source>&amp;Blu-ray from drive</source>
         <translation>&amp;Blu-ray s diska</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1653"/>
+        <location filename="../basegui.cpp" line="1657"/>
         <source>Blu-&amp;ray from folder...</source>
         <translation>Blu-&amp;ray s mape...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1685"/>
+        <location filename="../basegui.cpp" line="1689"/>
         <source>Fra&amp;me back step</source>
         <translation>Pom&amp;ak sličice unatrag</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1704"/>
+        <location filename="../basegui.cpp" line="1708"/>
         <source>&amp;Half speed</source>
         <translation>&amp;Pola brzine</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1720"/>
+        <location filename="../basegui.cpp" line="1724"/>
         <source>Start/stop capturing stream</source>
         <translation>Pokreni/Zaustavi snimanje streama</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1723"/>
+        <location filename="../basegui.cpp" line="1727"/>
         <source>Thumb&amp;nail Generator...</source>
         <translation>Genera&amp;tor minijatura...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1727"/>
+        <location filename="../basegui.cpp" line="1731"/>
         <source>Stereo &amp;3D filter</source>
         <translation>Stereo &amp;3D filter</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1745"/>
+        <location filename="../basegui.cpp" line="1749"/>
         <source>Debanding (&amp;gradfun)</source>
         <translation>Debanding (&amp;gradfun)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1785"/>
+        <location filename="../basegui.cpp" line="1789"/>
         <source>Seek to next subtitle</source>
         <translation>Premotaj na sljedeći podnaslov</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1786"/>
+        <location filename="../basegui.cpp" line="1790"/>
         <source>Seek to previous subtitle</source>
         <translation>Premotaj na prijašnji podnaslov</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1788"/>
+        <location filename="../basegui.cpp" line="1792"/>
         <source>Use custo&amp;m style</source>
         <translation>Koristi prilagođen&amp;i izgled</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1794"/>
+        <location filename="../basegui.cpp" line="1798"/>
         <source>Find subtitles at &amp;OpenSubtitles.org...</source>
         <translation>Potraži podnaslove na &amp;OpenSubtitles.org...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1804"/>
+        <location filename="../basegui.cpp" line="1808"/>
         <source>&amp;Default</source>
         <comment>subfps menu</comment>
         <translation>&amp;Zadano</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1829"/>
+        <location filename="../basegui.cpp" line="1818"/>
+        <source>&amp;Information and properties...</source>
+        <translation>&amp;Informacije i svojstva...</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1831"/>
+        <source>T&amp;ablet mode</source>
+        <translation>T&amp;ablet način rada</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1834"/>
         <source>First Steps &amp;Guide</source>
         <translation>Upute početnog &amp;pokretanja</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1835"/>
-        <source>Update &amp;Youtube code</source>
-        <translation>Nadopuni &amp;Youtube kôd</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1838"/>
+        <location filename="../basegui.cpp" line="1843"/>
         <source>&amp;Open configuration folder</source>
         <translation>&amp;Otvori mapu podešavanja</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1853"/>
+        <location filename="../basegui.cpp" line="1858"/>
         <source>Size &amp;+</source>
         <translation>Uvećaj &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1854"/>
+        <location filename="../basegui.cpp" line="1859"/>
         <source>Size &amp;-</source>
         <translation>Smanji &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1868"/>
+        <location filename="../basegui.cpp" line="1873"/>
         <source>Inc volume (2)</source>
         <translation>Povećaj glasnoću zvuka (2)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1871"/>
+        <location filename="../basegui.cpp" line="1876"/>
         <source>Exit fullscreen</source>
         <translation>Napusti cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1873"/>
+        <location filename="../basegui.cpp" line="1878"/>
         <source>OSD - Next level</source>
         <translation>OSD - Sljedeća razina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1874"/>
+        <location filename="../basegui.cpp" line="1879"/>
         <source>Dec contrast</source>
         <translation>Smanji kontrast</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1875"/>
+        <location filename="../basegui.cpp" line="1880"/>
         <source>Inc contrast</source>
         <translation>Povećaj kontrast</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1876"/>
+        <location filename="../basegui.cpp" line="1881"/>
         <source>Dec brightness</source>
         <translation>Smanji svjetlinu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1877"/>
+        <location filename="../basegui.cpp" line="1882"/>
         <source>Inc brightness</source>
         <translation>Povećaj svjetlinu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1878"/>
+        <location filename="../basegui.cpp" line="1883"/>
         <source>Dec hue</source>
         <translation>Smanji ton boje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1879"/>
+        <location filename="../basegui.cpp" line="1884"/>
         <source>Inc hue</source>
         <translation>Povećaj ton boje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1880"/>
+        <location filename="../basegui.cpp" line="1885"/>
         <source>Dec saturation</source>
         <translation>Smanji zasićenje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1882"/>
+        <location filename="../basegui.cpp" line="1887"/>
         <source>Dec gamma</source>
         <translation>Smanji gamu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1885"/>
+        <location filename="../basegui.cpp" line="1890"/>
         <source>Next audio</source>
         <translation>Sljedeći zvučni zapis</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1886"/>
+        <location filename="../basegui.cpp" line="1891"/>
         <source>Next subtitle</source>
         <translation>Sljedeći podnaslov</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1887"/>
+        <location filename="../basegui.cpp" line="1892"/>
         <source>Next chapter</source>
         <translation>Sljedeće poglavlje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1888"/>
+        <location filename="../basegui.cpp" line="1893"/>
         <source>Previous chapter</source>
         <translation>Prijašnje poglavlje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1897"/>
+        <location filename="../basegui.cpp" line="1902"/>
         <source>Show playback time on OSD</source>
         <translation>Prikaži vrijeme reprodukcije u OSD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1988"/>
+        <location filename="../basegui.cpp" line="1920"/>
+        <source>Vie&amp;w</source>
+        <translation>Pog&amp;led</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1996"/>
         <source>De&amp;noise</source>
         <translation>Sm&amp;anjenje šuma</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1991"/>
+        <location filename="../basegui.cpp" line="1999"/>
         <source>Blur/S&amp;harp</source>
         <translation>Zamučenje/O&amp;štrina</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2014"/>
+        <location filename="../basegui.cpp" line="2022"/>
         <source>&amp;Off</source>
         <comment>denoise menu</comment>
         <translation>&amp;Isključeno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2015"/>
+        <location filename="../basegui.cpp" line="2023"/>
         <source>&amp;Normal</source>
         <comment>denoise menu</comment>
         <translation>&amp;Normalno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2016"/>
+        <location filename="../basegui.cpp" line="2024"/>
         <source>&amp;Soft</source>
         <comment>denoise menu</comment>
         <translation>&amp;Mekano</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2018"/>
+        <location filename="../basegui.cpp" line="2026"/>
         <source>&amp;None</source>
         <comment>unsharp menu</comment>
         <translation>&amp;Nepoznato</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2019"/>
+        <location filename="../basegui.cpp" line="2027"/>
         <source>&amp;Blur</source>
         <comment>unsharp menu</comment>
         <translation>&amp;Zamučeno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2020"/>
+        <location filename="../basegui.cpp" line="2028"/>
         <source>&amp;Sharpen</source>
         <comment>unsharp menu</comment>
         <translation>&amp;Oštro</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2054"/>
+        <location filename="../basegui.cpp" line="2048"/>
+        <source>Select audio track</source>
+        <translation>Odaberi zvučni zapis</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2063"/>
         <source>&amp;6.1 Surround</source>
         <translation>&amp;6.1 Surround</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2055"/>
+        <location filename="../basegui.cpp" line="2064"/>
         <source>&amp;7.1 Surround</source>
         <translation>&amp;7.1 Surround</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2060"/>
+        <location filename="../basegui.cpp" line="2069"/>
         <source>&amp;Mono</source>
         <translation>&amp;Mono</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2061"/>
+        <location filename="../basegui.cpp" line="2070"/>
         <source>Re&amp;verse</source>
         <translation>Ob&amp;rnuto</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2065"/>
+        <location filename="../basegui.cpp" line="2074"/>
         <source>Prim&amp;ary track</source>
         <translation>Glav&amp;ni podnaslov</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2072"/>
+        <location filename="../basegui.cpp" line="2079"/>
+        <source>Select subtitle track</source>
+        <translation>Odaberi podnaslov</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2082"/>
         <source>Secondary trac&amp;k</source>
         <translation>Dodatni podnaslo&amp;v</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2079"/>
+        <location filename="../basegui.cpp" line="2084"/>
+        <source>Select secondary subtitle track</source>
+        <translation>Odaberi dodatni podnaslov</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2090"/>
         <source>F&amp;rames per second</source>
         <translation>S&amp;ličica u sekundi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2093"/>
+        <location filename="../basegui.cpp" line="2104"/>
         <source>&amp;Bookmarks</source>
         <translation>&amp;Zabilješke</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2103"/>
+        <location filename="../basegui.cpp" line="2114"/>
         <source>&amp;Add new bookmark</source>
         <translation>&amp;Dodaj novu zabilješku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2104"/>
+        <location filename="../basegui.cpp" line="2115"/>
         <source>&amp;Edit bookmarks</source>
         <translation>&amp;Uredi zabilješke</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2105"/>
+        <location filename="../basegui.cpp" line="2116"/>
         <source>Previous bookmark</source>
         <translation>Prijašnja zabilješka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2106"/>
+        <location filename="../basegui.cpp" line="2117"/>
         <source>Next bookmark</source>
         <translation>Sljedeća zabilješka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4861"/>
+        <location filename="../basegui.cpp" line="2146"/>
+        <source>Quick access menu</source>
+        <translation>Izbornik brzog pristupa</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2951"/>
+        <source>Logs</source>
+        <translation>Zapisi</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4939"/>
         <source>Connection failed</source>
         <translation>Neuspjelo povezivanje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4862"/>
+        <location filename="../basegui.cpp" line="4940"/>
         <source>The video you requested needs to open a HTTPS connection.</source>
         <translation>Tražena video snimka zahtijeva pokretanje HTTPS povezivanja.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4863"/>
+        <location filename="../basegui.cpp" line="4941"/>
         <source>Unfortunately the OpenSSL component, required for it, is not available in your system.</source>
         <translation>Nažalost OpenSSL komponenta potrebna za povezivanje, nije dostupna na vašem sustavu.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4864"/>
+        <location filename="../basegui.cpp" line="4942"/>
         <source>Please, visit %1 to know how to fix this problem.</source>
         <translation>Posjetite %1 kako biste saznali, kako popraviti ovaj problem.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4865"/>
+        <location filename="../basegui.cpp" line="4943"/>
         <source>this link</source>
         <translation>ovu poveznicu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4875"/>
+        <location filename="../basegui.cpp" line="4953"/>
         <source>Unfortunately due to changes in the Youtube page, this video can&apos;t be played.</source>
         <translation>Nažalost uslijed promjena na Youtube stranici, ova video snimka se ne može reproducirati.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4882"/>
-        <location filename="../basegui.cpp" line="4890"/>
+        <location filename="../basegui.cpp" line="4960"/>
+        <location filename="../basegui.cpp" line="4968"/>
         <source>Problems with Youtube</source>
         <translation>Problemi s Youtubom</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5736"/>
-        <location filename="../basegui.cpp" line="5756"/>
+        <location filename="../basegui.cpp" line="5904"/>
+        <location filename="../basegui.cpp" line="5956"/>
         <source>%1 Error</source>
         <translation>%1 greška</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5737"/>
+        <location filename="../basegui.cpp" line="5905"/>
         <source>%1 has finished unexpectedly.</source>
         <translation>%1 se zatvorio neočekivano.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5758"/>
+        <location filename="../basegui.cpp" line="5930"/>
+        <source>The component youtube-dl failed to run.</source>
+        <translation>Komponenta youtube-dl se ne može pokrenuti.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5931"/>
+        <source>Installing the Microsoft Visual C++ 2010 Redistributable Package (x86) may fix the problem.</source>
+        <translation>Instalacija Microsoft Visual C++ 2010 Redistributable paketa (x86) može popraviti problem.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5933"/>
+        <source>Click here to get it</source>
+        <translation>Kliknite ovdje kako bi ga nabavilli</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5958"/>
         <source>%1 failed to start.</source>
         <translation>%1 je nemoguće pokrenuti.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5759"/>
+        <location filename="../basegui.cpp" line="5959"/>
         <source>Please check the %1 path in preferences.</source>
         <translation>Provjerite %1 putanju u osobitostima.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5761"/>
+        <location filename="../basegui.cpp" line="5961"/>
         <source>%1 has crashed.</source>
         <translation>%1 se srušio.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5843"/>
+        <location filename="../basegui.cpp" line="6043"/>
         <source>The YouTube Browser is not installed.</source>
         <translation>YouTube preglednik nije instaliran.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5844"/>
-        <location filename="../basegui.cpp" line="5856"/>
+        <location filename="../basegui.cpp" line="6044"/>
+        <location filename="../basegui.cpp" line="6056"/>
         <source>Visit %1 to get it.</source>
         <translation>Posjetite %1 da bi ga nabavili.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5854"/>
+        <location filename="../basegui.cpp" line="6054"/>
         <source>The YouTube Browser failed to run.</source>
         <translation>YouTube preglednik se ne može pokrenuti.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5855"/>
+        <location filename="../basegui.cpp" line="6055"/>
         <source>Be sure it&apos;s installed correctly.</source>
         <translation>Pobrinite se da je instaliran.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4878"/>
+        <location filename="../basegui.cpp" line="6221"/>
+        <source>The system has switched to tablet mode. Should SMPlayer change to tablet mode as well?</source>
+        <translation>Sustav se prebacio u tablet način rada. Treba li se i SMPlayer prebaciti u tablet način rada?</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6223"/>
+        <source>The system has exited tablet mode. Should SMPlayer turn off the tablet mode as well?</source>
+        <translation>Sustav je napustio tablet način rada. Treba li i SMPlayer napustiti tablet nečin rada?</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6227"/>
+        <source>Remember my decision and don&apos;t ask again</source>
+        <translation>Zapamti moj odabir i ne pitaj ponovno.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4956"/>
         <source>Unfortunately due to changes in the Youtube page, the video &apos;%1&apos; can&apos;t be played.</source>
         <translation>Nažalost uslijed promjena na Youtube stranici, video snimka &apos;%1&apos; se ne može reproducirati.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4884"/>
+        <location filename="../basegui.cpp" line="4962"/>
         <source>Do you want to update the Youtube code? This may fix the problem.</source>
         <translation>Želite li nadopuniti Youtube kôd? To može popraviti problem.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4892"/>
+        <location filename="../basegui.cpp" line="4970"/>
         <source>Maybe updating SMPlayer could fix the problem.</source>
         <translation>Možda nadopuna SMPlayera može popraviti taj problem.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2125"/>
+        <location filename="../basegui.cpp" line="2136"/>
         <source>S&amp;hare SMPlayer with your friends</source>
         <translation>&amp;Podijelite SMPlayer sa svojim prijateljima</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3171"/>
-        <location filename="../basegui.cpp" line="3899"/>
+        <location filename="../basegui.cpp" line="3237"/>
+        <location filename="../basegui.cpp" line="3976"/>
         <source>Information</source>
         <translation>Informacije</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3172"/>
+        <location filename="../basegui.cpp" line="3238"/>
         <source>You need to restart SMPlayer to use the new GUI.</source>
         <translation>Morate ponovo pokrenuti SMPlayer da bi koristili novo grafičko sučelje.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3672"/>
+        <location filename="../basegui.cpp" line="3738"/>
         <source>Confirm deletion - SMPlayer</source>
         <translation>Potvrdite brisanje - SMPlayer</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3673"/>
+        <location filename="../basegui.cpp" line="3739"/>
         <source>Delete the list of recent files?</source>
         <translation>Obriši popis nedavnih datoteka?</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3900"/>
+        <location filename="../basegui.cpp" line="3977"/>
         <source>The current values have been stored to be used as default.</source>
         <translation>Trenutne vrijednosti su spremljene i biti će korištene kao zadane.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1881"/>
+        <location filename="../basegui.cpp" line="1886"/>
         <source>Inc saturation</source>
         <translation>Povećaj zasićenje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1883"/>
+        <location filename="../basegui.cpp" line="1888"/>
         <source>Inc gamma</source>
         <translation>Povećaj gamu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1760"/>
+        <location filename="../basegui.cpp" line="1764"/>
         <source>&amp;Load external file...</source>
         <translation>&amp;Učitaj vanjsku datoteku...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2012"/>
+        <location filename="../basegui.cpp" line="2020"/>
         <source>&amp;Kerndeint</source>
         <translation>&amp;Kerndeint</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2009"/>
+        <location filename="../basegui.cpp" line="2017"/>
         <source>&amp;Yadif (normal)</source>
         <translation>&amp;Yadif (normalno)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2010"/>
+        <location filename="../basegui.cpp" line="2018"/>
         <source>Y&amp;adif (double framerate)</source>
         <translation>Y&amp;adif (dvostruki broj sličica)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1857"/>
+        <location filename="../basegui.cpp" line="1862"/>
         <source>&amp;Next</source>
         <translation>&amp;Sljedeće</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1858"/>
+        <location filename="../basegui.cpp" line="1863"/>
         <source>Pre&amp;vious</source>
         <translation>Pri&amp;jašnje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1768"/>
+        <location filename="../basegui.cpp" line="1772"/>
         <source>Volume &amp;normalization</source>
         <translation>Normalizacija &amp;glasnoće zvuka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1648"/>
+        <location filename="../basegui.cpp" line="1652"/>
         <source>&amp;Audio CD</source>
         <translation>&amp;Glazbeni CD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1889"/>
+        <location filename="../basegui.cpp" line="1894"/>
         <source>&amp;Toggle double size</source>
         <translation>&amp;Uključi/Isključi dvostruku veličinu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1778"/>
+        <location filename="../basegui.cpp" line="1782"/>
         <source>S&amp;ize -</source>
         <translation>S&amp;manji -</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1779"/>
+        <location filename="../basegui.cpp" line="1783"/>
         <source>Si&amp;ze +</source>
         <translation>Uv&amp;ećaj +</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1747"/>
+        <location filename="../basegui.cpp" line="1751"/>
         <source>Add &amp;black borders</source>
         <translation>Dodaj &amp;crne obrube</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1748"/>
+        <location filename="../basegui.cpp" line="1752"/>
         <source>Soft&amp;ware scaling</source>
         <translation>Soft&amp;versko skaliranje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1830"/>
+        <location filename="../basegui.cpp" line="1835"/>
         <source>&amp;FAQ</source>
         <translation>&amp;Često postavljana pitanja</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1831"/>
+        <location filename="../basegui.cpp" line="1836"/>
         <source>&amp;Command line options</source>
         <translation>&amp;Mogućnosti naredbenog redka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4348"/>
+        <location filename="../basegui.cpp" line="4425"/>
         <source>SMPlayer command line options</source>
         <translation>SMPlayer mogućnosti naredbenog redka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1789"/>
+        <location filename="../basegui.cpp" line="1793"/>
         <source>&amp;Forced subtitles only</source>
         <translation>&amp;Samo prisilni podnaslovi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1890"/>
+        <location filename="../basegui.cpp" line="1895"/>
         <source>Reset video equalizer</source>
         <translation>Ekvalizator slike vrati na početno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4928"/>
+        <location filename="../basegui.cpp" line="5006"/>
         <source>The server returned &apos;%1&apos;</source>
         <translation>Poslužitelj je vratio &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5738"/>
+        <location filename="../basegui.cpp" line="5906"/>
         <source>Exit code: %1</source>
         <translation>Izlazni kôd: %1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5762"/>
+        <location filename="../basegui.cpp" line="5962"/>
         <source>See the log for more info.</source>
         <translation>Pogledajte zapis za više informacija.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1977"/>
+        <location filename="../basegui.cpp" line="1985"/>
         <source>&amp;Rotate</source>
         <translation>&amp;Zakretanje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2022"/>
+        <location filename="../basegui.cpp" line="2030"/>
         <source>&amp;Off</source>
         <translation>&amp;Isključi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2023"/>
+        <location filename="../basegui.cpp" line="2031"/>
         <source>&amp;Rotate by 90 degrees clockwise and flip</source>
         <translation>&amp;Zakreni za 90 stupnjeva udesno i zrcali</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2024"/>
+        <location filename="../basegui.cpp" line="2032"/>
         <source>Rotate by 90 degrees &amp;clockwise</source>
         <translation>Zakreni za 90 stupnjeva &amp;udesno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2025"/>
+        <location filename="../basegui.cpp" line="2033"/>
         <source>Rotate by 90 degrees counterclock&amp;wise</source>
         <translation>Zakreni za 90 stupnjeva &amp;ulijevo</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2026"/>
+        <location filename="../basegui.cpp" line="2034"/>
         <source>Rotate by 90 degrees counterclockwise and &amp;flip</source>
         <translation>Zakreni za 90 stupnjeva ulijevo i &amp;zrcali</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1700"/>
+        <location filename="../basegui.cpp" line="1704"/>
         <source>&amp;Jump to...</source>
         <translation>&amp;Premotaj na...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1892"/>
+        <location filename="../basegui.cpp" line="1897"/>
         <source>Show context menu</source>
         <translation>Prikaži kontekstualni izbornik</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4089"/>
+        <location filename="../basegui.cpp" line="4166"/>
         <source>Multimedia</source>
         <translation>Multimedija</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1751"/>
+        <location filename="../basegui.cpp" line="1755"/>
         <source>E&amp;qualizer</source>
         <translation>E&amp;kvalizator</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1891"/>
+        <location filename="../basegui.cpp" line="1896"/>
         <source>Reset audio equalizer</source>
         <translation>Vrati na početno zvučni ekvalizator</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1795"/>
+        <location filename="../basegui.cpp" line="1799"/>
         <source>Upload su&amp;btitles to OpenSubtitles.org...</source>
         <translation>Dodaj po&amp;dnaslove na OpenSubtitles.org...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1994"/>
+        <location filename="../basegui.cpp" line="2002"/>
         <source>&amp;Auto</source>
         <translation>&amp;Automatski</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1708"/>
+        <location filename="../basegui.cpp" line="1712"/>
         <source>Speed -&amp;4%</source>
         <translation>Brzina -&amp;4%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1709"/>
+        <location filename="../basegui.cpp" line="1713"/>
         <source>&amp;Speed +4%</source>
         <translation>&amp;Brzina +4%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1710"/>
+        <location filename="../basegui.cpp" line="1714"/>
         <source>Speed -&amp;1%</source>
         <translation>Brzina -&amp;1%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1711"/>
+        <location filename="../basegui.cpp" line="1715"/>
         <source>S&amp;peed +1%</source>
         <translation>B&amp;rzina +1%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1984"/>
+        <location filename="../basegui.cpp" line="1992"/>
         <source>Scree&amp;n</source>
         <translation>Zaslo&amp;n</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2034"/>
+        <location filename="../basegui.cpp" line="2042"/>
         <source>&amp;Default</source>
         <translation>&amp;Zadano</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1726"/>
+        <location filename="../basegui.cpp" line="1730"/>
         <source>Mirr&amp;or image</source>
         <translation>Zrca&amp;li sliku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1884"/>
+        <location filename="../basegui.cpp" line="1889"/>
         <source>Next video</source>
         <translation>Sljedeći video</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1955"/>
+        <location filename="../basegui.cpp" line="1963"/>
         <source>&amp;Track</source>
         <comment>video</comment>
         <translation>&amp;Video zapis</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2038"/>
+        <location filename="../basegui.cpp" line="2046"/>
         <source>&amp;Track</source>
         <comment>audio</comment>
         <translation>&amp;Zvučni zapis</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4777"/>
+        <location filename="../basegui.cpp" line="4855"/>
         <source>Warning - Using old MPlayer</source>
         <translation>Upozorenje - Koristite zastarjeli MPlayer</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4778"/>
+        <location filename="../basegui.cpp" line="4856"/>
         <source>The version of MPlayer (%1) installed on your system is obsolete. SMPlayer can&apos;t work well with it: some options won&apos;t work, subtitle selection may fail...</source>
         <translation>Trenutna instalirana inačica MPlayera (%1) je zastarjela. SMPlayer ne radi ispravno s njom, neke mogućnosti neće biti dostupne, kao npr. odabir podnaslova...  </translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4783"/>
+        <location filename="../basegui.cpp" line="4861"/>
         <source>Please, update your MPlayer.</source>
         <translation>Molim, nadopunite vaš MPlayer.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4785"/>
+        <location filename="../basegui.cpp" line="4863"/>
         <source>(This warning won&apos;t be displayed anymore)</source>
         <translation>(Ovo upozorenje više neće biti prikazano)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1893"/>
+        <location filename="../basegui.cpp" line="1898"/>
         <source>Next aspect ratio</source>
         <translation>Promijeni omjer slike</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1732"/>
+        <location filename="../basegui.cpp" line="1736"/>
         <source>&amp;Auto zoom</source>
         <translation>&amp;Automatsko zumiranje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1733"/>
+        <location filename="../basegui.cpp" line="1737"/>
         <source>Zoom for &amp;16:9</source>
         <translation>Zumiraj na &amp;16:9</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1734"/>
+        <location filename="../basegui.cpp" line="1738"/>
         <source>Zoom for &amp;2.35:1</source>
         <translation>Zumiraj na &amp;2.35:1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2028"/>
+        <location filename="../basegui.cpp" line="2036"/>
         <source>&amp;Always</source>
         <translation>&amp;Uvijek</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2029"/>
+        <location filename="../basegui.cpp" line="2037"/>
         <source>&amp;Never</source>
         <translation>&amp;Nikada</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2030"/>
+        <location filename="../basegui.cpp" line="2038"/>
         <source>While &amp;playing</source>
         <translation>Tijekom &amp;reprodukcije</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2114"/>
+        <location filename="../basegui.cpp" line="2125"/>
         <source>DVD &amp;menu</source>
         <translation>DVD &amp;izbornik</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2116"/>
+        <location filename="../basegui.cpp" line="2127"/>
         <source>DVD &amp;previous menu</source>
         <translation>DVD &amp;prijašnji izbornik</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2110"/>
+        <location filename="../basegui.cpp" line="2121"/>
         <source>DVD menu, move up</source>
         <translation>DVD izbornik, pomakni gore</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2111"/>
+        <location filename="../basegui.cpp" line="2122"/>
         <source>DVD menu, move down</source>
         <translation>DVD izbornik, pomakni dolje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2112"/>
+        <location filename="../basegui.cpp" line="2123"/>
         <source>DVD menu, move left</source>
         <translation>DVD izbornik, pomakni lijevo</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2113"/>
+        <location filename="../basegui.cpp" line="2124"/>
         <source>DVD menu, move right</source>
         <translation>DVD izbornik, pomakni desno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2115"/>
+        <location filename="../basegui.cpp" line="2126"/>
         <source>DVD menu, select option</source>
         <translation>DVD izbornik, odaberi mogućnosti</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2117"/>
+        <location filename="../basegui.cpp" line="2128"/>
         <source>DVD menu, mouse click</source>
         <translation>DVD izbornik, klik miša</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1759"/>
+        <location filename="../basegui.cpp" line="1763"/>
         <source>Set dela&amp;y...</source>
         <translation>Postavi kašnjenj&amp;e/prednačenje...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1775"/>
+        <location filename="../basegui.cpp" line="1779"/>
         <source>Se&amp;t delay...</source>
         <translation>Postav&amp;i kašnjenje/prednačenje...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4433"/>
+        <location filename="../basegui.cpp" line="4511"/>
         <source>&amp;Jump to:</source>
         <translation>&amp;Premotaj na:</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4434"/>
+        <location filename="../basegui.cpp" line="4512"/>
         <source>SMPlayer - Seek</source>
         <translation>SMPlayer - Pretraživanje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4445"/>
-        <location filename="../basegui.cpp" line="4449"/>
+        <location filename="../basegui.cpp" line="4523"/>
+        <location filename="../basegui.cpp" line="4527"/>
         <source>SMPlayer - Audio delay</source>
         <translation>SMPlayer - Prednačenje/Kašnjenje zvuka</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4446"/>
-        <location filename="../basegui.cpp" line="4450"/>
+        <location filename="../basegui.cpp" line="4524"/>
+        <location filename="../basegui.cpp" line="4528"/>
         <source>Audio delay (in milliseconds):</source>
         <translation>Prednačenje/Kašnjenje zvuka (u milisekundama):</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4461"/>
-        <location filename="../basegui.cpp" line="4465"/>
+        <location filename="../basegui.cpp" line="4539"/>
+        <location filename="../basegui.cpp" line="4543"/>
         <source>SMPlayer - Subtitle delay</source>
         <translation>SMPlayer - Prednačenje/Kašnjenje podnaslova</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4462"/>
-        <location filename="../basegui.cpp" line="4466"/>
+        <location filename="../basegui.cpp" line="4540"/>
+        <location filename="../basegui.cpp" line="4544"/>
         <source>Subtitle delay (in milliseconds):</source>
         <translation>Prednačenje/Kašnjenje podnaslova (u milisekundama):</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2031"/>
+        <location filename="../basegui.cpp" line="2039"/>
         <source>Toggle stay on top</source>
         <translation>Uključi/Isključi ostani na vrhu</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5314"/>
+        <location filename="../basegui.cpp" line="5438"/>
+        <location filename="../basegui.cpp" line="5746"/>
         <source>Jump to %1</source>
         <translation>Premotaj na %1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1718"/>
+        <location filename="../basegui.cpp" line="1722"/>
         <source>Start/stop takin&amp;g screenshots</source>
         <translation>Pokreni/Zaustavi snimanj&amp;e zaslona</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1791"/>
+        <location filename="../basegui.cpp" line="1795"/>
         <source>Subtitle &amp;visibility</source>
         <translation>Prikaži &amp;podnaslove</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1894"/>
+        <location filename="../basegui.cpp" line="1899"/>
         <source>Next wheel function</source>
         <translation>Sljedeća funkcija kotačića</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2098"/>
+        <location filename="../basegui.cpp" line="2109"/>
         <source>P&amp;rogram</source>
         <comment>program</comment>
         <translation>P&amp;rogram</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1941"/>
+        <location filename="../basegui.cpp" line="1948"/>
         <source>&amp;TV</source>
         <translation>&amp;TV</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1944"/>
+        <location filename="../basegui.cpp" line="1951"/>
         <source>Radi&amp;o</source>
         <translation>R&amp;adio</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1902"/>
+        <location filename="../basegui.cpp" line="1907"/>
         <source>Subtitles onl&amp;y</source>
         <translation>Samo podnaslov&amp;i</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1903"/>
+        <location filename="../basegui.cpp" line="1908"/>
         <source>Volume + &amp;Seek</source>
         <translation>Glasnoća zvuka + &amp;Pretraga</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1904"/>
+        <location filename="../basegui.cpp" line="1909"/>
         <source>Volume + Seek + &amp;Timer</source>
         <translation>Glasnoća zvuka + &amp;Pretraga + &amp;Vrijeme</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1905"/>
+        <location filename="../basegui.cpp" line="1910"/>
         <source>Volume + Seek + Timer + T&amp;otal time</source>
         <translation>Glasnoća zvuka + &amp;Pretraga + &amp;Vrijeme + U&amp;kupno vrijeme</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1587"/>
+        <location filename="../basegui.cpp" line="1589"/>
         <source>Video filters are disabled when using vdpau</source>
         <translation>Video filtri su onemogućeni kada se koristi vdpau</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1725"/>
+        <location filename="../basegui.cpp" line="1729"/>
         <source>Fli&amp;p image</source>
         <translation>Okr&amp;eni sliku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1965"/>
+        <location filename="../basegui.cpp" line="1973"/>
         <source>Zoo&amp;m</source>
         <translation>&amp;Obrezivanje &amp;&amp; zumiranje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1896"/>
+        <location filename="../basegui.cpp" line="1901"/>
         <source>Show filename on OSD</source>
         <translation>Prikaži naziv datoteke na OSD </translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1695"/>
+        <location filename="../basegui.cpp" line="1699"/>
         <source>Set &amp;A marker</source>
         <translation>Postavi &amp;A oznaku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1696"/>
+        <location filename="../basegui.cpp" line="1700"/>
         <source>Set &amp;B marker</source>
         <translation>Postavi &amp;B oznaku</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1697"/>
+        <location filename="../basegui.cpp" line="1701"/>
         <source>&amp;Clear A-B markers</source>
         <translation>&amp;Obriši A-B oznake</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1951"/>
+        <location filename="../basegui.cpp" line="1959"/>
         <source>&amp;A-B section</source>
         <translation>&amp;A-B odabir</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1898"/>
+        <location filename="../basegui.cpp" line="1903"/>
         <source>Toggle deinterlacing</source>
         <translation>Uključi/Isključi raspletanje</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2076"/>
+        <location filename="../basegui.cpp" line="2087"/>
         <source>&amp;Closed captions</source>
         <translation>&amp;Zatvoreni naslovi</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1934"/>
+        <location filename="../basegui.cpp" line="1940"/>
         <source>&amp;Disc</source>
         <translation>&amp;Disk</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1938"/>
+        <location filename="../basegui.cpp" line="1944"/>
         <source>F&amp;avorites</source>
         <translation>&amp;Omiljeno</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1832"/>
+        <location filename="../basegui.cpp" line="1837"/>
         <source>Check for &amp;updates</source>
         <translation>&amp;Provjeri za nadopune</translation>
     </message>
@@ -1866,32 +1932,152 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>BaseGuiPlus</name>
     <message>
-        <location filename="../baseguiplus.cpp" line="190"/>
+        <location filename="../baseguiplus.cpp" line="272"/>
         <source>SMPlayer is still running here</source>
         <translation>SMPlayer je još uvijek pokrenut</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="213"/>
+        <location filename="../baseguiplus.cpp" line="295"/>
         <source>S&amp;how icon in system tray</source>
         <translation>Prikaži i&amp;konu u traci sustava</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="224"/>
+        <location filename="../baseguiplus.cpp" line="308"/>
+        <source>Send &amp;video to screen</source>
+        <translation>Pošalji &amp;video na zalon</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="310"/>
+        <source>Information about connected &amp;screens</source>
+        <translation>Informacije o povezanim &amp;zaslonima</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="313"/>
+        <source>Video is sent to an external screen</source>
+        <translation>Video snimka je poslana na vanjski zaslon</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="319"/>
         <source>&amp;Hide</source>
         <translation>&amp;Sakrij</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="226"/>
+        <location filename="../baseguiplus.cpp" line="321"/>
         <source>&amp;Restore</source>
         <translation>&amp;Prikaži</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="212"/>
+        <location filename="../baseguiplus.cpp" line="764"/>
+        <source>Information about connected screens</source>
+        <translation>Informacije o povezanim zaslonima</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="767"/>
+        <source>Connected screens</source>
+        <translation>Povezani zasloni</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="770"/>
+        <location filename="../baseguiplus.cpp" line="812"/>
+        <source>Number of screens: %1</source>
+        <translation>Broj zaslona: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="775"/>
+        <location filename="../baseguiplus.cpp" line="813"/>
+        <source>Primary screen: %1</source>
+        <translation>Glavni zaslon: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="783"/>
+        <location filename="../baseguiplus.cpp" line="817"/>
+        <source>Information for screen %1</source>
+        <translation>Informacije za zaslon %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="785"/>
+        <location filename="../baseguiplus.cpp" line="819"/>
+        <source>Available geometry: %1 %2 %3 x %4</source>
+        <translation>Dostupna geometrija: %1 %2 %3 x %4</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="787"/>
+        <source>Available size: %1 x %2</source>
+        <translation>Dostupna veličina: %1 x %2</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="788"/>
+        <source>Available virtual geometry: %1 %2 %3 x %4</source>
+        <translation>Dostupna virtualna geometrija: %1 %2 %3 x %4</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="792"/>
+        <source>Available virtual size: %1 x %2</source>
+        <translation>Dostupna virtualna veličina: %1 x %2</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="794"/>
+        <source>Depth: %1 bits</source>
+        <translation>Dubina: %1 bitova</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="795"/>
+        <location filename="../baseguiplus.cpp" line="821"/>
+        <source>Geometry: %1 %2 %3 x %4</source>
+        <translation>Geometrija: %1 %2 %3 x %4</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="797"/>
+        <source>Logical DPI: %1</source>
+        <translation>Logičan DPI: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="799"/>
+        <source>Physical DPI: %1</source>
+        <translation>Fizički DPI: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="800"/>
+        <source>Physical size: %1 x %2 mm</source>
+        <translation>Fizička veličina: %1 x %2 mm</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="802"/>
+        <source>Refresh rate: %1 Hz</source>
+        <translation>Frekvencija: %1 Hz</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="803"/>
+        <source>Size: %1 x %2</source>
+        <translation>Veličina: %1 x %2</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="804"/>
+        <source>Virtual geometry: %1 %2 %3 x %4</source>
+        <translation>Virtualna geometrija: %1 %2 %3 x %4</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="806"/>
+        <source>Virtual size: %1 x %2</source>
+        <translation>Virtualna veličina: %1 x %2</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="859"/>
+        <source>Primary screen</source>
+        <translation>Glavni zaslon</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="925"/>
+        <source>SMPlayer external screen output</source>
+        <translation>SMPlayer izlaz vanjskog zaslona</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="294"/>
         <source>&amp;Quit</source>
         <translation>&amp;Isključi</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="218"/>
+        <location filename="../baseguiplus.cpp" line="300"/>
         <source>Playlist</source>
         <translation>Popis izvođenja</translation>
     </message>
@@ -1971,148 +2157,148 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>Core</name>
     <message>
-        <location filename="../core.cpp" line="2988"/>
+        <location filename="../core.cpp" line="3050"/>
         <source>Brightness: %1</source>
         <translation>Svjetlina: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3004"/>
+        <location filename="../core.cpp" line="3066"/>
         <source>Contrast: %1</source>
         <translation>Kontrast: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3019"/>
+        <location filename="../core.cpp" line="3081"/>
         <source>Gamma: %1</source>
         <translation>Gama: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3034"/>
+        <location filename="../core.cpp" line="3096"/>
         <source>Hue: %1</source>
         <translation>Ton boje: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3049"/>
+        <location filename="../core.cpp" line="3111"/>
         <source>Saturation: %1</source>
         <translation>Zasićenje: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3192"/>
+        <location filename="../core.cpp" line="3254"/>
         <source>Volume: %1</source>
         <translation>Glasnoća zvuka: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4066"/>
+        <location filename="../core.cpp" line="4130"/>
         <source>Zoom: %1</source>
         <translation>Zumiranje: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3320"/>
-        <location filename="../core.cpp" line="3331"/>
+        <location filename="../core.cpp" line="3382"/>
+        <location filename="../core.cpp" line="3393"/>
         <source>Font scale: %1</source>
         <translation>Promjena veličine slova: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3907"/>
+        <location filename="../core.cpp" line="3971"/>
         <source>Aspect ratio: %1</source>
         <translation>Omjer slike: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4292"/>
+        <location filename="../core.cpp" line="4356"/>
         <source>Updating the font cache. This may take some seconds...</source>
         <translation>Nadopuna priručne memorije slova. Ovo može potrajati nekoliko sekundi...</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3245"/>
+        <location filename="../core.cpp" line="3307"/>
         <source>Subtitle delay: %1 ms</source>
         <translation>Kašnjenje/Prednačenje podnasalova: %1 ms</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3263"/>
+        <location filename="../core.cpp" line="3325"/>
         <source>Audio delay: %1 ms</source>
         <translation>Kašnjenje/Prednačenje zvuka: %1 ms</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3103"/>
+        <location filename="../core.cpp" line="3165"/>
         <source>Speed: %1</source>
         <translation>Brzina: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="562"/>
+        <location filename="../core.cpp" line="598"/>
         <source>Unable to retrieve the Youtube page</source>
         <translation>Nemoguće učitavanje Youtube stranice</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="566"/>
+        <location filename="../core.cpp" line="602"/>
         <source>Unable to locate the URL of the video</source>
         <translation>Nemoguće pronalažanje URL video snimke</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3408"/>
+        <location filename="../core.cpp" line="3470"/>
         <source>Subtitles on</source>
         <translation>Podnaslovi uključeni</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3410"/>
+        <location filename="../core.cpp" line="3472"/>
         <source>Subtitles off</source>
         <translation>Podnaslovi isključeni</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3955"/>
+        <location filename="../core.cpp" line="4019"/>
         <source>Mouse wheel seeks now</source>
         <translation>Kotačić miša trenutno pretražuje</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3958"/>
+        <location filename="../core.cpp" line="4022"/>
         <source>Mouse wheel changes volume now</source>
         <translation>Kotačić miša trenutno mijenja glasnoću zvuka</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3961"/>
+        <location filename="../core.cpp" line="4025"/>
         <source>Mouse wheel changes zoom level now</source>
         <translation>Kotačić miša trenutno mijenja razinu zumiranja</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3964"/>
+        <location filename="../core.cpp" line="4028"/>
         <source>Mouse wheel changes speed now</source>
         <translation>Kotačić miša trenutno mijenja brzinu</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4268"/>
+        <location filename="../core.cpp" line="4332"/>
         <source>Screenshot saved as %1</source>
         <translation>Snimka zaslona spremljena kao %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4303"/>
+        <location filename="../core.cpp" line="4367"/>
         <source>Starting...</source>
         <translation>Pokretanje...</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="1406"/>
+        <location filename="../core.cpp" line="1407"/>
         <source>Screenshot NOT taken, folder not configured</source>
         <translation>Snimka zaslona NIJE snimljena, mapa nije podešena</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="1419"/>
+        <location filename="../core.cpp" line="1420"/>
         <source>Screenshots NOT taken, folder not configured</source>
         <translation>Snimke zaslona NISU snimljene, mapa nije podešena</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2655"/>
+        <location filename="../core.cpp" line="2694"/>
         <source>&quot;A&quot; marker set to %1</source>
         <translation>&quot;A&quot; oznaka je postavljena na %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2672"/>
+        <location filename="../core.cpp" line="2716"/>
         <source>&quot;B&quot; marker set to %1</source>
         <translation>&quot;B&quot; oznaka je postavljena na %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2687"/>
+        <location filename="../core.cpp" line="2736"/>
         <source>A-B markers cleared</source>
         <translation>A-B odabir uklonjen</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="558"/>
+        <location filename="../core.cpp" line="594"/>
         <source>Connecting to %1</source>
         <translation>Povezivanje na %1</translation>
     </message>
@@ -2120,82 +2306,87 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>DefaultGui</name>
     <message>
-        <location filename="../defaultgui.cpp" line="572"/>
+        <location filename="../defaultgui.cpp" line="682"/>
         <source>Audio</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="573"/>
+        <location filename="../defaultgui.cpp" line="683"/>
         <source>Subtitle</source>
         <translation>Podnaslov</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="566"/>
+        <location filename="../defaultgui.cpp" line="675"/>
         <source>&amp;Main toolbar</source>
         <translation>&amp;Glavna alatna traka</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="569"/>
+        <location filename="../defaultgui.cpp" line="679"/>
         <source>&amp;Language toolbar</source>
         <translation>&amp;Jezična traka</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="560"/>
+        <location filename="../defaultgui.cpp" line="669"/>
         <source>&amp;Toolbars</source>
         <translation>&amp;Alatne trake</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="541"/>
+        <location filename="../defaultgui.cpp" line="649"/>
         <source>Ready</source>
         <translation>Spremno</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="604"/>
+        <location filename="../defaultgui.cpp" line="688"/>
+        <source>F&amp;ormat info</source>
+        <translation>I&amp;nformacije formata</translation>
+    </message>
+    <message>
+        <location filename="../defaultgui.cpp" line="711"/>
         <source>A:%1</source>
         <translation>A:%1</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="608"/>
+        <location filename="../defaultgui.cpp" line="715"/>
         <source>B:%1</source>
         <translation>B:%1</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="563"/>
+        <location filename="../defaultgui.cpp" line="672"/>
         <source>Status&amp;bar</source>
         <translation>Status&amp;na traka</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="575"/>
+        <location filename="../defaultgui.cpp" line="686"/>
         <source>&amp;Video info</source>
         <translation>&amp;Informacije video zapisa</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="576"/>
+        <location filename="../defaultgui.cpp" line="687"/>
         <source>&amp;Frame counter</source>
         <translation>&amp;Brojač sličica</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="579"/>
+        <location filename="../defaultgui.cpp" line="691"/>
         <source>Edit main &amp;toolbar</source>
         <translation>Uredi glavnu alatnu  &amp;traku</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="580"/>
+        <location filename="../defaultgui.cpp" line="692"/>
         <source>Edit &amp;control bar</source>
         <translation>Uredi &amp;kontrolnu traku</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="581"/>
+        <location filename="../defaultgui.cpp" line="693"/>
         <source>Edit m&amp;ini control bar</source>
         <translation>Uredi m&amp;ini kontrolnu traku</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="582"/>
+        <location filename="../defaultgui.cpp" line="694"/>
         <source>Edit &amp;floating control</source>
         <translation>Uredi &amp;lebdeće kontrole</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="618"/>
+        <location filename="../defaultgui.cpp" line="725"/>
         <source>%1x%2 %3 fps</source>
         <comment>width + height + fps</comment>
         <translation>%1x%2 %3 sl/sek</translation>
@@ -2212,18 +2403,18 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>ErrorDialog</name>
     <message>
-        <location filename="../errordialog.cpp" line="30"/>
+        <location filename="../errordialog.cpp" line="40"/>
         <source>Oops, something went wrong</source>
         <translation>Ups, nešto je pošlo naopako</translation>
     </message>
     <message>
-        <location filename="../errordialog.cpp" line="57"/>
+        <location filename="../errordialog.cpp" line="67"/>
         <source>Hide log</source>
         <translation>Sakrij zapis</translation>
     </message>
     <message>
         <location filename="../errordialog.ui" line="91"/>
-        <location filename="../errordialog.cpp" line="59"/>
+        <location filename="../errordialog.cpp" line="69"/>
         <source>Show log</source>
         <translation>Prikaži zaspis</translation>
     </message>
@@ -2251,45 +2442,45 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>FavoriteEditor</name>
     <message>
-        <location filename="../favoriteeditor.cpp" line="94"/>
+        <location filename="../favoriteeditor.cpp" line="97"/>
         <source>Icon</source>
         <translation>Ikona</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="94"/>
+        <location filename="../favoriteeditor.cpp" line="97"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="94"/>
+        <location filename="../favoriteeditor.cpp" line="97"/>
         <source>Media</source>
         <translation>Medij</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="111"/>
+        <location filename="../favoriteeditor.cpp" line="116"/>
         <source>Favorite editor</source>
         <translation>Omiljeni uređivač</translation>
     </message>
     <message>
         <location filename="../favoriteeditor.ui" line="34"/>
-        <location filename="../favoriteeditor.cpp" line="113"/>
-        <location filename="../favoriteeditor.cpp" line="172"/>
-        <location filename="../favoriteeditor.cpp" line="272"/>
+        <location filename="../favoriteeditor.cpp" line="118"/>
+        <location filename="../favoriteeditor.cpp" line="177"/>
+        <location filename="../favoriteeditor.cpp" line="277"/>
         <source>Favorite list</source>
         <translation>Omiljeni popis</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="114"/>
+        <location filename="../favoriteeditor.cpp" line="119"/>
         <source>You can edit, delete, sort or add new items. Double click on a cell to edit its contents.</source>
         <translation>Možete uređivati, brisati, razvrstavati ili dodavati nove stavke. Za uređivanje sadržaja dvostruko kliknite na odabranu stavku stupca u redku.</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="345"/>
+        <location filename="../favoriteeditor.cpp" line="350"/>
         <source>Select an icon file</source>
         <translation>Odaberite datoteku ikone</translation>
     </message>
     <message>
-        <location filename="../favoriteeditor.cpp" line="347"/>
+        <location filename="../favoriteeditor.cpp" line="352"/>
         <source>Images</source>
         <translation>Slike</translation>
     </message>
@@ -2380,12 +2571,12 @@ Dijalog podešavanja sada će biti prikazan, tako da ih možete postaviti.</tran
 <context>
     <name>FileDownloader</name>
     <message>
-        <location filename="../findsubtitles/filedownloader/filedownloader.cpp" line="39"/>
+        <location filename="../findsubtitles/filedownloader/filedownloader.cpp" line="41"/>
         <source>Downloading...</source>
         <translation>Preuzimanje...</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/filedownloader/filedownloader.cpp" line="60"/>
+        <location filename="../findsubtitles/filedownloader/filedownloader.cpp" line="62"/>
         <source>Connecting to %1</source>
         <translation>Povezivanje s %1...</translation>
     </message>
@@ -2471,42 +2662,42 @@ Npr: extrastereo,karaoke</translation>
         <translation>Zvučni &amp;filtri:</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="76"/>
+        <location filename="../filepropertiesdialog.cpp" line="87"/>
         <source>OK</source>
         <translation>U redu</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="77"/>
+        <location filename="../filepropertiesdialog.cpp" line="88"/>
         <source>Cancel</source>
-        <translation>Poništi</translation>
+        <translation>Odustani</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="78"/>
+        <location filename="../filepropertiesdialog.cpp" line="89"/>
         <source>Apply</source>
         <translation>Primjeni</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="86"/>
+        <location filename="../filepropertiesdialog.cpp" line="97"/>
         <source>O&amp;ptions for %1</source>
         <translation>M&amp;ogućnosti za %1</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="87"/>
+        <location filename="../filepropertiesdialog.cpp" line="98"/>
         <source>Additional Options for %1</source>
         <translation>Dodatne mogućnosti za %1</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="88"/>
+        <location filename="../filepropertiesdialog.cpp" line="99"/>
         <source>Here you can pass extra options to %1.</source>
         <translation>Ovdje možete upisati dodatne mogućnosti za %1.</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="89"/>
+        <location filename="../filepropertiesdialog.cpp" line="100"/>
         <source>Write them separated by spaces.</source>
         <translation>Upišite ih odvojene razmakom.</translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="89"/>
+        <location filename="../filepropertiesdialog.cpp" line="100"/>
         <source>Example:</source>
         <translation>Primjer:</translation>
     </message>
@@ -2622,117 +2813,113 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>FindSubtitlesWindow</name>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="227"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="235"/>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="227"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="235"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="227"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="235"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="228"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
         <source>Files</source>
         <translation>Datoteke</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="228"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="228"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
         <source>Uploaded by</source>
         <translation>Postavio</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="243"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="251"/>
         <source>Portuguese - Brasil</source>
         <translation>Portugalski - Brazil</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="258"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="266"/>
         <source>All</source>
         <translation>Svi</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="267"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="275"/>
         <source>Close</source>
         <translation>Zatvori</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="356"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="364"/>
         <source>Login to opensubtitles.org has failed</source>
         <translation>Neuspjela prijava na opensubtitles.org</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="360"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="368"/>
         <source>Search has failed</source>
         <translation>Neuspjelo pretraživanje</translation>
     </message>
     <message numerus="yes">
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="697"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="705"/>
         <source>%n subtitle(s) extracted</source>
-        <translation>
-            <numerusform>%n podnaslov raspakiran</numerusform>
-            <numerusform>%n podnaslova raspakirana</numerusform>
-            <numerusform>%n podnaslova raspakirano</numerusform>
-        </translation>
+        <translation><numerusform>%n podnaslov raspakiran</numerusform><numerusform>%n podnaslova raspakirana</numerusform><numerusform>%n podnaslova raspakirano</numerusform></translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="757"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="765"/>
         <source>Error fixing the subtitle lines</source>
         <translation>Greška pri namještanju redaka podnaslova</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.ui" line="136"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="271"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="279"/>
         <source>&amp;Download</source>
         <translation>&amp;Preuzmi</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="272"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="280"/>
         <source>&amp;Copy link to clipboard</source>
         <translation>&amp;Kopiraj poveznicu u međuspremnik</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="346"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="354"/>
         <source>Error</source>
         <translation>Greška</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="347"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="355"/>
         <source>Download failed: %1.</source>
         <translation>Neuspjelo preuzimanje: %1.</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="352"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="360"/>
         <source>Connecting to %1...</source>
         <translation>Povezivanje s %1...</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="370"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="378"/>
         <source>Downloading...</source>
         <translation>Preuzimanje...</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="378"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="386"/>
         <source>Done.</source>
         <translation>Završeno.</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="423"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="431"/>
         <source>%1 files available</source>
         <translation>%1 datoteka dostupno</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="432"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="440"/>
         <source>Failed to parse the received data.</source>
         <translation>Neuspjelo rasčlanjivanje primljenih podataka.</translation>
     </message>
@@ -2757,31 +2944,31 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Osvježi</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="527"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="674"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="535"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="682"/>
         <source>Subtitle saved as %1</source>
         <translation>Podnsalov je spremljen kao %1</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="711"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="719"/>
         <source>Overwrite?</source>
         <translation>Prepiši?</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="712"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="720"/>
         <source>The file %1 already exits, overwrite?</source>
         <translation>Datoteka %1 već postoji, prepiši?</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="522"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="629"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="530"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="637"/>
         <source>Error saving file</source>
         <translation>Greška pri spremanju datoteke</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="523"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="630"/>
-        <source>It wasn&apos;t possible to save the downloaded
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="531"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="638"/>
+        <source>It wasn't possible to save the downloaded
 file in folder %1
 Please check the permissions of that folder.</source>
         <translation>Nemoguće je spremanje preuzete
@@ -2789,14 +2976,14 @@ datoteke u mapu %1
 Molim, provjerite dozvole te mape.</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="344"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="495"/>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="623"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="352"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="503"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="631"/>
         <source>Download failed</source>
         <translation>Neuspjelo preuzimanje</translation>
     </message>
     <message>
-        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="607"/>
+        <location filename="../findsubtitles/findsubtitleswindow.cpp" line="615"/>
         <source>Temporary file %1</source>
         <translation>Privremena datoteka %1</translation>
     </message>
@@ -2822,228 +3009,236 @@ Molim, provjerite dozvole te mape.</translation>
 <context>
     <name>InfoFile</name>
     <message>
-        <location filename="../infofile.cpp" line="77"/>
+        <location filename="../infofile.cpp" line="78"/>
         <source>General</source>
         <translation>Općenito</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="81"/>
+        <location filename="../infofile.cpp" line="82"/>
         <source>Size</source>
         <translation>Veličina</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="81"/>
+        <location filename="../infofile.cpp" line="82"/>
         <source>%1 KB (%2 MB)</source>
         <translation>%1 KB (%2 MB)</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="85"/>
+        <location filename="../infofile.cpp" line="86"/>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="87"/>
+        <location filename="../infofile.cpp" line="88"/>
         <source>Length</source>
         <translation>Trajanje</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="88"/>
+        <location filename="../infofile.cpp" line="89"/>
         <source>Demuxer</source>
         <translation>Demultiplekser</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="93"/>
-        <location filename="../infofile.cpp" line="136"/>
-        <location filename="../infofile.cpp" line="156"/>
+        <location filename="../infofile.cpp" line="94"/>
+        <location filename="../infofile.cpp" line="145"/>
+        <location filename="../infofile.cpp" line="165"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="94"/>
+        <location filename="../infofile.cpp" line="95"/>
         <source>Artist</source>
         <translation>Izvođač</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="95"/>
+        <location filename="../infofile.cpp" line="96"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="96"/>
+        <location filename="../infofile.cpp" line="97"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="97"/>
+        <location filename="../infofile.cpp" line="98"/>
         <source>Genre</source>
         <translation>Žanr</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="98"/>
+        <location filename="../infofile.cpp" line="106"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="99"/>
+        <location filename="../infofile.cpp" line="108"/>
         <source>Track</source>
         <translation>Broj pjesme</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="100"/>
+        <location filename="../infofile.cpp" line="109"/>
         <source>Copyright</source>
         <translation>Autorsko pravo</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="101"/>
+        <location filename="../infofile.cpp" line="110"/>
         <source>Comment</source>
         <translation>Komentar</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="102"/>
+        <location filename="../infofile.cpp" line="111"/>
         <source>Software</source>
         <translation>Softver</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="107"/>
+        <location filename="../infofile.cpp" line="116"/>
         <source>Clip info</source>
         <translation>Informacije zapisa</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="114"/>
+        <location filename="../infofile.cpp" line="123"/>
         <source>Video</source>
         <translation>Video zapis</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="115"/>
+        <location filename="../infofile.cpp" line="124"/>
         <source>Resolution</source>
         <translation>Razlučivost</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="116"/>
+        <location filename="../infofile.cpp" line="125"/>
         <source>Aspect ratio</source>
         <translation>Omjer slike</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="117"/>
         <location filename="../infofile.cpp" line="126"/>
+        <location filename="../infofile.cpp" line="135"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="118"/>
         <location filename="../infofile.cpp" line="127"/>
+        <location filename="../infofile.cpp" line="136"/>
         <source>Bitrate</source>
         <translation>Brzina prijenosa</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="118"/>
         <location filename="../infofile.cpp" line="127"/>
+        <location filename="../infofile.cpp" line="136"/>
         <source>%1 kbps</source>
         <translation>%1 kbps</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="119"/>
+        <location filename="../infofile.cpp" line="128"/>
         <source>Frames per second</source>
         <translation>Sličica u sekundi</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="120"/>
-        <location filename="../infofile.cpp" line="130"/>
+        <location filename="../infofile.cpp" line="129"/>
+        <location filename="../infofile.cpp" line="139"/>
         <source>Selected codec</source>
         <translation>Odabrani kôdek</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="125"/>
+        <location filename="../infofile.cpp" line="134"/>
         <source>Initial Audio Stream</source>
         <translation>Početni zvučni zapis</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="128"/>
+        <location filename="../infofile.cpp" line="137"/>
         <source>Rate</source>
         <translation>Frekvencija</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="128"/>
+        <location filename="../infofile.cpp" line="137"/>
         <source>%1 Hz</source>
         <translation>%1 Hz</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="129"/>
+        <location filename="../infofile.cpp" line="138"/>
         <source>Channels</source>
         <translation>Kanali</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="135"/>
+        <location filename="../infofile.cpp" line="144"/>
         <source>Audio Streams</source>
         <translation>Zvučni zapisi</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="136"/>
-        <location filename="../infofile.cpp" line="156"/>
+        <location filename="../infofile.cpp" line="145"/>
+        <location filename="../infofile.cpp" line="165"/>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="144"/>
-        <location filename="../infofile.cpp" line="146"/>
-        <location filename="../infofile.cpp" line="169"/>
-        <location filename="../infofile.cpp" line="171"/>
-        <source>undefined</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="214"/>
-        <source>Track %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="217"/>
-        <location filename="../infofile.cpp" line="225"/>
-        <source>Language: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="218"/>
-        <location filename="../infofile.cpp" line="226"/>
-        <source>Name: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="219"/>
-        <location filename="../infofile.cpp" line="227"/>
-        <source>ID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="221"/>
-        <location filename="../infofile.cpp" line="229"/>
-        <source>Type: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../infofile.cpp" line="153"/>
         <location filename="../infofile.cpp" line="155"/>
+        <location filename="../infofile.cpp" line="178"/>
+        <location filename="../infofile.cpp" line="180"/>
+        <source>undefined</source>
+        <translation>neodređeno</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="223"/>
+        <source>Track %1</source>
+        <translation>Zapis %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="226"/>
+        <location filename="../infofile.cpp" line="234"/>
+        <source>Language: %1</source>
+        <translation>Jezik: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="227"/>
+        <location filename="../infofile.cpp" line="235"/>
+        <source>Name: %1</source>
+        <translation>Naziv: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="228"/>
+        <location filename="../infofile.cpp" line="236"/>
+        <source>ID: %1</source>
+        <translation>ID: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="230"/>
+        <location filename="../infofile.cpp" line="238"/>
+        <source>Type: %1</source>
+        <translation>Vrsta: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="164"/>
         <source>Subtitles</source>
         <translation>Podnaslovi</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="156"/>
+        <location filename="../infofile.cpp" line="165"/>
         <source>Type</source>
         <translation>Vrsta</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="103"/>
+        <location filename="../infofile.cpp" line="112"/>
         <source>Stream title</source>
         <translation>Naziv zapisa</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="104"/>
+        <location filename="../infofile.cpp" line="113"/>
         <source>Stream URL</source>
         <translation>URL zapisa</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="80"/>
+        <location filename="../infofile.cpp" line="81"/>
         <source>File</source>
         <translation>Datoteka</translation>
+    </message>
+</context>
+<context>
+    <name>InfoWindow</name>
+    <message>
+        <location filename="../infowindow.ui" line="36"/>
+        <source>&amp;Close</source>
+        <translation>&amp;Zatvori</translation>
     </message>
 </context>
 <context>
@@ -4215,61 +4410,58 @@ Molim, provjerite dozvole te mape.</translation>
 <context>
     <name>LogWindow</name>
     <message>
-        <location filename="../logwindow.cpp" line="99"/>
+        <location filename="../logwindow.cpp" line="107"/>
         <source>Choose a filename to save under</source>
         <translation>Odaberi naziv datoteke za spremanje pod</translation>
     </message>
     <message>
-        <location filename="../logwindow.cpp" line="105"/>
+        <location filename="../logwindow.cpp" line="113"/>
         <source>Confirm overwrite?</source>
         <translation>Potvrdi prepisivanje?</translation>
     </message>
     <message>
-        <location filename="../logwindow.cpp" line="106"/>
+        <location filename="../logwindow.cpp" line="114"/>
         <source>The file already exists.
 Do you want to overwrite?</source>
         <translation>Datoteka već postoji.
 Želite ju prepistai?</translation>
     </message>
     <message>
-        <location filename="../logwindow.cpp" line="125"/>
+        <location filename="../logwindow.cpp" line="133"/>
         <source>Error saving file</source>
         <translation>Greška pri spremanju datoteke</translation>
     </message>
     <message>
-        <location filename="../logwindow.cpp" line="126"/>
+        <location filename="../logwindow.cpp" line="134"/>
         <source>The log couldn&apos;t be saved</source>
         <translation>Zapis ne može biti spremljen</translation>
     </message>
     <message>
-        <location filename="../logwindow.cpp" line="100"/>
+        <location filename="../logwindow.cpp" line="108"/>
         <source>Logs</source>
         <translation>Zapisi</translation>
     </message>
-</context>
-<context>
-    <name>LogWindowBase</name>
     <message>
-        <location filename="../logwindowbase.ui" line="58"/>
-        <location filename="../logwindowbase.ui" line="61"/>
+        <location filename="../logwindow.ui" line="58"/>
+        <location filename="../logwindow.ui" line="61"/>
         <source>Save</source>
         <translation>Spremi</translation>
     </message>
     <message>
-        <location filename="../logwindowbase.ui" line="68"/>
-        <location filename="../logwindowbase.ui" line="71"/>
+        <location filename="../logwindow.ui" line="68"/>
+        <location filename="../logwindow.ui" line="71"/>
         <source>Copy to clipboard</source>
         <translation>Kopiraj u međuspremnik</translation>
     </message>
     <message>
-        <location filename="../logwindowbase.ui" line="81"/>
-        <source>&amp;Close</source>
-        <translation>&amp;Zatvori</translation>
-    </message>
-    <message>
-        <location filename="../logwindowbase.ui" line="78"/>
+        <location filename="../logwindow.ui" line="78"/>
         <source>Close</source>
         <translation>Zatvori</translation>
+    </message>
+    <message>
+        <location filename="../logwindow.ui" line="81"/>
+        <source>&amp;Close</source>
+        <translation>&amp;Zatvori</translation>
     </message>
 </context>
 <context>
@@ -4304,17 +4496,17 @@ Do you want to overwrite?</source>
 <context>
     <name>MiniGui</name>
     <message>
-        <location filename="../minigui.cpp" line="174"/>
+        <location filename="../minigui.cpp" line="172"/>
         <source>Control bar</source>
         <translation>Upravljačka traka</translation>
     </message>
     <message>
-        <location filename="../minigui.cpp" line="177"/>
+        <location filename="../minigui.cpp" line="175"/>
         <source>Edit &amp;control bar</source>
         <translation>Uredi &amp;upravljačku traku</translation>
     </message>
     <message>
-        <location filename="../minigui.cpp" line="178"/>
+        <location filename="../minigui.cpp" line="176"/>
         <source>Edit &amp;floating control</source>
         <translation>Uredi &amp;lebdeće kontrole</translation>
     </message>
@@ -4322,26 +4514,26 @@ Do you want to overwrite?</source>
 <context>
     <name>MpcGui</name>
     <message>
-        <location filename="../mpcgui/mpcgui.cpp" line="151"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="150"/>
         <source>Control bar</source>
         <translation>Upravljačka traka</translation>
     </message>
     <message>
-        <location filename="../mpcgui/mpcgui.cpp" line="152"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="151"/>
         <source>Seek bar</source>
         <translation>Traka premotavanja</translation>
     </message>
     <message>
-        <location filename="../mpcgui/mpcgui.cpp" line="471"/>
-        <location filename="../mpcgui/mpcgui.cpp" line="472"/>
-        <location filename="../mpcgui/mpcgui.cpp" line="473"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="463"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="464"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="465"/>
         <source>-%1</source>
         <translation>-%1</translation>
     </message>
     <message>
-        <location filename="../mpcgui/mpcgui.cpp" line="475"/>
-        <location filename="../mpcgui/mpcgui.cpp" line="476"/>
-        <location filename="../mpcgui/mpcgui.cpp" line="477"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="467"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="468"/>
+        <location filename="../mpcgui/mpcgui.cpp" line="469"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>
@@ -4400,217 +4592,247 @@ Do you want to overwrite?</source>
 <context>
     <name>Playlist</name>
     <message>
-        <location filename="../playlist.cpp" line="303"/>
+        <location filename="../playlist.cpp" line="529"/>
         <source>Name</source>
         <translation>Naziv</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="303"/>
+        <location filename="../playlist.cpp" line="529"/>
         <source>Length</source>
         <translation>Trajanje</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="308"/>
+        <location filename="../playlist.cpp" line="538"/>
         <source>&amp;Play</source>
         <translation>&amp;Reproduciraj</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="336"/>
+        <location filename="../playlist.cpp" line="566"/>
         <source>&amp;Edit</source>
         <translation>&amp;Uredi</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="935"/>
-        <location filename="../playlist.cpp" line="960"/>
+        <location filename="../playlist.cpp" line="1107"/>
+        <location filename="../playlist.cpp" line="1133"/>
         <source>Playlists</source>
         <translation>Popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="933"/>
+        <location filename="../playlist.cpp" line="1105"/>
         <source>Choose a file</source>
         <translation>Odaberi datoteku</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="958"/>
+        <location filename="../playlist.cpp" line="1131"/>
         <source>Choose a filename</source>
         <translation>Odaberi naziv datoteke</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="969"/>
+        <location filename="../playlist.cpp" line="1142"/>
         <source>Confirm overwrite?</source>
         <translation>Potvrdi prepisivanje?</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="970"/>
+        <location filename="../playlist.cpp" line="1143"/>
         <source>The file %1 already exists.
 Do you want to overwrite?</source>
         <translation>Datoteka %1 već postoji.
 Želite ju prepisati?</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="935"/>
-        <location filename="../playlist.cpp" line="960"/>
-        <location filename="../playlist.cpp" line="1174"/>
+        <location filename="../playlist.cpp" line="1107"/>
+        <location filename="../playlist.cpp" line="1133"/>
+        <location filename="../playlist.cpp" line="1347"/>
         <source>All files</source>
         <translation>Sve datoteke</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1171"/>
+        <location filename="../playlist.cpp" line="1344"/>
         <source>Select one or more files to open</source>
         <translation>Odaberi jednu ili više datoteka za otvoriti</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1239"/>
+        <location filename="../playlist.cpp" line="1411"/>
         <source>Choose a directory</source>
         <translation>Odaberi direktorij</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1446"/>
+        <location filename="../playlist.cpp" line="1579"/>
         <source>Edit name</source>
         <translation>Uredi naziv</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1447"/>
+        <location filename="../playlist.cpp" line="1580"/>
         <source>Type the name that will be displayed in the playlist for this file:</source>
         <translation>Upišite naziv koji će se prikazati u popisu izvođenja za ovu datoteku:</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="305"/>
+        <location filename="../playlist.cpp" line="531"/>
         <source>&amp;Load</source>
         <translation>&amp;Učitaj titlove</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="306"/>
+        <location filename="../playlist.cpp" line="529"/>
+        <source>Filename / URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="533"/>
+        <source>&amp;Open URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="534"/>
+        <source>Download playlist from URL</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="536"/>
         <source>&amp;Save</source>
         <translation>&amp;Spremi</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="310"/>
+        <location filename="../playlist.cpp" line="540"/>
         <source>&amp;Next</source>
         <translation>&amp;Sljedeće</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="311"/>
+        <location filename="../playlist.cpp" line="541"/>
         <source>Pre&amp;vious</source>
         <translation>Pri&amp;jašnje</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="317"/>
+        <location filename="../playlist.cpp" line="547"/>
         <source>Move &amp;up</source>
         <translation>Pomakni &amp;gore</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="318"/>
+        <location filename="../playlist.cpp" line="548"/>
         <source>Move &amp;down</source>
         <translation>Pomakni &amp;dolje</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="320"/>
+        <location filename="../playlist.cpp" line="550"/>
         <source>&amp;Repeat</source>
         <translation>&amp;Ponovi</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="321"/>
+        <location filename="../playlist.cpp" line="551"/>
         <source>S&amp;huffle</source>
         <translation>N&amp;aizmjenično</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="324"/>
+        <location filename="../playlist.cpp" line="554"/>
         <source>Add &amp;current file</source>
         <translation>Dodaj &amp;trenutnu datoteku</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="325"/>
+        <location filename="../playlist.cpp" line="555"/>
         <source>Add &amp;file(s)</source>
         <translation>Dodaj &amp;datoteke</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="326"/>
+        <location filename="../playlist.cpp" line="556"/>
         <source>Add &amp;directory</source>
         <translation>Dodaj &amp;direktorij</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="327"/>
+        <location filename="../playlist.cpp" line="557"/>
         <source>Add &amp;URL(s)</source>
         <translation>Dodaj &amp;URL(ove)</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="330"/>
+        <location filename="../playlist.cpp" line="560"/>
         <source>Remove &amp;selected</source>
         <translation>Ukloni &amp;odabrano</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="331"/>
+        <location filename="../playlist.cpp" line="561"/>
         <source>Remove &amp;all</source>
         <translation>Ukloni &amp;sve</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="333"/>
+        <location filename="../playlist.cpp" line="563"/>
         <source>&amp;Delete file from disk</source>
         <translation>&amp;Obriši datoteku s diska</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="346"/>
+        <location filename="../playlist.cpp" line="576"/>
+        <source>Search</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="581"/>
         <source>SMPlayer - Playlist</source>
         <translation>SMPlayer - Popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1477"/>
+        <location filename="../playlist.cpp" line="1614"/>
         <source>Confirm deletion</source>
         <translation>Potvrdi brisanje</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1478"/>
+        <location filename="../playlist.cpp" line="1615"/>
         <source>You&apos;re about to DELETE the file &apos;%1&apos; from your drive.</source>
         <translation>Sada ćete OBRISATI datoteku &apos;%1&apos; s vašeg diska.</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1479"/>
+        <location filename="../playlist.cpp" line="1616"/>
         <source>This action cannot be undone. Are you sure you want to proceed?</source>
         <translation>Ova radnja se ne može poništiti. Sigurno želite nastaviti?</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1491"/>
+        <location filename="../playlist.cpp" line="1634"/>
         <source>Deletion failed</source>
         <translation>Brisanje nije uspjelo</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1492"/>
+        <location filename="../playlist.cpp" line="1635"/>
         <source>It wasn&apos;t possible to delete &apos;%1&apos;</source>
         <translation>Nije moguće obrisati &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1497"/>
+        <location filename="../playlist.cpp" line="1640"/>
         <source>Error deleting the file</source>
         <translation>Greška pri brisanju datoteke</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1498"/>
+        <location filename="../playlist.cpp" line="1641"/>
         <source>It&apos;s not possible to delete &apos;%1&apos; from the filesystem.</source>
         <translation>Nije moguće obrisati &apos;%1&apos; s datotečnog sustava.</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="340"/>
+        <location filename="../playlist.cpp" line="1931"/>
+        <source>It&apos;s not possible to load this playlist</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="1931"/>
+        <source>Unrecognized format.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="570"/>
         <source>Add...</source>
         <translation>Dodaj...</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="342"/>
+        <location filename="../playlist.cpp" line="572"/>
         <source>Remove...</source>
         <translation>Ukloni...</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1002"/>
+        <location filename="../playlist.cpp" line="1175"/>
         <source>Playlist modified</source>
         <translation>Popis izvođenja izmijenjen</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1003"/>
+        <location filename="../playlist.cpp" line="1176"/>
         <source>There are unsaved changes, do you want to save the playlist?</source>
         <translation>Postoje nespremljene promjene, želite li spremiti popis izvođenja?</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1173"/>
+        <location filename="../playlist.cpp" line="1346"/>
         <source>Multimedia</source>
         <translation>Multimedija</translation>
     </message>
@@ -4634,22 +4856,22 @@ Do you want to overwrite?</source>
         <translation>&amp;Napredno</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="557"/>
+        <location filename="../prefadvanced.cpp" line="560"/>
         <source>Log SMPlayer output</source>
         <translation>Zapisuj SMPlayer izlaz</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="679"/>
+        <location filename="../prefadvanced.ui" line="613"/>
         <source>This option is mainly intended for debugging the application.</source>
         <translation>Ova mogućnost namijenjena je otklanjanju grešaka aplikacije.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="480"/>
+        <location filename="../prefadvanced.cpp" line="467"/>
         <source>Checking this option may reduce flickering, but it also might produce that the video won&apos;t be displayed properly.</source>
         <translation>Označavanje ove mogućnosti može smanjiti tepterenje slike, ali isto tako može prozročiti neispravan prikaz slike.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="588"/>
+        <location filename="../prefadvanced.cpp" line="591"/>
         <source>Filter for SMPlayer logs</source>
         <translation>Filter za SMPlayer zapise</translation>
     </message>
@@ -4659,68 +4881,47 @@ Do you want to overwrite?</source>
         <translation>&amp;Omjer slike monitora:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="119"/>
+        <location filename="../prefadvanced.ui" line="112"/>
         <source>Use the la&amp;vf demuxer by default</source>
         <translation>Koristi la&amp;vf demultiplekser kao zadan</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="341"/>
+        <location filename="../prefadvanced.ui" line="213"/>
+        <source>Color&amp;key:</source>
+        <translation>Boja &amp;tipke:</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.ui" line="311"/>
         <source>&amp;Options:</source>
         <translation>&amp;Mogućnosti:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="401"/>
+        <location filename="../prefadvanced.ui" line="337"/>
         <source>V&amp;ideo filters:</source>
         <translation>F&amp;iltri slike:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="460"/>
-        <source>Audio &amp;filters:</source>
-        <translation>Filtri &amp;zvuka:</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.ui" line="234"/>
-        <source>&amp;Colorkey:</source>
-        <translation>&amp;Boja pozadine:</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.ui" line="378"/>
-        <source>You can also pass additional video filters.
-Separate them with &quot;,&quot;. Do not use spaces!
-Example: scale=512:-2,mirror</source>
-        <translation>Možete upisati i dodatne video filtre.
-Odvojite ih sa &quot;,&quot;. Ne koristite razmak!
-Npr.: scale=512:-2,mirror</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.ui" line="438"/>
-        <source>And finally audio filters. Same rule as for video filters.
-Example: extrastereo,karaoke</source>
-        <translation>I konačno zvučni filtri. Isto pravilo kao i za video filtre.
-Npr: extrastereo,karaoke</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.ui" line="612"/>
+        <location filename="../prefadvanced.ui" line="546"/>
         <source>SMPlayer</source>
         <translation>SMPlayer</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="618"/>
+        <location filename="../prefadvanced.ui" line="552"/>
         <source>Log &amp;SMPlayer output</source>
         <translation>Zapisuj &amp;SMPlayer izlaz</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="689"/>
+        <location filename="../prefadvanced.ui" line="623"/>
         <source>&amp;Filter for SMPlayer logs:</source>
         <translation>&amp;Filter za SMPlayer zapise:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="257"/>
+        <location filename="../prefadvanced.ui" line="236"/>
         <source>C&amp;hange...</source>
         <translation>P&amp;romijeni...</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="554"/>
+        <location filename="../prefadvanced.cpp" line="557"/>
         <source>Logs</source>
         <translation>Zapisi</translation>
     </message>
@@ -4735,152 +4936,152 @@ Npr: extrastereo,karaoke</translation>
         <translation>Odaberite omjer slike vašeg monitora.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="469"/>
+        <location filename="../prefadvanced.cpp" line="461"/>
         <source>Use the lavf demuxer by default</source>
         <translation>Koristi lavf demultiplekser kao zadan</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="470"/>
+        <location filename="../prefadvanced.cpp" line="462"/>
         <source>If this option is checked, the lavf demuxer will be used for all formats.</source>
         <translation>Ako je ova mogućnost odabrana, lavf demultiplekser će se koristiti za sve formate.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="492"/>
+        <location filename="../prefadvanced.cpp" line="537"/>
         <source>This option may be needed to play playlist files (m3u, pls...). However it can involve a security risk when playing internet sources because the way MPlayer parses and uses playlist files is not safe against maliciously constructed files.</source>
         <translation>Ova mogućnost možda je potrebna za reprodukciju datoteka popisa izvođenja (m3u, pls...). Međutim, kao posljedicu ima sigurnosni rizik pri reprodukciji Internetskih izvora zbog načina na koji Mplayer obrađuje i koristi datoteke popisa izvođenja nije siguran pri korištenju zlonamjerno konstruiranih datoteka.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="516"/>
+        <location filename="../prefadvanced.cpp" line="490"/>
         <source>Limitation: the actions are run only when a file is opened and not when the %1 process is restarted (e.g. you select an audio or video filter).</source>
         <translation>Ograničenje: radnje se izvode samo kada je datoteka otvorena, a ne kada je %1 proces ponovno pokrenut (npr. kada odaberete filter slike ili zvuka).</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="521"/>
+        <location filename="../prefadvanced.cpp" line="500"/>
         <source>Colorkey</source>
         <translation>Boja pozadine</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="522"/>
+        <location filename="../prefadvanced.cpp" line="501"/>
         <source>If you see parts of the video over any other window, you can change the colorkey to fix it. Try to select a color close to black.</source>
         <translation>Ako vidite dijelove slike preko bilo kojeg drugog prozora, za popravak možete promijeniti boju pozadine. Probajte odabrati boju bližu crnoj.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="534"/>
+        <location filename="../prefadvanced.cpp" line="509"/>
         <source>Options</source>
         <translation>Mogućnosti</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="538"/>
+        <location filename="../prefadvanced.cpp" line="513"/>
         <source>Video filters</source>
         <translation>Filtri slike</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="542"/>
+        <location filename="../prefadvanced.cpp" line="517"/>
         <source>Audio filters</source>
         <translation>Zvučni filtri</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="479"/>
+        <location filename="../prefadvanced.cpp" line="466"/>
         <source>Repaint the background of the video window</source>
         <translation>Preboji pozadinu prozora slike</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="133"/>
+        <location filename="../prefadvanced.ui" line="119"/>
         <source>Repaint the backgroun&amp;d of the video window</source>
         <translation>Preboji pozadin&amp;u prozora slike</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="548"/>
+        <location filename="../prefadvanced.cpp" line="551"/>
         <source>IPv4</source>
         <translation>IPv4</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="549"/>
+        <location filename="../prefadvanced.cpp" line="552"/>
         <source>Use IPv4 on network connections. Falls back on IPv6 automatically.</source>
         <translation>Koristi IPv4 pri mrežnom povezivanju. Automatski vraća na IPv6.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="551"/>
+        <location filename="../prefadvanced.cpp" line="554"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="552"/>
+        <location filename="../prefadvanced.cpp" line="555"/>
         <source>Use IPv6 on network connections. Falls back on IPv4 automatically.</source>
         <translation>Koristi IPv6 pri mrežnom povezivanju. Automatski vraća na IPv4.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="498"/>
+        <location filename="../prefadvanced.ui" line="432"/>
         <source>Network Connection</source>
         <translation>Mrežno povezivanje</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="510"/>
+        <location filename="../prefadvanced.ui" line="444"/>
         <source>IPv&amp;4</source>
         <translation>IPv&amp;4</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="517"/>
+        <location filename="../prefadvanced.ui" line="451"/>
         <source>IPv&amp;6</source>
         <translation>IPv&amp;6</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="541"/>
+        <location filename="../prefadvanced.ui" line="475"/>
         <source>Lo&amp;gs</source>
         <translation>Za&amp;pisi</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="462"/>
+        <location filename="../prefadvanced.cpp" line="454"/>
         <source>Rebuild index if needed</source>
         <translation>Ako je potrebno ponovno indeksiraj</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="112"/>
+        <location filename="../prefadvanced.ui" line="105"/>
         <source>Rebuild &amp;index if needed</source>
         <translation>Ako je &amp;potrebno ponovno indeksiraj</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="558"/>
+        <location filename="../prefadvanced.cpp" line="561"/>
         <source>If this option is checked, SMPlayer will store the debugging messages that SMPlayer outputs (you can see the log in &lt;b&gt;Options -&gt; View logs -&gt; SMPlayer&lt;/b&gt;). This information can be very useful for the developer in case you find a bug.</source>
         <translation>Ako je ova mogućnost odabrana, SMPlayer će spremiti poruke otklanjanja grešaka SMPlayer izlaza (zapis možete pogledati u &lt;b&gt;Mogućnosti -&gt; Pogledaj zapise -&gt; SMPlayer&lt;/b&gt;). Ova informacija može biti jako korisna razvijateljima u slučaju da nađete grešku. </translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="570"/>
+        <location filename="../prefadvanced.cpp" line="573"/>
         <source>Log %1 output</source>
         <translation>Zapisuj %1 izlaz</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="571"/>
+        <location filename="../prefadvanced.cpp" line="574"/>
         <source>If checked, SMPlayer will store the output of %1 (you can see it in &lt;b&gt;Options -&gt; View logs -&gt; %1&lt;/b&gt;). In case of problems this log can contain important information, so it&apos;s recommended to keep this option checked.</source>
         <translation>Ako je odabrano, SMPlayer će spremiti %1 izlaz (zapis možete pogledati u &lt;b&gt;Mogućnosti -&gt; Pogledaj zapise -&gt; %1&lt;/b&gt;). U slučaju problema ovaj zapis može sadržavati korisne informacije, stoga je preproučljivo da imate ovu mogućnost odabranom.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="576"/>
+        <location filename="../prefadvanced.cpp" line="579"/>
         <source>Autosave %1 log</source>
         <translation>Automatski spremi %1 zapis</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="577"/>
+        <location filename="../prefadvanced.cpp" line="580"/>
         <source>If this option is checked, the %1 log will be saved to the specified file every time a new file starts to play. It&apos;s intended for external applications, so they can get info about the file you&apos;re playing.</source>
         <translation>Ako je ova mogućnost označena, %1 zaspis biti će spremljen u određenu datoteku svaki puta kada se novi zapis počinje reproducirati. To je namijenjeno za vanjske aplikacije, tako da mogu dobiti informacije o zapisu koji reproducirate.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="582"/>
+        <location filename="../prefadvanced.cpp" line="585"/>
         <source>Autosave %1 log filename</source>
         <translation>Automatski spremi %1 naziv datoteke zapisa</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="583"/>
+        <location filename="../prefadvanced.cpp" line="586"/>
         <source>Enter here the path and filename that will be used to save the %1 log.</source>
         <translation>Ovdje upišite putanju i naziv koji će se koristiti za spremanje %1 zapisa.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="589"/>
+        <location filename="../prefadvanced.cpp" line="592"/>
         <source>This option allows to filter the SMPlayer messages that will be stored in the log. Here you can write any regular expression.&lt;br&gt;For instance: &lt;i&gt;^Core::.*&lt;/i&gt; will display only the lines starting with &lt;i&gt;Core::&lt;/i&gt;</source>
         <translation>Ova mogućnost dopušta vam filtriranje SMPlayer poruka koje će biti spremljene u zapisu. Ovdje možete upisati bilo koji ispravan izraz.&lt;br&gt;Npr.: &lt;i&gt;^Core::.*&lt;/i&gt; prikazati će samo redke koji počinju sa &lt;i&gt;Core::&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="498"/>
+        <location filename="../prefadvanced.cpp" line="472"/>
         <source>Correct pts</source>
         <translation>Ispravi PTS</translation>
     </message>
@@ -4897,21 +5098,10 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../prefadvanced.cpp" line="96"/>
         <source>R&amp;eport %1 crashes</source>
-        <translation>Prijavite ruš&amp;enje %1a  </translation>
+        <translation>P&amp;rijavite %1 rušenje</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="97"/>
-        <source>O&amp;ptions for %1</source>
-        <translation>M&amp;ogućnosti za %1</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="98"/>
-        <source>Here you can pass extra options to %1.</source>
-        <translation>Ovdje možete upisati dodatne mogućnosti za %1.</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="99"/>
-        <location filename="../prefadvanced.cpp" line="536"/>
+        <location filename="../prefadvanced.cpp" line="511"/>
         <source>Write them separated by spaces.</source>
         <translation>Upišite ih odvojene razmakom.</translation>
     </message>
@@ -4919,6 +5109,11 @@ Npr: extrastereo,karaoke</translation>
         <location filename="../prefadvanced.cpp" line="101"/>
         <source>Log %1 &amp;output</source>
         <translation>Zapisuj %1 izlaz</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="99"/>
+        <source>Here you can pass options and filters to %1.</source>
+        <translation>Ovdje možete upisati mogućnosti i filtre za %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="102"/>
@@ -4931,144 +5126,151 @@ Npr: extrastereo,karaoke</translation>
         <translation>Pr&amp;opusti %1 mogućnost na MPlayer (sigurnosni rizik)</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="454"/>
+        <location filename="../prefadvanced.cpp" line="521"/>
         <source>Run %1 in its own window</source>
-        <translation>&amp;Pokreni %1 u vlastitom prozoru</translation>
+        <translation>Pokreni %1 u vlastitom prozoru</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="455"/>
+        <location filename="../prefadvanced.cpp" line="522"/>
         <source>If you check this option, the %1 video window won&apos;t be embedded in SMPlayer&apos;s main window but instead it will use its own window. Note that mouse and keyboard events will be handled directly by %1, that means key shortcuts and mouse clicks probably won&apos;t work as expected when the %1 window has the focus.</source>
         <translation>Ako omogućite ovu značajku, %1 prozor slike neće biti uklopljen u SMPlayerov glavni prozor ali umjesto toga koristiti će valstiti prozor. Imajte na umu da će događaji miša i tipkovnice biti upravljani direktno od %1a, to znači da prečaci tipki i klikovi miša zacijelo neće očekivano raditi kada je %1 prozor u fokusu.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="473"/>
+        <location filename="../prefadvanced.cpp" line="544"/>
         <source>Pass short filenames (8+3) to %1</source>
         <translation>&amp;Dodaj kratki naziv datoteka (8+3) za %1</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="474"/>
+        <location filename="../prefadvanced.cpp" line="545"/>
         <source>If this option is checked, SMPlayer will pass to %1 the short version of the filenames.</source>
         <translation>Ako je odabrana ova mogućnost, SMPlayer će dodati %1u kraću inčicu naziva datoteka.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="485"/>
+        <location filename="../prefadvanced.cpp" line="530"/>
         <source>Report %1 crashes</source>
-        <translation>Prijavite ruš&amp;enje %1a  </translation>
+        <translation>Prijavite %1 rušenje</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="486"/>
+        <location filename="../prefadvanced.cpp" line="531"/>
         <source>If this option is checked, a window will appear to inform about %1 crashes. Otherwise those failures will be silently ignored.</source>
         <translation>Ako je ova mogućnost odabrana, pojavit će se informativni prozor o rušenju %1. Inače će ta upozorenja biti zanemarena.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="491"/>
+        <location filename="../prefadvanced.cpp" line="536"/>
         <source>Pass the %1 option to MPlayer (security risk)</source>
         <translation>Propusti %1 mogućnost na MPlayer (sigurnosni rizik)</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="499"/>
+        <location filename="../prefadvanced.cpp" line="473"/>
         <source>Switches %1 to an experimental mode where timestamps for video frames are calculated differently and video filters which add new frames or modify timestamps of existing ones are supported. The more accurate timestamps can be visible for example when playing subtitles timed to scene changes with the SSA/ASS library enabled. Without correct pts the subtitle timing will typically be off by some frames. This option does not work correctly with some demuxers and codecs.</source>
         <translation>Prebacivanjem %1a u eksperimentalni način gdje podaci za video sličice su drugačije izračunati filtri slike koji dodaju nove sličice ili mijenjaju podatke postojećih sličica su podržani. Točniji podaci mogu biti vidljivi npr. kada su reproducirani podnaslovi podešeni prema promjenama scena sa omogućenom SSA/ASS knjižnicom. Bez ispravnog PTS-a trajanje podnaslova obično će biti isključeno od strane neke sličice. Ova mogućnost ne radi ispravno sa nekim demultiplekserima i kôdekima. </translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="508"/>
+        <location filename="../prefadvanced.cpp" line="482"/>
         <source>Actions list</source>
         <translation>Popis radnji</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="509"/>
+        <location filename="../prefadvanced.cpp" line="483"/>
         <source>Here you can specify a list of &lt;i&gt;actions&lt;/i&gt; which will be run every time a file is opened. You&apos;ll find all available actions in the key shortcut editor in the &lt;b&gt;Keyboard and mouse&lt;/b&gt; section. The actions must be separated by spaces. Checkable actions can be followed by &lt;i&gt;true&lt;/i&gt; or &lt;i&gt;false&lt;/i&gt; to enable or disable the action.</source>
         <translation>Ovdje možete odrediti popis &lt;i&gt;radnji&lt;/i&gt; koje će se izvoditi svaki puta kada je datoteka otvorena. Pronaći ćete sve dostupne radnje u uređivaču prečaca tipki u odjeljku &lt;b&gt;Tipkovnica i miš&lt;/b&gt;. Radnje moraju biti razdvojene razmakom. Označene radnje mogu biti postavljene na &lt;i&gt;true&lt;/i&gt; ili &lt;i&gt;false&lt;/i&gt; da bi bile omogućene ili onemogućene.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="532"/>
+        <location filename="../prefadvanced.cpp" line="98"/>
         <source>Options for %1</source>
         <translation>Mogućnosti za %1</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="535"/>
+        <location filename="../prefadvanced.cpp" line="510"/>
         <source>Here you can type options for %1.</source>
         <translation>Ovdje možete upisati mogućnosti za %1.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="539"/>
+        <location filename="../prefadvanced.cpp" line="514"/>
         <source>Here you can add video filters for %1.</source>
         <translation>Ovdje možete upisati filtre slike za %1.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="540"/>
-        <location filename="../prefadvanced.cpp" line="544"/>
+        <location filename="../prefadvanced.cpp" line="515"/>
+        <location filename="../prefadvanced.cpp" line="519"/>
         <source>Write them separated by commas. Don&apos;t use spaces!</source>
         <translation>Upišite ih odvojene zarezima. Ne koristite razmake!</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="543"/>
+        <location filename="../prefadvanced.cpp" line="518"/>
         <source>Here you can add audio filters for %1.</source>
         <translation>Ovdje možete upisati filtre zvuka za %1.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="546"/>
+        <location filename="../prefadvanced.cpp" line="549"/>
         <source>Network</source>
         <translation>Mreža</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="197"/>
+        <location filename="../prefadvanced.ui" line="169"/>
         <source>R&amp;un the following actions every time a file is opened. The actions must be separated with spaces:</source>
         <translation>P&amp;okreni sljedeće radnje svaki puta kada je datoteka otvorena. Radnje moraju biti razdvojene razmakom:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="492"/>
+        <location filename="../prefadvanced.ui" line="363"/>
+        <source>A&amp;udio filters:</source>
+        <translation>Z&amp;vučni filtri:</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.ui" line="426"/>
         <source>&amp;Network</source>
         <translation>&amp;Mreža</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="99"/>
+        <location filename="../prefadvanced.cpp" line="489"/>
+        <location filename="../prefadvanced.cpp" line="511"/>
         <location filename="../prefadvanced.cpp" line="515"/>
+        <location filename="../prefadvanced.cpp" line="519"/>
         <source>Example:</source>
         <translation>Primjer:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="463"/>
+        <location filename="../prefadvanced.cpp" line="455"/>
         <source>Rebuilds index of files if no index was found, allowing seeking. Useful with broken/incomplete downloads, or badly created files. This option only works if the underlying media supports seeking (i.e. not with stdin, pipe, etc).&lt;br&gt; &lt;b&gt;Note:&lt;/b&gt; the creation of the index may take some time.</source>
         <translation>Ponovno izgradi indekse datoteka ako nema pronađenih indeksa, pomoću pretraživanja. Korisno kod slomljenih/nepotpunih preuzimanja ili loše napravljenih datoteka. Ova mogućnost samo radi ako osnovni medij podržava pretraživanje (npr. ne sa stdin, pipe, itd).&lt;br&gt; &lt;b&gt;Napomena:&lt;/b&gt; stvaranje indeksa može potrajati.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="156"/>
+        <location filename="../prefadvanced.ui" line="128"/>
         <source>C&amp;orrect PTS:</source>
         <translation>I&amp;spravi PTS:</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="585"/>
+        <location filename="../prefadvanced.ui" line="519"/>
         <source>&amp;Verbose</source>
         <translation>&amp;Opširnije</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="564"/>
+        <location filename="../prefadvanced.cpp" line="567"/>
         <source>Save SMPlayer log to file</source>
         <translation>Spremi SMPlayer zapis u datoteku</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="565"/>
+        <location filename="../prefadvanced.cpp" line="568"/>
         <source>If this option is checked, the SMPlayer log wil be recorded to %1</source>
         <translation>Ako je ova mogućnost odabrana, SMPlayer zapis biti će spremljen u %1</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="650"/>
+        <location filename="../prefadvanced.ui" line="584"/>
         <source>Sa&amp;ve SMPlayer log to a file</source>
         <translation>Sp&amp;remi SMPlayer zapis u datoteku</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="527"/>
+        <location filename="../prefadvanced.cpp" line="494"/>
         <source>Show tag info in window title</source>
         <translation>Prikaži informacije oznaka u naslovu prozora</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.cpp" line="528"/>
+        <location filename="../prefadvanced.cpp" line="495"/>
         <source>If this option is enabled, information from tags will be shown in window title. Otherwise only the filename will be shown.</source>
         <translation>Ako je ova mogućnost odabrana, informacije oznaka biti će prikazane u naslovu prozora. Inače će biti prikazan samo naziv datoteke.</translation>
     </message>
     <message>
-        <location filename="../prefadvanced.ui" line="282"/>
+        <location filename="../prefadvanced.ui" line="198"/>
         <source>Show tag in&amp;fo in window title</source>
         <translation>Prikaži in&amp;formacije oznake u naslovu prozora</translation>
     </message>
@@ -5076,47 +5278,47 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PrefAssociations</name>
     <message>
-        <location filename="../prefassociations.cpp" line="196"/>
+        <location filename="../prefassociations.cpp" line="204"/>
         <source>Warning</source>
         <translation>Upozorenje</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="197"/>
+        <location filename="../prefassociations.cpp" line="205"/>
         <source>Not all files could be associated. Please check your security permissions and retry.</source>
         <translation>Sve datoteke ne mogu biti pridružene. Provjerite vaše sigurnosne dozvole i pokušajte ponovno.</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="207"/>
+        <location filename="../prefassociations.cpp" line="215"/>
         <source>File Types</source>
         <translation>Vrste datoteka</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="224"/>
+        <location filename="../prefassociations.cpp" line="232"/>
         <source>Select all</source>
         <translation>Odaberi sve</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="225"/>
+        <location filename="../prefassociations.cpp" line="233"/>
         <source>Check all file types in the list</source>
         <translation>Označi sve vrste datoteka na popisu</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="228"/>
+        <location filename="../prefassociations.cpp" line="236"/>
         <source>Uncheck all file types in the list</source>
         <translation>Odznači sve vrste datoteka na popisu</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="230"/>
+        <location filename="../prefassociations.cpp" line="238"/>
         <source>List of file types</source>
         <translation>Popis vrsta zvučnih datoteka</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="234"/>
+        <location filename="../prefassociations.cpp" line="242"/>
         <source>Note:</source>
         <translation>Napomena:</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="235"/>
+        <location filename="../prefassociations.cpp" line="243"/>
         <source>Restoration doesn&apos;t work on Windows Vista.</source>
         <translation>Restauracija ne radi na Windows Visti.</translation>
     </message>
@@ -5141,12 +5343,12 @@ Npr: extrastereo,karaoke</translation>
         <translation>Odaberi ništa</translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="231"/>
+        <location filename="../prefassociations.cpp" line="239"/>
         <source>Check the media file extensions you would like SMPlayer to handle. When you click Apply, the checked files will be associated with SMPlayer. If you uncheck a media type, the file association will be restored.</source>
         <translation>Označite koje vrste video datoteka želite da koristi SMPlayer. Kada kliknete &apos;Primjeni&apos;, označene datoteke će biti pridružene SMPlayeru. Ako odznačite vrstu video zapisa, pridruživanje datoteka će biti vraćeno na zadano. </translation>
     </message>
     <message>
-        <location filename="../prefassociations.cpp" line="227"/>
+        <location filename="../prefassociations.cpp" line="235"/>
         <source>Select none</source>
         <translation>Odaberi ništa</translation>
     </message>
@@ -5167,7 +5369,7 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../prefdrives.cpp" line="220"/>
         <source>Choose your CDROM device. It will be used to play VCDs and Audio CDs.</source>
-        <translation>Odaberite vaš CDROM uređaj. Koristit će se za reprodukciju VCD-a i Glazbenih CD-a.</translation>
+        <translation>Odaberite vaš CD-ROM uređaj. Koristit će se za reprodukciju VCD-a i Glazbenih CD-a.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="223"/>
@@ -5182,17 +5384,17 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../prefdrives.ui" line="75"/>
         <source>Select your &amp;CD device:</source>
-        <translation>Odaberite vaš &amp;CD uređaj:</translation>
+        <translation>Odaberite &amp;CD uređaj:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="176"/>
         <source>Select your &amp;DVD device:</source>
-        <translation>Odaberite vaš &amp;DVD uređaj:</translation>
+        <translation>Odaberite &amp;DVD uređaj:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="274"/>
         <source>Select your &amp;Blu-ray device:</source>
-        <translation>Odaberite vaš &amp;Blu-ray uređaj:</translation>
+        <translation>Odaberite &amp;Blu-ray uređaj:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="33"/>
@@ -5249,7 +5451,7 @@ Npr: extrastereo,karaoke</translation>
     <name>PrefGeneral</name>
     <message>
         <location filename="../prefgeneral.cpp" line="130"/>
-        <location filename="../prefgeneral.cpp" line="981"/>
+        <location filename="../prefgeneral.cpp" line="952"/>
         <source>General</source>
         <translation>Općenito</translation>
     </message>
@@ -5264,12 +5466,12 @@ Npr: extrastereo,karaoke</translation>
         <translation>Postavke medija</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1122"/>
+        <location filename="../prefgeneral.cpp" line="1086"/>
         <source>Start videos in fullscreen</source>
         <translation>Pokreni reprodukciju video zapisa u cijelozaslonskom prikazu</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1151"/>
+        <location filename="../prefgeneral.cpp" line="1115"/>
         <source>Disable screensaver</source>
         <translation>Onemogući čuvara zaslona</translation>
     </message>
@@ -5309,103 +5511,118 @@ Npr: extrastereo,karaoke</translation>
         <translation>%1 izvršna datoteka:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="407"/>
-        <location filename="../prefgeneral.cpp" line="408"/>
+        <location filename="../prefgeneral.cpp" line="378"/>
+        <location filename="../prefgeneral.cpp" line="379"/>
         <source>Default</source>
         <translation>Zadano</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="984"/>
+        <location filename="../prefgeneral.cpp" line="955"/>
         <source>Multimedia engine</source>
         <translation>Multimedijski pogon</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="985"/>
+        <location filename="../prefgeneral.cpp" line="956"/>
         <source>Select which multimedia engine you want to use, either MPlayer or mpv.</source>
         <translation>Odaberite koji multimedijski pogon želite koristiti, MPlayer ili mpv.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="986"/>
+        <location filename="../prefgeneral.cpp" line="957"/>
         <source>The option &apos;other&apos; allows you to manually select the path of the executable.</source>
         <translation>Mogućnost &apos;Ostali...&apos; omogućuje vam ručni odabir putanje izvršne datoteke.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="989"/>
+        <location filename="../prefgeneral.cpp" line="960"/>
         <source>%1 executable</source>
         <translation>%1 izvršna datoteka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="990"/>
+        <location filename="../prefgeneral.cpp" line="961"/>
         <source>Here you must specify the %1 executable that SMPlayer will use.</source>
         <translation>Ovdje morate odrediti %1 izvršnu datoteku koju će SMPlayer koristiti.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1018"/>
+        <location filename="../prefgeneral.cpp" line="976"/>
+        <source>Remember settings for streams</source>
+        <translation>Zapamti postavke za streamove</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="977"/>
+        <source>When this option is enabled the settings for online streams will be remembered as well.</source>
+        <translation>Kada je ova mogućnost odabrana, postavke za mrežne streamove će biti zapamćena.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="992"/>
         <source>Screenshots folder</source>
         <translation>Mapa snimaka zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1024"/>
+        <location filename="../prefgeneral.cpp" line="998"/>
         <source>Template for screenshots</source>
         <translation>Predložak snimki zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1026"/>
+        <location filename="../prefgeneral.cpp" line="1000"/>
         <source>For example %1 would save the screenshot as &apos;moviename_0001.png&apos;.</source>
         <translation>Npr. %1 će spremiti snimku zaslona kao &apos;moviename_0001.png&apos;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1027"/>
+        <location filename="../prefgeneral.cpp" line="1001"/>
         <source>%1 specifies the filename of the video without the extension, %2 adds a 4 digit number padded with zeros.</source>
         <translation>%1 određuje naziv datoteke video snimke bez dodatka vrste datoteke, %2 dodaje 4 znamenkasti broj sadržan nulama.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1037"/>
+        <location filename="../prefgeneral.cpp" line="1011"/>
         <source>Format for screenshots</source>
         <translation>Format snimke zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1038"/>
+        <location filename="../prefgeneral.cpp" line="1012"/>
         <source>This option allows to choose the image file type used for saving screenshots.</source>
         <translation>Ova mogućnost omogućuje odabir vrste datoteke slike koji se koristi pri spremanju snimaka zaslona.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1056"/>
+        <location filename="../prefgeneral.cpp" line="1030"/>
         <source>If this option is enabled, the computer will shut down just after SMPlayer is closed.</source>
         <translation>Ako je ova mogućnost omogućena, računalo će se isključiti nakon što se SMPlayer zatvori.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1062"/>
+        <location filename="../prefgeneral.cpp" line="1036"/>
         <source>Video output driver</source>
         <translation>Upravljački program video izlaza</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1160"/>
+        <location filename="../prefgeneral.cpp" line="1037"/>
+        <source>Select the video output driver.</source>
+        <translation>Odaberi upravljački program video izlaza.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1124"/>
         <source>Audio output driver</source>
         <translation>Upravljački program zvučnog izlaza</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1161"/>
+        <location filename="../prefgeneral.cpp" line="1125"/>
         <source>Select the audio output driver.</source>
         <translation>Odaberi upravljački program zvučnog izlaza.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="995"/>
+        <location filename="../prefgeneral.cpp" line="966"/>
         <source>Remember settings</source>
         <translation>Zapamti postavke</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1236"/>
+        <location filename="../prefgeneral.cpp" line="1183"/>
         <source>Preferred audio language</source>
         <translation>Željeni jezik zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1246"/>
+        <location filename="../prefgeneral.cpp" line="1193"/>
         <source>Preferred subtitle language</source>
         <translation>Željeni jezik podnaslova</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1100"/>
+        <location filename="../prefgeneral.cpp" line="1064"/>
         <source>Software video equalizer</source>
         <translation>Softverski ekvalizator slike</translation>
     </message>
@@ -5415,83 +5632,83 @@ Npr: extrastereo,karaoke</translation>
         <translation>Ostali...</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1025"/>
+        <location filename="../prefgeneral.cpp" line="999"/>
         <source>This option specifies the filename template used to save screenshots.</source>
         <translation>Ova mogućnost određuje predložak naziva datoteke koji se koristi pri spremanju snimaka zaslona.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1029"/>
+        <location filename="../prefgeneral.cpp" line="1003"/>
         <source>For a full list of the template specifiers visit this link:</source>
         <translation>Za cjelokupni popis simbola predložaka posjetite poveznicu:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1033"/>
-        <location filename="../prefgeneral.cpp" line="1040"/>
+        <location filename="../prefgeneral.cpp" line="1007"/>
+        <location filename="../prefgeneral.cpp" line="1014"/>
         <source>This option only works with mpv.</source>
         <translation>Ova mogućnost radi samo s mpv.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1055"/>
+        <location filename="../prefgeneral.cpp" line="1029"/>
         <source>Shut down computer</source>
         <translation>Isključi računalo</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1101"/>
+        <location filename="../prefgeneral.cpp" line="1065"/>
         <source>You can check this option if video equalizer is not supported by your graphic card or the selected video output driver.&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; this option can be incompatible with some video output drivers.</source>
         <translation>Možete odabrati ovu mogućnost ako ekvalizator slike ne podržava vaša grafička kartica ili odabrani upravljački program video izlaza&lt;br&gt;&lt;b&gt;Napomena:&lt;/b&gt; ova mogućnost može biti nekompatibilna s nekim upravljačkim programima video izlaza.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1123"/>
+        <location filename="../prefgeneral.cpp" line="1087"/>
         <source>If this option is checked, all videos will start to play in fullscreen mode.</source>
         <translation>Ako je ova mogućnost odabrana, svi video zapisi će započeti reprodukciju u cijelozaslonskom prikazu.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1183"/>
+        <location filename="../prefgeneral.cpp" line="1130"/>
         <source>Global audio equalizer</source>
         <translation>Globalni zvučni ekvalizator</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1184"/>
+        <location filename="../prefgeneral.cpp" line="1131"/>
         <source>If this option is checked, all media files share the audio equalizer.</source>
         <translation>Ako je ova mogućnost odabrana, sve medijske datoteke koriste zvučni ekvalizator.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1185"/>
+        <location filename="../prefgeneral.cpp" line="1132"/>
         <source>If it&apos;s not checked, the audio equalizer values are saved along each file and loaded back when the file is played later.</source>
         <translation>Ako ova mogućnost nije odabrana, vrijednosti zvučnog ekvalizatora su spremljene za svaku datoteku posebno i učitava se ponovno kada se datoteka opet reproducira. </translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1194"/>
+        <location filename="../prefgeneral.cpp" line="1141"/>
         <source>Requests the number of playback channels. %1 asks the decoder to decode the audio into as many channels as specified. Then it is up to the decoder to fulfill the requirement. This is usually only important when playing videos with AC3 audio (like DVDs). In that case liba52 does the decoding by default and correctly downmixes the audio into the requested number of channels. &lt;b&gt;Note&lt;/b&gt;: This option is honored by codecs (AC3 only), filters (surround) and audio output drivers (OSS at least).</source>
         <translation>Zahtijeva broj kanala reprodukcije. %1 pita dekôder da dekôdira zvuk u onoliko kanala koliko ih je postavljeno. Tada je do dekôdera da ispuni postavljeno. Ovo je obično važno kada se reproduciraju video zapisi s AC3 zvučnim zapisom (poput DVD-a). U tom slučaju liba52 dekôdira i ispravno obrađuje zvučni zapis u željeni broj kanala. &lt;b&gt;Napomena&lt;/b&gt;: Ova mogućnost je podržana kôdekima (AC3 samo), filtrima (surround) i izlaznog zvučnog upravljačkog programa (barem OSS-a).</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1205"/>
+        <location filename="../prefgeneral.cpp" line="1152"/>
         <source>Allows to change the playback speed without altering pitch.</source>
         <translation>Dopušta promjenu brzine reprodukcije bez promjene visine zvuka.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1213"/>
+        <location filename="../prefgeneral.cpp" line="1160"/>
         <source>Software volume control</source>
         <translation>Softverska kontrola glasnoće zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1214"/>
+        <location filename="../prefgeneral.cpp" line="1161"/>
         <source>Check this option to use the software mixer, instead of using the sound card mixer.</source>
         <translation>Odaberite ovu mogućnost da bi koristili softverski mikser, umjesto korištenja miksera zvučne kartice.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1086"/>
+        <location filename="../prefgeneral.cpp" line="1050"/>
         <source>Postprocessing quality</source>
         <translation>Kvaliteta dodatne obrade</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1087"/>
+        <location filename="../prefgeneral.cpp" line="1051"/>
         <source>Dynamically changes the level of postprocessing depending on the available spare CPU time. The number you specify will be the maximum level used. Usually you can use some big number.</source>
         <translation>Dinamički mijenja razinu dodatne obrade ovisno o raspoloživom slobodnom vremenu CPU-a.Broj koji odredite biti će maksimalna korištena razina. Obično možete koristiti neki veliki broj.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1145"/>
+        <location filename="../prefgeneral.ui" line="1155"/>
         <source>&amp;Audio:</source>
         <translation>&amp;Zvučni zapis:</translation>
     </message>
@@ -5501,12 +5718,12 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Zapamti postavke za sve datoteke (zvučne zapise, podnaslove...)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1164"/>
+        <location filename="../prefgeneral.ui" line="1174"/>
         <source>Su&amp;btitles:</source>
         <translation>Po&amp;dnaslovi:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="438"/>
+        <location filename="../prefgeneral.ui" line="448"/>
         <source>&amp;Quality:</source>
         <translation>&amp;Kvaliteta:</translation>
     </message>
@@ -5516,92 +5733,97 @@ Npr: extrastereo,karaoke</translation>
         <translation>Multimedijski &amp;pogon:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="210"/>
+        <location filename="../prefgeneral.ui" line="163"/>
+        <source>Re&amp;member settings for streams</source>
+        <translation>Za&amp;pamti postavke za streamove</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.ui" line="220"/>
         <source>Temp&amp;late:</source>
         <translation>Pred&amp;ložak:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="230"/>
+        <location filename="../prefgeneral.ui" line="240"/>
         <source>F&amp;ormat:</source>
         <translation>F&amp;ormat:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="298"/>
+        <location filename="../prefgeneral.ui" line="308"/>
         <source>S&amp;hut down computer</source>
         <translation>I&amp;sključi računalo</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="603"/>
+        <location filename="../prefgeneral.ui" line="613"/>
         <source>Start videos in &amp;fullscreen</source>
         <translation>Pokreni reprodukciju video zapisa u &amp;cijelozaslonskom prikazu</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="617"/>
+        <location filename="../prefgeneral.ui" line="627"/>
         <source>Disable &amp;screensaver</source>
         <translation>Onemogući &amp;čuvara zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="751"/>
+        <location filename="../prefgeneral.ui" line="761"/>
         <source>Global audio e&amp;qualizer</source>
         <translation>Globalni zvučni e&amp;kvalizator</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="870"/>
+        <location filename="../prefgeneral.ui" line="880"/>
         <source>Use s&amp;oftware volume control</source>
         <translation>Koristi s&amp;oftversku kontrolu glasnoće zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="893"/>
+        <location filename="../prefgeneral.ui" line="903"/>
         <source>Ma&amp;x. Amplification:</source>
         <translation>Ma&amp;ks. pojačanje:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="760"/>
+        <location filename="../prefgeneral.ui" line="770"/>
         <source>&amp;AC3/DTS pass-through S/PDIF</source>
         <translation>&amp;AC3/DTS se reproducira kroz S/PDIF</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1106"/>
+        <location filename="../prefgeneral.cpp" line="1070"/>
         <source>Direct rendering</source>
         <translation>Izravno prikazivanje</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1111"/>
+        <location filename="../prefgeneral.cpp" line="1075"/>
         <source>Double buffering</source>
         <translation>Dvostruka međupohrana</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="569"/>
+        <location filename="../prefgeneral.ui" line="579"/>
         <source>D&amp;irect rendering</source>
         <translation>I&amp;zravno prikazivanje</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="576"/>
+        <location filename="../prefgeneral.ui" line="586"/>
         <source>Dou&amp;ble buffering</source>
         <translation>Dvo&amp;struka međupohrana</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1112"/>
+        <location filename="../prefgeneral.cpp" line="1076"/>
         <source>Double buffering fixes flicker by storing two frames in memory, and displaying one while decoding another. If disabled it can affect OSD negatively, but often removes OSD flickering.</source>
         <translation>Dvostruka međupohrana ispravlja treperenje spremanjem dvije sličice u memoriju i prikazivanjem jedne prilikom dekôdiranja druge. Ako je onemogućeno to može negativno utjecati na OSD, ali često uklanja OSD treperenje.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="418"/>
+        <location filename="../prefgeneral.ui" line="428"/>
         <source>&amp;Enable postprocessing by default</source>
         <translation>&amp;Omogući dodatnu obradu zadanom</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="921"/>
+        <location filename="../prefgeneral.ui" line="931"/>
         <source>Volume &amp;normalization by default</source>
         <translation>Normalizacija &amp;glasnoće zvuka zadana</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1050"/>
+        <location filename="../prefgeneral.cpp" line="1024"/>
         <source>Close when finished</source>
         <translation>Zatvori kada je završeno</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1051"/>
+        <location filename="../prefgeneral.cpp" line="1025"/>
         <source>If this option is checked, the main window will be automatically closed when the current file/playlist finishes.</source>
         <translation>Ako je ova mogućnost odabrana, glavni prozor će se automatski zatvoriti kada reprodukcija trenutne datoteke/popisa izvođenja završi.</translation>
     </message>
@@ -5621,102 +5843,102 @@ Npr: extrastereo,karaoke</translation>
         <translation>6 (5.1 Surround)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="775"/>
+        <location filename="../prefgeneral.ui" line="785"/>
         <source>C&amp;hannels by default:</source>
         <translation>Z&amp;adani kanali:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="259"/>
+        <location filename="../prefgeneral.ui" line="269"/>
         <source>&amp;Pause when minimized</source>
         <translation>&amp;Pauziraj kada je prozor smanjen</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1045"/>
+        <location filename="../prefgeneral.cpp" line="1019"/>
         <source>Pause when minimized</source>
         <translation>Pauziraj kada je prozor smanjen</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1083"/>
+        <location filename="../prefgeneral.cpp" line="1047"/>
         <source>Enable postprocessing by default</source>
         <translation>Omogući dodatnu obradu zadanom</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1217"/>
+        <location filename="../prefgeneral.cpp" line="1164"/>
         <source>Max. Amplification</source>
         <translation>Maks. pojačanje</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1188"/>
+        <location filename="../prefgeneral.cpp" line="1135"/>
         <source>AC3/DTS pass-through S/PDIF</source>
         <translation>AC3/DTS se reproducira kroz S/PDIF</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1224"/>
+        <location filename="../prefgeneral.cpp" line="1171"/>
         <source>Volume normalization by default</source>
         <translation>Normalizacija glasnoće zvuka zadana</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1225"/>
+        <location filename="../prefgeneral.cpp" line="1172"/>
         <source>Maximizes the volume without distorting the sound.</source>
         <translation>Pojačaj glasnoću zvuka bez izobličenja zvuka.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1193"/>
+        <location filename="../prefgeneral.cpp" line="1140"/>
         <source>Channels by default</source>
         <translation>Zadani kanali</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1218"/>
+        <location filename="../prefgeneral.cpp" line="1165"/>
         <source>Sets the maximum amplification level in percent (default: 110). A value of 200 will allow you to adjust the volume up to a maximum of double the current level. With values below 100 the initial volume (which is 100%) will be above the maximum, which e.g. the OSD cannot display correctly.</source>
         <translation>Postavite maks. razinu pojačanja u postocima (zadano: 110). Vrijednost od 200 dopustit će vam da prilagodite glasnoću zvuka maksimalno do dvostrukog od trenutne razine. S vrijednostima ispod 100 početna glasnoća zvuka (koja je 100%) biti će iznad maksimuma, koji npr. OSD ne može prikazati ispravno.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1084"/>
+        <location filename="../prefgeneral.cpp" line="1048"/>
         <source>Postprocessing will be used by default on new opened files.</source>
         <translation>Dodatna obrada će se koristiti zadano na novo otvorenim zapisima.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1256"/>
+        <location filename="../prefgeneral.cpp" line="1203"/>
         <source>Audio track</source>
         <translation>Zvučni zapis</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1257"/>
+        <location filename="../prefgeneral.cpp" line="1204"/>
         <source>Specifies the default audio track which will be used when playing new files. If the track doesn&apos;t exist, the first one will be used. &lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; the &lt;i&gt;&quot;preferred audio language&quot;&lt;/i&gt; has preference over this option.</source>
         <translation>Odredite zadani zvučni zapis koji će se koristiti prilikom reprodukcije novih datoteka. Ako zapis ne postoji, prvi po redu će se koristiti. &lt;br&gt;&lt;b&gt;Napomena:&lt;/b&gt; &lt;i&gt;&quot;željeni jezik zvučnog zapisa&quot;&lt;/i&gt; ima prednost nad ovom mogućnosti.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1262"/>
+        <location filename="../prefgeneral.cpp" line="1209"/>
         <source>Subtitle track</source>
         <translation>Zapis podnaslova</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1263"/>
+        <location filename="../prefgeneral.cpp" line="1210"/>
         <source>Specifies the default subtitle track which will be used when playing new files. If the track doesn&apos;t exist, the first one will be used. &lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; the &lt;i&gt;&quot;preferred subtitle language&quot;&lt;/i&gt; has preference over this option.</source>
         <translation>Odredite zadani zapis podnaslova koji će se koristiti prilikom reprodukcije novih datoteka. Ako zapis ne postoji, prvi po redu će se koristiti. &lt;br&gt;&lt;b&gt;Napomena:&lt;/b&gt; &lt;i&gt;&quot;željeni jezik zapisa podnaslova&quot;&lt;/i&gt; ima prednost nad ovom mogućnosti.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1273"/>
+        <location filename="../prefgeneral.ui" line="1283"/>
         <source>Or choose a track number:</source>
         <translation>Ili odaberite broj zapisa:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1214"/>
+        <location filename="../prefgeneral.ui" line="1224"/>
         <source>Audi&amp;o:</source>
         <translation>Zvu&amp;čni zapis:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1180"/>
+        <location filename="../prefgeneral.ui" line="1190"/>
         <source>Preferred language:</source>
         <translation>Željeni jezik:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1072"/>
+        <location filename="../prefgeneral.ui" line="1082"/>
         <source>Preferre&amp;d audio and subtitles</source>
         <translation>Željen&amp;i zvučni zapisi i podnaslovi</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1227"/>
+        <location filename="../prefgeneral.ui" line="1237"/>
         <source>&amp;Subtitle:</source>
         <translation>&amp;Podnaslov:</translation>
     </message>
@@ -5726,47 +5948,47 @@ Npr: extrastereo,karaoke</translation>
         <translation>Ovdje možete upisati željeni jezik za zvučni zapis i podnaslove. Kada je pronađen medij sa višestrukim zvučnim zapisima i podnaslovima, SMPlayer će probati pokrenuti vaš željeni jezik.&lt;br&gt;Ovo će raditi samo sa medijima koji pružaju informacije o jeziku zvučnih zapisa i podnaslova, poput DVD-a ili mkv datoteka.&lt;br&gt;Ova polja primaju osnovne izraze. Npr.: &lt;b&gt;hr|hrv|cro&lt;/b&gt; će odabrati podnaslov ako se podudara sa &lt;i&gt;hr&lt;/i&gt;, &lt;i&gt;hrv&lt;/i&gt; ili &lt;i&gt;cro&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="811"/>
+        <location filename="../prefgeneral.ui" line="821"/>
         <source>High speed &amp;playback without altering pitch</source>
         <translation>Visoka brzina &amp;reprodukcije bez promjene visine zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1204"/>
+        <location filename="../prefgeneral.cpp" line="1151"/>
         <source>High speed playback without altering pitch</source>
         <translation>Visoka brzina reprodukcije bez promjene visine zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="338"/>
+        <location filename="../prefgeneral.ui" line="348"/>
         <source>&amp;Video</source>
         <translation>&amp;Slika</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="562"/>
+        <location filename="../prefgeneral.ui" line="572"/>
         <source>Use s&amp;oftware video equalizer</source>
         <translation>Koristi s&amp;oftverski ekvalizator slike</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="661"/>
+        <location filename="../prefgeneral.ui" line="671"/>
         <source>A&amp;udio</source>
         <translation>Z&amp;vuk</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="846"/>
+        <location filename="../prefgeneral.ui" line="856"/>
         <source>Volume</source>
         <translation>Glasnoća zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1060"/>
+        <location filename="../prefgeneral.cpp" line="1034"/>
         <source>Video</source>
         <translation>Slika</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1158"/>
+        <location filename="../prefgeneral.cpp" line="1122"/>
         <source>Audio</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1234"/>
+        <location filename="../prefgeneral.cpp" line="1181"/>
         <source>Preferred audio and subtitles</source>
         <translation>Željeni zvučni zapisi i podnaslovi</translation>
     </message>
@@ -5801,17 +6023,17 @@ Npr: extrastereo,karaoke</translation>
         <translation>Kerndeint</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1091"/>
+        <location filename="../prefgeneral.cpp" line="1055"/>
         <source>Deinterlace by default</source>
         <translation>Zadano raspletanje </translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1092"/>
+        <location filename="../prefgeneral.cpp" line="1056"/>
         <source>Select the deinterlace filter that you want to be used for new videos opened.</source>
         <translation>Odaberi filter raspletanja koji želite koristiti pri pokretanju novog video zapisa.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1000"/>
+        <location filename="../prefgeneral.cpp" line="971"/>
         <source>Remember time position</source>
         <translation>Zapamti položaj vremena reprodukcije</translation>
     </message>
@@ -5821,137 +6043,127 @@ Npr: extrastereo,karaoke</translation>
         <translation>Zapamti &amp;položaj vremena reprodukcije</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1180"/>
+        <location filename="../prefgeneral.cpp" line="1127"/>
         <source>Enable the audio equalizer</source>
         <translation>Omogući zvučni ekvalizator</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1181"/>
+        <location filename="../prefgeneral.cpp" line="1128"/>
         <source>Check this option if you want to use the audio equalizer.</source>
         <translation>Odaberite ovu mogućnost ako želite koristiti zvučni ekvalizator.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="728"/>
+        <location filename="../prefgeneral.ui" line="738"/>
         <source>&amp;Enable the audio equalizer</source>
         <translation>&amp;Omogući zvučni ekvalizator</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1116"/>
+        <location filename="../prefgeneral.cpp" line="1080"/>
         <source>Draw video using slices</source>
         <translation>Iscrtaj sliku pomoću isječka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1117"/>
+        <location filename="../prefgeneral.cpp" line="1081"/>
         <source>Enable/disable drawing video by 16-pixel height slices/bands. If disabled, the whole frame is drawn in a single run. May be faster or slower, depending on video card and available cache. It has effect only with libmpeg2 and libavcodec codecs.</source>
         <translation>Omogući/Onemogući iscrtavanje slike sa 16-piksela visokim isječcima/trakama. Ako je onemogućeno, cijela sličica je iscrtana u jednom pokretu. Može biti brže ili sporije, ovisno o video kartici i dostupnoj predmemoriji. Ima učinak samo sa libmpeg2 i libavcodec kôdekima.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="583"/>
+        <location filename="../prefgeneral.ui" line="593"/>
         <source>Dra&amp;w video using slices</source>
         <translation>Iscrta&amp;j sliku pomoću isječka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="266"/>
+        <location filename="../prefgeneral.ui" line="276"/>
         <source>&amp;Close when finished playback</source>
         <translation>&amp;Zatvori kada je reprodukcija završena</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="415"/>
-        <location filename="../prefgeneral.cpp" line="422"/>
-        <location filename="../prefgeneral.cpp" line="448"/>
+        <location filename="../prefgeneral.cpp" line="386"/>
+        <location filename="../prefgeneral.cpp" line="393"/>
+        <location filename="../prefgeneral.cpp" line="419"/>
         <source>fast</source>
         <translation>brže</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="416"/>
-        <location filename="../prefgeneral.cpp" line="444"/>
+        <location filename="../prefgeneral.cpp" line="387"/>
+        <location filename="../prefgeneral.cpp" line="415"/>
         <source>slow</source>
         <translation>sporije</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="449"/>
+        <location filename="../prefgeneral.cpp" line="420"/>
         <source>fast - ATI cards</source>
         <translation>brže - ATI kartice</translation>
     </message>
     <message>
+        <location filename="../prefgeneral.cpp" line="442"/>
         <location filename="../prefgeneral.cpp" line="471"/>
-        <location filename="../prefgeneral.cpp" line="500"/>
         <source>User defined...</source>
         <translation>Definirao korisnik...</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1096"/>
+        <location filename="../prefgeneral.cpp" line="1060"/>
         <source>Default zoom</source>
         <translation>Zadano zumiranje</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1097"/>
+        <location filename="../prefgeneral.cpp" line="1061"/>
         <source>This option sets the default zoom which will be used for new videos.</source>
         <translation>Ova mogućnost postavlja zadano zumiranje koje će se koristiti za nove video zapise.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="508"/>
+        <location filename="../prefgeneral.ui" line="518"/>
         <source>Default &amp;zoom:</source>
         <translation>Zadano &amp;zumiranje:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="992"/>
+        <location filename="../prefgeneral.cpp" line="963"/>
         <source>If this setting is wrong, SMPlayer won&apos;t be able to play anything!</source>
         <translation>Ako je ovo podešeno pogrešno, SMPlayer neće moći ništa reproducirati!</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1063"/>
-        <source>Select the video output driver. %1 provides the best performance.</source>
-        <translation>Odaberi upravljački program video izlaza. %1 pruža najbolje performanse.</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1171"/>
-        <source>%1 is the recommended one. Try to avoid %2 and %3, they are slow and can have an impact on performance.</source>
-        <translation>%1 je preporučen. Pokušajte izbjeći %2 i %3, oni su spori i mogu utjecati na performanse.</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="996"/>
+        <location filename="../prefgeneral.cpp" line="967"/>
         <source>Usually SMPlayer will remember the settings for each file you play (audio track selected, volume, filters...). Disable this option if you don&apos;t like this feature.</source>
         <translation>SMPlayer će zapamtiti postavke za svaku datoteku koja se reproducira (odabrani zvučni zapisi, glasnoća zvuka, filtri...). Isključite ovu mogućnost ako vam takva značajka nije potrebna.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1046"/>
+        <location filename="../prefgeneral.cpp" line="1020"/>
         <source>If this option is enabled, the file will be paused when the main window is hidden. When the window is restored, playback will be resumed.</source>
         <translation>Ako je ova mogućnost odabrana, reprodukcija će biti pauzirana kada je glavni prozor sakriven. Kada se prozor otkrije, reprodukcija će se nastaviti.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1152"/>
+        <location filename="../prefgeneral.cpp" line="1116"/>
         <source>Check this option to disable the screensaver while playing.&lt;br&gt;The screensaver will enabled again when play finishes.</source>
         <translation>Odaberite ovu mogućnost za onemogućavanje čuvara zaslona tijekom reprodukcije.&lt;br&gt;Čuvar zaslona će se ponovno omogućiti kada reprodukcija završi.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1237"/>
+        <location filename="../prefgeneral.cpp" line="1184"/>
         <source>Here you can type your preferred language for the audio streams. When a media with multiple audio streams is found, SMPlayer will try to use your preferred language.&lt;br&gt;This only will work with media that offer info about the language of the audio streams, like DVDs or mkv files.&lt;br&gt;This field accepts regular expressions. Example: &lt;b&gt;es|esp|spa&lt;/b&gt; will select the audio track if it matches with &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; or &lt;i&gt;spa&lt;/i&gt;.</source>
         <translation>Ovdje možete upisati željeni jezik zvučnih zapisa. Kada je medij sa višestrukim zvučnim zapisom pronađen, SMPlayer će probati koristiti vaš željeni jezik.&lt;br&gt;Ovo će jedino raditi sa medijima koji pružaju informacije o jeziku zvučnog zapisa, poput DVD-a ili mkv datoteka.&lt;br&gt;Ova polja primaju osnovne izraze. Npr.: &lt;b&gt;hr|hrv|cro&lt;/b&gt; će odabrati zvučni zapis ako se podudara sa &lt;i&gt;hr&lt;/i&gt;, &lt;i&gt;hrv&lt;/i&gt; ili &lt;i&gt;cro&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1247"/>
+        <location filename="../prefgeneral.cpp" line="1194"/>
         <source>Here you can type your preferred language for the subtitle stream. When a media with multiple subtitle streams is found, SMPlayer will try to use your preferred language.&lt;br&gt;This only will work with media that offer info about the language of the subtitle streams, like DVDs or mkv files.&lt;br&gt;This field accepts regular expressions. Example: &lt;b&gt;es|esp|spa&lt;/b&gt; will select the subtitle stream if it matches with &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; or &lt;i&gt;spa&lt;/i&gt;.</source>
         <translation>Ovdje možete upisati željeni jezik podnaslova. Kada je medij sa višestrukim podnaslovima pronađen, SMPlayer će probati koristiti vaš željeni jezik.&lt;br&gt;Ovo će jedino raditi sa medijima koji pružaju informacije o jeziku podnaslova, poput DVD-a ili mkv datoteka.&lt;br&gt;Ova polja primaju osnovne izraze. Npr.: &lt;b&gt;hr|hrv|cro&lt;/b&gt; će odabrati podnaslov ako se podudara sa &lt;i&gt;hr&lt;/i&gt;, &lt;i&gt;hrv&lt;/i&gt; ili &lt;i&gt;cro&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="346"/>
-        <location filename="../prefgeneral.ui" line="669"/>
+        <location filename="../prefgeneral.ui" line="356"/>
+        <location filename="../prefgeneral.ui" line="679"/>
         <source>Ou&amp;tput driver:</source>
         <translation>Iz&amp;lazni upravljački program:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1126"/>
+        <location filename="../prefgeneral.cpp" line="1090"/>
         <source>Add black borders on fullscreen</source>
         <translation>Dodaj crne obrube u cijelozaslonskom prikazu</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1127"/>
+        <location filename="../prefgeneral.cpp" line="1091"/>
         <source>If this option is enabled, black borders will be added to the image in fullscreen mode. This allows subtitles to be displayed on the black borders.</source>
         <translation>Ako je ova mogućnost odabrana, crni obrubi biti će dodani prikazanoj slici u cjelozaslonskom prikazu. To omogućuje prikaz podnaslova na crnom obrubu.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="610"/>
+        <location filename="../prefgeneral.ui" line="620"/>
         <source>&amp;Add black borders on fullscreen</source>
         <translation>&amp;Dodaj crne obrube u cijelozaslonskom prikazu</translation>
     </message>
@@ -5966,22 +6178,22 @@ Npr: extrastereo,karaoke</translation>
         <translation>višestruke ini datoteke</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1005"/>
+        <location filename="../prefgeneral.cpp" line="979"/>
         <source>Method to store the file settings</source>
         <translation>Način spremanja datoteke postavki</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1006"/>
+        <location filename="../prefgeneral.cpp" line="980"/>
         <source>This option allows to change the way the file settings would be stored. The following options are available:</source>
         <translation>Ova mogućnost dopušta vam izmjenu načina spremanja datoteka postavki. Sljedeće mogućnosti su dostupne:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1008"/>
+        <location filename="../prefgeneral.cpp" line="982"/>
         <source>&lt;b&gt;one ini file&lt;/b&gt;: the settings for all played files will be saved in a single ini file (%1)</source>
         <translation>&lt;b&gt;jednu ini datoteku&lt;/b&gt;: postavke za sve reproducirane datoteke biti će spremljene u jednu ini datoteku (%1)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1012"/>
+        <location filename="../prefgeneral.cpp" line="986"/>
         <source>The latter method could be faster if there is info for a lot of files.</source>
         <translation>Potonja metoda može biti brža ako postoje informacije za puno datoteka.</translation>
     </message>
@@ -5991,197 +6203,192 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Spremi postavke u</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1010"/>
+        <location filename="../prefgeneral.cpp" line="984"/>
         <source>&lt;b&gt;multiple ini files&lt;/b&gt;: one ini file will be used for each played file. Those ini files will be saved in the folder %1</source>
         <translation>&lt;b&gt;višestruke ini datoteke&lt;/b&gt;: jedna ini datoteka će se koristiti za svaku reproduciranu datoteku. Te ini datoteke će se spremati u mapu %1</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1001"/>
+        <location filename="../prefgeneral.cpp" line="972"/>
         <source>If you check this option, SMPlayer will remember the last position of the file when you open it again. This option works only with regular files (not with DVDs, CDs, URLs...).</source>
         <translation>Ako odaberete ovu mogućnost, SMPlayer će zapamtiti zadnji položaj reproducirane datoteke kada je ponovno otvorite. Ova mogućnost radi samo sa normalnim datotekama (ne radi sa DVD-ovima, CD-ima, URL-ovima...).</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1107"/>
+        <location filename="../prefgeneral.cpp" line="1071"/>
         <source>If checked, turns on direct rendering (not supported by all codecs and video outputs)&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; May cause OSD/SUB corruption!</source>
         <translation>Ako je odabrano, uključuje izravan prikaz (nije podržano za sve kôdeke i video izlaze)&lt;br&gt;&lt;b&gt;Upozorenje:&lt;/b&gt; Može uzrokovati OSD/SUB greške!</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1014"/>
+        <location filename="../prefgeneral.cpp" line="988"/>
         <source>Enable screenshots</source>
         <translation>Omogući snimke zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1015"/>
+        <location filename="../prefgeneral.cpp" line="989"/>
         <source>You can use this option to enable or disable the possibility to take screenshots.</source>
         <translation>Možete koristiti ovu mogućnost za uključivanje/isključivanje mogućnosti uzimanja snimka zaslona.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1019"/>
+        <location filename="../prefgeneral.cpp" line="993"/>
         <source>Here you can specify a folder where the screenshots taken by SMPlayer will be stored. If the folder is not valid the screenshot feature will be disabled.</source>
         <translation>Ovdje možete odrediti mapu gdje će se snimke zaslona snimljene SMPlayerom spremiti. Ako mapa nije valjana snimanje zaslona biti će onemogućeno.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="165"/>
+        <location filename="../prefgeneral.ui" line="175"/>
         <source>Screenshots</source>
         <translation>Snimke zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="171"/>
+        <location filename="../prefgeneral.ui" line="181"/>
         <source>&amp;Enable screenshots</source>
         <translation>&amp;Omogući snimke zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="183"/>
+        <location filename="../prefgeneral.ui" line="193"/>
         <source>&amp;Folder:</source>
         <translation>&amp;Mapa:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1207"/>
+        <location filename="../prefgeneral.cpp" line="1154"/>
         <source>Global volume</source>
         <translation>Globalna glasnoća zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1208"/>
+        <location filename="../prefgeneral.cpp" line="1155"/>
         <source>If this option is checked, the same volume will be used for all files you play. If the option is not checked each file uses its own volume.</source>
         <translation>Ako je ova mogućnost odabrana, glasnoća zvuka je ista za sve datoteke koje se reproduciraju. Ako ova mogućnost nije odabrana svaka datoteka će koristiti svoju glasnoću zvuka.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1211"/>
+        <location filename="../prefgeneral.cpp" line="1158"/>
         <source>This option also applies for the mute control.</source>
         <translation>Ova mogućnost isto tako zahvaća kontrolu utišivanja glasnoće zvuka.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="855"/>
+        <location filename="../prefgeneral.ui" line="865"/>
         <source>Glo&amp;bal volume</source>
         <translation>Glo&amp;balna glasnoća zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1136"/>
+        <location filename="../prefgeneral.cpp" line="1100"/>
         <source>Switch screensaver off</source>
         <translation>Isključi čuvara zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1137"/>
+        <location filename="../prefgeneral.cpp" line="1101"/>
         <source>This option switches the screensaver off just before starting to play a file and switches it on when playback finishes. If this option is enabled, the screensaver won&apos;t appear even if playing audio files or when a file is paused.</source>
         <translation>Ova mogućnost isključuje čuvara zaslona malo prije početka reprodukcije datoteke i uključuje ga kada je reprodukcija završena. Ako je ova mogućnost odabrana, čuvar zaslona neće se pojaviti i pri reprodukciji zvučnog zaspisa ili pauze.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1143"/>
+        <location filename="../prefgeneral.cpp" line="1107"/>
         <source>Avoid screensaver</source>
         <translation>Izbjegavaj čuvara zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1144"/>
+        <location filename="../prefgeneral.cpp" line="1108"/>
         <source>When this option is checked, SMPlayer will try to prevent the screensaver to be shown when playing a video file. The screensaver will be allowed to be shown if playing an audio file or in pause mode. This option only works if the SMPlayer window is in the foreground.</source>
         <translation>Kada je ova mogućnost odabrana, SMplayer će pokušati onemogućiti čuvara zaslona dok se reproducira video datoteka ali ne i dok se reproducira glazbena datoteka ili dok je pauzirana. Ova mogućnost radi samo ako SMPlayer prozor nije u pozadini.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="624"/>
+        <location filename="../prefgeneral.ui" line="634"/>
         <source>Screensaver</source>
         <translation>Čuvar zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="630"/>
+        <location filename="../prefgeneral.ui" line="640"/>
         <source>Swit&amp;ch screensaver off</source>
         <translation>Isklj&amp;uči čuvara zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="637"/>
+        <location filename="../prefgeneral.ui" line="647"/>
         <source>Avoid &amp;screensaver</source>
         <translation>Izbjegavaj &amp;čuvara zaslona</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1227"/>
+        <location filename="../prefgeneral.cpp" line="1174"/>
         <source>Audio/video auto synchronization</source>
         <translation>Automatsko usklađivanje Slike/Zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1228"/>
+        <location filename="../prefgeneral.cpp" line="1175"/>
         <source>Gradually adjusts the A/V sync based on audio delay measurements.</source>
         <translation>Postupno podešava usklađivanje Slike/Zvuka temeljeno na mjerenju kašnjenja/prednačenja zvučnog zapisa.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1231"/>
+        <location filename="../prefgeneral.cpp" line="1178"/>
         <source>A-V sync correction</source>
         <translation>Ispravak usklađivanja Slike/Zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1232"/>
+        <location filename="../prefgeneral.cpp" line="1179"/>
         <source>Maximum A-V sync correction per frame (in seconds)</source>
         <translation>Maksimalno usklađivanje ispravka Slike/Zvuka po sličicama (u sekundi)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="931"/>
+        <location filename="../prefgeneral.ui" line="941"/>
         <source>Synchronization</source>
         <translation>Usklađivanje</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="942"/>
+        <location filename="../prefgeneral.ui" line="952"/>
         <source>Audio/video auto &amp;synchronization</source>
         <translation>Automatsko usklađivanje &amp;Slike/Zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="968"/>
+        <location filename="../prefgeneral.ui" line="978"/>
         <source>&amp;Factor:</source>
         <translation>&amp;Faktor:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1004"/>
+        <location filename="../prefgeneral.ui" line="1014"/>
         <source>A-V sync &amp;correction</source>
         <translation>Ispravak usklađivanja &amp;Slike/Zvuka</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1027"/>
+        <location filename="../prefgeneral.ui" line="1037"/>
         <source>&amp;Max. correction:</source>
         <translation>&amp;Maks. ispravljanje:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1094"/>
+        <location filename="../prefgeneral.cpp" line="1058"/>
         <source>&lt;b&gt;Note:&lt;/b&gt; This option won&apos;t be used for TV channels.</source>
         <translation>&lt;b&gt;Napomena:&lt;/b&gt; Ova mogućnost se neće koristiti za TV programe.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="471"/>
+        <location filename="../prefgeneral.ui" line="481"/>
         <source>Dei&amp;nterlace by default (except for TV):</source>
         <translation>Zadano ras&amp;pletanje (osim TV-a):</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1189"/>
+        <location filename="../prefgeneral.cpp" line="1136"/>
         <source>Uses hardware AC3 passthrough.</source>
         <translation>Koristi hardversku AC3 reprodukciju.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1190"/>
+        <location filename="../prefgeneral.cpp" line="1137"/>
         <source>&lt;b&gt;Note:&lt;/b&gt; none of the audio filters will be used when this option is enabled.</source>
         <translation>&lt;b&gt;Napomena:&lt;/b&gt; neće se koristiti nijedan zvučni filter ako je ova mogućnost odabrana.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="423"/>
+        <location filename="../prefgeneral.cpp" line="394"/>
         <source>snap mode</source>
         <translation>snap način</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="424"/>
+        <location filename="../prefgeneral.cpp" line="395"/>
         <source>slower dive mode</source>
         <translation>sporiji dive način</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="479"/>
+        <location filename="../prefgeneral.cpp" line="450"/>
         <source>uniaud mode</source>
         <translation>uniaud način</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="480"/>
+        <location filename="../prefgeneral.cpp" line="451"/>
         <source>dart mode</source>
         <translation>dart način</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1165"/>
-        <source>%1 is the recommended one. %2 is only available on older MPlayer (before version %3)</source>
-        <translation>%1 je preporučen. %2 je samo dostupan sa starijom inačicom MPlayera (prije inačice %3)</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.ui" line="375"/>
+        <location filename="../prefgeneral.ui" line="385"/>
         <source>Configu&amp;re...</source>
         <translation>Pode&amp;si...</translation>
     </message>
@@ -6189,7 +6396,7 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PrefInput</name>
     <message>
-        <location filename="../prefinput.cpp" line="38"/>
+        <location filename="../prefinput.cpp" line="42"/>
         <source>Keyboard and mouse</source>
         <translation>Tipkovnica i miš</translation>
     </message>
@@ -6199,46 +6406,51 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Tipkovnica</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="86"/>
+        <location filename="../prefinput.ui" line="85"/>
+        <source>&amp;Use the multimedia keys as global shortcuts</source>
+        <translation>&amp;Koristi multimedijske tipke kao globalne prečace</translation>
+    </message>
+    <message>
+        <location filename="../prefinput.ui" line="93"/>
         <source>&amp;Mouse</source>
         <translation>&amp;Miš</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="136"/>
+        <location filename="../prefinput.ui" line="143"/>
         <source>Button functions:</source>
         <translation>Funkcije tipki:</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="333"/>
+        <location filename="../prefinput.ui" line="340"/>
         <source>Dra&amp;g function:</source>
         <translation>Fun&amp;kcija povlačenja:</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="375"/>
+        <location filename="../prefinput.ui" line="382"/>
         <source>Don&apos;t &amp;trigger the left click action with a double click</source>
         <translation>Nemoj &amp;pokrenuti radnju lijevog klika dvostrukim klikom</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="145"/>
-        <location filename="../prefinput.cpp" line="388"/>
+        <location filename="../prefinput.cpp" line="149"/>
+        <location filename="../prefinput.cpp" line="416"/>
         <source>Media seeking</source>
         <translation>Pretraživanje medija</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="146"/>
-        <location filename="../prefinput.cpp" line="391"/>
+        <location filename="../prefinput.cpp" line="150"/>
+        <location filename="../prefinput.cpp" line="419"/>
         <source>Volume control</source>
         <translation>Kontrola glasnoće zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="147"/>
-        <location filename="../prefinput.cpp" line="394"/>
+        <location filename="../prefinput.cpp" line="151"/>
+        <location filename="../prefinput.cpp" line="422"/>
         <source>Zoom video</source>
         <translation>Zumiranje slike</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="53"/>
-        <location filename="../prefinput.cpp" line="158"/>
+        <location filename="../prefinput.cpp" line="57"/>
+        <location filename="../prefinput.cpp" line="162"/>
         <source>None</source>
         <translation>Nepoznato</translation>
     </message>
@@ -6248,464 +6460,474 @@ Npr: extrastereo,karaoke</translation>
         <translation>Ovdje možete promijeniti bilo koju tipku prečaca. Za izmjenu dvostruko kliknite ili pritisnite tipku &apos;Enter&apos; na polju prečaca. Po izboru možete spremiti popis i podijeliti ga s drugim ljudima ili ga učitati na drugom računalu.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="167"/>
+        <location filename="../prefinput.cpp" line="171"/>
         <source>Here you can change any key shortcut. To do it double click or start typing over a shortcut cell. Optionally you can also save the list to share it with other people or load it in another computer.</source>
         <translation>Ovdje možete promijeniti bilo koju tipku prečaca. Za izmjenu dvostruko kliknite ili počnite tipkati na polju prečaca. Po izboru možete spremiti popis i podijeliti ga s drugim ljudima ili ga učitati na drugom računalu.</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="146"/>
+        <location filename="../prefinput.ui" line="153"/>
         <source>&amp;Left click</source>
         <translation>&amp;Lijevi klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="169"/>
+        <location filename="../prefinput.ui" line="176"/>
         <source>&amp;Double click</source>
         <translation>&amp;Dvostruki klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="290"/>
+        <location filename="../prefinput.ui" line="297"/>
         <source>&amp;Wheel function:</source>
         <translation>&amp;Funkcija kotačića:</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="336"/>
+        <location filename="../prefinput.cpp" line="358"/>
         <source>Shortcut editor</source>
         <translation>Uređivač prečaca</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="337"/>
+        <location filename="../prefinput.cpp" line="359"/>
         <source>This table allows you to change the key shortcuts of most available actions. Double click or press enter on a item, or press the &lt;b&gt;Change shortcut&lt;/b&gt; button to enter in the &lt;i&gt;Modify shortcut&lt;/i&gt; dialog. There are two ways to change a shortcut: if the &lt;b&gt;Capture&lt;/b&gt; button is on then just press the new key or combination of keys that you want to assign for the action (unfortunately this doesn&apos;t work for all keys). If the &lt;b&gt;Capture&lt;/b&gt; button is off then you could enter the full name of the key.</source>
         <translation>Ova tabela omogućuje vam izmjenu tipka prečaca za većinu dostupnih radnji. Dvostruko kliknite ili pritisnite tipku &apos;Enter&apos; na polju prečaca, ili pritisnite &lt;b&gt;Promijeni prečac&lt;/b&gt; tipku da bi ušli u &lt;i&gt;Prilagodi prečac&lt;/i&gt; dijalog. Postoje dva načina za promjenu prečaca: ako &lt;b&gt;Zarobi&lt;/b&gt; tipka je uključena tada samo pritisnite novu tipku ili kombinaciju tipki koju želite pridružiti radnji (nažalost to ne radi za sve tipke). Ako je &lt;b&gt;Zarobi&lt;/b&gt; tipka isključena tada možete upisati puni naziv tipke.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="349"/>
+        <location filename="../prefinput.cpp" line="377"/>
         <source>Left click</source>
         <translation>Lijevi klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="350"/>
+        <location filename="../prefinput.cpp" line="378"/>
         <source>Select the action for left click on the mouse.</source>
         <translation>Odaberite radnju za lijevi klik miša.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="352"/>
+        <location filename="../prefinput.cpp" line="380"/>
         <source>Double click</source>
         <translation>Dvostruki klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="353"/>
+        <location filename="../prefinput.cpp" line="381"/>
         <source>Select the action for double click on the mouse.</source>
         <translation>Odaberite radnju za dvostruki klik miša.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="364"/>
+        <location filename="../prefinput.cpp" line="392"/>
         <source>Wheel function</source>
         <translation>Funkcija kotačića</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="365"/>
+        <location filename="../prefinput.cpp" line="393"/>
         <source>Select the action for the mouse wheel.</source>
         <translation>Odaberite radnju za kotačić miša.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="54"/>
+        <location filename="../prefinput.cpp" line="58"/>
         <source>Play</source>
         <translation>Reprodukcija</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="56"/>
+        <location filename="../prefinput.cpp" line="60"/>
         <source>Pause</source>
         <translation>Pauza</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="58"/>
+        <location filename="../prefinput.cpp" line="62"/>
         <source>Stop</source>
         <translation>Zaustavi</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="67"/>
+        <location filename="../prefinput.cpp" line="71"/>
         <source>Fullscreen</source>
         <translation>Cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="68"/>
+        <location filename="../prefinput.cpp" line="72"/>
         <source>Compact</source>
         <translation>Jednostavni prozor</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="69"/>
+        <location filename="../prefinput.cpp" line="73"/>
         <source>Screenshot</source>
         <translation>Snimak zaslona</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="73"/>
+        <location filename="../prefinput.cpp" line="77"/>
         <source>Mute</source>
         <translation>Utišaj</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="79"/>
+        <location filename="../prefinput.cpp" line="83"/>
         <source>Frame counter</source>
         <translation>Brojač sličica</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="76"/>
+        <location filename="../prefinput.cpp" line="80"/>
         <source>Reset zoom</source>
         <translation>Vrati zumiranje na zadano</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="77"/>
+        <location filename="../prefinput.cpp" line="81"/>
         <source>Exit fullscreen</source>
         <translation>Napusti cijeli zaslon</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="81"/>
+        <location filename="../prefinput.cpp" line="85"/>
         <source>Double size</source>
         <translation>Dvostruka veličina</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="55"/>
+        <location filename="../prefinput.cpp" line="59"/>
         <source>Play / Pause</source>
         <translation>Reprodukcija / Pauza</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="57"/>
+        <location filename="../prefinput.cpp" line="61"/>
         <source>Pause / Frame step</source>
         <translation>Pauza / Pomak sličice</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="75"/>
+        <location filename="../prefinput.cpp" line="79"/>
         <source>Playlist</source>
         <translation>Popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="80"/>
+        <location filename="../prefinput.cpp" line="84"/>
         <source>Preferences</source>
         <translation>Osobitosti</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="144"/>
+        <location filename="../prefinput.cpp" line="148"/>
         <source>No function</source>
         <translation>Nema funkcije</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="148"/>
-        <location filename="../prefinput.cpp" line="397"/>
+        <location filename="../prefinput.cpp" line="152"/>
+        <location filename="../prefinput.cpp" line="425"/>
         <source>Change speed</source>
         <translation>Promjena brzine</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="78"/>
+        <location filename="../prefinput.cpp" line="82"/>
         <source>Normal speed</source>
         <translation>Normalna brzina</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="334"/>
+        <location filename="../prefinput.cpp" line="356"/>
         <source>Keyboard</source>
         <translation>Tipkovnica</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="347"/>
+        <location filename="../prefinput.cpp" line="375"/>
         <source>Mouse</source>
         <translation>Miš</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="355"/>
+        <location filename="../prefinput.cpp" line="383"/>
         <source>Middle click</source>
         <translation>Srednji klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="356"/>
+        <location filename="../prefinput.cpp" line="384"/>
         <source>Select the action for middle click on the mouse.</source>
         <translation>Odaberite radnju za srednji klik miša.</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="215"/>
+        <location filename="../prefinput.ui" line="222"/>
         <source>M&amp;iddle click</source>
         <translation>S&amp;rednji klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="228"/>
+        <location filename="../prefinput.ui" line="235"/>
         <source>X Button &amp;1</source>
         <translation>X Tipka &amp;1</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="241"/>
+        <location filename="../prefinput.ui" line="248"/>
         <source>X Button &amp;2</source>
         <translation>X Tipka &amp;2</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="59"/>
+        <location filename="../prefinput.cpp" line="63"/>
         <source>Go backward (short)</source>
         <translation>Idi unazad (sporije)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="60"/>
+        <location filename="../prefinput.cpp" line="64"/>
         <source>Go backward (medium)</source>
         <translation>Idi unazad (srednje)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="61"/>
+        <location filename="../prefinput.cpp" line="65"/>
         <source>Go backward (long)</source>
         <translation>Idi unazad (brže)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="62"/>
+        <location filename="../prefinput.cpp" line="66"/>
         <source>Go forward (short)</source>
         <translation>Idi unaprijed (sporije)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="63"/>
+        <location filename="../prefinput.cpp" line="67"/>
         <source>Go forward (medium)</source>
         <translation>Idi unaprijed (srednje)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="64"/>
+        <location filename="../prefinput.cpp" line="68"/>
         <source>Go forward (long)</source>
         <translation>Idi unaprijed (brže)</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="74"/>
+        <location filename="../prefinput.cpp" line="78"/>
         <source>OSD - Next level</source>
         <translation>OSD - Sljedeća razina</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="86"/>
+        <location filename="../prefinput.cpp" line="90"/>
         <source>Show context menu</source>
         <translation>Prikaži kontekstualni izbornik</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="192"/>
+        <location filename="../prefinput.ui" line="199"/>
         <source>&amp;Right click</source>
         <translation>&amp;Desni klik</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="65"/>
+        <location filename="../prefinput.cpp" line="69"/>
         <source>Increase volume</source>
         <translation>Pojačaj glasnoću zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="66"/>
+        <location filename="../prefinput.cpp" line="70"/>
         <source>Decrease volume</source>
         <translation>Smanji glasnoću zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="358"/>
+        <location filename="../prefinput.cpp" line="386"/>
         <source>X Button 1</source>
         <translation>X Tipka 1</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="359"/>
+        <location filename="../prefinput.cpp" line="387"/>
         <source>Select the action for the X button 1.</source>
         <translation>Odaberite radnju za X tipku 1.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="361"/>
+        <location filename="../prefinput.cpp" line="389"/>
         <source>X Button 2</source>
         <translation>X Tipka 2</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="362"/>
+        <location filename="../prefinput.cpp" line="390"/>
         <source>Select the action for the X button 2.</source>
         <translation>Odaberite radnju za X tipku 2.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="84"/>
+        <location filename="../prefinput.cpp" line="88"/>
         <source>Show video equalizer</source>
         <translation>Prikaži ekvalizator slike</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="85"/>
+        <location filename="../prefinput.cpp" line="89"/>
         <source>Show audio equalizer</source>
         <translation>Prikaži ekvalizator zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="70"/>
+        <location filename="../prefinput.cpp" line="74"/>
         <source>Always on top</source>
         <translation>Uvijek na vrhu</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="71"/>
+        <location filename="../prefinput.cpp" line="75"/>
         <source>Never on top</source>
         <translation>Nikada na vrhu</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="72"/>
+        <location filename="../prefinput.cpp" line="76"/>
         <source>On top while playing</source>
         <translation>Na vrhu tijekom reprodukcije</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="82"/>
+        <location filename="../prefinput.cpp" line="86"/>
         <source>Next chapter</source>
         <translation>Sljedeće poglavlje</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="83"/>
+        <location filename="../prefinput.cpp" line="87"/>
         <source>Previous chapter</source>
         <translation>Prijašnje poglavlje</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="89"/>
+        <location filename="../prefinput.cpp" line="93"/>
         <source>Activate option under mouse in DVD menus</source>
         <translation>Aktiviraj mogućnost pod mišem u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="90"/>
+        <location filename="../prefinput.cpp" line="94"/>
         <source>Return to main DVD menu</source>
         <translation>Povratak u glavni DVD izbornik</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="91"/>
+        <location filename="../prefinput.cpp" line="95"/>
         <source>Return to previous menu in DVD menus</source>
         <translation>Povratak u prijašnji izbornik u DVD izborniku</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="92"/>
+        <location filename="../prefinput.cpp" line="96"/>
         <source>Move cursor up in DVD menus</source>
         <translation>Pomakni pokazivač miša gore u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="93"/>
+        <location filename="../prefinput.cpp" line="97"/>
         <source>Move cursor down in DVD menus</source>
         <translation>Pomakni pokazivač miša dolje u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="94"/>
+        <location filename="../prefinput.cpp" line="98"/>
         <source>Move cursor left in DVD menus</source>
         <translation>Pomakni pokazivač miša lijevo u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="95"/>
+        <location filename="../prefinput.cpp" line="99"/>
         <source>Move cursor right in DVD menus</source>
         <translation>Pomakni pokazivač miša desno u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="96"/>
+        <location filename="../prefinput.cpp" line="100"/>
         <source>Activate highlighted option in DVD menus</source>
         <translation>Aktiviraj mogućnost naglašavanja u DVD izbornicima</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="159"/>
-        <location filename="../prefinput.cpp" line="369"/>
+        <location filename="../prefinput.cpp" line="163"/>
+        <location filename="../prefinput.cpp" line="397"/>
         <source>Move window</source>
         <translation>Pomakni prozor</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="161"/>
-        <location filename="../prefinput.cpp" line="371"/>
+        <location filename="../prefinput.cpp" line="165"/>
+        <location filename="../prefinput.cpp" line="399"/>
         <source>Seek and volume</source>
         <translation>Pretraživanje i glasnoća zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="367"/>
+        <location filename="../prefinput.cpp" line="370"/>
+        <source>Use the multimedia keys as global shortcuts</source>
+        <translation>Koristi multimedijske tipke kao globalne prečace</translation>
+    </message>
+    <message>
+        <location filename="../prefinput.cpp" line="371"/>
+        <source>When this option is enabled the multimedia keys (Play, Stop, Volume+/-, Mute, etc.) will work even when SMPlayer is running in the background.</source>
+        <translation>Kada je ova mogućnost omogućena multimedijske tipke (Reproduciraj, Zaustavi, Glasnoća zvuka+/-, Utišaj, itd.) će raditi čak i kada je SMPlayer pokrenut u pozadini.</translation>
+    </message>
+    <message>
+        <location filename="../prefinput.cpp" line="395"/>
         <source>Drag function</source>
         <translation>Funkcija povlačenja</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="368"/>
+        <location filename="../prefinput.cpp" line="396"/>
         <source>This option controls what to do when the mouse is moved while pressing the left button.</source>
         <translation>Ova mogućnost određuje što će se učiniti kada je miš pomknut dok se pritiska lijeva tipka.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="369"/>
+        <location filename="../prefinput.cpp" line="397"/>
         <source>the main window is moved</source>
         <translation>glavni prozor je pomaknut</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="372"/>
+        <location filename="../prefinput.cpp" line="400"/>
         <source>a horizontal movement changes the time position while a vertical movement changes the volume</source>
         <translation>vodoravna promjena pomaka vremenskog položaja dok okomit pomak mijenja glasnoću zvuka.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="376"/>
+        <location filename="../prefinput.cpp" line="404"/>
         <source>Don&apos;t trigger the left click function with a double click</source>
         <translation>Nemoj pokrenuti radnju lijevog klika dvostrukim klikom</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="377"/>
+        <location filename="../prefinput.cpp" line="405"/>
         <source>If this option is enabled when you double click on the video area only the double click function will be triggered. The left click action won&apos;t be activated.</source>
         <translation>Ako je ova mogućnost odabrana, kada kliknete ne video područje samo će biti pokrenuta funkcija dvostrukog klika. Radnja lijevog klika neće biti aktivirana.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="380"/>
+        <location filename="../prefinput.cpp" line="408"/>
         <source>By enabling this option the left click is delayed %1 milliseconds because it&apos;s necessary to wait that time to know if there&apos;s a double click or not.</source>
         <translation>Omogućavanjem ove mogućnosti lijevi klik se odgađa %1 millisekundi zato jer je potrebno čekati neko vrijeme da se vidi jeli dvostruki klik pokrenut ili nije.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="87"/>
+        <location filename="../prefinput.cpp" line="91"/>
         <source>Change function of wheel</source>
         <translation>Promijeni funkciju kotačića miša</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="428"/>
-        <location filename="../prefinput.cpp" line="151"/>
+        <location filename="../prefinput.ui" line="435"/>
+        <location filename="../prefinput.cpp" line="155"/>
         <source>Media &amp;seeking</source>
         <translation>Pretraživanje &amp;medija</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="442"/>
-        <location filename="../prefinput.cpp" line="152"/>
+        <location filename="../prefinput.ui" line="449"/>
+        <location filename="../prefinput.cpp" line="156"/>
         <source>&amp;Zoom video</source>
         <translation>&amp;Zumiranje slike</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="435"/>
-        <location filename="../prefinput.cpp" line="153"/>
+        <location filename="../prefinput.ui" line="442"/>
+        <location filename="../prefinput.cpp" line="157"/>
         <source>&amp;Volume control</source>
         <translation>&amp;Kontrola glasnoće zvuka</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="449"/>
-        <location filename="../prefinput.cpp" line="154"/>
+        <location filename="../prefinput.ui" line="456"/>
+        <location filename="../prefinput.cpp" line="158"/>
         <source>&amp;Change speed</source>
         <translation>&amp;Promjena brzine</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="386"/>
+        <location filename="../prefinput.cpp" line="414"/>
         <source>Mouse wheel functions</source>
         <translation>Funkcije kotačića miša</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="389"/>
+        <location filename="../prefinput.cpp" line="417"/>
         <source>Check it to enable seeking as one function.</source>
         <translation>Kliknite za omogućavanje traženja kao jedine funkcije.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="392"/>
+        <location filename="../prefinput.cpp" line="420"/>
         <source>Check it to enable changing volume as one function.</source>
         <translation>Kliknite za omogućavanje promjene glasnoće zvuka kao jedine funkcije.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="395"/>
+        <location filename="../prefinput.cpp" line="423"/>
         <source>Check it to enable zooming as one function.</source>
         <translation>Kliknite za omogućavanje zumiranja kao jedine funkcije.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="398"/>
+        <location filename="../prefinput.cpp" line="426"/>
         <source>Check it to enable changing speed as one function.</source>
         <translation>Kliknite za omogućavanje promjene brzine kao jedine funkcije.</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="406"/>
+        <location filename="../prefinput.ui" line="413"/>
         <source>M&amp;ouse wheel functions</source>
         <translation>F&amp;unkcije kotačića miša</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="418"/>
+        <location filename="../prefinput.ui" line="425"/>
         <source>Select the actions that should be cycled through when using the &quot;Change function of wheel&quot; option.</source>
         <translation>Odaberite radnje koje će se mijenjati kada se koristi &quot;Promijeni funkciju kotačića miša&quot; mogućnost.</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="383"/>
+        <location filename="../prefinput.cpp" line="411"/>
         <source>Reverse mouse wheel seeking</source>
         <translation>Obrni pretraživanje kotačićem miša</translation>
     </message>
     <message>
-        <location filename="../prefinput.cpp" line="384"/>
+        <location filename="../prefinput.cpp" line="412"/>
         <source>Check it to seek in the opposite direction.</source>
         <translation>Odaberite pretraživanje u suprotnom smjeru.</translation>
     </message>
     <message>
-        <location filename="../prefinput.ui" line="382"/>
+        <location filename="../prefinput.ui" line="389"/>
         <source>R&amp;everse wheel media seeking</source>
         <translation>O&amp;brni pretraživanje kotačićem miša</translation>
     </message>
@@ -6713,19 +6935,14 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PrefInterface</name>
     <message>
-        <location filename="../prefinterface.cpp" line="133"/>
-        <location filename="../prefinterface.cpp" line="657"/>
+        <location filename="../prefinterface.cpp" line="152"/>
+        <location filename="../prefinterface.cpp" line="737"/>
         <source>Interface</source>
         <translation>Sučelje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="148"/>
-        <source>&lt;Autodetect&gt;</source>
-        <translation>&lt;Automatsko-otkrivanje&gt;</translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="199"/>
-        <location filename="../prefinterface.cpp" line="202"/>
+        <location filename="../prefinterface.cpp" line="218"/>
+        <location filename="../prefinterface.cpp" line="221"/>
         <source>Default</source>
         <translation>Zadano</translation>
     </message>
@@ -6756,37 +6973,42 @@ Npr: extrastereo,karaoke</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="829"/>
-        <location filename="../prefinterface.cpp" line="793"/>
+        <location filename="../prefinterface.cpp" line="873"/>
         <source>Recent files</source>
         <translation>Nedavne datoteke</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="677"/>
+        <location filename="../prefinterface.cpp" line="757"/>
         <source>Language</source>
         <translation>Jezik</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="678"/>
+        <location filename="../prefinterface.cpp" line="758"/>
         <source>Here you can change the language of the application.</source>
         <translation>Ovdje možete promijeniti jezik aplikacije.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="177"/>
+        <location filename="../prefinterface.cpp" line="196"/>
         <source>&amp;Short jump</source>
         <translation>&amp;Kratak skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="178"/>
+        <location filename="../prefinterface.cpp" line="167"/>
+        <source>System language</source>
+        <translation>Jezik sustava</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="197"/>
         <source>&amp;Medium jump</source>
         <translation>&amp;Srednji skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="179"/>
+        <location filename="../prefinterface.cpp" line="198"/>
         <source>&amp;Long jump</source>
         <translation>&amp;Duži skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="180"/>
+        <location filename="../prefinterface.cpp" line="199"/>
         <source>Mouse &amp;wheel jump</source>
         <translation>Skok &amp;kotačićem miša</translation>
     </message>
@@ -6906,6 +7128,36 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Zapamti posljednji direktorij</translation>
     </message>
     <message>
+        <location filename="../prefinterface.ui" line="952"/>
+        <source>High &amp;DPI</source>
+        <translation>Visok &amp;DPI</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.ui" line="958"/>
+        <source>SMPlayer can scale the interface in high DPI screens. Here you can disable this feature or change the scale factor.</source>
+        <translation>SMPlayer može prilagoditi sučelje za DPI zaslone visoke razlučivosti. Ovdje možete onemogućiti tu značajku ili promijeniti razmjer prilagodbe.</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.ui" line="968"/>
+        <source>&amp;Enable support for high DPI screens</source>
+        <translation>&amp;Omogući podršku za zaslone s visokim DPI-em</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.ui" line="978"/>
+        <source>Scale</source>
+        <translation>Prilagodba</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.ui" line="984"/>
+        <source>A&amp;uto</source>
+        <translation>A&amp;utomatski</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.ui" line="1040"/>
+        <source>Changes in this section requires to restart SMPlayer in order to take effect</source>
+        <translation>Kako bi se primijenile promjene u ovom odjeljku zahtijevaju ponovno pokretanje SMPlayera</translation>
+    </message>
+    <message>
         <location filename="../prefinterface.ui" line="622"/>
         <source>TextLabel</source>
         <translation>Oznaka-teksta</translation>
@@ -6931,290 +7183,300 @@ Npr: extrastereo,karaoke</translation>
         <translation>Pok&amp;renuti primjerci</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="659"/>
+        <location filename="../prefinterface.cpp" line="739"/>
         <source>Autoresize</source>
         <translation>Automatski promijeni veličinu</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="660"/>
+        <location filename="../prefinterface.cpp" line="740"/>
         <source>The main window can be resized automatically. Select the option you prefer.</source>
         <translation>Glavni prozor može automatski mijenjati veličinu. Odaberite željenu mogućnost.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="670"/>
+        <location filename="../prefinterface.cpp" line="750"/>
         <source>Remember position and size</source>
         <translation>Zapamti položaj i veličinu</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="671"/>
+        <location filename="../prefinterface.cpp" line="751"/>
         <source>If you check this option, the position and size of the main window will be saved and restored when you run SMPlayer again.</source>
         <translation>Ako odaberete ovu mogućnost, položaj i veličina glavnog prozora biti će spremljena i vraćena kada ponovno pokrenete SMPlayer.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="681"/>
+        <location filename="../prefinterface.cpp" line="761"/>
         <source>Select the graphic interface you prefer for the application.</source>
         <translation>Odaberite poželjno grafičko sučelje za aplikaciju.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="682"/>
+        <location filename="../prefinterface.cpp" line="762"/>
         <source>The &lt;b&gt;Basic GUI&lt;/b&gt; provides the traditional interface, with the toolbar and control bar.</source>
         <translation>&lt;b&gt;Osnovno GUI sučelje&lt;/b&gt; je tradicionalno GUI sučelje, s alatnom i kontrolnom trakom.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="684"/>
+        <location filename="../prefinterface.cpp" line="764"/>
         <source>The &lt;b&gt;Mini GUI&lt;/b&gt; provides a more simple interface, without toolbar and a control bar with few buttons.</source>
         <translation>&lt;b&gt;Mini GUI sučelje&lt;/b&gt; je jednostavnije sučelje, bez alatne i kontrolne trake samo s nekoliko tipki.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="692"/>
+        <location filename="../prefinterface.cpp" line="772"/>
         <source>The &lt;b&gt;Skinnable GUI&lt;/b&gt; provides an interface where several skins are available.</source>
         <translation>&lt;b&gt;GUI s presvlakama&lt;/b&gt; omogućuje sučelje s nekoliko dostupnih presvlaka.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="688"/>
+        <location filename="../prefinterface.cpp" line="768"/>
         <source>The &lt;b&gt;Mpc GUI&lt;/b&gt; looks like the interface in Media Player Classic.</source>
         <translation>&lt;b&gt;Mpc GUI sučelje&lt;/b&gt; daje izgled sučelju poput onog u Media Player Classic.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="791"/>
+        <location filename="../prefinterface.cpp" line="871"/>
         <source>Privacy</source>
         <translation>Privatnost</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="794"/>
+        <location filename="../prefinterface.cpp" line="874"/>
         <source>Select the maximum number of items that will be shown in the &lt;b&gt;Open-&gt;Recent files&lt;/b&gt; submenu. If you set it to 0 that menu won&apos;t be shown at all.</source>
         <translation>Odaberite maksimalan broj stavki koje će biti prikazane u &lt;b&gt;Otvori-&gt;Nedavne datoteke&lt;/b&gt; podizborniku. Ako ih postavite na 0 taj podizbornik neće biti prikazan.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="697"/>
+        <location filename="../prefinterface.cpp" line="777"/>
         <source>Icon set</source>
         <translation>Postavke ikona</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="208"/>
+        <location filename="../prefinterface.cpp" line="227"/>
         <source>Basic GUI</source>
         <translation>Osnovno GUI sučelje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="217"/>
+        <location filename="../prefinterface.cpp" line="236"/>
         <source>Skinnable GUI</source>
         <translation>GUI s presvlakama</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="663"/>
+        <location filename="../prefinterface.cpp" line="249"/>
+        <source>Scale fact&amp;or:</source>
+        <translation>Razmjer prilag&amp;odbe:</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="252"/>
+        <source>Pixel rati&amp;o:</source>
+        <translation>Omjer pi&amp;ksela:</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="743"/>
         <source>Prevent window to get outside of screen</source>
         <translation>Spriječi prozor da ode izvan zaslona</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="664"/>
+        <location filename="../prefinterface.cpp" line="744"/>
         <source>If after an autoresize the main window gets outside of the screen this option will center the window to prevent it.</source>
         <translation>Ako nakon automatske promjene veličine glavnog prozora ode izvan zaslona, ova mogućnost prozor pomiće u sredinu.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="667"/>
+        <location filename="../prefinterface.cpp" line="747"/>
         <source>Center window</source>
         <translation>Prozor u sredini</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="668"/>
+        <location filename="../prefinterface.cpp" line="748"/>
         <source>When this option is enabled, the main window will be centered on the desktop.</source>
         <translation>Kada je ova mogućnost odabrana, glavni prozor će biti u sredini radne površine.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="698"/>
+        <location filename="../prefinterface.cpp" line="778"/>
         <source>Select the icon set you prefer for the application.</source>
         <translation>Odaberite poželjne postavke ikona za aplikaciju.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="701"/>
+        <location filename="../prefinterface.cpp" line="781"/>
         <source>Skin</source>
         <translation>Presvlaka</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="702"/>
+        <location filename="../prefinterface.cpp" line="782"/>
         <source>Select the skin you prefer for the application. Only available with the skinnable GUI.</source>
         <translation>Odaberite željenu presvlaku za aplikaciju. Dostupno samo za GUI s presvlakama.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="705"/>
+        <location filename="../prefinterface.cpp" line="785"/>
         <source>Style</source>
         <translation>Izgled</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="706"/>
+        <location filename="../prefinterface.cpp" line="786"/>
         <source>Select the style you prefer for the application.</source>
         <translation>Odaberite željeni izgled aplikacije.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="709"/>
+        <location filename="../prefinterface.cpp" line="789"/>
         <source>Default font</source>
         <translation>Zadana slova</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="710"/>
+        <location filename="../prefinterface.cpp" line="790"/>
         <source>You can change here the application&apos;s font.</source>
         <translation>Ovdje možete promijeniti slova aplikacije.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="712"/>
+        <location filename="../prefinterface.cpp" line="792"/>
         <source>Seeking</source>
         <translation>Pretraživanje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="714"/>
+        <location filename="../prefinterface.cpp" line="794"/>
         <source>Short jump</source>
         <translation>Kratak skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="715"/>
-        <location filename="../prefinterface.cpp" line="719"/>
-        <location filename="../prefinterface.cpp" line="723"/>
+        <location filename="../prefinterface.cpp" line="795"/>
+        <location filename="../prefinterface.cpp" line="799"/>
+        <location filename="../prefinterface.cpp" line="803"/>
         <source>Select the time that should be go forward or backward when you choose the %1 action.</source>
         <translation>Odaberite pomak vremena prilikom pomicanja naprijed ili natrag kada odaberete %1 radnju.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="716"/>
+        <location filename="../prefinterface.cpp" line="796"/>
         <source>short jump</source>
         <translation>kratak skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="718"/>
+        <location filename="../prefinterface.cpp" line="798"/>
         <source>Medium jump</source>
         <translation>Srednji skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="720"/>
+        <location filename="../prefinterface.cpp" line="800"/>
         <source>medium jump</source>
         <translation>srednji skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="722"/>
+        <location filename="../prefinterface.cpp" line="802"/>
         <source>Long jump</source>
         <translation>Duži skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="724"/>
+        <location filename="../prefinterface.cpp" line="804"/>
         <source>long jump</source>
         <translation>duži skok</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="726"/>
+        <location filename="../prefinterface.cpp" line="806"/>
         <source>Mouse wheel jump</source>
         <translation>Skok kotačićem miša</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="727"/>
+        <location filename="../prefinterface.cpp" line="807"/>
         <source>Select the time that should be go forward or backward when you move the mouse wheel.</source>
         <translation>Odaberite pomak vremena prilikom pomicanja naprijed ili natrag kada pomičete kotačić miša.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="730"/>
+        <location filename="../prefinterface.cpp" line="810"/>
         <source>Behaviour of time slider</source>
         <translation>Ponašanje vremenskog klizača</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="731"/>
+        <location filename="../prefinterface.cpp" line="811"/>
         <source>Select what to do when dragging the time slider.</source>
         <translation>Odaberite što činiti kada se pomiče vremenski klizač.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="745"/>
+        <location filename="../prefinterface.cpp" line="825"/>
         <source>Pressing the stop button once resets the time position</source>
         <translation>Klikom na tipku zaustavljanja jednom poništava se vremenski položaj</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="776"/>
+        <location filename="../prefinterface.cpp" line="856"/>
         <source>Show only when moving the mouse to the bottom of the screen</source>
         <translation>Prikaži samo kada se pokazivačem miša prelazi dnom zaslona</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="777"/>
+        <location filename="../prefinterface.cpp" line="857"/>
         <source>If this option is checked, the floating control will only be displayed when the mouse is moved to the bottom of the screen. Otherwise the control will appear whenever the mouse is moved, no matter its position.</source>
         <translation>Ako je ova mogućnost odabrana, lebdeće kontrole biti će samo prikazane kada se pokazivačem miša prijeđe dnom zaslona. U suprotnom lebdeće kontrole će se pojaviti kada god se pokazivač miša pomakne, neovisno o pložaju na zaslonu.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="782"/>
+        <location filename="../prefinterface.cpp" line="862"/>
         <source>If this option is enabled, the floating control will appear in compact mode too.</source>
         <translation>Ako je ova mogućnost odabrana, lebdeće kontrole će se pojaviti u prikazu jednostavnog prozora.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="784"/>
+        <location filename="../prefinterface.cpp" line="864"/>
         <source>This option only works with the basic GUI.</source>
         <translation>Ova mogućnost radi samo sa osnovnim GUI sučeljem.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="785"/>
+        <location filename="../prefinterface.cpp" line="865"/>
         <source>&lt;b&gt;Warning:&lt;/b&gt; the floating control has not been designed for compact mode and it might not work properly.</source>
         <translation>&lt;b&gt;Upozorenje:&lt;/b&gt; lebdeće kontrole nisu dizajnirane za prikaz jednostavnog prozora i možda neće ispravno raditi.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="788"/>
+        <location filename="../prefinterface.cpp" line="868"/>
         <source>Time to hide the control</source>
         <translation>Vrijeme sakrivanja kontrola</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="789"/>
+        <location filename="../prefinterface.cpp" line="869"/>
         <source>Sets the time (in milliseconds) to hide the control after the mouse went away from the control.</source>
         <translation>Postavite vrijeme sakrivanja kontrola (u milisekundama) nakon što se pokazivač miša udalji od kontrola.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="798"/>
+        <location filename="../prefinterface.cpp" line="878"/>
         <source>Max. URLs</source>
         <translation>Maks. URL-ova</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="799"/>
+        <location filename="../prefinterface.cpp" line="879"/>
         <source>Select the maximum number of items that the &lt;b&gt;Open-&gt;URL&lt;/b&gt; dialog will remember. Set it to 0 if you don&apos;t want any URL to be stored.</source>
         <translation>Odaberite maksimalan broj stavki koje će biti prikazane u &lt;b&gt;Otvori-&gt;URL&lt;/b&gt; dijalogu. Postavite na 0 ako ne želite spremiti URL-ove.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="803"/>
+        <location filename="../prefinterface.cpp" line="883"/>
         <source>Remember last directory</source>
         <translation>Zapamti posljednji direktorij</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="804"/>
+        <location filename="../prefinterface.cpp" line="884"/>
         <source>If this option is checked, SMPlayer will remember the last folder you use to open a file.</source>
         <translation>Ako je odabrana ova mogućnost, SMPlayer će zapamtiti posljednji direktorij korišten pri otvaranju datoteke.</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="544"/>
-        <location filename="../prefinterface.cpp" line="734"/>
+        <location filename="../prefinterface.cpp" line="814"/>
         <source>Seeking method</source>
         <translation>Način pretraživanja</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="735"/>
+        <location filename="../prefinterface.cpp" line="815"/>
         <source>Sets the method to be used when seeking with the slider. Absolute seeking may be a little bit more accurate, while relative seeking may work better with files with a wrong length.</source>
         <translation>Postavite na koji će se način koristiti klizač prilikom pretraživanja. Potpuno pretraživanje je malo preciznije, dok jednostavno pretraživanje radi bolje s datotekama koje imaju pogrešno upisano vrijeme trajanja.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="746"/>
+        <location filename="../prefinterface.cpp" line="826"/>
         <source>By default when the stop button is pressed the time position is remembered so if you press play button the media will resume at the same point. You need to press the stop button twice to reset the time position, but if this option is checked the time position will be set to 0 with only one press of the stop button.</source>
         <translation>Uobičajeno kada je tipka zaustavljanja pritisnuta vremenski položaj je zapamćen, stoga kada se tipka reprodukcije pritisne reprodukcija se nastavlja sa zapamćenog položaja. Morate pritisnuti tipku zaustavljanja dva puta za poništavanje zapamćenog položaja, ali ako je ova mogućnost odabrana vremenski položaj biti će postavljen na 0 samo sa jednim pritiskom na tipku zaustavljanja.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="753"/>
+        <location filename="../prefinterface.cpp" line="833"/>
         <source>Instances</source>
         <translation>Pokrenuti primjerci</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="756"/>
+        <location filename="../prefinterface.cpp" line="836"/>
         <source>Use only one running instance of SMPlayer</source>
         <translation>Koristi samo jedan pokrenuti primjerak SMPlayera</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="757"/>
+        <location filename="../prefinterface.cpp" line="837"/>
         <source>Check this option if you want to use an already running instance of SMPlayer when opening other files.</source>
         <translation>Odaberite ovu mogućnost ako želite koristiti već pokrenuti primjerak SMPlayera kada otvarate druge datoteke.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="211"/>
+        <location filename="../prefinterface.cpp" line="230"/>
         <source>Mini GUI</source>
         <translation>Mini GUI sučelje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="680"/>
+        <location filename="../prefinterface.cpp" line="760"/>
         <source>GUI</source>
         <translation>Grafičko sučelje</translation>
     </message>
@@ -7224,42 +7486,42 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Grafičko sučelje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="761"/>
+        <location filename="../prefinterface.cpp" line="841"/>
         <source>Floating control</source>
         <translation>Lebdeće kontrole</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="763"/>
+        <location filename="../prefinterface.cpp" line="843"/>
         <source>Animated</source>
         <translation>Animirano</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="764"/>
+        <location filename="../prefinterface.cpp" line="844"/>
         <source>If this option is enabled, the floating control will appear with an animation.</source>
         <translation>Ako je ova mogućnost odabrana, lebdeća kontrola će se pojaviti s animacijom.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="767"/>
+        <location filename="../prefinterface.cpp" line="847"/>
         <source>Width</source>
         <translation>Širina</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="768"/>
+        <location filename="../prefinterface.cpp" line="848"/>
         <source>Specifies the width of the control (as a percentage).</source>
         <translation>Određuje širinu kontrola (u postotku).</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="770"/>
+        <location filename="../prefinterface.cpp" line="850"/>
         <source>Margin</source>
         <translation>Udaljenost od dna zaslona</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="771"/>
+        <location filename="../prefinterface.cpp" line="851"/>
         <source>This option sets the number of pixels that the floating control will be away from the bottom of the screen. Useful when the screen is a TV, as the overscan might prevent the control to be visible.</source>
         <translation>Ova mogućnost postavlja broj piksela koliko će biti lebdeća kontrola udaljena od dna zaslona. Korisno kada je zaslon TV, kada zbog nevidljivih obruba zaslona kontrole nisu vidljive.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="781"/>
+        <location filename="../prefinterface.cpp" line="861"/>
         <source>Display in compact mode too</source>
         <translation>Prikaži i u jednostavnom načinu</translation>
     </message>
@@ -7281,6 +7543,7 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../prefinterface.ui" line="716"/>
         <location filename="../prefinterface.ui" line="749"/>
+        <location filename="../prefinterface.ui" line="1025"/>
         <source>0</source>
         <translation>0</translation>
     </message>
@@ -7295,17 +7558,17 @@ Npr: extrastereo,karaoke</translation>
         <translation>Prikaži i u &amp;jednostavnom načinu</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="214"/>
+        <location filename="../prefinterface.cpp" line="233"/>
         <source>Mpc GUI</source>
         <translation>Mpc GUI sučelje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="674"/>
+        <location filename="../prefinterface.cpp" line="754"/>
         <source>Hide video window when playing audio files</source>
         <translation>Sakrij video prozor tijekom reprodukcije zvučnih datoteka</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="675"/>
+        <location filename="../prefinterface.cpp" line="755"/>
         <source>If this option is enabled the video window will be hidden when playing audio files.</source>
         <translation>Ako je ova mogućnost odabrana video prozor biti će sakriven tijekom reprodukcije zvučnih datoteka.</translation>
     </message>
@@ -7315,17 +7578,17 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Sakrij video prozor tijekom reprodukcije zvučnih datoteka</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="740"/>
+        <location filename="../prefinterface.cpp" line="820"/>
         <source>Precise seeking</source>
         <translation>Precizno pretraživanje</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="741"/>
+        <location filename="../prefinterface.cpp" line="821"/>
         <source>If this option is enabled, seeks are more accurate but they can be a little bit slower. May not work with some video formats.</source>
         <translation>Ako je ova mogućnost odabrana, pretraživanja su više preciznija ali mogu biti nešto sporija. Možda neće raditi s nekim video formatima.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="743"/>
+        <location filename="../prefinterface.cpp" line="823"/>
         <source>Note: this option only works with MPlayer2</source>
         <translation>Napomena: ova mogućnost radi samo sa MPlayer2</translation>
     </message>
@@ -7408,134 +7671,134 @@ Npr: extrastereo,karaoke</translation>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="63"/>
+        <location filename="../prefnetwork.cpp" line="67"/>
         <source>Network</source>
         <translation>Mreža</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="190"/>
+        <location filename="../prefnetwork.cpp" line="175"/>
+        <source>it will try to use mpv + youtube-dl only for the sites that require it</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="194"/>
         <source>User agent</source>
         <translation>Korisnički agent</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="75"/>
-        <location filename="../prefnetwork.cpp" line="169"/>
+        <location filename="../prefnetwork.cpp" line="79"/>
+        <location filename="../prefnetwork.cpp" line="173"/>
         <source>Disabled</source>
         <translation>Onemogućena</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="77"/>
-        <location filename="../prefnetwork.cpp" line="171"/>
+        <location filename="../prefnetwork.cpp" line="81"/>
+        <location filename="../prefnetwork.cpp" line="175"/>
         <source>Auto</source>
         <translation>Automatska</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="165"/>
+        <location filename="../prefnetwork.cpp" line="169"/>
         <source>YouTube</source>
         <translation>YouTube</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="167"/>
+        <location filename="../prefnetwork.cpp" line="171"/>
         <source>Support for video sites</source>
         <translation>Podrška za video stranice</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="169"/>
+        <location filename="../prefnetwork.cpp" line="173"/>
         <source>support for video sites is turned off</source>
         <translation>podrška za video stranice je isključena</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="171"/>
-        <source>enables internal support for YouTube and uses mpv + youtube-dl for the rest of the sites</source>
-        <translation>omogućuje unutrašnju podršku za YouTube i koristi mpv + youtube-dl za druge stranice</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="174"/>
+        <location filename="../prefnetwork.cpp" line="178"/>
         <source>only the internal support for YouTube will be used</source>
         <translation>samo će unutrašnja podrška za YouTube biti korištena</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="177"/>
+        <location filename="../prefnetwork.cpp" line="181"/>
         <source>uses mpv + youtube-dl for all sites</source>
         <translation>koristi mpv + youtube-dl za sve stranice</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="187"/>
+        <location filename="../prefnetwork.cpp" line="191"/>
         <source>Playback quality</source>
         <translation>Kvaliteta reprodukcije</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="188"/>
+        <location filename="../prefnetwork.cpp" line="192"/>
         <source>Select the preferred quality for YouTube videos.</source>
         <translation>Odaberite kvalitetu prikazivanja Youtube video snimaka.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="191"/>
+        <location filename="../prefnetwork.cpp" line="195"/>
         <source>Set the user agent that SMPlayer will use when connecting to YouTube.</source>
         <translation>Postavite korisničkog agenta kojeg će SMPlayer koristiti za povezivanje na Youtube.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="202"/>
+        <location filename="../prefnetwork.cpp" line="206"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="204"/>
+        <location filename="../prefnetwork.cpp" line="208"/>
         <source>Enable proxy</source>
         <translation>Omogući proxy</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="205"/>
+        <location filename="../prefnetwork.cpp" line="209"/>
         <source>Enable/disable the use of the proxy.</source>
         <translation>Omogući/Onemogući korištenje proxya.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="207"/>
+        <location filename="../prefnetwork.cpp" line="211"/>
         <source>Host</source>
         <translation>Računalo</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="208"/>
+        <location filename="../prefnetwork.cpp" line="212"/>
         <source>The host name of the proxy.</source>
         <translation>Naziv računala proxya.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="210"/>
+        <location filename="../prefnetwork.cpp" line="214"/>
         <source>Port</source>
         <translation>Ulaz</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="211"/>
+        <location filename="../prefnetwork.cpp" line="215"/>
         <source>The port of the proxy.</source>
         <translation>Ulaz proxya.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="213"/>
+        <location filename="../prefnetwork.cpp" line="217"/>
         <source>Username</source>
         <translation>Korisničko ime</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="214"/>
+        <location filename="../prefnetwork.cpp" line="218"/>
         <source>If the proxy requires authentication, this sets the username.</source>
         <translation>Ako proxy zahtijeva autentifikaciju, ovdje upišite korisničko ime.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="216"/>
+        <location filename="../prefnetwork.cpp" line="220"/>
         <source>Password</source>
         <translation>Lozinka</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="217"/>
+        <location filename="../prefnetwork.cpp" line="221"/>
         <source>The password for the proxy. &lt;b&gt;Warning:&lt;/b&gt; the password will be saved as plain text in the configuration file.</source>
         <translation>Lozinka za proxy. &lt;b&gt;Upozorenje:&lt;/b&gt; lozinka će biti spremljena kao običan tekst u datoteci podešavanja.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="220"/>
+        <location filename="../prefnetwork.cpp" line="224"/>
         <source>Type</source>
         <translation>Vrsta</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="221"/>
+        <location filename="../prefnetwork.cpp" line="225"/>
         <source>Select the proxy type to be used.</source>
         <translation>Odaberite vrstu proxya koji će se koristiti.</translation>
     </message>
@@ -7543,8 +7806,8 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PrefPerformance</name>
     <message>
-        <location filename="../prefperformance.cpp" line="69"/>
-        <location filename="../prefperformance.cpp" line="272"/>
+        <location filename="../prefperformance.cpp" line="74"/>
+        <location filename="../prefperformance.cpp" line="291"/>
         <source>Performance</source>
         <translation>Performanse</translation>
     </message>
@@ -7555,7 +7818,7 @@ Npr: extrastereo,karaoke</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="33"/>
-        <location filename="../prefperformance.cpp" line="276"/>
+        <location filename="../prefperformance.cpp" line="295"/>
         <source>Priority</source>
         <translation>Prioritet</translation>
     </message>
@@ -7605,12 +7868,17 @@ Npr: extrastereo,karaoke</translation>
         <translation>Hardversko &amp;dekôdiranje</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="372"/>
-        <location filename="../prefperformance.ui" line="409"/>
-        <location filename="../prefperformance.ui" line="446"/>
-        <location filename="../prefperformance.ui" line="483"/>
-        <location filename="../prefperformance.ui" line="520"/>
-        <location filename="../prefperformance.ui" line="557"/>
+        <location filename="../prefperformance.ui" line="355"/>
+        <source>A&amp;uto</source>
+        <translation>A&amp;utomatski</translation>
+    </message>
+    <message>
+        <location filename="../prefperformance.ui" line="391"/>
+        <location filename="../prefperformance.ui" line="428"/>
+        <location filename="../prefperformance.ui" line="465"/>
+        <location filename="../prefperformance.ui" line="502"/>
+        <location filename="../prefperformance.ui" line="539"/>
+        <location filename="../prefperformance.ui" line="576"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
@@ -7620,22 +7888,22 @@ Npr: extrastereo,karaoke</translation>
         <translation>Postavljanje priručne memorije može poboljšati performanse sporijih medija</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="282"/>
+        <location filename="../prefperformance.cpp" line="301"/>
         <source>Allow frame drop</source>
         <translation>Dopusti preskok sličica</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="283"/>
+        <location filename="../prefperformance.cpp" line="302"/>
         <source>Skip displaying some frames to maintain A/V sync on slow systems.</source>
         <translation>Preskače prikaz nekih sličica da bi se održala usklađena Slika/Zvuk.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="285"/>
+        <location filename="../prefperformance.cpp" line="304"/>
         <source>Allow hard frame drop</source>
         <translation>Dopusti veći preskok sličica</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="286"/>
+        <location filename="../prefperformance.cpp" line="305"/>
         <source>More intense frame dropping (breaks decoding). Leads to image distortion!</source>
         <translation>Veći preskok sličica (prekida dekôdiranje). Uzrokuje izobličenje slike!</translation>
     </message>
@@ -7665,22 +7933,22 @@ Npr: extrastereo,karaoke</translation>
         <translation>Brzo &amp;traženje poglavlja na DVD-ima</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="336"/>
+        <location filename="../prefperformance.cpp" line="355"/>
         <source>Fast audio track switching</source>
         <translation>Brzo prebacivanje zvučnih zapisa</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="347"/>
+        <location filename="../prefperformance.cpp" line="366"/>
         <source>Fast seek to chapters in dvds</source>
         <translation>Brzo traženje poglavlja na DVD-ima</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="348"/>
+        <location filename="../prefperformance.cpp" line="367"/>
         <source>If checked, it will try the fastest method to seek to chapters but it might not work with some discs.</source>
         <translation>Ako je odabrano, pokušat će upotrijebiti najbrži način traženja poglavlja, ali to neće raditi na nekim diskovima.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="314"/>
+        <location filename="../prefperformance.cpp" line="333"/>
         <source>Skip loop filter</source>
         <translation>Preskoči filter petlje</translation>
     </message>
@@ -7690,37 +7958,37 @@ Npr: extrastereo,karaoke</translation>
         <translation>H.264</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="337"/>
+        <location filename="../prefperformance.cpp" line="356"/>
         <source>Possible values:&lt;br&gt; &lt;b&gt;Yes&lt;/b&gt;: it will try the fastest method to switch the audio track (it might not work with some formats).&lt;br&gt; &lt;b&gt;No&lt;/b&gt;: the MPlayer process will be restarted whenever you change the audio track.&lt;br&gt; &lt;b&gt;Auto&lt;/b&gt;: SMPlayer will decide what to do according to the MPlayer version.</source>
         <translation>Moguće vrijednosti:&lt;br&gt; &lt;b&gt;Da&lt;/b&gt;: to će pokušati izvesti najbrži način za prebacivanje zvučnog zapisa (možda neće raditi sa nekim formatima).&lt;br&gt; &lt;b&gt;Ne&lt;/b&gt;: MPlayer proces biti će ponovno pokrenut svaki puta kada promijenite zvučni zapis.&lt;br&gt; &lt;b&gt;Automatski&lt;/b&gt;: SMPlayer će sam odlučiti što da učini ovisno o MPlayer inačici.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="354"/>
+        <location filename="../prefperformance.cpp" line="376"/>
         <source>Cache for files</source>
         <translation>Priručna memorija za datoteke</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="355"/>
+        <location filename="../prefperformance.cpp" line="377"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a file.</source>
         <translation>Ova mogućnost određuje koliko memorije (u kBajtima) se koristi za priručnu memoriju datoteke.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="358"/>
+        <location filename="../prefperformance.cpp" line="380"/>
         <source>Cache for streams</source>
         <translation>Priručna memorija za streamove</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="359"/>
+        <location filename="../prefperformance.cpp" line="381"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a URL.</source>
         <translation>Ova mogućnost određuje koliko memorije (u kBajtima) se koristi za priručnu memoriju URL-a.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="362"/>
+        <location filename="../prefperformance.cpp" line="384"/>
         <source>Cache for DVDs</source>
         <translation>Priručna memorija za DVD-ove</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="363"/>
+        <location filename="../prefperformance.cpp" line="385"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a DVD.&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; Seeking might not work properly (including chapter switching) when using a cache for DVDs.</source>
         <translation>Ova mogućnost određuje koliko memorije (u kBajtima) se koristi za priručnu memoriju DVD-a.&lt;br&gt;&lt;b&gt;Upozorenje:&lt;/b&gt; Traženje možda neće raditi ispravno (uključujući i prebacivanje poglavlja) kada se koristi priručna memorija za DVD-e.</translation>
     </message>
@@ -7730,32 +7998,32 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Priručna memorija</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="429"/>
+        <location filename="../prefperformance.ui" line="448"/>
         <source>Cache for &amp;DVDs:</source>
         <translation>Priručna memorija za &amp;DVD-e:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="355"/>
+        <location filename="../prefperformance.ui" line="374"/>
         <source>Cache for &amp;local files:</source>
         <translation>Priručna memorija za &amp;lokalne datoteke:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="392"/>
+        <location filename="../prefperformance.ui" line="411"/>
         <source>Cache for &amp;streams:</source>
         <translation>Priručna memorija za &amp;streamove:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="84"/>
+        <location filename="../prefperformance.cpp" line="89"/>
         <source>Enabled</source>
         <translation>Omogućeno</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="85"/>
+        <location filename="../prefperformance.cpp" line="90"/>
         <source>Skip (always)</source>
         <translation>Preskoči (uvijek)</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="86"/>
+        <location filename="../prefperformance.cpp" line="91"/>
         <source>Skip only on HD videos</source>
         <translation>Preskoči samo na HD video zapisima</translation>
     </message>
@@ -7765,7 +8033,7 @@ Npr: extrastereo,karaoke</translation>
         <translation>Filter &amp;petlje</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="315"/>
+        <location filename="../prefperformance.cpp" line="334"/>
         <source>This option allows to skips the loop filter (AKA deblocking) during H.264 decoding. Since the filtered frame is supposed to be used as reference for decoding dependent frames this has a worse effect on quality than not doing deblocking on e.g. MPEG-2 video. But at least for high bitrate HDTV this provides a big speedup with no visible quality loss.</source>
         <translation>Ova mogućnost dopušta vam preskakanje filtra petlje (poznato kao &apos;deblocking&apos;) prilikom H.264 dekôdiranja. Budući da se filtrirana sličica koristi kao polazna vrijednost za dekôdiranje zavisnih sličica to lošije utječe na kvalitetu nego da se &apos;deblocking&apos; ne izvodi na npr. MPEG-2 video zapisima. Ali za video zapise visokih brzina prijenosa HDTV to daje veliko ubrzanje bez vidljivog gubitka kvalitete.</translation>
     </message>
@@ -7776,136 +8044,142 @@ Npr: extrastereo,karaoke</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="34"/>
+        <location filename="../prefperformance.cpp" line="373"/>
         <source>Auto</source>
         <translation>Automatsko</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="277"/>
+        <location filename="../prefperformance.cpp" line="296"/>
         <source>Set process priority for %1 according to the predefined priorities available under Windows.&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; Using realtime priority can cause system lockup.</source>
         <translation>Postavite priortet procesa %1 prema predefiniranim prioritetima dostupnih u Windowsima.&lt;br&gt;&lt;b&gt;Upozorenje:&lt;/b&gt; Koristeći prioritet u stvarnom vremenu može uzrokovati blokadu sustava.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="293"/>
+        <location filename="../prefperformance.cpp" line="312"/>
         <source>Hardware decoding</source>
         <translation>Hardversko dekôdiranje</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="294"/>
+        <location filename="../prefperformance.cpp" line="313"/>
         <source>Sets the hardware video decoding API. If hardware decoding is not possible, software decoding will be used instead.</source>
         <translation>Postavite API hardverskog video dekôdiranja. Ako hardversko dekôdiranje nije moguće koristit će se softversko dekôdiranje.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="296"/>
+        <location filename="../prefperformance.cpp" line="315"/>
         <source>Available options:</source>
         <translation>Dostupne mogućnosti:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="298"/>
+        <location filename="../prefperformance.cpp" line="317"/>
         <source>None: only software decoding will be used.</source>
         <translation>Isključeno: koristit će se samo softversko dekôdiranje.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="299"/>
+        <location filename="../prefperformance.cpp" line="318"/>
         <source>Auto: it tries to automatically enable hardware decoding using the first available method.</source>
         <translation>Automatsko: pokušat će automatski omogućiti hardversko dekôdiranje koristeći prvi dostupan način.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="301"/>
+        <location filename="../prefperformance.cpp" line="320"/>
         <source>vdpau: for the vdpau and opengl video outputs.</source>
         <translation>vdpau: za vdpau i opengl video izlaze.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="302"/>
+        <location filename="../prefperformance.cpp" line="321"/>
         <source>vaapi: for the opengl and vaapi video outputs. For Intel GPUs only.</source>
         <translation>vaapi: za opengl i vaapi video izlaze. Samo za Intel GPU.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="303"/>
+        <location filename="../prefperformance.cpp" line="322"/>
         <source>vaapi-copy: it copies video back into system RAM. For Intel GPUs only.</source>
         <translation>vaapi-copy: kopira video natrag u RAM sustav. Samo za Intel GPU.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="306"/>
+        <location filename="../prefperformance.cpp" line="325"/>
         <source>dxva2-copy: it copies video back to system RAM. Experimental.</source>
         <translation>dxva2-copy: kopira video natrag u RAM sustav. Eksperimentalno.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="310"/>
+        <location filename="../prefperformance.cpp" line="329"/>
         <source>This option only works with mpv.</source>
         <translation>Ova mogućnost radi samo s mpv.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="322"/>
+        <location filename="../prefperformance.cpp" line="341"/>
         <source>Possible values:</source>
         <translation>Moguće vrijednosti:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="323"/>
+        <location filename="../prefperformance.cpp" line="342"/>
         <source>&lt;b&gt;Enabled&lt;/b&gt;: the loop filter is not skipped</source>
         <translation>&lt;b&gt;Omogućeno&lt;/b&gt;: filter petlje nije preskočen</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="324"/>
+        <location filename="../prefperformance.cpp" line="343"/>
         <source>&lt;b&gt;Skip (always)&lt;/b&gt;: the loop filter is skipped no matter the resolution of the video</source>
         <translation>&lt;b&gt;Preskoči (uvijek)&lt;/b&gt;: filter petlje je preskočen bez obzira na razlučivost video zapisa</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="326"/>
+        <location filename="../prefperformance.cpp" line="345"/>
         <source>&lt;b&gt;Skip only on HD videos&lt;/b&gt;: the loop filter will be skipped only on videos which height is %1 or greater.</source>
         <translation>&lt;b&gt;Preskoči samo na HD video zapisima&lt;/b&gt;: filter petlje biti će preskočen samo na video zapisima čija je visina %1 ili veća.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="331"/>
+        <location filename="../prefperformance.cpp" line="350"/>
         <source>Try to use the non-free CoreAVC codec when no other codec is specified and a non-VDPAU video output is selected.</source>
         <translation>Pokušaj koristiti vlasničke CoreAVC kôdeke ako nema zadanih nekih drugih kôdeka i ako nije odabran VDPAU video izlaz.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="333"/>
+        <location filename="../prefperformance.cpp" line="352"/>
         <source>Requires a %1 build with CoreAVC support.</source>
         <translation>Potreban je %1 izgrađen s CoreAVC podrškom.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="352"/>
+        <location filename="../prefperformance.cpp" line="371"/>
         <source>Cache</source>
         <translation>Priručna memorija</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="367"/>
+        <location filename="../prefperformance.cpp" line="374"/>
+        <source>Usually this option will enable the cache when it&apos;s necessary.</source>
+        <translation>Uobičajeno ova mogućnost će omogućiti predmemoriju kada je potrebno.</translation>
+    </message>
+    <message>
+        <location filename="../prefperformance.cpp" line="389"/>
         <source>Cache for audio CDs</source>
         <translation>Priručna memorija za Glazbene CD-e</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="368"/>
+        <location filename="../prefperformance.cpp" line="390"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching an audio CD.</source>
         <translation>Ova mogućnost određuje koliko će se memorije (u kBajtima) koristiti za priručnu memoriju Glazbenog CD-a.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="466"/>
+        <location filename="../prefperformance.ui" line="485"/>
         <source>Cache for &amp;audio CDs:</source>
         <translation>Priručna memorija za &amp;Glazbene CD-e:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="371"/>
+        <location filename="../prefperformance.cpp" line="393"/>
         <source>Cache for VCDs</source>
         <translation>Priručna memorija za VCD-e</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="372"/>
+        <location filename="../prefperformance.cpp" line="394"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a VCD.</source>
         <translation>Ova mogućnost određuje koliko će se memorije (u kBajtima) koristiti za priručnu memoriju VCD-a.</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="503"/>
+        <location filename="../prefperformance.ui" line="522"/>
         <source>Cache for &amp;VCDs:</source>
         <translation>Priručna memorija za &amp;VCD-e:</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="289"/>
+        <location filename="../prefperformance.cpp" line="308"/>
         <source>Threads for decoding</source>
         <translation>Nizovi za dekôdiranje</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="290"/>
+        <location filename="../prefperformance.cpp" line="309"/>
         <source>Sets the number of threads to use for decoding. Only for MPEG-1/2 and H.264</source>
         <translation>Postavite broj nizova za korištenje dekôdiranja. Samo za MPEG-1/2 i H.264</translation>
     </message>
@@ -7915,7 +8189,7 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Nizovi za korištenje dekôdiranja (Samo za MPEG-1/2 i H.264):</translation>
     </message>
     <message>
-        <location filename="../prefperformance.cpp" line="330"/>
+        <location filename="../prefperformance.cpp" line="349"/>
         <source>Use CoreAVC if no other codec specified</source>
         <translation>Koristi CoreAVC ako nema drugih zadanih kôdeka</translation>
     </message>
@@ -7925,7 +8199,7 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Koristi CoreAVC ako nema drugih zadanih kôdeka</translation>
     </message>
     <message>
-        <location filename="../prefperformance.ui" line="540"/>
+        <location filename="../prefperformance.ui" line="559"/>
         <source>Cache for &amp;TV:</source>
         <translation>Priručna memorija za &amp;TV:</translation>
     </message>
@@ -7933,114 +8207,114 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PrefPlaylist</name>
     <message>
-        <location filename="../prefplaylist.cpp" line="35"/>
+        <location filename="../prefplaylist.cpp" line="34"/>
         <source>Playlist</source>
         <translation>Popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="130"/>
+        <location filename="../prefplaylist.cpp" line="129"/>
         <source>Automatically add files to playlist</source>
         <translation>Automatski dodaj datoteke na popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="131"/>
+        <location filename="../prefplaylist.cpp" line="130"/>
         <source>If this option is enabled, every time a file is opened, SMPlayer will first clear the playlist and then add the file to it. In case of DVDs, CDs and VCDs, all titles in the disc will be added to the playlist.</source>
         <translation>Ako je ova mogućnost odabrana, svaki puta kada je datoteka otvorena, SMPlayer prvo će očistiti popis izvođenja a zatim dodati datoteku. U slučaju DVD-a, CD-a i VCD-a, svi naslovi na disku biti će dodani na popis izvođenja.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="47"/>
+        <location filename="../prefplaylist.cpp" line="46"/>
         <source>None</source>
         <translation>Nepoznato</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="48"/>
+        <location filename="../prefplaylist.cpp" line="47"/>
         <source>Video files</source>
         <translation>Video datoteke</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="49"/>
+        <location filename="../prefplaylist.cpp" line="48"/>
         <source>Audio files</source>
         <translation>Zvučne datoteke</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="50"/>
+        <location filename="../prefplaylist.cpp" line="49"/>
         <source>Video and audio files</source>
         <translation>Video i zvučne datoteke</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="51"/>
+        <location filename="../prefplaylist.cpp" line="50"/>
         <source>Consecutive files</source>
         <translation>Uzastopne datoteke</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="136"/>
+        <location filename="../prefplaylist.cpp" line="135"/>
         <source>Add files from folder</source>
         <translation>Dodaj datoteke iz mape</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="137"/>
+        <location filename="../prefplaylist.cpp" line="136"/>
         <source>This option allows to add files automatically to the playlist:</source>
         <translation>Ova mogućnost omogućuje automatsko dodavanje datoteka na popis izvođenja:</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="138"/>
+        <location filename="../prefplaylist.cpp" line="137"/>
         <source>&lt;b&gt;None&lt;/b&gt;: no files will be added</source>
         <translation>&lt;b&gt;Nepoznato&lt;/b&gt;: nijedna datoteka neće biti dodana</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="139"/>
+        <location filename="../prefplaylist.cpp" line="138"/>
         <source>&lt;b&gt;Video files&lt;/b&gt;: all video files found in the folder will be added</source>
         <translation>&lt;b&gt;Video datoteke&lt;/b&gt;: sve video datoteke pronađene u mapi će biti dodane</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="140"/>
+        <location filename="../prefplaylist.cpp" line="139"/>
         <source>&lt;b&gt;Audio files&lt;/b&gt;: all audio files found in the folder will be added</source>
         <translation>&lt;b&gt;Zvučne datoteke&lt;/b&gt;: sve zvučne datoteke pronađene u mapi će biti dodane</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="141"/>
+        <location filename="../prefplaylist.cpp" line="140"/>
         <source>&lt;b&gt;Video and audio files&lt;/b&gt;: all video and audio files found in the folder will be added</source>
         <translation>&lt;b&gt;Video i zvučne datoteke&lt;/b&gt;: sve video i zvučne datoteke pronađene u mapi će biti dodane</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="142"/>
+        <location filename="../prefplaylist.cpp" line="141"/>
         <source>&lt;b&gt;Consecutive files&lt;/b&gt;: consecutive files (like video_1.avi, video_2.avi) will be added</source>
         <translation>&lt;b&gt;Uzastopne datoteke&lt;/b&gt;: uzastopne datoteke (poput video_1.avi, video_2.avi) će biti dodane</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="144"/>
+        <location filename="../prefplaylist.cpp" line="143"/>
         <source>Play files from start</source>
-        <translation>Reproduciraj datoteke od početka</translation>
+        <translation>Reproduciraj datoteke ispočetka</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="145"/>
+        <location filename="../prefplaylist.cpp" line="144"/>
         <source>If this option is enabled, all files from the playlist will start to play from the beginning instead of resuming from a previous playback.</source>
         <translation>Ako je ova mogućnost odabrana, sve datoteke s popisa izvođenja reproducirat će se ispočetka umjesto sa zadnjeg prekinutog položaja.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="154"/>
+        <location filename="../prefplaylist.cpp" line="153"/>
         <source>Get info automatically about files added</source>
         <translation>Dodaj automatski informacije o dodanim datotekama</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="161"/>
+        <location filename="../prefplaylist.cpp" line="160"/>
         <source>Save copy of playlist on exit</source>
         <translation>Spremi kopiju popisa izvođenja na izlazu</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="162"/>
+        <location filename="../prefplaylist.cpp" line="161"/>
         <source>If this option is checked, a copy of the playlist will be saved in the smplayer configuration when smplayer is closed, and it will reloaded automatically when smplayer is run again.</source>
         <translation>Ako je ova mogućnost odabrana, kopija popisa izvođenja će se spremiti u SMplayer podešavanja kada se SMplayer zatvori i ponovno će se učitati kada se SMplayer ponovno pokrene.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="166"/>
+        <location filename="../prefplaylist.cpp" line="165"/>
         <source>Play next file even if the previous file failed</source>
-        <translation>Reproduciraj slijedeću datoteku ako reprodukcija prijašnje nije uspjela</translation>
+        <translation>Reproduciraj sljedeću datoteku ako reprodukcija prijašnje nije uspjela</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="167"/>
+        <location filename="../prefplaylist.cpp" line="166"/>
         <source>If this option is enabled, the playlist will ignore playback errors from a previous file and will play the next file in the list.</source>
-        <translation>Ako je ova mogućnost odabrana, popis izvođenja će zanemariti greške reprodukcije prijašnje datoteke i reproducirati će slijedeću datoteku na popisu.</translation>
+        <translation>Ako je ova mogućnost odabrana, popis izvođenja će zanemariti greške reprodukcije prijašnje datoteke i reproducirati će sljedeću datoteku na popisu.</translation>
     </message>
     <message>
         <location filename="../prefplaylist.ui" line="24"/>
@@ -8053,17 +8327,17 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Automatski dodaj datoteke na popis izvođenja</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="149"/>
+        <location filename="../prefplaylist.cpp" line="148"/>
         <source>Add files in directories recursively</source>
         <translation>Dodaj datoteke iz direktorija uključujući i poddirektorije</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="150"/>
+        <location filename="../prefplaylist.cpp" line="149"/>
         <source>Check this option if you want that adding a directory will also add the files in subdirectories recursively. Otherwise only the files in the selected directory will be added.</source>
         <translation>Odaberite ovu mogućnost ako želite da prilikom dodavanja direktorija budu dodane i datoteke iz poddirektorija. Inače će samo datoteke u odabranom direktoriju biti dodane.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="155"/>
+        <location filename="../prefplaylist.cpp" line="154"/>
         <source>Check this option to inquire the files to be added to the playlist for some info. That allows to show the title name (if available) and length of the files. Otherwise this info won&apos;t be available until the file is actually played. Beware: this option can be slow, specially if you add many files.</source>
         <translation>Označite ovu mogućnost za dodavanje osnovnih informacija datoteka koje će biti dodane na popis izvođenja. To dopušta prikaz naslova zapisa (ako je dostupno) i duljinu trajanja datoteka. Inače ove informacije neće biti dostupne dok se datoteka ne počinje reproducirati. Budite oprezni: ova mogućnost može biti spora, posebno ako dodate mnogo datoteka.</translation>
     </message>
@@ -8075,7 +8349,7 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../prefplaylist.ui" line="103"/>
         <source>P&amp;lay files from start</source>
-        <translation>&amp;Reproduciraj datoteke od početka</translation>
+        <translation>&amp;Reproduciraj datoteke ispočetka</translation>
     </message>
     <message>
         <location filename="../prefplaylist.ui" line="110"/>
@@ -8777,28 +9051,27 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>PreferencesDialog</name>
     <message>
-        <location filename="../preferencesdialog.cpp" line="66"/>
-        <location filename="../preferencesdialog.cpp" line="139"/>
+        <location filename="../preferencesdialog.cpp" line="171"/>
         <source>SMPlayer - Help</source>
         <translation>SMPlayer - Pomoć</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="143"/>
-        <source>OK</source>
-        <translation>U redu</translation>
+        <location filename="../preferencesdialog.cpp" line="176"/>
+        <source>&amp;OK</source>
+        <translation>&amp;U redu</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="144"/>
-        <source>Cancel</source>
-        <translation>Poništi</translation>
+        <location filename="../preferencesdialog.cpp" line="177"/>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Odustani</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="145"/>
+        <location filename="../preferencesdialog.cpp" line="178"/>
         <source>Apply</source>
         <translation>Primjeni</translation>
     </message>
     <message>
-        <location filename="../preferencesdialog.cpp" line="146"/>
+        <location filename="../preferencesdialog.cpp" line="179"/>
         <source>Help</source>
         <translation>Pomoć</translation>
     </message>
@@ -8916,21 +9189,13 @@ Npr: extrastereo,karaoke</translation>
         <location filename="../helper.cpp" line="83"/>
         <location filename="../helper.cpp" line="89"/>
         <source>%n second(s)</source>
-        <translation>
-            <numerusform>%n sekunda</numerusform>
-            <numerusform>%n sekunde</numerusform>
-            <numerusform>%n sekundi</numerusform>
-        </translation>
+        <translation><numerusform>%n sekunda</numerusform><numerusform>%n sekunde</numerusform><numerusform>%n sekundi</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../helper.cpp" line="86"/>
         <location filename="../helper.cpp" line="88"/>
         <source>%n minute(s)</source>
-        <translation>
-            <numerusform>%n minuta</numerusform>
-            <numerusform>%n minute</numerusform>
-            <numerusform>%n minuta</numerusform>
-        </translation>
+        <translation><numerusform>%n minuta</numerusform><numerusform>%n minute</numerusform><numerusform>%n minuta</numerusform></translation>
     </message>
     <message>
         <location filename="../helper.cpp" line="90"/>
@@ -9126,50 +9391,50 @@ Npr: extrastereo,karaoke</translation>
     <message>
         <location filename="../shutdowndialog.cpp" line="42"/>
         <source>Press &lt;b&gt;Cancel&lt;/b&gt; to abort shutdown.</source>
-        <translation>Pritisni &lt;b&gt;Otkaži&lt;/b&gt; za prekidanje isključivanja.</translation>
+        <translation>Pritisni &lt;b&gt;Odustani&lt;/b&gt; za prekidanje isključivanja.</translation>
     </message>
 </context>
 <context>
     <name>SkinGui</name>
     <message>
-        <location filename="../skingui/skingui.cpp" line="391"/>
+        <location filename="../skingui/skingui.cpp" line="395"/>
         <source>&amp;Toolbars</source>
         <translation>&amp;Alatne trake</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="394"/>
+        <location filename="../skingui/skingui.cpp" line="398"/>
         <source>Status&amp;bar</source>
         <translation>Statusna &amp;traka</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="397"/>
+        <location filename="../skingui/skingui.cpp" line="401"/>
         <source>&amp;Main toolbar</source>
         <translation>&amp;Glavna alatna traka</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="401"/>
+        <location filename="../skingui/skingui.cpp" line="405"/>
         <source>Edit main &amp;toolbar</source>
         <translation>Uredi glavnu alatnu &amp;traku</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="403"/>
+        <location filename="../skingui/skingui.cpp" line="407"/>
         <source>Edit &amp;floating control</source>
         <translation>Uredi &amp;lebdeće kontrole</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="407"/>
+        <location filename="../skingui/skingui.cpp" line="411"/>
         <source>&amp;Video info</source>
         <translation>&amp;Video informacije</translation>
     </message>
     <message>
-        <location filename="../skingui/skingui.cpp" line="408"/>
+        <location filename="../skingui/skingui.cpp" line="412"/>
         <source>&amp;Scroll title</source>
         <translation>&amp;Pomiči naslov</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="420"/>
         <source>Playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Reprodukcija</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="421"/>
@@ -9428,13 +9693,33 @@ Npr: extrastereo,karaoke</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="261"/>
+        <source>Current time</source>
+        <translation>Trenutno vrijeme</translation>
+    </message>
+    <message>
+        <location filename="../toolbareditor.cpp" line="263"/>
+        <source>Total time</source>
+        <translation>Ukupno vrijeme</translation>
+    </message>
+    <message>
+        <location filename="../toolbareditor.cpp" line="265"/>
+        <source>Remaining time</source>
+        <translation>Preostalo vrijeme</translation>
+    </message>
+    <message>
+        <location filename="../toolbareditor.cpp" line="267"/>
         <source>3 in 1 rewind</source>
         <translation>3 u 1 premotavanje unazad</translation>
     </message>
     <message>
-        <location filename="../toolbareditor.cpp" line="263"/>
+        <location filename="../toolbareditor.cpp" line="269"/>
         <source>3 in 1 forward</source>
         <translation>3 u 1 premotavanje unaprijed</translation>
+    </message>
+    <message>
+        <location filename="../toolbareditor.cpp" line="271"/>
+        <source>Quick access menu</source>
+        <translation>Izbornik brzog pristupa</translation>
     </message>
 </context>
 <context>
@@ -9606,6 +9891,11 @@ Npr: extrastereo,karaoke</translation>
         <translation>&amp;Vrati na zadano</translation>
     </message>
     <message>
+        <location filename="../videoequalizer.ui" line="330"/>
+        <source>&amp;Close</source>
+        <translation>&amp;Zatvori</translation>
+    </message>
+    <message>
         <location filename="../videoequalizer.cpp" line="101"/>
         <source>Use the current values as default values for new videos.</source>
         <translation>Koristi trenutne vrijednosti kao zadane vrijednosti za nove video snimke.</translation>
@@ -9619,153 +9909,153 @@ Npr: extrastereo,karaoke</translation>
 <context>
     <name>VideoPreview</name>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="441"/>
+        <location filename="../videopreview/videopreview.cpp" line="445"/>
         <source>Video preview</source>
         <translation>Pregled minijatura video zapisa</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="145"/>
+        <location filename="../videopreview/videopreview.cpp" line="146"/>
         <source>Cancel</source>
-        <translation>Poništi</translation>
+        <translation>Odustani</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="144"/>
+        <location filename="../videopreview/videopreview.cpp" line="145"/>
         <source>Thumbnail Generator</source>
         <translation>Generator minijatura</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="147"/>
+        <location filename="../videopreview/videopreview.cpp" line="148"/>
         <source>Generated by SMPlayer</source>
         <translation>Generirao SMPlayer</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="233"/>
+        <location filename="../videopreview/videopreview.cpp" line="234"/>
         <source>Creating thumbnails...</source>
         <translation>Stvaranje minijatura video zapisa...</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="425"/>
+        <location filename="../videopreview/videopreview.cpp" line="429"/>
         <source>Size: %1 MB</source>
         <translation>Veličina: %1 MB</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="427"/>
+        <location filename="../videopreview/videopreview.cpp" line="431"/>
         <source>Length: %1</source>
         <translation>Trajanje: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="597"/>
+        <location filename="../videopreview/videopreview.cpp" line="601"/>
         <source>Save file</source>
         <translation>Spremi datoteku</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="610"/>
+        <location filename="../videopreview/videopreview.cpp" line="614"/>
         <source>Error saving file</source>
         <translation>Greška pri spremanju datoteke</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="611"/>
+        <location filename="../videopreview/videopreview.cpp" line="615"/>
         <source>The file couldn&apos;t be saved</source>
         <translation>Datoteka ne može biti spremljena</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="189"/>
+        <location filename="../videopreview/videopreview.cpp" line="190"/>
         <source>Error</source>
         <translation>Greška</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="190"/>
+        <location filename="../videopreview/videopreview.cpp" line="191"/>
         <source>The following error has occurred while creating the thumbnails:</source>
         <translation>Sljedeća greška je nastala pri stvaranju minijatura video zapisa:</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="216"/>
+        <location filename="../videopreview/videopreview.cpp" line="217"/>
         <source>The temporary directory (%1) can&apos;t be created</source>
         <translation>Privremeni direktorij (%1) ne može biti stvoren</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="346"/>
+        <location filename="../videopreview/videopreview.cpp" line="349"/>
         <source>The mplayer process didn&apos;t run</source>
         <translation>Mplayer proces nije pokrenut</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="426"/>
+        <location filename="../videopreview/videopreview.cpp" line="430"/>
         <source>Resolution: %1x%2</source>
         <translation>Razlučivost: %1x%2</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="430"/>
+        <location filename="../videopreview/videopreview.cpp" line="434"/>
         <source>Video format: %1</source>
         <translation>Format video zapisa: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="431"/>
+        <location filename="../videopreview/videopreview.cpp" line="435"/>
         <source>Frames per second: %1</source>
         <translation>Sličica u sekundi: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="432"/>
+        <location filename="../videopreview/videopreview.cpp" line="436"/>
         <source>Aspect ratio: %1</source>
         <translation>Omjer slike: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="364"/>
+        <location filename="../videopreview/videopreview.cpp" line="367"/>
         <source>The file %1 can&apos;t be loaded</source>
         <translation>Datoteka %1 se ne može očitati</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="467"/>
+        <location filename="../videopreview/videopreview.cpp" line="471"/>
         <source>No filename</source>
         <translation>Nema naziva datoteke</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="555"/>
+        <location filename="../videopreview/videopreview.cpp" line="559"/>
         <source>The mplayer process didn&apos;t start while trying to get info about the video</source>
         <translation>Mplayer proces nije pokrenut prilikom dobivanja informacija o video zapisu</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="207"/>
+        <location filename="../videopreview/videopreview.cpp" line="208"/>
         <source>The length of the video is 0</source>
         <translation>Trajanje video zapisa je 0</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="251"/>
+        <location filename="../videopreview/videopreview.cpp" line="252"/>
         <source>The file %1 doesn&apos;t exist</source>
         <translation>Datoteka %1 ne postoji</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="598"/>
+        <location filename="../videopreview/videopreview.cpp" line="602"/>
         <source>Images</source>
         <translation>Slike</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="414"/>
+        <location filename="../videopreview/videopreview.cpp" line="418"/>
         <source>No info</source>
         <translation>Nema informacije</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="417"/>
-        <location filename="../videopreview/videopreview.cpp" line="418"/>
+        <location filename="../videopreview/videopreview.cpp" line="421"/>
+        <location filename="../videopreview/videopreview.cpp" line="422"/>
         <source>%1 kbps</source>
         <translation>%1 kbps</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="419"/>
+        <location filename="../videopreview/videopreview.cpp" line="423"/>
         <source>%1 Hz</source>
         <translation>%1 Hz</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="435"/>
+        <location filename="../videopreview/videopreview.cpp" line="439"/>
         <source>Video bitrate: %1</source>
         <translation>Brzina prijenosa video zapisa: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="436"/>
+        <location filename="../videopreview/videopreview.cpp" line="440"/>
         <source>Audio bitrate: %1</source>
         <translation>Brzina prijenosa zvučnog zapisa: %1</translation>
     </message>
     <message>
-        <location filename="../videopreview/videopreview.cpp" line="437"/>
+        <location filename="../videopreview/videopreview.cpp" line="441"/>
         <source>Audio rate: %1</source>
         <translation>Frekvencija zvučnog zapisa: %1</translation>
     </message>

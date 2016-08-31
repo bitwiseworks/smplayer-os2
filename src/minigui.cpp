@@ -37,6 +37,7 @@ MiniGui::MiniGui( QWidget * parent, Qt::WindowFlags flags )
 	createActions();
 	createControlWidget();
 	createFloatingControl();
+	populateMainMenu();
 
 #if USE_CONFIGURABLE_TOOLBARS
 	connect( editControlAct, SIGNAL(triggered()), controlwidget, SLOT(edit()) );
@@ -85,11 +86,8 @@ void MiniGui::createActions() {
 	#endif
 #endif
 
-	time_label_action = new TimeLabelAction(this);
+	time_label_action = createTimeLabelAction(TimeLabelAction::CurrentAndTotalTime, this);
 	time_label_action->setObjectName("timelabel_action");
-
-	connect( this, SIGNAL(timeChanged(QString)),
-             time_label_action, SLOT(setText(QString)) );
 
 #if USE_CONFIGURABLE_TOOLBARS
 	editControlAct = new MyAction( this, "edit_control_minigui" );
@@ -127,7 +125,7 @@ void MiniGui::createControlWidget() {
 
 void MiniGui::createFloatingControl() {
 	// Floating control
-	floating_control = new AutohideWidget(panel);
+	floating_control = new AutohideWidget(mplayerwindow);
 	floating_control->setAutoHide(true);
 
 	EditableToolbar * iw = new EditableToolbar(floating_control);
@@ -317,8 +315,9 @@ void MiniGui::loadConfig() {
 		setWindowState( (Qt::WindowStates) set->value("state", 0).toInt() );
 
 		if (!DesktopInfo::isInsideScreen(this)) {
-			move(0,0);
-			qWarning("MiniGui::loadConfig: window is outside of the screen, moved to 0x0");
+			QPoint tl = DesktopInfo::topLeftPrimaryScreen();
+			move(tl);
+			qWarning("DefaultGui::loadConfig: window is outside of the screen, moved to %d x %d", tl.x(), tl.y());
 		}
 	}
 

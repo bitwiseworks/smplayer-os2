@@ -40,6 +40,13 @@
 #include <QPropertyAnimation>
 #endif
 
+//#define HANDLE_GESTURES
+
+#ifdef HANDLE_GESTURES
+#include <QGestureEvent>
+#include <QTapGesture>
+#endif
+
 Screen::Screen(QWidget* parent, Qt::WindowFlags f)
 	: QWidget(parent, f )
 	, check_mouse_timer(0)
@@ -122,16 +129,6 @@ MplayerLayer::MplayerLayer(QWidget* parent, Qt::WindowFlags f)
 #endif
 	, playing(false)
 {
-#ifndef Q_OS_WIN
-	#if QT_VERSION < 0x050000
-	setAttribute(Qt::WA_OpaquePaintEvent);
-	#if QT_VERSION >= 0x040400
-	setAttribute(Qt::WA_NativeWindow);
-	#endif
-	setAttribute(Qt::WA_PaintUnclipped);
-	//setAttribute(Qt::WA_PaintOnScreen);
-	#endif
-#endif
 }
 
 MplayerLayer::~MplayerLayer() {
@@ -142,25 +139,15 @@ void MplayerLayer::setRepaintBackground(bool b) {
 	qDebug("MplayerLayer::setRepaintBackground: %d", b);
 	repaint_background = b;
 }
-
-void MplayerLayer::paintEvent( QPaintEvent * e ) {
-	//qDebug("MplayerLayer::paintEvent: repaint_background: %d", repaint_background);
-	if (repaint_background || !playing) {
-		//qDebug("MplayerLayer::paintEvent: painting");
-		QPainter painter(this);
-		painter.eraseRect( e->rect() );
-		//painter.fillRect( e->rect(), QColor(255,0,0) );
-	}
-}
 #endif
 
 void MplayerLayer::playingStarted() {
 	qDebug("MplayerLayer::playingStarted");
-	repaint();
+//	repaint();
 	playing = true;
 
 #ifndef Q_OS_WIN
-	setAttribute(Qt::WA_PaintOnScreen);
+	if (!repaint_background) setUpdatesEnabled(false);
 #endif
 
 	Screen::playingStarted();
@@ -171,10 +158,10 @@ void MplayerLayer::playingStopped() {
 	playing = false;
 
 #ifndef Q_OS_WIN
-	setAttribute(Qt::WA_PaintOnScreen, false);
+	setUpdatesEnabled(true);
 #endif
 
-	repaint();
+//	repaint();
 	Screen::playingStopped();
 }
 
@@ -210,23 +197,33 @@ MplayerWindow::MplayerWindow(QWidget* parent, Qt::WindowFlags f)
     , start_drag(QPoint(0,0))
     , mouse_drag_tracking(false)
 {
-	setAutoFillBackground(true);
-	ColorUtils::setBackgroundColor( this, QColor(0,0,0) );
-
 	mplayerlayer = new MplayerLayer(this);
 	mplayerlayer->setObjectName("mplayerlayer");
-	mplayerlayer->setAutoFillBackground(true);
 
 	logo = new QLabel( mplayerlayer );
-	logo->setObjectName("mplayerwindow logo");
+	logo->setObjectName("mplayerwindowlogo");
+
+	// Set colors
+#ifdef CHANGE_WIDGET_COLOR
+	setAutoFillBackground(true);
+	ColorUtils::setBackgroundColor( this, QColor(0,0,0) );
+	mplayerlayer->setAutoFillBackground(true);
 	logo->setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( logo, QColor(0,0,0) );
+#else
+	setStyleSheet("MplayerWindow { background-color: black;}");
+	mplayerlayer->setStyleSheet("background-color: black;");
+#endif
 
 	QVBoxLayout * mplayerlayerLayout = new QVBoxLayout( mplayerlayer );
 	mplayerlayerLayout->addWidget( logo, 0, Qt::AlignHCenter | Qt::AlignVCenter );
 
 	setSizePolicy( QSizePolicy::Expanding , QSizePolicy::Expanding );
 	setFocusPolicy( Qt::StrongFocus );
+	
+//#ifdef HANDLE_GESTURES
+	grabGesture(Qt::TapGesture);
+//#endif
 
 	installEventFilter(this);
 	mplayerlayer->installEventFilter(this);
@@ -264,7 +261,9 @@ void MplayerWindow::setCornerWidget(QWidget * w) {
 
 #if USE_COLORKEY
 void MplayerWindow::setColorKey( QColor c ) {
+	#ifdef CHANGE_WIDGET_COLOR
 	ColorUtils::setBackgroundColor( mplayerlayer, c );
+	#endif
 }
 #endif
 
@@ -276,6 +275,12 @@ void MplayerWindow::retranslateStrings() {
 }
 
 void MplayerWindow::setLogoVisible( bool b) {
+	qDebug() << "MplayerWindow::setLogoVisible:" << b;
+
+#if REPAINT_BACKGROUND_OPTION
+	if (b) mplayerlayer->setUpdatesEnabled(true);
+#endif
+
 	if (corner_widget) {
 		corner_widget->setVisible(b);
 	}
@@ -481,7 +486,20 @@ void MplayerWindow::wheelEvent( QWheelEvent * e ) {
 }
 
 bool MplayerWindow::eventFilter( QObject * object, QEvent * event ) {
-
+#ifdef HANDLE_GESTURES
+	if (event->type() == QEvent::Gesture) {
+		qDebug() << "MplayerWindow::eventFilter: event:" << event;
+		QGestureEvent * ge = static_cast<QGestureEvent*>(event);
+		qDebug() << "MplayerWindow::eventFilter: ge:" << ge;
+		if (QGesture * tap = ge->gesture(Qt::TapGesture)) {
+			QTapGesture * tg = static_cast<QTapGesture *>(tap);
+			qDebug() << "MplayerWindow::eventFilter: tg:" << tg;
+			event->setAccepted(true);
+			return false;
+		}
+	}
+#endif
+	
     if (!mouse_drag_tracking)
         return false;
 
@@ -640,7 +658,7 @@ void MplayerWindow::changeEvent(QEvent *e) {
 	if (e->type() == QEvent::LanguageChange) {
 		retranslateStrings();
 	} else {
-		QWidget::changeEvent(e);
+		Screen::changeEvent(e);
 	}
 }
 

@@ -90,7 +90,7 @@
 
 // Just for testing, possibility to disable the use of the colorkey
 
-#define USE_COLORKEY 1
+#define USE_COLORKEY 0
 
 
 // USE_MINIMUMSIZE
@@ -120,14 +120,14 @@
 
 
 // Adds or not the "Repaint the background of the video window" option.
-//#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN
 #define REPAINT_BACKGROUND_OPTION 1
-//#endif
+#endif
 
 
 // Enables/disables the use of -adapter
 #ifdef Q_OS_WIN
-#define USE_ADAPTER 1
+#define USE_ADAPTER 0
 #define OVERLAY_VO "directx"
 //#define OVERLAY_VO "xv"
 #endif

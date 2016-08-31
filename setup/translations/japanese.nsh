@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Japanese" "日本語"
+!else
+!insertmacro LANGFILE "Japanese" = "日本語" "Nihongo"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "インストーラーは既に実行中です。"
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "このプログラムをインストール
 ${LangFileString} SMPlayer_Is_Running "SMPlayer のインスタンスが実行中です。SMPlayer を終了してやり直してください。"
 
 ${LangFileString} OS_Not_Supported "サポートされていないオペレーティング システムです。$\nSMPlayer ${SMPLAYER_VERSION} は Windows XP 以上を必要とし、お使いのシステムでは正常に動作しない可能性があります。$\n本当にインストールを続行しますか?"
+${LangFileString} OS_Not_Supported_VistaRequired "サポートされていないオペレーティング システムです。$\nSMPlayer ${SMPLAYER_VERSION} は Windows Vista 以上を必要とし、お使いのシステムでは正常に動作しない可能性があります。$\n本当にインストールを続行しますか?"
 ${LangFileString} Win64_Required "このソフトウェアをインストールするには 64 ビットの Windows オペレーティング システムが必要です。"
 ${LangFileString} Existing_32bitInst "32 ビットの SMPlayer が既にインストールされています。先に 32 ビットの SMPlayer をアンインストールする必要があります。"
 ${LangFileString} Existing_64bitInst "64 ビットの SMPlayer が既にインストールされています。先に 64 ビットの SMPlayer をアンインストールする必要があります。"
@@ -56,7 +61,7 @@ ${LangFileString} Section_Translations_Desc "SMPlayer の英語以外のの言�
 
 ${LangFileString} Section_ResetSettings_Desc "前のインストールから残っている SMPlayer の環境設定を削除します。"
 
-${LangFileString} MPlayer_Codec_Msg "バイナリ コーデック パッケージは新しい RealVideo 派生や多くの希少なフォーマットなど、まだ自然には実装されていないコーデックへのサポートを追加します。$\nDVD、MPEG-1/2/4 などの最も一般的なフォーマットの再生には必要でないことにご注意ください。"
+${LangFileString} MPlayer_Codec_Msg "バイナリ コーデック パッケージは新しい RealVideo 派生や多くの希少な形式など、まだ自然には実装されていないコーデックへのサポートを追加します。$\nDVD、MPEG-1/2/4 などの最も一般的なフォーマットの再生には必要でないことにご注意ください。"
 
 ; Upgrade/Reinstall Page
 ${LangFileString} Reinstall_Header_Text "インストールの種類の選択"
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "mpv のインストールに失敗しまし�
 ${LangFileString} YTDL_DL_Retry "youtube-dl は正常にインストールされませんでした。再試行しますか?"
 ${LangFileString} YTDL_DL_Failed "youtube-dl のダウンロードに失敗しました: '$R0'。"
 ${LangFileString} YTDL_Update_Check "youtube-dl の更新を確認しています..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "fontconfig キャッシュをクリーンアップしてます..."

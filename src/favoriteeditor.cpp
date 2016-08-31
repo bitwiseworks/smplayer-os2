@@ -24,11 +24,14 @@
 #include <QItemDelegate>
 #include "filechooser.h"
 
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
+
 #define COL_ICON 0
 #define COL_NAME 1
 #define COL_FILE 2
 
-#include <QItemDelegate>
 
 class FEDelegate : public QItemDelegate 
 {
@@ -83,8 +86,8 @@ FavoriteEditor::FavoriteEditor( QWidget* parent, Qt::WindowFlags f )
 {
 	setupUi(this);
 
-	add_button->setIcon( Images::icon("bookmark_add") );
-	add_submenu_button->setIcon( Images::icon("bookmark_folder") );
+	add_button->setIcon( Images::icon("favorite-add") );
+	add_submenu_button->setIcon( Images::icon("favorite-folder") );
 	delete_button->setIcon( Images::icon("delete") );
 	delete_all_button->setIcon( Images::icon("trash") );
 	up_button->setIcon( Images::icon("up") );
@@ -95,13 +98,15 @@ FavoriteEditor::FavoriteEditor( QWidget* parent, Qt::WindowFlags f )
 
 	table->setAlternatingRowColors(true);
 #if QT_VERSION >= 0x050000
+	MyScroller::setScroller(table->viewport());
+
 	table->horizontalHeader()->setSectionResizeMode(COL_FILE, QHeaderView::Stretch);
 #else
 	table->horizontalHeader()->setResizeMode(COL_FILE, QHeaderView::Stretch);
 #endif
 
 	table->setSelectionBehavior(QAbstractItemView::SelectRows);
-	table->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	table->setSelectionMode(QAbstractItemView::SingleSelection);
 
 	table->setItemDelegateForColumn( COL_NAME, new FEDelegate(table) );
 	table->setItemDelegateForColumn( COL_FILE, new FEDelegate(table) );
@@ -114,7 +119,7 @@ FavoriteEditor::FavoriteEditor( QWidget* parent, Qt::WindowFlags f )
 	setIntro( tr("You can edit, delete, sort or add new items. Double click on "
                  "a cell to edit its contents.") );
 
-	setDialogIcon( Images::icon("favorite") );
+	setDialogIcon( Images::icon("favorite", 64) );
 }
 
 FavoriteEditor::~FavoriteEditor() {

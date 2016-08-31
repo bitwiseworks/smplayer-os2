@@ -1,3 +1,181 @@
+Version 16.8:
+
+(2016-07-23)
+ * Ignore the buffering state in checkStayOnTop.
+
+(2016-07-20)
+ * Don't try to resize the main window when it's maximized.
+
+(2016-07-19)
+ * (Playlist) Display an animation when loading.
+
+(2016-07-18)
+ * Possibility to download playlists from internet.
+
+(2016-07-16)
+ * The playlist settings are now saved to its own ini file (playlist.ini).
+
+(2016-07-14)
+ * Use the mpv ab-loop options.
+
+(2016-07-11)
+ * Don't use softvol and softvol-max with mpv 0.18.1.
+
+(2016-07-10)
+ * Possibility to search (filter) in  the playlist.
+
+(2016-07-08)
+ * Lots of internal changes in the playlist.
+
+
+Version 16.7:
+
+(2016-06-29)
+ * The find subtitles window has a close button in the title bar.
+
+(2016-06-23)
+ * Fix youtube.
+
+(2016-06-22)
+ * (mpv) Don't pass the URL to youtube-dl if it contains a multimedia extension.
+
+(2016-06-21)
+ * The names in the playlist are not replaced with the title from metadata.
+
+(2016-06-19)
+ * Save the hdpi config in the smplayer config dir.
+
+(2016-06-17)
+ * Selecting the 'default' style in preferences selects the system's
+   default style, instead of Fusion.
+
+(2016-06-15)
+ * Bugfix: (Qt 5) the playlist can be resized when docked to the main window.
+ * Don't change the style's palette on linux.
+
+(2016-06-14)
+ * (mpv) Update the current position in the seek bar on pause.
+ * In Qt 5 on linux accelerators in the numeric keypad don't work due
+   to a bug in Qt 5. Added a workaround.
+
+
+Version 16.6:
+
+(2016-06-05)
+ * Add option "remember settings for streams" in Preferences -> General.
+
+(2016-05-27)
+ * Use the mplayer/mpv default video and audio output.
+
+(2016-05-25)
+ * Disable the global shortcuts when opening the preferences dialog.
+
+(2016-05-23)
+ * Add an option to display the format info in the status bar.
+
+(2016-05-17)
+ * Add a quick access menu.
+
+(2016-05-15)
+ * Don't use a border in the style of the tooltip. For some reason the
+   text is cut off with it.
+
+(2016-05-13)
+ * Add options in Preferences -> Interface to configure the high DPI
+   support.
+
+(2016-05-12)
+ * Possibility to display the section area in the preferences dialog in
+   icon mode.
+
+(2016-05-10)
+ * Add an option to set the cache to auto in Preferences -> Performance.
+ * Don't change the playlist to floating state when entering fullscreen,
+   if using Qt5 on linux. Seems to fix a problem when using Compiz.
+
+(2016-05-09)
+ * Increase the height of the audio equalizer.
+ * Set the OSD to Seek as default.
+ * Set the drag function to MoveWindow as default.
+
+(2016-05-08)
+ * Change the default values for outline and shadow of the ASS style.
+ * Use mpv as default if available.
+ * Remove the border of the tooltips. Otherwise, for some reason, the
+   text is not shown complete.
+
+(2016-05-06)
+ * Use the style 'fusion' as default with Qt 5.
+
+(2016-05-05)
+ * Improve drag & drop on the main window. Now it allows to drop several
+   folders and files.
+
+(2016-05-02)
+ * (Windows) Use the 'normal' priority by default.
+ * Possibility to use the media keys as global shortcurts (option in
+   Prefences -> Keyboard).
+
+(2016-04-28)
+ * Don't use the language toolbar.
+ * Add the audio and subtitle track menus to the toolbar and increase the
+   default size of the toolbar icons.
+
+(2016-04-27)
+ * Add close buttons to the audio and video equalizers.
+
+(2016-04-26)
+ * Disable the secondary subtitles and frame step back when using mplayer,
+   and the karaoke filter when using mpv.
+
+(2016-04-24)
+ * Don't use a dockable playlist on linux with Qt 5 because the
+   dockable one causes trouble when compiz is enabled.
+
+(2016-04-23)
+ * Ask the user if SMPlayer should change the tablet mode if the
+   system (Windows 10) has changed to tablet mode.
+
+(2016-04-22)
+ * New option 'Send video to screen' in the video menu.
+   This option allows to display the video (in fullscreen) on a
+   second screen while controlling the player in the computer's
+   screen.
+ * Add an option to show information about the connected screens
+   (menu View).
+
+(2016-04-17)
+ * Hide some options from menus in tablet mode.
+ * Now it's possible to add the recents menu to a toolbar.
+
+(2016-04-16)
+ * Add a tablet mode (menu Options).
+   When enabled, it changes some elements of the GUI so that's easy
+   to use it on a touch screen.
+
+(2016-04-15)
+ * (Videopreview) Fix show duration with Qt 5.
+ * Move the OSD menu to the view menu.
+
+(2016-04-14)
+ * Add new menu 'view'.
+
+(2016-04-12)
+ * Fixes for Qt 5.
+
+(2016-04-10)
+ * Better support for touch screens.
+
+(2016-04-06)
+ * Support for high DPI (requires Qt 5.4 or greater).
+
+(2016-04-04)
+ * Settings for streams can also be remembered.
+
+(2016-04-01)
+ * The mpcgui works now with Qt 5 as well.
+
+
 Version 16.4:
 
 (2016-03-25)

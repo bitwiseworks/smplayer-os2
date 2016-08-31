@@ -73,7 +73,7 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 #endif
 
 	// Screensaver
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	screensaver_check->hide();
 	#ifndef SCREENSAVER_OFF
 	turn_screensaver_off_check->hide();
@@ -134,7 +134,7 @@ QString PrefGeneral::sectionName() {
 }
 
 QPixmap PrefGeneral::sectionIcon() {
-	return Images::icon("pref_general", 22);
+	return Images::icon("pref_general");
 }
 
 void PrefGeneral::retranslateStrings() {
@@ -214,40 +214,13 @@ void PrefGeneral::setData(Preferences * pref) {
 	setScreenshotFormat(pref->screenshot_format);
 #endif
 
-	QString vo = pref->vo;
-	if (vo.isEmpty()) {
-#ifdef Q_OS_WIN
-		if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA) {
-			vo = "direct3d,";
-		} else {
-			vo = "directx,";
-		}
-#else
-#ifdef Q_OS_OS2
-		vo = "kva";
-#else
-		vo = "xv,";
-#endif
-#endif
-	}
-	setVO( vo );
+	setVO( pref->vo );
+	setAO( pref->ao );
 
-	QString ao = pref->ao;
+	setRememberSettings( pref->remember_media_settings );
+	setRememberTimePos( pref->remember_time_pos );
+	remember_streams_check->setChecked(pref->remember_stream_settings);
 
-#ifdef Q_OS_OS2
-	if (ao.isEmpty()) {
-		if (pref->mplayer_detected_version >= MPLAYER_KAI_VERSION) {
-			ao = "kai";
-		} else {
-			ao = "dart";
-		}
-	}
-#endif
-
-	setAO( ao );
-
-	setRememberSettings( !pref->dont_remember_media_settings );
-	setRememberTimePos( !pref->dont_remember_time_pos );
 	setFileSettingsMethod( pref->file_settings_method );
 	setAudioLang( pref->audio_lang );
 	setSubtitleLang( pref->subtitle_lang );
@@ -277,7 +250,7 @@ void PrefGeneral::setData(Preferences * pref) {
 	setBlackbordersOnFullscreen( pref->add_blackborders_on_fullscreen );
 	setAutoq( pref->autoq );
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	setTurnScreensaverOff( pref->turn_screensaver_off );
 	#endif
@@ -330,11 +303,9 @@ void PrefGeneral::getData(Preferences * pref) {
 	TEST_AND_SET(pref->vo, VO());
 	TEST_AND_SET(pref->ao, AO());
 
-	bool dont_remember_ms = !rememberSettings();
-    TEST_AND_SET(pref->dont_remember_media_settings, dont_remember_ms);
-
-	bool dont_remember_time = !rememberTimePos();
-	TEST_AND_SET(pref->dont_remember_time_pos, dont_remember_time);
+	TEST_AND_SET(pref->remember_media_settings, rememberSettings());
+	TEST_AND_SET(pref->remember_time_pos, rememberTimePos());
+	TEST_AND_SET(pref->remember_stream_settings, remember_streams_check->isChecked());
 
 	if (pref->file_settings_method != fileSettingsMethod()) {
 		pref->file_settings_method = fileSettingsMethod();
@@ -375,7 +346,7 @@ void PrefGeneral::getData(Preferences * pref) {
 	}
 	TEST_AND_SET(pref->autoq, autoq());
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	TEST_AND_SET(pref->turn_screensaver_off, turnScreensaverOff());
 	#endif
@@ -407,32 +378,32 @@ void PrefGeneral::updateDriverCombos() {
 	vo_combo->clear();
 	ao_combo->clear();
 
-	vo_combo->addItem(tr("Default"), "player_default");
-	ao_combo->addItem(tr("Default"), "player_default");
+	vo_combo->addItem(tr("Default"), "");
+	ao_combo->addItem(tr("Default"), "");
 
 	QString vo;
 	for ( int n = 0; n < vo_list.count(); n++ ) {
 		vo = vo_list[n].name();
-#ifdef Q_OS_WIN
+		#ifdef Q_OS_WIN
 		if ( vo == "directx" ) {
 			vo_combo->addItem( "directx (" + tr("fast") + ")", "directx" );
 			vo_combo->addItem( "directx (" + tr("slow") + ")", "directx:noaccel" );
 		}
 		else
-#else
-#ifdef Q_OS_OS2
+		#else
+		#ifdef Q_OS_OS2
 		if ( vo == "kva") {
 			vo_combo->addItem( "kva (" + tr("fast") + ")", "kva" );
 			vo_combo->addItem( "kva (" + tr("snap mode") + ")", "kva:snap" );
 			vo_combo->addItem( "kva (" + tr("slower dive mode") + ")", "kva:dive" );
 		}
 		else
-#else
+		#else
 		/*
 		if (vo == "xv") vo_combo->addItem( "xv (" + tr("fastest") + ")", vo);
 		else
 		*/
-#if USE_XV_ADAPTORS
+		#if USE_XV_ADAPTORS
 		if ((vo == "xv") && (!xv_adaptors.isEmpty())) {
 			vo_combo->addItem(vo, vo);
 			for (int n=0; n < xv_adaptors.count(); n++) {
@@ -441,9 +412,9 @@ void PrefGeneral::updateDriverCombos() {
 			}
 		}
 		else
-#endif // USE_XV_ADAPTORS
-#endif
-#endif
+		#endif // USE_XV_ADAPTORS
+		#endif
+		#endif
 		if (vo == "x11") vo_combo->addItem( "x11 (" + tr("slow") + ")", vo);
 		else
 		if (vo == "gl") {
@@ -477,28 +448,28 @@ void PrefGeneral::updateDriverCombos() {
 	for ( int n = 0; n < ao_list.count(); n++) {
 		ao = ao_list[n].name();
 		ao_combo->addItem( ao, ao );
-#ifdef Q_OS_OS2
+		#ifdef Q_OS_OS2
 		if ( ao == "kai") {
 			ao_combo->addItem( "kai (" + tr("uniaud mode") + ")", "kai:uniaud" );
 			ao_combo->addItem( "kai (" + tr("dart mode") + ")", "kai:dart" );
 		}
-#endif
-#if USE_ALSA_DEVICES
+		#endif
+		#if USE_ALSA_DEVICES
 		if ((ao == "alsa") && (!alsa_devices.isEmpty())) {
 			for (int n=0; n < alsa_devices.count(); n++) {
 				ao_combo->addItem( "alsa (" + alsa_devices[n].ID().toString() + " - " + alsa_devices[n].desc() + ")", 
                                    "alsa:device=hw=" + alsa_devices[n].ID().toString() );
 			}
 		}
-#endif
-#if USE_DSOUND_DEVICES
+		#endif
+		#if USE_DSOUND_DEVICES
 		if ((ao == "dsound") && (!dsound_devices.isEmpty())) {
 			for (int n=0; n < dsound_devices.count(); n++) {
 				ao_combo->addItem( "dsound (" + dsound_devices[n].ID().toString() + " - " + dsound_devices[n].desc() + ")", 
                                    "dsound:device=" + dsound_devices[n].ID().toString() );
 			}
 		}
-#endif
+		#endif
 	}
 	ao_combo->addItem( tr("User defined..."), "user_defined" );
 
@@ -863,7 +834,7 @@ bool PrefGeneral::startInFullscreen() {
 	return start_fullscreen_check->isChecked();
 }
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 #ifdef AVOID_SCREENSAVER
 void PrefGeneral::setAvoidScreensaver(bool b) {
 	avoid_screensaver_check->setChecked(b);
@@ -1005,6 +976,9 @@ void PrefGeneral::createHelp() {
            "of the file when you open it again. This option works only with "
            "regular files (not with DVDs, CDs, URLs...).") );
 
+	setWhatsThis(remember_streams_check, tr("Remember settings for streams"),
+		tr("When this option is enabled the settings for online streams will be remembered as well."));
+
 	setWhatsThis(filesettings_method_combo, tr("Method to store the file settings"),
 		tr("This option allows to change the way the file settings would be "
            "stored. The following options are available:") +"<ul><li>" + 
@@ -1063,17 +1037,7 @@ void PrefGeneral::createHelp() {
 	addSectionTitle(tr("Video"));
 
 	setWhatsThis(vo_combo, tr("Video output driver"),
-		tr("Select the video output driver. %1 provides the best performance.")
-#ifdef Q_OS_WIN
-		  .arg("<b><i>directx</i></b>")
-#else
-#ifdef Q_OS_OS2
-		  .arg("<b><i>kva</i></b>")
-#else
-		  .arg("<b><i>xv</i></b>")
-#endif
-#endif
-		);
+		tr("Select the video output driver."));
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 	/*
@@ -1134,7 +1098,7 @@ void PrefGeneral::createHelp() {
            "some video drivers (like gl) are already able to display the "
            "subtitles automatically in the black borders.") */ );
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	setWhatsThis(turn_screensaver_off_check, tr("Switch screensaver off"),
 		tr("This option switches the screensaver off just before starting to "
@@ -1161,24 +1125,7 @@ void PrefGeneral::createHelp() {
 	addSectionTitle(tr("Audio"));
 
 	setWhatsThis(ao_combo, tr("Audio output driver"),
-		tr("Select the audio output driver.") 
-#ifndef Q_OS_WIN
-#ifdef Q_OS_OS2
-        + " " +
-		tr("%1 is the recommended one. %2 is only available on older MPlayer (before version %3)")
-           .arg("<b><i>kai</i></b>")
-           .arg("<b><i>dart</i></b>")
-           .arg(MPLAYER_KAI_VERSION)
-#else
-        + " " + 
-		tr("%1 is the recommended one. Try to avoid %2 and %3, they are slow "
-           "and can have an impact on performance.")
-           .arg("<b><i>alsa</i></b>")
-           .arg("<b><i>esd</i></b>")
-           .arg("<b><i>arts</i></b>")
-#endif
-#endif
-		);
+		tr("Select the audio output driver."));
 
 	setWhatsThis(audio_equalizer_check, tr("Enable the audio equalizer"),
 		tr("Check this option if you want to use the audio equalizer.") );

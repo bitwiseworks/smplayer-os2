@@ -62,6 +62,7 @@ protected:
 	void createFloatingControl();
 	void createActions();
 	void createMenus();
+	virtual void populateMainMenu();
 
 	void loadConfig();
 	void saveConfig();
@@ -73,7 +74,6 @@ protected:
 
 protected slots:
 	virtual void updateWidgets();
-	virtual void displayTime(QString text);
 	virtual void displayState(Core::State state);
 	virtual void displayMessage(QString message, int time);
 	virtual void displayMessage(QString message);

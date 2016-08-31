@@ -60,11 +60,15 @@ protected:
 	void setCacheForVCDs(int n);
 	int cacheForVCDs();
 
+#ifdef TV_SUPPORT
 	void setCacheForTV(int n);
 	int cacheForTV();
+#endif
 
+#ifdef Q_OS_WIN
 	void setPriority(int n);
 	int priority();
+#endif
 
 	void setFrameDrop(bool b);
 	bool frameDrop();

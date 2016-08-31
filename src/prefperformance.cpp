@@ -44,7 +44,6 @@ PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
 	hwdec_combo->addItem("dxva2-copy", "dxva2-copy");
 	#endif
 
-	// Priority is only for windows, so we disable for other systems
 #ifndef Q_OS_WIN
 	priority_group->hide();
 #endif
@@ -56,6 +55,12 @@ PrefPerformance::PrefPerformance(QWidget * parent, Qt::WindowFlags f)
 #ifndef OBSOLETE_FAST_AUDIO_CHANGE
 	fast_audio_label->hide();
 	fast_audio_combo->hide();
+#endif
+
+#ifndef TV_SUPPORT
+	cachetv_label->hide();
+	cache_tv_spin->hide();
+	cachetv_label2->hide();
 #endif
 
 	retranslateStrings();
@@ -70,7 +75,7 @@ QString PrefPerformance::sectionName() {
 }
 
 QPixmap PrefPerformance::sectionIcon() {
-    return Images::icon("pref_performance", 22);
+	return Images::icon("pref_performance");
 }
 
 
@@ -92,14 +97,19 @@ void PrefPerformance::retranslateStrings() {
 }
 
 void PrefPerformance::setData(Preferences * pref) {
+	cache_auto_check->setChecked(pref->cache_auto);
 	setCacheForFiles( pref->cache_for_files );
 	setCacheForStreams( pref->cache_for_streams );
 	setCacheForDVDs( pref->cache_for_dvds );
 	setCacheForAudioCDs( pref->cache_for_audiocds );
 	setCacheForVCDs( pref->cache_for_vcds );
+#ifdef TV_SUPPORT
 	setCacheForTV( pref->cache_for_tv );
+#endif
 
+#ifdef Q_OS_WIN
 	setPriority( pref->priority );
+#endif
 	setFrameDrop( pref->frame_drop );
 	setHardFrameDrop( pref->hard_frame_drop );
 	setCoreavcUsage( pref->coreavc );
@@ -117,14 +127,19 @@ void PrefPerformance::setData(Preferences * pref) {
 void PrefPerformance::getData(Preferences * pref) {
 	requires_restart = false;
 
+	TEST_AND_SET(pref->cache_auto, cache_auto_check->isChecked());
 	TEST_AND_SET(pref->cache_for_files, cacheForFiles());
 	TEST_AND_SET(pref->cache_for_streams, cacheForStreams());
 	TEST_AND_SET(pref->cache_for_dvds, cacheForDVDs());
 	TEST_AND_SET(pref->cache_for_audiocds, cacheForAudioCDs());
 	TEST_AND_SET(pref->cache_for_vcds, cacheForVCDs());
+#ifdef TV_SUPPORT
 	TEST_AND_SET(pref->cache_for_tv, cacheForTV());
+#endif
 
+#ifdef Q_OS_WIN
 	TEST_AND_SET(pref->priority, priority());
+#endif
 	TEST_AND_SET(pref->frame_drop, frameDrop());
 	TEST_AND_SET(pref->hard_frame_drop, hardFrameDrop());
 	TEST_AND_SET(pref->coreavc, coreavcUsage())
@@ -179,6 +194,7 @@ int PrefPerformance::cacheForVCDs() {
 	return cache_vcds_spin->value();
 }
 
+#ifdef TV_SUPPORT
 void PrefPerformance::setCacheForTV(int n) {
 	cache_tv_spin->setValue(n);
 }
@@ -186,7 +202,9 @@ void PrefPerformance::setCacheForTV(int n) {
 int PrefPerformance::cacheForTV() {
 	return cache_tv_spin->value();
 }
+#endif
 
+#ifdef Q_OS_WIN
 void PrefPerformance::setPriority(int n) {
 	priority_combo->setCurrentIndex(n);
 }
@@ -194,6 +212,7 @@ void PrefPerformance::setPriority(int n) {
 int PrefPerformance::priority() {
 	return priority_combo->currentIndex();
 }
+#endif
 
 void PrefPerformance::setFrameDrop(bool b) {
 	framedrop_check->setChecked(b);
@@ -351,7 +370,10 @@ void PrefPerformance::createHelp() {
 
 	addSectionTitle(tr("Cache"));
 
-	setWhatsThis(cache_files_spin, tr("Cache for files"), 
+	setWhatsThis(cache_auto_check, tr("Auto"),
+		tr("Usually this option will enable the cache when it's necessary."));
+
+	setWhatsThis(cache_files_spin, tr("Cache for files"),
 		tr("This option specifies how much memory (in kBytes) to use when "
            "precaching a file.") );
 

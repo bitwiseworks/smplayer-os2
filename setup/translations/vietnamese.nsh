@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Vietnamese" "Tiếng Việt"
+!else
+!insertmacro LANGFILE "Vietnamese" = "Tiếng Việt" "Tieng Viet"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Trình cài đặt đang chạy."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Bạn phải đăng nhập tài khoản qu
 ${LangFileString} SMPlayer_Is_Running "Một tiến trình của SMPlayer đang chạy. Hãy thoát SMPlayer và thử lại."
 
 ${LangFileString} OS_Not_Supported "Hệ điều hành không được hỗ trợ.$\nSMPlayer ${SMPLAYER_VERSION} yêu cầu thấp nhất là Windows XP và có thể không hoạt động đúng cách trên hệ thống của bạn.$\nBạn thật sự muốn tiếp tục cài đặt?"
+${LangFileString} OS_Not_Supported_VistaRequired "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows Vista and may not work correctly on your system.$\nDo you really want to continue with the installation?"
 ${LangFileString} Win64_Required "Yêu cầu hệ điều hành Windows 64-bit để cài đặt phần mềm này."
 ${LangFileString} Existing_32bitInst "Bản cài đặt 32-bit của SMPlayer đang tồn tại. Bạn phải gỡ bỏ bản 32-bit của SMPlayer trước."
 ${LangFileString} Existing_64bitInst "Bản cài đặt 64-bit của SMPlayer đang tồn tại. Bạn phải gỡ bỏ bản 64-bit của SMPlayer trước."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Failed to install mpv."
 ${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
 ${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."

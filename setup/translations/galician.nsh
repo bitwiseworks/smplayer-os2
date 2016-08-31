@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Galician" "Galego"
+!else
+!insertmacro LANGFILE "Galician" = "Galego" =
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Xa se está executando o instalador."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Debe acceder como administrador para insta
 ${LangFileString} SMPlayer_Is_Running "Xa se está executando unha instancia do SMPlayer. Peche o programa e ténteo de novo."
 
 ${LangFileString} OS_Not_Supported "Sistema operativo non soportado. $\nSMPlayer ${SMPLAYER_VERSION} precisa cando menos de Windows XP, e podería non funcionar correctamente no seu sistema. $\nQueres seguir coa instalación?"
+${LangFileString} OS_Not_Supported_VistaRequired "Sistema operativo non compatíbel. $\nSMPlayer ${SMPLAYER_VERSION} precisa cando menos de Windows Vista, e podería non funcionar correctamente no seu sistema. $\nDesexa seguir coa instalación?"
 ${LangFileString} Win64_Required "Precísase un sistema operativo Windows de 64-bits para instalar esta aplicación."
 ${LangFileString} Existing_32bitInst "Xa existe unha instalación de 32-bits de SMPlayer. Precisas desinstalar o SMPlayer de 32-bits."
 ${LangFileString} Existing_64bitInst "Xa existe unha instalación de 64-bits de SMPlayer. Precisas desinstalar o SMPlayer de 64-bits."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Produciuse un fallo ao instalar o mpv."
 ${LangFileString} YTDL_DL_Retry "Non se instalou correctamente youtube-dl. Desexa tentalo de novo?"
 ${LangFileString} YTDL_DL_Failed "A descarga de youtube-dl fallou: «$R0»."
 ${LangFileString} YTDL_Update_Check "Buscando actualizacións para o youtube-dl..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Borrando a caché do fontconfig..."

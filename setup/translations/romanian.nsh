@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Romanian" "Română"
+!else
+!insertmacro LANGFILE "Romanian" = "Română" "Romana"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Instalatorul rulează deja."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Trebuie să fiți autentificat ca administ
 ${LangFileString} SMPlayer_Is_Running "O instanță a SMPlayer rulează. Închideți SMPlayer și încercați din nou."
 
 ${LangFileString} OS_Not_Supported "Sistem de operare nesuportat.$\nSMPlayer ${SMPLAYER_VERSION} este necesar cel puțin ultimul Windows XP și poate să nu funcționeze corect pe sistemul dumneavoastră.$\n Sigur doriți să continuați cu instalarea?"
+${LangFileString} OS_Not_Supported_VistaRequired "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows Vista and may not work correctly on your system.$\nDo you really want to continue with the installation?"
 ${LangFileString} Win64_Required "Un sistem de operare Windows la 64-bit este necesar pentru instalarea acestei aplicații."
 ${LangFileString} Existing_32bitInst "Există o instalare SMPlayer de 32-bit. Trebuie să dezinstalați întâi SMPlayer la 32-bit."
 ${LangFileString} Existing_64bitInst "Există o instalare SMPlayer de 64-bit. Trebuie să dezinstalați întâi SMPlayer la 64-bit."
@@ -111,15 +116,21 @@ ${LangFileString} Info_MPV_Backup "Backing up mpv..."
 ${LangFileString} Info_MPV_Restore "Restoring mpv from previous installation..."
 
 ; MPV
-${LangFileString} MPV_DL_Msg "Downloading mpv..."
+${LangFileString} MPV_DL_Msg "Se descarcă mpv..."
 ${LangFileString} MPV_DL_Retry "mpv was not successfully installed. Retry?"
 ${LangFileString} MPV_DL_Failed "Failed to download mpv: '$R0'."
-${LangFileString} MPV_Inst_Failed "Failed to install mpv."
+${LangFileString} MPV_Inst_Failed "A eșuat instalarea mpv."
 
 ; YouTube-DL
 ${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
 ${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."

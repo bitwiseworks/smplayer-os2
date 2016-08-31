@@ -12,6 +12,7 @@ ${LangFileString} Installer_No_Admin "እርስዎ ይህን ፕሮግራም ሲ
 ${LangFileString} SMPlayer_Is_Running "የ SMP ማጫወቻ እየሄደ ነው: እባክዎን ከ SMP ማጫወቻ ይውጡ እና እንደገና ይሞክሩ"
 
 ${LangFileString} OS_Not_Supported "ያልተደገፈ አይነት የ መስሪያ ስርአት $\nSMPlayer ${SMPLAYER_VERSION} ያስፈልጋል ቢያንስ Windows XP እና በ እርስዎ መስሪያ ስርአት ላይ በትክክል ላይሰራ ይችላል.$\nበ እርግጥ መግጠሙን መቀጠል ይፈልጋሉ?"
+${LangFileString} OS_Not_Supported_VistaRequired "ያልተደገፈ አይነት የ መስሪያ ስርአት $\nSMPlayer ${SMPLAYER_VERSION} ያስፈልጋል ቢያንስ Windows Vista እና በ እርስዎ መስሪያ ስርአት ላይ በትክክል ላይሰራ ይችላል.$\nበ እርግጥ መግጠሙን መቀጠል ይፈልጋሉ?"
 ${LangFileString} Win64_Required "የ 64-ቢት መስኮት መስሪያ ስርአት ያስፈልጋል ይህን ፕሮግራም ለ መግጠም"
 ${LangFileString} Existing_32bitInst "ቀደም ያለ የ 32-ቢት የ SMP ማጫወቻ ነበር: መጀመሪያ የ 32-ቢት የ SMP ማጫወቻ ማጥፋት አለብዎት"
 ${LangFileString} Existing_64bitInst "ቀደም ያለ የ 64-ቢት የ SMP ማጫወቻ ነበር: መጀመሪያ የ 64-ቢት የ SMP ማጫወቻ ማጥፋት አለብዎት"
@@ -44,6 +45,45 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in
 ${LangFileString} Section_MPlayerCodecs_Desc "Optional codecs for MPlayer. (Internet Connection required for installation)"
 !endif
 
+; Startup
+${LangFileString} Installer_Is_Running "መግጠሚያው እየሄደ ነው"
+${LangFileString} Installer_No_Admin "እርስዎ ይህን ፕሮግራም ሲገጥሙ እንደ አስተዳዳሪ መግባት አለብዎት "
+${LangFileString} SMPlayer_Is_Running "የ SMP ማጫወቻ እየሄደ ነው: እባክዎን ከ SMP ማጫወቻ ይውጡ እና እንደገና ይሞክሩ"
+
+${LangFileString} OS_Not_Supported "ያልተደገፈ አይነት የ መስሪያ ስርአት $\nSMPlayer ${SMPLAYER_VERSION} ያስፈልጋል ቢያንስ Windows XP እና በ እርስዎ መስሪያ ስርአት ላይ በትክክል ላይሰራ ይችላል.$\nበ እርግጥ መግጠሙን መቀጠል ይፈልጋሉ?"
+${LangFileString} OS_Not_Supported_VistaRequired "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows Vista and may not work correctly on your system.$\nDo you really want to continue with the installation?"
+${LangFileString} Win64_Required "የ 64-ቢት መስኮት መስሪያ ስርአት ያስፈልጋል ይህን ፕሮግራም ለ መግጠም"
+${LangFileString} Existing_32bitInst "ቀደም ያለ የ 32-ቢት የ SMP ማጫወቻ ነበር: መጀመሪያ የ 32-ቢት የ SMP ማጫወቻ ማጥፋት አለብዎት"
+${LangFileString} Existing_64bitInst "ቀደም ያለ የ 64-ቢት የ SMP ማጫወቻ ነበር: መጀመሪያ የ 64-ቢት የ SMP ማጫወቻ ማጥፋት አለብዎት"
+
+; Welcome page
+${LangFileString} WelcomePage_Title "$(^NameDA) ማሰናጃ"
+${LangFileString} WelcomePage_Text "Setup will guide you through the installation of $(^NameDA).$\r$\n$\r$\nIt is recommended that you close all instances of SMPlayer before starting setup. This will make it possible to update relevant program files without having to reboot your computer.$\r$\n$\r$\n$_CLICK"
+
+; Components Page
+${LangFileString} ShortcutGroupTitle "አቋራጮች"
+${LangFileString} MPlayerGroupTitle "የ SMP ማጫወቻ አካላቶች"
+${LangFileString} MPlayerMPVGroupTitle "በርካታ መገናኛ ሞተር"
+
+${LangFileString} Section_SMPlayer "SMP ማጫወቻ (ያስፈልጋል)"
+${LangFileString} Section_SMPlayer_Desc "የ SMP ማጫወቻ የሚካፈላቸው መጻህፍት ቤት"
+
+${LangFileString} Section_DesktopShortcut "ደስክቶፕ"
+${LangFileString} Section_DesktopShortcut_Desc "በ ዴስክቶፕ ላይ አቋራጭ መፍጠሪያ ለ SMP ማጫወቻ"
+
+${LangFileString} Section_StartMenu "ዝርዝር ማስጀመሪያ"
+${LangFileString} Section_StartMenu_Desc "ለ SMPlayer የ ማስጀመሪያ ዝርዝር ማስገቢያ መፍጠሪያ"
+
+${LangFileString} Section_MPlayer "SMP ማጫወቻ (ያስፈልጋል)"
+${LangFileString} Section_MPlayer_Desc "SMP ማጫወቻ; ያስፈልጋል በ ድጋሚ ለማጫወት"
+
+${LangFileString} Section_MPlayerCodecs "Binary Codecs"
+!ifdef WIN64
+${LangFileString} Section_MPlayerCodecs_Desc "Binary codecs are not supported in this version."
+!else
+${LangFileString} Section_MPlayerCodecs_Desc "Optional codecs for MPlayer. (Internet Connection required for installation)"
+!endif
+
 ${LangFileString} Section_MPV_Desc "A feature-rich fork of MPlayer && MPlayer2"
 
 ${LangFileString} Section_MEncoder_Desc "A companion program to MPlayer that can be used to encode or transform supported audio or video streams."
@@ -60,17 +100,17 @@ ${LangFileString} MPlayer_Codec_Msg "The binary codec packages add support for c
 
 ; Upgrade/Reinstall Page
 ${LangFileString} Reinstall_Header_Text "የ መግጠሚያ አይነት ይምረጡ"
-${LangFileString} Reinstall_Header_SubText "Select Overwrite or Uninstall mode."
+${LangFileString} Reinstall_Header_SubText "ይምረጡ በላዩ ላይ ደርቦ መጻፊያ ወይንም ማጥፊያ ዘዴ"
 
 ${LangFileString} Reinstall_Msg1 "You have an existing installation of SMPlayer in the following folder:"
 ${LangFileString} Reinstall_Msg2 "እባክዎን እንዴት መቀጠል እንደሚፈልጉ ይምረጡ"
-${LangFileString} Reinstall_Overwrite "Overwrite ($Inst_Type) the existing installation"
-${LangFileString} Reinstall_Uninstall "Uninstall (remove) the existing installation"
+${LangFileString} Reinstall_Overwrite " በላዩ ላይ ደርቦ መጻፊያ ($Inst_Type) በ ነበረው መግጠሚያ ላይ"
+${LangFileString} Reinstall_Uninstall "ማጥፊያ (ማስወገጃ) የ ነበረውን መግጠሚያ"
 ${LangFileString} Reinstall_Msg3_1 "ይጫኑ ማስጀመሪያውን ለ መቀጠል ዝግጁ ሲሆኑ "
 ${LangFileString} Reinstall_Msg3_2 "ይጫኑ ማስጀመሪያውን ለ መቀጠል ዝግጁ ሲሆኑ "
 ${LangFileString} Reinstall_Msg3_3 "ይጫኑ ማጥፊያውን ለ መቀጠል ዝግጁ ሲሆኑ "
 ${LangFileString} Reinstall_Msg4 "የ መግጠሚያ ማሰናጃ መቀየሪያ"
-${LangFileString} Reinstall_Msg5 "Reset my SMPlayer configuration"
+${LangFileString} Reinstall_Msg5 "እንደ ነበር መመለሻ የ እኔን SMPlayer ማዋቀሪያ"
 
 ${LangFileString} Remove_Settings_Confirmation "Are you sure you want to reset your SMPlayer settings? This action cannot be reversed."
 
@@ -107,20 +147,26 @@ ${LangFileString} Info_RollBack "Rolling back changes..."
 ${LangFileString} Info_Files_Extract "ፋይሎች በ ማራገፍ ላይ..."
 ${LangFileString} Info_SMTube_Backup "Backing up SMTube..."
 ${LangFileString} Info_SMTube_Restore "Restoring SMTube from previous installation..."
-${LangFileString} Info_MPV_Backup "Backing up mpv..."
+${LangFileString} Info_MPV_Backup "ተተኪ በማሰናዳት ላይ የ mpv..."
 ${LangFileString} Info_MPV_Restore "Restoring mpv from previous installation..."
 
 ; MPV
-${LangFileString} MPV_DL_Msg "Downloading mpv..."
-${LangFileString} MPV_DL_Retry "mpv was not successfully installed. Retry?"
-${LangFileString} MPV_DL_Failed "Failed to download mpv: '$R0'."
-${LangFileString} MPV_Inst_Failed "Failed to install mpv."
+${LangFileString} MPV_DL_Msg "በማውረድ ላይ mpv..."
+${LangFileString} MPV_DL_Retry "mpv ተሳክቶ አልተገጠመም: እንደገና ልሞክር?"
+${LangFileString} MPV_DL_Failed "ማውረድ አልተቻለም: '$R0'."
+${LangFileString} MPV_Inst_Failed "መግጠም አልተቻለም mpv."
 
 ; YouTube-DL
 ${LangFileString} YTDL_DL_Retry "youtube-dl was not successfully installed. Retry?"
 ${LangFileString} YTDL_DL_Failed "Failed to download youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Checking for youtube-dl updates..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Cleaning fontconfig cache..."
-${LangFileString} Info_Cleaning_SMPlayer "Cleaning SMPlayer settings..."
+${LangFileString} Info_Cleaning_SMPlayer "በማጽዳት ላይ የ SMPlayer ማሰናጃ"

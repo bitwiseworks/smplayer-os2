@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "TradChinese" "漢語(繁體)"
+!else
+!insertmacro LANGFILE "TradChinese" "Chinese (Traditional)" "中文(繁體)" "Hanyu (Fantizi)"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "安裝程式已經在執行。"
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "安裝此程式時，您必須先登入為
 ${LangFileString} SMPlayer_Is_Running "一個 SMPlayer 的執行個體正在運轉。請離開的SMPlayer，然後再試一次。"
 
 ${LangFileString} OS_Not_Supported "不支援的操作系統。$\nSMPlayer ${SMPLAYER_VERSION} 至少需要Windows XP，及可能無法在您的系統上正常運作。$\n您真的要繼續安裝嗎?"
+${LangFileString} OS_Not_Supported_VistaRequired "不支援的作業系統。$\nSMPlayer ${SMPLAYER_VERSION} 需要至少使用 Windows Vista，不然可能無法在您的系統上正常運作。$\n您真的想要繼續安裝嗎？"
 ${LangFileString} Win64_Required "安裝此軟體，系統必須是64位元的 Windows。"
 ${LangFileString} Existing_32bitInst "一個現有的32位元已安裝 SMPlayer 存在。您必須先解除安裝32位元的 SMPlayer。"
 ${LangFileString} Existing_64bitInst "一個現有的64位元已安裝 SMPlayer 存在。您必須先解除安裝64位元的 SMPlayer。"
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "無法安裝 mpv。"
 ${LangFileString} YTDL_DL_Retry "youtube-dl 沒有成功安裝。是否重試？"
 ${LangFileString} YTDL_DL_Failed "無法下載 youtube-dl：「$R0」。"
 ${LangFileString} YTDL_Update_Check "正在檢查 youtube-dl 的更新..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "正在清除 fontconfig 快取..."

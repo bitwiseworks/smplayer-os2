@@ -72,6 +72,10 @@ void MplayerProcess::setOption(const QString & option_name, const QVariant & val
 		}
 	}
 	else
+	if (option_name == "cache_auto") {
+		// Nothing to do
+	}
+	else
 	if (option_name == "stop-xscreensaver") {
 		bool stop_ss = value.toBool();
 		if (stop_ss) arg << "-stop-xscreensaver"; else arg << "-nostop-xscreensaver";
@@ -111,6 +115,14 @@ void MplayerProcess::setOption(const QString & option_name, const QVariant & val
 	else
 	if (option_name == "mute") {
 		// Not supported
+	}
+	else
+	if (option_name == "softvol") {
+		if (value.toString() != "off") {
+			int v = value.toInt();
+			if (v < 100) v = 100;
+			arg << "-softvol" << "-softvol-max" << QString::number(v);
+		}
 	}
 	else
 	if (option_name == "keepaspect" ||
@@ -367,6 +379,18 @@ void MplayerProcess::setSubDelay(double delay) {
 
 void MplayerProcess::setLoop(int v) {
 	writeToStdin(QString("loop %1 1").arg(v));
+}
+
+void MplayerProcess::setAMarker(int /*sec*/) {
+	/* Not supported */
+}
+
+void MplayerProcess::setBMarker(int /*sec*/) {
+	/* Not supported */
+}
+
+void MplayerProcess::clearABMarkers() {
+	/* Not supported */
 }
 
 void MplayerProcess::takeScreenshot(ScreenshotType t, bool /*include_subtitles*/) {

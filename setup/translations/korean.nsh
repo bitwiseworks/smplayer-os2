@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Korean" "한국어"
+!else
+!insertmacro LANGFILE "Korean" = "한국어" "Hangugeo"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "설치 프로그램이 실행 중입니다."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "이 프로그램을 설치하려면 관리
 ${LangFileString} SMPlayer_Is_Running "SMPlayer가 실행 중입니다. SMPlayer를 종료 후 다시 시도하세요."
 
 ${LangFileString} OS_Not_Supported "미지원 운영 체계.$\nSMPlayer ${SMPLAYER_VERSION} 는 윈도우 XP 이상이 필요하고 당신의 시스템에서 정상적인 동작을 보장할 수 없습니다.$\n설치를 계속 진행할까요?"
+${LangFileString} OS_Not_Supported_VistaRequired "미지원 운영 체계.$\nSMPlayer ${SMPLAYER_VERSION} 는 최소한 윈도우 비스타가 필요하고 당신의 시스템에서 정상적인 동작을 보장할 수 없습니다.$\n설치를 계속 진행할까요?"
 ${LangFileString} Win64_Required "이 프로그램은 윈도우 64비트 운영 체계에서만 설치할 수 있습니다."
 ${LangFileString} Existing_32bitInst "32비트 버전의 SMPlayer가 이미 설치되어 있습니다. 32비트 SMPlayer를 먼저 제거하세요."
 ${LangFileString} Existing_64bitInst "64비트 버전의 SMPlayer가 이미 설치되어 있습니다. 64비트 SMPlayer를 먼저 제거하세요."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "mpv를 설치하지 못했습니다."
 ${LangFileString} YTDL_DL_Retry "youtube-dl 설치에 실패했습니다. 재시도할까요?"
 ${LangFileString} YTDL_DL_Failed "youtube-dl 다운로드 실패: '$R0'."
 ${LangFileString} YTDL_Update_Check "youtube-dl 업데이트 확인 중..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "fontconfig 캐쉬 정리 중..."
