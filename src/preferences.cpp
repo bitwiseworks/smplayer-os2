@@ -79,9 +79,11 @@ void Preferences::reset() {
 	config_version = CURRENT_CONFIG_VERSION;
 #endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#if defined(Q_OS_WIN)
 	//mplayer_bin= "mplayer/mplayer.exe";
 	mplayer_bin= "mpv/mpv.exe";
+#elif defined(Q_OS_OS2)
+	mplayer_bin= "mplayer/mplayer.exe";
 #else
 	//mplayer_bin = "mplayer";
 	mplayer_bin = "mpv";
@@ -126,7 +128,7 @@ void Preferences::reset() {
 	autoq = 6;
 	add_blackborders_on_fullscreen = false;
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = false;
 	#endif
@@ -654,7 +656,7 @@ void Preferences::save() {
 	set->setValue("autoq", autoq);
 	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	set->setValue("turn_screensaver_off", turn_screensaver_off);
 	#endif
@@ -1206,7 +1208,7 @@ void Preferences::load() {
 	autoq = set->value("autoq", autoq).toInt();
 	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
-#ifdef Q_OS_WIN
+#if defined (Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
 	#endif
@@ -1758,7 +1760,7 @@ void Preferences::load() {
 #endif
 
 #if defined(MPV_SUPPORT) && defined(MPLAYER_SUPPORT)
-	#ifdef Q_OS_WIN
+	#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	// Check if the mplayer binary exists and try to fix it
 	if (!QFile::exists(mplayer_bin)) {
 		qWarning("mplayer_bin '%s' doesn't exist", mplayer_bin.toLatin1().constData());

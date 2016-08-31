@@ -19,10 +19,11 @@
 /* version 1.0.0 from 09.10.2014 Silvan (add shortcuts to install,   */
 /*                                       add themes to install,      */
 /*                                       changes skin handling)      */
+/* version 1.0.1 from 31.08.2016 Silvan (add qt4bin path as everything is from rpm */
 
 /* init the version string (don't forget to change) */
-version = "1.0.0"
-version_date = "09.10.2014"
+version = "1.0.1"
+version_date = "31.08.2016"
 '@echo off'
 
 parse arg command option
@@ -47,6 +48,7 @@ qErrorFile = buildDir||'\qmake.err'
 qOutFile   = buildDir||'\qmake.out'
 mErrorFile = buildDir||'\make.err'
 mOutFile   = buildDir||'\make.out'
+qt4bin = '%unixroot%\usr\lib\qt4\bin\'
 
 /* get the SMPlayer version */
 SMPlayer_version = '0.0.0'
@@ -108,7 +110,7 @@ select
 
         say "building svn_revision"
 	ok = SysMkDir(buildDir||'\src')
-        address cmd 'sh ' sourceDir||'\get_svn_revision.sh ' sourceDir ' "eCS(OS/2) build"'
+        address cmd 'sh ' sourceDir||'\get_svn_revision.sh ' sourceDir ' "OS/2 and OS/2-based Systems build"'
 
         say "creating SMPlayer makefile"
         call qmake
@@ -164,7 +166,7 @@ select
         do i = 1 to rm.0
 	    fileName = filespec('N',rm.i)
 	    fileName = left(fileName,lastpos('.', fileName)-1) || '.qm'
-            cmdtorun = 'lrelease ' || rm.i || ' -qm ' || installDirTranslations || '\' || fileName
+            cmdtorun = qt4bin || 'lrelease ' || rm.i || ' -qm ' || installDirTranslations || '\' || fileName
 	    address cmd cmdtorun
         end
 
@@ -312,7 +314,7 @@ version: procedure expose SMPlayer_version SMPlayer_build srcDir
 /**
  *  creates skins and themes in the installation directory
  */ 
-doSkinThemes: procedure expose installDirThemes
+doSkinThemes: procedure expose installDirThemes qt4bin
 
     parse arg inputDir, skinTheme
     ok = SysFileTree(inputDir || '\*', rm.,'DO')
@@ -323,7 +325,7 @@ doSkinThemes: procedure expose installDirThemes
        nameOutDir = installDirThemes || '\' || name 
        nameOut = nameOutDir || '\' || name || '.rcc'
        ok = SysMkDir(nameOutDir)
-       cmdtorun = 'rcc -binary ' || nameIn || ' -o ' || nameOut
+       cmdtorun = qt4bin || 'rcc -binary ' || nameIn || ' -o ' || nameOut
        address cmd cmdtorun 
 
        if skinTheme == 'S' then do

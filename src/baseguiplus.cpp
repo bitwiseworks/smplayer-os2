@@ -221,7 +221,13 @@ void BaseGuiPlus::populateMainMenu() {
 
 	if (!pref->tablet_mode) {
 		openMenu->addAction(quitAct);
+#ifndef Q_OS_OS2
 		optionsMenu->addAction(showTrayAct);
+#else
+		trayAvailable();
+		connect( optionsMenu, SIGNAL(aboutToShow()),
+ 	             this, SLOT(trayAvailable()) );
+#endif
 	}
 
 #ifdef DETACH_VIDEO_OPTION
@@ -692,6 +698,18 @@ void BaseGuiPlus::updateGlobalShortcuts() {
 }
 #endif
 
+#ifdef Q_OS_OS2
+/*
+ * we test if xcenter is available at all. if not disable the tray action.
+ * this is possible when xcenter is not opened or crashed
+ */
+void BaseGuiPlus::trayAvailable() {
+	if (!tray->isSystemTrayAvailable())
+	   optionsMenu->removeAction(showTrayAct);
+        else
+	   optionsMenu->addAction(showTrayAct);
+}
+#endif
 
 // Convenience functions intended for other GUI's
 TimeSliderAction * BaseGuiPlus::createTimeSliderAction(QWidget * parent) {

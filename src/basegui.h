@@ -28,7 +28,7 @@
 #include "config.h"
 #include "guiconfig.h"
 
-#ifdef AVOID_SCREENSAVER
+#if defined(AVOID_SCREENSAVER) && !defined(Q_OS_OS2)
 #include <windows.h>
 #endif
 
@@ -326,9 +326,11 @@ protected slots:
 
 	virtual void setTabletMode(bool);
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	#ifdef Q_OS_WIN
 	void checkSystemTabletMode();
 	void systemTabletModeChanged(bool);
+	#endif
 	
 	#ifdef AVOID_SCREENSAVER
 	void clear_just_stopped();

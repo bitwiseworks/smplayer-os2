@@ -73,7 +73,7 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 #endif
 
 	// Screensaver
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	screensaver_check->hide();
 	#ifndef SCREENSAVER_OFF
 	turn_screensaver_off_check->hide();
@@ -250,7 +250,7 @@ void PrefGeneral::setData(Preferences * pref) {
 	setBlackbordersOnFullscreen( pref->add_blackborders_on_fullscreen );
 	setAutoq( pref->autoq );
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	setTurnScreensaverOff( pref->turn_screensaver_off );
 	#endif
@@ -346,7 +346,7 @@ void PrefGeneral::getData(Preferences * pref) {
 	}
 	TEST_AND_SET(pref->autoq, autoq());
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	TEST_AND_SET(pref->turn_screensaver_off, turnScreensaverOff());
 	#endif
@@ -834,7 +834,7 @@ bool PrefGeneral::startInFullscreen() {
 	return start_fullscreen_check->isChecked();
 }
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef AVOID_SCREENSAVER
 void PrefGeneral::setAvoidScreensaver(bool b) {
 	avoid_screensaver_check->setChecked(b);
@@ -1098,7 +1098,7 @@ void PrefGeneral::createHelp() {
            "some video drivers (like gl) are already able to display the "
            "subtitles automatically in the black borders.") */ );
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	#ifdef SCREENSAVER_OFF
 	setWhatsThis(turn_screensaver_off_check, tr("Switch screensaver off"),
 		tr("This option switches the screensaver off just before starting to "

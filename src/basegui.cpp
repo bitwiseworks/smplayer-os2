@@ -6250,4 +6250,11 @@ void BaseGui::clear_just_stopped() {
 
 #endif // Q_OS_WIN
 
+#if defined(AVOID_SCREENSAVER) && defined(Q_OS_OS2)
+void BaseGui::clear_just_stopped() {
+	qDebug("BaseGui::clear_just_stopped");
+	just_stopped = false;
+}
+#endif
+
 #include "moc_basegui.cpp"

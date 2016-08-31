@@ -1,7 +1,7 @@
 SMPlayer _VERSION_ _BUILD_ README
 
 (W) Christian Hennecke, Oct 5, 2009
-last update May 3, 2016
+last update August 31, 2016
 
 
 0. CONTENTS OF THIS FILE
@@ -301,6 +301,9 @@ development, you can do so in one of the following ways:
 
 8. HISTORY
 ==========
+
+2016-08-31
+  * updated to SMPlayer version 16.8.0
 
 2016-05-03
   * updated to SMPlayer version 16.4.0

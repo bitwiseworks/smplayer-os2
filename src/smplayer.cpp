@@ -571,7 +571,7 @@ void SMPlayer::showInfo() {
            .arg("Windows ("+win_ver+")")
 #else
 #ifdef Q_OS_OS2
-           .arg("eCS (OS/2)")
+           .arg("OS/2 and OS/2-based systems")
 #else
 		   .arg("Other OS")
 #endif
