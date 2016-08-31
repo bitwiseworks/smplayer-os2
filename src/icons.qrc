@@ -53,6 +53,8 @@
         <file>default-theme/pref_subtitles.png</file>
         <file>default-theme/pref_updates.png</file>
         <file>default-theme/pref_network.png</file>
+        <file>default-theme/pref_playlist.png</file>
+        <file>default-theme/pref_tv.png</file>
         <file>default-theme/prefs.png</file>
         <file>default-theme/previous.png</file>
         <file>default-theme/saturation.png</file>
@@ -127,8 +129,8 @@
         <file>default-theme/donate.png</file>
         <file>default-theme/donate_big.png</file>
         <file>default-theme/update_youtube.png</file>
-        <file>default-theme/bookmark_add.png</file>
-        <file>default-theme/bookmark_folder.png</file>
+        <file>default-theme/favorite-add.png</file>
+        <file>default-theme/favorite-folder.png</file>
         <file>default-theme/trash.png</file>
         <file>default-theme/clear_left.png</file>
         <file>default-theme/folder_open.png</file>
@@ -146,8 +148,15 @@
         <file>default-theme/record.png</file>
         <file>default-theme/bookmarks.png</file>
         <file>default-theme/add_bookmark.png</file>
+        <file>default-theme/tablet_mode.png</file>
+        <file>default-theme/recents.png</file>
+        <file>default-theme/send_to_screen.png</file>
+        <file>default-theme/video_track.png</file>
+        <file>default-theme/quick_access_menu.png</file>
         <file>default-theme/buffering.gif</file>
+        <file>default-theme/pl_loading.gif</file>
         <file>default-theme/style.qss</file>
+        <file>default-theme/tabletmode.css</file>
         <file>mpcgui/mpc_toolbar.png</file>
         <file>mpcgui/mpc_mono.png</file>
         <file>mpcgui/mpc_stereo.png</file>

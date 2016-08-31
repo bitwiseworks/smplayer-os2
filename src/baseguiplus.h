@@ -20,15 +20,22 @@
 #define BASEGUIPLUS_H
 
 #include "basegui.h"
+#include "widgetactions.h"
 #include <QSystemTrayIcon>
 #include <QPoint>
 #include "guiconfig.h"
+
+#define SCREENS_SUPPORT
+//#define DETACH_VIDEO_OPTION
 
 class QMenu;
 class PlaylistDock;
 
 class TimeSliderAction;
 class VolumeSliderAction;
+class TimeLabelAction;
+class InfoWindow;
+class GlobalShortcuts;
 
 class BaseGuiPlus : public BaseGui
 {
@@ -40,15 +47,25 @@ public:
 
 	virtual bool startHidden();
 
+#ifdef SCREENS_SUPPORT
+	/* virtual void toggleFullscreen(bool); */
+#endif
+
+public slots:
+#ifdef GLOBALSHORTCUTS
+	virtual void showPreferencesDialog();
+#endif
+
 protected:
 	virtual void retranslateStrings();
+	virtual void populateMainMenu();
 
 	void loadConfig();
 	void saveConfig();
 	void updateShowAllAct();
 
-    virtual void aboutToEnterFullscreen();
-    virtual void aboutToExitFullscreen();
+	virtual void aboutToEnterFullscreen();
+	virtual void aboutToExitFullscreen();
 	virtual void aboutToEnterCompactMode();
 	virtual void aboutToExitCompactMode();
 
@@ -57,6 +74,11 @@ protected:
 	// Functions for other GUI's
 	TimeSliderAction * createTimeSliderAction(QWidget * parent);
 	VolumeSliderAction * createVolumeSliderAction(QWidget * parent);
+	TimeLabelAction * createTimeLabelAction(TimeLabelAction::TimeLabelType type, QWidget * parent);
+
+#ifdef SCREENS_SUPPORT
+	bool isVideoDetached();
+#endif
 
 protected slots:
 	// Reimplemented methods
@@ -70,9 +92,6 @@ protected slots:
 	virtual void showAll(bool b);
 	virtual void showAll();
 	virtual void quit();
-#ifdef Q_OS_OS2
-	void trayAvailable();
-#endif
 
 #if DOCK_PLAYLIST
 	virtual void showPlaylist(bool b);
@@ -88,6 +107,18 @@ protected slots:
 	void shrinkWindow();
 #endif
 
+#ifdef SCREENS_SUPPORT
+	void updateSendToScreen();
+	void sendVideoToScreen(int screen);
+
+	void detachVideo(bool);
+
+	void showScreensInfo();
+#endif
+
+#ifdef GLOBALSHORTCUTS
+	void updateGlobalShortcuts();
+#endif
 
 protected:
 	QSystemTrayIcon * tray;
@@ -96,6 +127,23 @@ protected:
 	MyAction * quitAct;
 	MyAction * showTrayAct;
 	MyAction * showAllAct;
+
+#ifdef DETACH_VIDEO_OPTION
+	MyAction * detachVideoAct;
+#endif
+
+#ifdef SCREENS_SUPPORT
+	MyAction * showScreensInfoAct;
+	QMenu * sendToScreen_menu;
+	MyActionGroup * sendToScreenGroup;
+
+	InfoWindow * screens_info_window;
+	QLabel * detached_label;
+#endif
+
+#ifdef GLOBALSHORTCUTS
+	GlobalShortcuts * global_shortcuts;
+#endif
 
 	// To save state
 	QPoint mainwindow_pos;
@@ -107,16 +155,15 @@ protected:
 	//QPoint infowindow_pos;
 	//bool infowindow_visible;
 
-   int widgets_size; // To be able to restore the original size after exiting from compact mode
+	int widgets_size; // To be able to restore the original size after exiting from compact mode
 
 #if DOCK_PLAYLIST
-    PlaylistDock * playlistdock;
+	PlaylistDock * playlistdock;
 	bool fullscreen_playlist_was_visible;
 	bool fullscreen_playlist_was_floating;
 	bool compact_playlist_was_visible;
 	bool ignore_playlist_events;
 #endif
-
 };
 
 #endif

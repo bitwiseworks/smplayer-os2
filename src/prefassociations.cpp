@@ -30,6 +30,10 @@
 #include "winfileassoc.h"
 #include "extensions.h"
 
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
+
 static Qt::CheckState CurItemCheckState = Qt::Unchecked; 
 
 
@@ -37,6 +41,10 @@ PrefAssociations::PrefAssociations(QWidget * parent, Qt::WindowFlags f)
 : PrefWidget(parent, f )
 {
 	setupUi(this);
+
+#if QT_VERSION >= 0x050000
+	MyScroller::setScroller(listWidget->viewport());
+#endif
 
 	connect(selectAll, SIGNAL(clicked(bool)), this, SLOT(selectAllClicked(bool)));
 	connect(selectNone, SIGNAL(clicked(bool)), this, SLOT(selectNoneClicked(bool)));
@@ -208,7 +216,7 @@ QString PrefAssociations::sectionName() {
 }
 
 QPixmap PrefAssociations::sectionIcon() {
-	return Images::icon("pref_associations", 22);
+	return Images::icon("pref_associations");
 }
 
 void PrefAssociations::retranslateStrings() {

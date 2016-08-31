@@ -81,6 +81,11 @@ protected:
 	void setDragFunction(int function);
 	int dragFunction();
 
+#ifdef GLOBALSHORTCUTS
+	void setUseGlobalShortcuts(bool);
+	bool useGlobalShortcuts();
+#endif
+
 protected:
 	virtual void retranslateStrings();
 };

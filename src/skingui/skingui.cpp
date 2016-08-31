@@ -55,9 +55,6 @@ SkinGui::SkinGui( QWidget * parent, Qt::WindowFlags flags )
 	: BaseGuiPlus( parent, flags )
 	, was_muted(false)
 {
-	connect( this, SIGNAL(timeChanged(QString)),
-             this, SLOT(displayTime(QString)) );
-
 	createActions();
 	createMainToolBars();
 	createControlWidget();
@@ -105,7 +102,7 @@ void SkinGui::createActions() {
 	volumeslider_action->disable();
 
 	// Create the time label
-	time_label_action = new TimeLabelAction(this);
+	time_label_action = createTimeLabelAction(TimeLabelAction::CurrentAndTotalTime, this);
 	time_label_action->setObjectName("timelabel_action");
 
 #if MINI_ARROW_BUTTONS
@@ -182,12 +179,19 @@ void SkinGui::createMenus() {
 	toolbar_menu->addAction(editFloatingControlAct);
 	#endif
 #endif
-	optionsMenu->addSeparator();
-	optionsMenu->addMenu(toolbar_menu);
 
 	statusbar_menu = new QMenu(this);
 	statusbar_menu->addAction(viewVideoInfoAct);
 	statusbar_menu->addAction(scrollTitleAct);
+
+	populateMainMenu();
+}
+
+void SkinGui::populateMainMenu() {
+	BaseGuiPlus::populateMainMenu();
+
+	optionsMenu->addSeparator();
+	optionsMenu->addMenu(toolbar_menu);
 	optionsMenu->addMenu(statusbar_menu);
 }
 
@@ -307,7 +311,7 @@ void SkinGui::createControlWidget() {
 
 void SkinGui::createFloatingControl() {
 	// Floating control
-	floating_control = new AutohideWidget(panel);
+	floating_control = new AutohideWidget(mplayerwindow);
 	floating_control->setAutoHide(true);
 
 #ifndef SKIN_EDITABLE_CONTROL
@@ -406,10 +410,6 @@ void SkinGui::retranslateStrings() {
 
 	viewVideoInfoAct->change(Images::icon("view_video_info"), tr("&Video info") );
 	scrollTitleAct->change(Images::icon("scroll_title"), tr("&Scroll title") );
-}
-
-void SkinGui::displayTime(QString text) {
-	time_label_action->setText(text);
 }
 
 void SkinGui::displayState(Core::State state) {
@@ -590,8 +590,9 @@ void SkinGui::loadConfig() {
 		setWindowState( (Qt::WindowStates) set->value("state", 0).toInt() );
 
 		if (!DesktopInfo::isInsideScreen(this)) {
-			move(0,0);
-			qWarning("SkinGui::loadConfig: window is outside of the screen, moved to 0x0");
+			QPoint tl = DesktopInfo::topLeftPrimaryScreen();
+			move(tl);
+			qWarning("DefaultGui::loadConfig: window is outside of the screen, moved to %d x %d", tl.x(), tl.y());
 		}
 	}
 

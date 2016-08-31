@@ -30,7 +30,16 @@
 #include <QStyleFactory>
 #include <QFontDialog>
 
+#ifdef HDPI_SUPPORT
+#include "hdpisupport.h"
+
+#if QT_VERSION >= 0x050600
+#define HDPI_USE_SCALE_FACTOR
+#endif
+#endif
+
 #define SINGLE_INSTANCE_TAB 2
+#define HDPI_TAB 5
 
 PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 	: PrefWidget(parent, f )
@@ -40,8 +49,8 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 
 	// Style combo
 #if !STYLE_SWITCHING
-    style_label->hide();
-    style_combo->hide();
+	style_label->hide();
+	style_combo->hide();
 #else
 	style_combo->addItem( "<default>" );
 	style_combo->addItems( QStyleFactory::keys() );
@@ -122,6 +131,16 @@ PrefInterface::PrefInterface(QWidget * parent, Qt::WindowFlags f)
 	skin_sp->hide();
 #endif
 
+#ifdef HDPI_SUPPORT
+	scale_group->setEnabled(false);
+	connect(hdpi_scale_slider, SIGNAL(valueChanged(int)), this, SLOT(updateHDPIScaleNumber(int)));
+	#ifndef HDPI_STORE_DATA
+	tabWidget->setTabEnabled(HDPI_TAB, false);
+	#endif
+#else
+	tabWidget->setTabEnabled(HDPI_TAB, false);
+#endif
+
 	retranslateStrings();
 }
 
@@ -134,7 +153,7 @@ QString PrefInterface::sectionName() {
 }
 
 QPixmap PrefInterface::sectionIcon() {
-    return Images::icon("pref_gui", 22);
+    return Images::icon("pref_gui");
 }
 
 void PrefInterface::createLanguageCombo() {
@@ -145,7 +164,7 @@ void PrefInterface::createLanguageCombo() {
 	QStringList languages = translation_dir.entryList( QStringList() << "*.qm");
 	QRegExp rx_lang("smplayer_(.*)\\.qm");
 	language_combo->clear();
-	language_combo->addItem( tr("<Autodetect>") );
+	language_combo->addItem("<" + tr("System language") + ">");
 	for (int n=0; n < languages.count(); n++) {
 		if (rx_lang.indexIn(languages[n]) > -1) {
 			QString l = rx_lang.cap(1);
@@ -225,6 +244,16 @@ void PrefInterface::retranslateStrings() {
 	floating_width_label->setNum(floating_width_slider->value());
 	floating_margin_label->setNum(floating_margin_slider->value());
 
+#ifdef HDPI_SUPPORT
+	#ifdef HDPI_USE_SCALE_FACTOR
+	hdpi_scale_label->setText(tr("Scale fact&or:"));
+	hdpi_scale_num_label->setNum((double) hdpi_scale_slider->value() / 10);
+	#else
+	hdpi_scale_label->setText(tr("Pixel rati&o:"));
+	hdpi_scale_num_label->setNum(hdpi_scale_slider->value());
+	#endif
+#endif
+
 	createHelp();
 }
 
@@ -274,6 +303,10 @@ void PrefInterface::setData(Preferences * pref) {
 	setRecentsMaxItems(pref->history_recents->maxItems());
 	setURLMaxItems(pref->history_urls->maxItems());
 	setRememberDirs(pref->save_dirs);
+
+#ifdef HDPI_SUPPORT
+	loadHDPIData();
+#endif
 }
 
 void PrefInterface::getData(Preferences * pref) {
@@ -352,6 +385,10 @@ void PrefInterface::getData(Preferences * pref) {
 	}
 
 	pref->save_dirs = rememberDirs();
+
+#ifdef HDPI_SUPPORT
+	saveHDPIData();
+#endif
 }
 
 void PrefInterface::setLanguage(QString lang) {
@@ -431,16 +468,19 @@ bool PrefInterface::saveSize() {
 
 
 void PrefInterface::setStyle(QString style) {
-	if (style.isEmpty()) 
+	if (style.isEmpty()) {
 		style_combo->setCurrentIndex(0);
-	else
-		style_combo->setCurrentText(style);
+	} else {
+		int i = style_combo->findText(style, Qt::MatchFixedString);
+		if (i < 0) i = 0;
+		style_combo->setCurrentIndex(i);
+	}
 }
 
 QString PrefInterface::style() {
-	if (style_combo->currentIndex()==0)
+	if (style_combo->currentIndex() == 0)
 		return "";
-	else 
+	else
 		return style_combo->currentText();
 }
 
@@ -650,6 +690,46 @@ void PrefInterface::setRememberDirs(bool b) {
 bool PrefInterface::rememberDirs() {
 	return save_dirs_check->isChecked();
 }
+
+#ifdef HDPI_SUPPORT
+void PrefInterface::loadHDPIData() {
+	HDPISupport * hdpi = HDPISupport::instance();
+	enable_hdpi_check->setChecked(hdpi->isHDPIEnabled());
+	auto_scale_check->setChecked(hdpi->autoScale());
+
+	#ifdef HDPI_USE_SCALE_FACTOR
+	hdpi_scale_slider->setMinimum(5);
+	hdpi_scale_slider->setMaximum(4*10);
+	hdpi_scale_slider->setValue(hdpi->scaleFactor() * 10);
+	#else
+	hdpi_scale_slider->setMinimum(0);
+	hdpi_scale_slider->setMaximum(4);
+	hdpi_scale_slider->setValue(hdpi->pixelRatio());
+	#endif
+}
+
+void PrefInterface::updateHDPIScaleNumber(int v) {
+	#ifdef HDPI_USE_SCALE_FACTOR
+	hdpi_scale_num_label->setNum((double) v / 10);
+	#else
+	hdpi_scale_num_label->setNum(v);
+	#endif
+}
+
+void PrefInterface::saveHDPIData() {
+	HDPISupport * hdpi = HDPISupport::instance();
+	hdpi->setHDPIEnabled(enable_hdpi_check->isChecked());
+	hdpi->setAutoScale(auto_scale_check->isChecked());
+	#ifdef HDPI_USE_SCALE_FACTOR
+	hdpi->setScaleFactor((double) hdpi_scale_slider->value() / 10);
+	#else
+	hdpi->setPixelRatio(hdpi_scale_slider->value());
+	#endif
+	#ifdef HDPI_STORE_DATA
+	hdpi->save();
+	#endif
+}
+#endif
 
 void PrefInterface::createHelp() {
 	clearHelp();

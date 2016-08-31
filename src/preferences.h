@@ -60,10 +60,8 @@ public:
 
 	virtual void reset();
 
-#ifndef NO_USE_INI_FILES
 	void save();
 	void load();
-#endif
 
 	double monitor_aspect_double();
 	void setupScreenshotFolder();
@@ -90,10 +88,10 @@ public:
 	QString capture_directory;
 #endif
 
-	// SMPlayer will remember all media settings for all videos.
-	// This options allow to disable it:
-	bool dont_remember_media_settings; 	// Will not remember anything
-	bool dont_remember_time_pos;		// Will not remember time pos
+	// Possibility to remember all media settings
+	bool remember_media_settings;
+	bool remember_time_pos;
+	bool remember_stream_settings;
 
 	QString audio_lang; 		// Preferred audio language
 	QString subtitle_lang;		// Preferred subtitle language
@@ -106,7 +104,7 @@ public:
 	int autoq; 	//!< Postprocessing quality
 	bool add_blackborders_on_fullscreen;
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	bool turn_screensaver_off;
 	#endif
@@ -163,6 +161,10 @@ public:
 
 	QString file_settings_method; //!< Method to be used for saving file settings
 
+	bool tablet_mode;
+	#ifdef Q_OS_WIN
+	QString tablet_mode_change_answer;
+	#endif
 
     /* ***************
        Drives (CD/DVD)
@@ -189,7 +191,9 @@ public:
        Performance
        *********** */
 
+#ifdef Q_OS_WIN
 	int priority;
+#endif
 	bool frame_drop;
 	bool hard_frame_drop;
 	bool coreavc;
@@ -207,12 +211,15 @@ public:
 	int threads; //!< number of threads to use for decoding (-lavdopts threads <1-8>)
 	QString hwdec; //!< hardware video decoding (mpv only)
 
+	bool cache_auto;
 	int cache_for_files;
 	int cache_for_streams;
 	int cache_for_dvds;
 	int cache_for_vcds;
 	int cache_for_audiocds;
+#ifdef TV_SUPPORT
 	int cache_for_tv;
+#endif
 
 
 	/* *********
@@ -354,6 +361,10 @@ public:
 	bool center_window; //!< Center the main window when playback starts
 	bool center_window_if_outside; //!< Center the main window after an autoresize if it's outside of the screen
 
+#ifdef GLOBALSHORTCUTS
+	bool use_global_shortcuts;
+#endif
+
 	// Function of mouse buttons:
 	QString mouse_left_click_function;
 	QString mouse_right_click_function;
@@ -448,11 +459,12 @@ public:
     /* ********
        TV (dvb)
        ******** */
-
+#ifdef TV_SUPPORT
 	bool check_channels_conf_on_startup;
 	int initial_tv_deinterlace;
 	QString last_dvb_channel;
 	QString last_tv_channel;
+#endif
 
 
     /* ********

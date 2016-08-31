@@ -19,6 +19,7 @@
 #ifndef GUICONFIG_H
 #define GUICONFIG_H
 
+#include <QtGlobal>
 
 // DOCK_PLAYLIST
 // if 1, the playlist will be docked in the main window, instead

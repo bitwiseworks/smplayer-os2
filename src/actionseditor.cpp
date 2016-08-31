@@ -44,6 +44,9 @@
 
 #include "shortcutgetter.h"
 
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
 
 /*
 #include <QLineEdit>
@@ -150,10 +153,13 @@ ActionsEditor::ActionsEditor(QWidget * parent, Qt::WindowFlags f)
 	latest_dir = Paths::shortcutsPath();
 
 	actionsTable = new QTableWidget(0, COL_NAME +1, this);
-	actionsTable->setSelectionMode( QAbstractItemView::SingleSelection );
+	actionsTable->setSelectionMode(QAbstractItemView::SingleSelection);
+	actionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 	actionsTable->verticalHeader()->hide();
 
 #if QT_VERSION >= 0x050000
+	MyScroller::setScroller(actionsTable->viewport());
+
 	actionsTable->horizontalHeader()->setSectionResizeMode(COL_DESC, QHeaderView::Stretch);
 	actionsTable->horizontalHeader()->setSectionResizeMode(COL_NAME, QHeaderView::Stretch);
 	actionsTable->horizontalHeader()->setSectionResizeMode(COL_CONFLICTS, QHeaderView::ResizeToContents);
@@ -164,10 +170,6 @@ ActionsEditor::ActionsEditor(QWidget * parent, Qt::WindowFlags f)
 #endif
 
 	actionsTable->setAlternatingRowColors(true);
-#if USE_SHORTCUTGETTER
-	actionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-	actionsTable->setSelectionMode(QAbstractItemView::ExtendedSelection);
-#endif
 	//actionsTable->setItemDelegateForColumn( COL_SHORTCUT, new MyDelegate(actionsTable) );
 
 #if !USE_SHORTCUTGETTER

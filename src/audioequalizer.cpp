@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QDebug>
 
 using namespace Global;
 
@@ -60,13 +61,17 @@ AudioEqualizer::AudioEqualizer( QWidget* parent, Qt::WindowFlags f)
 	apply_button = new QPushButton( "&Apply", this );
 	connect( apply_button, SIGNAL(clicked()), this, SLOT(applyButtonClicked()) );
 
+	close_button = new QPushButton( "&Close", this );
+	connect( close_button, SIGNAL(clicked()), this, SLOT(close()) );
+
 	QBoxLayout *button_layout = new QHBoxLayout; //(0, 4, 2);
 	button_layout->addWidget(presets_label);
 	button_layout->addWidget(presets_combo);
 	button_layout->addStretch();
 	button_layout->addWidget(apply_button);
-	button_layout->addWidget(reset_button);
 	button_layout->addWidget(set_default_button);
+	button_layout->addWidget(reset_button);
+	button_layout->addWidget(close_button);
 
 	QBoxLayout *layout = new QVBoxLayout(this); //, 4, 2);
 	layout->addLayout(bl);
@@ -76,9 +81,12 @@ AudioEqualizer::AudioEqualizer( QWidget* parent, Qt::WindowFlags f)
 
 	adjustSize();
 	//setFixedSize( sizeHint() );
+	
+	if (size().height() < 244) resize(size().width(), 244);
 }
 
 AudioEqualizer::~AudioEqualizer() {
+	//qDebug() << "AudioEqualizer::~AudioEqualizer: size:" << size();
 }
 
 void AudioEqualizer::createPresets() {
@@ -196,6 +204,7 @@ void AudioEqualizer::retranslateStrings() {
 	apply_button->setText( tr("&Apply") );
 	reset_button->setText( tr("&Reset") );
 	set_default_button->setText( tr("&Set as default values") );
+	close_button->setText(tr("&Close"));
 
 	int presets_combo_index = presets_combo->currentIndex();
 	if (presets_combo_index < 0) presets_combo_index = 0;
@@ -226,7 +235,6 @@ void AudioEqualizer::retranslateStrings() {
 			tr("Use the current values as default values for new videos.") );
 
 	reset_button->setWhatsThis( tr("Set all controls to zero.") );
-
 }
 
 void AudioEqualizer::reset() {

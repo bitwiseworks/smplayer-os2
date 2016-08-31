@@ -2,8 +2,8 @@
 # deb packages at build.opensuse.org
 
 PACKAGE = smplayer
-VERSION = 16.4.0
-DEPENDS = debhelper (>= 5), libqt4-dev, zlib1g-dev
+VERSION = 16.8.0
+DEPENDS = debhelper (>= 5), zlib1g-dev, qtbase5-dev, qt5-qmake, qtscript5-dev, qttools5-dev-tools, qt5-default, qtbase5-private-dev
 
 DSC_FILE = $(PACKAGE).dsc
 DEBIAN_FILE = debian.tar.gz

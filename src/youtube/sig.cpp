@@ -62,6 +62,7 @@ QString Sig::findFunctions(const QString & text) {
 		//int pos = text.indexOf("function " + sig_name);
 		int pos = text.indexOf("var " + sig_name + "=function");
 		if (pos == -1) pos = text.indexOf("," + sig_name + "=function");
+		if (pos == -1) pos = text.indexOf(sig_name + "=function");
 		if (pos > -1) {
 			int endpos = text.indexOf("}", pos);
 			#ifdef ULTRAVERBOSE
@@ -72,6 +73,8 @@ QString Sig::findFunctions(const QString & text) {
 				if (sig_code.startsWith("var ")) sig_code.replace("var " + sig_name + "=function", "function " + sig_name);
 				else
 				if (sig_code.startsWith(",")) sig_code.replace("," + sig_name + "=function", "function " + sig_name);
+				else
+				if (sig_code.startsWith(sig_name+"=")) sig_code.replace(sig_name + "=function", "function " + sig_name);
 			}
 		}
 	}
@@ -93,12 +96,12 @@ QString Sig::findFunctions(const QString & text) {
 				qDebug() << "Sig::findFunctions: possible var:" << possible_var;
 				#endif
 				if ((possible_var != "a") && (possible_var != "")) {
-					QString s = findText(text, "var "+ possible_var, "};");
+					QString s = findText(text, "var "+ possible_var +"=", "};");
 					#ifdef ULTRAVERBOSE
 					qDebug() << "Sig::findFunctions: s:" << s;
 					#endif
 					if (!s.isEmpty()) {
-						function2 = "var "+ possible_var +" "+ s +" };";
+						function2 = "var "+ possible_var +" = "+ s +" };";
 						break;
 					}
 				}

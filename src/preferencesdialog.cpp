@@ -28,25 +28,40 @@
 #include "prefsubtitles.h"
 #include "prefadvanced.h"
 #include "prefplaylist.h"
-#include "preftv.h"
 #include "prefupdates.h"
 #include "prefnetwork.h"
+#include "infowindow.h"
+#include "preferences.h"
+#include "images.h"
+#include <QVBoxLayout>
+#include <QDebug>
+
+#ifdef TV_SUPPORT
+#include "preftv.h"
+#endif
 
 #if USE_ASSOCIATIONS
 #include "prefassociations.h"
 #endif
 
-#include "preferences.h"
-
-#include <QVBoxLayout>
-#include <QTextBrowser>
-
-#include "images.h"
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
 
 PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 	: QDialog(parent, f )
+	, icon_mode(false)
 {
 	setupUi(this);
+	/*
+	sections->setUniformItemSizes(true);
+	sections->setResizeMode(QListView::Adjust);
+	*/
+	sections->setMovement(QListView::Static);
+
+#if QT_VERSION >= 0x050000
+	MyScroller::setScroller(sections->viewport());
+#endif
 
 	// Setup buttons
 	okButton = buttonBox->button(QDialogButtonBox::Ok);
@@ -55,17 +70,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 	helpButton = buttonBox->button(QDialogButtonBox::Help);
 	connect( applyButton, SIGNAL(clicked()), this, SLOT(apply()) );
 	connect( helpButton, SIGNAL(clicked()), this, SLOT(showHelp()) );
-	
 
 	setWindowIcon( Images::icon("logo") );
 
-	help_window = new QTextBrowser(this);
-	help_window->setWindowFlags(Qt::Window);
-	help_window->resize(300, 450);
-	//help_window->adjustSize();
-	help_window->setWindowTitle( tr("SMPlayer - Help") );
-	help_window->setWindowIcon( Images::icon("logo") );
-	help_window->setOpenExternalLinks(true);
+	help_window = new InfoWindow(this);
 
 	page_general = new PrefGeneral;
 	addSection( page_general );
@@ -88,8 +96,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 	page_playlist = new PrefPlaylist;
 	addSection( page_playlist );
 
+#ifdef TV_SUPPORT
 	page_tv = new PrefTV;
 	addSection( page_tv );
+#endif
 
 #if USE_ASSOCIATIONS
 	page_associations = new PrefAssociations;
@@ -110,10 +120,31 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 	//adjustSize();
 	retranslateStrings();
+
+	/*
+	qDebug() << "PreferencesDialog: movement:" << sections->movement();
+	qDebug() << "PreferencesDialog: maximumWidth:" << sections->maximumWidth();
+	qDebug() << "PreferencesDialog: spacing:" << sections->spacing();
+	*/
 }
 
-PreferencesDialog::~PreferencesDialog()
-{
+PreferencesDialog::~PreferencesDialog() {
+}
+
+void PreferencesDialog::setIconMode(bool b) {
+	qDebug() << "PreferencesDialog::setIconMode:" << b;
+
+	if (b) {
+		sections->setUniformItemSizes(true);
+		sections->setViewMode(QListView::IconMode);
+		sections->setMaximumWidth(128);
+		sections->setSpacing(12);
+	} else {
+		sections->setUniformItemSizes(false);
+		sections->setViewMode(QListView::ListMode);
+		sections->setMaximumWidth(16777215);
+		sections->setSpacing(0);
+	}
 }
 
 void PreferencesDialog::showSection(Section s) {
@@ -129,6 +160,7 @@ void PreferencesDialog::retranslateStrings() {
 		PrefWidget * w = (PrefWidget*) pages->widget(n);
 		sections->item(n)->setText( w->sectionName() );
 		sections->item(n)->setIcon( w->sectionIcon() );
+		sections->item(n)->setToolTip( w->sectionName() );
 	}
 
 	if (help_window->isVisible()) {
@@ -137,14 +169,14 @@ void PreferencesDialog::retranslateStrings() {
 	}
 
 	help_window->setWindowTitle( tr("SMPlayer - Help") );
+	help_window->setWindowIcon( Images::icon("logo") );
 
-	// Qt 4.2 doesn't update the buttons' text
-#if QT_VERSION < 0x040300
-	okButton->setText( tr("OK") );
-	cancelButton->setText( tr("Cancel") );
+	// Some Qt versions don't provide translated strings
+	// for these buttons
+	okButton->setText( tr("&OK") );
+	cancelButton->setText( tr("&Cancel") );
 	applyButton->setText( tr("Apply") );
 	helpButton->setText( tr("Help") );
-#endif
 }
 
 void PreferencesDialog::accept() {
@@ -182,7 +214,9 @@ void PreferencesDialog::setData(Preferences * pref) {
 	page_subtitles->setData(pref);
 	page_advanced->setData(pref);
 	page_playlist->setData(pref);
+#ifdef TV_SUPPORT
 	page_tv->setData(pref);
+#endif
 	page_updates->setData(pref);
 	page_network->setData(pref);
 
@@ -200,7 +234,9 @@ void PreferencesDialog::getData(Preferences * pref) {
 	page_subtitles->getData(pref);
 	page_advanced->getData(pref);
 	page_playlist->getData(pref);
+#ifdef TV_SUPPORT
 	page_tv->getData(pref);
+#endif
 	page_updates->getData(pref);
 	page_network->getData(pref);
 
@@ -218,7 +254,9 @@ bool PreferencesDialog::requiresRestart() {
 	if (!need_restart) need_restart = page_subtitles->requiresRestart();
 	if (!need_restart) need_restart = page_advanced->requiresRestart();
 	if (!need_restart) need_restart = page_playlist->requiresRestart();
+#ifdef TV_SUPPORT
 	if (!need_restart) need_restart = page_tv->requiresRestart();
+#endif
 	if (!need_restart) need_restart = page_updates->requiresRestart();
 	if (!need_restart) need_restart = page_network->requiresRestart();
 

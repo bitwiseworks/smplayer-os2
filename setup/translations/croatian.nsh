@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Croatian" "Hrvatski"
+!else
+!insertmacro LANGFILE "Croatian" = "Hrvatski" =
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Instalacijski program je već pokrenut."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Morate biti prijavljeni kao administrator 
 ${LangFileString} SMPlayer_Is_Running "Primjerak SMPlayera je pokrenut. Zatvorite SMplayer i pokušajte ponovno."
 
 ${LangFileString} OS_Not_Supported "Nepodržan operativni sustav.$\nSMPlayer ${SMPLAYER_VERSION} zahtijeva minimum Windows XP i možda neće raditi ispravno na vašem sustavu.$\nSigurno želite nastaviti ovu instalaciju?"
+${LangFileString} OS_Not_Supported_VistaRequired "Nepodržan operativni sustav.$\nSMPlayer ${SMPLAYER_VERSION} zahtijeva najmanje Windows Vistu i možda neće raditi ispravno na vašem sustavu.$\nSigurno želite nastaviti ovu instalaciju?"
 ${LangFileString} Win64_Required "64-bitni Windows operativni sustav je potreban za instalaciju ovog softvera."
 ${LangFileString} Existing_32bitInst "Trenutno je instalirana 32-bitna instalacija SMPlayera. Najprije morate deinstalirati 32-bitni SMPlayer."
 ${LangFileString} Existing_64bitInst "Trenutno je instalirana 64-bitna instalacija SMPlayera. Najprije morate deinstalirati 64-bitni SMPlayer."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Neuspjelo instaliranje mpv-a."
 ${LangFileString} YTDL_DL_Retry "YouTube-dl nije uspješno instaliran. Pokušaj ponovno?"
 ${LangFileString} YTDL_DL_Failed "Neuspjelo preuzimanje Youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Provjeravanje youtube-dl nadopuna..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Brisanje priručne memorije slova..."

@@ -55,6 +55,7 @@
 #include "discname.h"
 #include "timeslider.h"
 #include "logwindow.h"
+#include "infowindow.h"
 #include "playlist.h"
 #include "filepropertiesdialog.h"
 #include "eqslider.h"
@@ -89,12 +90,14 @@
 #include "config.h"
 #include "actionseditor.h"
 
+#ifdef TV_SUPPORT
 #include "tvlist.h"
+#else
+#include "favorites.h"
+#endif
 
 #include "preferencesdialog.h"
-#ifndef NO_USE_INI_FILES
 #include "prefgeneral.h"
-#endif
 #include "prefinterface.h"
 #include "prefinput.h"
 #include "prefadvanced.h"
@@ -146,41 +149,35 @@ using namespace Global;
 
 BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags ) 
 	: QMainWindow( parent, flags )
-#if QT_VERSION >= 0x050000
+#ifdef DETECT_MINIMIZE_WORKAROUND
 	, was_minimized(false)
+#endif
+	, popup(0)
+	, clhelp_window(0)
+	, pref_dialog(0)
+	, file_dialog (0)
+#ifdef FIND_SUBTITLES
+	, find_subs_dialog(0)
+#endif
+#ifdef VIDEOPREVIEW
+	, video_preview(0)
 #endif
 #ifdef UPDATE_CHECKER
 	, update_checker(0)
 #endif
+	, arg_close_on_finish(-1)
+	, arg_start_in_fullscreen(-1)
 #ifdef MG_DELAYED_SEEK
 	, delayed_seek_timer(0)
 	, delayed_seek_value(0)
 #endif
-{
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	, was_maximized(false)
 #ifdef AVOID_SCREENSAVER
-	/* Disable screensaver by event */
-	just_stopped = false;
+	, just_stopped(false)
 #endif
-#endif
-	ignore_show_hide_events = false;
-
-	arg_close_on_finish = -1;
-	arg_start_in_fullscreen = -1;
-
+	, ignore_show_hide_events(false)
+{
 	setWindowTitle( "SMPlayer" );
-
-	// Not created objects
-	popup = 0;
-	pref_dialog = 0;
-	file_dialog = 0;
-	clhelp_window = 0;
-#ifdef FIND_SUBTITLES
-	find_subs_dialog = 0;
-#endif
-#ifdef VIDEOPREVIEW
-	video_preview = 0;
-#endif
 
 	// Create objects:
 	createPanel();
@@ -207,6 +204,7 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 #if STYLE_SWITCHING
 	qApp->setStyleSheet("");
 	default_style = qApp->style()->objectName();
+
 	#ifdef Q_OS_LINUX
 	// Some controls aren't displayed correctly with the adwaita style
 	// so try to prevent to use it as the default style
@@ -247,7 +245,12 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 	panel->setFocus();
 
 	setupNetworkProxy();
-	initializeGui();
+
+	/* Initialize GUI */
+	if (pref->compact_mode) toggleCompactMode(true);
+	changeStayOnTop(pref->stay_on_top);
+	updateRecents();
+	QTimer::singleShot(20, this, SLOT(loadActions()));
 
 #ifdef UPDATE_CHECKER
 	update_checker = new UpdateChecker(this, &pref->update_checker_data);
@@ -264,21 +267,6 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 #ifdef MPRIS2
 	if (pref->use_mpris2) new Mpris2(this, this);
 #endif
-}
-
-void BaseGui::initializeGui() {
-	if (pref->compact_mode) toggleCompactMode(true);
-	changeStayOnTop(pref->stay_on_top);
-
-	updateRecents();
-
-	// Call loadActions() outside initialization of the class.
-	// Otherwise DefaultGui (and other subclasses) doesn't exist, and 
-	// its actions are not loaded
-	QTimer::singleShot(20, this, SLOT(loadActions()));
-
-	// Single instance
-	/* Deleted */
 }
 
 void BaseGui::setupNetworkProxy() {
@@ -362,8 +350,11 @@ BaseGui::~BaseGui() {
 #endif
 
 	delete favorites;
+
+#ifdef TV_SUPPORT
 	delete tvlist;
 	delete radiolist;
+#endif
 
 //#if !DOCK_PLAYLIST
 	if (playlist) {
@@ -384,6 +375,10 @@ BaseGui::~BaseGui() {
 		delete video_preview;
 	}
 #endif
+
+	if (mplayerwindow) {
+		delete mplayerwindow;
+	}
 }
 
 void BaseGui::createActions() {
@@ -449,6 +444,7 @@ void BaseGui::createActions() {
             favorites, SLOT(getCurrentMedia(const QString &, const QString &)));
 
 	// TV and Radio
+#ifdef TV_SUPPORT
 	tvlist = new TVList(pref->check_channels_conf_on_startup, 
                         TVList::TV, Paths::configPath() + "/tv.m3u8", this);
 	tvlist->menuAction()->setObjectName( "tv_menu" );
@@ -482,6 +478,7 @@ void BaseGui::createActions() {
 	connect(radiolist, SIGNAL(activated(QString)), this, SLOT(open(QString)));
 	connect(core, SIGNAL(mediaPlaying(const QString &, const QString &)),
             radiolist, SLOT(getCurrentMedia(const QString &, const QString &)));
+#endif
 
 
 	// Menu Play
@@ -876,6 +873,11 @@ void BaseGui::createActions() {
 	connect( showLogSmplayerAct, SIGNAL(triggered()),
              this, SLOT(showLog()) );
 #endif
+
+	tabletModeAct = new MyAction(this, "tablet_mode");
+	tabletModeAct->setCheckable(true);
+	connect(tabletModeAct, SIGNAL(toggled(bool)), this, SLOT(setTabletMode(bool)));
+
 
 	// Menu Help
 	showFirstStepsAct = new MyAction( this, "first_steps" );
@@ -1603,13 +1605,15 @@ void BaseGui::enableActionsOnPlaying() {
 
 
 #ifdef BOOKMARKS
-	if (pref->dont_remember_media_settings || core->mdat.type != TYPE_FILE) {
-		addBookmarkAct->setEnabled(false);
-		editBookmarksAct->setEnabled(false);
-	} else {
-		addBookmarkAct->setEnabled(true);
-		editBookmarksAct->setEnabled(true);
-	}
+	bool bookmarks_enabled = true;
+	if (!pref->remember_media_settings) bookmarks_enabled = false;
+	else
+	if (core->mdat.type == TYPE_STREAM && !pref->remember_stream_settings) bookmarks_enabled = false;
+	else
+	if (core->mdat.type != TYPE_FILE && core->mdat.type != TYPE_STREAM) bookmarks_enabled = false;
+
+	addBookmarkAct->setEnabled(bookmarks_enabled);
+	editBookmarksAct->setEnabled(bookmarks_enabled);
 #endif
 }
 
@@ -1811,7 +1815,7 @@ void BaseGui::retranslateStrings() {
 
 	// Menu Options
 	showPlaylistAct->change( Images::icon("playlist"), tr("&Playlist") );
-	showPropertiesAct->change( Images::icon("info"), tr("View &info and properties...") );
+	showPropertiesAct->change( Images::icon("info"), tr("&Information and properties...") );
 	showPreferencesAct->change( Images::icon("prefs"), tr("P&references") );
 #ifdef YOUTUBE_SUPPORT
 	showTubeBrowserAct->change( Images::icon("tubebrowser"), tr("&YouTube%1 browser").arg(QChar(0x2122)) );
@@ -1819,11 +1823,12 @@ void BaseGui::retranslateStrings() {
 
 	// Submenu Logs
 #ifdef LOG_MPLAYER
-	showLogMplayerAct->change(PLAYER_NAME);
+	showLogMplayerAct->change(tr("%1 log").arg(PLAYER_NAME));
 #endif
 #ifdef LOG_SMPLAYER
-	showLogSmplayerAct->change( "SMPlayer" );
+	showLogSmplayerAct->change(tr("SMPlayer log"));
 #endif
+	tabletModeAct->change(Images::icon("tablet_mode"), tr("T&ablet mode"));
 
 	// Menu Help
 	showFirstStepsAct->change( Images::icon("guide"), tr("First Steps &Guide") );
@@ -1832,7 +1837,7 @@ void BaseGui::retranslateStrings() {
 	showCheckUpdatesAct->change( Images::icon("check_updates"), tr("Check for &updates") );
 
 #if defined(YOUTUBE_SUPPORT) && defined(YT_USE_YTSIG)
-	updateYTAct->change( Images::icon("update_youtube"), tr("Update &Youtube code") );
+	updateYTAct->change( Images::icon("update_youtube"), tr("Update the &YouTube code") );
 #endif
 
 	showConfigAct->change( Images::icon("show_config"), tr("&Open configuration folder") );
@@ -1912,6 +1917,7 @@ void BaseGui::retranslateStrings() {
 	audioMenu->menuAction()->setText( tr("&Audio") );
 	subtitlesMenu->menuAction()->setText( tr("&Subtitles") );
 	browseMenu->menuAction()->setText( tr("&Browse") );
+	viewMenu->menuAction()->setText( tr("Vie&w") );
 	optionsMenu->menuAction()->setText( tr("Op&tions") );
 	helpMenu->menuAction()->setText( tr("&Help") );
 
@@ -1938,11 +1944,13 @@ void BaseGui::retranslateStrings() {
 	favorites->menuAction()->setText( tr("F&avorites") );
 	favorites->menuAction()->setIcon( Images::icon("open_favorites") ); 
 
+#ifdef TV_SUPPORT
 	tvlist->menuAction()->setText( tr("&TV") );
 	tvlist->menuAction()->setIcon( Images::icon("open_tv") );
 
 	radiolist->menuAction()->setText( tr("Radi&o") );
 	radiolist->menuAction()->setIcon( Images::icon("open_radio") );
+#endif
 
 	// Menu Play
 	speed_menu->menuAction()->setText( tr("Sp&eed") );
@@ -2037,6 +2045,7 @@ void BaseGui::retranslateStrings() {
 	// Menu Audio
 	audiotrack_menu->menuAction()->setText( tr("&Track", "audio") );
 	audiotrack_menu->menuAction()->setIcon( Images::icon("audio_track") );
+	audiotrack_menu->menuAction()->setToolTip(tr("Select audio track"));
 
 	audiofilter_menu->menuAction()->setText( tr("&Filters") );
 	audiofilter_menu->menuAction()->setIcon( Images::icon("audio_filters") );
@@ -2067,10 +2076,12 @@ void BaseGui::retranslateStrings() {
 	subtitles_track_menu->menuAction()->setText( tr("&Select") );
 #endif
 	subtitles_track_menu->menuAction()->setIcon( Images::icon("sub") );
+	subtitles_track_menu->menuAction()->setToolTip(tr("Select subtitle track"));
 
 #ifdef MPV_SUPPORT
 	secondary_subtitles_track_menu->menuAction()->setText( tr("Secondary trac&k") );
 	secondary_subtitles_track_menu->menuAction()->setIcon( Images::icon("secondary_sub") );
+	secondary_subtitles_track_menu->menuAction()->setToolTip(tr("Select secondary subtitle track"));
 #endif
 
 	closed_captions_menu->menuAction()->setText( tr("&Closed captions") );
@@ -2127,9 +2138,13 @@ void BaseGui::retranslateStrings() {
 #endif
 
 #if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
-	logs_menu->menuAction()->setText( tr("&View logs") );
-	logs_menu->menuAction()->setIcon( Images::icon("logs") );
+	//logs_menu->menuAction()->setText( tr("&View logs") );
+	//logs_menu->menuAction()->setIcon( Images::icon("logs") );
 #endif
+
+	// Access menu
+	access_menu->menuAction()->setText( tr("Quick access menu") );
+	access_menu->menuAction()->setIcon( Images::icon("quick_access_menu") );
 
 	// To be sure that the "<empty>" string is translated
 	initializeMenus();
@@ -2288,7 +2303,8 @@ void BaseGui::createCore() {
 }
 
 void BaseGui::createMplayerWindow() {
-    mplayerwindow = new MplayerWindow( panel );
+	mplayerwindow = new MplayerWindow(panel);
+	mplayerwindow->show();
 	mplayerwindow->setObjectName("mplayerwindow");
 #if USE_COLORKEY
 	mplayerwindow->setColorKey( pref->color_key );
@@ -2402,27 +2418,33 @@ void BaseGui::createAudioEqualizer() {
 
 void BaseGui::createPlaylist() {
 #if DOCK_PLAYLIST
-	playlist = new Playlist(core, this, 0);
+	playlist = new Playlist(this, 0);
 #else
-	//playlist = new Playlist(core, this, "playlist");
-	playlist = new Playlist(core, 0);
+	playlist = new Playlist(0);
 #endif
+	playlist->setConfigPath(Paths::configPath());
 
-	/*
-	connect( playlist, SIGNAL(playlistEnded()),
-             this, SLOT(exitFullscreenOnStop()) );
-	*/
 	connect( playlist, SIGNAL(playlistEnded()),
              this, SLOT(playlistHasFinished()) );
 
 	connect( playlist, SIGNAL(playlistEnded()),
              mplayerwindow, SLOT(showLogo()) );
 
-	/*
-	connect( playlist, SIGNAL(visibilityChanged()),
-             this, SLOT(playlistVisibilityChanged()) );
-	*/
+	connect(playlist, SIGNAL(requestToPlayFile(const QString &, int)),
+            core, SLOT(open(const QString &, int)));
 
+	connect(playlist, SIGNAL(requestToAddCurrentFile()), this, SLOT(addToPlaylistCurrentFile()));
+
+	if (playlist->automaticallyPlayNext()) {
+		connect( core, SIGNAL(mediaFinished()), playlist, SLOT(playNext()), Qt::QueuedConnection );
+	}
+	connect( core, SIGNAL(mplayerFailed(QProcess::ProcessError)), playlist, SLOT(playerFailed(QProcess::ProcessError)) );
+	connect( core, SIGNAL(mplayerFinishedWithError(int)), playlist, SLOT(playerFinishedWithError(int)) );
+	connect(core, SIGNAL(mediaDataReceived(const MediaData &)), playlist, SLOT(getMediaInfo(const MediaData &)));
+
+#ifdef PLAYLIST_DOWNLOAD
+	playlist->setMaxItemsUrlHistory( pref->history_urls->maxItems() );
+#endif
 }
 
 void BaseGui::createPanel() {
@@ -2430,12 +2452,17 @@ void BaseGui::createPanel() {
 	panel->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 	panel->setMinimumSize( QSize(1,1) );
 	panel->setFocusPolicy( Qt::StrongFocus );
+	panel->setObjectName("panel");
 
 	// panel
 	/*
 	panel->setAutoFillBackground(true);
 	ColorUtils::setBackgroundColor( panel, QColor(0,0,0) );
 	*/
+
+#ifndef CHANGE_WIDGET_COLOR
+	panel->setStyleSheet("#panel { background-color: black; }");
+#endif
 }
 
 void BaseGui::createPreferencesDialog() {
@@ -2460,68 +2487,23 @@ void BaseGui::createFilePropertiesDialog() {
 
 
 void BaseGui::createMenus() {
-	// MENUS
-	openMenu = menuBar()->addMenu("Open");
-	playMenu = menuBar()->addMenu("Play");
-	videoMenu = menuBar()->addMenu("Video");
-	audioMenu = menuBar()->addMenu("Audio");
-	subtitlesMenu = menuBar()->addMenu("Subtitles");
-	/* menuBar()->addMenu(favorites); */
-	browseMenu = menuBar()->addMenu("Browse");
-	optionsMenu = menuBar()->addMenu("Options");
-	helpMenu = menuBar()->addMenu("Help");
+	// Submenus
 
-	// OPEN MENU
-	openMenu->addAction(openFileAct);
-
+	// Recents submenu
 	recentfiles_menu = new QMenu(this);
-	/*
-	recentfiles_menu->addAction( clearRecentsAct );
-	recentfiles_menu->addSeparator();
-	*/
-
-	openMenu->addMenu( recentfiles_menu );
-	openMenu->addMenu(favorites);
-	openMenu->addAction(openDirectoryAct);
-	openMenu->addAction(openPlaylistAct);
+	recentfiles_menu->menuAction()->setObjectName("recents_menu");
 
 	// Disc submenu
 	disc_menu = new QMenu(this);
 	disc_menu->menuAction()->setObjectName("disc_menu");
 	disc_menu->addAction(openDVDAct);
 	disc_menu->addAction(openDVDFolderAct);
-#ifdef BLURAY_SUPPORT
+	#ifdef BLURAY_SUPPORT
 	disc_menu->addAction(openBluRayAct);
 	disc_menu->addAction(openBluRayFolderAct);
-#endif
+	#endif
 	disc_menu->addAction(openVCDAct);
 	disc_menu->addAction(openAudioCDAct);
-
-	openMenu->addMenu(disc_menu);
-
-	openMenu->addAction(openURLAct);
-/* #ifndef Q_OS_WIN */
-	openMenu->addMenu(tvlist);
-	openMenu->addMenu(radiolist);
-/* #endif */
-	openMenu->addSeparator();
-	openMenu->addAction(exitAct);
-	
-	// PLAY MENU
-	playMenu->addAction(playAct);
-	playMenu->addAction(pauseAct);
-	/* playMenu->addAction(playOrPauseAct); */
-	playMenu->addAction(stopAct);
-	playMenu->addAction(frameStepAct);
-	playMenu->addAction(frameBackStepAct);
-	playMenu->addSeparator();
-	playMenu->addAction(rewind1Act);
-	playMenu->addAction(forward1Act);
-	playMenu->addAction(rewind2Act);
-	playMenu->addAction(forward2Act);
-	playMenu->addAction(rewind3Act);
-	playMenu->addAction(forward3Act);
-	playMenu->addSeparator();
 
 	// Speed submenu
 	speed_menu = new QMenu(this);
@@ -2540,8 +2522,6 @@ void BaseGui::createMenus() {
 	speed_menu->addAction(decSpeed1Act);
 	speed_menu->addAction(incSpeed1Act);
 
-	playMenu->addMenu(speed_menu);
-
 	// A-B submenu
 	ab_menu = new QMenu(this);
 	ab_menu->menuAction()->setObjectName("ab_menu");
@@ -2551,39 +2531,23 @@ void BaseGui::createMenus() {
 	ab_menu->addSeparator();
 	ab_menu->addAction(repeatAct);
 
-	playMenu->addSeparator();
-	playMenu->addMenu(ab_menu);
-
-	playMenu->addSeparator();
-	playMenu->addAction(gotoAct);
-	playMenu->addSeparator();
-	playMenu->addAction(playPrevAct);
-	playMenu->addAction(playNextAct);
-	
-	// VIDEO MENU
+	// Video track submenu
 	videotrack_menu = new QMenu(this);
 	videotrack_menu->menuAction()->setObjectName("videotrack_menu");
-
-	videoMenu->addMenu(videotrack_menu);
-
-	videoMenu->addAction(fullscreenAct);
-	videoMenu->addAction(compactAct);
 
 #if USE_ADAPTER
 	// Screen submenu
 	screen_menu = new QMenu(this);
 	screen_menu->menuAction()->setObjectName("screen_menu");
-	screen_menu->addActions( screenGroup->actions() );
-	videoMenu->addMenu(screen_menu);
+	screen_menu->addActions(screenGroup->actions());
 #endif
 
-	// Size submenu
+	// Video size submenu
 	videosize_menu = new QMenu(this);
 	videosize_menu->menuAction()->setObjectName("videosize_menu");
-	videosize_menu->addActions( sizeGroup->actions() );
+	videosize_menu->addActions(sizeGroup->actions());
 	videosize_menu->addSeparator();
 	videosize_menu->addAction(doubleSizeAct);
-	videoMenu->addMenu(videosize_menu);
 
 	// Zoom submenu
 	zoom_menu = new QMenu(this);
@@ -2602,21 +2566,15 @@ void BaseGui::createMenus() {
 	zoom_menu->addAction(moveUpAct);
 	zoom_menu->addAction(moveDownAct);
 
-	videoMenu->addMenu(zoom_menu);
-
 	// Aspect submenu
 	aspect_menu = new QMenu(this);
 	aspect_menu->menuAction()->setObjectName("aspect_menu");
-	aspect_menu->addActions( aspectGroup->actions() );
-
-	videoMenu->addMenu(aspect_menu);
+	aspect_menu->addActions(aspectGroup->actions());
 
 	// Deinterlace submenu
 	deinterlace_menu = new QMenu(this);
 	deinterlace_menu->menuAction()->setObjectName("deinterlace_menu");
-	deinterlace_menu->addActions( deinterlaceGroup->actions() );
-
-	videoMenu->addMenu(deinterlace_menu);
+	deinterlace_menu->addActions(deinterlaceGroup->actions());
 
 	// Video filter submenu
 	videofilter_menu = new QMenu(this);
@@ -2641,109 +2599,53 @@ void BaseGui::createMenus() {
 	unsharp_menu->menuAction()->setObjectName("unsharp_menu");
 	unsharp_menu->addActions(unsharpGroup->actions());
 	videofilter_menu->addMenu(unsharp_menu);
-	/*
-	videofilter_menu->addSeparator();
-	videofilter_menu->addActions(denoiseGroup->actions());
-	videofilter_menu->addSeparator();
-	videofilter_menu->addActions(unsharpGroup->actions());
-	*/
-	videoMenu->addMenu(videofilter_menu);
 
 	// Rotate submenu
 	rotate_menu = new QMenu(this);
 	rotate_menu->menuAction()->setObjectName("rotate_menu");
 	rotate_menu->addActions(rotateGroup->actions());
 
-	videoMenu->addMenu(rotate_menu);
-
-	videoMenu->addAction(flipAct);
-	videoMenu->addAction(mirrorAct);
-	videoMenu->addAction(stereo3dAct);
-	videoMenu->addSeparator();
-	videoMenu->addAction(videoEqualizerAct);
-	videoMenu->addAction(screenshotAct);
-	videoMenu->addAction(screenshotsAct);
-
 	// Ontop submenu
 	ontop_menu = new QMenu(this);
 	ontop_menu->menuAction()->setObjectName("ontop_menu");
 	ontop_menu->addActions(onTopActionGroup->actions());
 
-	videoMenu->addMenu(ontop_menu);
-
-#ifdef VIDEOPREVIEW
-	videoMenu->addSeparator();
-	videoMenu->addAction(videoPreviewAct);
-#endif
-
-
-    // AUDIO MENU
 
 	// Audio track submenu
 	audiotrack_menu = new QMenu(this);
 	audiotrack_menu->menuAction()->setObjectName("audiotrack_menu");
 
-	audioMenu->addMenu(audiotrack_menu);
-
-	audioMenu->addAction(loadAudioAct);
-	audioMenu->addAction(unloadAudioAct);
-
-	// Filter submenu
+	// Audio filter submenu
 	audiofilter_menu = new QMenu(this);
 	audiofilter_menu->menuAction()->setObjectName("audiofilter_menu");
 	audiofilter_menu->addAction(extrastereoAct);
-#ifdef MPLAYER_SUPPORT
+	#ifdef MPLAYER_SUPPORT
 	audiofilter_menu->addAction(karaokeAct);
-#endif
+	#endif
 	audiofilter_menu->addAction(volnormAct);
-
-	audioMenu->addMenu(audiofilter_menu);
 
 	// Audio channels submenu
 	audiochannels_menu = new QMenu(this);
 	audiochannels_menu->menuAction()->setObjectName("audiochannels_menu");
-	audiochannels_menu->addActions( channelsGroup->actions() );
-
-	audioMenu->addMenu(audiochannels_menu);
+	audiochannels_menu->addActions(channelsGroup->actions());
 
 	// Stereo mode submenu
 	stereomode_menu = new QMenu(this);
 	stereomode_menu->menuAction()->setObjectName("stereomode_menu");
-	stereomode_menu->addActions( stereoGroup->actions() );
-
-	audioMenu->addMenu(stereomode_menu);
-	audioMenu->addAction(audioEqualizerAct);
-	audioMenu->addSeparator();
-	audioMenu->addAction(muteAct);
-	audioMenu->addSeparator();
-	audioMenu->addAction(decVolumeAct);
-	audioMenu->addAction(incVolumeAct);
-	audioMenu->addSeparator();
-	audioMenu->addAction(decAudioDelayAct);
-	audioMenu->addAction(incAudioDelayAct);
-	audioMenu->addSeparator();
-	audioMenu->addAction(audioDelayAct);
+	stereomode_menu->addActions(stereoGroup->actions());
 
 
-	// SUBTITLES MENU
-	// Track submenu
+	// Subtitles track submenu
 	subtitles_track_menu = new QMenu(this);
 	subtitles_track_menu->menuAction()->setObjectName("subtitlestrack_menu");
 
-#ifdef MPV_SUPPORT
+	// Subtitles secondary track submenu
+	#ifdef MPV_SUPPORT
 	secondary_subtitles_track_menu = new QMenu(this);
 	secondary_subtitles_track_menu->menuAction()->setObjectName("secondary_subtitles_track_menu");
-#endif
+	#endif
 
-	subtitlesMenu->addMenu(subtitles_track_menu);
-#ifdef MPV_SUPPORT
-	subtitlesMenu->addMenu(secondary_subtitles_track_menu);
-#endif
-	subtitlesMenu->addSeparator();
-
-	subtitlesMenu->addAction(loadSubsAct);
-	subtitlesMenu->addAction(unloadSubsAct);
-
+	// Subtitles fps submenu
 	subfps_menu = new QMenu(this);
 	subfps_menu->menuAction()->setObjectName("subfps_menu");
 	subfps_menu->addAction( subFPSNoneAct );
@@ -2753,9 +2655,8 @@ void BaseGui::createMenus() {
 	subfps_menu->addAction( subFPS25Act );
 	subfps_menu->addAction( subFPS29970Act );
 	subfps_menu->addAction( subFPS30Act );
-	subtitlesMenu->addMenu(subfps_menu);
-	subtitlesMenu->addSeparator();
 
+	// Closed captions submenu
 	closed_captions_menu = new QMenu(this);
 	closed_captions_menu->menuAction()->setObjectName("closed_captions_menu");
 	closed_captions_menu->addAction( ccNoneAct);
@@ -2763,103 +2664,32 @@ void BaseGui::createMenus() {
 	closed_captions_menu->addAction( ccChannel2Act);
 	closed_captions_menu->addAction( ccChannel3Act);
 	closed_captions_menu->addAction( ccChannel4Act);
-	subtitlesMenu->addMenu(closed_captions_menu);
-	subtitlesMenu->addSeparator();
 
-	subtitlesMenu->addAction(decSubDelayAct);
-	subtitlesMenu->addAction(incSubDelayAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(subDelayAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(decSubPosAct);
-	subtitlesMenu->addAction(incSubPosAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(decSubScaleAct);
-	subtitlesMenu->addAction(incSubScaleAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(decSubStepAct);
-	subtitlesMenu->addAction(incSubStepAct);
-#ifdef MPV_SUPPORT
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(seekPrevSubAct);
-	subtitlesMenu->addAction(seekNextSubAct);
-#endif
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(useForcedSubsOnlyAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(subVisibilityAct);
-	subtitlesMenu->addSeparator();
-	subtitlesMenu->addAction(useCustomSubStyleAct);
-#ifdef FIND_SUBTITLES
-	subtitlesMenu->addSeparator(); //turbos
-	subtitlesMenu->addAction(showFindSubtitlesDialogAct);
-	subtitlesMenu->addAction(openUploadSubtitlesPageAct); //turbos
-#endif
 
-	// BROWSE MENU
 	// Titles submenu
 	titles_menu = new QMenu(this);
 	titles_menu->menuAction()->setObjectName("titles_menu");
-
-	browseMenu->addMenu(titles_menu);
 
 	// Chapters submenu
 	chapters_menu = new QMenu(this);
 	chapters_menu->menuAction()->setObjectName("chapters_menu");
 
-	browseMenu->addMenu(chapters_menu);
-
 	// Angles submenu
 	angles_menu = new QMenu(this);
 	angles_menu->menuAction()->setObjectName("angles_menu");
 
-	browseMenu->addMenu(angles_menu);
-
-#ifdef BOOKMARKS
 	// Bookmarks submenu
+	#ifdef BOOKMARKS
 	bookmark_menu = new QMenu(this);
 	bookmark_menu->menuAction()->setObjectName("bookmarks_menu");
+	#endif
 
-	browseMenu->addMenu(bookmark_menu);
-#endif
-
-#if DVDNAV_SUPPORT
-	browseMenu->addSeparator();
-	browseMenu->addAction(dvdnavMenuAct);
-	browseMenu->addAction(dvdnavPrevAct);
-#endif
-
-#if PROGRAM_SWITCH
+	// Program submenu
+	#if PROGRAM_SWITCH
 	programtrack_menu = new QMenu(this);
 	programtrack_menu->menuAction()->setObjectName("programtrack_menu");
-
-	browseMenu->addSeparator();
-	browseMenu->addMenu(programtrack_menu);
-#endif
-
-
-	// OPTIONS MENU
-	optionsMenu->addAction(showPropertiesAct);
-	optionsMenu->addAction(showPlaylistAct);
-#ifdef YOUTUBE_SUPPORT
-	#if 0
-	// Check if the smplayer youtube browser is installed
-	{
-		QString tube_exec = Paths::appPath() + "/smtube";
-		#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-		tube_exec += ".exe";
-		#endif
-		if (QFile::exists(tube_exec)) {
-			optionsMenu->addAction(showTubeBrowserAct);
-			qDebug("BaseGui::createMenus: %s does exist", tube_exec.toUtf8().constData());
-		} else {
-			qDebug("BaseGui::createMenus: %s does not exist", tube_exec.toUtf8().constData());
-		}
-	}
-	#else
-	optionsMenu->addAction(showTubeBrowserAct);
 	#endif
-#endif
+
 
 	// OSD submenu
 	osd_menu = new QMenu(this);
@@ -2870,58 +2700,27 @@ void BaseGui::createMenus() {
 	osd_menu->addAction(incOSDScaleAct);
 
 
-	optionsMenu->addMenu(osd_menu);
-
-	// Logs submenu
-#if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
-	logs_menu = new QMenu(this);
-	#ifdef LOG_MPLAYER
-	logs_menu->addAction(showLogMplayerAct);
-	#endif
-	#ifdef LOG_SMPLAYER
-	logs_menu->addAction(showLogSmplayerAct);
-	#endif
-	optionsMenu->addMenu(logs_menu);
-#endif
-
-	optionsMenu->addAction(showPreferencesAct);
-
-	/*
-	Favorites * fav = new Favorites(Paths::configPath() + "/test.fav", this);
-	connect(fav, SIGNAL(activated(QString)), this, SLOT(open(QString)));
-	optionsMenu->addMenu( fav->menu() )->setText("Favorites");
-	*/
-
-	// HELP MENU
 	// Share submenu
-#ifdef SHARE_MENU
+	#ifdef SHARE_MENU
 	share_menu = new QMenu(this);
 	share_menu->addAction(facebookAct);
 	share_menu->addAction(twitterAct);
 	share_menu->addAction(gmailAct);
 	share_menu->addAction(hotmailAct);
 	share_menu->addAction(yahooAct);
+	#endif
 
-	helpMenu->addMenu(share_menu);
-	helpMenu->addSeparator();
-#endif
-
-	helpMenu->addAction(showFirstStepsAct);
-	helpMenu->addAction(showFAQAct);
-	helpMenu->addAction(showCLOptionsAct);
-	helpMenu->addSeparator();
-	helpMenu->addAction(showCheckUpdatesAct);
-#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_YTSIG)
-	helpMenu->addAction(updateYTAct);
-#endif
-	helpMenu->addSeparator();
-	helpMenu->addAction(showConfigAct);
-	helpMenu->addSeparator();
-#ifdef SHARE_ACTIONS
-	helpMenu->addAction(donateAct);
-	helpMenu->addSeparator();
-#endif
-	helpMenu->addAction(aboutThisAct);
+	// MENUS
+	openMenu = menuBar()->addMenu("Open");
+	playMenu = menuBar()->addMenu("Play");
+	videoMenu = menuBar()->addMenu("Video");
+	audioMenu = menuBar()->addMenu("Audio");
+	subtitlesMenu = menuBar()->addMenu("Subtitles");
+	/* menuBar()->addMenu(favorites); */
+	browseMenu = menuBar()->addMenu("Browse");
+	viewMenu = menuBar()->addMenu("View");
+	optionsMenu = menuBar()->addMenu("Options");
+	helpMenu = menuBar()->addMenu("Help");
 
 	// POPUP MENU
 	if (!popup)
@@ -2936,10 +2735,279 @@ void BaseGui::createMenus() {
 	popup->addMenu( subtitlesMenu );
 	popup->addMenu( favorites );
 	popup->addMenu( browseMenu );
+	popup->addMenu( viewMenu );
 	popup->addMenu( optionsMenu );
+
+	// Access menu
+	access_menu = new QMenu(this);
+	access_menu->menuAction()->setObjectName("quick_access_menu");
+
+	//populateMainMenu();
 
 	// let's show something, even a <empty> entry
 	initializeMenus();
+}
+
+void BaseGui::populateMainMenu() {
+	qDebug("BaseGui::populateMainMenu");
+
+	openMenu->clear();
+	playMenu->clear();
+	videoMenu->clear();
+	audioMenu->clear();
+	subtitlesMenu->clear();
+	browseMenu->clear();
+	viewMenu->clear();
+	optionsMenu->clear();
+	helpMenu->clear();
+
+	// OPEN MENU
+	openMenu->addAction(openFileAct);
+	openMenu->addMenu(recentfiles_menu);
+	openMenu->addMenu(favorites);
+	openMenu->addAction(openDirectoryAct);
+	openMenu->addAction(openPlaylistAct);
+	if (!pref->tablet_mode) {
+		openMenu->addMenu(disc_menu);
+	}
+	openMenu->addAction(openURLAct);
+#ifdef TV_SUPPORT
+	if (!pref->tablet_mode) {
+		openMenu->addMenu(tvlist);
+		openMenu->addMenu(radiolist);
+	}
+#endif
+	openMenu->addSeparator();
+	openMenu->addAction(exitAct);
+
+	// PLAY MENU
+	if (!pref->tablet_mode) {
+		playMenu->addAction(playAct);
+		playMenu->addAction(pauseAct);
+		/* playMenu->addAction(playOrPauseAct); */
+		playMenu->addAction(stopAct);
+	}
+	playMenu->addAction(frameStepAct);
+	playMenu->addAction(frameBackStepAct);
+	playMenu->addSeparator();
+	if (!pref->tablet_mode) {
+		playMenu->addAction(rewind1Act);
+		playMenu->addAction(forward1Act);
+	}
+	playMenu->addAction(rewind2Act);
+	playMenu->addAction(forward2Act);
+	playMenu->addAction(rewind3Act);
+	playMenu->addAction(forward3Act);
+	playMenu->addSeparator();
+	playMenu->addMenu(speed_menu);
+	playMenu->addSeparator();
+	if (!pref->tablet_mode) {
+		playMenu->addMenu(ab_menu);
+		playMenu->addSeparator();
+		playMenu->addAction(gotoAct);
+		playMenu->addSeparator();
+	}
+	playMenu->addAction(playPrevAct);
+	playMenu->addAction(playNextAct);
+
+	// VIDEO MENU
+	videoMenu->addMenu(videotrack_menu);
+	videoMenu->addAction(fullscreenAct);
+	if (!pref->tablet_mode) {
+		videoMenu->addAction(compactAct);
+		#if USE_ADAPTER
+		videoMenu->addMenu(screen_menu);
+		#endif
+	}
+	videoMenu->addMenu(videosize_menu);
+	videoMenu->addMenu(zoom_menu);
+	videoMenu->addMenu(aspect_menu);
+	videoMenu->addMenu(deinterlace_menu);
+	videoMenu->addMenu(videofilter_menu);
+	videoMenu->addMenu(rotate_menu);
+	videoMenu->addAction(flipAct);
+	videoMenu->addAction(mirrorAct);
+	if (!pref->tablet_mode) {
+		videoMenu->addAction(stereo3dAct);
+		videoMenu->addSeparator();
+	}
+	videoMenu->addAction(videoEqualizerAct);
+	videoMenu->addAction(screenshotAct);
+	if (!pref->tablet_mode) {
+		videoMenu->addAction(screenshotsAct);
+		videoMenu->addMenu(ontop_menu);
+	}
+	#ifdef VIDEOPREVIEW
+	videoMenu->addSeparator();
+	videoMenu->addAction(videoPreviewAct);
+	#endif
+
+	// AUDIO MENU
+	audioMenu->addMenu(audiotrack_menu);
+	audioMenu->addAction(loadAudioAct);
+	audioMenu->addAction(unloadAudioAct);
+	audioMenu->addMenu(audiofilter_menu);
+	if (!pref->tablet_mode) {
+		audioMenu->addMenu(audiochannels_menu);
+		audioMenu->addMenu(stereomode_menu);
+	}
+	audioMenu->addAction(audioEqualizerAct);
+	audioMenu->addSeparator();
+	if (!pref->tablet_mode) {
+		audioMenu->addAction(muteAct);
+		audioMenu->addSeparator();
+		audioMenu->addAction(decVolumeAct);
+		audioMenu->addAction(incVolumeAct);
+		audioMenu->addSeparator();
+	}
+	audioMenu->addAction(decAudioDelayAct);
+	audioMenu->addAction(incAudioDelayAct);
+	audioMenu->addAction(audioDelayAct);
+
+
+	// SUBTITLES MENU
+	subtitlesMenu->addMenu(subtitles_track_menu);
+	#ifdef MPV_SUPPORT
+	subtitlesMenu->addMenu(secondary_subtitles_track_menu);
+	#endif
+	subtitlesMenu->addSeparator();
+	subtitlesMenu->addAction(loadSubsAct);
+	subtitlesMenu->addAction(unloadSubsAct);
+	if (!pref->tablet_mode) {
+		subtitlesMenu->addMenu(subfps_menu);
+		subtitlesMenu->addSeparator();
+		subtitlesMenu->addMenu(closed_captions_menu);
+	}
+	subtitlesMenu->addSeparator();
+	subtitlesMenu->addAction(decSubDelayAct);
+	subtitlesMenu->addAction(incSubDelayAct);
+	subtitlesMenu->addAction(subDelayAct);
+	subtitlesMenu->addSeparator();
+	if (!pref->tablet_mode) {
+		subtitlesMenu->addAction(decSubPosAct);
+		subtitlesMenu->addAction(incSubPosAct);
+		subtitlesMenu->addSeparator();
+		subtitlesMenu->addAction(decSubScaleAct);
+		subtitlesMenu->addAction(incSubScaleAct);
+		subtitlesMenu->addSeparator();
+		subtitlesMenu->addAction(decSubStepAct);
+		subtitlesMenu->addAction(incSubStepAct);
+		#ifdef MPV_SUPPORT
+		subtitlesMenu->addSeparator();
+		subtitlesMenu->addAction(seekPrevSubAct);
+		subtitlesMenu->addAction(seekNextSubAct);
+		#endif
+		subtitlesMenu->addSeparator();
+		subtitlesMenu->addAction(useForcedSubsOnlyAct);
+		subtitlesMenu->addSeparator();
+	}
+	subtitlesMenu->addAction(subVisibilityAct);
+	subtitlesMenu->addSeparator();
+	subtitlesMenu->addAction(useCustomSubStyleAct);
+	#ifdef FIND_SUBTITLES
+	subtitlesMenu->addSeparator();
+	subtitlesMenu->addAction(showFindSubtitlesDialogAct);
+	if (!pref->tablet_mode) {
+		subtitlesMenu->addAction(openUploadSubtitlesPageAct);
+	}
+	#endif
+
+	// BROWSE MENU
+	if (!pref->tablet_mode) {
+		browseMenu->addMenu(titles_menu);
+	}
+	browseMenu->addMenu(chapters_menu);
+	if (!pref->tablet_mode) {
+		browseMenu->addMenu(angles_menu);
+	}
+	#ifdef BOOKMARKS
+	browseMenu->addMenu(bookmark_menu);
+	#endif
+	#if DVDNAV_SUPPORT
+	if (!pref->tablet_mode) {
+		browseMenu->addSeparator();
+		browseMenu->addAction(dvdnavMenuAct);
+		browseMenu->addAction(dvdnavPrevAct);
+	}
+	#endif
+	#if PROGRAM_SWITCH
+	if (!pref->tablet_mode) {
+		browseMenu->addSeparator();
+		browseMenu->addMenu(programtrack_menu);
+	}
+	#endif
+
+	// VIEW MENU
+	viewMenu->addAction(showPropertiesAct);
+	viewMenu->addAction(showPlaylistAct);
+	#ifdef YOUTUBE_SUPPORT
+	if (!pref->tablet_mode) {
+		viewMenu->addAction(showTubeBrowserAct);
+	}
+	#endif
+	viewMenu->addMenu(osd_menu);
+	#if defined(LOG_MPLAYER) || defined(LOG_SMPLAYER)
+	if (!pref->tablet_mode) {
+		viewMenu->addSeparator()->setText(tr("Logs"));
+		#ifdef LOG_MPLAYER
+		viewMenu->addAction(showLogMplayerAct);
+		#endif
+		#ifdef LOG_SMPLAYER
+		viewMenu->addAction(showLogSmplayerAct);
+		#endif
+	}
+	#endif
+
+	// OPTIONS MENU
+	optionsMenu->addAction(showPreferencesAct);
+	optionsMenu->addAction(tabletModeAct);
+
+	// HELP MENU
+	#ifdef SHARE_MENU
+	if (!pref->tablet_mode) {
+		helpMenu->addMenu(share_menu);
+		helpMenu->addSeparator();
+	}
+	#endif
+	if (!pref->tablet_mode) {
+		helpMenu->addAction(showFirstStepsAct);
+		helpMenu->addAction(showFAQAct);
+		helpMenu->addAction(showCLOptionsAct);
+		helpMenu->addSeparator();
+	}
+	helpMenu->addAction(showCheckUpdatesAct);
+	#if defined(YOUTUBE_SUPPORT) && defined(YT_USE_YTSIG)
+	helpMenu->addAction(updateYTAct);
+	#endif
+	helpMenu->addSeparator();
+	if (!pref->tablet_mode) {
+		helpMenu->addAction(showConfigAct);
+		helpMenu->addSeparator();
+	}
+	#ifdef SHARE_ACTIONS
+	helpMenu->addAction(donateAct);
+	helpMenu->addSeparator();
+	#endif
+	helpMenu->addAction(aboutThisAct);
+
+	// Access menu
+	access_menu->clear();
+	access_menu->addAction(openFileAct);
+	access_menu->addAction(openURLAct);
+	access_menu->addMenu(recentfiles_menu);
+	access_menu->addMenu(favorites);
+	access_menu->addSeparator();
+	access_menu->addAction(playPrevAct);
+	access_menu->addAction(playNextAct);
+	access_menu->addSeparator();
+	access_menu->addMenu(audiotrack_menu);
+	access_menu->addMenu(subtitles_track_menu);
+	access_menu->addSeparator();
+	access_menu->addMenu(aspect_menu);
+	access_menu->addSeparator();
+	access_menu->addAction(showPlaylistAct);
+	access_menu->addAction(showPreferencesAct);
+	access_menu->addAction(tabletModeAct);
 }
 
 /*
@@ -3066,12 +3134,10 @@ void BaseGui::applyNewPreferences() {
 		}
 	}
 
-#ifndef NO_USE_INI_FILES
 	PrefGeneral *_general = pref_dialog->mod_general();
 	if (_general->fileSettingsMethodChanged()) {
 		core->changeFileSettingsMethod(pref->file_settings_method);
 	}
-#endif
 
 	PrefInterface *_interface = pref_dialog->mod_interface();
 	if (_interface->recentsChanged()) {
@@ -3087,9 +3153,7 @@ void BaseGui::applyNewPreferences() {
 		#endif
 	}
 
-#ifdef MOUSE_GESTURES
-	mplayerwindow->activateMouseDragTracking(true);
-#else
+#ifndef MOUSE_GESTURES
 	mplayerwindow->activateMouseDragTracking(pref->drag_function == Preferences::MoveWindow);
 #endif
 	mplayerwindow->delayLeftClick(pref->delay_left_click);
@@ -3136,6 +3200,9 @@ void BaseGui::applyNewPreferences() {
 	playlist->setPlayFilesFromStart(pl->playFilesFromStart());
 	playlist->setIgnorePlayerErrors(pl->ignorePlayerErrors());
 
+#ifdef PLAYLIST_DOWNLOAD
+	playlist->setMaxItemsUrlHistory( pref->history_urls->maxItems() );
+#endif
 
 	if (need_update_language) {
 		translator->load(pref->language);
@@ -3158,10 +3225,9 @@ void BaseGui::applyNewPreferences() {
 	pref_dialog->mod_input()->actions_editor->applyChanges();
 	saveActions();
 
-#ifndef NO_USE_INI_FILES
 	pref->save();
-#endif
 
+	emit preferencesChanged();
 
 	if (_interface->guiChanged()) {
 #ifdef GUI_CHANGE_ON_RUNTIME
@@ -3870,6 +3936,17 @@ void BaseGui::updateWidgets() {
 	seekNextSubAct->setEnabled(e);
 	seekPrevSubAct->setEnabled(e);
 #endif
+
+	tabletModeAct->setChecked(pref->tablet_mode);
+
+#if defined(MPV_SUPPORT) && defined(MPLAYER_SUPPORT)
+	if (PlayerID::player(pref->mplayer_bin) == PlayerID::MPLAYER) {
+		secondary_subtitles_track_menu->setEnabled(false);
+		frameBackStepAct->setEnabled(false);
+	} else {
+		karaokeAct->setEnabled(false);
+	}
+#endif
 }
 
 void BaseGui::updateVideoEqualizer() {
@@ -4343,9 +4420,10 @@ void BaseGui::helpFAQ() {
 
 void BaseGui::helpCLOptions() {
 	if (clhelp_window == 0) {
-		clhelp_window = new LogWindow(this);
+		clhelp_window = new InfoWindow(this);
 	}
 	clhelp_window->setWindowTitle( tr("SMPlayer command line options") );
+	clhelp_window->setWindowIcon( Images::icon("logo") );
 	clhelp_window->setHtml(CLHelp::help(true));
 	clhelp_window->show();
 }
@@ -4950,7 +5028,7 @@ void BaseGui::dropEvent( QDropEvent *e ) {
 		QString s;
 		for (int n=0; n < l.count(); n++) {
 			if (l[n].isValid()) {
-				qDebug("BaseGui::dropEvent: scheme: '%s'", l[n].scheme().toUtf8().data());
+				qDebug() << "BaseGui::dropEvent: scheme:" << l[n].scheme();
 				if (l[n].scheme() == "file") 
 					s = l[n].toLocalFile();
 				else
@@ -4959,54 +5037,84 @@ void BaseGui::dropEvent( QDropEvent *e ) {
 				qDebug(" * '%s'", l[n].toString().toUtf8().data());
 				qDebug(" * '%s'", l[n].toLocalFile().toUtf8().data());
 				*/
-				qDebug("BaseGui::dropEvent: file: '%s'", s.toUtf8().data());
+				qDebug() << "BaseGui::dropEvent: file:" << s;
 				files.append(s);
 			}
 		}
 	}
 
+	QStringList file_list;
+	QStringList dir_list;
+	QString sub_file;
 
-	qDebug( "BaseGui::dropEvent: count: %d", files.count());
+#ifdef Q_OS_WIN
 	if (files.count() > 0) {
-		#ifdef Q_OS_WIN
 		files = Helper::resolveSymlinks(files); // Check for Windows shortcuts
-		#endif
-		files.sort();
+	}
+#endif
+	files.sort();
 
-		if (files.count() == 1) {
-			QFileInfo fi( files[0] );
+	Extensions ext;
+	QRegExp ext_sub(ext.subtitles().forRegExp());
+	ext_sub.setCaseSensitivity(Qt::CaseInsensitive);
 
-			Extensions e;
-			QRegExp ext_sub(e.subtitles().forRegExp());
-			ext_sub.setCaseSensitivity(Qt::CaseInsensitive);
-			if (ext_sub.indexIn(fi.suffix()) > -1) {
-				qDebug( "BaseGui::dropEvent: loading sub: '%s'", files[0].toUtf8().data());
-				core->loadSub( files[0] );
-			}
-			else
-			if (fi.isDir()) {
-				openDirectory( files[0] );
-			} else {
-				//openFile( files[0] );
-				if (pref->auto_add_to_playlist) {
-					if (playlist->maybeSave()) {
-						playlist->clear();
-						playlist->addFile(files[0], Playlist::NoGetInfo);
-
-						open( files[0] );
-					}
-				} else {
-					open( files[0] );
-				}
-			}
-		} else {
-			// More than one file
-			qDebug("BaseGui::dropEvent: adding files to playlist");
-			playlist->clear();
-			playlist->addFiles(files);
-			//openFile( files[0] );
-			playlist->startPlay();
+	foreach (QString file, files) {
+		QFileInfo fi(file);
+		if (fi.isDir()) {
+			// Folder
+			dir_list << file;
 		}
+		else
+		if (ext_sub.indexIn(fi.suffix()) > -1) {
+			// Subtitle file
+			if (sub_file.isEmpty()) sub_file = file;
+		}
+		else {
+			// File (or something else)
+			file_list << file;
+		}
+	}
+
+	qDebug() << "BaseGui::dropEvent: list of dirs:" << dir_list;
+	qDebug() << "BaseGui::dropEvent: list of files:" << file_list;
+	qDebug() << "BaseGui::dropEvent: subtitle file:" << sub_file;
+
+	if (!sub_file.isEmpty()) {
+		core->loadSub(sub_file);
+		return;
+	}
+
+	if (file_list.isEmpty() && dir_list.isEmpty()) {
+		return;
+	}
+
+	if (dir_list.count() == 1 && file_list.isEmpty()) {
+		openDirectory(dir_list[0]);
+		return;
+	}
+
+	if (pref->auto_add_to_playlist) {
+		if (!playlist->maybeSave()) return;
+		playlist->clear();
+
+		if (!dir_list.isEmpty()) {
+			// Add directories to the playlist
+			foreach(QString dir, dir_list) playlist->addDirectory(dir);
+		}
+
+		if (!file_list.isEmpty()) {
+			// Add files to the playlist
+			playlist->addFiles(file_list, Playlist::NoGetInfo);
+		}
+
+		// All files are in the playlist, let's start to play
+		playlist->startPlay();
+	} else {
+		// It wasn't possible to add files to the list
+		// Let's open the first directory or file
+		if (!dir_list.isEmpty()) openDirectory(dir_list[0]); // Bug? This actually modifies the playlist...
+		else
+		if (!file_list.isEmpty()) open(file_list[0]);
 	}
 }
 
@@ -5109,6 +5217,14 @@ void BaseGui::playlistHasFinished() {
 	}
 }
 
+void BaseGui::addToPlaylistCurrentFile() {
+	qDebug("BaseGui::addToPlaylistCurrentFile");
+	if (!core->mdat.filename.isEmpty()) {
+		playlist->addItem(core->mdat.filename, "", 0);
+		playlist->getMediaInfo(core->mdat);
+	}
+}
+
 void BaseGui::displayState(Core::State state) {
 	qDebug() << "BaseGui::displayState:" << core->stateToString();
 
@@ -5122,7 +5238,6 @@ void BaseGui::displayState(Core::State state) {
 
 	if (state == Core::Stopped) setWindowCaption( "SMPlayer" );
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef AVOID_SCREENSAVER
 	/* Disable screensaver by event */
 	just_stopped = false;
@@ -5132,7 +5247,6 @@ void BaseGui::displayState(Core::State state) {
 		int time = 1000 * 60; // 1 minute
 		QTimer::singleShot( time, this, SLOT(clear_just_stopped()) );
 	}
-#endif
 #endif
 }
 
@@ -5157,12 +5271,15 @@ void BaseGui::gotCurrentTime(double sec) {
 
 	//qDebug( " duration: %f, current_sec: %f", core->mdat.duration, core->mset.current_sec);
 
-	emit timeChanged( time );
+	emit timeChanged(sec);
+	emit timeChanged(time);
 }
 
 void BaseGui::changeSizeFactor(int factor) {
 	// If fullscreen, don't resize!
 	if (pref->fullscreen) return;
+
+	if (isMaximized()) showNormal();
 
 	if (!pref->use_mplayer_window) {
 		pref->size_factor = factor;
@@ -5177,8 +5294,8 @@ void BaseGui::toggleDoubleSize() {
 void BaseGui::resizeWindow(int w, int h) {
 	qDebug("BaseGui::resizeWindow: %d, %d", w, h);
 
-	// If fullscreen, don't resize!
-	if (pref->fullscreen) return;
+	// If fullscreen or maximized, don't resize!
+	if (pref->fullscreen || isMaximized()) return;
 
 	if ( (pref->resize_method==Preferences::Never) && (panel->isVisible()) ) {
 		return;
@@ -5226,11 +5343,12 @@ void BaseGui::resizeMainWindow(int w, int h) {
 
 	qDebug("BaseGui::resizeWindow: new_width: %d new_height: %d", new_width, new_height);
 
-#if 0
-	QSize desktop_size = DesktopInfo::desktop_size(this);
+#ifdef Q_OS_WIN
+	QRect desktop_rect = QApplication::desktop()->availableGeometry(this);
+	QSize desktop_size = QSize(desktop_rect.width(), desktop_rect.height());
 	//desktop_size.setWidth(1000); desktop_size.setHeight(1000); // test
 	if (new_width > desktop_size.width()) {
-		double aspect = (double) new_width / new_height;
+		//double aspect = (double) new_width / new_height;
 		qDebug("BaseGui::resizeWindow: width (%d) is larger than desktop width (%d)", new_width, desktop_size.width());
 		new_width = desktop_size.width();
 		/*
@@ -5258,7 +5376,7 @@ void BaseGui::resizeMainWindow(int w, int h) {
 	// Check if a part of the window is outside of the desktop
 	// and center the window in that case
 	if ((pref->center_window_if_outside) && (!core->mdat.novideo)) {
-		QRect screen_rect = QApplication::desktop()->screenGeometry(this);
+		QRect screen_rect = QApplication::desktop()->availableGeometry(this);
 		QPoint right_bottom = QPoint(this->pos().x() + this->width(), this->pos().y() + this->height());
 		qDebug("BaseGui::resizeWindow: right bottom point: %d, %d", right_bottom.x(), right_bottom.y());;
 		if (!screen_rect.contains(right_bottom) || !screen_rect.contains(this->pos())) {
@@ -5266,6 +5384,12 @@ void BaseGui::resizeMainWindow(int w, int h) {
 			//move(screen_rect.x(), screen_rect.y());
 			int x = screen_rect.x() + ((screen_rect.width() - width()) / 2);
 			int y = screen_rect.y() + ((screen_rect.height() - height()) / 2);
+			//qDebug() << "BaseGui::resizeWindow: screen_rect.x:" << screen_rect.x() << "screen_rect.y:" << screen_rect.y();
+			//qDebug() << "BaseGui::resizeWindow: width:" << ((screen_rect.width() - width()) / 2);
+			//qDebug() << "BaseGui::resizeWindow: height:" << ((screen_rect.height() - height()) / 2);
+			if (x < screen_rect.x()) x = screen_rect.x();
+			if (y < screen_rect.y()) y = screen_rect.y();
+			//qDebug() << "BaseGui::resizeWindow: x:" << x << "y:" << y;
 			move(x, y);
 		}
 	}
@@ -5413,7 +5537,9 @@ void BaseGui::changeStayOnTop(int stay_on_top) {
 void BaseGui::checkStayOnTop(Core::State state) {
 	qDebug("BaseGui::checkStayOnTop");
 	if ((!pref->fullscreen) && (pref->stay_on_top == Preferences::WhilePlayingOnTop)) {
-		setStayOnTop((state == Core::Playing));
+		if (state != Core::Buffering) {
+			setStayOnTop((state == Core::Playing));
+		}
 	}
 }
 
@@ -5464,7 +5590,7 @@ QString BaseGui::loadQss(QString filename) {
 }
 
 void BaseGui::changeStyleSheet(QString style) {
-	qDebug("BaseGui::changeStyleSheet: %s", style.toUtf8().constData());
+	qDebug() << "BaseGui::changeStyleSheet:" << style;
 
 	// Load default stylesheet
 	QString stylesheet = loadQss(":/default-theme/style.qss");
@@ -5486,12 +5612,22 @@ void BaseGui::changeStyleSheet(QString style) {
 
 		// Load style file
 		if (QFile::exists(qss_file)) {
-			qDebug("BaseGui::changeStyleSheet: '%s'", qss_file.toUtf8().data());
+			qDebug() << "BaseGui::changeStyleSheet:" <<  qss_file;
 			stylesheet += loadQss(qss_file);
 		}
 	}
 
-	//qDebug("BaseGui::changeStyleSheet: styleSheet: %s", stylesheet.toUtf8().constData());
+	if (pref->tablet_mode) {
+		QString tf = Images::file("tabletmode.css");
+		qDebug() << "BaseGui::changeStyleSheet: tablet stylesheet file:" << tf;
+
+		QFile file(tf);
+		if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			stylesheet += file.readAll();
+		}
+	}
+
+	//qDebug() << "BaseGui::changeStyleSheet: styleSheet:" << stylesheet;
 	qApp->setStyleSheet(stylesheet);
 }
 #endif
@@ -5508,10 +5644,24 @@ void BaseGui::applyStyles() {
 	QString style = pref->style;
 	if (style.isEmpty()) style = default_style;
 	qDebug() << "BaseGui::applyStyles: style:" << style;
-	if (!style.isEmpty()) qApp->setStyle(style);
+	if (!style.isEmpty()) {
+		qApp->setStyle(style);
+		#ifdef Q_OS_WIN
+		qApp->setPalette(qApp->style()->standardPalette());
+		#endif
+	}
 #endif
-
 }
+
+void BaseGui::setTabletMode(bool b) {
+	qDebug() << "BaseGui::setTabletMode:" << b;
+	pref->tablet_mode = b;
+	populateMainMenu();
+	applyStyles();
+
+	emit tabletModeChanged(b);
+}
+
 
 void BaseGui::loadActions() {
 	qDebug("BaseGui::loadActions");
@@ -5548,13 +5698,18 @@ void BaseGui::processMouseMovedDiff(QPoint diff) {
 	}
 	#endif
 
-	if (pref->drag_function == Preferences::Gestures) {
+	if (pref->drag_function == Preferences::Gestures || pref->tablet_mode) {
 		if (core->state() == Core::Stopped) return;
 
 		int t = 1;
 
 		int h_desp = qAbs(diff.x());
 		int v_desp = qAbs(diff.y());
+		
+		int d = qAbs(h_desp - v_desp);
+		
+		//qDebug() << "BaseGui::processMouseMovedDiff: h_desp:" << h_desp << "v_desp:" << v_desp << "d:" << d;
+		if (d < 2) return;
 
 		if (h_desp > v_desp) {
 			// Horizontal
@@ -5576,20 +5731,28 @@ void BaseGui::processMouseMovedDiff(QPoint diff) {
 				#endif
 			}
 			#ifdef MG_DELAYED_SEEK
+			/*
 			int time = qAbs(delayed_seek_value);
 			int minutes = time / 60;
 			int seconds = time - (minutes * 60);
 			QString s;
 			if (delayed_seek_value >= 0) s = "+"; else s = "-";
-			if (minutes > 0) s += QString("%1").arg(minutes, 2, 10, QChar('0')) + ":";
+			s += QString("%1").arg(minutes, 2, 10, QChar('0')) + ":";
 			s += QString("%1").arg(seconds, 2, 10, QChar('0'));
+			*/
+			int time = core->mset.current_sec + delayed_seek_value;
+			if (time < 0) time = 0;
+			QString s;
+			s = tr("Jump to %1").arg(Helper::formatTime(time));
 			if (pref->fullscreen) {
 				core->displayTextOnOSD(s, 1000);
 			} else {
 				displayMessage(s, 1000);
 			}
 			#endif
-		} else {
+		} 
+		else
+		if (h_desp < v_desp) {
 			// Vertical
 			if (diff.y() > t) core->decVolume(1);
 			else
@@ -5598,13 +5761,16 @@ void BaseGui::processMouseMovedDiff(QPoint diff) {
 	}
 #endif
 
-	if (pref->drag_function == Preferences::MoveWindow) {
+	if (pref->drag_function == Preferences::MoveWindow && !pref->tablet_mode) {
 		moveWindowDiff(diff);
 	}
 }
 
 void BaseGui::moveWindowDiff(QPoint diff) {
 	//qDebug() << "BaseGui::moveWindowDiff:" << diff;
+
+	QWidget * w = this;
+	if (mplayerwindow->parent() == 0) w = mplayerwindow;
 
 	if (pref->fullscreen || isMaximized()) {
 		return;
@@ -5622,17 +5788,19 @@ void BaseGui::moveWindowDiff(QPoint diff) {
 
 	if (count > 3) {
 		//qDebug() << "BaseGui::moveWindowDiff:" << d;
-		QPoint new_pos = pos() + d;
+		QPoint new_pos = w->pos() + d;
+		/*
 		if (new_pos.y() < 0) new_pos.setY(0);
 		if (new_pos.x() < 0) new_pos.setX(0);
+		*/
 		//qDebug() << "BaseGui::moveWindowDiff: new_pos:" << new_pos;
-		move(new_pos);
+		w->move(new_pos);
 		count = 0;
 		d = QPoint(0,0);
 	}
 #else
 	//qDebug() << "BaseGui::moveWindowDiff:" << diff;
-	move(pos() + diff);
+	w->move(w->pos() + diff);
 #endif
 }
 
@@ -5647,7 +5815,7 @@ void BaseGui::delayedSeek() {
 #endif
 
 
-#if QT_VERSION < 0x050000
+#ifndef DETECT_MINIMIZE_WORKAROUND
 void BaseGui::showEvent( QShowEvent * ) {
 	qDebug("BaseGui::showEvent");
 
@@ -5676,7 +5844,7 @@ void BaseGui::hideEvent( QHideEvent * ) {
 bool BaseGui::event(QEvent * e) {
 	//qDebug("BaseGui::event: %d", e->type());
 
-	bool result = QWidget::event(e);
+	bool result = QMainWindow::event(e);
 	if ((ignore_show_hide_events) || (!pref->pause_when_hidden)) return result;
 
 	if (e->type() == QEvent::WindowStateChange) {
@@ -5734,11 +5902,43 @@ void BaseGui::showExitCodeFromMplayer(int exit_code) {
 	if (exit_code != 255 ) {
 		ErrorDialog d(this);
 		d.setWindowTitle(tr("%1 Error").arg(PLAYER_NAME));
-		d.setText(tr("%1 has finished unexpectedly.").arg(PLAYER_NAME) + " " + 
-	              tr("Exit code: %1").arg(exit_code));
-#ifdef LOG_MPLAYER
+		QString text = tr("%1 has finished unexpectedly.").arg(PLAYER_NAME) + " " + 
+					   tr("Exit code: %1").arg(exit_code);
+		
+		#if defined(Q_OS_WIN) && defined(LOG_MPLAYER)
+		bool ytdl_fails = false;
+		
+		QString ytdl_bin = QFileInfo(pref->mplayer_bin).absolutePath() +"/youtube-dl.exe";
+		qDebug() << "BaseGui::showExitCodeFromMplayer: youtube-dl path:" << ytdl_bin;
+		
+		#if 0
+		// Newer versions of mpv display this message
+		if (mplayer_log.contains("youtube-dl failed")) {
+			int code = QProcess::execute(ytdl_bin, QStringList() << "--version");
+			qDebug() << "BaseGui::showExitCodeFromMplayer: youtube-dl exit code:" << code;
+			if (code == -1) ytdl_fails = true;
+		}
+		else
+		#endif
+		if (mplayer_log.contains("youtube-dl not found, not executable, or broken")) {
+			bool exists_ytdl = QFile::exists(ytdl_bin);
+			qDebug() << "BaseGui::showExitCodeFromMplayer: check if" << ytdl_bin << "exists:" << exists_ytdl;
+			if (exists_ytdl) ytdl_fails = true;
+		}
+		
+		if (ytdl_fails) {
+			text += "<br><br>" + tr("The component youtube-dl failed to run.") +" "+
+					tr("Installing the Microsoft Visual C++ 2010 Redistributable Package (x86) may fix the problem.") +
+					"<br><a href=\"https://www.microsoft.com/en-US/download/details.aspx?id=5555\">" +
+					tr("Click here to get it") + "</a>.";
+		}
+		#endif
+		
+		d.setText(text);
+		
+		#ifdef LOG_MPLAYER
 		d.setLog( mplayer_log );
-#endif
+		#endif
 		d.exec();
 	} 
 }
@@ -5774,7 +5974,7 @@ void BaseGui::showFindSubtitlesDialog() {
 	qDebug("BaseGui::showFindSubtitlesDialog");
 
 	if (!find_subs_dialog) {
-		find_subs_dialog = new FindSubtitlesWindow(this, Qt::Window | Qt::WindowMinMaxButtonsHint);
+		find_subs_dialog = new FindSubtitlesWindow(0);
 		find_subs_dialog->setSettings(Global::settings);
 		find_subs_dialog->setWindowIcon(windowIcon());
 #if DOWNLOAD_SUBS
@@ -5867,11 +6067,72 @@ void BaseGui::changeEvent(QEvent *e) {
 	}
 }
 
+#ifdef NUMPAD_WORKAROUND
+// Due to a bug in Qt 5 on linux, accelerators in numeric keypad don't work
+// This catches the key presses in the numeric keypad and calls the associated action
+void BaseGui::keyPressEvent(QKeyEvent *event) {
+	if (event->modifiers().testFlag(Qt::KeypadModifier)) {
+		qDebug() << "BaseGui::keyPressEvent: key:" << event->key() << "modifiers:" << event->modifiers();
+
+		QKeySequence ks(event->key());
+		QList<QAction *> actions = this->actions();
+		foreach(QAction * action, actions) {
+			QList<QKeySequence> shortcuts = action->shortcuts();
+			foreach(QKeySequence s, shortcuts) {
+				bool match = (s == ks);
+				if (match) {
+					qDebug() << "BaseGui::keyPressEvent: action found:" << action->objectName() << "enabled:" << action->isEnabled();
+				}
+				if (match && action->isEnabled()) {
+					if (action->isCheckable() && action->objectName() != "play_or_pause") {
+						action->toggle();
+					} else {
+						action->trigger();
+					}
+					return;
+				}
+			}
+		}
+	}
+
+	QMainWindow::keyPressEvent(event);
+}
+#endif
+
 #ifdef Q_OS_WIN
-#ifdef AVOID_SCREENSAVER
-/* Disable screensaver by event */
+
+#ifndef SM_CONVERTIBLESLATEMODE
+#define SM_CONVERTIBLESLATEMODE 0x2003
+#endif
+
+#ifndef SM_SYSTEMDOCKED
+#define SM_SYSTEMDOCKED 0x2004
+#endif
+
 bool BaseGui::winEvent ( MSG * m, long * result ) {
-	//qDebug("BaseGui::winEvent");
+	//qDebug() << "BaseGui::winEvent:" << m;
+	if (m && m->message == WM_SETTINGCHANGE && m->lParam) {
+		QString text = QString::fromWCharArray((TCHAR*)m->lParam);
+		qDebug() << "BaseGui::winEvent: WM_SETTINGCHANGE:" << text;
+
+		#if ((QT_VERSION >= 0x040807 && QT_VERSION < 0x050000) || (QT_VERSION >= 0x050500))
+		if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS10) {
+			// Windows 10 check
+			if (text == "UserInteractionMode") {
+				QTimer::singleShot(1000, this, SLOT(checkSystemTabletMode()));
+			}
+		}
+		else 
+		if (QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS8_1) {
+			if (text == "ConvertibleSlateMode") checkSystemTabletMode();
+		}
+		#endif
+		
+		*result = 0;
+		return true;
+	}
+#ifdef AVOID_SCREENSAVER
+	else
 	if (m->message==WM_SYSCOMMAND) {
 		if ((m->wParam & 0xFFF0)==SC_SCREENSAVE || (m->wParam & 0xFFF0)==SC_MONITORPOWER) {
 			qDebug("BaseGui::winEvent: received SC_SCREENSAVE or SC_MONITORPOWER");
@@ -5895,18 +6156,98 @@ bool BaseGui::winEvent ( MSG * m, long * result ) {
 			}
 		}
 	}
+#endif
+	return false;
+}
+
+#if QT_VERSION >= 0x050000
+bool BaseGui::nativeEvent(const QByteArray &eventType, void * message, long * result) {
+	//qDebug() << "BaseGui::nativeEvent:" << eventType;
+	
+	if (eventType == "windows_generic_MSG") {
+		MSG * m = static_cast<MSG *>(message);
+		return winEvent(m, result);
+	}
+	
 	return false;
 }
 #endif
-#endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+void BaseGui::checkSystemTabletMode() {
+	#if ((QT_VERSION >= 0x040807 && QT_VERSION < 0x050000) || (QT_VERSION >= 0x050500))
+	if (QSysInfo::windowsVersion() >= QSysInfo::WV_WINDOWS10) {
+		// Windows 10 code (don't know if this works on Windows 8)
+		QSettings set("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell", QSettings::NativeFormat);
+		QVariant v = set.value("TabletMode");
+		if (v.isValid()) {
+			bool system_tablet_mode = (v.toInt() == 1);
+			qDebug() << "BaseGui::checkSystemTabletMode: system_tablet_mode:" << system_tablet_mode;
+			systemTabletModeChanged(system_tablet_mode);
+		}
+	}
+	else
+	if (QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS8_1 || 
+        QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS8)
+	{
+		bool slate_mode = (GetSystemMetrics(SM_CONVERTIBLESLATEMODE) == 0);
+		qDebug() << "BaseGui::checkSystemTabletMode: slate_mode:" << slate_mode;
+		/*
+		bool docked = (GetSystemMetrics(SM_SYSTEMDOCKED) != 0);
+		qDebug() << "BaseGui::checkSystemTabletMode: docked:" << docked;
+		*/
+		bool system_tablet_mode = slate_mode;
+		systemTabletModeChanged(system_tablet_mode);
+	}
+	#endif
+}
+
+void BaseGui::systemTabletModeChanged(bool system_tablet_mode) {
+	qDebug() << "BaseGui::systemTabletModeChanged:" << system_tablet_mode;
+	
+	if (pref->tablet_mode != system_tablet_mode) {
+		qDebug("BaseGui::systemTabletModeChanged: tablet mode should be changed");
+		
+		if (pref->tablet_mode_change_answer == "yes") {
+			setTabletMode(system_tablet_mode);
+		}
+		else
+		if (pref->tablet_mode_change_answer == "no") {
+			return;
+		}
+		else {
+			// Ask the user
+			QString text;
+			if (system_tablet_mode)
+				text = tr("The system has switched to tablet mode. Should SMPlayer change to tablet mode as well?");
+			else
+				text = tr("The system has exited tablet mode. Should SMPlayer turn off the tablet mode as well?");
+		
+			QMessageBox mb(QMessageBox::Question, "SMPlayer", text, QMessageBox::Yes | QMessageBox::No);
+			#if QT_VERSION >= 0x050200
+			QCheckBox cb(tr("Remember my decision and don't ask again"));
+			mb.setCheckBox(&cb);
+			#endif
+			if (mb.exec() == QMessageBox::Yes) {
+				setTabletMode(system_tablet_mode);
+			}
+			#if QT_VERSION >= 0x050200
+			if (cb.isChecked()) {
+				pref->tablet_mode_change_answer = (mb.result() == QMessageBox::Yes ? "yes" : "no");
+			}
+			#endif
+		}
+		// Update action button
+		tabletModeAct->setChecked(pref->tablet_mode);
+	}
+}
+
 #ifdef AVOID_SCREENSAVER
 void BaseGui::clear_just_stopped() {
 	qDebug("BaseGui::clear_just_stopped");
 	just_stopped = false;
 }
 #endif
-#endif
+
+#endif // Q_OS_WIN
 
 #include "moc_basegui.cpp"

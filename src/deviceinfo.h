@@ -23,6 +23,10 @@
 #include <QVariant>
 #include <QList>
 
+#ifndef Q_OS_WIN
+#define CACHE_DEVICE_INFO
+#endif
+
 class QSettings;
 
 class DeviceData {
@@ -59,8 +63,10 @@ public:
 #endif
 
 protected:
+#ifdef CACHE_DEVICE_INFO
 	static void saveList(QSettings * set, const QString & section_name, const DeviceList & list);
 	static DeviceList loadList(QSettings * set, const QString & section_name);
+#endif
 
 #ifdef Q_OS_WIN
 	enum DeviceType { Sound = 0, Display = 1 };

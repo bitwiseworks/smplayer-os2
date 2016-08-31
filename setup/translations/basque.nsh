@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Basque" "Euskara"
+!else
+!insertmacro LANGFILE "Basque" = "Euskera" =
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Ezartzailea jadanik lanean dago."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Administratzaile bezala saioa hasita egon 
 ${LangFileString} SMPlayer_Is_Running "SMPlayerren eskabide bat lanean ari da. Mesedez irten SMPlayer-etik eta saiatu berriro."
 
 ${LangFileString} OS_Not_Supported "Sistema eragile sostengu gabea.$\nSMPlayer ${SMPLAYER_VERSION} gutxienez Windows XP behar du eta ezin du zuzen lan egin zure sisteman.$\nEgitan nahi duzu ezarpenarekin jarraitzea?"
+${LangFileString} OS_Not_Supported_VistaRequired "Sistema eragile sostengu gabea.$\nSMPlayer ${SMPLAYER_VERSION} gutxienez Windows Vista behar du eta ezin du zuzen lan egin zure sisteman.$\nEgitan nahi duzu ezarpenarekin jarraitzea?"
 ${LangFileString} Win64_Required "64-biteko Windows sistema eragile bat behar da software hau ezartzeko."
 ${LangFileString} Existing_32bitInst "32-biteko SMPlayer ezarpen bat dago. Lehenik 32-biteko SMPlayer kendu behar duzu."
 ${LangFileString} Existing_64bitInst "64-biteko SMPlayer ezarpen bat dago. Lehenik 64-biteko SMPlayer kendu behar duzu."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Hutsegitea mpv ezartzerakoan."
 ${LangFileString} YTDL_DL_Retry "youtube-dl ez da ongi ezarri. Berriro saiatu?"
 ${LangFileString} YTDL_DL_Failed "Hutsegitea youtube-dl jeisterakoan: '$R0'."
 ${LangFileString} YTDL_Update_Check "youtube-dl eguneraketarik dagoen egiaztatzen..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "fonconfig katxea garbitzen..."

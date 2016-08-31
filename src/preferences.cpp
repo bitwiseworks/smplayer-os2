@@ -45,7 +45,10 @@
 #include "retrieveyoutubeurl.h"
 #endif
 
+//#define USE_CONFIG_VERSION
+#ifdef USE_CONFIG_VERSION
 #define CURRENT_CONFIG_VERSION 4
+#endif
 
 using namespace Global;
 
@@ -56,15 +59,11 @@ Preferences::Preferences() {
 
 	reset();
 
-#ifndef NO_USE_INI_FILES
 	load();
-#endif
 }
 
 Preferences::~Preferences() {
-#ifndef NO_USE_INI_FILES
 	save();
-#endif
 
 	delete history_recents;
 	delete history_urls;
@@ -76,16 +75,20 @@ void Preferences::reset() {
        General
        ******* */
 
+#ifdef USE_CONFIG_VERSION
 	config_version = CURRENT_CONFIG_VERSION;
-
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
-	mplayer_bin= "mplayer/mplayer.exe";
-#else
-	mplayer_bin = "mplayer";
 #endif
 
-	vo = ""; 
-	ao = "";
+#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+	//mplayer_bin= "mplayer/mplayer.exe";
+	mplayer_bin= "mpv/mpv.exe";
+#else
+	//mplayer_bin = "mplayer";
+	mplayer_bin = "mpv";
+#endif
+
+	vo = "player_default"; 
+	ao = "player_default";
 
 	use_screenshot = true;
 #ifdef MPV_SUPPORT
@@ -108,8 +111,9 @@ void Preferences::reset() {
 	capture_directory = "";
 #endif
 
-	dont_remember_media_settings = false;
-	dont_remember_time_pos = false;
+	remember_media_settings = true;
+	remember_time_pos = true;
+	remember_stream_settings = true;
 
 	audio_lang = "";
 	subtitle_lang = "";
@@ -122,7 +126,7 @@ void Preferences::reset() {
 	autoq = 6;
 	add_blackborders_on_fullscreen = false;
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = false;
 	#endif
@@ -168,13 +172,17 @@ void Preferences::reset() {
 	autoload_m4a = true;
 	min_step = 4;
 
-	osd = None;
+	osd = Seek;
 	osd_scale = 1;
 	subfont_osd_scale = 3;
 	osd_delay = 2200;
 
 	file_settings_method = "hash"; // Possible values: normal & hash
 
+	tablet_mode = false;
+	#ifdef Q_OS_WIN
+	tablet_mode_change_answer = "";
+	#endif
 
     /* ***************
        Drives (CD/DVD)
@@ -207,7 +215,9 @@ void Preferences::reset() {
        Performance
        *********** */
 
-	priority = AboveNormal; // Option only for windows
+#ifdef Q_OS_WIN
+	priority = Normal;
+#endif
 	frame_drop = false;
 	hard_frame_drop = false;
 	coreavc = false;
@@ -226,12 +236,15 @@ void Preferences::reset() {
 	threads = 1;
 	hwdec = "no";
 
+	cache_auto = true;
 	cache_for_files = 2048;
 	cache_for_streams = 2048;
 	cache_for_dvds = 0; // not recommended to use cache for dvds
 	cache_for_vcds = 1024;
 	cache_for_audiocds = 1024;
+#ifdef TV_SUPPORT
 	cache_for_tv = 3000;
+#endif
 
 
     /* *********
@@ -312,7 +325,10 @@ void Preferences::reset() {
 #if REPAINT_BACKGROUND_OPTION
 	// "Repaint video background" in the preferences dialog
 	#ifndef Q_OS_WIN
-	repaint_video_background = false;
+	// Note: on linux there could be flickering when using mplayer if this option is true
+	// but setting it to false could display a corrupted window
+	// from the moment the user press play until playback actually starts
+	repaint_video_background = true;
 	#else
 	repaint_video_background = true;
 	#endif
@@ -358,11 +374,19 @@ void Preferences::reset() {
 	resize_method = Never;
 
 #if STYLE_SWITCHING
+	#if QT_VERSION >= 0x050000
+	style = "Fusion";
+	#else
 	style="";
+	#endif
 #endif
 
 	center_window = false;
-	center_window_if_outside = true;
+	center_window_if_outside = false;
+
+#ifdef GLOBALSHORTCUTS
+	use_global_shortcuts = false;
+#endif
 
 #if DVDNAV_SUPPORT
 	mouse_left_click_function = "dvdnav_mouse";
@@ -378,7 +402,7 @@ void Preferences::reset() {
 	wheel_function_cycle = Seeking | Volume | Zoom | ChangeSpeed;
 	wheel_function_seeking_reverse = false;
 
-	drag_function = DragDisabled;
+	drag_function = MoveWindow;
 
 	seeking1 = 10;
 	seeking2 = 60;
@@ -451,11 +475,12 @@ void Preferences::reset() {
     /* ********
        TV (dvb)
        ******** */
-
+#ifdef TV_SUPPORT
 	check_channels_conf_on_startup = true;
 	initial_tv_deinterlace = MediaSettings::Yadif_1;
 	last_dvb_channel = "";
 	last_tv_channel = "";
+#endif
 
 
     /* ********
@@ -547,7 +572,7 @@ void Preferences::reset() {
        **************** */
 
 	floating_control_margin = 0;
-	floating_control_width = 70; //70 %
+	floating_control_width = 100; //100%
 	floating_control_animated = true;
 	floating_display_in_compact_mode = false;
 	floating_activation_area = AutohideWidget::Anywhere;
@@ -582,7 +607,6 @@ void Preferences::reset() {
 #endif
 }
 
-#ifndef NO_USE_INI_FILES
 void Preferences::save() {
 	qDebug("Preferences::save");
 
@@ -616,8 +640,9 @@ void Preferences::save() {
 	set->setValue("capture_directory", capture_directory);
 	#endif
 
-	set->setValue("dont_remember_media_settings", dont_remember_media_settings);
-	set->setValue("dont_remember_time_pos", dont_remember_time_pos);
+	set->setValue("remember_media_settings", remember_media_settings);
+	set->setValue("remember_time_pos", remember_time_pos);
+	set->setValue("remember_stream_settings", remember_stream_settings);
 
 	set->setValue("audio_lang", audio_lang);
 	set->setValue("subtitle_lang", subtitle_lang);
@@ -629,7 +654,7 @@ void Preferences::save() {
 	set->setValue("autoq", autoq);
 	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	set->setValue("turn_screensaver_off", turn_screensaver_off);
 	#endif
@@ -678,6 +703,11 @@ void Preferences::save() {
 
 	set->setValue("file_settings_method", file_settings_method);
 
+	set->setValue("tablet_mode", tablet_mode);
+	#ifdef Q_OS_WIN
+	set->setValue("tablet_mode_change_answer", tablet_mode_change_answer);
+	#endif
+
 	set->endGroup(); // General
 
 
@@ -712,7 +742,9 @@ void Preferences::save() {
 
 	set->beginGroup( "performance");
 
+#ifdef Q_OS_WIN
 	set->setValue("priority", priority);
+#endif
 	set->setValue("frame_drop", frame_drop);
 	set->setValue("hard_frame_drop", hard_frame_drop);
 	set->setValue("coreavc", coreavc);
@@ -730,12 +762,15 @@ void Preferences::save() {
 	set->setValue("threads", threads);
 	set->setValue("hwdec", hwdec);
 
+	set->setValue("cache_auto", cache_auto);
 	set->setValue("cache_for_files", cache_for_files);
 	set->setValue("cache_for_streams", cache_for_streams);
 	set->setValue("cache_for_dvds", cache_for_dvds);
 	set->setValue("cache_for_vcds", cache_for_vcds);
 	set->setValue("cache_for_audiocds", cache_for_audiocds);
+#ifdef TV_SUPPORT
 	set->setValue("cache_for_tv", cache_for_tv);
+#endif
 
 	set->endGroup(); // performance
 
@@ -863,11 +898,15 @@ void Preferences::save() {
 	set->setValue("resize_method", resize_method);
 
 #if STYLE_SWITCHING
-	set->setValue("style", style);
+	set->setValue("qt_style", style);
 #endif
 
 	set->setValue("center_window", center_window);
 	set->setValue("center_window_if_outside", center_window_if_outside);
+
+#ifdef GLOBALSHORTCUTS
+	set->setValue("use_global_shortcuts", use_global_shortcuts);
+#endif
 
 	set->setValue("mouse_left_click_function", mouse_left_click_function);
 	set->setValue("mouse_right_click_function", mouse_right_click_function);
@@ -948,13 +987,14 @@ void Preferences::save() {
     /* ********
        TV (dvb)
        ******** */
-
+#ifdef TV_SUPPORT
 	set->beginGroup( "tv");
 	set->setValue("check_channels_conf_on_startup", check_channels_conf_on_startup);
 	set->setValue("initial_tv_deinterlace", initial_tv_deinterlace);
 	set->setValue("last_dvb_channel", last_dvb_channel);
 	set->setValue("last_tv_channel", last_tv_channel);
 	set->endGroup(); // tv
+#endif
 
 
     /* ********
@@ -1151,8 +1191,9 @@ void Preferences::load() {
 	capture_directory = set->value("capture_directory", capture_directory).toString();
 	#endif
 
-	dont_remember_media_settings = set->value("dont_remember_media_settings", dont_remember_media_settings).toBool();
-	dont_remember_time_pos = set->value("dont_remember_time_pos", dont_remember_time_pos).toBool();
+	remember_media_settings = set->value("remember_media_settings", remember_media_settings).toBool();
+	remember_time_pos = set->value("remember_time_pos", remember_time_pos).toBool();
+	remember_stream_settings = set->value("remember_stream_settings", remember_stream_settings).toBool();
 
 	audio_lang = set->value("audio_lang", audio_lang).toString();
 	subtitle_lang = set->value("subtitle_lang", subtitle_lang).toString();
@@ -1165,7 +1206,7 @@ void Preferences::load() {
 	autoq = set->value("autoq", autoq).toInt();
 	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+#ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
 	turn_screensaver_off = set->value("turn_screensaver_off", turn_screensaver_off).toBool();
 	#endif
@@ -1214,6 +1255,11 @@ void Preferences::load() {
 
 	file_settings_method = set->value("file_settings_method", file_settings_method).toString();
 
+	tablet_mode = set->value("tablet_mode", tablet_mode).toBool();
+	#ifdef Q_OS_WIN
+	tablet_mode_change_answer = set->value("tablet_mode_change_answer", tablet_mode_change_answer).toString();
+	#endif
+
 	set->endGroup(); // General
 
 
@@ -1248,7 +1294,9 @@ void Preferences::load() {
 
 	set->beginGroup( "performance");
 
+#ifdef Q_OS_WIN
 	priority = set->value("priority", priority).toInt();
+#endif
 	frame_drop = set->value("frame_drop", frame_drop).toBool();
 	hard_frame_drop = set->value("hard_frame_drop", hard_frame_drop).toBool();
 	coreavc = set->value("coreavc", coreavc).toBool();
@@ -1266,12 +1314,15 @@ void Preferences::load() {
 	threads = set->value("threads", threads).toInt();
 	hwdec = set->value("hwdec", hwdec).toString();
 
+	cache_auto = set->value("cache_auto", cache_auto).toBool();
 	cache_for_files = set->value("cache_for_files", cache_for_files).toInt();
 	cache_for_streams = set->value("cache_for_streams", cache_for_streams).toInt();
 	cache_for_dvds = set->value("cache_for_dvds", cache_for_dvds).toInt();
 	cache_for_vcds = set->value("cache_for_vcds", cache_for_vcds).toInt();
 	cache_for_audiocds = set->value("cache_for_audiocds", cache_for_audiocds).toInt();
+#ifdef TV_SUPPORT
 	cache_for_tv = set->value("cache_for_tv", cache_for_tv).toInt();
+#endif
 
 	set->endGroup(); // performance
 
@@ -1403,11 +1454,15 @@ void Preferences::load() {
 	resize_method = set->value("resize_method", resize_method).toInt();
 
 #if STYLE_SWITCHING
-	style = set->value("style", style).toString();
+	style = set->value("qt_style", style).toString();
 #endif
 
 	center_window = set->value("center_window", center_window).toBool();
 	center_window_if_outside = set->value("center_window_if_outside", center_window_if_outside).toBool();
+
+#ifdef GLOBALSHORTCUTS
+	use_global_shortcuts = set->value("use_global_shortcuts", use_global_shortcuts).toBool();
+#endif
 
 	mouse_left_click_function = set->value("mouse_left_click_function", mouse_left_click_function).toString();
 	mouse_right_click_function = set->value("mouse_right_click_function", mouse_right_click_function).toString();
@@ -1491,13 +1546,14 @@ void Preferences::load() {
     /* ********
        TV (dvb)
        ******** */
-
+#ifdef TV_SUPPORT
 	set->beginGroup( "tv");
 	check_channels_conf_on_startup = set->value("check_channels_conf_on_startup", check_channels_conf_on_startup).toBool();
 	initial_tv_deinterlace = set->value("initial_tv_deinterlace", initial_tv_deinterlace).toInt();
 	last_dvb_channel = set->value("last_dvb_channel", last_dvb_channel).toString();
 	last_tv_channel = set->value("last_tv_channel", last_tv_channel).toString();
 	set->endGroup(); // tv
+#endif
 
 
     /* ********
@@ -1658,6 +1714,18 @@ void Preferences::load() {
 #endif
 
 
+	// Fix some options
+	if (vo == "player_default") vo = "";
+	if (ao == "player_default") ao = "";
+
+#if QT_VERSION < 0x050000
+	if (style.toLower() == "fusion") style = "";
+#endif
+
+	// Remove old option names
+	if (set->contains("gui/style")) set->remove("gui/style");
+
+#ifdef USE_CONFIG_VERSION
 	qDebug("Preferences::load: config_version: %d, CURRENT_CONFIG_VERSION: %d", config_version, CURRENT_CONFIG_VERSION);
 	// Fix some values if config is old
 	if (config_version < CURRENT_CONFIG_VERSION) {
@@ -1676,7 +1744,7 @@ void Preferences::load() {
 		*/
 		if (config_version <= 4) {
 			use_slices = false;
-			osd = None;
+			osd = Seek;
 			frame_drop = false;
 			cache_for_files = 2048;
 			cache_for_streams = 2048;
@@ -1687,8 +1755,10 @@ void Preferences::load() {
 		}
 		config_version = CURRENT_CONFIG_VERSION;
 	}
+#endif
 
-#ifdef Q_OS_WIN
+#if defined(MPV_SUPPORT) && defined(MPLAYER_SUPPORT)
+	#ifdef Q_OS_WIN
 	// Check if the mplayer binary exists and try to fix it
 	if (!QFile::exists(mplayer_bin)) {
 		qWarning("mplayer_bin '%s' doesn't exist", mplayer_bin.toLatin1().constData());
@@ -1711,8 +1781,8 @@ void Preferences::load() {
 			qWarning("mplayer_bin changed to '%s'", mplayer_bin.toLatin1().constData());
 		}
 	}
-#endif
-#ifdef Q_OS_LINUX
+	#endif
+	#ifdef Q_OS_LINUX
 	if (!QFile::exists(mplayer_bin)) {
 		QString app_path = Helper::findExecutable(mplayer_bin);
 		//qDebug("Preferences::load: app_path: %s", app_path.toUtf8().constData());
@@ -1731,10 +1801,10 @@ void Preferences::load() {
 			}
 		}
 	}
+	#endif
 #endif
 }
 
-#endif // NO_USE_INI_FILES
 
 double Preferences::monitor_aspect_double() {
 	qDebug("Preferences::monitor_aspect_double");

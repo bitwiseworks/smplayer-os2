@@ -20,12 +20,12 @@
 
 #define USE_SVN_VERSIONS 0
 
-#define VERSION "16.4.0"
+#define VERSION "16.8.0"
 
 #if USE_SVN_VERSIONS
 #include "svn_revision.h"
 #else
-#define SVN_REVISION "7558"
+#define SVN_REVISION "8066"
 #endif
 
 #ifdef Q_OS_WIN

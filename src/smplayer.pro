@@ -15,6 +15,7 @@ DEFINES += FIND_SUBTITLES
 DEFINES += VIDEOPREVIEW
 DEFINES += YOUTUBE_SUPPORT
 DEFINES += BLURAY_SUPPORT
+DEFINES += TV_SUPPORT
 DEFINES += GUI_CHANGE_ON_RUNTIME
 DEFINES += LOG_MPLAYER
 DEFINES += LOG_SMPLAYER
@@ -29,6 +30,7 @@ DEFINES += AUTO_SHUTDOWN_PC
 DEFINES += CAPTURE_STREAM
 DEFINES += BOOKMARKS
 DEFINES += MOUSE_GESTURES
+DEFINES += GLOBALSHORTCUTS
 
 DEFINES += MPV_SUPPORT
 DEFINES += MPLAYER_SUPPORT
@@ -47,8 +49,13 @@ DEFINES += MPLAYER2_SUPPORT
 DEFINES += SHARE_ACTIONS
 DEFINES += SHARE_WIDGET
 
+# If Qt >= 5.4
+greaterThan(QT_MAJOR_VERSION, 4):greaterThan(QT_MINOR_VERSION, 3) {
+	DEFINES += HDPI_SUPPORT
+}
 
 #DEFINES += SIMPLE_BUILD
+#DEFINES += IDOPT_BUILD
 
 contains( DEFINES, SIMPLE_BUILD ) {
 	DEFINES -= SINGLE_INSTANCE
@@ -66,12 +73,21 @@ contains( DEFINES, SIMPLE_BUILD ) {
 	DEFINES -= SHARE_WIDGET
 	DEFINES -= AUTO_SHUTDOWN_PC
 	DEFINES -= BOOKMARKS
+	DEFINES -= TV_SUPPORT
+}
+
+contains( DEFINES, IDOPT_BUILD ) {
+	DEFINES -= MPCGUI
+	DEFINES -= SKINS
+	DEFINES -= CAPTURE_STREAM
+	DEFINES -= TV_SUPPORT
+	DEFINES -= MPLAYER_SUPPORT
+	DEFINES -= MPLAYER2_SUPPORT
 }
 
 isEqual(QT_MAJOR_VERSION, 5) {
 	QT += widgets gui
 	#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x040000
-	DEFINES -= MPCGUI
 	win32 {
 		DEFINES -= MPRIS2
 	}
@@ -103,6 +119,13 @@ contains(QT_VERSION, ^4\\.[0-3]\\..*) {
 	contains( DEFINES, UPDATE_CHECKER ) {
 		DEFINES -= UPDATE_CHECKER
 		message("UPDATE_CHECKER disabled.")
+	}
+}
+
+contains( DEFINES, GLOBALSHORTCUTS ) {
+	lessThan(QT_MAJOR_VERSION, 5) {
+		DEFINES -= GLOBALSHORTCUTS
+		message("GLOBALSHORTCUTS requires Qt 5. Disabled.")
 	}
 }
 
@@ -140,14 +163,15 @@ HEADERS += guiconfig.h \
 	filesettings.h \
 	filesettingshash.h \
 	filehash.h \
-	tvsettings.h \
 	images.h \
 	inforeader.h \
 	deviceinfo.h \
 	recents.h \
 	urlhistory.h \
 	core.h \
+	myscroller.h \
 	logwindow.h \
+	infowindow.h \
 	infofile.h \
 	seekwidget.h \
 	mytablewidget.h \
@@ -171,7 +195,6 @@ HEADERS += guiconfig.h \
 	prefsubtitles.h \
 	prefadvanced.h \
 	prefplaylist.h \
-	preftv.h \
 	prefupdates.h \
 	prefnetwork.h \
 	filepropertiesdialog.h \
@@ -195,7 +218,6 @@ HEADERS += guiconfig.h \
 	errordialog.h \
 	timedialog.h \
 	favorites.h \
-	tvlist.h \
 	favoriteeditor.h \
 	statewidget.h \
 	basegui.h \
@@ -238,14 +260,15 @@ SOURCES	+= version.cpp \
 	filesettings.cpp \
 	filesettingshash.cpp \
 	filehash.cpp \
-	tvsettings.cpp \
 	images.cpp \
 	inforeader.cpp \
 	deviceinfo.cpp \
 	recents.cpp \
 	urlhistory.cpp \
 	core.cpp \
+	myscroller.cpp \
 	logwindow.cpp \
+	infowindow.cpp \
 	infofile.cpp \
 	seekwidget.cpp \
 	mytablewidget.cpp \
@@ -269,7 +292,6 @@ SOURCES	+= version.cpp \
 	prefsubtitles.cpp \
 	prefadvanced.cpp \
 	prefplaylist.cpp \
-	preftv.cpp \
 	prefupdates.cpp \
 	prefnetwork.cpp \
 	filepropertiesdialog.cpp \
@@ -293,7 +315,6 @@ SOURCES	+= version.cpp \
 	errordialog.cpp \
 	timedialog.cpp \
 	favorites.cpp \
-	tvlist.cpp \
 	favoriteeditor.cpp \
 	statewidget.cpp \
 	basegui.cpp \
@@ -308,13 +329,19 @@ SOURCES	+= version.cpp \
 	myapplication.cpp \
 	main.cpp
 
-FORMS = inputdvddirectory.ui logwindowbase.ui filepropertiesdialog.ui \
+FORMS = inputdvddirectory.ui logwindow.ui infowindow.ui filepropertiesdialog.ui \
         eqslider.ui seekwidget.ui inputurl.ui videoequalizer.ui vdpauproperties.ui \
         preferencesdialog.ui prefgeneral.ui prefdrives.ui prefinterface.ui \
         prefperformance.ui prefinput.ui prefsubtitles.ui prefadvanced.ui \
-        prefplaylist.ui preftv.ui prefupdates.ui prefnetwork.ui favoriteeditor.ui \
+        prefplaylist.ui prefupdates.ui prefnetwork.ui favoriteeditor.ui \
         about.ui inputmplayerversion.ui errordialog.ui timedialog.ui stereo3ddialog.ui \
         toolbareditor.ui multilineinputdialog.ui
+
+contains( DEFINES, TV_SUPPORT ) {
+	HEADERS += tvlist.h preftv.h tvsettings.h
+	SOURCES += tvlist.cpp preftv.cpp tvsettings.cpp
+	FORMS += preftv.ui
+}
 
 contains( DEFINES, MPV_SUPPORT ) {
 	HEADERS += mpvprocess.h inforeadermpv.h
@@ -516,6 +543,20 @@ contains( DEFINES, BOOKMARKS ) {
 	HEADERS += inputbookmark.h bookmarkdialog.h
 	SOURCES += inputbookmark.cpp bookmarkdialog.cpp
 	FORMS += inputbookmark.ui bookmarkdialog.ui
+}
+
+contains( DEFINES, GLOBALSHORTCUTS ) {
+	HEADERS += globalshortcuts/globalshortcuts.h
+	SOURCES += globalshortcuts/globalshortcuts.cpp
+	unix {
+		QT += gui-private
+		LIBS += $${QMAKE_LIBS_X11}
+	}
+}
+
+contains( DEFINES, HDPI_SUPPORT ) {
+	HEADERS += hdpisupport.h
+	SOURCES += hdpisupport.cpp
 }
 
 unix {

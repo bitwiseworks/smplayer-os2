@@ -20,6 +20,11 @@
 #define DEFAULTGUI_H
 
 #define BUFFERING_ANIMATION
+//#define LANGUAGE_TOOLBAR
+
+#ifdef IDOPT_BUILD
+#define ADD_QUICK_ACCESS
+#endif
 
 #include "guiconfig.h"
 #include "baseguiplus.h"
@@ -71,6 +76,7 @@ protected:
 	void createFloatingControl();
 	void createActions();
 	void createMenus();
+	virtual void populateMainMenu();
 
 	void loadConfig();
 	void saveConfig();
@@ -85,11 +91,13 @@ protected:
 
 protected slots:
 	virtual void updateWidgets();
-	virtual void applyNewPreferences();
-	virtual void displayTime(QString text);
 	virtual void displayFrame(int frame);
 	virtual void displayABSection(int secs_a, int secs_b);
 	virtual void displayVideoInfo(int width, int height, double fps);
+	void checkCompactMode();
+#ifdef ADD_QUICK_ACCESS
+	void adaptForTabletMode();
+#endif
 
 	// Reimplemented:
 #if AUTODISABLE_ACTIONS
@@ -108,6 +116,7 @@ protected:
 	QLabel * frame_display;
 	QLabel * ab_section_display;
 	QLabel * video_info_display;
+	QLabel * format_info_display;
 #ifdef BUFFERING_ANIMATION
 	StateWidget * state_widget;
 #endif
@@ -116,10 +125,12 @@ protected:
 	EditableToolbar * controlwidget_mini;
 
 	EditableToolbar * toolbar1;
-	QToolBar * toolbar2;
 
+#ifdef LANGUAGE_TOOLBAR
+	QToolBar * toolbar2;
 	QPushButton * select_audio;
 	QPushButton * select_subtitle;
+#endif
 
 	TimeSliderAction * timeslider_action;
 	VolumeSliderAction * volumeslider_action;
@@ -131,9 +142,13 @@ protected:
 
 	AutohideWidget * floating_control;
 	TimeLabelAction * time_label_action;
+	TimeLabelAction * current_time_label_action;
+	TimeLabelAction * total_time_label_action;
+	TimeLabelAction * remaining_time_label_action;
 
 	MyAction * viewFrameCounterAct;
 	MyAction * viewVideoInfoAct;
+	MyAction * viewFormatInfoAct;
 
 #if USE_CONFIGURABLE_TOOLBARS
 	MyAction * editToolbar1Act;
@@ -148,9 +163,11 @@ protected:
 	int last_second;
 
 	bool fullscreen_toolbar1_was_visible;
-	bool fullscreen_toolbar2_was_visible;
 	bool compact_toolbar1_was_visible;
+#ifdef LANGUAGE_TOOLBAR
+	bool fullscreen_toolbar2_was_visible;
 	bool compact_toolbar2_was_visible;
+#endif
 };
 
 #endif

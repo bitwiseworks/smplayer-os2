@@ -1,9 +1,18 @@
-﻿;Installer script for win32/win64 SMPlayer
+;Installer script for win32/win64 SMPlayer
 ;Written by redxii (redxii@users.sourceforge.net)
-;Tested/Developed with Unicode NSIS 2.46.5
+;Tested/Developed with Unicode NSIS 2.46.5/3.0rc1
 
 !ifndef VER_MAJOR | VER_MINOR | VER_BUILD
   !error "Version information not defined (or incomplete). You must define: VER_MAJOR, VER_MINOR, VER_BUILD."
+!endif
+
+;Use this to make 3.0+ mandatory
+;!if 0x2999999 >= "${NSIS_PACKEDVERSION}"
+;!error "NSIS 3.0 or higher required"
+;!endif
+
+!if ${NSIS_PACKEDVERSION} > 0x2999999
+  Unicode true
 !endif
 
 ;--------------------------------
@@ -42,6 +51,13 @@
   !define SMPLAYER_UNINST_EXE "uninst.exe"
   !define SMPLAYER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\SMPlayer"
 
+  ; Not the same as Qt, check file properties of the webkit dll if unsure
+!ifndef QT_WEBKIT_VERSION
+  !define QT_WEBKIT_VERSION "5.6.1.0"
+!endif
+
+  !define STATUS_DLL_NOT_FOUND "-1073741515"
+
 ;--------------------------------
 ;General
 
@@ -49,17 +65,9 @@
   Name "SMPlayer ${SMPLAYER_VERSION}"
   BrandingText "SMPlayer for Windows v${SMPLAYER_VERSION}"
 !ifdef WIN64
-  !ifdef QT5
-  OutFile "output\Qt5\smplayer-${SMPLAYER_VERSION}-x64-qt5.exe"
-  !else
   OutFile "output\smplayer-${SMPLAYER_VERSION}-x64.exe"
-  !endif
 !else
-  !ifdef QT5
-  OutFile "output\Qt5\smplayer-${SMPLAYER_VERSION}-win32-qt5.exe"
-  !else
   OutFile "output\smplayer-${SMPLAYER_VERSION}-win32.exe"
-  !endif
 !endif
 
   ;Version tab properties
@@ -115,6 +123,12 @@
   Var SMPlayer_Path
   Var SMPlayer_UnStrPath
   Var SMPlayer_StartMenuFolder
+
+  Var Qt_Core_Source_Version
+  Var Qt_Core_Installed_Version
+  Var Qt_WebKit_Installed_Version
+
+  Var YTDL_Exit_Code
 
 ;--------------------------------
 ;Interface Settings
@@ -304,7 +318,11 @@
   ;Only for solid compression (by default, solid compression is enabled for BZIP2 and LZMA)
 
   !insertmacro MUI_RESERVEFILE_LANGDLL
-  ReserveFile "${NSISDIR}\Plugins\UserInfo.dll"
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
+  ReserveFile /nonfatal "${NSISDIR}\Plugins\UserInfo.dll"
+!else
+  ReserveFile /nonfatal "${NSISDIR}\Plugins\x86-unicode\UserInfo.dll"
+!endif
 
 ;--------------------------------
 ;Installer Sections
@@ -349,17 +367,15 @@ Section $(Section_SMPlayer) SecSMPlayer
 
   ;Qt imageformats
   SetOutPath "$INSTDIR\imageformats"
-  File /r "${SMPLAYER_BUILD_DIR}\imageformats\*.*"
+  File /nonfatal /r "${SMPLAYER_BUILD_DIR}\imageformats\*.*"
 
   ;Open fonts
   ; SetOutPath "$INSTDIR\open-fonts"
   ; File /r "${SMPLAYER_BUILD_DIR}\open-fonts\*.*"
 
   ;Qt platforms (Qt 5+)
-!ifdef QT5
   SetOutPath "$INSTDIR\platforms"
-  File /r "${SMPLAYER_BUILD_DIR}\platforms\*.*"
-!endif
+  File /nonfatal /r "${SMPLAYER_BUILD_DIR}\platforms\*.*"
 
   ;SMPlayer key shortcuts
   SetOutPath "$INSTDIR\shortcuts"
@@ -426,19 +442,30 @@ SectionGroup $(MPlayerMPVGroupTitle)
   IfFileExists "$PLUGINSDIR\youtube-dl.exe" 0 YTDL
     CopyFiles /SILENT "$PLUGINSDIR\youtube-dl.exe" "$INSTDIR\mpv"
 
-    DetailPrint $(YTDL_Update_Check)
+    ;DetailPrint $(YTDL_Update_Check)
     NsExec::ExecToLog '"$INSTDIR\mpv\youtube-dl.exe" -U'
 
-    Goto skip_ytdl
+    Goto check_ytdl
 
   YTDL:
-  NSISdl::download /TIMEOUT=30000 \
-  "http://yt-dl.org/latest/youtube-dl.exe" \
-  "$INSTDIR\mpv\youtube-dl.exe" /END
+  INetC::get /CONNECTTIMEOUT 30000 /POPUP "" "http://yt-dl.org/latest/youtube-dl.exe" "$INSTDIR\mpv\youtube-dl.exe" /END
   Pop $R0
-  StrCmp $R0 "success" +3 0
+  StrCmp $R0 "OK" +3 0
     DetailPrint $(YTDL_DL_Failed)
-    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(YTDL_DL_Retry) /SD IDCANCEL IDRETRY YTDL
+    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(YTDL_DL_Retry) /SD IDCANCEL IDRETRY YTDL IDCANCEL skip_ytdl
+
+  check_ytdl:
+    NsExec::Exec '"$INSTDIR\mpv\youtube-dl.exe" --version'
+    Pop $YTDL_Exit_Code
+
+    ${If} $YTDL_Exit_Code != "0"
+      DetailPrint $(YTDL_Error_Msg1)
+        ${If} $YTDL_Exit_Code == "${STATUS_DLL_NOT_FOUND}"
+          DetailPrint $(YTDL_Error_Msg2)
+        ${EndIf}
+
+      Sleep 5000
+    ${EndIf}
 
   skip_ytdl:
 
@@ -473,7 +500,9 @@ Section -RestorePrograms
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\smtube.exe" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\docs\smtube\*" "$INSTDIR\docs\smtube"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\translations\*" "$INSTDIR\translations"
-!ifdef QT5
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\icuin*.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\icuuc*.dll" "$INSTDIR"
+    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\icudt*.dll" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5WebKit.dll" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Sql.dll" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5Qml.dll" "$INSTDIR"
@@ -486,9 +515,6 @@ Section -RestorePrograms
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5OpenGL.dll" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5PrintSupport.dll" "$INSTDIR"
     CopyFiles /SILENT "$PLUGINSDIR\smtubebak\Qt5MultimediaWidgets.dll" "$INSTDIR"
-!else
-    CopyFiles /SILENT "$PLUGINSDIR\smtubebak\QtWebKit4.dll" "$INSTDIR"
-!endif
   ${EndIf}
 
 !ifndef WIN64
@@ -553,7 +579,9 @@ Section -Post
 
   Sleep 2500
 
-  ;SetAutoClose false
+!ifdef VER_REVISION
+  SetAutoClose false
+!endif
 
 SectionEnd
 
@@ -691,9 +719,9 @@ ${MementoSectionDone}
   Delete "$INSTDIR\smplayer.exe"
   Delete "$INSTDIR\smtube.exe"
   Delete "$INSTDIR\dxlist.exe"
-  Delete "$INSTDIR\icudt5*.dll"
-  Delete "$INSTDIR\icuin5*.dll"
-  Delete "$INSTDIR\icuuc5*.dll"
+  Delete "$INSTDIR\icudt*.dll"
+  Delete "$INSTDIR\icuin*.dll"
+  Delete "$INSTDIR\icuuc*.dll"
   Delete "$INSTDIR\libgcc_s_*.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\libwinpthread-1.dll"
@@ -746,10 +774,11 @@ Function .onInit
 
 !ifdef WIN64
   ${Unless} ${AtLeastWinVista}
+    MessageBox MB_YESNO|MB_ICONSTOP $(OS_Not_Supported_VistaRequired) /SD IDNO IDYES installonoldwindows
 !else
   ${Unless} ${AtLeastWinXP}
-!endif
     MessageBox MB_YESNO|MB_ICONSTOP $(OS_Not_Supported) /SD IDNO IDYES installonoldwindows
+!endif
     Abort
   installonoldwindows:
   ${EndIf}
@@ -866,6 +895,8 @@ Function CheckPreviousVersion
       StrCpy $Reinstall_UninstallButton_State 0
       StrCpy $Reinstall_OverwriteButton_State 1
     ${EndIf}
+
+    Call RetrieveQtVersions
   ${EndIf}
 
   /* $Previous_Version_State Assignments:
@@ -922,36 +953,34 @@ FunctionEnd
 Function Backup_SMTube
 
   IfFileExists "$SMPlayer_Path\smtube.exe" 0 NoBackup
-!ifdef QT5
-    IfFileExists "$SMPlayer_Path\Qt5WebKit.dll" 0 NoBackup
-!else
-    IfFileExists "$SMPlayer_Path\QtWebKit4.dll" 0 NoBackup
-!endif
-      DetailPrint $(Info_SMTube_Backup)
-      CreateDirectory "$PLUGINSDIR\smtubebak\translations"
-      CreateDirectory "$PLUGINSDIR\smtubebak\docs\smtube"
-      CopyFiles /SILENT "$SMPlayer_Path\smtube.exe" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\docs\smtube\*" "$PLUGINSDIR\smtubebak\docs\smtube"
-      CopyFiles /SILENT "$SMPlayer_Path\translations\smtube*.qm" "$PLUGINSDIR\smtubebak\translations"
-!ifdef QT5
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKit.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Sql.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Qml.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Quick.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Positioning.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Multimedia.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5Sensors.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebChannel.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKitWidgets.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5OpenGL.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5PrintSupport.dll" "$PLUGINSDIR\smtubebak"
-      CopyFiles /SILENT "$SMPlayer_Path\Qt5MultimediaWidgets.dll" "$PLUGINSDIR\smtubebak"
-!else
-      CopyFiles /SILENT "$SMPlayer_Path\QtWebKit4.dll" "$PLUGINSDIR\smtubebak"
-!endif
-
+    StrCmp "${QT_WEBKIT_VERSION}" "$Qt_WebKit_Installed_Version" 0 QtVerMismatch
+    DetailPrint $(Info_SMTube_Backup)
+    CreateDirectory "$PLUGINSDIR\smtubebak\translations"
+    CreateDirectory "$PLUGINSDIR\smtubebak\docs\smtube"
+    CopyFiles /SILENT "$SMPlayer_Path\smtube.exe" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\docs\smtube\*" "$PLUGINSDIR\smtubebak\docs\smtube"
+    CopyFiles /SILENT "$SMPlayer_Path\translations\smtube*.qm" "$PLUGINSDIR\smtubebak\translations"
+    CopyFiles /SILENT "$SMPlayer_Path\icuin*.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\icuuc*.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\icudt*.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKit.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Sql.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Qml.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Quick.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Positioning.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Multimedia.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5Sensors.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5WebChannel.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5WebKitWidgets.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5OpenGL.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5PrintSupport.dll" "$PLUGINSDIR\smtubebak"
+    CopyFiles /SILENT "$SMPlayer_Path\Qt5MultimediaWidgets.dll" "$PLUGINSDIR\smtubebak"
     StrCpy $Restore_SMTube 1
     Return
+  QtVerMismatch:
+    DetailPrint $(SMTube_Incompatible_Msg1)
+    DetailPrint $(SMTube_Incompatible_Msg2)
+    Sleep 5000
   NoBackup:
     StrCpy $Restore_SMTube 0
 
@@ -1108,6 +1137,46 @@ Function PageStartMenuPre
   ${IfNot} ${SectionIsSelected} ${SecStartMenuShortcut}
     Abort
   ${EndIf}
+
+FunctionEnd
+
+Function RetrieveQtVersions
+
+  ; Get version of Qt5Core.dll from the build sources (smplayer-build/smplayer-build64)
+  ClearErrors
+  GetDLLVersionLocal ${SMPLAYER_BUILD_DIR}\Qt5Core.dll $R0 $R1
+  IntOp $R2 $R0 / 0x00010000
+  IntOp $R3 $R0 & 0x0000FFFF
+  IntOp $R4 $R1 / 0x00010000
+  IntOp $R5 $R1 & 0x0000FFFF
+  StrCpy $Qt_Core_Source_Version "$R2.$R3.$R4.$R5"
+  ;MessageBox MB_OK "Qt Core source version:  $Qt_Core_Source_Version"
+
+  ; Get version of Qt Core.dll that is already installed
+  ClearErrors
+  GetDLLVersion "$INSTDIR\Qt5Core.dll" $R0 $R1
+  IfErrors 0 +2
+    GetDLLVersion "$INSTDIR\QtCore4.dll" $R0 $R1
+
+  IntOp $R2 $R0 / 0x00010000
+  IntOp $R3 $R0 & 0x0000FFFF
+  IntOp $R4 $R1 / 0x00010000
+  IntOp $R5 $R1 & 0x0000FFFF
+  StrCpy $Qt_Core_Installed_Version "$R2.$R3.$R4.$R5"
+  ;MessageBox MB_OK "Qt Core installed version:  $Qt_Core_Installed_Version"
+
+  ; Get version of Qt WebKit.dll that is already installed
+  ClearErrors
+  GetDLLVersion "$INSTDIR\Qt5WebKit.dll" $R0 $R1
+  IfErrors 0 +2
+    GetDLLVersion "$INSTDIR\QtWebKit4.dll" $R0 $R1
+
+  IntOp $R2 $R0 / 0x00010000
+  IntOp $R3 $R0 & 0x0000FFFF
+  IntOp $R4 $R1 / 0x00010000
+  IntOp $R5 $R1 & 0x0000FFFF
+  StrCpy $Qt_WebKit_Installed_Version "$R2.$R3.$R4.$R5"
+  ;MessageBox MB_OK "Qt WebKit installed version:  $Qt_WebKit_Installed_Version"
 
 FunctionEnd
 

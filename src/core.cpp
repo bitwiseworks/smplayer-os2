@@ -42,9 +42,8 @@
 #include "colorutils.h"
 #include "discname.h"
 #include "filters.h"
-#include "tvlist.h"
+#include "extensions.h"
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef Q_OS_WIN
 #include <windows.h> // To change app priority
 #include <QSysInfo> // To get Windows version
@@ -52,11 +51,12 @@
 #ifdef SCREENSAVER_OFF
 #include "screensaver.h"
 #endif
-#endif
 
-#ifndef NO_USE_INI_FILES
 #include "filesettings.h"
 #include "filesettingshash.h"
+
+#ifdef TV_SUPPORT
+#include "tvlist.h"
 #include "tvsettings.h"
 #endif
 
@@ -89,12 +89,12 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 	dvdnav_title_is_menu = true; // Enabled by default for compatibility with previous versions of mplayer
 #endif
 
-#ifndef NO_USE_INI_FILES
 	// Create file_settings
 	file_settings = 0;
 	changeFileSettingsMethod(pref->file_settings_method);
 
 	// TV settings
+#ifdef TV_SUPPORT
 	tv_settings = new TVSettings(Paths::iniPath());
 #endif
 
@@ -277,14 +277,12 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 #endif
 	mplayerwindow->setMonitorAspect( pref->monitor_aspect_double() );
 
-#if  defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 	// Windows or OS2 screensaver
 	win_screensaver = new WinScreenSaver();
 	connect( this, SIGNAL(aboutToStartPlaying()), this, SLOT(disableScreensaver()) );
 	connect( proc, SIGNAL(processExited()), this, SLOT(enableScreensaver()) );
 	connect( proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(enableScreensaver()) );
-#endif
 #endif
 
 #ifdef YOUTUBE_SUPPORT
@@ -310,23 +308,19 @@ Core::Core( MplayerWindow *mpw, QWidget* parent )
 
 
 Core::~Core() {
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	if (proc->isRunning()) stopMplayer();
 	proc->terminate();
 	delete proc;
 
-#ifndef NO_USE_INI_FILES
 	delete file_settings;
+#ifdef TV_SUPPORT
 	delete tv_settings;
 #endif
 
-#if  defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 	delete win_screensaver;
-#endif
 #endif
 
 #ifdef YOUTUBE_SUPPORT
@@ -334,7 +328,6 @@ Core::~Core() {
 #endif
 }
 
-#ifndef NO_USE_INI_FILES 
 void Core::changeFileSettingsMethod(QString method) {
 	qDebug("Core::changeFileSettingsMethod: %s", method.toUtf8().constData());
 	if (file_settings) delete file_settings;
@@ -344,7 +337,6 @@ void Core::changeFileSettingsMethod(QString method) {
 	else
 		file_settings = new FileSettings(Paths::iniPath());
 }
-#endif
 
 void Core::setState(State s) {
 	//qDebug() << "Core::setState: old state:" << _state << "new state:" << s;
@@ -383,24 +375,66 @@ void Core::reload() {
 	initPlaying();
 }
 
-#ifndef NO_USE_INI_FILES
 void Core::saveMediaInfo() {
 	qDebug("Core::saveMediaInfo");
 
-	if (pref->dont_remember_media_settings) {
-		qDebug("Core::saveMediaInfo: not saving settings, disabled by user");
+	if (!pref->remember_media_settings) {
+		qDebug("Core::saveMediaInfo: saving settings for files is disabled");
 		return;
 	}
 
-	if ( (mdat.type == TYPE_FILE) && (!mdat.filename.isEmpty()) ) {
-		file_settings->saveSettingsFor(mdat.filename, mset, proc->player());
+	if (mdat.type == TYPE_STREAM && !pref->remember_stream_settings) {
+		qDebug("Core::saveMediaInfo: saving settings for streams is disabled");
+		return;
 	}
+
+	if ( (mdat.type == TYPE_FILE || mdat.type == TYPE_STREAM) && (!mdat.filename.isEmpty()) ) {
+		file_settings->saveSettingsFor(mdat.filename, mdat.type, mset, proc->player());
+	}
+#ifdef TV_SUPPORT
 	else
 	if ( (mdat.type == TYPE_TV) && (!mdat.filename.isEmpty()) ) {
-		tv_settings->saveSettingsFor(mdat.filename, mset, proc->player());
+		tv_settings->saveSettingsFor(mdat.filename, mdat.type, mset, proc->player());
+	}
+#endif
+}
+
+void Core::restoreSettingsForMedia(const QString & name, int type) {
+	qDebug() << "Core::restoreSettingsForMedia:" << name << "type:" << type;
+
+	if (!pref->remember_media_settings) {
+		qDebug("Core::restoreSettingsForMedia: remember settings for files is disabled");
+		return;
+	}
+
+	if (type == TYPE_STREAM && !pref->remember_stream_settings) {
+		qDebug("Core::restoreSettingsForMedia: remember settings for streams is disabled");
+		return;
+	}
+
+	file_settings->loadSettingsFor(name, type, mset, proc->player());
+	qDebug("Core::restoreSettingsForMedia: media settings read");
+
+	// Resize the window and set the aspect as soon as possible
+	int saved_width = mset.win_width;
+	int saved_height = mset.win_height;
+	// 400x300 is the default size for win_width and win_height
+	// so we set them to 0 to avoid to resize the window on
+	// audio files
+	if ((saved_width == 400) && (saved_height == 300)) {
+		saved_width = 0;
+		saved_height = 0;
+	}
+	if ((saved_width > 0) && (saved_height > 0)) {
+		emit needResize(mset.win_width, mset.win_height);
+		changeAspectRatio(mset.aspect_ratio_id);
+	}
+
+	if (!pref->remember_time_pos) {
+		mset.current_sec = 0;
+		qDebug("Core::restoreSettingsForMedia: time pos reset to 0");
 	}
 }
-#endif // NO_USE_INI_FILES
 
 void Core::initializeMenus() {
 	qDebug("Core::initializeMenus");
@@ -524,11 +558,13 @@ void Core::open(QString file, int seek) {
 			openAudioCD();
 		}
 	}
+#ifdef TV_SUPPORT
 	else
 	if ((file.toLower().startsWith("dvb:")) || (file.toLower().startsWith("tv:"))) {
 		qDebug("Core::open: * identified as TV");
 		openTV(file);
 	}
+#endif
 	else {
 		qDebug("Core::open: * not identified, playing as stream");
 		openStream(file);
@@ -567,7 +603,6 @@ void Core::YTNoVideoUrl() {
 }
 #endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 #ifdef SCREENSAVER_OFF
 void Core::enableScreensaver() {
 	qDebug("Core::enableScreensaver");
@@ -582,7 +617,6 @@ void Core::disableScreensaver() {
 		win_screensaver->disable();
 	}
 }
-#endif
 #endif
 
 void Core::loadSub(const QString & sub ) {
@@ -703,9 +737,7 @@ void Core::openVCD(int title) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = "vcd://" + QString::number(title);
@@ -731,9 +763,7 @@ void Core::openAudioCD(int title) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = "cdda://" + QString::number(title);
@@ -778,9 +808,7 @@ void Core::openDVD(QString dvd_url) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = dvd_url;
@@ -826,9 +854,7 @@ void Core::openBluRay(QString bluray_url) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = bluray_url;
@@ -845,6 +871,7 @@ void Core::openBluRay(QString bluray_url) {
 }
 #endif
 
+#ifdef TV_SUPPORT
 void Core::openTV(QString channel_id) {
 	qDebug("Core::openTV: '%s'", channel_id.toUtf8().constData());
 
@@ -854,9 +881,7 @@ void Core::openTV(QString channel_id) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	// Use last channel if the name is just "dvb://" or "tv://"
 	if ((channel_id == "dvb://") && (!pref->last_dvb_channel.isEmpty())) {
@@ -881,23 +906,22 @@ void Core::openTV(QString channel_id) {
 	// Set the default deinterlacer for TV
 	mset.current_deinterlacer = pref->initial_tv_deinterlace;
 
-#ifndef NO_USE_INI_FILES
-	if (!pref->dont_remember_media_settings) {
+	if (pref->remember_media_settings) {
 		// Check if we already have info about this file
-		if (tv_settings->existSettingsFor(channel_id)) {
+		if (tv_settings->existSettingsFor(channel_id, mdat.type)) {
 			qDebug("Core::openTV: we have settings for this file!!!");
 
 			// In this case we read info from config
-			tv_settings->loadSettingsFor(channel_id, mset, proc->player());
+			tv_settings->loadSettingsFor(channel_id, mdat.type, mset, proc->player());
 			qDebug("Core::openTV: media settings read");
 		}
 	}
-#endif
 
 	/* initializeMenus(); */
 
 	initPlaying();
 }
+#endif
 
 void Core::openStream(QString name) {
 	qDebug("Core::openStream: '%s'", name.toUtf8().data());
@@ -928,15 +952,24 @@ void Core::openStream(QString name) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = name;
 	mdat.type = TYPE_STREAM;
 
 	mset.reset();
+
+	#ifdef YOUTUBE_SUPPORT
+	if (PREF_YT_ENABLED) {
+		if (mdat.filename == yt->latestPreferredUrl()) name = yt->origUrl();
+	}
+	#endif
+	// Check if we already have info about this file
+	if (file_settings->existSettingsFor(name, mdat.type)) {
+		qDebug("Core::openStream: we have settings for this stream");
+		restoreSettingsForMedia(name, mdat.type);
+	}
 
 	/* initializeMenus(); */
 
@@ -953,9 +986,7 @@ void Core::playNewFile(QString file, int seek) {
 	}
 
 	// Save data of previous file:
-#ifndef NO_USE_INI_FILES
 	saveMediaInfo();
-#endif
 
 	mdat.reset();
 	mdat.filename = file;
@@ -964,46 +995,14 @@ void Core::playNewFile(QString file, int seek) {
 	int old_volume = mset.volume;
 	mset.reset();
 
-#ifndef NO_USE_INI_FILES
 	// Check if we already have info about this file
-	if (file_settings->existSettingsFor(file)) {
-		qDebug("Core::playNewFile: We have settings for this file!!!");
-
-		// In this case we read info from config
-		if (!pref->dont_remember_media_settings) {
-			file_settings->loadSettingsFor(file, mset, proc->player());
-			qDebug("Core::playNewFile: Media settings read");
-
-			// Resize the window and set the aspect as soon as possible
-			int saved_width = mset.win_width;
-			int saved_height = mset.win_height;
-			// 400x300 is the default size for win_width and win_height
-			// so we set them to 0 to avoid to resize the window on
-			// audio files
-			if ((saved_width == 400) && (saved_height == 300)) {
-				saved_width = 0;
-				saved_height = 0;
-			}
-			if ((saved_width > 0) && (saved_height > 0)) {
-				emit needResize(mset.win_width, mset.win_height);
-				changeAspectRatio(mset.aspect_ratio_id);
-			}
-
-			if (pref->dont_remember_time_pos) {
-				mset.current_sec = 0;
-				qDebug("Core::playNewFile: Time pos reset to 0");
-			}
-		} else {
-			qDebug("Core::playNewFile: Media settings have not read because of preferences setting");
-		}
+	if (file_settings->existSettingsFor(file, mdat.type)) {
+		qDebug("Core::playNewFile: we have settings for this file");
+		restoreSettingsForMedia(file, mdat.type);
 	} else {
 		// Recover volume
 		mset.volume = old_volume;
 	}
-#else
-	// Recover volume
-	mset.volume = old_volume;
-#endif // NO_USE_INI_FILES
 
 	/* initializeMenus(); */
 
@@ -1067,11 +1066,13 @@ void Core::newMediaPlaying() {
 	mset.current_demuxer = mdat.demuxer;
 
 	// Video
+	#if 0
 	if ( (mset.current_video_id == MediaSettings::NoneSelected) && 
          (mdat.videos.numItems() > 0) ) 
 	{
 		changeVideo( mdat.videos.itemAt(0).ID(), false ); // Don't allow to restart
 	}
+	#endif
 
 #if !DELAYED_AUDIO_SETUP_ON_STARTUP && !NOTIFY_AUDIO_CHANGES
 	// First audio if none selected
@@ -1277,6 +1278,8 @@ void Core::finishRestart() {
 	emit mediaLoaded();
 	emit mediaInfoChanged();
 	emit newDuration(mdat.duration);
+
+	emit mediaDataReceived(mdat);
 
 	updateWidgets(); // New
 
@@ -1545,6 +1548,14 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 	qDebug("Core::startMplayer: url_is_playlist: %d", url_is_playlist);
 
+	// Hack: don't use -ss with m3u(8) streams
+	if (mdat.type == TYPE_STREAM) {
+		QString extension = Extensions::extensionFromUrl(file);
+		qDebug() << "Core::startMplayer: URL extension:" << extension;
+		if (extension.contains("m3u")) {
+			seek = 0;
+		}
+	}
 
 	// Check if a m4a file exists with the same name of file, in that cause if will be used as audio
 	if (pref->autoload_m4a && mset.external_audio.isEmpty()) {
@@ -1694,21 +1705,18 @@ void Core::startMplayer( QString file, double seek ) {
 
 	proc->setOption("sub-fuzziness", pref->subfuzziness);
 
-	if (pref->vo != "player_default") {
-		if (!pref->vo.isEmpty()) {
-			proc->setOption("vo", pref->vo );
-		} else {
-			#ifdef Q_OS_WIN
-			if (QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA) {
-				proc->setOption("vo", "direct3d,");
-			} else {
-				proc->setOption("vo", "directx,");
-			}
-			#else
-			proc->setOption("vo", "xv,");
-			#endif
+	if (!pref->vo.isEmpty()) {
+		QString vo = pref->vo;
+		if (!vo.endsWith(",")) vo += ",";
+		proc->setOption("vo", vo);
+	}
+	#ifdef Q_OS_WIN
+	else {
+		if (proc->isMPlayer() && QSysInfo::WindowsVersion >= QSysInfo::WV_VISTA) {
+			proc->setOption("vo", "direct3d,");
 		}
 	}
+	#endif
 
 #if USE_ADAPTER
 	if (pref->adapter > -1) {
@@ -1716,10 +1724,10 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 #endif
 
-	if (pref->ao != "player_default") {
-		if (!pref->ao.isEmpty()) {
-			proc->setOption("ao", pref->ao );
-		}
+	if (!pref->ao.isEmpty()) {
+		QString ao = pref->ao;
+		if (!ao.endsWith(",")) ao += ",";
+		proc->setOption("ao", ao);
 	}
 
 #if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
@@ -2075,14 +2083,20 @@ void Core::startMplayer( QString file, double seek ) {
 		case TYPE_STREAM 	: cache = pref->cache_for_streams; break;
 		case TYPE_VCD 		: cache = pref->cache_for_vcds; break;
 		case TYPE_AUDIO_CD	: cache = pref->cache_for_audiocds; break;
+#ifdef TV_SUPPORT
 		case TYPE_TV		: cache = pref->cache_for_tv; break;
+#endif
 #ifdef BLURAY_SUPPORT
 		case TYPE_BLURAY	: cache = pref->cache_for_dvds; break; // FIXME: use cache for bluray?
 #endif
 		default: cache = 0;
 	}
 
-	proc->setOption("cache", QString::number(cache));
+	if (pref->cache_auto) {
+		proc->setOption("cache_auto");
+	} else {
+		proc->setOption("cache", QString::number(cache));
+	}
 
 	if (mset.speed != 1.0) {
 		proc->setOption("speed", QString::number(mset.speed));
@@ -2091,8 +2105,15 @@ void Core::startMplayer( QString file, double seek ) {
 	if (mdat.type != TYPE_TV) {
 		// Play A - B
 		if ((mset.A_marker > -1) && (mset.B_marker > mset.A_marker)) {
-			proc->setOption("ss", QString::number(mset.A_marker));
-			proc->setOption("endpos", QString::number(mset.B_marker - mset.A_marker));
+			if (proc->isMPV()) {
+				if (mset.loop) {
+					proc->setOption("ab-loop-a", QString::number(mset.A_marker));
+					proc->setOption("ab-loop-b", QString::number(mset.B_marker));
+				}
+			} else {
+				proc->setOption("ss", QString::number(mset.A_marker));
+				proc->setOption("endpos", QString::number(mset.B_marker - mset.A_marker));
+			}
 		}
 		else
 		// If seek < 5 it's better to allow the video to start from the beginning
@@ -2332,12 +2353,17 @@ void Core::startMplayer( QString file, double seek ) {
 			proc->addAF("volnorm", pref->filters->item("volnorm").options());
 		}
 
-		bool use_scaletempo = (pref->use_scaletempo == Preferences::Enabled);
-		if (pref->use_scaletempo == Preferences::Detect) {
-			use_scaletempo = (MplayerVersion::isMplayerAtLeast(24924));
-		}
-		if (use_scaletempo) {
-			proc->addAF("scaletempo");
+		if (proc->isMPlayer()) {
+			bool use_scaletempo = (pref->use_scaletempo == Preferences::Enabled);
+			if (pref->use_scaletempo == Preferences::Detect) {
+				use_scaletempo = (MplayerVersion::isMplayerAtLeast(24924));
+			}
+			if (use_scaletempo) {
+				proc->addAF("scaletempo");
+			}
+		} else {
+			// MPV
+			proc->setOption("scaletempo", pref->use_scaletempo != Preferences::Disabled);
 		}
 
 		// Audio equalizer
@@ -2361,24 +2387,40 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 
 	if (pref->use_soft_vol) {
-		proc->setOption("softvol");
-		proc->setOption("softvol-max", QString::number(pref->softvol_max));
+		proc->setOption("softvol", QString::number(pref->softvol_max));
+	} else {
+		proc->setOption("softvol", "off");
 	}
 
 #ifdef MPV_SUPPORT
-	if (pref->streaming_type == Preferences::StreamingAuto) {
-		bool is_youtube = false;
-		#ifdef YOUTUBE_SUPPORT
-		if (PREF_YT_ENABLED) is_youtube = (file == yt->latestPreferredUrl());
-		#endif
-		qDebug() << "Core::startMplayer: is_youtube:" << is_youtube;
-		proc->setOption("enable_streaming_sites_support", !is_youtube);
-	} else {
-		proc->setOption("enable_streaming_sites_support", pref->streaming_type == Preferences::StreamingYTDL);
+	if (mdat.type == TYPE_STREAM) {
+		if (pref->streaming_type == Preferences::StreamingAuto) {
+			bool is_youtube = false;
+			#ifdef YOUTUBE_SUPPORT
+			if (PREF_YT_ENABLED) is_youtube = (file == yt->latestPreferredUrl());
+			#endif
+			qDebug() << "Core::startMplayer: is_youtube:" << is_youtube;
+			bool enable_sites = !is_youtube;
+
+			if (!is_youtube) {
+				// Check if the URL contains a media extension
+				QString extension = Extensions::extensionFromUrl(file);
+				qDebug() << "Core::startMplayer: URL extension:" << extension;
+				Extensions e;
+				if (e.allPlayable().contains(extension)) {
+					qDebug() << "Core::startMplayer: extension found in URL";
+					enable_sites = false;
+				}
+			}
+			qDebug() << "Core::startMplayer: enable_sites:" << enable_sites;
+			proc->setOption("enable_streaming_sites_support", enable_sites);
+		} else {
+			proc->setOption("enable_streaming_sites_support", pref->streaming_type == Preferences::StreamingYTDL);
+		}
 	}
 #endif
 
-#ifndef Q_OS_WIN
+#if defined(TV_SUPPORT) && !defined(Q_OS_WIN)
 	if (proc->isMPV() && file.startsWith("dvb:")) {
 		QString channels_file = TVList::findChannelsFile();
 		qDebug("Core::startMplayer: channels_file: %s", channels_file.toUtf8().constData());
@@ -2654,8 +2696,13 @@ void Core::setAMarker(int sec) {
 	mset.A_marker = sec;
 	displayMessage( tr("\"A\" marker set to %1").arg(Helper::formatTime(sec)) );
 
-	if (mset.B_marker > mset.A_marker) {
-		if (proc->isRunning()) restartPlay();
+	if (proc->isMPV()) {
+		if (mset.loop) proc->setAMarker(sec);
+	} else {
+		// MPlayer
+		if (mset.B_marker > mset.A_marker) {
+			if (proc->isRunning()) restartPlay();
+		}
 	}
 
 	emit ABMarkersChanged(mset.A_marker, mset.B_marker);
@@ -2671,8 +2718,13 @@ void Core::setBMarker(int sec) {
 	mset.B_marker = sec;
 	displayMessage( tr("\"B\" marker set to %1").arg(Helper::formatTime(sec)) );
 
-	if ((mset.A_marker > -1) && (mset.A_marker < mset.B_marker)) {
-		if (proc->isRunning()) restartPlay();
+	if (proc->isMPV()) {
+		if (mset.loop) proc->setBMarker(sec);
+	} else {
+		// MPlayer
+		if ((mset.A_marker > -1) && (mset.A_marker < mset.B_marker)) {
+			if (proc->isRunning()) restartPlay();
+		}
 	}
 
 	emit ABMarkersChanged(mset.A_marker, mset.B_marker);
@@ -2685,7 +2737,12 @@ void Core::clearABMarkers() {
 		mset.A_marker = -1;
 		mset.B_marker = -1;
 		displayMessage( tr("A-B markers cleared") );
-		if (proc->isRunning()) restartPlay();
+		if (proc->isMPV()) {
+			proc->clearABMarkers();
+		} else {
+			// MPlayer
+			if (proc->isRunning()) restartPlay();
+		}
 	}
 
 	emit ABMarkersChanged(mset.A_marker, mset.B_marker);
@@ -2704,6 +2761,14 @@ void Core::toggleRepeat(bool b) {
 			// Use slave command
 			int v = -1; // no loop
 			if (mset.loop) v = 0; // infinite loop
+			if (proc->isMPV()) {
+				// Enable A-B markers
+				proc->clearABMarkers();
+				if (b) {
+					if (mset.A_marker > -1) proc->setAMarker(mset.A_marker);
+					if (mset.B_marker > -1) proc->setBMarker(mset.B_marker);
+				}
+			}
 			proc->setLoop(v);
 		} else {
 			// Restart mplayer
@@ -3492,7 +3557,9 @@ void Core::setAudioEq9(int value) {
 
 
 void Core::changeCurrentSec(double sec) {
-    mset.current_sec = sec;
+	//qDebug() << "Core::changeCurrentSec:" << sec << "starting_time:" << mset.starting_time;
+
+	mset.current_sec = sec;
 
 	if (mset.starting_time != -1) {
 		mset.current_sec -= mset.starting_time;
@@ -4342,21 +4409,25 @@ void Core::gotNoVideo() {
 }
 
 void Core::gotVO(QString vo) {
-	qDebug("Core::gotVO: '%s'", vo.toUtf8().data() );
+	qDebug() << "Core::gotVO:" << vo;
 
-	if ( pref->vo.isEmpty()) {
+	/*
+	if (pref->vo.isEmpty()) {
 		qDebug("Core::gotVO: saving vo");
 		pref->vo = vo;
 	}
+	*/
 }
 
 void Core::gotAO(QString ao) {
-	qDebug("Core::gotAO: '%s'", ao.toUtf8().data() );
+	qDebug() << "Core::gotAO:" << ao;
 
-	if ( pref->ao.isEmpty()) {
+	/*
+	if (pref->ao.isEmpty()) {
 		qDebug("Core::gotAO: saving ao");
 		pref->ao = ao;
 	}
+	*/
 }
 
 void Core::streamTitleChanged(QString title) {

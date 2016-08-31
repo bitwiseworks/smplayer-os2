@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Danish" "Dansk"
+!else
+!insertmacro LANGFILE "Danish" = "Dansk" =
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "Installationsprogrammet kører allerede."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "Du skal være logget på som administrator
 ${LangFileString} SMPlayer_Is_Running "SMPlayer kører allerede. Luk venligst SMPlayer og prøv igen."
 
 ${LangFileString} OS_Not_Supported "Styresystemet er ikke understøttet.$\nSMPlayer ${SMPLAYER_VERSION} kræver som minimum Windows XP og vil måske ikke virke korrekt på dit system.$\nEr du sikker på at du vil fortsætte installationen?"
+${LangFileString} OS_Not_Supported_VistaRequired "Styresystemet er ikke understøttet.$\nSMPlayer ${SMPLAYER_VERSION} kræver mindst Windows Vista og virker måske ikke korrekt på dit system.$\nVil du virkelig fortsætte installationen?"
 ${LangFileString} Win64_Required "Det kræver et 64-bit Windows-styresystem at installere dette software."
 ${LangFileString} Existing_32bitInst "Der findes allerede en 32-bit installation af SMPlayer. Du skal først afinstallere 32-bit SMPlayer."
 ${LangFileString} Existing_64bitInst "Der findes allerede en 64-bit installation af SMPlayer. Du skal først afinstallere 64-bit SMPlayer."
@@ -46,7 +51,7 @@ ${LangFileString} Section_MPlayerCodecs_Desc "Yderligere codecs til MPlayer. (kr
 
 ${LangFileString} Section_MPV_Desc "En funktionsrig fork af MPlayer og MPlayer2"
 
-${LangFileString} Section_MEncoder_Desc "Et medfølgende program til MPlayer der kan bruges til at indkode eller transformere understøttede lyd- og videostreams."
+${LangFileString} Section_MEncoder_Desc "Et medfølgende program til MPlayer der kan bruges til at indkode eller transformere understøttede lyd- og videostrømme."
 
 ${LangFileString} Section_IconThemes "Ikon-temaer"
 ${LangFileString} Section_IconThemes_Desc "Yderligere ikon-temaer til SMPlayer."
@@ -94,7 +99,7 @@ ${LangFileString} Uninstaller_InvalidDirectory "SMPlayer-installation blev ikke 
 ${LangFileString} Uninstaller_64bitOnly "Denne installation kan kun afinstalleres på 64-bit Windows."
 
 ; Vista & Later Default Programs Registration
-${LangFileString} Application_Description "SMPlayer er en komplet brugerflade til MPlayer, fra grundlæggende funktionalitet såsom at afspille videoer, DVD'er, VCD'er til avanceret funktionalitet såsom understøttelse af MPlayer filtre, EDL lister, og andet."
+${LangFileString} Application_Description "SMPlayer er en komplet front-end til MPlayer, fra grundlæggende funktioner såsom at afspille videoer, DVD'er, VCD'er til avanceret funktioner såsom understøttelse af MPlayer filtre, EDL lister, og andet."
 
 ; Misc
 ${LangFileString} Info_Codecs_Backup "Foretager backup af codecs fra tidligere installation..."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "Kunne ikke installere mpv."
 ${LangFileString} YTDL_DL_Retry "youtube-dl blev ikke installeret. Prøv igen?"
 ${LangFileString} YTDL_DL_Failed "Kunne ikke downloade youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "Søger efter opdateringer til youtube-dl..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "Rydder op i fontconfig-cache..."

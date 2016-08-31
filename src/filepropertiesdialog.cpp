@@ -25,6 +25,10 @@
 #include "infofile.h"
 #include "playerid.h"
 
+#if QT_VERSION >= 0x050000
+#include "myscroller.h"
+#endif
+
 FilePropertiesDialog::FilePropertiesDialog( QWidget* parent, Qt::WindowFlags f )
 	: QDialog(parent, f)
 {
@@ -46,6 +50,13 @@ FilePropertiesDialog::FilePropertiesDialog( QWidget* parent, Qt::WindowFlags f )
 	if (i != -1) tabWidget->removeTab(i);
 	i = tabWidget->indexOf(ac_page);
 	if (i != -1) tabWidget->removeTab(i);
+#endif
+
+#if QT_VERSION >= 0x050000
+	MyScroller::setScroller(info_edit);
+	MyScroller::setScroller(demuxer_listbox->viewport());
+	MyScroller::setScroller(vc_listbox->viewport());
+	MyScroller::setScroller(ac_listbox->viewport());
 #endif
 
 	retranslateStrings();

@@ -18,6 +18,40 @@
 
 #include "myapplication.h"
 
+#ifdef SINGLE_INSTANCE
+MyApplication::MyApplication ( const QString & appId, int & argc, char ** argv ) 
+	: QtSingleApplication(appId, argc, argv)
+{
+#if defined(USE_WINEVENTFILTER) && QT_VERSION >= 0x050000
+	installNativeEventFilter(this);
+#endif
+};
+
+#else
+
+MyApplication::MyApplication ( const QString & appId, int & argc, char ** argv ) 
+	: QApplication(argc, argv)
+{
+#if defined(USE_WINEVENTFILTER) && QT_VERSION >= 0x050000
+	installNativeEventFilter(this);
+#endif
+};
+
+#endif
+	
+#if defined(USE_WINEVENTFILTER) && QT_VERSION >= 0x050000
+bool MyApplication::nativeEventFilter(const QByteArray &eventType, void *message, long *result) {
+	//qDebug() << "MyApplication::nativeEventFilter:" <<eventType;
+	
+	if (eventType == "windows_generic_MSG" || eventType == "windows_dispatcher_MSG") {
+		MSG * m = static_cast<MSG *>(message);
+		return winEventFilter(m, result);
+	}
+	
+	return false;
+}
+#endif
+
 #ifdef USE_WINEVENTFILTER
 #include <QKeyEvent>
 #include <QEvent>
@@ -121,9 +155,9 @@ bool MyApplication::winEventFilter(MSG * msg, long * result) {
 		if ((last_appcommand == APPCOMMAND_MEDIA_STOP) && (msg->wParam == VK_MEDIA_STOP)) eat_key = true;
 		
 		if (eat_key) { 
-			qDebug("MyApplication::winEventFilter: ignoring key %X", msg->wParam);
+			qDebug() << "MyApplication::winEventFilter: ignoring key" << msg->wParam;
 			last_appcommand = 0; 
-			*result = true; 
+			//*result = true; 
 			return true; 
 		}
 	}
@@ -164,7 +198,7 @@ bool MyApplication::winEventFilter(MSG * msg, long * result) {
 				QKeyEvent event(QEvent::KeyPress, key, modifier, name);
 				QWidget * w = QApplication::focusWidget();
 				if (w) QCoreApplication::sendEvent(w, &event);
-				*result = true;
+				//*result = true;
 				return true;
 			}
 		//}

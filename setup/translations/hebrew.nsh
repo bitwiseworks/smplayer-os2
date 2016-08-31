@@ -4,7 +4,11 @@
 ;Save file as UTF-8 w/ BOM
 ;
 
+!if ! ${NSIS_PACKEDVERSION} > 0x2999999
 !insertmacro LANGFILE "Hebrew" "עברית"
+!else
+!insertmacro LANGFILE "Hebrew" = "עברית" "Ivrit"
+!endif
 
 ; Startup
 ${LangFileString} Installer_Is_Running "המתקין כבר מורץ."
@@ -12,6 +16,7 @@ ${LangFileString} Installer_No_Admin "עליך להתחבר בתור מנהל ב
 ${LangFileString} SMPlayer_Is_Running "תהליך של SMPlayer הינו מורץ כעת. אנא צא מתוך SMPlayer ונסה שוב."
 
 ${LangFileString} OS_Not_Supported "מערכת הפעלה לא נתמכת.$\nSMPlayer ${SMPLAYER_VERSION} מצריך לפחות Windows XP ועשוי שלא לעבוד כראוי על המערכת הנוכחית.$\nהאם אתה בטוח כי ברצונך להמשיך עם ההתקנה?"
+${LangFileString} OS_Not_Supported_VistaRequired "Unsupported operating system.$\nSMPlayer ${SMPLAYER_VERSION} requires at least Windows Vista and may not work correctly on your system.$\nDo you really want to continue with the installation?"
 ${LangFileString} Win64_Required "מערכת הפעלה Windows מטיפוס 64-ביט נדרשת כדי להתקין תוכנה זו."
 ${LangFileString} Existing_32bitInst "התקנה קיימת מטיפוס 32-ביט של SMPlayer זמינה. עליך לבטל התקנת SMPlayer מטיפוס 32-ביט תחילה."
 ${LangFileString} Existing_64bitInst "התקנה קיימת מטיפוס 64-ביט של SMPlayer זמינה. עליך לבטל התקנת SMPlayer מטיפוס 64-ביט תחילה."
@@ -120,6 +125,12 @@ ${LangFileString} MPV_Inst_Failed "נכשל להתקין את mpv."
 ${LangFileString} YTDL_DL_Retry "youtube-dl לא הותקן בהצלחה. לנסות שוב?"
 ${LangFileString} YTDL_DL_Failed "נכשל להוריד את youtube-dl: '$R0'."
 ${LangFileString} YTDL_Update_Check "כעת בודק עדכונים עבור youtube-dl..."
+${LangFileString} YTDL_Error_Msg1 "Warning: youtube-dl exited abnormally with exit code: $YTDL_Exit_code"
+${LangFileString} YTDL_Error_Msg2 "Visual C++ 2010 Runtime (x86) is required for youtube-dl."
+
+; SMTube
+${LangFileString} SMTube_Incompatible_Msg1 "The current SMTube installation is incompatible with this version of SMPlayer."
+${LangFileString} SMTube_Incompatible_Msg2 "Please upgrade to a newer version of SMTube."
 
 ; Post install
 ${LangFileString} Info_Cleaning_Fontconfig "כעת מנקה מטמון fontconfig..."
