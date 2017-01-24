@@ -342,7 +342,7 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 	if (option_name == "vo") {
 		QString vo = value.toString();
 		if (vo.endsWith(",")) vo.chop(1);
-		#ifndef Q_OS_WIN
+		#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 		if (isOptionAvailable("--xv-adaptor")) {
 			QRegExp rx("xv:adaptor=(\\d+)");
 			if (rx.indexIn(vo) > -1) {
@@ -364,7 +364,7 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 
 		if (isOptionAvailable("--audio-device")) {
 			if (l.count() == 3) {
-				#ifndef Q_OS_WIN
+				#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 				if (l[0] == "pulse") {
 					arg << "--audio-device=pulse/" + l[2];
 				}
@@ -374,7 +374,7 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 					arg << "--audio-device=alsa/" + l[1];
 				}
 				#endif
-				#else
+				#elif defined(Q_OS_WIN)
 				if (l[0] == "dsound") {
 					arg << "--audio-device=dsound/" + l[1];
 				}
@@ -385,7 +385,7 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 				#endif
 			}
 		} else {
-			#ifndef Q_OS_WIN
+			#if !defined(Q_OS_WIN) && !defined(Q_OS_OS2)
 			if (l.count() > 1) {
 				if (l[0] == "alsa") {
 					ao = "alsa:device=[hw:" + l[1] + "]";

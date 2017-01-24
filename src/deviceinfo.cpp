@@ -244,7 +244,7 @@ DeviceList DeviceInfo::alsaDevices() {
 }
 #endif
 
-#ifdef USE_XV_ADAPTORS
+#if USE_XV_ADAPTORS
 DeviceList DeviceInfo::xvAdaptors() {
 	qDebug("DeviceInfo::xvAdaptors");
 

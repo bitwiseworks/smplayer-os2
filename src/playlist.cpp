@@ -1959,7 +1959,7 @@ void Playlist::copyURL() {
 		int current = s_index.row();
 		text += itemData(current)->filename();
 		if (n < count-1) {
-			#ifdef Q_OS_WIN
+			#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 			text += "\r\n";
 			#else
 			text += "\n";
