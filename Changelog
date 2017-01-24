@@ -1,3 +1,119 @@
+Version 17.1:
+
+(2017-01-05)
+ * (Playlist) Add an option in context menu to open the current item on chromecast.
+
+(2017-01-02)
+ * Remove the option to delete files from the playlist.
+
+(2016-12-30)
+ * (mpv) Add support for the wasapi devices.
+
+(2016-12-26)
+ * Add the option "Play on Chromecast" in the Play menu.
+
+(2016-12-20)
+ * Add an option to display the current time with milliseconds in the status bar.
+
+(2016-12-17)
+ * Add an option to display the bitrate info in the status bar.
+
+(2016-11-30)
+ * (Playlist) Add option to open the source folder of the video in the context menu.
+
+(2016-11-29)
+ * (Playlist) Add a "copy URL to clipboard" option in the context menu.
+
+(2016-11-28)
+ * Parse the option #EXTVLCOPT:http-referrer and #EXTVLCOPT:http-user-agent from m3u
+   playlists. This may allow you to play playlists intended for VLC.
+
+(2016-11-21)
+ * The option to add black borders in fullscreen is back.
+
+
+Version 16.11:
+
+(2016-10-20)
+ * Pass the alpha component of the subtitles' colors to mpv.
+
+(2016-10-11)
+ * New option 'Show info on OSD' in View -> OSD (key shortcut Shift + I).
+   It displays info about the current media (resolution, bitrate...) on the
+   OSD.
+ * (Playlist) If a playlist file is dropped to the playlist window, load it.
+
+(2016-10-01)
+ * Remove the option to add black borders on fullscreen.
+ * New option 'Add black borders for subtitles by default' in
+   Preferences -> General.
+
+(2016-09-29)
+ * Add option 'Case sensitive search' in Preferences -> Playlist.
+
+(2016-09-26)
+ * Add the option 'Auto sort' in Preferences -> Playlist.
+ * Fix when the additional options for mpv contain quotes.
+
+(2016-09-23)
+ * Add the option 'Start playback after loading a playlist' in
+   Preferences -> Playlist.
+
+(2016-09-22)
+ * Add an option in Preferences -> Interface to play the next file
+   automatically or not.
+
+(2016-09-18)
+ * (Playlist) Add a 'save as' button.
+
+(2016-09-16)
+ * Store the playlist filename and display "*" in the title when the
+   playlist is modified and not saved.
+
+(2016-09-15)
+ * (Playlist) Add a popup menu with the load/save options.
+
+
+Version 16.9:
+
+(2016-09-02)
+ * Get the list of the pulseaudio output devices using the
+   pulseaudio library (libpulse-dev is now a build dependency).
+
+(2016-09-01)
+ * Set the default font with the stylesheet.
+
+(2016-08-29)
+ * (Playlist) Scroll to current item after clearing the search field.
+
+(2016-08-28)
+ *  Build the deb package by default with Qt 4 since Qt 5 still
+    has many problems.
+
+(2016-08-26)
+ * Fix alsa:device with mpv.
+ * (Windows) Use the directx libraries to get info about the sound
+   and display devices instead of running dxlist.exe.
+
+(2016-08-25)
+ * Add a submenu in the audio menu to send the audio to a device.
+
+(2016-08-15)
+ * (Playlist) Add actions to hide the columns.
+ * (Playlist) Add a button to show/hide the search field.
+
+(2016-08-14)
+ * Don't disable the screenshot's actions and don't check if the
+   screenshot path is a directory.
+ * (Experimental) Don't use starting_time (affects seeking in ts files).
+ * (Playlist) Disable wordwrap.
+ * If maximized show normal before hiding the panel.
+
+(2016-08-11)
+ * Display 'Development version' in the about dialog when using a
+   development version.
+
+
 Version 16.8:
 
 (2016-07-23)

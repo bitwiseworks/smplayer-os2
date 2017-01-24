@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -61,6 +61,10 @@
 #include "globalshortcuts/globalshortcuts.h"
 #include "preferencesdialog.h"
 #include "prefinput.h"
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+#include "chromecast.h"
 #endif
 
 using namespace Global;
@@ -136,6 +140,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	playlistdock->setObjectName("playlistdock");
 	playlistdock->setFloating(false); // To avoid that the playlist is visible for a moment
 	playlistdock->setWidget(playlist);
+	playlistdock->setWindowTitle(playlist->windowTitle());
 	playlistdock->setAllowedAreas(Qt::TopDockWidgetArea | 
                                   Qt::BottomDockWidgetArea
 #if PLAYLIST_ON_SIDES
@@ -148,6 +153,7 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	playlistdock->setFloating(true); // Floating by default
 
 	connect( playlistdock, SIGNAL(closed()), this, SLOT(playlistClosed()) );
+	connect(playlist, SIGNAL(windowTitleChanged(const QString &)), playlistdock, SLOT(setWindowTitle(const QString &)));
 #if USE_DOCK_TOPLEVEL_EVENT
 	connect( playlistdock, SIGNAL(topLevelChanged(bool)), 
              this, SLOT(dockTopLevelChanged(bool)) );
@@ -165,6 +171,11 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	detachVideoAct = new MyAction(this, "detach_video");
 	detachVideoAct->setCheckable(true);
 	connect(detachVideoAct, SIGNAL(toggled(bool)), this, SLOT(detachVideo(bool)));
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	playOnChromecastAct = new MyAction(this, "play_on_chromecast");
+	connect(playOnChromecastAct, SIGNAL(triggered()), this, SLOT(playOnChromecast()));
 #endif
 
 #ifdef SCREENS_SUPPORT
@@ -199,10 +210,20 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 	detached_label->hide();
 #endif
 
+#ifdef SEND_AUDIO_OPTION
+	sendAudio_menu = new QMenu(this);
+	sendAudio_menu->menuAction()->setObjectName("send_audio_menu");
+	updateSendAudioMenu();
+#endif
+
 #ifdef GLOBALSHORTCUTS
 	global_shortcuts = new GlobalShortcuts(this);
 	global_shortcuts->setEnabled(pref->use_global_shortcuts);
 	connect(this, SIGNAL(preferencesChanged()), this, SLOT(updateGlobalShortcuts()));
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	Chromecast::instance()->setSettings(settings);
 #endif
 
 	retranslateStrings();
@@ -212,6 +233,10 @@ BaseGuiPlus::BaseGuiPlus( QWidget * parent, Qt::WindowFlags flags)
 BaseGuiPlus::~BaseGuiPlus() {
 	saveConfig();
 	tray->hide();
+
+#ifdef CHROMECAST_SUPPORT
+	Chromecast::deleteInstance();
+#endif
 }
 
 void BaseGuiPlus::populateMainMenu() {
@@ -230,7 +255,6 @@ void BaseGuiPlus::populateMainMenu() {
 
 #ifdef SCREENS_SUPPORT
 	videoMenu->insertMenu(videosize_menu->menuAction(), sendToScreen_menu);
-	//optionsMenu->addMenu(sendToScreen_menu);
 
 	if (!pref->tablet_mode) {
 		viewMenu->addSeparator();
@@ -238,6 +262,15 @@ void BaseGuiPlus::populateMainMenu() {
 	}
 
 	access_menu->insertMenu(tabletModeAct, sendToScreen_menu);
+#endif
+
+#ifdef SEND_AUDIO_OPTION
+	audioMenu->insertMenu(audiofilter_menu->menuAction(), sendAudio_menu);
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	playMenu->addSeparator();
+	playMenu->addAction(playOnChromecastAct);
 #endif
 }
 
@@ -256,6 +289,16 @@ void BaseGuiPlus::closeEvent( QCloseEvent * e ) {
 	qDebug("BaseGuiPlus::closeEvent");
 	e->ignore();
 	closeWindow();
+}
+
+void BaseGuiPlus::updateWidgets() {
+	qDebug("BaseGuiPlus::updateWidgets");
+
+	BaseGui::updateWidgets();
+
+#ifdef CHROMECAST_SUPPORT
+	playOnChromecastAct->setEnabled(!core->mdat.filename.isEmpty());
+#endif
 }
 
 void BaseGuiPlus::closeWindow() {
@@ -297,11 +340,15 @@ void BaseGuiPlus::retranslateStrings() {
 	updateShowAllAct();
 
 #if DOCK_PLAYLIST
-    playlistdock->setWindowTitle( tr("Playlist") );
+	// playlistdock->setWindowTitle( tr("Playlist") );
 #endif
 
 #ifdef DETACH_VIDEO_OPTION
 	detachVideoAct->change("Detach video");
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	playOnChromecastAct->change(Images::icon("chromecast"), tr("Play on &Chromecast"));
 #endif
 
 #ifdef SCREENS_SUPPORT
@@ -311,6 +358,11 @@ void BaseGuiPlus::retranslateStrings() {
 
 	detached_label->setText("<img src=\"" + Images::file("send_to_screen") + "\">" +
 		"<p style=\"color: white;\">" + tr("Video is sent to an external screen") +"</p");
+#endif
+
+#ifdef SEND_AUDIO_OPTION
+	sendAudio_menu->menuAction()->setText( tr("Send &audio to") );
+	sendAudio_menu->menuAction()->setIcon(Images::icon("send_audio"));
 #endif
 }
 
@@ -470,7 +522,7 @@ void BaseGuiPlus::resizeWindow(int w, int h) {
 }
 
 void BaseGuiPlus::updateMediaInfo() {
-    qDebug("BaseGuiPlus::updateMediaInfo");
+	qDebug("BaseGuiPlus::updateMediaInfo");
 	BaseGui::updateMediaInfo();
 
 	tray->setToolTip( windowTitle() );
@@ -959,6 +1011,89 @@ void BaseGuiPlus::toggleFullscreen(bool b) {
 	}
 }
 */
+#endif
+
+#ifdef SEND_AUDIO_OPTION
+void BaseGuiPlus::updateSendAudioMenu() {
+	qDebug("BaseGuiPlus::updateSendAudioMenu");
+
+	sendAudio_menu->clear();
+	QAction * a = new QAction(sendAudio_menu);
+	a->setText(tr("&Default audio device"));
+	a->setData("");
+	connect(a, SIGNAL(triggered()), this, SLOT(sendAudioClicked()));
+	sendAudio_menu->addAction(a);
+
+#if USE_PULSEAUDIO_DEVICES
+	addListToSendAudioMenu( DeviceInfo::paDevices(), "pulse");
+#endif
+
+#if USE_ALSA_DEVICES
+	addListToSendAudioMenu( DeviceInfo::alsaDevices(), "alsa");
+#endif
+
+#if USE_DSOUND_DEVICES
+	if (PlayerID::player(pref->mplayer_bin) == PlayerID::MPLAYER) {
+		addListToSendAudioMenu( DeviceInfo::dsoundDevices(), "dsound");
+	}
+#endif
+
+#if MPV_AUDIO_DEVICES
+	if (PlayerID::player(pref->mplayer_bin) == PlayerID::MPV) {
+		DeviceInfo::setMpvBin(pref->mplayer_bin);
+
+		#if USE_MPV_ALSA_DEVICES
+		addListToSendAudioMenu( DeviceInfo::mpvAlsaDevices(), "alsa");
+		#endif
+
+		#if USE_MPV_WASAPI_DEVICES
+		addListToSendAudioMenu( DeviceInfo::mpvWasapiDevices(), "wasapi");
+		#endif
+	}
+#endif
+}
+
+void BaseGuiPlus::addListToSendAudioMenu(const DeviceList & audio_devices, const QString & device_name) {
+	for (int n = 0; n < audio_devices.count(); n++) {
+		QAction * a = new QAction(sendAudio_menu);
+		a->setText( DeviceInfo::printableName(device_name, audio_devices[n]) );
+		a->setData( DeviceInfo::internalName(device_name, audio_devices[n]) );
+		connect(a, SIGNAL(triggered()), this, SLOT(sendAudioClicked()));
+		sendAudio_menu->addAction(a);
+	}
+}
+
+void BaseGuiPlus::sendAudioClicked() {
+	QAction * a = qobject_cast<QAction *> (sender());
+	if (a) {
+		QString device = a->data().toString();
+		qDebug() << "BaseGuiPlus::sendAudioClicked: device:" << device;
+		core->changeAO(device);
+	}
+}
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+void BaseGuiPlus::playOnChromecast() {
+	qDebug("BaseGuiPlus::playOnChromecast");
+
+	qDebug() << "BaseGuiPlus::playOnChromecast: type:" << core->mdat.type;
+	qDebug() << "BaseGuiPlus::playOnChromecast: filename:" << core->mdat.filename;
+	qDebug() << "BaseGuiPlus::playOnChromecast: stream_url:" << core->mdat.stream_url;
+	qDebug() << "BaseGuiPlus::playOnChromecast: stream_title:" << core->mdat.stream_title;
+	qDebug() << "BaseGuiPlus::playOnChromecast: stream_path:" << core->mdat.stream_path;
+
+	QString title = core->mdat.displayName(true);
+	if (core->mdat.type == TYPE_STREAM) {
+		QString url = core->mdat.filename;
+		if (!core->mdat.stream_path.isEmpty()) url = core->mdat.stream_path;
+		Chromecast::instance()->openStream(url, title);
+	}
+	else
+	if (core->mdat.type == TYPE_FILE) {
+		Chromecast::instance()->openLocal(core->mdat.filename, title);
+	}
+}
 #endif
 
 #include "moc_baseguiplus.cpp"

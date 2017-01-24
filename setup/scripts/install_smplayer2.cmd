@@ -67,6 +67,7 @@ echo.
 mkdir %OUTPUT_DIR%
 copy "%SMPLAYER_DIR%\src\%QT_BUILD_DIR%\smplayer.exe" "%OUTPUT_DIR%"
 copy "%SMPLAYER_DIR%\dxlist\release\dxlist.exe" "%OUTPUT_DIR%"
+copy "%SMPLAYER_DIR%\webserver\simple_web_server.exe" "%OUTPUT_DIR%"
 copy "%SMPLAYER_DIR%\zlib\zlib1.dll" "%OUTPUT_DIR%"
 copy "%SMPLAYER_DIR%\*.txt" "%OUTPUT_DIR%"
 REM copy "%SMPLAYER_DIR%\setup\sample.avi" "%OUTPUT_DIR%"
@@ -177,16 +178,20 @@ xcopy "%SMPLAYER_SKINS_DIR%\themes\%%b\main.css" "%OUTPUT_DIR%\themes\%%b\"
 echo.
 echo --           MPlayer           --
 echo.
-REM for /f %%i in ("%MPLAYER_DIR%") do set MPLAYER_DIR=%%~fi
-REM mklink /D "%OUTPUT_DIR%\mplayer" "%MPLAYER_DIR%"
-xcopy "%MPLAYER_DIR%" "%OUTPUT_DIR%\mplayer\" /E
+for /f %%i in ("%MPLAYER_DIR%") do set MPLAYER_DIR=%%~fi
+mklink /D "%OUTPUT_DIR%\mplayer" "%MPLAYER_DIR%"
+if not errorlevel 0 (
+  xcopy "%MPLAYER_DIR%" "%OUTPUT_DIR%\mplayer\" /E
+)
 
 echo.
 echo --           MPV           --
 echo.
-REM for /f %%i in ("%MPV_DIR%") do set MPV_DIR=%%~fi
-REM mklink /D "%OUTPUT_DIR%\mpv" "%MPV_DIR%"
-xcopy "%MPV_DIR%" "%OUTPUT_DIR%\mpv\" /E
+for /f %%i in ("%MPV_DIR%") do set MPV_DIR=%%~fi
+mklink /D "%OUTPUT_DIR%\mpv" "%MPV_DIR%"
+if not errorlevel 0 (
+  xcopy "%MPV_DIR%" "%OUTPUT_DIR%\mpv\" /E
+)
 
 echo.
 

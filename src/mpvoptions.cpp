@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QDebug>
 #include "inforeader.h"
+#include "deviceinfo.h"
 
 void MPVProcess::addArgument(const QString & /*a*/) {
 }
@@ -29,7 +30,7 @@ void MPVProcess::setMedia(const QString & media, bool is_playlist) {
 			"INFO_VIDEO_WIDTH=${=width}\nINFO_VIDEO_HEIGHT=${=height}\n"
 			"INFO_VIDEO_ASPECT=${=video-aspect}\n"
 //			"INFO_VIDEO_DSIZE=${=dwidth}x${=dheight}\n"
-			"INFO_VIDEO_FPS=${=fps}\n"
+			"INFO_VIDEO_FPS=${=container-fps:${=fps}}\n"
 //			"INFO_VIDEO_BITRATE=${=video-bitrate}\n"
 			"INFO_VIDEO_FORMAT=${=video-format}\n"
 			"INFO_VIDEO_CODEC=${=video-codec}\n"
@@ -46,7 +47,7 @@ void MPVProcess::setMedia(const QString & media, bool is_playlist) {
 //			"INFO_LENGTH=${=length}\n"
 			"INFO_LENGTH=${=duration:${=length}}\n"
 
-			"INFO_DEMUXER=${=demuxer}\n"
+			"INFO_DEMUXER=${=current-demuxer:${=demuxer}}\n"
 			"INFO_SEEKABLE=${=seekable}\n"
 			"INFO_TITLES=${=disc-titles}\n"
 			"INFO_CHAPTERS=${=chapters}\n"
@@ -60,10 +61,11 @@ void MPVProcess::setMedia(const QString & media, bool is_playlist) {
 			"METADATA_TRACK=${metadata/by-key/track:}\n"
 			"METADATA_COPYRIGHT=${metadata/by-key/copyright:}\n"
 
-			"INFO_MEDIA_TITLE=${=media-title:}\n";
+			"INFO_MEDIA_TITLE=${=media-title:}\n"
+			"INFO_STREAM_PATH=${stream-path}\n";
 
 #ifdef CUSTOM_STATUS
-	arg << "--term-status-msg=STATUS: ${=time-pos} / ${=duration:${=length:0}} P: ${=pause} B: ${=paused-for-cache} I: ${=core-idle}";
+	arg << "--term-status-msg=STATUS: ${=time-pos} / ${=duration:${=length:0}} P: ${=pause} B: ${=paused-for-cache} I: ${=core-idle} VB: ${=video-bitrate:0} AB: ${=audio-bitrate:0}";
 #endif
 
 	if (is_playlist) {
@@ -74,6 +76,14 @@ void MPVProcess::setMedia(const QString & media, bool is_playlist) {
 
 #ifdef CAPTURE_STREAM
 	capturing = false;
+#endif
+
+#ifdef OSD_WITH_TIMER
+	if (!osd_timer) {
+		osd_timer = new QTimer(this);
+		osd_timer->setInterval(500);
+		connect(osd_timer, SIGNAL(timeout()), this, SLOT(displayInfoOnOSD()));
+	}
 #endif
 }
 
@@ -89,16 +99,28 @@ void MPVProcess::setFixedOptions() {
 
 void MPVProcess::disableInput() {
 	arg << "--no-input-default-bindings";
-	arg << "--input-x11-keyboard=no";
+	if (isOptionAvailable("--input-vo-keyboard")) {
+		arg << "--input-vo-keyboard=no";
+	} else {
+		arg << "--input-x11-keyboard=no";
+	}
 	arg << "--no-input-cursor";
 	arg << "--cursor-autohide=no";
 }
 
 bool MPVProcess::isOptionAvailable(const QString & option) {
-	InfoReader * ir = InfoReader::obj(executable());
-	ir->getInfo();
-	//qDebug() << "MPVProcess::isOptionAvailable: option_list:" << ir->optionList();
-	return ir->optionList().contains(option);
+	static QStringList option_list;
+	static QString mpv_bin;
+
+	if (option_list.isEmpty() || mpv_bin != executable()) {
+		InfoReader * ir = InfoReader::obj(executable());
+		ir->getInfo();
+		option_list = ir->optionList();
+		mpv_bin = executable();
+		//qDebug() << "MPVProcess::isOptionAvailable: option_list:" << option_list;
+	}
+
+	return option_list.contains(option);
 }
 
 void MPVProcess::addVFIfAvailable(const QString & vf, const QString & value) {
@@ -232,6 +254,18 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 		arg << "--sub-scale=" + value.toString();
 	}
 	else
+	if (option_name == "ass-line-spacing") {
+		QString line_spacing = "--ass-line-spacing";
+		if (isOptionAvailable("--sub-ass-line-spacing")) line_spacing = "--sub-ass-line-spacing";
+		arg << line_spacing + "=" + value.toString();
+	}
+	else
+	if (option_name == "ass-force-style") {
+		QString ass_force_style = "--ass-force-style";
+		if (isOptionAvailable("--sub-ass-force-style")) ass_force_style = "--sub-ass-force-style";
+		arg << ass_force_style + "=" + value.toString();
+	}
+	else
 	if (option_name == "stop-xscreensaver") {
 		bool stop_ss = value.toBool();
 		if (stop_ss) arg << "--stop-screensaver"; else arg << "--no-stop-screensaver";
@@ -305,15 +339,65 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 		if (b) arg << "--" + option_name; else arg << "--no-" + option_name;
 	}
 	else
-	if (option_name == "ao") {
-		QString o = value.toString();
-		if (o.startsWith("alsa:device=")) {
-			QString device = o.mid(12);
-			//qDebug() << "MPVProcess::setOption: alsa device:" << device;
-			device = device.replace("=", ":").replace(".", ",");
-			o = "alsa:device=[" + device + "]";
+	if (option_name == "vo") {
+		QString vo = value.toString();
+		if (vo.endsWith(",")) vo.chop(1);
+		#ifndef Q_OS_WIN
+		if (isOptionAvailable("--xv-adaptor")) {
+			QRegExp rx("xv:adaptor=(\\d+)");
+			if (rx.indexIn(vo) > -1) {
+				QString adaptor = rx.cap(1);
+				vo = "xv";
+				arg << "--xv-adaptor=" + adaptor;
+			}
 		}
-		arg << "--ao=" + o;
+		#endif
+		arg << "--vo=" + vo + ",";
+	}
+	else
+	if (option_name == "ao") {
+		QString ao = value.toString();
+
+		QStringList l;
+		if (ao.contains(":")) l = DeviceInfo::extractDevice(ao);
+		if (l.count() > 0) ao = l[0];
+
+		if (isOptionAvailable("--audio-device")) {
+			if (l.count() == 3) {
+				#ifndef Q_OS_WIN
+				if (l[0] == "pulse") {
+					arg << "--audio-device=pulse/" + l[2];
+				}
+				#if USE_MPV_ALSA_DEVICES
+				else
+				if (l[0] == "alsa") {
+					arg << "--audio-device=alsa/" + l[1];
+				}
+				#endif
+				#else
+				if (l[0] == "dsound") {
+					arg << "--audio-device=dsound/" + l[1];
+				}
+				else
+				if (l[0] == "wasapi") {
+					arg << "--audio-device=wasapi/" + l[1];
+				}
+				#endif
+			}
+		} else {
+			#ifndef Q_OS_WIN
+			if (l.count() > 1) {
+				if (l[0] == "alsa") {
+					ao = "alsa:device=[hw:" + l[1] + "]";
+				}
+				else
+				if (l[0] == "pulse") {
+					ao = "pulse::" + l[1];
+				}
+			}
+			#endif
+		}
+		arg << "--ao=" + ao + ",";
 	}
 	else
 	if (option_name == "vc") {
@@ -367,11 +451,9 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 	}
 	else
 	if (option_name == "wid" ||
-	    option_name == "vo" ||
 	    option_name == "aid" || option_name == "vid" ||
 	    option_name == "volume" ||
-	    option_name == "ass-styles" || option_name == "ass-force-style" ||
-	    option_name == "ass-line-spacing" ||
+	    option_name == "ass-styles" ||
 	    option_name == "embeddedfonts" ||
 	    option_name == "osd-scale" ||
 	    option_name == "speed" ||
@@ -386,6 +468,7 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 	    option_name == "dvd-device" || option_name == "cdrom-device" ||
 	    option_name == "demuxer" ||
 	    option_name == "frames" ||
+	    option_name == "user-agent" || option_name == "referrer" ||
 	    option_name == "ab-loop-a" || option_name == "ab-loop-b")
 	{
 		QString s = "--" + option_name;
@@ -399,7 +482,23 @@ void MPVProcess::setOption(const QString & option_name, const QVariant & value) 
 }
 
 void MPVProcess::addUserOption(const QString & option) {
-	arg << option;
+	qDebug() << "MPVProcess::addUserOption:" << option;
+
+	// Remove quotes
+	QString s = option;
+	if (s.count("=\"") == 1 && s.endsWith("\"")) {
+		s.replace("=\"", "=");
+		s.chop(1);
+	}
+	else
+	if (s.startsWith("\"") && s.endsWith("\"")) {
+		s.remove(0, 1);
+		s.chop(1);
+	}
+
+	qDebug() << "MPVProcess::addUserOption: s:" << s;
+
+	arg << s;
 	if (option == "-v") {
 		verbose = true;
 	}
@@ -620,12 +719,67 @@ void MPVProcess::showOSDText(const QString & text, int duration, int level) {
 }
 
 void MPVProcess::showFilenameOnOSD() {
-	writeToStdin("show_text \"${filename}\" 2000 0");
+#ifdef OSD_WITH_TIMER
+	toggleInfoOnOSD();
+#else
+	showOSDText("${filename}", 2000, 0);
+#endif
 }
 
 void MPVProcess::showTimeOnOSD() {
-	writeToStdin("show_text \"${time-pos} / ${length:0} (${percent-pos}%)\" 2000 0");
+#ifdef OSD_WITH_TIMER
+	osd_timer->stop();
+#endif
+	writeToStdin("show_text \"${time-pos} ${?duration:/ ${duration} (${percent-pos}%)}\" 2000 0");
 }
+
+#ifdef OSD_WITH_TIMER
+void MPVProcess::toggleInfoOnOSD() {
+	if (!osd_timer->isActive()) {
+		osd_timer->start();
+		displayInfoOnOSD();
+	} else {
+		osd_timer->stop();
+		showOSDText("", 100, 0);
+	}
+}
+
+void MPVProcess::displayInfoOnOSD() {
+	QString b1 = "{\\\\b1}";
+	QString b0 = "{\\\\b0}";
+	QString tab = "\\\\h\\\\h\\\\h\\\\h\\\\h";
+	QString nl = "\\n";
+
+	QString s = "${osd-ass-cc/0}{\\\\fs14}" +
+		b1 + tr("File:") + b0 +" ${filename}" + nl +
+		"${time-pos} ${?duration:/ ${duration} (${percent-pos}%)}" + nl + nl +
+		//b1 + tr("Title:") + b0 + " ${media-title}" + nl + nl +
+		b1 + tr("Video:") + b0 + " ${video-codec}" + nl +
+		tab + b1 + tr("Resolution:") + b0 +" ${=width}x${=height}" + nl +
+		tab + b1 + tr("Frames per second:") + b0 + " ${container-fps:${fps}} " + b1 + tr("Estimated:") + b0 + " ${estimated-vf-fps}" + nl +
+		//tab + b1 + tr("Display FPS:") + b0 + " ${display-fps}" + nl +
+		tab + b1 + tr("Aspect Ratio:") + b0 + " ${video-params/aspect}" + nl +
+		tab + b1 + tr("Bitrate:") + b0 + " ${video-bitrate}" + nl +
+		tab + b1 + tr("Dropped frames:") + b0 + " ${drop-frame-count}" + nl +
+		nl +
+
+		b1 + tr("Audio:") + b0 + " ${audio-codec}" + nl + 
+		tab + b1 + tr("Bitrate:") + b0 + " ${audio-bitrate}" + nl +
+		tab + b1 + tr("Sample Rate:") + b0 + " ${audio-params/samplerate} Hz" + nl +
+		tab + b1 + tr("Channels:") + b0 + " ${audio-params/channel-count}" + nl +
+		nl +
+
+		b1 + tr("Audio/video synchronization:") + b0 + " ${avsync}" + nl +
+		b1 + tr("Cache fill:") + b0 + " ${cache:0}%" + nl +
+		b1 + tr("Used cache:") + b0 + " ${cache-used:0}" + nl;
+
+	if (!osd_media_info.isEmpty()) s = osd_media_info;
+
+	showOSDText(s, 2000, 0);
+
+	if (!isRunning()) osd_timer->stop();
+}
+#endif
 
 void MPVProcess::setContrast(int value) {
 	writeToStdin("set contrast " + QString::number(value));
@@ -919,20 +1073,41 @@ void MPVProcess::changeStereo3DFilter(bool enable, const QString & in, const QSt
 }
 
 void MPVProcess::setSubStyles(const AssStyles & styles, const QString &) {
+	QString sub_font = "--sub-text-font";
+	if (isOptionAvailable("--sub-font")) sub_font = "--sub-font";
+
+	QString sub_color = "--sub-text-color";
+	if (isOptionAvailable("--sub-color")) sub_color = "--sub-color";
+
+	QString sub_shadow_color = "--sub-text-shadow-color";
+	if (isOptionAvailable("--sub-shadow-color")) sub_shadow_color = "--sub-shadow-color";
+
+	QString sub_back_color = "--sub-text-back-color";
+	if (isOptionAvailable("--sub-back-color")) sub_back_color = "--sub-back-color";
+
+	QString sub_border_color = "--sub-text-border-color";
+	if (isOptionAvailable("--sub-border-color")) sub_border_color = "--sub-border-color";
+
+	QString sub_border_size = "--sub-text-border-size";
+	if (isOptionAvailable("--sub-border-size")) sub_border_size = "--sub-border-size";
+
+	QString sub_shadow_offset = "--sub-text-shadow-offset";
+	if (isOptionAvailable("--sub-shadow-offset")) sub_shadow_offset = "--sub-shadow-offset";
+
 	QString font = styles.fontname;
 	//arg << "--sub-text-font=" + font.replace(" ", "");
-	arg << "--sub-text-font=" + font;
-	arg << "--sub-text-color=#" + ColorUtils::colorToRRGGBB(styles.primarycolor);
+	arg << sub_font + "=" + font;
+	arg << sub_color + "=#" + ColorUtils::colorToAARRGGBB(styles.primarycolor);
 
 	if (styles.borderstyle == AssStyles::Outline) {
-		arg << "--sub-text-shadow-color=#" + ColorUtils::colorToRRGGBB(styles.backcolor);
+		arg << sub_shadow_color + "=#" + ColorUtils::colorToAARRGGBB(styles.backcolor);
 	} else {
-		arg << "--sub-text-back-color=#" + ColorUtils::colorToRRGGBB(styles.outlinecolor);
+		arg << sub_back_color + "=#" + ColorUtils::colorToAARRGGBB(styles.outlinecolor);
 	}
-	arg << "--sub-text-border-color=#" + ColorUtils::colorToRRGGBB(styles.outlinecolor);
+	arg << sub_border_color + "=#" + ColorUtils::colorToAARRGGBB(styles.outlinecolor);
 
-	arg << "--sub-text-border-size=" + QString::number(styles.outline * 2.5);
-	arg << "--sub-text-shadow-offset=" + QString::number(styles.shadow * 2.5);
+	arg << sub_border_size + "=" + QString::number(styles.outline * 2.5);
+	arg << sub_shadow_offset + "=" + QString::number(styles.shadow * 2.5);
 
 	if (isOptionAvailable("--sub-text-font-size")) {
 		arg << "--sub-text-font-size=" + QString::number(styles.fontsize * 2.5);

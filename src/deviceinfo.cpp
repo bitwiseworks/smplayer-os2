@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,8 +21,75 @@
 #include <QProcess>
 #include <QFile>
 #include <QSettings>
+#include <QDebug>
 
 #ifdef Q_OS_WIN
+
+#define USE_DIRECTX
+
+#ifdef USE_DIRECTX
+#define DIRECTSOUND_VERSION 5
+#include <dsound.h>
+#include <ddraw.h>
+
+QStringList dsound_device_list;
+QStringList ddraw_device_list;
+
+BOOL CALLBACK DirectSoundEnum(LPGUID guid, LPCSTR desc, LPCSTR module, LPVOID context)
+{
+	Q_UNUSED(guid);
+	Q_UNUSED(module);
+	Q_UNUSED(context);
+
+	dsound_device_list << QString(desc);
+	return TRUE;
+}
+
+BOOL WINAPI DirectDrawEnum(GUID FAR *lpGUID, LPSTR lpDriverDescription, LPSTR lpDriverName, LPVOID lpContext, HMONITOR hm)
+{
+	Q_UNUSED(lpDriverName);
+	Q_UNUSED(lpContext);
+	Q_UNUSED(hm);
+
+	if (!lpGUID) {
+		ddraw_device_list << "Primary Display Adapter";
+	} else {
+		ddraw_device_list << QString(lpDriverDescription);
+	}
+	return TRUE;
+}
+
+
+DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
+	qDebug("DeviceInfo::retrieveDevices: %d", type);
+
+	DeviceList l;
+
+	dsound_device_list.clear();
+	ddraw_device_list.clear();
+
+	if (type == Sound) {
+		DirectSoundEnumerateA(DirectSoundEnum, NULL);
+		for (int n = 0; n < dsound_device_list.count(); n++) {
+			QString desc = dsound_device_list[n];
+			qDebug() << "DeviceInfo::retrieveDevices: audio:" << n << desc;
+			l.append( DeviceData(n, desc) );
+		}
+	}
+	else
+	if (type == Display) {
+		DirectDrawEnumerateExA(DirectDrawEnum, NULL, DDENUM_ATTACHEDSECONDARYDEVICES);
+		for (int n = 0; n < ddraw_device_list.count(); n++) {
+			QString desc = ddraw_device_list[n];
+			qDebug() << "DeviceInfo::retrieveDevices: display:" << n << desc;
+			l.append( DeviceData(n, desc) );
+		}
+	}
+
+	return l;
+}
+
+#else
 
 DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
 	qDebug("DeviceInfo::retrieveDevices: %d", type);
@@ -70,6 +137,7 @@ DeviceList DeviceInfo::retrieveDevices(DeviceType type) {
 
 	return l;
 }
+#endif
 
 DeviceList DeviceInfo::dsoundDevices() { 
 	return retrieveDevices(Sound);
@@ -81,6 +149,54 @@ DeviceList DeviceInfo::displayDevices() {
 
 #else
 
+// Linux
+
+#if USE_PULSEAUDIO_DEVICES
+DeviceList DeviceInfo::paDevices() {
+	qDebug("DeviceInfo::paDevices");
+
+	static DeviceList l;
+	if (!l.isEmpty()) return l;
+
+	QRegExp rx_index("(.*)index: (\\d+)");
+	QRegExp rx_name("(.*)name: (.*)");
+
+	QProcess p;
+	p.setProcessChannelMode( QProcess::MergedChannels );
+	QStringList env = QProcess::systemEnvironment();
+	env << "LC_ALL=C";
+	p.setEnvironment(env);
+	p.start("pacmd list-sinks");
+
+	int index = -1;
+	QString name;
+
+	if (p.waitForFinished()) {
+		QByteArray line;
+		while (p.canReadLine()) {
+			line = p.readLine().trimmed();
+			//qDebug() << "DeviceInfo::paDevices:" << line;
+			if (rx_index.indexIn(line) > -1 ) {
+				index = rx_index.cap(2).toInt();
+				qDebug() << "DeviceInfo::paDevices: index:" << index;
+			}
+			if (rx_name.indexIn(line) > -1 ) {
+				name = rx_name.cap(2);
+				if (name.startsWith('<') && name.endsWith('>')) { name = name.mid(1); name.chop(1); }
+				qDebug() << "DeviceInfo::paDevices: name:" << name;
+				if (index != -1) {
+					l.append( DeviceData(index, name) );
+					index = -1;
+				}
+			}
+		}
+	}
+
+	return l;
+}
+#endif // USE_PULSEAUDIO_DEVICES
+
+#if USE_ALSA_DEVICES
 DeviceList DeviceInfo::alsaDevices() {
 	qDebug("DeviceInfo::alsaDevices");
 
@@ -126,7 +242,9 @@ DeviceList DeviceInfo::alsaDevices() {
 
 	return l;
 }
+#endif
 
+#ifdef USE_XV_ADAPTORS
 DeviceList DeviceInfo::xvAdaptors() {
 	qDebug("DeviceInfo::xvAdaptors");
 
@@ -170,7 +288,70 @@ DeviceList DeviceInfo::xvAdaptors() {
 
 	return l;
 }
+#endif
+#endif
 
+#if MPV_AUDIO_DEVICES
+QString DeviceInfo::mpv_bin;
+
+#if USE_MPV_ALSA_DEVICES
+DeviceList DeviceInfo::mpvAlsaDevices() {
+	static DeviceList l;
+	if (!l.isEmpty()) return l;
+	l = mpvAudioDevices("alsa");
+	return l;
+}
+#endif
+
+#if USE_MPV_WASAPI_DEVICES
+DeviceList DeviceInfo::mpvWasapiDevices() {
+	static DeviceList l;
+	if (!l.isEmpty()) return l;
+	l = mpvAudioDevices("wasapi");
+	return l;
+}
+#endif
+	
+DeviceList DeviceInfo::mpvAudioDevices(const QString & filter) {
+	DeviceList l;
+	if (!mpv_bin.isEmpty()) l = mpvAudioDevices(mpv_bin, filter);
+	return l;
+}
+
+DeviceList DeviceInfo::mpvAudioDevices(const QString & mpv_bin, const QString & filter) {
+	qDebug("DeviceInfo::mpvAudioDevices");
+
+	DeviceList l;
+
+	QRegExp rx("'" + filter + "\\/(.*)'\\s+\\((.*)\\)");
+
+	QProcess p;
+	p.setProcessChannelMode( QProcess::MergedChannels );
+
+	p.start(mpv_bin, QStringList() << "--audio-device=help");
+
+	QString device;
+	QString name;
+	//int index = 0;
+
+	if (p.waitForFinished()) {
+		QString line;
+		while (p.canReadLine()) {
+			line = QString::fromUtf8(p.readLine().trimmed());
+			qDebug() << "DeviceInfo::mpvAudioDevices:" << line;
+
+			if (rx.indexIn(line) > -1 ) {
+				device = rx.cap(1);
+				name = rx.cap(2);
+				qDebug() << "DeviceInfo::mpvAudioDevices: device:" << device << "name:" << name;
+				l.append( DeviceData(device, name) );
+				//index++;
+			}
+		}
+	}
+
+	return l;
+}
 #endif
 
 #ifdef CACHE_DEVICE_INFO
@@ -200,3 +381,24 @@ DeviceList DeviceInfo::loadList(QSettings * set, const QString & section_name) {
 	return l;
 }
 #endif
+
+QString DeviceInfo::printableName(const QString & driver_name, const DeviceData & device) {
+	return printableName(driver_name, device.ID().toString(), device.desc());
+}
+
+QString DeviceInfo::internalName(const QString & driver_name, const DeviceData & device) {
+	return internalName(driver_name, device.ID().toString(), device.desc());
+}
+
+QString DeviceInfo::printableName(const QString & driver_name, const QString & id, const QString & desc) {
+	Q_UNUSED(id);
+	return driver_name +" (" + /* id + " - " + */ desc + ")";
+}
+
+QString DeviceInfo::internalName(const QString & driver_name, const QString & id, const QString & desc) {
+	return driver_name + ":::" + id + ":::" + desc;
+}
+
+QStringList DeviceInfo::extractDevice(const QString & internal_name) {
+	return internal_name.split(":::");
+}

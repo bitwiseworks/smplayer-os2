@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,10 +50,12 @@
 #include <QToolButton>
 #include <QMenuBar>
 #include <QMovie>
+#include <QtCore/qmath.h>
 
-#define TOOLBAR_VERSION 2
-#define CONTROLWIDGET_VERSION 0
-#define FLOATING_CONTROL_VERSION 1
+#define TOOLBAR_VERSION "2"
+#define CONTROLWIDGET_VERSION "1"
+#define CONTROLWIDGETMINI_VERSION "1"
+#define FLOATING_CONTROL_VERSION "1"
 
 using namespace Global;
 
@@ -62,12 +64,14 @@ DefaultGui::DefaultGui( QWidget * parent, Qt::WindowFlags flags )
 {
 	createStatusBar();
 
+	connect( core, SIGNAL(showTime(double)), this, SLOT(displayTime(double)));
 	connect( this, SIGNAL(frameChanged(int)),
              this, SLOT(displayFrame(int)) );
 	connect( this, SIGNAL(ABMarkersChanged(int,int)),
              this, SLOT(displayABSection(int,int)) );
 	connect( this, SIGNAL(videoInfoChanged(int,int,double)),
              this, SLOT(displayVideoInfo(int,int,double)) );
+	connect( core, SIGNAL(bitrateChanged(int,int)), this, SLOT(displayBitrateInfo(int,int)) );
 
 	createActions();
 	createMainToolBars();
@@ -186,6 +190,14 @@ void DefaultGui::createActions() {
 	connect( viewFormatInfoAct, SIGNAL(toggled(bool)),
              format_info_display, SLOT(setVisible(bool)) );
 
+	viewBitrateInfoAct = new MyAction( this, "toggle_bitrate_info" );
+	viewBitrateInfoAct->setCheckable( true );
+	connect( viewBitrateInfoAct, SIGNAL(toggled(bool)),
+             bitrate_info_display, SLOT(setVisible(bool)) );
+
+	useMillisecondsAct = new MyAction( this, "use_milliseconds" );
+	useMillisecondsAct->setCheckable( true );
+
 #if USE_CONFIGURABLE_TOOLBARS
 	editToolbar1Act = new MyAction( this, "edit_main_toolbar" );
 	editControl1Act = new MyAction( this, "edit_control1" );
@@ -241,7 +253,9 @@ void DefaultGui::createMenus() {
 	statusbar_menu = new QMenu(this);
 	statusbar_menu->addAction(viewVideoInfoAct);
 	statusbar_menu->addAction(viewFormatInfoAct);
+	statusbar_menu->addAction(viewBitrateInfoAct);
 	statusbar_menu->addAction(viewFrameCounterAct);
+	statusbar_menu->addAction(useMillisecondsAct);
 
 	populateMainMenu();
 }
@@ -594,7 +608,7 @@ void DefaultGui::createStatusBar() {
 	time_display->setFrameShape(QFrame::NoFrame);
 	time_display->setText(" 88:88:88 / 88:88:88 ");
 	time_display->setMinimumSize(time_display->sizeHint());
-	connect(this, SIGNAL(timeChanged(QString)), time_display, SLOT(setText(QString)));
+	//connect(this, SIGNAL(timeChanged(QString)), time_display, SLOT(setText(QString)));
 
 	frame_display = new QLabel( statusBar() );
 	frame_display->setObjectName("frame_display");
@@ -620,6 +634,11 @@ void DefaultGui::createStatusBar() {
 	format_info_display->setAlignment(Qt::AlignRight);
 	format_info_display->setFrameShape(QFrame::NoFrame);
 
+	bitrate_info_display = new QLabel( statusBar() );
+	bitrate_info_display->setObjectName("bitrate_info_display");
+	bitrate_info_display->setAlignment(Qt::AlignRight);
+	bitrate_info_display->setFrameShape(QFrame::NoFrame);
+
 #ifdef BUFFERING_ANIMATION
 	state_widget = new StateWidget(statusBar());
 	connect(core, SIGNAL(stateChanged(Core::State)), state_widget, SLOT(watchState(Core::State)));
@@ -642,9 +661,10 @@ void DefaultGui::createStatusBar() {
 	*/
 	statusBar()->setSizeGripEnabled(false);
 
-	statusBar()->addPermanentWidget( video_info_display );
 	statusBar()->addPermanentWidget( format_info_display );
+	statusBar()->addPermanentWidget( bitrate_info_display );
 	statusBar()->addPermanentWidget( ab_section_display );
+	statusBar()->addPermanentWidget( video_info_display );
 
 	statusBar()->showMessage( tr("Ready") );
 	statusBar()->addPermanentWidget( frame_display, 0 );
@@ -658,6 +678,7 @@ void DefaultGui::createStatusBar() {
 	ab_section_display->show();
 	video_info_display->hide();
 	format_info_display->hide();
+	bitrate_info_display->hide();
 }
 
 void DefaultGui::retranslateStrings() {
@@ -686,6 +707,8 @@ void DefaultGui::retranslateStrings() {
 	viewVideoInfoAct->change(Images::icon("view_video_info"), tr("&Video info") );
 	viewFrameCounterAct->change( Images::icon("frame_counter"), tr("&Frame counter") );
 	viewFormatInfoAct->change( Images::icon("view_format_info"), tr("F&ormat info") );
+	viewBitrateInfoAct->change( Images::icon("view_bitrate_info"), tr("&Bitrate info") );
+	useMillisecondsAct->change( Images::icon("use_milliseconds"), tr("&Show the current time with milliseconds") );
 
 #if USE_CONFIGURABLE_TOOLBARS
 	editToolbar1Act->change( tr("Edit main &toolbar") );
@@ -699,6 +722,22 @@ void DefaultGui::retranslateStrings() {
 #endif
 }
 
+
+void DefaultGui::displayTime(double sec) {
+	//qDebug() << "DefaultGui::displayTime:" << sec;
+
+	static int last_second = 0;
+	QString time;
+
+	if (useMillisecondsAct->isChecked()) {
+		time = Helper::formatTime2(sec) + " / " + Helper::formatTime( (int) core->mdat.duration );
+	} else {
+		if (qFloor(sec) == last_second) return; // Update only once per second
+		last_second = qFloor(sec);
+		time = Helper::formatTime( (int) sec ) + " / " + Helper::formatTime( (int) core->mdat.duration );
+	}
+	time_display->setText(time);
+}
 
 void DefaultGui::displayFrame(int frame) {
 	if (frame_display->isVisible()) {
@@ -733,10 +772,17 @@ void DefaultGui::displayVideoInfo(int width, int height, double fps) {
 	format_info_display->setText(format.toUpper());
 }
 
+void DefaultGui::displayBitrateInfo(int vbitrate, int abitrate) {
+	bitrate_info_display->setText(tr("V: %1 kbps A: %2 kbps").arg(vbitrate/1000).arg(abitrate/1000));
+}
+
 void DefaultGui::updateWidgets() {
 	qDebug("DefaultGui::updateWidgets");
 
 	BaseGuiPlus::updateWidgets();
+
+	viewFrameCounterAct->setEnabled((PlayerID::player(pref->mplayer_bin) == PlayerID::MPLAYER));
+	viewBitrateInfoAct->setEnabled((PlayerID::player(pref->mplayer_bin) == PlayerID::MPV));
 
 	panel->setFocus();
 }
@@ -934,6 +980,8 @@ void DefaultGui::saveConfig() {
 	set->setValue("video_info", viewVideoInfoAct->isChecked());
 	set->setValue("frame_counter", viewFrameCounterAct->isChecked());
 	set->setValue("format_info", viewFormatInfoAct->isChecked());
+	set->setValue("bitrate_info", viewBitrateInfoAct->isChecked());
+	set->setValue("use_milliseconds", useMillisecondsAct->isChecked());
 
 	set->setValue("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible);
 	set->setValue("compact_toolbar1_was_visible", compact_toolbar1_was_visible);
@@ -953,14 +1001,11 @@ void DefaultGui::saveConfig() {
 
 #if USE_CONFIGURABLE_TOOLBARS
 	set->beginGroup( "actions" );
-	set->setValue("toolbar1", toolbar1->actionsToStringList() );
-	set->setValue("controlwidget", controlwidget->actionsToStringList() );
-	set->setValue("controlwidget_mini", controlwidget_mini->actionsToStringList() );
+	set->setValue("toolbar1/" TOOLBAR_VERSION, toolbar1->actionsToStringList() );
+	set->setValue("controlwidget/" CONTROLWIDGET_VERSION, controlwidget->actionsToStringList() );
+	set->setValue("controlwidget_mini/" CONTROLWIDGETMINI_VERSION, controlwidget_mini->actionsToStringList() );
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
-	set->setValue("floating_control", iw->actionsToStringList() );
-	set->setValue("toolbar1_version", TOOLBAR_VERSION);
-	set->setValue("controlwidget_version", CONTROLWIDGET_VERSION);
-	set->setValue("floating_control_version", FLOATING_CONTROL_VERSION);
+	set->setValue("floating_control/" FLOATING_CONTROL_VERSION, iw->actionsToStringList() );
 	set->endGroup();
 
 	set->beginGroup("toolbars_icon_size");
@@ -984,6 +1029,8 @@ void DefaultGui::loadConfig() {
 	viewVideoInfoAct->setChecked(set->value("video_info", false).toBool());
 	viewFrameCounterAct->setChecked(set->value("frame_counter", false).toBool());
 	viewFormatInfoAct->setChecked(set->value("format_info", false).toBool());
+	viewBitrateInfoAct->setChecked(set->value("bitrate_info", false).toBool());
+	useMillisecondsAct->setChecked(set->value("use_milliseconds", false).toBool());
 
 	fullscreen_toolbar1_was_visible = set->value("fullscreen_toolbar1_was_visible", fullscreen_toolbar1_was_visible).toBool();
 	compact_toolbar1_was_visible = set->value("compact_toolbar1_was_visible", compact_toolbar1_was_visible).toBool();
@@ -1014,35 +1061,20 @@ void DefaultGui::loadConfig() {
 
 #if USE_CONFIGURABLE_TOOLBARS
 	set->beginGroup( "actions" );
-	int toolbar_version = set->value("toolbar1_version", 0).toInt();
-	if (toolbar_version >= TOOLBAR_VERSION) {
-		toolbar1->setActionsFromStringList( set->value("toolbar1", toolbar1->defaultActions()).toStringList() );
-	} else {
-		qDebug("DefaultGui::loadConfig: toolbar too old, loading default one");
-		toolbar1->setActionsFromStringList( toolbar1->defaultActions() );
+	toolbar1->setActionsFromStringList( set->value("toolbar1/" TOOLBAR_VERSION, toolbar1->defaultActions()).toStringList() );
+
+	{
+	QStringList l = set->value("controlwidget/" CONTROLWIDGET_VERSION, controlwidget->defaultActions()).toStringList();
+	#ifdef ADD_QUICK_ACCESS
+	if (l.indexOf("quick_access_menu") == -1) l << "quick_access_menu";
+	#endif
+	controlwidget->setActionsFromStringList(l);
 	}
 
-	int controlwidget_version = set->value("controlwidget_version", 0).toInt();
-	if (controlwidget_version >= CONTROLWIDGET_VERSION) {
-		QStringList l = set->value("controlwidget", controlwidget->defaultActions()).toStringList();
-		#ifdef ADD_QUICK_ACCESS
-		if (l.indexOf("quick_access_menu") == -1) l << "quick_access_menu";
-		#endif
-		controlwidget->setActionsFromStringList(l);
-	} else {
-		controlwidget->setActionsFromStringList( controlwidget->defaultActions() );
-	}
+	controlwidget_mini->setActionsFromStringList( set->value("controlwidget_mini/" CONTROLWIDGETMINI_VERSION, controlwidget_mini->defaultActions()).toStringList() );
 
-	controlwidget_mini->setActionsFromStringList( set->value("controlwidget_mini", controlwidget_mini->defaultActions()).toStringList() );
 	EditableToolbar * iw = static_cast<EditableToolbar *>(floating_control->internalWidget());
-
-	int floating_control_version = set->value("floating_control_version", 0).toInt();
-	if (floating_control_version >= FLOATING_CONTROL_VERSION) {
-		iw->setActionsFromStringList( set->value("floating_control", iw->defaultActions()).toStringList() );
-	} else {
-		qDebug("DefaultGui::loadConfig: floating control too old, loading default one");
-		iw->setActionsFromStringList( iw->defaultActions() );
-	}
+	iw->setActionsFromStringList( set->value("floating_control/" FLOATING_CONTROL_VERSION, iw->defaultActions()).toStringList() );
 	set->endGroup();
 
 	set->beginGroup("toolbars_icon_size");

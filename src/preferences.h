@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -102,7 +102,10 @@ public:
 	bool use_soft_video_eq;
 	bool use_slices;
 	int autoq; 	//!< Postprocessing quality
+
+#ifdef ADD_BLACKBORDERS_FS
 	bool add_blackborders_on_fullscreen;
+#endif
 
 #ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
@@ -341,6 +344,13 @@ public:
 	bool use_mpris2;
 #endif
 
+#ifdef MPV_SUPPORT
+	QString mpv_osd_media_info;
+#endif
+#ifdef MPLAYER_SUPPORT
+	QString mplayer_osd_media_info;
+#endif
+
 
 	/* *********
 	   GUI stuff
@@ -518,6 +528,10 @@ public:
 	//! Default value for position of subtitles on screen
 	//! 100 = 100% at the bottom
 	int initial_sub_pos;
+
+#ifdef INITIAL_BLACKBORDERS
+	bool initial_blackborders;
+#endif
 
 	bool initial_postprocessing; //!< global postprocessing filter
 	bool initial_volnorm;

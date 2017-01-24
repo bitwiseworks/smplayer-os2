@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QDomDocument>
+#include <QDesktopServices>
 #include <QDebug>
 
 #if QT_VERSION >= 0x050000
@@ -60,6 +61,10 @@
 #include "version.h"
 #include "extensions.h"
 #include "guiconfig.h"
+
+#ifdef CHROMECAST_SUPPORT
+#include "chromecast.h"
+#endif
 
 #ifdef PLAYLIST_DOWNLOAD
 #include "inputurl.h"
@@ -223,6 +228,21 @@ QList<QStandardItem *> PLItem::items() {
 	return l;
 }
 
+void PLItem::setExtraParams(const QStringList & pars) {
+	setData(pars, Role_Params);
+}
+
+QStringList PLItem::extraParams() {
+	return data(Role_Params).toStringList();
+}
+
+void PLItem::setVideoURL(const QString & url) {
+	setData(url, Role_Video_URL);
+}
+
+QString PLItem::videoURL() {
+	return data(Role_Video_URL).toString();
+}
 
 /* ----------------------------------------------------------- */
 
@@ -236,6 +256,7 @@ Playlist::Playlist(QWidget * parent, Qt::WindowFlags f)
 	, save_playlist_in_config(true)
 	, play_files_from_start(true)
 	, row_spacing(-1) // Default height
+	, start_play_on_load(true)
 	, automatically_play_next(true)
 	, ignore_player_errors(false)
 	, change_name(true)
@@ -244,15 +265,23 @@ Playlist::Playlist(QWidget * parent, Qt::WindowFlags f)
 	playlist_path = "";
 	latest_dir = "";
 
+	filter_edit = new MyLineEdit(this);
+	connect(filter_edit, SIGNAL(textChanged(const QString &)), this, SLOT(filterEditChanged(const QString &)));
+
 	createTable();
 	createActions();
 	createToolbar();
 
 	QVBoxLayout *layout = new QVBoxLayout;
+#ifdef PLAYLIST_DOUBLE_TOOLBAR
+	layout->addWidget(toolbar);
+	layout->addWidget(listView);
+	layout->addWidget(toolbar2);
+#else
 	layout->addWidget(listView);
 	layout->addWidget(toolbar);
-#ifdef PLAYLIST_DOUBLE_TOOLBAR
-	layout->addWidget(toolbar2);
+	layout->addWidget(filter_edit);
+	filter_edit->hide();
 #endif
 	setLayout(layout);
 
@@ -290,7 +319,7 @@ Playlist::Playlist(QWidget * parent, Qt::WindowFlags f)
 	connect(downloader, SIGNAL(errorOcurred(int, QString)), this, SLOT(errorOcurred(int, QString)));
 
 	history_urls = new URLHistory;
-	history_urls->addUrl("http://smplayer.info/onlinetv.php");
+	history_urls->addUrl("http://smplayer.info/sample.m3u8");
 #endif
 }
 
@@ -319,12 +348,30 @@ void Playlist::setConfigPath(const QString & config_path) {
 	}
 }
 
+void Playlist::updateWindowTitle() {
+	QString title;
+
+	title = playlist_filename;
+	if (title.isEmpty()) title = tr("Untitled playlist");
+	if (modified) title += " (*)";
+
+	qDebug() << "Playlist::updateWindowTitle:" << title;
+
+	setWindowTitle(title);
+	emit windowTitleChanged(title);
+}
+
+void Playlist::setPlaylistFilename(const QString & f) {
+	playlist_filename = f;
+	updateWindowTitle();
+}
 
 void Playlist::setModified(bool mod) {
 	qDebug("Playlist::setModified: %d", mod);
 
 	modified = mod;
 	emit modifiedChanged(modified);
+	updateWindowTitle();
 }
 
 void Playlist::createTable() {
@@ -357,6 +404,7 @@ void Playlist::createTable() {
 	listView->setContextMenuPolicy( Qt::CustomContextMenu );
 	listView->setShowGrid(false);
 	listView->setSortingEnabled(true);
+	listView->setWordWrap(false);
 #if !USE_ITEM_DELEGATE
 	listView->setAlternatingRowColors(true);
 #endif
@@ -375,6 +423,7 @@ void Playlist::createTable() {
 //	listView->horizontalHeader()->setResizeMode(COL_FILENAME, QHeaderView::Interactive);
 #endif
 	listView->horizontalHeader()->setStretchLastSection(true);
+	listView->horizontalHeader()->setSortIndicator(0, Qt::AscendingOrder);
 
 	/*
 	listView->horizontalHeader()->setResizeMode(COL_TIME, QHeaderView::ResizeToContents);
@@ -392,6 +441,8 @@ void Playlist::createTable() {
 
 	connect(listView, SIGNAL(activated(const QModelIndex &)),
             this, SLOT(itemActivated(const QModelIndex &)) );
+
+	setFilenameColumnVisible(false);
 }
 
 void Playlist::createActions() {
@@ -404,7 +455,10 @@ void Playlist::createActions() {
 #endif
 
 	saveAct = new MyAction(this, "pl_save", false);
-	connect( saveAct, SIGNAL(triggered()), this, SLOT(save()) );
+	connect( saveAct, SIGNAL(triggered()), this, SLOT(saveCurrentPlaylist()) );
+
+	saveAsAct = new MyAction(this, "pl_save_as", false);
+	connect( saveAsAct, SIGNAL(triggered()), this, SLOT(save()) );
 
 	playAct = new MyAction(this, "pl_play", false);
 	connect( playAct, SIGNAL(triggered()), this, SLOT(playCurrent()) );
@@ -451,8 +505,44 @@ void Playlist::createActions() {
 	editAct = new MyAction(this, "pl_edit", false);
 	connect( editAct, SIGNAL(triggered()), this, SLOT(editCurrentItem()) );
 
+#ifdef PLAYLIST_DELETE_FROM_DISK
 	deleteSelectedFileFromDiskAct = new MyAction(this, "pl_delete_from_disk");
 	connect( deleteSelectedFileFromDiskAct, SIGNAL(triggered()), this, SLOT(deleteSelectedFileFromDisk()));
+#endif
+
+	copyURLAct = new MyAction(this, "pl_copy_url");
+	connect( copyURLAct, SIGNAL(triggered()), this, SLOT(copyURL()));
+
+	openFolderAct = new MyAction(this, "pl_open_folder");
+	connect( openFolderAct, SIGNAL(triggered()), this, SLOT(openFolder()));
+
+#ifdef CHROMECAST_SUPPORT
+	playOnChromecastAct = new MyAction(this, "pl_chromecast");
+	connect( playOnChromecastAct, SIGNAL(triggered()), this, SLOT(playOnChromecast()));
+#else
+	openURLInWebAct = new MyAction(this, "pl_url_in_web");
+	connect( openURLInWebAct, SIGNAL(triggered()), this, SLOT(openURLInWeb()));
+#endif
+
+	showSearchAct = new MyAction(this, "pl_show_search", false);
+	showSearchAct->setCheckable(true);
+	connect(showSearchAct, SIGNAL(toggled(bool)), filter_edit, SLOT(setVisible(bool)));
+
+	showPositionColumnAct = new MyAction(this, "pl_show_position_column");
+	showPositionColumnAct->setCheckable(true);
+	connect(showPositionColumnAct, SIGNAL(toggled(bool)), this, SLOT(setPositionColumnVisible(bool)));
+
+	showNameColumnAct = new MyAction(this, "pl_show_name_column");
+	showNameColumnAct->setCheckable(true);
+	connect(showNameColumnAct, SIGNAL(toggled(bool)), this, SLOT(setNameColumnVisible(bool)));
+
+	showDurationColumnAct = new MyAction(this, "pl_show_duration_column");
+	showDurationColumnAct->setCheckable(true);
+	connect(showDurationColumnAct, SIGNAL(toggled(bool)), this, SLOT(setDurationColumnVisible(bool)));
+
+	showFilenameColumnAct = new MyAction(this, "pl_show_filename_column");
+	showFilenameColumnAct->setCheckable(true);
+	connect(showFilenameColumnAct, SIGNAL(toggled(bool)), this, SLOT(setFilenameColumnVisible(bool)));
 }
 
 void Playlist::createToolbar() {
@@ -465,12 +555,26 @@ void Playlist::createToolbar() {
 	toolbar2->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 #endif
 
+/*
 	toolbar->addAction(openAct);
 #ifdef PLAYLIST_DOWNLOAD
 	toolbar->addAction(openUrlAct);
 #endif
 	toolbar->addAction(saveAct);;
 	toolbar->addSeparator();
+*/
+
+	file_menu = new QMenu(this);
+	file_menu->addAction(openAct);
+	file_menu->addAction(saveAct);
+	file_menu->addAction(saveAsAct);
+#ifdef PLAYLIST_DOWNLOAD
+	file_menu->addAction(openUrlAct);
+#endif
+
+	file_button = new QToolButton(this);
+	file_button->setMenu(file_menu);
+	file_button->setPopupMode(QToolButton::InstantPopup);
 
 	add_menu = new QMenu( this );
 	add_menu->addAction(addCurrentAct);
@@ -490,8 +594,6 @@ void Playlist::createToolbar() {
 	remove_button->setMenu( remove_menu );
 	remove_button->setPopupMode(QToolButton::InstantPopup);
 
-	filter_edit = new MyLineEdit(this);
-	connect(filter_edit, SIGNAL(textChanged(const QString &)), this, SLOT(filterEditChanged(const QString &)));
 
 #ifdef PLAYLIST_DOWNLOAD
 	QLabel * loading_label = new QLabel(this);
@@ -500,6 +602,8 @@ void Playlist::createToolbar() {
 	loading_label->setMovie(animation);
 #endif
 
+	toolbar->addWidget(file_button);
+	toolbar->addSeparator();
 	toolbar->addWidget(add_button);
 	toolbar->addWidget(remove_button);
 
@@ -525,7 +629,8 @@ void Playlist::createToolbar() {
 	toolbar->addAction(moveUpAct);
 	toolbar->addAction(moveDownAct);
 	toolbar->addSeparator();
-	toolbar->addWidget(filter_edit);
+	toolbar->addAction(showSearchAct);
+	// toolbar->addWidget(filter_edit);
 	#ifdef PLAYLIST_DOWNLOAD
 	loading_label_action = toolbar->addWidget(loading_label);
 	#endif
@@ -540,7 +645,21 @@ void Playlist::createToolbar() {
 	popup->addAction(playAct);
 	popup->addAction(removeSelectedAct);
 	popup->addAction(editAct);
+#ifdef PLAYLIST_DELETE_FROM_DISK
 	popup->addAction(deleteSelectedFileFromDiskAct);
+#endif
+	popup->addAction(copyURLAct);
+	popup->addAction(openFolderAct);
+#ifdef CHROMECAST_SUPPORT
+	popup->addAction(playOnChromecastAct);
+#else
+	popup->addAction(openURLInWebAct);
+#endif
+	popup->addSeparator();
+	popup->addAction(showPositionColumnAct);
+	popup->addAction(showNameColumnAct);
+	popup->addAction(showDurationColumnAct);
+	popup->addAction(showFilenameColumnAct);
 
 	connect( listView, SIGNAL(customContextMenuRequested(const QPoint &)),
              this, SLOT(showPopup(const QPoint &)) );
@@ -549,12 +668,13 @@ void Playlist::createToolbar() {
 void Playlist::retranslateStrings() {
 	table->setHorizontalHeaderLabels(QStringList() << " " << tr("Name") << tr("Length") << tr("Filename / URL") );
 
-	openAct->change( Images::icon("open"), tr("&Load") );
+	openAct->change( Images::icon("open"), tr("&Load...") );
 #ifdef PLAYLIST_DOWNLOAD
-	openUrlAct->change( Images::icon("url"), tr("&Open URL") );
+	openUrlAct->change( Images::icon("url"), tr("Load playlist from &URL...") );
 	openUrlAct->setToolTip(tr("Download playlist from URL"));
 #endif
 	saveAct->change( Images::icon("save"), tr("&Save") );
+	saveAsAct->change( Images::icon("save"), tr("Save &as...") );
 
 	playAct->change( tr("&Play") );
 
@@ -578,15 +698,35 @@ void Playlist::retranslateStrings() {
 	addUrlsAct->change( tr("Add &URL(s)") );
 
 	// Remove actions
-	removeSelectedAct->change( tr("Remove &selected") );
+	removeSelectedAct->change( Images::icon("delete"), tr("Remove &selected") );
 	removeAllAct->change( tr("Remove &all") );
 
+#ifdef PLAYLIST_DELETE_FROM_DISK
 	deleteSelectedFileFromDiskAct->change( tr("&Delete file from disk") );
+#endif
+
+	copyURLAct->change( Images::icon("copy"), tr("&Copy file path to clipboard") );
+	openFolderAct->change( Images::icon("openfolder"), tr("&Open source folder") );
+
+#ifdef CHROMECAST_SUPPORT
+	playOnChromecastAct->change( Images::icon("chromecast"), tr("Play on Chromec&ast") );
+#else
+	openURLInWebAct->change( tr("Open stream in &a web browser") );
+#endif
+
+	showSearchAct->change(Images::icon("find"), tr("Search"));
+
+	showPositionColumnAct->change(tr("Show position column"));
+	showNameColumnAct->change(tr("Show name column"));
+	showDurationColumnAct->change(tr("Show length column"));
+	showFilenameColumnAct->change(tr("Show filename column"));
 
 	// Edit
 	editAct->change( tr("&Edit") );
 
 	// Tool buttons
+	file_button->setIcon(Images::icon("open")); // FIXME: change icon
+	file_button->setToolTip(tr("Load/Save"));
 	add_button->setIcon( Images::icon("plus") );
 	add_button->setToolTip( tr("Add...") );
 	remove_button->setIcon( Images::icon("minus") );
@@ -599,7 +739,7 @@ void Playlist::retranslateStrings() {
 
 	// Icon
 	setWindowIcon( Images::icon("logo", 64) );
-	setWindowTitle( tr( "SMPlayer - Playlist" ) );
+	//setWindowTitle( tr( "SMPlayer - Playlist" ) );
 }
 
 void Playlist::list() {
@@ -618,6 +758,11 @@ void Playlist::setFilter(const QString & filter) {
 void Playlist::filterEditChanged(const QString & text) {
 	qDebug() << "Playlist::filterEditChanged:" << text;
 	setFilter(text);
+
+	if (text.isEmpty()) {
+		qApp->processEvents();
+		listView->scrollTo(listView->currentIndex(), QAbstractItemView::PositionAtCenter);
+	}
 }
 
 void Playlist::setCurrentItem(int current) {
@@ -674,7 +819,7 @@ int Playlist::count() {
 }
 
 bool Playlist::isEmpty() {
-	return (table->rowCount() > 0);
+	return (table->rowCount() == 0);
 }
 
 bool Playlist::existsItem(int row) {
@@ -712,7 +857,7 @@ void Playlist::changeItem(int row, const QString & filename, const QString name,
 }
 */
 
-void Playlist::addItem(QString filename, QString name, double duration) {
+void Playlist::addItem(QString filename, QString name, double duration, QStringList params, QString video_url) {
 	//qDebug() << "Playlist::addItem:" << filename;
 
 	#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
@@ -732,6 +877,8 @@ void Playlist::addItem(QString filename, QString name, double duration) {
 		}
 
 	PLItem * i = new PLItem(filename, name, duration);
+	i->setExtraParams(params);
+	i->setVideoURL(video_url);
 	i->setPosition(count()+1);
 	table->appendRow(i->items());
 
@@ -801,6 +948,7 @@ void Playlist::load_m3u(QString file, M3UFormat format) {
 		QString filename="";
 		QString name="";
 		double duration=0;
+		QStringList extra_params;
 
 		QTextStream stream( &f );
 
@@ -834,6 +982,12 @@ void Playlist::load_m3u(QString file, M3UFormat format) {
 				if (fields.count() >= 2) name = fields[1];
 			}
 			else
+			if (line.startsWith("#EXTVLCOPT:")) {
+				QString par = line.mid(11);
+				qDebug() << "Playlist::load_m3u: EXTVLCOPT:" << par;
+				extra_params << par;
+			}
+			else
 			if (line.startsWith("#")) {
 				// Comment
 				// Ignore
@@ -848,17 +1002,21 @@ void Playlist::load_m3u(QString file, M3UFormat format) {
 						filename = playlist_path + "/" + filename;
 					}
 				}
-				addItem( filename, name, duration );
+				name.replace("&#44;", ",");
+				//qDebug() << "Playlist::load_m3u: extra_params:" << extra_params;
+				addItem( filename, name, duration, extra_params );
 				name=""; 
 				duration = 0;
+				extra_params.clear();
 			}
 		}
 		f.close();
 		//list();
 
+		setPlaylistFilename(file);
 		setModified( false );
 
-		startPlay();
+		if (start_play_on_load) startPlay();
 	}
 }
 
@@ -905,9 +1063,10 @@ void Playlist::load_pls(QString file) {
 
 	//list();
 
+	setPlaylistFilename(file);
 	setModified( false );
 
-	if (set.status() == QSettings::NoError) startPlay();
+	if (set.status() == QSettings::NoError && start_play_on_load) startPlay();
 }
 
 void Playlist::loadXSPF(const QString & filename) {
@@ -947,8 +1106,9 @@ void Playlist::loadXSPF(const QString & filename) {
 		}
 
 		//list();
+		setPlaylistFilename(filename);
 		setModified( false );
-		startPlay();
+		if (start_play_on_load) startPlay();
 	}
 }
 
@@ -976,6 +1136,7 @@ bool Playlist::save_m3u(QString file) {
 			stream.setCodec(QTextCodec::codecForLocale());
 
 		QString filename;
+		QString name;
 
 		stream << "#EXTM3U" << "\n";
 		stream << "# Playlist created by SMPlayer " << Version::printable() << " \n";
@@ -986,9 +1147,18 @@ bool Playlist::save_m3u(QString file) {
 			#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 			filename = Helper::changeSlashes(filename);
 			#endif
+			name = i->name();
+			name.replace(",", "&#44;");
 			stream << "#EXTINF:";
 			stream << i->duration() << ",";
-			stream << i->name() << "\n";
+			stream << name << "\n";
+
+			// Save extra params
+			QStringList params = i->extraParams();
+			foreach(QString par, params) {
+				stream << "#EXTVLCOPT:" << par << "\n";
+			}
+
 			// Try to save the filename as relative instead of absolute
 			if (filename.startsWith( dir_path )) {
 				filename = filename.mid( dir_path.length() );
@@ -997,6 +1167,7 @@ bool Playlist::save_m3u(QString file) {
 		}
 		f.close();
 
+		setPlaylistFilename(file);
 		setModified( false );
 		return true;
 	} else {
@@ -1047,7 +1218,10 @@ bool Playlist::save_pls(QString file) {
 	set.sync();
 
 	bool ok = (set.status() == QSettings::NoError);
-	if (ok) setModified( false );
+	if (ok) {
+		setPlaylistFilename(file);
+		setModified( false );
+	}
 
 	return ok;
 }
@@ -1111,6 +1285,7 @@ bool Playlist::saveXSPF(const QString & filename) {
 		stream << "\t</trackList>\n";
 		stream << "</playlist>\n";
 
+		setPlaylistFilename(filename);
 		setModified(false);
 		return true;
 	} else {
@@ -1146,12 +1321,23 @@ void Playlist::load() {
 	}
 }
 
-bool Playlist::save() {
-	Extensions e;
-	QString s = MyFileDialog::getSaveFileName(
+bool Playlist::saveCurrentPlaylist() {
+	qDebug("Playlist::saveCurrentPlaylist");
+	return save(playlistFilename());
+}
+
+bool Playlist::save(const QString & filename) {
+	qDebug() << "Playlist::save:" << filename;
+
+	QString s = filename;
+
+	if (s.isEmpty()) {
+		Extensions e;
+		s = MyFileDialog::getSaveFileName(
                     this, tr("Choose a filename"), 
                     lastDir(),
                     tr("Playlists") + e.playlist().forFilter() + ";;" + tr("All files") +" (*)");
+	}
 
 	if (!s.isEmpty()) {
 		// If filename has no extension, add it
@@ -1221,6 +1407,53 @@ void Playlist::itemActivated(const QModelIndex & index ) {
 void Playlist::showPopup(const QPoint & pos) {
 	qDebug("Playlist::showPopup: x: %d y: %d", pos.x(), pos.y() );
 
+	QModelIndex index = listView->currentIndex();
+	if (!index.isValid()) {
+		playAct->setEnabled(false);
+		removeSelectedAct->setEnabled(false);
+		editAct->setEnabled(false);
+		#ifdef PLAYLIST_DELETE_FROM_DISK
+		deleteSelectedFileFromDiskAct->setEnabled(false);
+		#endif
+		copyURLAct->setEnabled(false);
+		openFolderAct->setEnabled(false);
+		#ifdef CHROMECAST_SUPPORT
+		playOnChromecastAct->setEnabled(false);
+		#else
+		openURLInWebAct->setEnabled(false);
+		#endif
+	} else {
+		playAct->setEnabled(true);
+		removeSelectedAct->setEnabled(true);
+		editAct->setEnabled(true);
+		#ifdef PLAYLIST_DELETE_FROM_DISK
+		deleteSelectedFileFromDiskAct->setEnabled(true);
+		#endif
+		copyURLAct->setEnabled(true);
+		openFolderAct->setEnabled(true);
+		#ifdef CHROMECAST_SUPPORT
+		playOnChromecastAct->setEnabled(true);
+		#else
+		openURLInWebAct->setEnabled(true);
+		#endif
+
+		QModelIndex s_index = proxy->mapToSource(index);
+		int current = s_index.row();
+		PLItem * i = itemData(current);
+		QString filename = i->filename();
+		QFileInfo fi(filename);
+
+		if (fi.exists()) {
+			copyURLAct->setText( tr("&Copy file path to clipboard") );
+			#ifndef CHROMECAST_SUPPORT
+			openURLInWebAct->setEnabled(false);
+			#endif
+		} else {
+			copyURLAct->setText( tr("&Copy URL to clipboard") );
+			openFolderAct->setEnabled(false);
+		}
+	}
+
 	if (!popup->isVisible()) {
 		popup->move( listView->viewport()->mapToGlobal(pos) );
 		popup->show();
@@ -1244,13 +1477,21 @@ void Playlist::playItem( int n ) {
 		return;
 	}
 
-	QString filename = itemFromProxy(n)->filename();
+	PLItem * i = itemFromProxy(n);
+	QString filename = i->filename();
+	QStringList params = i->extraParams();
+
 	if (!filename.isEmpty()) {
 		setCurrentItem(n);
-		if (play_files_from_start) {
-			emit requestToPlayFile(filename, 0);
+
+		if (!params.isEmpty()) {
+			emit requestToPlayStream(filename, params);
 		} else {
-			emit requestToPlayFile(filename);
+			if (play_files_from_start) {
+				emit requestToPlayFile(filename, 0);
+			} else {
+				emit requestToPlayFile(filename);
+			}
 		}
 	}
 }
@@ -1293,6 +1534,14 @@ void Playlist::playPrev() {
 	}
 }
 
+void Playlist::playNextAuto() {
+	qDebug("Playlist::playNextAuto");
+	if (automatically_play_next) {
+		playNext();
+	} else {
+		emit playlistEnded();
+	}
+}
 
 void Playlist::resumePlay() {
 	qDebug("Playlist::resumePlay");
@@ -1310,6 +1559,7 @@ void Playlist::getMediaInfo(const MediaData & mdat) {
 	QString filename = mdat.filename;
 	double duration = mdat.duration;
 	QString artist = mdat.clip_artist;
+	QString video_url = mdat.stream_path;
 
 	#if defined(Q_OS_WIN) || defined(Q_OS_OS2)
 	filename = Helper::changeSlashes(filename);
@@ -1349,6 +1599,7 @@ void Playlist::getMediaInfo(const MediaData & mdat) {
 			if (i->duration() == 1) {
 				i->setDuration(duration);
 			}
+			i->setVideoURL(video_url);
 		}
 	}
 }
@@ -1367,7 +1618,10 @@ void Playlist::addFiles() {
                             tr("Multimedia") + e.multimedia().forFilter() + ";;" +
                             tr("All files") +" (*.*)" );
 
-	if (files.count()!=0) addFiles(files);  
+	if (files.count() != 0) {
+		addFiles(files);
+		setModified(true);
+	}
 }
 
 void Playlist::addFiles(QStringList files, AutoGetInfo auto_get_info) {
@@ -1445,6 +1699,7 @@ void Playlist::addUrls() {
 		foreach(QString u, urls) {
 			if (!u.isEmpty()) addItem( u, "", 0 );
 		}
+		setModified(true);
 	}
 }
 
@@ -1486,6 +1741,7 @@ void Playlist::addDirectory(QString dir) {
 			}
 		}
 	}
+	setModified(true);
 }
 
 // Remove selected items
@@ -1512,6 +1768,7 @@ void Playlist::removeSelected() {
 
 void Playlist::removeAll() {
 	clear();
+	setPlaylistFilename("");
 }
 
 void Playlist::clearPlayedTag() {
@@ -1567,6 +1824,8 @@ void Playlist::upItem() {
 		QList<QStandardItem*> cells = table->takeRow(row);
 		table->insertRow(s_prev.row(), cells);
 		listView->selectionModel()->setCurrentIndex(listView->model()->index(index.row()-1, 0), QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+
+		setModified(true);
 	}
 }
 
@@ -1597,6 +1856,8 @@ void Playlist::downItem() {
 		QList<QStandardItem*> cells = table->takeRow(row);
 		table->insertRow(s_next.row(), cells);
 		listView->selectionModel()->setCurrentIndex(listView->model()->index(index.row()+1, 0), QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+
+		setModified(true);
 	}
 }
 
@@ -1621,7 +1882,7 @@ void Playlist::editItem(int row) {
             tr("Type the name that will be displayed in the playlist for this file:"),
             QLineEdit::Normal,
             current_name, &ok );
-    if ( ok && !text.isEmpty() ) {
+	if ( ok && !text.isEmpty() ) {
 		// user entered something and pressed OK
 		i->setName(text);
 
@@ -1632,6 +1893,7 @@ void Playlist::editItem(int row) {
 	}
 }
 
+#ifdef PLAYLIST_DELETE_FROM_DISK
 void Playlist::deleteSelectedFileFromDisk() {
 	qDebug("Playlist::deleteSelectedFileFromDisk");
 
@@ -1682,6 +1944,90 @@ void Playlist::deleteSelectedFileFromDisk() {
 			tr("It's not possible to delete '%1' from the filesystem.").arg(filename));
 	}
 }
+#endif
+
+void Playlist::copyURL() {
+	qDebug("Playlist::copyURL");
+
+	QModelIndexList indexes = listView->selectionModel()->selectedRows();
+	int count = indexes.count();
+
+	QString text;
+
+	for (int n = 0; n < count; n++) {
+		QModelIndex s_index = proxy->mapToSource(indexes.at(n));
+		int current = s_index.row();
+		text += itemData(current)->filename();
+		if (n < count-1) {
+			#ifdef Q_OS_WIN
+			text += "\r\n";
+			#else
+			text += "\n";
+			#endif
+		}
+	}
+
+	if (!text.isEmpty()) QApplication::clipboard()->setText(text);
+}
+
+void Playlist::openFolder() {
+	qDebug("Playlist::openFolder");
+
+	QModelIndex index = listView->currentIndex();
+	if (!index.isValid()) return;
+	QModelIndex s_index = proxy->mapToSource(index);
+	int current = s_index.row();
+	PLItem * i = itemData(current);
+	QString filename = i->filename();
+
+	qDebug() << "Playlist::openFolder: filename:" << filename;
+
+	QFileInfo fi(filename);
+	if (fi.exists()) {
+		QString src_folder = fi.absolutePath();
+		QDesktopServices::openUrl(QUrl::fromLocalFile(src_folder));
+	}
+}
+
+#ifdef CHROMECAST_SUPPORT
+void Playlist::playOnChromecast() {
+	qDebug("Playlist::playOnChromecast");
+
+	QModelIndex index = listView->currentIndex();
+	if (!index.isValid()) return;
+	QModelIndex s_index = proxy->mapToSource(index);
+	int current = s_index.row();
+	PLItem * i = itemData(current);
+	QString filename = i->filename();
+	QString video_url = i->videoURL();
+
+	QString url = filename;
+	if (!video_url.isEmpty()) url = video_url;
+
+	if (QFile::exists(filename)) {
+		Chromecast::instance()->openLocal(url, i->name());
+	} else {
+		Chromecast::instance()->openStream(url, i->name());
+	}
+}
+#else
+void Playlist::openURLInWeb() {
+	qDebug("Playlist::openURLInWeb");
+
+	QModelIndex index = listView->currentIndex();
+	if (!index.isValid()) return;
+	QModelIndex s_index = proxy->mapToSource(index);
+	int current = s_index.row();
+	PLItem * i = itemData(current);
+	QString filename = i->filename();
+	QString video_url = i->videoURL();
+
+	QString url = filename;
+	if (!video_url.isEmpty()) url = video_url;
+
+	QDesktopServices::openUrl(QUrl(url));
+}
+#endif
 
 // Drag&drop
 void Playlist::dragEnterEvent( QDragEnterEvent *e ) {
@@ -1730,7 +2076,21 @@ void Playlist::dropEvent( QDropEvent *e ) {
 			only_files.append( files[n] );
 		}
 	}
+
+	if (only_files.count() == 1) {
+		// Check if the file is a playlist
+		QString filename = only_files[0];
+		QFileInfo fi(filename);
+		QString extension = fi.suffix().toLower();
+		if (extension == "m3u8" || extension == "m3u") { load_m3u(filename); return; }
+		else
+		if (extension == "pls") { load_pls(filename); return; }
+		else
+		if (extension == "xspf") { loadXSPF(filename); return; }
+	}
+
 	addFiles( only_files );
+	setModified(true);
 }
 
 
@@ -1782,6 +2142,7 @@ void Playlist::saveSettings() {
 	set->setValue( "recursive_add_directory", recursive_add_directory );
 	set->setValue( "save_playlist_in_config", save_playlist_in_config );
 	set->setValue( "play_files_from_start", play_files_from_start );
+	set->setValue( "start_play_on_load", start_play_on_load );
 	set->setValue( "automatically_play_next", automatically_play_next );
 	set->setValue( "ignore_player_errors", ignore_player_errors );
 	set->setValue( "change_name", change_name );
@@ -1791,13 +2152,17 @@ void Playlist::saveSettings() {
 #if !DOCK_PLAYLIST
 	set->setValue( "size", size() );
 #endif
-	set->setValue(QString("header_state/%1").arg(Helper::qtVersion()), listView->horizontalHeader()->saveState());
+
+	set->setValue(QString("header_state/2/%1").arg(Helper::qtVersion()), listView->horizontalHeader()->saveState());
 
 	set->setValue( "sort_column", proxy->sortColumn() );
 	set->setValue( "sort_order", proxy->sortOrder() );
-	set->setValue( "filter_case_sensivity", proxy->filterCaseSensitivity() );
+	set->setValue( "filter_case_sensitive", filterCaseSensitive() );
 	set->setValue( "filter", filter_edit->text() );
-	set->setValue( "sort_case_sensivity", proxy->sortCaseSensitivity() );
+	set->setValue( "sort_case_sensitive", sortCaseSensitive() );
+	set->setValue( "auto_sort", autoSort() );
+
+	set->setValue( "show_search", showSearchAct->isChecked() );
 
 	set->endGroup();
 
@@ -1817,9 +2182,12 @@ void Playlist::saveSettings() {
 			set->setValue( QString("item_%1_filename").arg(n), i->filename() );
 			set->setValue( QString("item_%1_duration").arg(n), i->duration() );
 			set->setValue( QString("item_%1_name").arg(n), i->name() );
+			set->setValue( QString("item_%1_params").arg(n), i->extraParams() );
+			set->setValue( QString("item_%1_video_url").arg(n), i->videoURL() );
 		}
 		set->endArray();
 		set->setValue( "current_item", findCurrentItem() );
+		set->setValue("filename", playlistFilename());
 		set->setValue( "modified", modified );
 
 		set->endGroup();
@@ -1833,6 +2201,8 @@ void Playlist::saveSettings() {
 #endif
 
 	if (set->contains("playlist/change_title")) set->remove("playlist/change_title");
+	if (set->contains("playlist/sort_case_sensivity")) set->remove("playlist/sort_case_sensivity");
+	if (set->contains("playlist/filter_case_sensivity")) set->remove("playlist/filter_case_sensivity");
 }
 
 void Playlist::loadSettings() {
@@ -1849,6 +2219,7 @@ void Playlist::loadSettings() {
 	recursive_add_directory = set->value( "recursive_add_directory", recursive_add_directory ).toBool();
 	save_playlist_in_config = set->value( "save_playlist_in_config", save_playlist_in_config ).toBool();
 	play_files_from_start = set->value( "play_files_from_start", play_files_from_start ).toBool();
+	start_play_on_load = set->value( "start_play_on_load", start_play_on_load ).toBool();
 	automatically_play_next = set->value( "automatically_play_next", automatically_play_next ).toBool();
 	ignore_player_errors = set->value( "ignore_player_errors", ignore_player_errors ).toBool();
 	change_name = set->value( "change_name", change_name ).toBool();
@@ -1858,13 +2229,17 @@ void Playlist::loadSettings() {
 #if !DOCK_PLAYLIST
 	resize( set->value("size", size()).toSize() );
 #endif
-	listView->horizontalHeader()->restoreState(set->value(QString("header_state/%1").arg(Helper::qtVersion()), QByteArray()).toByteArray());
+
+	listView->horizontalHeader()->restoreState(set->value(QString("header_state/2/%1").arg(Helper::qtVersion()), QByteArray()).toByteArray());
 
 	int sort_column = set->value("sort_column", COL_NUM).toInt();
 	int sort_order = set->value("sort_order", Qt::AscendingOrder).toInt();
-	int filter_case_sensivity = set->value("filter_case_sensivity", Qt::CaseInsensitive).toInt();
+	bool filter_case_sensitive = set->value("filter_case_sensitive", false).toBool();
 	QString filter = set->value( "filter").toString();
-	int sort_case_sensivity = set->value("sort_case_sensivity", Qt::CaseInsensitive).toInt();
+	bool sort_case_sensitive = set->value("sort_case_sensitive", false).toBool();
+	bool auto_sort = set->value("auto_sort", false).toBool();
+
+	showSearchAct->setChecked( set->value( "show_search", false).toBool() );
 
 	set->endGroup();
 
@@ -1887,10 +2262,13 @@ void Playlist::loadSettings() {
 			filename = set->value( QString("item_%1_filename").arg(n), "" ).toString();
 			duration = set->value( QString("item_%1_duration").arg(n), -1 ).toDouble();
 			name = set->value( QString("item_%1_name").arg(n), "" ).toString();
-			addItem( filename, name, duration );
+			QStringList params = set->value( QString("item_%1_params").arg(n), QStringList()).toStringList();
+			QString video_url = set->value( QString("item_%1_video_url").arg(n), "").toString();
+			addItem( filename, name, duration, params, video_url );
 		}
 		set->endArray();
 		setCurrentItem( set->value( "current_item", -1 ).toInt() );
+		setPlaylistFilename( set->value("filename", "").toString() );
 		setModified( set->value( "modified", false ).toBool() );
 
 		set->endGroup();
@@ -1904,15 +2282,63 @@ void Playlist::loadSettings() {
 	set->endGroup();
 #endif
 
-	proxy->setFilterCaseSensitivity( (Qt::CaseSensitivity) filter_case_sensivity);
-	proxy->setSortCaseSensitivity( (Qt::CaseSensitivity) sort_case_sensivity);
+	setFilterCaseSensitive(filter_case_sensitive);
+	setSortCaseSensitive(sort_case_sensitive);
 	proxy->sort(sort_column, (Qt::SortOrder) sort_order);
 	filter_edit->setText(filter);
+	setAutoSort(auto_sort);
+
+	if (!listView->isColumnHidden(COL_NUM)) showPositionColumnAct->setChecked(true);
+	if (!listView->isColumnHidden(COL_NAME)) showNameColumnAct->setChecked(true);
+	if (!listView->isColumnHidden(COL_TIME)) showDurationColumnAct->setChecked(true);
+	if (!listView->isColumnHidden(COL_FILENAME)) showFilenameColumnAct->setChecked(true);
 }
 
 QString Playlist::lastDir() {
 	QString last_dir = latest_dir;
 	return last_dir;
+}
+
+void Playlist::setPositionColumnVisible(bool b) {
+	listView->setColumnHidden(COL_NUM, !b);
+}
+
+void Playlist::setNameColumnVisible(bool b) {
+	listView->setColumnHidden(COL_NAME, !b);
+}
+
+void Playlist::setDurationColumnVisible(bool b) {
+	listView->setColumnHidden(COL_TIME, !b);
+}
+
+void Playlist::setFilenameColumnVisible(bool b) {
+	listView->setColumnHidden(COL_FILENAME, !b);
+}
+
+void Playlist::setAutoSort(bool b) {
+	proxy->setDynamicSortFilter(b);
+}
+
+bool Playlist::autoSort() {
+	return proxy->dynamicSortFilter();
+}
+
+void Playlist::setSortCaseSensitive(bool b) {
+	Qt::CaseSensitivity c = b ? Qt::CaseSensitive : Qt::CaseInsensitive;
+	proxy->setSortCaseSensitivity(c);
+}
+
+bool Playlist::sortCaseSensitive() {
+	return (proxy->sortCaseSensitivity() == Qt::CaseSensitive);
+}
+
+void Playlist::setFilterCaseSensitive(bool b) {
+	Qt::CaseSensitivity c = b ? Qt::CaseSensitive : Qt::CaseInsensitive;
+	proxy->setFilterCaseSensitivity(c);
+}
+
+bool Playlist::filterCaseSensitive() {
+	return (proxy->filterCaseSensitivity() == Qt::CaseSensitive);
 }
 
 #ifdef PLAYLIST_DOWNLOAD
@@ -1959,14 +2385,17 @@ void Playlist::playlistDownloaded(QByteArray data) {
 
 	if (data.contains("#EXTM3U")) {
 		load_m3u(tfile, M3U8);
+		setPlaylistFilename("");
 	}
 	else
 	if (data.contains("[playlist]")) {
 		load_pls(tfile);
+		setPlaylistFilename("");
 	}
 	else
 	if (data.contains("xspf.org")) {
 		loadXSPF(tfile);
+		setPlaylistFilename("");
 	}
 	else {
 		QMessageBox::warning(this, "SMPlayer", tr("It's not possible to load this playlist") +": "+ tr("Unrecognized format."));

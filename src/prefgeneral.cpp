@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "vdpauproperties.h"
 #include "playerid.h"
 
-#if USE_ALSA_DEVICES || USE_DSOUND_DEVICES
+#if USE_ALSA_DEVICES || USE_PULSEAUDIO_DEVICES || USE_XV_ADAPTORS || USE_DSOUND_DEVICES
 #include "deviceinfo.h"
 #endif
 
@@ -65,6 +65,12 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 #if USE_ALSA_DEVICES
 	alsa_devices = DeviceInfo::alsaDevices();
 #endif
+#if USE_MPV_ALSA_DEVICES
+	mpv_alsa_devices = DeviceInfo::mpvAlsaDevices();
+#endif
+#if USE_PULSEAUDIO_DEVICES
+	pa_devices = DeviceInfo::paDevices();
+#endif
 #if USE_XV_ADAPTORS
 	xv_adaptors = DeviceInfo::xvAdaptors();
 #endif
@@ -88,6 +94,14 @@ PrefGeneral::PrefGeneral(QWidget * parent, Qt::WindowFlags f)
 
 #ifndef AUTO_SHUTDOWN_PC
 	shutdown_widget->hide();
+#endif
+
+#ifndef ADD_BLACKBORDERS_FS
+	blackborders_on_fs_check->hide();
+#endif
+
+#ifndef INITIAL_BLACKBORDERS
+	blackborders_check->hide();
 #endif
 
 #ifdef MPV_SUPPORT
@@ -244,7 +258,15 @@ void PrefGeneral::setData(Preferences * pref) {
 	setDoubleBuffer( pref->use_double_buffer );
 	setUseSlices( pref->use_slices );
 	setStartInFullscreen( pref->start_in_fullscreen );
+
+#ifdef ADD_BLACKBORDERS_FS
 	setBlackbordersOnFullscreen( pref->add_blackborders_on_fullscreen );
+#endif
+
+#ifdef INITIAL_BLACKBORDERS
+	blackborders_check->setChecked(pref->initial_blackborders);
+#endif
+
 	setAutoq( pref->autoq );
 
 #ifdef Q_OS_WIN
@@ -337,10 +359,18 @@ void PrefGeneral::getData(Preferences * pref) {
 	TEST_AND_SET(pref->use_double_buffer, doubleBuffer());
 	TEST_AND_SET(pref->use_slices, useSlices());
 	pref->start_in_fullscreen = startInFullscreen();
+
+#ifdef ADD_BLACKBORDERS_FS
 	if (pref->add_blackborders_on_fullscreen != blackbordersOnFullscreen()) {
 		pref->add_blackborders_on_fullscreen = blackbordersOnFullscreen();
 		if (pref->fullscreen) requires_restart = true;
 	}
+#endif
+
+#ifdef INITIAL_BLACKBORDERS
+	pref->initial_blackborders = blackborders_check->isChecked();
+#endif
+
 	TEST_AND_SET(pref->autoq, autoq());
 
 #ifdef Q_OS_WIN
@@ -445,25 +475,39 @@ void PrefGeneral::updateDriverCombos() {
 	for ( int n = 0; n < ao_list.count(); n++) {
 		ao = ao_list[n].name();
 		ao_combo->addItem( ao, ao );
+		/*
 		#ifdef Q_OS_OS2
 		if ( ao == "kai") {
 			ao_combo->addItem( "kai (" + tr("uniaud mode") + ")", "kai:uniaud" );
 			ao_combo->addItem( "kai (" + tr("dart mode") + ")", "kai:dart" );
 		}
 		#endif
+		*/
 		#if USE_ALSA_DEVICES
 		if ((ao == "alsa") && (!alsa_devices.isEmpty())) {
 			for (int n=0; n < alsa_devices.count(); n++) {
-				ao_combo->addItem( "alsa (" + alsa_devices[n].ID().toString() + " - " + alsa_devices[n].desc() + ")", 
-                                   "alsa:device=hw=" + alsa_devices[n].ID().toString() );
+				ao_combo->addItem( DeviceInfo::printableName("alsa", alsa_devices[n]), DeviceInfo::internalName("alsa", alsa_devices[n]) );
+			}
+		}
+		#endif
+		#if USE_MPV_ALSA_DEVICES
+		if ((ao == "alsa") && (!mpv_alsa_devices.isEmpty())) {
+			for (int n=0; n < mpv_alsa_devices.count(); n++) {
+				ao_combo->addItem( DeviceInfo::printableName("alsa", mpv_alsa_devices[n]), DeviceInfo::internalName("alsa", mpv_alsa_devices[n]) );
+			}
+		}
+		#endif
+		#if USE_PULSEAUDIO_DEVICES
+		if ((ao == "pulse") && (!pa_devices.isEmpty())) {
+			for (int n=0; n < pa_devices.count(); n++) {
+				ao_combo->addItem( DeviceInfo::printableName("pulse", pa_devices[n]), DeviceInfo::internalName("pulse", pa_devices[n]) );
 			}
 		}
 		#endif
 		#if USE_DSOUND_DEVICES
 		if ((ao == "dsound") && (!dsound_devices.isEmpty())) {
 			for (int n=0; n < dsound_devices.count(); n++) {
-				ao_combo->addItem( "dsound (" + dsound_devices[n].ID().toString() + " - " + dsound_devices[n].desc() + ")", 
-                                   "dsound:device=" + dsound_devices[n].ID().toString() );
+				ao_combo->addItem( DeviceInfo::printableName("dsound", dsound_devices[n]), DeviceInfo::internalName("dsound", dsound_devices[n]) );
 			}
 		}
 		#endif
@@ -518,7 +562,7 @@ void PrefGeneral::setScreenshotDir( QString path ) {
 }
 
 QString PrefGeneral::screenshotDir() {
-	return screenshot_edit->text();
+	return screenshot_edit->text().trimmed();
 }
 
 #ifdef MPV_SUPPORT
@@ -862,6 +906,7 @@ bool PrefGeneral::disableScreensaver() {
 }
 #endif
 
+#ifdef ADD_BLACKBORDERS_FS
 void PrefGeneral::setBlackbordersOnFullscreen(bool b) {
 	blackborders_on_fs_check->setChecked(b);
 }
@@ -869,6 +914,7 @@ void PrefGeneral::setBlackbordersOnFullscreen(bool b) {
 bool PrefGeneral::blackbordersOnFullscreen() {
 	return blackborders_on_fs_check->isChecked();
 }
+#endif
 
 void PrefGeneral::setAutoq(int n) {
 	autoq_spin->setValue(n);
@@ -1057,6 +1103,12 @@ void PrefGeneral::createHelp() {
            "videos opened.") +" "+ 
         tr("<b>Note:</b> This option won't be used for TV channels.") );
 
+#ifdef INITIAL_BLACKBORDERS
+	setWhatsThis(blackborders_check, tr("Add black borders for subtitles by default"),
+		tr("If this option is enabled, black borders will be added to the image "
+           "by default on new opened files."));
+#endif
+
 	setWhatsThis(zoom_spin, tr("Default zoom"),
 		tr("This option sets the default zoom which will be used for "
            "new videos.") );
@@ -1087,6 +1139,7 @@ void PrefGeneral::createHelp() {
 		tr("If this option is checked, all videos will start to play in "
            "fullscreen mode.") );
 
+#ifdef ADD_BLACKBORDERS_FS
 	setWhatsThis(blackborders_on_fs_check, tr("Add black borders on fullscreen"),
 		tr("If this option is enabled, black borders will be added to the "
            "image in fullscreen mode. This allows subtitles to be displayed "
@@ -1094,6 +1147,7 @@ void PrefGeneral::createHelp() {
  		tr("This option will be ignored if MPlayer uses its own window, as "
            "some video drivers (like gl) are already able to display the "
            "subtitles automatically in the black borders.") */ );
+#endif
 
 #ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF

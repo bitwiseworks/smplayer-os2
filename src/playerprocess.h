@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -128,11 +128,15 @@ public:
 
 	void setPausingPrefix(const QString & prefix) { pausing_prefix = prefix; };
 
+	void setOSDMediaInfo(const QString & s) { osd_media_info = s; };
+	QString OSDMediaInfo() { return osd_media_info; };
+
 #ifdef CAPTURE_STREAM
 	virtual void setCaptureDirectory(const QString & dir);
 #endif
 
 	static PlayerProcess * createPlayerProcess(const QString & player_bin, QObject * parent = 0);
+
 
 // Signals
 signals:
@@ -205,6 +209,8 @@ protected:
 #endif
 
 	PlayerID::Player player_id;
+
+	QString osd_media_info;
 };
 
 #endif

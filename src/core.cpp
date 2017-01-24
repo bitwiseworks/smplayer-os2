@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -923,8 +923,8 @@ void Core::openTV(QString channel_id) {
 }
 #endif
 
-void Core::openStream(QString name) {
-	qDebug("Core::openStream: '%s'", name.toUtf8().data());
+void Core::openStream(QString name, QStringList params) {
+	qDebug() << "Core::openStream:" << name << "params:" << params;
 
 #ifdef YOUTUBE_SUPPORT
 	if (PREF_YT_ENABLED) {
@@ -957,6 +957,7 @@ void Core::openStream(QString name) {
 	mdat.reset();
 	mdat.filename = name;
 	mdat.type = TYPE_STREAM;
+	mdat.extra_params = params;
 
 	mset.reset();
 
@@ -1398,8 +1399,8 @@ void Core::frameBackStep() {
 void Core::screenshot() {
 	qDebug("Core::screenshot");
 
-	if ( (!pref->screenshot_directory.isEmpty()) && 
-         (QFileInfo(pref->screenshot_directory).isDir()) ) 
+	if (!pref->screenshot_directory.isEmpty()
+        /* && QFileInfo(pref->screenshot_directory).isDir() */)
 	{
 		proc->setPausingPrefix(pausing_prefix());
 		proc->takeScreenshot(PlayerProcess::Single, pref->subtitles_on_screenshots);
@@ -1413,8 +1414,8 @@ void Core::screenshot() {
 void Core::screenshots() {
 	qDebug("Core::screenshots");
 
-	if ( (!pref->screenshot_directory.isEmpty()) && 
-         (QFileInfo(pref->screenshot_directory).isDir()) ) 
+	if (!pref->screenshot_directory.isEmpty()
+        /* && QFileInfo(pref->screenshot_directory).isDir() */)
 	{
 		proc->takeScreenshot(PlayerProcess::Multiple, pref->subtitles_on_screenshots);
 	} else {
@@ -1577,9 +1578,8 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 
 
-	bool screenshot_enabled = ( (pref->use_screenshot) && 
-                                (!pref->screenshot_directory.isEmpty()) && 
-                                (QFileInfo(pref->screenshot_directory).isDir()) );
+	bool screenshot_enabled = (pref->use_screenshot && !pref->screenshot_directory.isEmpty()
+                               /* && QFileInfo(pref->screenshot_directory).isDir() */);
 
 	proc->clearArguments();
 
@@ -1726,7 +1726,7 @@ void Core::startMplayer( QString file, double seek ) {
 
 	if (!pref->ao.isEmpty()) {
 		QString ao = pref->ao;
-		if (!ao.endsWith(",")) ao += ",";
+		//if (!ao.endsWith(",")) ao += ",";
 		proc->setOption("ao", ao);
 	}
 
@@ -2110,6 +2110,7 @@ void Core::startMplayer( QString file, double seek ) {
 					proc->setOption("ab-loop-a", QString::number(mset.A_marker));
 					proc->setOption("ab-loop-b", QString::number(mset.B_marker));
 				}
+				proc->setOption("ss", QString::number(seek));
 			} else {
 				proc->setOption("ss", QString::number(mset.A_marker));
 				proc->setOption("endpos", QString::number(mset.B_marker - mset.A_marker));
@@ -2233,8 +2234,13 @@ void Core::startMplayer( QString file, double seek ) {
 	}
 
 
+
 	// Letterbox (expand)
-	if ((mset.add_letterbox) || (pref->fullscreen && pref->add_blackborders_on_fullscreen)) {
+	if ((mset.add_letterbox)
+         #ifdef ADD_BLACKBORDERS_FS
+         || (pref->fullscreen && pref->add_blackborders_on_fullscreen)
+         #endif
+    ) {
 		proc->addVF("expand", QString("aspect=%1").arg( DesktopInfo::desktop_aspectRatio(mplayerwindow)));
 	}
 
@@ -2450,6 +2456,25 @@ void Core::startMplayer( QString file, double seek ) {
 		qDebug("Core::startMplayer: edl file: '%s'", edl_f.toUtf8().data());
 		if (!edl_f.isEmpty()) {
 			proc->setOption("edl", edl_f);
+		}
+	}
+
+	// Process extra params
+	qDebug() << "Core::startMplayer: extra_params:" << mdat.extra_params;
+	foreach(QString par, mdat.extra_params) {
+		QRegExp rx_ref("^http-referrer=(.*)", Qt::CaseInsensitive);
+		QRegExp rx_agent("^http-user-agent=(.*)", Qt::CaseInsensitive);
+
+		if (rx_ref.indexIn(par) > -1) {
+			QString referrer = rx_ref.cap(1);
+			qDebug() << "Core::startMplayer: referrer:" << referrer;
+			proc->setOption("referrer", referrer);
+		}
+		else
+		if (rx_agent.indexIn(par) > -1) {
+			QString user_agent = rx_agent.cap(1);
+			qDebug() << "Core::startMplayer: user_agent:" << user_agent;
+			proc->setOption("user-agent", user_agent);
 		}
 	}
 
@@ -3485,10 +3510,17 @@ void Core::changeExternalSubFPS(int fps_id) {
 
 // Audio equalizer functions
 void Core::setAudioEqualizer(AudioEqualizerList values, bool restart) {
+	qDebug("Core::setAudioEqualizer");
+
 	if (pref->global_audio_equalizer) {
 		pref->audio_equalizer = values;
 	} else {
 		mset.audio_equalizer = values;
+	}
+
+	if (!pref->use_audio_equalizer) {
+		qDebug("Core::setAudioEqualizer: the audio equalizer is disabled. Ignoring.");
+		return;
 	}
 
 	if (!restart) {
@@ -3561,6 +3593,7 @@ void Core::changeCurrentSec(double sec) {
 
 	mset.current_sec = sec;
 
+#ifdef MSET_USE_STARTING_TIME
 	if (mset.starting_time != -1) {
 		mset.current_sec -= mset.starting_time;
 
@@ -3569,7 +3602,8 @@ void Core::changeCurrentSec(double sec) {
 			mset.current_sec += 8589934592.0 / 90000.0;	// 2^33 / 90 kHz
 		}
 	}
-	
+#endif
+
 	if (state() != Playing) {
 		setState(Playing);
 		qDebug("Core::changeCurrentSec: mplayer reports that now it's playing");
@@ -3607,18 +3641,25 @@ void Core::changeCurrentSec(double sec) {
 void Core::gotStartingTime(double time) {
 	qDebug("Core::gotStartingTime: %f", time);
 	qDebug("Core::gotStartingTime: current_sec: %f", mset.current_sec);
+
+#ifdef MSET_USE_STARTING_TIME
 	if ((mset.starting_time == -1.0) && (mset.current_sec == 0)) {
 		mset.starting_time = time;
 		qDebug("Core::gotStartingTime: starting time set to %f", time);
 	}
+#endif
 }
 
 void Core::gotVideoBitrate(int b) {
+	qDebug("Core::gotVideoBitrate: %d", b);
 	mdat.video_bitrate = b;
+	emit bitrateChanged(mdat.video_bitrate, mdat.audio_bitrate);
 }
 
 void Core::gotAudioBitrate(int b) {
+	qDebug("Core::gotAudioBitrate: %d", b);
 	mdat.audio_bitrate = b;
+	emit bitrateChanged(mdat.video_bitrate, mdat.audio_bitrate);
 }
 
 void Core::changePause() {
@@ -4043,10 +4084,12 @@ void Core::changeLetterbox(bool b) {
 	}
 }
 
+#ifdef ADD_BLACKBORDERS_FS
 void Core::changeLetterboxOnFullscreen(bool b) {
 	qDebug("Core::changeLetterboxOnFullscreen: %d", b);
 	CHANGE_VF("letterbox", b, DesktopInfo::desktop_aspectRatio(mplayerwindow));
 }
+#endif
 
 void Core::changeOSD(int v) {
 	qDebug("Core::changeOSD: %d", v);
@@ -4105,6 +4148,14 @@ void Core::changeAdapter(int n) {
 	}
 }
 #endif
+
+void Core::changeAO(const QString & new_ao) {
+	qDebug() << "Core::changeAO:" << new_ao;
+	if (pref->ao != new_ao) {
+		pref->ao = new_ao;
+		if (proc->isRunning()) restartPlay();
+	}
+}
 
 #if 0
 void Core::changeSize(int n) {
@@ -4217,6 +4268,13 @@ void Core::decZoom() {
 }
 
 void Core::showFilenameOnOSD() {
+#ifdef MPV_SUPPORT
+	if (proc->isMPV()) proc->setOSDMediaInfo(pref->mpv_osd_media_info);
+#endif
+#ifdef MPLAYER_SUPPORT
+	if (proc->isMPlayer()) proc->setOSDMediaInfo(pref->mplayer_osd_media_info);
+#endif
+
 	proc->showFilenameOnOSD();
 }
 
@@ -4550,6 +4608,8 @@ void Core::initAudioTrack(const Tracks & audios) {
 		// Select initial track
 		qDebug("Core::initAudioTrack: selecting initial track");
 
+		bool change_audio = (mdat.type != TYPE_STREAM); // Don't change audio with streams unless strictly necessary
+
 		int audio = mdat.audios.itemAt(0).ID(); // First one
 		if (mdat.audios.existsItemAt(pref->initial_audio_track-1)) {
 			audio = mdat.audios.itemAt(pref->initial_audio_track-1).ID();
@@ -4558,10 +4618,13 @@ void Core::initAudioTrack(const Tracks & audios) {
 		// Check if one of the audio tracks is the user preferred.
 		if (!pref->audio_lang.isEmpty()) {
 			int res = mdat.audios.findLang( pref->audio_lang );
-			if (res != -1) audio = res;
+			if (res != -1) {
+				audio = res;
+				change_audio = true;
+			}
 		}
 
-		changeAudio( audio );
+		if (change_audio) changeAudio( audio );
 	} else {
 		// Try to restore previous audio track
 		qDebug("Core::initAudioTrack: restoring audio");

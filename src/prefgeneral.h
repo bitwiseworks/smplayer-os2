@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,13 +24,6 @@
 #include "inforeader.h"
 #include "deviceinfo.h"
 #include "preferences.h"
-
-#ifdef Q_OS_WIN
-#define USE_DSOUND_DEVICES 1
-#else
-#define USE_ALSA_DEVICES 1
-#define USE_XV_ADAPTORS 1
-#endif
 
 #ifdef Q_OS_OS2
 #define MPLAYER_KAI_VERSION 30994
@@ -133,8 +126,10 @@ protected:
 	bool disableScreensaver();
 #endif
 
+#ifdef ADD_BLACKBORDERS_FS
 	void setBlackbordersOnFullscreen(bool b);
 	bool blackbordersOnFullscreen();
+#endif
 
 	void setAutoq(int n);
 	int autoq();
@@ -217,6 +212,12 @@ protected:
 
 #if USE_ALSA_DEVICES
 	DeviceList alsa_devices;
+#endif
+#if USE_MPV_ALSA_DEVICES
+	DeviceList mpv_alsa_devices;
+#endif
+#if USE_PULSEAUDIO_DEVICES
+	DeviceList pa_devices;
 #endif
 #if USE_XV_ADAPTORS
 	DeviceList xv_adaptors;

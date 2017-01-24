@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,9 @@ MPVProcess::MPVProcess(QObject * parent)
 #endif
 	, dvd_current_title(-1)
 	, br_current_title(-1)
+#ifdef OSD_WITH_TIMER
+	, osd_timer(0)
+#endif
 {
 	player_id = PlayerID::MPV;
 
@@ -112,7 +115,7 @@ bool MPVProcess::start() {
 }
 
 #ifdef CUSTOM_STATUS
-static QRegExp rx_mpv_av("^STATUS: ([0-9\\.-]+) / ([0-9\\.-]+) P: (yes|no) B: (yes|no) I: (yes|no)");
+static QRegExp rx_mpv_av("^STATUS: ([0-9\\.-]+) / ([0-9\\.-]+) P: (yes|no) B: (yes|no) I: (yes|no) VB: ([0-9\\.-]+) AB: ([0-9\\.-]+)");
 #else
 static QRegExp rx_mpv_av("^(\\((.*)\\) |)(AV|V|A): ([0-9]+):([0-9]+):([0-9]+) / ([0-9]+):([0-9]+):([0-9]+)"); //AV: 00:02:15 / 00:09:56
 #endif
@@ -162,7 +165,7 @@ static QRegExp rx_mpv_stream_title("icy-title: (.*)");
 static QRegExp rx_mpv_debug("^(INFO|METADATA)_.*=\\$.*");
 
 void MPVProcess::parseLine(QByteArray ba) {
-	//qDebug("MPVProcess::parseLine: '%s'", ba.data() );
+	//qDebug() << "MPVProcess::parseLine:" << ba;
 
 	if (ba.isEmpty()) return;
 
@@ -200,6 +203,8 @@ void MPVProcess::parseLine(QByteArray ba) {
 		bool paused = (rx_mpv_av.cap(3) == "yes");
 		bool buffering = (rx_mpv_av.cap(4) == "yes");
 		bool idle = (rx_mpv_av.cap(5) == "yes");
+		int video_bitrate = rx_mpv_av.cap(6).toInt();
+		int audio_bitrate = rx_mpv_av.cap(7).toInt();
 
 		if (length != md.duration) {
 			md.duration = length;
@@ -236,6 +241,15 @@ void MPVProcess::parseLine(QByteArray ba) {
 			return;
 		}
 		notified_pause = false;
+
+		if (video_bitrate != md.video_bitrate) {
+			md.video_bitrate = video_bitrate;
+			emit receivedVideoBitrate(video_bitrate);
+		}
+		if (audio_bitrate != md.audio_bitrate) {
+			md.audio_bitrate = audio_bitrate;
+			emit receivedAudioBitrate(audio_bitrate);
+		}
 
 		#else
 
@@ -358,7 +372,9 @@ void MPVProcess::parseLine(QByteArray ba) {
 			notified_mplayer_is_running = true;
 
 			// Wait some secs to ask for bitrate
+			/*
 			QTimer::singleShot(12000, this, SLOT(requestBitrateInfo()));
+			*/
 		}
 
 		emit receivedCurrentSec( sec );
@@ -719,9 +735,20 @@ void MPVProcess::parseLine(QByteArray ba) {
 				}
 			}
 			else
+			if (tag == "INFO_STREAM_PATH") {
+				QRegExp rx("edl://%\\d+%(.*)");
+				if (rx.indexIn(line) > -1) {
+					md.stream_path = rx.cap(1);
+				} else {
+					md.stream_path = value;
+				}
+			}
+			else
 			if (tag == "MPV_VERSION") {
 				mpv_version = value;
-				//qDebug("MPVProcess::parseLine: mpv version: %s", mpv_version.toUtf8().constData());
+				if (mpv_version.startsWith("mpv ")) mpv_version = mpv_version.mid(4);
+				qDebug() << "MPVProcess::parseLine: mpv version:" << mpv_version;
+				MplayerVersion::mplayerVersion("mpv " + mpv_version + " (C)");
 			}
 #if NOTIFY_VIDEO_CHANGES || NOTIFY_AUDIO_CHANGES || NOTIFY_SUB_CHANGES
 			else
@@ -745,10 +772,12 @@ void MPVProcess::requestChapterInfo() {
 	writeToStdin("print_text \"INFO_CHAPTERS=${=chapters}\"");
 }
 
+/*
 void MPVProcess::requestBitrateInfo() {
 	writeToStdin("print_text INFO_VIDEO_BITRATE=${=video-bitrate}");
 	writeToStdin("print_text INFO_AUDIO_BITRATE=${=audio-bitrate}");
 }
+*/
 
 #if NOTIFY_AUDIO_CHANGES
 void MPVProcess::updateAudioTrack(int ID, const QString & name, const QString & lang) {

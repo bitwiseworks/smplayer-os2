@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -124,7 +124,10 @@ void Preferences::reset() {
 	use_soft_video_eq = false;
 	use_slices = false;
 	autoq = 6;
+
+#ifdef ADD_BLACKBORDERS_FS
 	add_blackborders_on_fullscreen = false;
+#endif
 
 #ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
@@ -360,6 +363,13 @@ void Preferences::reset() {
 	use_mpris2 = true;
 #endif
 
+#ifdef MPV_SUPPORT
+	mpv_osd_media_info = "";
+#endif
+#ifdef MPLAYER_SUPPORT
+	mplayer_osd_media_info = "";
+#endif
+
 
     /* *********
        GUI stuff
@@ -535,6 +545,10 @@ void Preferences::reset() {
 	initial_zoom_factor = 1.0;
 	initial_sub_pos = 100; // 100%
 
+#ifdef INITIAL_BLACKBORDERS
+	initial_blackborders = false;
+#endif
+
 	initial_postprocessing = false;
 	initial_volnorm = false;
 
@@ -652,7 +666,10 @@ void Preferences::save() {
 	set->setValue("use_soft_video_eq", use_soft_video_eq);
 	set->setValue("use_slices", use_slices );
 	set->setValue("autoq", autoq);
+
+#ifdef ADD_BLACKBORDERS_FS
 	set->setValue("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen);
+#endif
 
 #ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
@@ -880,6 +897,13 @@ void Preferences::save() {
 	set->setValue("use_mpris2", use_mpris2);
 #endif
 
+#ifdef MPV_SUPPORT
+	set->setValue("mpv_osd_media_info", mpv_osd_media_info);
+#endif
+#ifdef MPLAYER_SUPPORT
+	set->setValue("mplayer_osd_media_info", mplayer_osd_media_info);
+#endif
+
 	set->endGroup(); // advanced
 
 
@@ -1061,6 +1085,11 @@ void Preferences::save() {
 	set->setValue("initial_sub_pos", initial_sub_pos);
 
 	set->setValue("initial_volnorm", initial_volnorm);
+
+#ifdef INITIAL_BLACKBORDERS
+	set->setValue("initial_blackborders", initial_blackborders);
+#endif
+
 	set->setValue("initial_postprocessing", initial_postprocessing);
 
 	set->setValue("initial_deinterlace", initial_deinterlace);
@@ -1204,7 +1233,10 @@ void Preferences::load() {
 	use_soft_video_eq = set->value("use_soft_video_eq", use_soft_video_eq).toBool();
 	use_slices = set->value("use_slices", use_slices ).toBool();
 	autoq = set->value("autoq", autoq).toInt();
+
+#ifdef ADD_BLACKBORDERS_FS
 	add_blackborders_on_fullscreen = set->value("add_blackborders_on_fullscreen", add_blackborders_on_fullscreen).toBool();
+#endif
 
 #ifdef Q_OS_WIN
 	#ifdef SCREENSAVER_OFF
@@ -1436,6 +1468,13 @@ void Preferences::load() {
 	use_mpris2 = set->value("use_mpris2", use_mpris2).toBool();
 #endif
 
+#ifdef MPV_SUPPORT
+	mpv_osd_media_info = set->value("mpv_osd_media_info", mpv_osd_media_info).toString();
+#endif
+#ifdef MPLAYER_SUPPORT
+	mplayer_osd_media_info = set->value("mplayer_osd_media_info", mplayer_osd_media_info).toString();
+#endif
+
 	set->endGroup(); // advanced
 
 
@@ -1617,6 +1656,11 @@ void Preferences::load() {
 	initial_sub_pos = set->value("initial_sub_pos", initial_sub_pos).toInt();
 
 	initial_volnorm = set->value("initial_volnorm", initial_volnorm).toBool();
+
+#ifdef INITIAL_BLACKBORDERS
+	initial_blackborders = set->value("initial_blackborders", initial_blackborders).toBool();
+#endif
+
 	initial_postprocessing = set->value("initial_postprocessing", initial_postprocessing).toBool();
 
 	initial_deinterlace = set->value("initial_deinterlace", initial_deinterlace).toInt();

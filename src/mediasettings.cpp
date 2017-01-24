@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,7 +89,11 @@ void MediaSettings::reset() {
 	//current_deinterlacer = NoDeinterlace;
 	current_deinterlacer = pref->initial_deinterlace;
 
+#ifdef INITIAL_BLACKBORDERS
+	add_letterbox = pref->initial_blackborders;
+#else
 	add_letterbox = false;
+#endif
 
 #ifdef MPLAYER_SUPPORT
 	karaoke_filter = false;
@@ -102,7 +106,9 @@ void MediaSettings::reset() {
 
 	zoom_factor = pref->initial_zoom_factor; // 1.0;
 
+#ifdef MSET_USE_STARTING_TIME
 	starting_time = -1; // Not set yet.
+#endif
 
 	rotate = NoRotate;
 	flip = false;
@@ -286,7 +292,10 @@ void MediaSettings::list() {
 	qDebug("  win_height: %d", win_height); 
 	qDebug("  win_aspect(): %f", win_aspect()); 
 
+#ifdef MSET_USE_STARTING_TIME
 	qDebug("  starting_time: %f", starting_time);
+#endif
+
 	qDebug("  is264andHD: %d", is264andHD);
 }
 
@@ -419,7 +428,9 @@ void MediaSettings::save(QSettings * set, int player_id) {
 	set->setValue( "win_width", win_width );
 	set->setValue( "win_height", win_height );
 
+#ifdef MSET_USE_STARTING_TIME
 	set->setValue( "starting_time", starting_time );
+#endif
 
 	set->setValue( "is264andHD", is264andHD );
 }
@@ -552,7 +563,9 @@ void MediaSettings::load(QSettings * set, int player_id) {
 	win_width = set->value( "win_width", win_width ).toInt();
 	win_height = set->value( "win_height", win_height ).toInt();
 
+#ifdef MSET_USE_STARTING_TIME
 	starting_time = set->value( "starting_time", starting_time ).toDouble();
+#endif
 
 	is264andHD = set->value( "is264andHD", is264andHD ).toBool();
 

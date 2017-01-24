@@ -4,11 +4,11 @@ msgstr "Binære-codecs er ikke understøttet i denne version."
 
 # Info_Cleaning_SMPlayer
 msgid "Cleaning SMPlayer settings..."
-msgstr "Rydder op i SMPlayer indstillinger..."
+msgstr "Rydder op i SMPlayer's indstillinger..."
 
 # Info_Cleaning_Fontconfig
 msgid "Cleaning fontconfig cache..."
-msgstr "Rydder op i fontconfig-cache..."
+msgstr "Rydder op i skrifttypekonfigurations-mellemlager..."
 
 # YTDL_Update_Check
 msgid "Checking for youtube-dl updates..."
@@ -72,7 +72,7 @@ msgstr "Sletter genveje..."
 
 # Info_Del_Registry
 msgid "Deleting Registry Keys..."
-msgstr "Sletter registreringsdatabasenøgler..."
+msgstr "Sletter nøgler i registreringsdatabase..."
 
 # Info_Del_Files
 msgid "Deleting Files..."
@@ -150,7 +150,7 @@ msgstr "opgrader"
 
 # Type_Downgrade
 msgid "downgrade"
-msgstr "nedgrader"
+msgstr "nedgradér"
 
 # Type_Reinstall
 msgid "reinstall"
@@ -161,7 +161,7 @@ msgid ""
 "Are you sure you want to reset your SMPlayer settings? This action cannot be "
 "reversed."
 msgstr ""
-"Er du sikker på at du vil nulstille dine SMPlayer indstillinger? Denne "
+"Er du sikker på, at du vil nulstille dine SMPlayer indstillinger? Denne "
 "handling kan ikke gøres om."
 
 # Reinstall_Msg5
@@ -245,7 +245,7 @@ msgid ""
 "A companion program to MPlayer that can be used to encode or transform "
 "supported audio or video streams."
 msgstr ""
-"Et medfølgende program til MPlayer der kan bruges til at indkode eller "
+"Et medfølgende program til MPlayer der kan bruges til at kode eller "
 "transformere understøttede lyd- og videostrømme."
 
 # Section_MPV_Desc
@@ -360,7 +360,7 @@ msgid ""
 msgstr ""
 "Styresystemet er ikke understøttet.[:n:]SMPlayer ${SMPLAYER_VERSION} kræver "
 "som minimum Windows XP og vil måske ikke virke korrekt på dit system.[:n:]Er "
-"du sikker på at du vil fortsætte installationen?"
+"du sikker på, at du vil fortsætte installationen?"
 
 # SMPlayer_Is_Running
 msgid "An instance of SMPlayer is running. Please exit SMPlayer and try again."
@@ -369,7 +369,7 @@ msgstr "SMPlayer kører allerede. Luk venligst SMPlayer og prøv igen."
 # Installer_No_Admin
 msgid "You must be logged in as an administrator when installing this program."
 msgstr ""
-"Du skal være logget på som administrator når du installere dette program."
+"Du skal være logget ind som administrator når dette program installeres."
 
 # Installer_Is_Running
 msgid "The installer is already running."
@@ -381,11 +381,11 @@ msgstr "Installationsprogrammet kører allerede."
 #
 # Translators:
 # Michael Larsen <m_e_larsen@hotmail.com>, 2015
-# scootergrisen, 2015-2016
+# scootergrisen, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2016-08-02 15:05+0000\n"
+"PO-Revision-Date: 2017-01-14 15:18+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/rvm/smplayer/language/da/)\n"
 "Language: da\n"

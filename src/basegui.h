@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -73,10 +73,14 @@ class UpdateChecker;
 class ShareWidget;
 #endif
 
+#ifndef SHARE_WIDGET
+#define DONATE_REMINDER
+#endif
+
 class BaseGui : public QMainWindow
 {
-    Q_OBJECT
-    
+	Q_OBJECT
+
 public:
 	BaseGui( QWidget* parent = 0, Qt::WindowFlags flags = 0 );
 	~BaseGui();
@@ -125,8 +129,9 @@ public slots:
 	virtual void helpFAQ();
 	virtual void helpCLOptions();
 	virtual void helpCheckUpdates();
-#ifdef SHARE_ACTIONS
 	virtual void helpDonate();
+#ifndef SHARE_ACTIONS
+	void showHelpDonateDialog(bool * accepted = 0);
 #endif
 	virtual void helpShowConfig();
 	virtual void helpAbout();
@@ -240,7 +245,7 @@ protected slots:
 	void checkIfUpgraded();
 #endif
 
-#if defined(SHARE_ACTIONS) && !defined(SHARE_WIDGET)
+#ifdef DONATE_REMINDER
 	void checkReminder();
 #endif
 
@@ -569,9 +574,7 @@ protected:
 	MyAction * updateYTAct;
 #endif
 	MyAction * showConfigAct;
-#ifdef SHARE_ACTIONS
 	MyAction * donateAct;
-#endif
 	MyAction * aboutThisAct;
 
 #ifdef SHARE_MENU

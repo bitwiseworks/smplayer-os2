@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -315,6 +315,7 @@ void PrefInterface::getData(Preferences * pref) {
 	iconset_changed = false;
 	gui_changed = false;
 	style_changed = false;
+	font_changed = false;
 	recents_changed = false;
 
 	if (pref->language != language()) {
@@ -356,13 +357,16 @@ void PrefInterface::getData(Preferences * pref) {
 
 	pref->reset_stop = reset_stop_check->isChecked();
 
-	pref->default_font = defaultFont();
+	if (pref->default_font != defaultFont()) {
+		pref->default_font = defaultFont();
+		font_changed = true;
+	}
 
 	pref->hide_video_window_on_audio_files = hideVideoOnAudioFiles();
 
 #if STYLE_SWITCHING
-    if ( pref->style != style() ) {
-        pref->style = style();
+	if ( pref->style != style() ) {
+		pref->style = style();
 		style_changed = true;
 	}
 #endif

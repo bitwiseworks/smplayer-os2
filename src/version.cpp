@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,15 +17,17 @@
 */
 
 #include "version.h"
+#include <QObject>
 
-#define USE_SVN_VERSIONS 0
+#define USE_SVN_VERSIONS 1
+#define DEVELOPMENT_VERSION 0
 
-#define VERSION "16.8.0"
+#define VERSION "17.1.0"
 
-#if USE_SVN_VERSIONS
+#if USE_SVN_VERSIONS && DEVELOPMENT_VERSION
 #include "svn_revision.h"
 #else
-#define SVN_REVISION "8066"
+#define SVN_REVISION "8380"
 #endif
 
 #ifdef Q_OS_WIN
@@ -39,15 +41,15 @@
 QString Version::printable() {
 #if USE_SVN_VERSIONS
 #ifdef Q_OS_WIN
-    return QString(QString(VERSION) + " (svn r" + QString(SVN_REVISION) + ") " + QString(SMPWIN_ARCH));
+	return QObject::tr("%1 (revision %2) %3").arg(VERSION).arg(SVN_REVISION).arg(SMPWIN_ARCH);
 #else
-    return QString(QString(VERSION) + " (svn r" + QString(SVN_REVISION) + ")");
+	return QObject::tr("%1 (revision %2)").arg(VERSION).arg(SVN_REVISION);
 #endif
 #else
 #ifdef Q_OS_WIN
-    return QString(QString(VERSION) + " " + QString(SMPWIN_ARCH));
+	return QString(QString(VERSION) + " " + QString(SMPWIN_ARCH));
 #else
-    return QString(VERSION);
+	return QString(VERSION);
 #endif
 #endif
 }
@@ -60,3 +62,6 @@ QString Version::revision() {
 	return QString(SVN_REVISION);
 }
 
+bool Version::is_unstable() {
+	return (DEVELOPMENT_VERSION == 1);
+}

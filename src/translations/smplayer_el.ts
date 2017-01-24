@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="el_GR">
+<TS version="2.0" language="el">
 <context>
     <name>About</name>
     <message>
@@ -9,166 +9,79 @@
         <translation>Έκδοση: %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="71"/>
+        <location filename="../about.cpp" line="62"/>
+        <source>Development version</source>
+        <translation>Έκδοση υπό ανάπτυξη</translation>
+    </message>
+    <message>
+        <location filename="../about.cpp" line="69"/>
         <source>Links:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύνδεσμοι:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="72"/>
+        <location filename="../about.cpp" line="70"/>
         <source>Official website:</source>
-        <translation type="unfinished"></translation>
+        <translation>Επίσημος ιστοχώρος:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="73"/>
+        <location filename="../about.cpp" line="71"/>
         <source>Support forum:</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόρουμ υποστήριξης:</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="84"/>
+        <location filename="../about.cpp" line="82"/>
         <source>SMPlayer is a graphical interface for %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="171"/>
-        <source>Click here to know the translators from the transifex teams</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Spanish</source>
-        <translation type="obsolete">Ισπανικά</translation>
-    </message>
-    <message>
-        <source>German</source>
-        <translation type="obsolete">Γερμανικά</translation>
-    </message>
-    <message>
-        <source>French</source>
-        <translation type="obsolete">Γαλλικά</translation>
-    </message>
-    <message>
-        <source>Russian</source>
-        <translation type="obsolete">Ρώσικα</translation>
-    </message>
-    <message>
-        <source>Hungarian</source>
-        <translation type="obsolete">Ουγγρικά</translation>
-    </message>
-    <message>
-        <source>Polish</source>
-        <translation type="obsolete">Πολωνικά</translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="167"/>
-        <source>Many people contributed with translations.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="168"/>
-        <source>You can also help to translate SMPlayer into your own language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το SMPlayer είναι ένα γραφικό περιβάλλον για το %1.</translation>
     </message>
     <message>
         <location filename="../about.cpp" line="169"/>
+        <source>Click here to know the translators from the transifex teams</source>
+        <translation>Κάντε κλικ εδώ για να δείτε τους μεταφραστές από τις ομάδες στο transifex</translation>
+    </message>
+    <message>
+        <location filename="../about.cpp" line="165"/>
+        <source>Many people contributed with translations.</source>
+        <translation>Πολλοί άνθρωποι συνεισφέρουν με μεταφράσεις.</translation>
+    </message>
+    <message>
+        <location filename="../about.cpp" line="166"/>
+        <source>You can also help to translate SMPlayer into your own language.</source>
+        <translation>Μπορείτε και σεις να βοηθήσετε στη μετάφραση του SMPlayer στη γλώσσα σας.</translation>
+    </message>
+    <message>
+        <location filename="../about.cpp" line="167"/>
         <source>Visit %1 and join a translation team.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Japanese</source>
-        <translation type="obsolete">Ιαπωνικά</translation>
-    </message>
-    <message>
-        <source>Ukrainian</source>
-        <translation type="obsolete">Ουκρανικά</translation>
-    </message>
-    <message>
-        <source>Portuguese - Brazil</source>
-        <translation type="obsolete">Πορτογαλικά - Βραζιλίας</translation>
-    </message>
-    <message>
-        <source>Georgian</source>
-        <translation type="obsolete">Γεωργιανά</translation>
-    </message>
-    <message>
-        <source>Czech</source>
-        <translation type="obsolete">Τσεχικά</translation>
-    </message>
-    <message>
-        <source>Bulgarian</source>
-        <translation type="obsolete">Βουλγαρικά</translation>
-    </message>
-    <message>
-        <source>Turkish</source>
-        <translation type="obsolete">Τουρκικά</translation>
-    </message>
-    <message>
-        <source>Swedish</source>
-        <translation type="obsolete">Σουηδικά</translation>
-    </message>
-    <message>
-        <source>Serbian</source>
-        <translation type="obsolete">Σερβικά</translation>
-    </message>
-    <message>
-        <source>Traditional Chinese</source>
-        <translation type="obsolete">Κινέζικα Παραδοσιακά</translation>
-    </message>
-    <message>
-        <source>Greek</source>
-        <translation type="obsolete">Ελληνικά</translation>
-    </message>
-    <message>
-        <source>Finnish</source>
-        <translation type="obsolete">Φινλανδικά</translation>
+        <translation>Επισκεφτείτε το %1 και ενταχθείτε σε μια ομάδα μεταφραστών.</translation>
     </message>
     <message>
         <location filename="../about.cpp" line="57"/>
         <source>Using %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρησιμοποιεί %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="80"/>
+        <location filename="../about.cpp" line="78"/>
         <source>SMPlayer is a graphical interface for %1 and %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το SMPlayer είναι ένα γραφικό περιβάλλον για το %1 και το %2.</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="93"/>
+        <location filename="../about.cpp" line="91"/>
         <source>Subtitles service powered by %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η υπηρεσία υποτίτλων παρέχεται από το %1</translation>
     </message>
     <message>
-        <source>Italian</source>
-        <translation type="obsolete">Ιταλικά</translation>
-    </message>
-    <message>
-        <source>Catalan</source>
-        <translation type="obsolete">Καταλανικά</translation>
-    </message>
-    <message>
-        <source>Slovak</source>
-        <translation type="obsolete">Σλοβάκικα</translation>
-    </message>
-    <message>
-        <source>Dutch</source>
-        <translation type="obsolete">Ολλανδικά</translation>
-    </message>
-    <message>
-        <source>Romanian</source>
-        <translation type="obsolete">Ρουμανικά</translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="196"/>
+        <location filename="../about.cpp" line="194"/>
         <source>&lt;b&gt;%1&lt;/b&gt; (%2)</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; (%2)</translation>
     </message>
     <message>
         <location filename="../about.ui" line="14"/>
         <source>About SMPlayer</source>
-        <translation>Σχετικά με SMPlayer</translation>
+        <translation>Σχετικά με τον SMPlayer</translation>
     </message>
     <message>
         <location filename="../about.ui" line="33"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Σελίδα</translation>
     </message>
     <message>
         <location filename="../about.ui" line="38"/>
@@ -186,7 +99,7 @@
     <message>
         <location filename="../about.ui" line="94"/>
         <source>&amp;Contributions</source>
-        <translation>&amp;Συνεισφορές</translation>
+        <translation>&amp;Συνεισφέροντες</translation>
     </message>
     <message>
         <location filename="../about.ui" line="150"/>
@@ -196,90 +109,42 @@
     <message>
         <location filename="../about.ui" line="206"/>
         <source>&amp;License</source>
-        <translation>&amp;Άδεια</translation>
+        <translation>&amp;Άδεια χρήσης</translation>
     </message>
     <message>
-        <source>Korean</source>
-        <translation type="obsolete">Κορεατικά</translation>
-    </message>
-    <message>
-        <source>Basque</source>
-        <translation type="obsolete">Βασκικά</translation>
-    </message>
-    <message>
-        <source>Using MPlayer %1</source>
-        <translation type="obsolete">Χρήση του MPlayer %1</translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="63"/>
+        <location filename="../about.cpp" line="64"/>
         <source>Portable Edition</source>
-        <translation>Φορητή έκδοση (Portable)</translation>
+        <translation>Φορητή Έκδοση</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="69"/>
+        <location filename="../about.cpp" line="67"/>
         <source>Using Qt %1 (compiled with Qt %2)</source>
-        <translation>Χρήση του Qt %1 (μεταγλώττιση με Qt %2)</translation>
+        <translation>Εκδοση Qt σε χρήση: %1 (μεταγλώττιση με Qt %2)</translation>
     </message>
     <message>
-        <source>Arabic</source>
-        <translation type="obsolete">Αραβικά</translation>
-    </message>
-    <message>
-        <source>Galician</source>
-        <translation type="obsolete">Γαλικικά</translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="127"/>
+        <location filename="../about.cpp" line="125"/>
         <source>SMPlayer logo by %1</source>
         <translation>Λογότυπο SMPlayer από %1</translation>
     </message>
     <message>
-        <source>Vietnamese</source>
-        <translation type="obsolete">Βιετναμέζικα</translation>
-    </message>
-    <message>
-        <source>Estonian</source>
-        <translation type="obsolete">Εσθονικά</translation>
-    </message>
-    <message>
-        <source>Lithuanian</source>
-        <translation type="obsolete">Λιθουανικά</translation>
-    </message>
-    <message>
-        <source>Danish</source>
-        <translation type="obsolete">Δανέζικα</translation>
-    </message>
-    <message>
-        <source>Croatian</source>
-        <translation type="obsolete">Κροατικά</translation>
-    </message>
-    <message>
-        <source>Using MPlayer2 %1</source>
-        <translation type="obsolete">Χρήση του MPlayer2 %1</translation>
-    </message>
-    <message>
-        <source>SMPlayer uses the award-winning MPlayer as playback engine. See %1</source>
-        <translation type="obsolete">Το SMPlayer χρησιμοποιεί το βραβευμένο MPlayer ως μηχανή αναπαραγωγής. Δείτε %1</translation>
-    </message>
-    <message>
-        <location filename="../about.cpp" line="108"/>
+        <location filename="../about.cpp" line="106"/>
         <source>Read the entire license</source>
         <translation>Διαβάστε ολόκληρη την άδεια</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="116"/>
+        <location filename="../about.cpp" line="114"/>
         <source>Read a translation</source>
         <translation>Διαβάστε μια μετάφραση</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="128"/>
+        <location filename="../about.cpp" line="126"/>
         <source>Packages for Windows created by %1</source>
-        <translation>Τα πακέτα Windows δημιουργήθηκαν από %1</translation>
+        <translation>Τα πακέτα για Windows δημιουργήθηκαν από %1</translation>
     </message>
     <message>
-        <location filename="../about.cpp" line="129"/>
+        <location filename="../about.cpp" line="127"/>
         <source>Many other people contributed with patches. See the Changelog for details.</source>
-        <translation>Πολλά άτομα συνέβαλαν με μπαλώματα. Δείτε το αρχείο αλλαγών για λεπτομέρειες.</translation>
+        <translation>Πολλά άλλα άτομα συνέβαλαν με συνεισφορές. Δείτε το αρχείο αλλαγών για λεπτομέρειες.</translation>
     </message>
 </context>
 <context>
@@ -313,17 +178,17 @@
         <location filename="../actionseditor.cpp" line="463"/>
         <location filename="../actionseditor.cpp" line="513"/>
         <source>Key files</source>
-        <translation>Κλειδί αρχείου</translation>
+        <translation>Αρχείου κλειδιού</translation>
     </message>
     <message>
         <location filename="../actionseditor.cpp" line="461"/>
         <source>Choose a filename</source>
-        <translation>Επιλογή αρχείου</translation>
+        <translation>Εισάγετε ένα όνομα αρχείου</translation>
     </message>
     <message>
         <location filename="../actionseditor.cpp" line="472"/>
         <source>Confirm overwrite?</source>
-        <translation>Επιβεβαίωση επανεγγραφής;</translation>
+        <translation>Επιβεβαίωση αντικατάστασης;</translation>
     </message>
     <message>
         <location filename="../actionseditor.cpp" line="473"/>
@@ -346,12 +211,12 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../actionseditor.cpp" line="486"/>
         <source>The file couldn&apos;t be saved</source>
-        <translation>Το αρχείο δεν μπορεί να αποθηκευτεί</translation>
+        <translation>Δεν ήταν δυνατή η αποθήκευση του αρχείου</translation>
     </message>
     <message>
         <location filename="../actionseditor.cpp" line="520"/>
         <source>The file couldn&apos;t be loaded</source>
-        <translation>Το αρχείο δεν μπορεί να φορτωθεί</translation>
+        <translation>Δεν ήταν δυνατή η φόρτωση αρχείου</translation>
     </message>
     <message>
         <location filename="../actionseditor.cpp" line="228"/>
@@ -373,7 +238,7 @@ Do you want to overwrite?</source>
         <location filename="../audioequalizer.cpp" line="195"/>
         <location filename="../audioequalizer.cpp" line="196"/>
         <source>%1 Hz</source>
-        <translation type="unfinished">%1 Hz</translation>
+        <translation>%1 Hz</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="197"/>
@@ -382,12 +247,12 @@ Do you want to overwrite?</source>
         <location filename="../audioequalizer.cpp" line="200"/>
         <location filename="../audioequalizer.cpp" line="201"/>
         <source>%1 kHz</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kHz</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="203"/>
         <source>&amp;Preset</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προρύθμιση</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="204"/>
@@ -407,102 +272,102 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../audioequalizer.cpp" line="207"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Κλείσιμο</translation>
+        <translation>&amp;Κλείσιμο</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="212"/>
         <source>Flat</source>
-        <translation type="unfinished"></translation>
+        <translation>Επίπεδο</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="213"/>
         <source>Classical</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλασσική</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="214"/>
         <source>Club</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλαμπ</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="215"/>
         <source>Dance</source>
-        <translation type="unfinished"></translation>
+        <translation>Χορός</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="216"/>
         <source>Full bass</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήρη μπάσα</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="217"/>
         <source>Full bass and treble</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήρη μπάσα και πρίμα</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="218"/>
         <source>Full treble</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήρη πρίμα</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="219"/>
         <source>Headphones</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακουστικά</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="220"/>
         <source>Large hall</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεγάλη αίθουσα</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="221"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Ζωντανή</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="222"/>
         <source>Party</source>
-        <translation type="unfinished"></translation>
+        <translation>Εορτή</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="223"/>
         <source>Pop</source>
-        <translation type="unfinished"></translation>
+        <translation>Ποπ</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="224"/>
         <source>Reggae</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρέγγε</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="225"/>
         <source>Rock</source>
-        <translation type="unfinished"></translation>
+        <translation>Ροκ</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="226"/>
         <source>Ska</source>
-        <translation type="unfinished"></translation>
+        <translation>Σκα</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="227"/>
         <source>Soft</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαλή</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="228"/>
         <source>Soft rock</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαλό ροκ</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="229"/>
         <source>Techno</source>
-        <translation type="unfinished"></translation>
+        <translation>Τέκνο</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="230"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσαρμοσμένο</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="235"/>
@@ -517,7 +382,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../audioequalizer.cpp" line="252"/>
         <source>Information</source>
-        <translation>Πληροφορία</translation>
+        <translation>Πληροφορίες</translation>
     </message>
     <message>
         <location filename="../audioequalizer.cpp" line="253"/>
@@ -528,1613 +393,1590 @@ Do you want to overwrite?</source>
 <context>
     <name>BaseGui</name>
     <message>
-        <location filename="../basegui.cpp" line="1914"/>
+        <location filename="../basegui.cpp" line="1919"/>
         <source>&amp;Open</source>
         <translation>Άν&amp;οιγμα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1915"/>
+        <location filename="../basegui.cpp" line="1920"/>
         <source>&amp;Play</source>
         <translation>&amp;Αναπαραγωγή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1916"/>
+        <location filename="../basegui.cpp" line="1921"/>
         <source>&amp;Video</source>
         <translation>&amp;Βίντεο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1917"/>
+        <location filename="../basegui.cpp" line="1922"/>
         <source>&amp;Audio</source>
         <translation>&amp;Ήχος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1918"/>
+        <location filename="../basegui.cpp" line="1923"/>
         <source>&amp;Subtitles</source>
         <translation>&amp;Υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1919"/>
+        <location filename="../basegui.cpp" line="1924"/>
         <source>&amp;Browse</source>
         <translation>&amp;Περιήγηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1921"/>
+        <location filename="../basegui.cpp" line="1926"/>
         <source>Op&amp;tions</source>
         <translation>&amp;Επιλογές</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1922"/>
+        <location filename="../basegui.cpp" line="1927"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1648"/>
+        <location filename="../basegui.cpp" line="1650"/>
         <source>&amp;File...</source>
         <translation>&amp;Αρχείο...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1649"/>
+        <location filename="../basegui.cpp" line="1651"/>
         <source>D&amp;irectory...</source>
         <translation>&amp;Φάκελος...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1650"/>
+        <location filename="../basegui.cpp" line="1652"/>
         <source>&amp;Playlist...</source>
         <translation>&amp;Λίστα...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1653"/>
+        <location filename="../basegui.cpp" line="1655"/>
         <source>&amp;DVD from drive</source>
         <translation>DVD από &amp;συσκευή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1654"/>
+        <location filename="../basegui.cpp" line="1656"/>
         <source>D&amp;VD from folder...</source>
         <translation>DVD από φάκε&amp;λο...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1659"/>
+        <location filename="../basegui.cpp" line="1661"/>
         <source>&amp;URL...</source>
         <translation>&amp;URL...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1938"/>
+        <location filename="../basegui.cpp" line="1943"/>
         <source>&amp;Clear</source>
         <translation>&amp;Καθαρισμός</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1936"/>
+        <location filename="../basegui.cpp" line="1941"/>
         <source>&amp;Recent files</source>
         <translation>&amp;Πρόσφατα αρχεία</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1683"/>
+        <location filename="../basegui.cpp" line="1685"/>
         <source>P&amp;lay</source>
         <translation>&amp;Αναπαραγωγή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1686"/>
+        <location filename="../basegui.cpp" line="1688"/>
         <source>&amp;Pause</source>
         <translation>&amp;Παύση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1687"/>
+        <location filename="../basegui.cpp" line="1689"/>
         <source>&amp;Stop</source>
         <translation>&amp;Σταμάτημα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1688"/>
+        <location filename="../basegui.cpp" line="1690"/>
         <source>&amp;Frame step</source>
         <translation>&amp;Καρέ καρέ</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1707"/>
+        <location filename="../basegui.cpp" line="1709"/>
         <source>&amp;Normal speed</source>
         <translation>&amp;Κανονική ταχύτητα</translation>
     </message>
     <message>
-        <source>&amp;Halve speed</source>
-        <translation type="obsolete">&amp;Μισή ταχύτητα</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1709"/>
+        <location filename="../basegui.cpp" line="1711"/>
         <source>&amp;Double speed</source>
         <translation>&amp;Διπλή ταχύτητα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1710"/>
+        <location filename="../basegui.cpp" line="1712"/>
         <source>Speed &amp;-10%</source>
         <translation>Ταχύτητα &amp;-10%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1711"/>
+        <location filename="../basegui.cpp" line="1713"/>
         <source>Speed &amp;+10%</source>
         <translation>Ταχύτητα &amp;+10%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1802"/>
+        <location filename="../basegui.cpp" line="1804"/>
         <source>&amp;Off</source>
         <comment>closed captions menu</comment>
-        <translation type="unfinished">&amp;Εκτός</translation>
+        <translation>Απε&amp;νεργοποίηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1821"/>
-        <source>&amp;YouTube%1 browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1956"/>
+        <location filename="../basegui.cpp" line="1961"/>
         <source>Sp&amp;eed</source>
         <translation>Τα&amp;χύτητα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1702"/>
+        <location filename="../basegui.cpp" line="1704"/>
         <source>&amp;Repeat</source>
         <translation>&amp;Επανάληψη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1718"/>
+        <location filename="../basegui.cpp" line="1720"/>
         <source>&amp;Fullscreen</source>
-        <translation>Πλήρης &amp;Οθόνη</translation>
+        <translation>Πλήρης &amp;οθόνη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1719"/>
+        <location filename="../basegui.cpp" line="1721"/>
         <source>&amp;Compact mode</source>
         <translation>&amp;Συμπαγής μορφή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1966"/>
+        <location filename="../basegui.cpp" line="1971"/>
         <source>Si&amp;ze</source>
         <translation>&amp;Μέγεθος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1976"/>
+        <location filename="../basegui.cpp" line="1981"/>
         <source>&amp;Aspect ratio</source>
         <translation>&amp;Αναλογίες εικόνας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2015"/>
-        <location filename="../basegui.cpp" line="3512"/>
-        <location filename="../basegui.cpp" line="3526"/>
+        <location filename="../basegui.cpp" line="2020"/>
+        <location filename="../basegui.cpp" line="3522"/>
+        <location filename="../basegui.cpp" line="3536"/>
         <source>&amp;None</source>
         <translation>&amp;Κανένα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2016"/>
+        <location filename="../basegui.cpp" line="2021"/>
         <source>&amp;Lowpass5</source>
-        <translation>&amp;Φίλτροχαμηλών5</translation>
+        <translation>&amp;Lowpass5</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2019"/>
+        <location filename="../basegui.cpp" line="2024"/>
         <source>Linear &amp;Blend</source>
-        <translation>&amp;Γραμμών μίξη</translation>
+        <translation>&amp;Γραμμική ανάμειξη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1979"/>
+        <location filename="../basegui.cpp" line="1984"/>
         <source>&amp;Deinterlace</source>
-        <translation>&amp;Αποσύμπλεξη</translation>
+        <translation>&amp;Απόπλεξη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1745"/>
+        <location filename="../basegui.cpp" line="1747"/>
         <source>&amp;Postprocessing</source>
-        <translation>&amp;Προεπεξεργασία</translation>
+        <translation>&amp;Μεταεπεξεργασία</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1746"/>
+        <location filename="../basegui.cpp" line="1748"/>
         <source>&amp;Autodetect phase</source>
         <translation>&amp;Αυτοεπιλογή στιγμιότυπου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1747"/>
+        <location filename="../basegui.cpp" line="1749"/>
         <source>&amp;Deblock</source>
-        <translation>&amp;Μη-φραγή</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1748"/>
-        <source>De&amp;ring</source>
-        <translation type="unfinished"></translation>
+        <translation>Α&amp;ποαποκλεισμός</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="1750"/>
-        <source>Add n&amp;oise</source>
-        <translation>Πρόσθεση &amp;θορύβου</translation>
+        <source>De&amp;ring</source>
+        <translation>Απο&amp;ταλάντωση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1982"/>
+        <location filename="../basegui.cpp" line="1752"/>
+        <source>Add n&amp;oise</source>
+        <translation>Προσθήκη &amp;θορύβου</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1987"/>
         <source>F&amp;ilters</source>
         <translation>&amp;Φίλτρα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1720"/>
+        <location filename="../basegui.cpp" line="1722"/>
         <source>&amp;Equalizer</source>
         <translation>&amp;Ισοσταθμιστής</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1721"/>
+        <location filename="../basegui.cpp" line="1723"/>
         <source>&amp;Screenshot</source>
         <translation>&amp;Στιγμιότυπο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1988"/>
+        <location filename="../basegui.cpp" line="1993"/>
         <source>S&amp;tay on top</source>
-        <translation>&amp;Μείνε στην κορυφή</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1768"/>
-        <source>&amp;Extrastereo</source>
-        <translation>&amp;Εξτρα_στέρεο</translation>
+        <translation>Παραμ&amp;ονή σε πρώτο πλάνο</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="1770"/>
+        <source>&amp;Extrastereo</source>
+        <translation>&amp;Εξτρα στέρεο</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1772"/>
         <source>&amp;Karaoke</source>
         <translation>&amp;Καραόκε</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2050"/>
+        <location filename="../basegui.cpp" line="2055"/>
         <source>&amp;Filters</source>
         <translation>&amp;Φίλτρα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2060"/>
-        <location filename="../basegui.cpp" line="2066"/>
+        <location filename="../basegui.cpp" line="2065"/>
+        <location filename="../basegui.cpp" line="2071"/>
         <source>&amp;Stereo</source>
         <translation>&amp;Στέρεο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2061"/>
+        <location filename="../basegui.cpp" line="2066"/>
         <source>&amp;4.0 Surround</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;4.0 Περιβάλλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2062"/>
+        <location filename="../basegui.cpp" line="2067"/>
         <source>&amp;5.1 Surround</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;5.1 Περιβάλλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2053"/>
+        <location filename="../basegui.cpp" line="2058"/>
         <source>&amp;Channels</source>
         <translation>&amp;Κανάλια</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2067"/>
+        <location filename="../basegui.cpp" line="2072"/>
         <source>&amp;Left channel</source>
         <translation>&amp;Αριστερό κανάλι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2068"/>
+        <location filename="../basegui.cpp" line="2073"/>
         <source>&amp;Right channel</source>
         <translation>&amp;Δεξί κανάλι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2056"/>
+        <location filename="../basegui.cpp" line="2061"/>
         <source>&amp;Stereo mode</source>
         <translation>&amp;Στέρεο μορφή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1758"/>
+        <location filename="../basegui.cpp" line="1760"/>
         <source>&amp;Mute</source>
         <translation>&amp;Σίγαση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1759"/>
+        <location filename="../basegui.cpp" line="1761"/>
         <source>Volume &amp;-</source>
         <translation>Ένταση &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1760"/>
+        <location filename="../basegui.cpp" line="1762"/>
         <source>Volume &amp;+</source>
         <translation>Ένταση &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1761"/>
+        <location filename="../basegui.cpp" line="1763"/>
         <source>&amp;Delay -</source>
         <translation>&amp;Καθυστέρηση -</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1762"/>
+        <location filename="../basegui.cpp" line="1764"/>
         <source>D&amp;elay +</source>
         <translation>Κα&amp;θυστέρηση +</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2076"/>
+        <location filename="../basegui.cpp" line="2081"/>
         <source>&amp;Select</source>
         <translation>&amp;Επιλογή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1775"/>
+        <location filename="../basegui.cpp" line="1777"/>
         <source>&amp;Load...</source>
-        <translation>&amp;Φόρτωμα...</translation>
+        <translation>&amp;Φόρτωση...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1777"/>
+        <location filename="../basegui.cpp" line="1779"/>
         <source>Delay &amp;-</source>
         <translation>Καθυστέρηση &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1778"/>
+        <location filename="../basegui.cpp" line="1780"/>
         <source>Delay &amp;+</source>
         <translation>Καθυστέρηση &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1780"/>
+        <location filename="../basegui.cpp" line="1782"/>
         <source>&amp;Up</source>
         <translation>&amp;Πάνω</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1781"/>
+        <location filename="../basegui.cpp" line="1783"/>
         <source>&amp;Down</source>
         <translation>&amp;Κάτω</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2094"/>
+        <location filename="../basegui.cpp" line="2099"/>
         <source>&amp;Title</source>
         <translation>&amp;Τίτλος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2097"/>
+        <location filename="../basegui.cpp" line="2102"/>
         <source>&amp;Chapter</source>
         <translation>&amp;Κεφάλαιο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2100"/>
+        <location filename="../basegui.cpp" line="2105"/>
         <source>&amp;Angle</source>
         <translation>&amp;Γωνία</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1817"/>
+        <location filename="../basegui.cpp" line="1819"/>
         <source>&amp;Playlist</source>
         <translation>&amp;Λίστα αναπαραγωγής</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2013"/>
+        <location filename="../basegui.cpp" line="2018"/>
         <source>&amp;Disabled</source>
         <translation>&amp;Απενεργοποίηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2132"/>
+        <location filename="../basegui.cpp" line="2137"/>
         <source>&amp;OSD</source>
         <translation>&amp;ΟSD</translation>
     </message>
     <message>
-        <source>&amp;View logs</source>
-        <translation type="obsolete">&amp;Εμφάνιση αρχείων καταγραφών</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1819"/>
+        <location filename="../basegui.cpp" line="1821"/>
         <source>P&amp;references</source>
         <translation>&amp;Επιλογές</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation type="obsolete">Σχετικά με &amp;Qt</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1847"/>
+        <location filename="../basegui.cpp" line="1851"/>
         <source>About &amp;SMPlayer</source>
-        <translation>Σχετικά με &amp;SMPlayer</translation>
+        <translation>Σχετικά με τον &amp;SMPlayer</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="3549"/>
-        <location filename="../basegui.cpp" line="3565"/>
-        <location filename="../basegui.cpp" line="3581"/>
-        <location filename="../basegui.cpp" line="3596"/>
-        <location filename="../basegui.cpp" line="3630"/>
-        <location filename="../basegui.cpp" line="3650"/>
-        <location filename="../basegui.cpp" line="3726"/>
+        <location filename="../basegui.cpp" line="3559"/>
+        <location filename="../basegui.cpp" line="3575"/>
+        <location filename="../basegui.cpp" line="3591"/>
+        <location filename="../basegui.cpp" line="3606"/>
+        <location filename="../basegui.cpp" line="3640"/>
+        <location filename="../basegui.cpp" line="3660"/>
+        <location filename="../basegui.cpp" line="3736"/>
         <source>&lt;empty&gt;</source>
         <translation>&lt;κενό&gt;</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4167"/>
+        <location filename="../basegui.cpp" line="4182"/>
         <source>Video</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4168"/>
-        <location filename="../basegui.cpp" line="4405"/>
+        <location filename="../basegui.cpp" line="4183"/>
+        <location filename="../basegui.cpp" line="4420"/>
         <source>Audio</source>
         <translation>Ήχος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4169"/>
+        <location filename="../basegui.cpp" line="4184"/>
         <source>Playlists</source>
         <translation>Λίστα αναπαραγωγής</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4170"/>
-        <location filename="../basegui.cpp" line="4385"/>
-        <location filename="../basegui.cpp" line="4406"/>
+        <location filename="../basegui.cpp" line="4185"/>
+        <location filename="../basegui.cpp" line="4400"/>
+        <location filename="../basegui.cpp" line="4421"/>
         <source>All files</source>
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4165"/>
-        <location filename="../basegui.cpp" line="4382"/>
-        <location filename="../basegui.cpp" line="4403"/>
+        <location filename="../basegui.cpp" line="4180"/>
+        <location filename="../basegui.cpp" line="4397"/>
+        <location filename="../basegui.cpp" line="4418"/>
         <source>Choose a file</source>
         <translation>Επιλογή αρχείου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4221"/>
+        <location filename="../basegui.cpp" line="1823"/>
+        <source>&amp;YouTube%1 browser</source>
+        <translation>Περιηγητής &amp;Youtube%1</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1847"/>
+        <source>&amp;Donate / Share with your friends</source>
+        <translation>&amp;Δωρίστε / Γνωστοποιήστε το στους φίλους σας</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4236"/>
         <source>SMPlayer - Information</source>
         <translation>SMPlayer - Πληροφορίες</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4222"/>
+        <location filename="../basegui.cpp" line="4237"/>
         <source>The CDROM / DVD drives are not configured yet.
 The configuration dialog will be shown now, so you can do it.</source>
-        <translation>CDROM / DVD οδηγοί δεν καθορίστηκαν ακόμη.
-Ο διάλογος καθορισμού θα εμφανιστεί, ώστε να προχωρήσετε.</translation>
+        <translation>Οι οδηγοί CDROM / DVD δεν έχουν οριστεί ακόμη.
+Ο διάλογος ορισμού θα εμφανιστεί για να συνεχίσετε.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4348"/>
+        <location filename="../basegui.cpp" line="4350"/>
+        <source>Select the Blu-ray folder</source>
+        <translation>Επιλέξτε τον φάκελο Blu-ray</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4363"/>
         <source>Choose a directory</source>
         <translation>Επιλογή φακέλου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4384"/>
+        <location filename="../basegui.cpp" line="4399"/>
         <source>Subtitles</source>
         <translation>Υπότιτλοι</translation>
     </message>
     <message>
-        <source>About Qt</source>
-        <translation type="obsolete">Σχετικά με Qt</translation>
+        <location filename="../basegui.cpp" line="5069"/>
+        <source>Error detected</source>
+        <translation>Ανιχνεύτηκε σφάλμα</translation>
     </message>
     <message>
-        <source>Playing %1</source>
-        <translation type="obsolete">Αναπαραγωγή %1</translation>
+        <location filename="../basegui.cpp" line="5070"/>
+        <source>Unfortunately this video can&apos;t be played.</source>
+        <translation>Δυστυχώς αυτό το βίντεο δεν μπορεί να εκτελεστεί.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5234"/>
+        <location filename="../basegui.cpp" line="5300"/>
         <source>Pause</source>
         <translation>Παύση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5235"/>
+        <location filename="../basegui.cpp" line="5301"/>
         <source>Stop</source>
         <translation>Σταμάτημα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1691"/>
+        <location filename="../basegui.cpp" line="1693"/>
         <source>Play / Pause</source>
         <translation>Αναπαραγωγή / Παύση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1694"/>
+        <location filename="../basegui.cpp" line="1696"/>
         <source>Pause / Frame step</source>
         <translation>Παύση / Καρέ καρέ</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1765"/>
-        <location filename="../basegui.cpp" line="1776"/>
+        <location filename="../basegui.cpp" line="1767"/>
+        <location filename="../basegui.cpp" line="1778"/>
         <source>U&amp;nload</source>
         <translation>&amp;Ξεφόρτωμα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1651"/>
+        <location filename="../basegui.cpp" line="1653"/>
         <source>V&amp;CD</source>
-        <translation>V&amp;CD</translation>
+        <translation>&amp;VCD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1660"/>
+        <location filename="../basegui.cpp" line="1662"/>
         <source>C&amp;lose</source>
         <translation>&amp;Κλείσιμο</translation>
     </message>
     <message>
-        <source>View &amp;info and properties...</source>
-        <translation type="obsolete">&amp;Πληροφορίες και ιδιότητες...</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1733"/>
+        <location filename="../basegui.cpp" line="1735"/>
         <source>Zoom &amp;-</source>
         <translation>Εστίαση &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1734"/>
+        <location filename="../basegui.cpp" line="1736"/>
         <source>Zoom &amp;+</source>
         <translation>Εστίαση &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1735"/>
+        <location filename="../basegui.cpp" line="1737"/>
         <source>&amp;Reset</source>
         <translation>&amp;Επαναφορά</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1739"/>
+        <location filename="../basegui.cpp" line="1741"/>
         <source>Move &amp;left</source>
         <translation>Μετακίνηση &amp;αριστερά</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1740"/>
+        <location filename="../basegui.cpp" line="1742"/>
         <source>Move &amp;right</source>
         <translation>Μετακίνηση &amp;δεξιά</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1741"/>
+        <location filename="../basegui.cpp" line="1743"/>
         <source>Move &amp;up</source>
         <translation>Μετακίνηση &amp;πάνω</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1742"/>
+        <location filename="../basegui.cpp" line="1744"/>
         <source>Move &amp;down</source>
         <translation>Μετακίνηση &amp;κάτω</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1785"/>
+        <location filename="../basegui.cpp" line="1787"/>
         <source>&amp;Previous line in subtitles</source>
         <translation>&amp;Προηγούμενη γραμμή υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1787"/>
+        <location filename="../basegui.cpp" line="1789"/>
         <source>N&amp;ext line in subtitles</source>
         <translation>&amp;Επόμενη γραμμή υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1840"/>
-        <source>Update the &amp;YouTube code</source>
-        <translation type="unfinished"></translation>
+        <location filename="../basegui.cpp" line="1828"/>
+        <location filename="../basegui.cpp" line="2159"/>
+        <source>%1 log</source>
+        <translation>Καταγραφή %1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2170"/>
-        <location filename="../basegui.cpp" line="2171"/>
-        <location filename="../basegui.cpp" line="2172"/>
+        <location filename="../basegui.cpp" line="1831"/>
+        <location filename="../basegui.cpp" line="2162"/>
+        <source>SMPlayer log</source>
+        <translation>Καταγραφή SMPlayer</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1842"/>
+        <source>Update the &amp;YouTube code</source>
+        <translation>Ενημέρωση του κώδικα για το &amp;YouTube</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2175"/>
+        <location filename="../basegui.cpp" line="2176"/>
+        <location filename="../basegui.cpp" line="2177"/>
         <source>-%1</source>
         <translation>-%1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2174"/>
-        <location filename="../basegui.cpp" line="2175"/>
-        <location filename="../basegui.cpp" line="2176"/>
+        <location filename="../basegui.cpp" line="2179"/>
+        <location filename="../basegui.cpp" line="2180"/>
+        <location filename="../basegui.cpp" line="2181"/>
         <source>+%1</source>
         <translation>+%1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1872"/>
+        <location filename="../basegui.cpp" line="1876"/>
         <source>Dec volume (2)</source>
         <translation>Μείωση έντασης (2)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1656"/>
+        <location filename="../basegui.cpp" line="1658"/>
         <source>&amp;Blu-ray from drive</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Blu-ray από οδηγό</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1657"/>
+        <location filename="../basegui.cpp" line="1659"/>
         <source>Blu-&amp;ray from folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>Blu-&amp;ray από φάκελο...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1689"/>
+        <location filename="../basegui.cpp" line="1691"/>
         <source>Fra&amp;me back step</source>
-        <translation type="unfinished"></translation>
+        <translation>Βήμα οπισθοχώρησης &amp;καρέ</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1708"/>
+        <location filename="../basegui.cpp" line="1710"/>
         <source>&amp;Half speed</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Μέσης ταχύτητας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1724"/>
+        <location filename="../basegui.cpp" line="1726"/>
         <source>Start/stop capturing stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Έναρξη/διακοπή σύλληψης της ροής</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1727"/>
+        <location filename="../basegui.cpp" line="1729"/>
         <source>Thumb&amp;nail Generator...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Δημιουργός εικόνων επισκόπησης...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1731"/>
+        <location filename="../basegui.cpp" line="1733"/>
         <source>Stereo &amp;3D filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Φίλτρο στερεοφωνικού &amp;3Δ</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1749"/>
+        <location filename="../basegui.cpp" line="1751"/>
         <source>Debanding (&amp;gradfun)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκέντρωση (&amp;gradfun)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1789"/>
+        <location filename="../basegui.cpp" line="1791"/>
         <source>Seek to next subtitle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1790"/>
-        <source>Seek to previous subtitle</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναζήτηση στον επόμενο υπότιτλο</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="1792"/>
+        <source>Seek to previous subtitle</source>
+        <translation>Αναζήτηση στον προηγούμενο υπότιτλο</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1794"/>
         <source>Use custo&amp;m style</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση προσαρμοσμένου ύ&amp;φους</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1798"/>
+        <location filename="../basegui.cpp" line="1800"/>
         <source>Find subtitles at &amp;OpenSubtitles.org...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναζήτηση υποτίτλων στο &amp;OpenSubtitles.org...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1808"/>
+        <location filename="../basegui.cpp" line="1810"/>
         <source>&amp;Default</source>
         <comment>subfps menu</comment>
-        <translation type="unfinished">&amp;Προεπιλογή</translation>
+        <translation>&amp;Εξ ορισμού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1818"/>
+        <location filename="../basegui.cpp" line="1820"/>
         <source>&amp;Information and properties...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Πληροφορίες και ιδιότητες...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1831"/>
+        <location filename="../basegui.cpp" line="1833"/>
         <source>T&amp;ablet mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία τα&amp;μπλέτας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1834"/>
+        <location filename="../basegui.cpp" line="1836"/>
         <source>First Steps &amp;Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Οδηγός πρώτων βημάτων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1843"/>
+        <location filename="../basegui.cpp" line="1845"/>
         <source>&amp;Open configuration folder</source>
         <translation>Άνοιγμα &amp;φακέλου ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1845"/>
-        <source>&amp;Donate / Share with your friends</source>
+        <location filename="../basegui.cpp" line="1849"/>
+        <source>&amp;Donate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1858"/>
+        <location filename="../basegui.cpp" line="1862"/>
         <source>Size &amp;+</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος &amp;+</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1859"/>
+        <location filename="../basegui.cpp" line="1863"/>
         <source>Size &amp;-</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος &amp;-</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1873"/>
+        <location filename="../basegui.cpp" line="1877"/>
         <source>Inc volume (2)</source>
         <translation>Αύξηση έντασης (2)</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1876"/>
+        <location filename="../basegui.cpp" line="1880"/>
         <source>Exit fullscreen</source>
         <translation>Έξοδος πλήρους οθόνης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1878"/>
+        <location filename="../basegui.cpp" line="1882"/>
         <source>OSD - Next level</source>
         <translation>OSD - Επόμενο επίπεδο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1879"/>
+        <location filename="../basegui.cpp" line="1883"/>
         <source>Dec contrast</source>
         <translation>Μείωση αντίθεσης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1880"/>
+        <location filename="../basegui.cpp" line="1884"/>
         <source>Inc contrast</source>
         <translation>Αύξηση αντίθεσης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1881"/>
+        <location filename="../basegui.cpp" line="1885"/>
         <source>Dec brightness</source>
         <translation>Μείωση φωτεινότητας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1882"/>
+        <location filename="../basegui.cpp" line="1886"/>
         <source>Inc brightness</source>
         <translation>Αύξηση φωτεινότητας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1883"/>
+        <location filename="../basegui.cpp" line="1887"/>
         <source>Dec hue</source>
-        <translation>Μείωση χρώματος</translation>
+        <translation>Μείωση απόχρωσης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1884"/>
+        <location filename="../basegui.cpp" line="1888"/>
         <source>Inc hue</source>
-        <translation>Αύξηση χρώματος</translation>
+        <translation>Αύξηση απόχρωσης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1885"/>
+        <location filename="../basegui.cpp" line="1889"/>
         <source>Dec saturation</source>
         <translation>Μείωση κορεσμού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1887"/>
+        <location filename="../basegui.cpp" line="1891"/>
         <source>Dec gamma</source>
         <translation>Μείωση γάμμα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1890"/>
+        <location filename="../basegui.cpp" line="1894"/>
         <source>Next audio</source>
-        <translation>Επόμενο κομάτι</translation>
+        <translation>Επόμενο κομμάτι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1891"/>
+        <location filename="../basegui.cpp" line="1895"/>
         <source>Next subtitle</source>
         <translation>Επόμενος υπότιτλος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1892"/>
+        <location filename="../basegui.cpp" line="1896"/>
         <source>Next chapter</source>
         <translation>Επόμενο κεφάλαιο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1893"/>
+        <location filename="../basegui.cpp" line="1897"/>
         <source>Previous chapter</source>
         <translation>Προηγούμενο κεφάλαιο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1902"/>
+        <location filename="../basegui.cpp" line="1905"/>
+        <source>Show &amp;info on OSD</source>
+        <translation>Εμφάνιση &amp;πληροφοριών στο OSD</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1906"/>
         <source>Show playback time on OSD</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του χρόνου εκτέλεσης στο OSD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1920"/>
+        <location filename="../basegui.cpp" line="1925"/>
         <source>Vie&amp;w</source>
-        <translation type="unfinished"></translation>
+        <translation>Π&amp;ροβολή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1996"/>
+        <location filename="../basegui.cpp" line="2001"/>
         <source>De&amp;noise</source>
-        <translation type="unfinished"></translation>
+        <translation>Μείωση &amp;θορύβου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1999"/>
+        <location filename="../basegui.cpp" line="2004"/>
         <source>Blur/S&amp;harp</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2022"/>
-        <source>&amp;Off</source>
-        <comment>denoise menu</comment>
-        <translation type="unfinished">&amp;Εκτός</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2023"/>
-        <source>&amp;Normal</source>
-        <comment>denoise menu</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2024"/>
-        <source>&amp;Soft</source>
-        <comment>denoise menu</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2026"/>
-        <source>&amp;None</source>
-        <comment>unsharp menu</comment>
-        <translation type="unfinished">&amp;Κανένα</translation>
+        <translation>Θόλωμα/Ό&amp;ξυνση</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2027"/>
-        <source>&amp;Blur</source>
-        <comment>unsharp menu</comment>
-        <translation type="unfinished"></translation>
+        <source>&amp;Off</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Απενεργοποίηση</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2028"/>
-        <source>&amp;Sharpen</source>
-        <comment>unsharp menu</comment>
-        <translation type="unfinished"></translation>
+        <source>&amp;Normal</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Κανονική</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2048"/>
+        <location filename="../basegui.cpp" line="2029"/>
+        <source>&amp;Soft</source>
+        <comment>denoise menu</comment>
+        <translation>&amp;Απαλή</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2031"/>
+        <source>&amp;None</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Καμία</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2032"/>
+        <source>&amp;Blur</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Θόλωμα</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2033"/>
+        <source>&amp;Sharpen</source>
+        <comment>unsharp menu</comment>
+        <translation>&amp;Όξυνση</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2053"/>
         <source>Select audio track</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή ενός κομματιού ήχου</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2068"/>
+        <source>&amp;6.1 Surround</source>
+        <translation>&amp;6.1 Περιβάλλων</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2069"/>
-        <source>&amp;Mono</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2070"/>
-        <source>Re&amp;verse</source>
-        <translation type="unfinished"></translation>
+        <source>&amp;7.1 Surround</source>
+        <translation>&amp;7.1 Περιβάλλων</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2074"/>
-        <source>Prim&amp;ary track</source>
-        <translation type="unfinished"></translation>
+        <source>&amp;Mono</source>
+        <translation>&amp;Μονοφωνικό</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2075"/>
+        <source>Re&amp;verse</source>
+        <translation>Αν&amp;τιστροφή</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2079"/>
-        <source>Select subtitle track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2082"/>
-        <source>Secondary trac&amp;k</source>
-        <translation type="unfinished"></translation>
+        <source>Prim&amp;ary track</source>
+        <translation>&amp;Πρωτεύον κομμάτι</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2084"/>
+        <source>Select subtitle track</source>
+        <translation>Επιλογή κομματιού υποτίτλων</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2087"/>
+        <source>Secondary trac&amp;k</source>
+        <translation>&amp;Δευτερεύον κομμάτι</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2089"/>
         <source>Select secondary subtitle track</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή του δευτερεύοντος κομματιού υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2090"/>
+        <location filename="../basegui.cpp" line="2095"/>
         <source>F&amp;rames per second</source>
-        <translation type="unfinished"></translation>
+        <translation>Κα&amp;ρέ ανά δευτερόλεπτο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2104"/>
+        <location filename="../basegui.cpp" line="2109"/>
         <source>&amp;Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Σελιδοδείκτες</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2114"/>
+        <location filename="../basegui.cpp" line="2119"/>
         <source>&amp;Add new bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προσθήκη νέου σελιδοδείκτη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2115"/>
+        <location filename="../basegui.cpp" line="2120"/>
         <source>&amp;Edit bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Επεξεργασία σελιδοδεικτών</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2116"/>
+        <location filename="../basegui.cpp" line="2121"/>
         <source>Previous bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Προηγούμενος σελιδοδείκτης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2117"/>
+        <location filename="../basegui.cpp" line="2122"/>
         <source>Next bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Επόμενος σελιδοδείκτης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2136"/>
-        <source>S&amp;hare SMPlayer with your friends</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2146"/>
+        <location filename="../basegui.cpp" line="2151"/>
         <source>Quick access menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Μενού γρήγορης πρόσβασης</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2951"/>
+        <location filename="../basegui.cpp" line="2960"/>
         <source>Logs</source>
-        <translation type="unfinished">Καταγραφές</translation>
+        <translation>Καταγραφές</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5930"/>
-        <source>The component youtube-dl failed to run.</source>
+        <location filename="../basegui.cpp" line="4505"/>
+        <source>Support SMPlayer</source>
+        <translation type="unfinished">Υποστηρίξτε το SMPlayer</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4507"/>
+        <source>Donate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5931"/>
-        <source>Installing the Microsoft Visual C++ 2010 Redistributable Package (x86) may fix the problem.</source>
+        <location filename="../basegui.cpp" line="4508"/>
+        <source>No</source>
+        <translation type="unfinished">Όχι</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4511"/>
+        <source>SMPlayer needs you</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5933"/>
-        <source>Click here to get it</source>
+        <location filename="../basegui.cpp" line="4512"/>
+        <source>SMPlayer is free software. However the development requires a lot of time and a lot of work.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="6054"/>
-        <source>The YouTube Browser failed to run.</source>
+        <location filename="../basegui.cpp" line="4513"/>
+        <source>In order to keep developing SMPlayer with new features we need your help.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="6055"/>
-        <source>Be sure it&apos;s installed correctly.</source>
+        <location filename="../basegui.cpp" line="4514"/>
+        <source>Please consider to support the SMPlayer project by sending a donation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="6221"/>
-        <source>The system has switched to tablet mode. Should SMPlayer change to tablet mode as well?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="6223"/>
-        <source>The system has exited tablet mode. Should SMPlayer turn off the tablet mode as well?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="6227"/>
-        <source>Remember my decision and don&apos;t ask again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SMPlayer - MPlayer log</source>
-        <translation type="obsolete">SMPlayer - MPlayer καταγραφή</translation>
-    </message>
-    <message>
-        <source>SMPlayer - SMPlayer log</source>
-        <translation type="obsolete">SMPlayer - SMPlayer καταγραφή</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="3237"/>
-        <location filename="../basegui.cpp" line="3976"/>
-        <source>Information</source>
-        <translation>Πληροφορίες</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="3238"/>
-        <source>You need to restart SMPlayer to use the new GUI.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="3738"/>
-        <source>Confirm deletion - SMPlayer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="3739"/>
-        <source>Delete the list of recent files?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="3977"/>
-        <source>The current values have been stored to be used as default.</source>
-        <translation type="unfinished">Αυτές οι τιμές έχουν αποθηκευτεί για να χρησιμοποιούνται ως προεπιλεγμένες.</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4939"/>
-        <source>Connection failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4940"/>
-        <source>The video you requested needs to open a HTTPS connection.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4941"/>
-        <source>Unfortunately the OpenSSL component, required for it, is not available in your system.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4942"/>
-        <source>Please, visit %1 to know how to fix this problem.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4943"/>
-        <source>this link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4953"/>
-        <source>Unfortunately due to changes in the Youtube page, this video can&apos;t be played.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4960"/>
-        <location filename="../basegui.cpp" line="4968"/>
-        <source>Problems with Youtube</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5904"/>
-        <location filename="../basegui.cpp" line="5956"/>
-        <source>%1 Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5905"/>
-        <source>%1 has finished unexpectedly.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5958"/>
-        <source>%1 failed to start.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5959"/>
-        <source>Please check the %1 path in preferences.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5961"/>
-        <source>%1 has crashed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="6043"/>
-        <source>The YouTube Browser is not installed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="6044"/>
-        <location filename="../basegui.cpp" line="6056"/>
-        <source>Visit %1 to get it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4956"/>
-        <source>Unfortunately due to changes in the Youtube page, the video &apos;%1&apos; can&apos;t be played.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4962"/>
-        <source>Do you want to update the Youtube code? This may fix the problem.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4970"/>
-        <source>Maybe updating SMPlayer could fix the problem.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5006"/>
-        <source>The server returned &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1886"/>
-        <source>Inc saturation</source>
-        <translation>Αύξηση κορεσμού</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1888"/>
-        <source>Inc gamma</source>
-        <translation>Αύξηση γάμμα</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1764"/>
-        <source>&amp;Load external file...</source>
-        <translation>&amp;Φόρτωση εξωτερικού αρχείου...</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2020"/>
-        <source>&amp;Kerndeint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2017"/>
-        <source>&amp;Yadif (normal)</source>
-        <translation>&amp;Yadif (κανονικό)</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2018"/>
-        <source>Y&amp;adif (double framerate)</source>
-        <translation>Y&amp;adif (διπλή ροή πλαισίων)</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1862"/>
-        <source>&amp;Next</source>
-        <translation>&amp;Επόμενο</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1863"/>
-        <source>Pre&amp;vious</source>
-        <translation>&amp;Προηγούμενο</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1772"/>
-        <source>Volume &amp;normalization</source>
-        <translation>&amp;Εξομάλυνση Έντασης</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1652"/>
-        <source>&amp;Audio CD</source>
-        <translation>&amp;Ήχου CD</translation>
-    </message>
-    <message>
-        <source>Use SSA/&amp;ASS library</source>
-        <translation type="obsolete">&amp;Χρήση SSA/ASS εργαλείων</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1894"/>
-        <source>&amp;Toggle double size</source>
-        <translation>&amp;Ενναλαγή διπλού μεγέθους</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1782"/>
-        <source>S&amp;ize -</source>
-        <translation>Μέγεθος &amp;-</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1783"/>
-        <source>Si&amp;ze +</source>
-        <translation>Μέγεθος &amp;+</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1751"/>
-        <source>Add &amp;black borders</source>
-        <translation>Προσθήκη &amp;μαύρου πλαισίου</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1752"/>
-        <source>Soft&amp;ware scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1835"/>
-        <source>&amp;FAQ</source>
-        <translation>&amp;Ερωτήσεις</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1836"/>
-        <source>&amp;Command line options</source>
-        <translation>Επιλογές &amp;γραμμής εντολών</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4425"/>
-        <source>SMPlayer command line options</source>
-        <translation>SMPlayer επιλογές γραμμής εντολών</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1793"/>
-        <source>&amp;Forced subtitles only</source>
-        <translation>Αναγκαστικά &amp;υπότιτλους μόνο</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1895"/>
-        <source>Reset video equalizer</source>
-        <translation>Επαναφορά ισοσταθμιστή βίντεο</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4335"/>
-        <source>Select the Blu-ray folder</source>
+        <location filename="../basegui.cpp" line="4515"/>
+        <source>Even the smallest amount will help a lot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="5004"/>
-        <source>Error detected</source>
-        <translation type="unfinished"></translation>
+        <source>Connection failed</source>
+        <translation>Η σύνδεση απέτυχε</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="5005"/>
-        <source>Unfortunately this video can&apos;t be played.</source>
-        <translation type="unfinished"></translation>
+        <source>The video you requested needs to open a HTTPS connection.</source>
+        <translation>Το αιτούμενο βίντεο απαιτεί το άνοιγμα μιας σύνδεσης HTTPS. </translation>
     </message>
     <message>
-        <source>MPlayer has finished unexpectedly.</source>
-        <translation type="obsolete">Το MPlayer έχει τελειώσει απροσδόκητα.</translation>
+        <location filename="../basegui.cpp" line="5006"/>
+        <source>Unfortunately the OpenSSL component, required for it, is not available in your system.</source>
+        <translation>Δυστυχώς το απαιτούμενο συστατικό OpenSSL, δεν είναι διαθέσιμο στο σύστημά σας.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="5906"/>
+        <location filename="../basegui.cpp" line="5007"/>
+        <source>Please, visit %1 to know how to fix this problem.</source>
+        <translation>Παρακαλώ ανατρέξτε σε %1 για να ενημερωθείτε σχετικά με την επίλυση του προβλήματος.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5008"/>
+        <source>this link</source>
+        <translation>αυτόν το δεσμό</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5018"/>
+        <source>Unfortunately due to changes in the Youtube page, this video can&apos;t be played.</source>
+        <translation>Δυστυχώς, ένεκα αλλαγών στη σελίδα του Youtube, αυτό το βίντεο δεν μπορεί να αναπαραχθεί.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5025"/>
+        <location filename="../basegui.cpp" line="5033"/>
+        <source>Problems with Youtube</source>
+        <translation>Προβλήματα με το Youtube</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5991"/>
+        <location filename="../basegui.cpp" line="6043"/>
+        <source>%1 Error</source>
+        <translation>%1 Σφάλμα</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5992"/>
+        <source>%1 has finished unexpectedly.</source>
+        <translation>Το %1 τερματίστηκε απροσδόκητα.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6017"/>
+        <source>The component youtube-dl failed to run.</source>
+        <translation>Αποτυχία εκτέλεσης του συστατικού youtube-dl.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6018"/>
+        <source>Installing the Microsoft Visual C++ 2010 Redistributable Package (x86) may fix the problem.</source>
+        <translation>Πιθανώς να λύσετε το πρόβλημα με την εγκατάσταση του Microsoft Visual C++ 2010 Redistributable Package (x86).</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6020"/>
+        <source>Click here to get it</source>
+        <translation>Κάντε κλικ εδώ για λήψη</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6045"/>
+        <source>%1 failed to start.</source>
+        <translation>Το %1 απέτυχε να εκκινηθεί.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6046"/>
+        <source>Please check the %1 path in preferences.</source>
+        <translation>Παρακαλώ ελέγξτε τη διαδρομή %1 στις προτιμήσεις.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6048"/>
+        <source>%1 has crashed.</source>
+        <translation>Το %1 κατέρρευσε.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6130"/>
+        <source>The YouTube Browser is not installed.</source>
+        <translation>Ο περιηγητής YouTube δεν είναι εγκατεστημένος.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6131"/>
+        <location filename="../basegui.cpp" line="6143"/>
+        <source>Visit %1 to get it.</source>
+        <translation>Επισκεφτείτε το %1 για να το λάβετε.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6141"/>
+        <source>The YouTube Browser failed to run.</source>
+        <translation>Αποτυχία εκτέλεσης του περιηγητή YouTube.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6142"/>
+        <source>Be sure it&apos;s installed correctly.</source>
+        <translation>Σιγουρευτείτε ότι έχει εγκατασταθεί σωστά.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6308"/>
+        <source>The system has switched to tablet mode. Should SMPlayer change to tablet mode as well?</source>
+        <translation>Το σύστημα εναλλάχτηκε σε λειτουργία ταμπλέτας. Να αλλάξει και το SMPlayer σε λειτουργία ταμπλέτας;</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6310"/>
+        <source>The system has exited tablet mode. Should SMPlayer turn off the tablet mode as well?</source>
+        <translation>Το σύστημα εγκατέλειψε την λειτουργία ταμπλέτας. Να εγκαταλείψει και το SMPlayer τη λειτουργία ταμπλέτας;</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="6314"/>
+        <source>Remember my decision and don&apos;t ask again</source>
+        <translation>Απομνημόνευση της επιλογής και να μην ξαναρωτηθώ</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5021"/>
+        <source>Unfortunately due to changes in the Youtube page, the video &apos;%1&apos; can&apos;t be played.</source>
+        <translation>Δυστυχώς, ένεκα αλλαγών στη σελίδα του Youtube, το βίντεο «%1» δεν μπορεί να αναπαραχθεί.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5027"/>
+        <source>Do you want to update the Youtube code? This may fix the problem.</source>
+        <translation>Θέλετε να ενημερώσετε τον κώδικα Youtube; Μπορεί να λύσει το πρόβλημα.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5035"/>
+        <source>Maybe updating SMPlayer could fix the problem.</source>
+        <translation>Ίσως ενημερώνοντας το SMPlayer να λυθεί το πρόβλημα.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2141"/>
+        <source>S&amp;hare SMPlayer with your friends</source>
+        <translation>&amp;Γνωστοποιήστε το SMPlayer στους φίλους σας</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="3247"/>
+        <location filename="../basegui.cpp" line="3986"/>
+        <source>Information</source>
+        <translation>Πληροφορίες</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="3248"/>
+        <source>You need to restart SMPlayer to use the new GUI.</source>
+        <translation>Πρέπει να επανεκκινήστε τον SMPlayer για να χρησιμοποιήστε το νέο γραφικό περιβάλλον.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="3748"/>
+        <source>Confirm deletion - SMPlayer</source>
+        <translation>Επιβεβαίωση διαγραφής - SMPlayer</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="3749"/>
+        <source>Delete the list of recent files?</source>
+        <translation>Να διαγραφεί η λίστα με τα πρόσφατα αρχεία;</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="3987"/>
+        <source>The current values have been stored to be used as default.</source>
+        <translation>Αυτές οι τιμές έχουν αποθηκευτεί για να χρησιμοποιούνται ως προεπιλεγμένες.</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1890"/>
+        <source>Inc saturation</source>
+        <translation>Αύξηση κορεσμού</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1892"/>
+        <source>Inc gamma</source>
+        <translation>Αύξηση γάμμα</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1766"/>
+        <source>&amp;Load external file...</source>
+        <translation>&amp;Φόρτωση εξωτερικού αρχείου...</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2025"/>
+        <source>&amp;Kerndeint</source>
+        <translation>&amp;Kerndeint</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2022"/>
+        <source>&amp;Yadif (normal)</source>
+        <translation>&amp;Yadif (κανονικό)</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2023"/>
+        <source>Y&amp;adif (double framerate)</source>
+        <translation>Y&amp;adif (διπλός ρυθμός καρέ)</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1866"/>
+        <source>&amp;Next</source>
+        <translation>&amp;Επόμενο</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1867"/>
+        <source>Pre&amp;vious</source>
+        <translation>&amp;Προηγούμενο</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1774"/>
+        <source>Volume &amp;normalization</source>
+        <translation>&amp;Εξομάλυνση έντασης</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1654"/>
+        <source>&amp;Audio CD</source>
+        <translation>&amp;CD ήχου</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1898"/>
+        <source>&amp;Toggle double size</source>
+        <translation>&amp;Εναλλαγή διπλού μεγέθους</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1784"/>
+        <source>S&amp;ize -</source>
+        <translation>Μέγεθος &amp;-</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1785"/>
+        <source>Si&amp;ze +</source>
+        <translation>Μέγεθος &amp;+</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1753"/>
+        <source>Add &amp;black borders</source>
+        <translation>Προσθήκη &amp;μαύρου πλαισίου</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1754"/>
+        <source>Soft&amp;ware scaling</source>
+        <translation>Κλιμάκωση &amp;λογισμικού</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1837"/>
+        <source>&amp;FAQ</source>
+        <translation>Κοινές &amp;Ερωτήσεις</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1838"/>
+        <source>&amp;Command line options</source>
+        <translation>Επιλογές &amp;γραμμής εντολών</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="4440"/>
+        <source>SMPlayer command line options</source>
+        <translation>Επιλογές γραμμής εντολών SMPlayer</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1795"/>
+        <source>&amp;Forced subtitles only</source>
+        <translation>Μόνο αναγκαστικοί &amp;υπότιτλοι</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1899"/>
+        <source>Reset video equalizer</source>
+        <translation>Επαναφορά ισοσταθμιστή βίντεο</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5071"/>
+        <source>The server returned &apos;%1&apos;</source>
+        <translation>Ο διακομιστής επέστρεψε «%1»</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="5993"/>
         <source>Exit code: %1</source>
         <translation>Κώδικας εξόδου: %1</translation>
     </message>
     <message>
-        <source>MPlayer failed to start.</source>
-        <translation type="obsolete">Το MPlayer απέτυχε να ξεκινήσει.</translation>
-    </message>
-    <message>
-        <source>Please check the MPlayer path in preferences.</source>
-        <translation type="obsolete">Παρακαλώ ελέχτε την διαδρομή του MPlayer στις επιλογές.</translation>
-    </message>
-    <message>
-        <source>MPlayer has crashed.</source>
-        <translation type="obsolete">Το MPlayer έχει σπάσει.</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5962"/>
+        <location filename="../basegui.cpp" line="6049"/>
         <source>See the log for more info.</source>
-        <translation>Εμφάνιση καταγραφής για περισσότερες πληροφορίες.</translation>
+        <translation>Δείτε το αρχείο καταγραφής για περισσότερες πληροφορίες.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1985"/>
+        <location filename="../basegui.cpp" line="1990"/>
         <source>&amp;Rotate</source>
         <translation>&amp;Περιστροφή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2030"/>
+        <location filename="../basegui.cpp" line="2035"/>
         <source>&amp;Off</source>
-        <translation>&amp;Εκτός</translation>
+        <translation>&amp;Απενεργοποίηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2031"/>
+        <location filename="../basegui.cpp" line="2036"/>
         <source>&amp;Rotate by 90 degrees clockwise and flip</source>
         <translation>&amp;Περιστροφή κατά 90 μοίρες δεξιόστροφα και αναστροφή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2032"/>
+        <location filename="../basegui.cpp" line="2037"/>
         <source>Rotate by 90 degrees &amp;clockwise</source>
         <translation>&amp;Περιστροφή κατά 90 μοίρες δεξιόστροφα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2033"/>
+        <location filename="../basegui.cpp" line="2038"/>
         <source>Rotate by 90 degrees counterclock&amp;wise</source>
         <translation>Περιστροφή κατά 90 μοί&amp;ρες αριστερόστροφα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2034"/>
+        <location filename="../basegui.cpp" line="2039"/>
         <source>Rotate by 90 degrees counterclockwise and &amp;flip</source>
         <translation>Περιστροφή κατά 90 &amp;μοίρες αριστερόστροφα και αναστροφή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1704"/>
+        <location filename="../basegui.cpp" line="1706"/>
         <source>&amp;Jump to...</source>
         <translation>&amp;Μετάβαση στο ...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1897"/>
+        <location filename="../basegui.cpp" line="1901"/>
         <source>Show context menu</source>
         <translation>Εμφάνιση μενού περιεχομένου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4166"/>
+        <location filename="../basegui.cpp" line="4181"/>
         <source>Multimedia</source>
         <translation>Πολυμέσο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1755"/>
+        <location filename="../basegui.cpp" line="1757"/>
         <source>E&amp;qualizer</source>
         <translation>&amp;Ισοσταθμιστής</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1896"/>
+        <location filename="../basegui.cpp" line="1900"/>
         <source>Reset audio equalizer</source>
         <translation>Επαναφορά ισοσταθμιστή ήχου</translation>
     </message>
     <message>
-        <source>Find subtitles on &amp;OpenSubtitles.org...</source>
-        <translation type="obsolete">Εύρεση υπότιτλων στο &amp;OpenSubtitles.org...</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1799"/>
+        <location filename="../basegui.cpp" line="1801"/>
         <source>Upload su&amp;btitles to OpenSubtitles.org...</source>
-        <translation>Ανέ&amp;βασμα υπότιτλων στο OpenSubtitles.org...</translation>
+        <translation>Α&amp;ποστολή υποτίτλων στο OpenSubtitles.org...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2002"/>
+        <location filename="../basegui.cpp" line="2007"/>
         <source>&amp;Auto</source>
-        <translation>&amp;Αυτόματο</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1712"/>
-        <source>Speed -&amp;4%</source>
-        <translation>Ταχύτητα &amp;-4%</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1713"/>
-        <source>&amp;Speed +4%</source>
-        <translation>Ταχύτητα &amp;+4%</translation>
+        <translation>&amp;Αυτόματη</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="1714"/>
+        <source>Speed -&amp;4%</source>
+        <translation>Ταχύτητα -&amp;4%</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1715"/>
+        <source>&amp;Speed +4%</source>
+        <translation>&amp;Ταχύτητα +4%</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="1716"/>
         <source>Speed -&amp;1%</source>
         <translation>Ταχύτητα -&amp;1%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1715"/>
+        <location filename="../basegui.cpp" line="1717"/>
         <source>S&amp;peed +1%</source>
-        <translation>Ταχύτητα +1&amp;%</translation>
+        <translation>Τα&amp;χύτητα +1%</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1992"/>
+        <location filename="../basegui.cpp" line="1997"/>
         <source>Scree&amp;n</source>
         <translation>&amp;Οθόνη</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2042"/>
+        <location filename="../basegui.cpp" line="2047"/>
         <source>&amp;Default</source>
         <translation>&amp;Προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1730"/>
+        <location filename="../basegui.cpp" line="1732"/>
         <source>Mirr&amp;or image</source>
         <translation>Κατ&amp;οπτρισμός εικόνας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1889"/>
+        <location filename="../basegui.cpp" line="1893"/>
         <source>Next video</source>
         <translation>Επόμενο βίντεο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1963"/>
+        <location filename="../basegui.cpp" line="1968"/>
         <source>&amp;Track</source>
         <comment>video</comment>
         <translation>&amp;Κομμάτι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2046"/>
+        <location filename="../basegui.cpp" line="2051"/>
         <source>&amp;Track</source>
         <comment>audio</comment>
         <translation>&amp;Κομμάτι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1826"/>
-        <location filename="../basegui.cpp" line="2154"/>
-        <source>%1 log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1829"/>
-        <location filename="../basegui.cpp" line="2157"/>
-        <source>SMPlayer log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="4855"/>
+        <location filename="../basegui.cpp" line="4913"/>
         <source>Warning - Using old MPlayer</source>
-        <translation>Προειδοποίηση - Χρησιμοποιείται παλιά έκδοση MPlayer</translation>
+        <translation>Προειδοποίηση - Χρησιμοποιείται παλιά έκδοση του MPlayer</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4856"/>
+        <location filename="../basegui.cpp" line="4914"/>
         <source>The version of MPlayer (%1) installed on your system is obsolete. SMPlayer can&apos;t work well with it: some options won&apos;t work, subtitle selection may fail...</source>
-        <translation>Η έκδοση του MPlayer (%1) που έχετε στο σύστημά σας είναι παλιά. Το SMPlayer δεν μπορεί να λειτουργήσει καλά με αυτό: κάποιες επιλογές δεν θα λειτουργήσουν, η επιλογή υπότιτλοι μπορεί να αποτύχει...</translation>
+        <translation>Η έκδοση του MPlayer (%1) που έχετε στο σύστημά σας είναι παλιά. Ο SMPlayer δεν μπορεί να λειτουργήσει καλά με αυτήν την εκδόση: κάποιες επιλογές δεν θα λειτουργήσουν, η επιλογή υποτίτλων μπορεί να αποτυγχάνει...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4861"/>
+        <location filename="../basegui.cpp" line="4919"/>
         <source>Please, update your MPlayer.</source>
-        <translation>Παρακαλώ, ενημερώστε το MPlayer σας.</translation>
+        <translation>Παρακαλώ, ενημερώστε τον MPlayer σας.</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4863"/>
+        <location filename="../basegui.cpp" line="4921"/>
         <source>(This warning won&apos;t be displayed anymore)</source>
-        <translation>(Αυτή η προειδοποίηση δεν θα εμφανίζεται πλέον)</translation>
+        <translation>(Δεν θα εμφανίζεται πλέον αυτή η προειδοποίηση )</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1898"/>
+        <location filename="../basegui.cpp" line="1902"/>
         <source>Next aspect ratio</source>
         <translation>Επόμενες αναλογίες εικόνας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1736"/>
+        <location filename="../basegui.cpp" line="1738"/>
         <source>&amp;Auto zoom</source>
         <translation>&amp;Αυτόματη εστίαση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1737"/>
+        <location filename="../basegui.cpp" line="1739"/>
         <source>Zoom for &amp;16:9</source>
         <translation>Εστίαση για &amp;16:9</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1738"/>
+        <location filename="../basegui.cpp" line="1740"/>
         <source>Zoom for &amp;2.35:1</source>
         <translation>Εστίαση για &amp;2.35:1</translation>
     </message>
     <message>
-        <source>Pre&amp;view...</source>
-        <translation type="obsolete">&amp;Προεπισκόπηση...</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2036"/>
+        <location filename="../basegui.cpp" line="2041"/>
         <source>&amp;Always</source>
         <translation>&amp;Πάντα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2037"/>
+        <location filename="../basegui.cpp" line="2042"/>
         <source>&amp;Never</source>
         <translation>Πο&amp;τέ</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2038"/>
+        <location filename="../basegui.cpp" line="2043"/>
         <source>While &amp;playing</source>
         <translation>&amp;Κατά την αναπαραγωγή</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2125"/>
+        <location filename="../basegui.cpp" line="2130"/>
         <source>DVD &amp;menu</source>
-        <translation>DVD &amp;μενού</translation>
+        <translation>&amp;Μενού DVD</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2127"/>
+        <location filename="../basegui.cpp" line="2132"/>
         <source>DVD &amp;previous menu</source>
-        <translation>DVD π&amp;ροηγούμενο μενού</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2121"/>
-        <source>DVD menu, move up</source>
-        <translation>DVD μενού, μετακίνηση πάνω</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2122"/>
-        <source>DVD menu, move down</source>
-        <translation>DVD μενού, μετακίνηση κάτω</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2123"/>
-        <source>DVD menu, move left</source>
-        <translation>DVD μενού, μετακίνηση αριστερά</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2124"/>
-        <source>DVD menu, move right</source>
-        <translation>DVD μενού, μετακίνηση δεξιά</translation>
+        <translation>Π&amp;ροηγούμενο μενού DVD</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2126"/>
-        <source>DVD menu, select option</source>
-        <translation>DVD μενού, επιλογή</translation>
+        <source>DVD menu, move up</source>
+        <translation>Μενού DVD, μετακίνηση πάνω</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2127"/>
+        <source>DVD menu, move down</source>
+        <translation>Μενού DVD, μετακίνηση κάτω</translation>
     </message>
     <message>
         <location filename="../basegui.cpp" line="2128"/>
+        <source>DVD menu, move left</source>
+        <translation>Μενού DVD, μετακίνηση αριστερά</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2129"/>
+        <source>DVD menu, move right</source>
+        <translation>Μενού DVD, μετακίνηση δεξιά</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2131"/>
+        <source>DVD menu, select option</source>
+        <translation>Μενού DVD, επιλογή</translation>
+    </message>
+    <message>
+        <location filename="../basegui.cpp" line="2133"/>
         <source>DVD menu, mouse click</source>
-        <translation>DVD μενού, κλικ ποντικιού</translation>
+        <translation>Μενού DVD, κλικ ποντικιού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1763"/>
+        <location filename="../basegui.cpp" line="1765"/>
         <source>Set dela&amp;y...</source>
-        <translation>Ορισμός &amp;καθυστέρηση...</translation>
+        <translation>Ορισμός &amp;καθυστέρησης...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1779"/>
+        <location filename="../basegui.cpp" line="1781"/>
         <source>Se&amp;t delay...</source>
-        <translation>Ορισμός κα&amp;θυστέρηση...</translation>
+        <translation>Ορισμός κα&amp;θυστέρησης...</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4511"/>
+        <location filename="../basegui.cpp" line="4567"/>
         <source>&amp;Jump to:</source>
         <translation>&amp;Μετάβαση στο:</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4512"/>
+        <location filename="../basegui.cpp" line="4568"/>
         <source>SMPlayer - Seek</source>
         <translation>SMPlayer - Αναζήτηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4523"/>
-        <location filename="../basegui.cpp" line="4527"/>
+        <location filename="../basegui.cpp" line="4579"/>
+        <location filename="../basegui.cpp" line="4583"/>
         <source>SMPlayer - Audio delay</source>
         <translation>SMPlayer - Καθυστέρηση ήχου</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4524"/>
-        <location filename="../basegui.cpp" line="4528"/>
+        <location filename="../basegui.cpp" line="4580"/>
+        <location filename="../basegui.cpp" line="4584"/>
         <source>Audio delay (in milliseconds):</source>
-        <translation>Καθυστέρηση ήχου (σε χιλιοστά δευτ.):</translation>
+        <translation>Καθυστέρηση ήχου (σε χιλιοστά δευτερολέπτου):</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4539"/>
-        <location filename="../basegui.cpp" line="4543"/>
+        <location filename="../basegui.cpp" line="4595"/>
+        <location filename="../basegui.cpp" line="4599"/>
         <source>SMPlayer - Subtitle delay</source>
         <translation>SMPlayer - Καθυστέρηση υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="4540"/>
-        <location filename="../basegui.cpp" line="4544"/>
+        <location filename="../basegui.cpp" line="4596"/>
+        <location filename="../basegui.cpp" line="4600"/>
         <source>Subtitle delay (in milliseconds):</source>
-        <translation>Καθυστέρηση υποτίτλων (σε χιλιοστά του δευτ.):</translation>
+        <translation>Καθυστέρηση υποτίτλων (σε χιλιοστά του δευτερολέπτου):</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2039"/>
+        <location filename="../basegui.cpp" line="2044"/>
         <source>Toggle stay on top</source>
         <translation>Εναλλαγή πάντα σε πρώτο πλάνο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2063"/>
-        <source>&amp;6.1 Surround</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2064"/>
-        <source>&amp;7.1 Surround</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="5438"/>
-        <location filename="../basegui.cpp" line="5746"/>
+        <location filename="../basegui.cpp" line="5504"/>
+        <location filename="../basegui.cpp" line="5833"/>
         <source>Jump to %1</source>
         <translation>Μετάβαση στο %1</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1722"/>
+        <location filename="../basegui.cpp" line="1724"/>
         <source>Start/stop takin&amp;g screenshots</source>
         <translation>Έναρξη/Σταμάτημα λήψης &amp;στιγμιοτύπων</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1795"/>
+        <location filename="../basegui.cpp" line="1797"/>
         <source>Subtitle &amp;visibility</source>
         <translation>&amp;Ορατοί υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1899"/>
+        <location filename="../basegui.cpp" line="1903"/>
         <source>Next wheel function</source>
         <translation>Επόμενη λειτουργία τροχού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="2109"/>
+        <location filename="../basegui.cpp" line="2114"/>
         <source>P&amp;rogram</source>
         <comment>program</comment>
         <translation>&amp;Πρόγραμμα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1948"/>
+        <location filename="../basegui.cpp" line="1953"/>
         <source>&amp;TV</source>
         <translation>&amp;Τηλεόραση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1951"/>
+        <location filename="../basegui.cpp" line="1956"/>
         <source>Radi&amp;o</source>
         <translation>&amp;Ραδιόφωνο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1907"/>
+        <location filename="../basegui.cpp" line="1912"/>
         <source>Subtitles onl&amp;y</source>
         <translation>Υπότιτ&amp;λοι μόνο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1908"/>
+        <location filename="../basegui.cpp" line="1913"/>
         <source>Volume + &amp;Seek</source>
         <translation>Ένταση + Ανα&amp;ζήτηση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1909"/>
+        <location filename="../basegui.cpp" line="1914"/>
         <source>Volume + Seek + &amp;Timer</source>
         <translation>Ένταση + Αναζήτηση + &amp;Χρονόμετρο</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1910"/>
+        <location filename="../basegui.cpp" line="1915"/>
         <source>Volume + Seek + Timer + T&amp;otal time</source>
         <translation>Ένταση + Αναζήτηση + Χρονόμετρο + &amp;Συνολικός χρόνος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1589"/>
+        <location filename="../basegui.cpp" line="1591"/>
         <source>Video filters are disabled when using vdpau</source>
         <translation>Τα φίλτρα βίντεο είναι εκτός λειτουργίας κατά τη χρήση vdpau</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1729"/>
+        <location filename="../basegui.cpp" line="1731"/>
         <source>Fli&amp;p image</source>
         <translation>Αναστ&amp;ροφή εικόνας</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1973"/>
+        <location filename="../basegui.cpp" line="1978"/>
         <source>Zoo&amp;m</source>
         <translation>&amp;Εστίαση</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1901"/>
-        <source>Show filename on OSD</source>
-        <translation>Εμφάνιση ονόματος αρχείου στο OSD</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1699"/>
+        <location filename="../basegui.cpp" line="1701"/>
         <source>Set &amp;A marker</source>
         <translation>Ορισμός &amp;Α σημαδιού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1700"/>
+        <location filename="../basegui.cpp" line="1702"/>
         <source>Set &amp;B marker</source>
         <translation>Ορισμός &amp;Β σημαδιού</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1701"/>
+        <location filename="../basegui.cpp" line="1703"/>
         <source>&amp;Clear A-B markers</source>
         <translation>&amp;Καθαρισμός Α-Β σημαδιών</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1959"/>
+        <location filename="../basegui.cpp" line="1964"/>
         <source>&amp;A-B section</source>
         <translation>&amp;Α-Β τμήμα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1903"/>
+        <location filename="../basegui.cpp" line="1908"/>
         <source>Toggle deinterlacing</source>
         <translation>Εναλλαγή απόπλεξης</translation>
     </message>
     <message>
-        <source>&amp;Donate</source>
-        <translation type="obsolete">Δ&amp;ωρεά</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="2087"/>
+        <location filename="../basegui.cpp" line="2092"/>
         <source>&amp;Closed captions</source>
         <translation>&amp;Κλειστές λεζάντες</translation>
     </message>
     <message>
-        <source>Donate</source>
-        <translation type="obsolete">Δωρεά</translation>
-    </message>
-    <message>
-        <location filename="../basegui.cpp" line="1940"/>
+        <location filename="../basegui.cpp" line="1945"/>
         <source>&amp;Disc</source>
         <translation>&amp;Δίσκος</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1944"/>
+        <location filename="../basegui.cpp" line="1949"/>
         <source>F&amp;avorites</source>
         <translation>Α&amp;γαπημένα</translation>
     </message>
     <message>
-        <location filename="../basegui.cpp" line="1837"/>
+        <location filename="../basegui.cpp" line="1839"/>
         <source>Check for &amp;updates</source>
         <translation>Έλεγχος για &amp;ενημερώσεις</translation>
     </message>
@@ -2142,154 +1984,164 @@ The configuration dialog will be shown now, so you can do it.</source>
 <context>
     <name>BaseGuiPlus</name>
     <message>
-        <location filename="../baseguiplus.cpp" line="272"/>
+        <location filename="../baseguiplus.cpp" line="315"/>
         <source>SMPlayer is still running here</source>
-        <translation>SMPlayer ακόμη τρέχει εδώ</translation>
+        <translation>Ο SMPlayer συνεχίζει να τρέχει εδώ</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="295"/>
+        <location filename="../baseguiplus.cpp" line="338"/>
         <source>S&amp;how icon in system tray</source>
         <translation>&amp;Εικονίδιο στην γραμμή εργασιών</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="308"/>
+        <location filename="../baseguiplus.cpp" line="351"/>
+        <source>Play on &amp;Chromecast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="355"/>
         <source>Send &amp;video to screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποστολή του &amp;βίντεο στην οθόνη</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="310"/>
+        <location filename="../baseguiplus.cpp" line="357"/>
         <source>Information about connected &amp;screens</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες σχετικά με τις συνδεδεμένες &amp;οθόνες</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="313"/>
+        <location filename="../baseguiplus.cpp" line="360"/>
         <source>Video is sent to an external screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Το βίντεο εστάλη σε μια εξωτερική οθόνη</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="319"/>
+        <location filename="../baseguiplus.cpp" line="364"/>
+        <source>Send &amp;audio to</source>
+        <translation>Αποστολή ή&amp;χου σε</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="371"/>
         <source>&amp;Hide</source>
         <translation>Από&amp;κρυψη</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="321"/>
+        <location filename="../baseguiplus.cpp" line="373"/>
         <source>&amp;Restore</source>
         <translation>&amp;Επαναφορά</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="764"/>
+        <location filename="../baseguiplus.cpp" line="816"/>
         <source>Information about connected screens</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες σχετικά με τις συνδεδεμένες οθόνες</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="767"/>
-        <source>Connected screens</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../baseguiplus.cpp" line="770"/>
-        <location filename="../baseguiplus.cpp" line="812"/>
-        <source>Number of screens: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../baseguiplus.cpp" line="775"/>
-        <location filename="../baseguiplus.cpp" line="813"/>
-        <source>Primary screen: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../baseguiplus.cpp" line="783"/>
-        <location filename="../baseguiplus.cpp" line="817"/>
-        <source>Information for screen %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../baseguiplus.cpp" line="785"/>
         <location filename="../baseguiplus.cpp" line="819"/>
+        <source>Connected screens</source>
+        <translation>Συνδεδεμένες οθόνες</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="822"/>
+        <location filename="../baseguiplus.cpp" line="864"/>
+        <source>Number of screens: %1</source>
+        <translation>Αριθμός οθονών: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="827"/>
+        <location filename="../baseguiplus.cpp" line="865"/>
+        <source>Primary screen: %1</source>
+        <translation>Πρωτεύουσα οθόνη: %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="835"/>
+        <location filename="../baseguiplus.cpp" line="869"/>
+        <source>Information for screen %1</source>
+        <translation>Πληροφορίες για την οθόνη %1</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="837"/>
+        <location filename="../baseguiplus.cpp" line="871"/>
         <source>Available geometry: %1 %2 %3 x %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμη γεωμετρία: %1 %2 %3 x %4</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="787"/>
+        <location filename="../baseguiplus.cpp" line="839"/>
         <source>Available size: %1 x %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμο μέγεθος: %1 x %2</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="788"/>
+        <location filename="../baseguiplus.cpp" line="840"/>
         <source>Available virtual geometry: %1 %2 %3 x %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμη εικονική γεωμετρία: %1 %2 %3 x %4</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="792"/>
+        <location filename="../baseguiplus.cpp" line="844"/>
         <source>Available virtual size: %1 x %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμη εικονική γεωμετρία: %1 x %2</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="794"/>
+        <location filename="../baseguiplus.cpp" line="846"/>
         <source>Depth: %1 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Βάθος: %1 bit</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="795"/>
-        <location filename="../baseguiplus.cpp" line="821"/>
+        <location filename="../baseguiplus.cpp" line="847"/>
+        <location filename="../baseguiplus.cpp" line="873"/>
         <source>Geometry: %1 %2 %3 x %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωμετρία: %1 %2 %3 x %4</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="797"/>
+        <location filename="../baseguiplus.cpp" line="849"/>
         <source>Logical DPI: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Λογικό DPI: %1</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="799"/>
+        <location filename="../baseguiplus.cpp" line="851"/>
         <source>Physical DPI: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Φυσικό DPI: %1</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="800"/>
+        <location filename="../baseguiplus.cpp" line="852"/>
         <source>Physical size: %1 x %2 mm</source>
-        <translation type="unfinished"></translation>
+        <translation>Φυσικό μέγεθος: %1 x %2 mm</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="802"/>
+        <location filename="../baseguiplus.cpp" line="854"/>
         <source>Refresh rate: %1 Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός ανανέωσης: %1 Hz</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="803"/>
+        <location filename="../baseguiplus.cpp" line="855"/>
         <source>Size: %1 x %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγεθος: %1 x %2</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="804"/>
+        <location filename="../baseguiplus.cpp" line="856"/>
         <source>Virtual geometry: %1 %2 %3 x %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονική γεωμετρία: %1 %2 %3 x %4</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="806"/>
+        <location filename="../baseguiplus.cpp" line="858"/>
         <source>Virtual size: %1 x %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονικό μέγεθος: %1 x %2</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="859"/>
+        <location filename="../baseguiplus.cpp" line="911"/>
         <source>Primary screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρωτεύουσα οθόνη</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="925"/>
+        <location filename="../baseguiplus.cpp" line="977"/>
         <source>SMPlayer external screen output</source>
-        <translation type="unfinished"></translation>
+        <translation>Έξοδος εξωτερικής οθόνης του SMPlayer</translation>
     </message>
     <message>
-        <location filename="../baseguiplus.cpp" line="294"/>
+        <location filename="../baseguiplus.cpp" line="1022"/>
+        <source>&amp;Default audio device</source>
+        <translation>Συσκευή ήχου ε&amp;ξ ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../baseguiplus.cpp" line="337"/>
         <source>&amp;Quit</source>
         <translation>&amp;Έξοδος</translation>
-    </message>
-    <message>
-        <location filename="../baseguiplus.cpp" line="300"/>
-        <source>Playlist</source>
-        <translation>Λίστα Αναπαραγωγής</translation>
     </message>
 </context>
 <context>
@@ -2297,27 +2149,27 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../bookmarkdialog.ui" line="14"/>
         <source>Edit bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία σελιδοδεικτών</translation>
     </message>
     <message>
         <location filename="../bookmarkdialog.ui" line="38"/>
         <source>&amp;New bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Νέος σελιδοδείκτης</translation>
     </message>
     <message>
         <location filename="../bookmarkdialog.ui" line="45"/>
         <source>&amp;Delete bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Διαγραφή σελιδοδείκτη</translation>
     </message>
     <message>
         <location filename="../bookmarkdialog.cpp" line="76"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρόνος</translation>
     </message>
     <message>
         <location filename="../bookmarkdialog.cpp" line="76"/>
         <source>Name</source>
-        <translation type="unfinished">Όνομα</translation>
+        <translation>Όνομα</translation>
     </message>
 </context>
 <context>
@@ -2325,289 +2177,296 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="37"/>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεταφόρτωση...</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="58"/>
         <source>Connecting to %1</source>
-        <translation type="unfinished">Σύνδεση στο %1</translation>
+        <translation>Συνδέεται στο %1</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="126"/>
         <source>The Youtube code has been updated successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο κώδικας Youtube ενημερώθηκε επιτυχώς.</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="127"/>
         <source>Installed version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγκατεστημένη έκδοση: %1</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="128"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχία</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="133"/>
         <location filename="../youtube/codedownloader.cpp" line="138"/>
         <source>Error</source>
-        <translation type="unfinished">Σφάλμα</translation>
+        <translation>Σφάλμα</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="133"/>
         <source>An error happened writing %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνέβη σφάλμα κατά την εγγραφή του %1</translation>
     </message>
     <message>
         <location filename="../youtube/codedownloader.cpp" line="138"/>
         <source>An error happened while downloading the file:&lt;br&gt;%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Προέκυψε σφάλμα κατά την λήψη του αρχείου:&lt;br&gt;%1</translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../core.cpp" line="3050"/>
+        <location filename="../core.cpp" line="3078"/>
         <source>Brightness: %1</source>
         <translation>Φωτεινότητα: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3066"/>
+        <location filename="../core.cpp" line="3094"/>
         <source>Contrast: %1</source>
         <translation>Αντίθεση: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3081"/>
+        <location filename="../core.cpp" line="3109"/>
         <source>Gamma: %1</source>
         <translation>Γάμμα: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3096"/>
+        <location filename="../core.cpp" line="3124"/>
         <source>Hue: %1</source>
-        <translation>Χρώμα: %1</translation>
+        <translation>Απόχρωση: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3111"/>
+        <location filename="../core.cpp" line="3139"/>
         <source>Saturation: %1</source>
         <translation>Κορεσμός: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3254"/>
+        <location filename="../core.cpp" line="3282"/>
         <source>Volume: %1</source>
         <translation>Ένταση: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4130"/>
+        <location filename="../core.cpp" line="4184"/>
         <source>Zoom: %1</source>
         <translation>Εστίαση: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3382"/>
-        <location filename="../core.cpp" line="3393"/>
+        <location filename="../core.cpp" line="3410"/>
+        <location filename="../core.cpp" line="3421"/>
         <source>Font scale: %1</source>
-        <translation>Κλίμακα Γραμ.: %1</translation>
+        <translation>Κλίμακα γραμματοσειράς: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3971"/>
+        <location filename="../core.cpp" line="4015"/>
         <source>Aspect ratio: %1</source>
         <translation>Αναλογίες εικόνας: %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4356"/>
+        <location filename="../core.cpp" line="4417"/>
         <source>Updating the font cache. This may take some seconds...</source>
-        <translation>Ενημέρωση πρωσ.μνήμης γραμματοσειρών. Αυτό μπορεί να διαρκέσει μερικά δευτερόλεπτα...</translation>
+        <translation>Ενημέρωση προσωρινής μνήμης γραμματοσειρών. Μπορεί να διαρκέσει λίγα δευτερόλεπτα...</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3307"/>
+        <location filename="../core.cpp" line="3335"/>
         <source>Subtitle delay: %1 ms</source>
-        <translation>Υπότιτλων καθυστέρηση: %1 ms</translation>
+        <translation>Καθυστέρηση υποτίτλων: %1 ms</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3325"/>
+        <location filename="../core.cpp" line="3353"/>
         <source>Audio delay: %1 ms</source>
-        <translation>Ήχου καθυστέρηση: %1 ms</translation>
+        <translation>Καθυστέρηση ήχου: %1 ms</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3165"/>
+        <location filename="../core.cpp" line="3193"/>
         <source>Speed: %1</source>
         <translation>Ταχύτητα: %1</translation>
     </message>
     <message>
         <location filename="../core.cpp" line="598"/>
         <source>Unable to retrieve the Youtube page</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η ανάκτηση της σελίδας του Youtube</translation>
     </message>
     <message>
         <location filename="../core.cpp" line="602"/>
         <source>Unable to locate the URL of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατος ο εντοπισμός του URL του βίντεο</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3470"/>
+        <location filename="../core.cpp" line="3498"/>
         <source>Subtitles on</source>
-        <translation>Εμφάνιση υπότιτλων</translation>
+        <translation>Εμφάνιση υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="3472"/>
+        <location filename="../core.cpp" line="3500"/>
         <source>Subtitles off</source>
-        <translation>Απόκρυψη υπότιτλων</translation>
+        <translation>Απόκρυψη υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4019"/>
+        <location filename="../core.cpp" line="4063"/>
         <source>Mouse wheel seeks now</source>
-        <translation>Ο τροχός του ποντικιού αναζητά τώρα</translation>
+        <translation>Ο τροχός του ποντικιού τώρα θα αναζητά</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4022"/>
+        <location filename="../core.cpp" line="4066"/>
         <source>Mouse wheel changes volume now</source>
-        <translation>Ο τροχός του ποντικιού αλλάζει την ένταση τώρα</translation>
+        <translation>Ο τροχός του ποντικιού τώρα θα αλλάζει την ένταση</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4025"/>
+        <location filename="../core.cpp" line="4069"/>
         <source>Mouse wheel changes zoom level now</source>
-        <translation>Ο τροχός του ποντικιού αλλάζει εστίαση τώρα</translation>
+        <translation>Ο τροχός του ποντικιού τώρα θα αλλάζει την εστίαση</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4028"/>
+        <location filename="../core.cpp" line="4072"/>
         <source>Mouse wheel changes speed now</source>
-        <translation>Ο τροχός του ποντικιού αλλάζει ταχύτητα τώρα</translation>
+        <translation>Ο τροχός του ποντικιού τώρα θα αλλάζει την ταχύτητα</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4332"/>
+        <location filename="../core.cpp" line="4393"/>
         <source>Screenshot saved as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Το στιγμιότυπο αποθηκεύτηκε ως %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="4367"/>
+        <location filename="../core.cpp" line="4428"/>
         <source>Starting...</source>
-        <translation type="unfinished"></translation>
+        <translation>Έναρξη...</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="1407"/>
+        <location filename="../core.cpp" line="1410"/>
         <source>Screenshot NOT taken, folder not configured</source>
-        <translation>Στιμιότυπο ΔΕΝ πάρθηκε, δεν έχει ορισθεί φάκελος</translation>
+        <translation>Στιγμιότυπο ΔΕΝ ελήφθη, δεν έχει οριστεί φάκελος</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="1420"/>
+        <location filename="../core.cpp" line="1423"/>
         <source>Screenshots NOT taken, folder not configured</source>
-        <translation>Στιγμιότυπο ΔΕΝ πάρθηκε, δεν έχει ορισθεί φάκελος</translation>
+        <translation>Στιγμιότυπο ΔΕΝ ελήφθη, δεν έχει οριστεί φάκελος</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2694"/>
+        <location filename="../core.cpp" line="2722"/>
         <source>&quot;A&quot; marker set to %1</source>
-        <translation>&quot;Α&quot; σημάδι στο %1</translation>
+        <translation>Σημάδι «Α» στα %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2716"/>
+        <location filename="../core.cpp" line="2744"/>
         <source>&quot;B&quot; marker set to %1</source>
-        <translation>&quot;Β&quot; σημάδι στο %1</translation>
+        <translation>Σημάδι «Β» στα %1</translation>
     </message>
     <message>
-        <location filename="../core.cpp" line="2736"/>
+        <location filename="../core.cpp" line="2764"/>
         <source>A-B markers cleared</source>
-        <translation>A-B σημάδια καθαρίστηκαν</translation>
+        <translation>Καθαρίστηκαν τα σημάδια Α-Β</translation>
     </message>
     <message>
         <location filename="../core.cpp" line="594"/>
         <source>Connecting to %1</source>
         <translation>Σύνδεση στο %1</translation>
     </message>
-    <message>
-        <source>Unable to locate the url of the video</source>
-        <translation type="obsolete">Αδυναμία εντοπισμού διεύθυνσης url του βίντεο</translation>
-    </message>
 </context>
 <context>
     <name>DefaultGui</name>
     <message>
-        <source>Welcome to SMPlayer</source>
-        <translation type="obsolete">Καλώς ήρθατε στον SMPlayer</translation>
-    </message>
-    <message>
-        <location filename="../defaultgui.cpp" line="682"/>
+        <location filename="../defaultgui.cpp" line="703"/>
         <source>Audio</source>
         <translation>Ήχος</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="683"/>
+        <location filename="../defaultgui.cpp" line="704"/>
         <source>Subtitle</source>
         <translation>Υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="675"/>
+        <location filename="../defaultgui.cpp" line="696"/>
         <source>&amp;Main toolbar</source>
         <translation>&amp;Κύρια εργαλειοθήκη</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="679"/>
+        <location filename="../defaultgui.cpp" line="700"/>
         <source>&amp;Language toolbar</source>
-        <translation>&amp;Γλώσσας εργαλειοθήκη</translation>
+        <translation>Εργαλειοθήκη &amp;γλώσσας</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="669"/>
+        <location filename="../defaultgui.cpp" line="690"/>
         <source>&amp;Toolbars</source>
         <translation>&amp;Εργαλειοθήκες</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="649"/>
+        <location filename="../defaultgui.cpp" line="669"/>
         <source>Ready</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτοιμο</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="688"/>
+        <location filename="../defaultgui.cpp" line="709"/>
         <source>F&amp;ormat info</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες &amp;μορφής</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="711"/>
+        <location filename="../defaultgui.cpp" line="750"/>
         <source>A:%1</source>
         <translation>Α:%1</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="715"/>
+        <location filename="../defaultgui.cpp" line="754"/>
         <source>B:%1</source>
         <translation>Β:%1</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="672"/>
+        <location filename="../defaultgui.cpp" line="693"/>
         <source>Status&amp;bar</source>
         <translation>Γραμμή &amp;κατάστασης</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="686"/>
+        <location filename="../defaultgui.cpp" line="707"/>
         <source>&amp;Video info</source>
-        <translation>Πληροφορίες &amp;Βίντεο</translation>
+        <translation>Πληροφορίες &amp;βίντεο</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="687"/>
+        <location filename="../defaultgui.cpp" line="708"/>
         <source>&amp;Frame counter</source>
-        <translation>Μετρητής &amp;Καρέ</translation>
+        <translation>Μετρητής &amp;καρέ</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="691"/>
+        <location filename="../defaultgui.cpp" line="710"/>
+        <source>&amp;Bitrate info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../defaultgui.cpp" line="711"/>
+        <source>&amp;Show the current time with milliseconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../defaultgui.cpp" line="714"/>
         <source>Edit main &amp;toolbar</source>
         <translation>Επεξεργασία &amp;κύριας εργαλειοθήκης</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="692"/>
+        <location filename="../defaultgui.cpp" line="715"/>
         <source>Edit &amp;control bar</source>
         <translation>&amp;Επεξεργασία εργαλειοθήκης ελέγχου</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="693"/>
+        <location filename="../defaultgui.cpp" line="716"/>
         <source>Edit m&amp;ini control bar</source>
-        <translation>Επεξεργασία &amp;μίνι εργαλειοθήκης ελέγχου</translation>
+        <translation>Επεξεργασία &amp;μικρής εργαλειοθήκης ελέγχου</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="694"/>
+        <location filename="../defaultgui.cpp" line="717"/>
         <source>Edit &amp;floating control</source>
-        <translation>Επεξεργασία ε&amp;πιπλέουσας εργαλειοθήκης ελέγχου</translation>
+        <translation>Επεξεργασία &amp;αιωρούμενος εργαλειοθήκης ελέγχου</translation>
     </message>
     <message>
-        <location filename="../defaultgui.cpp" line="725"/>
+        <location filename="../defaultgui.cpp" line="764"/>
         <source>%1x%2 %3 fps</source>
         <comment>width + height + fps</comment>
         <translation>%1x%2 %3 fps</translation>
+    </message>
+    <message>
+        <location filename="../defaultgui.cpp" line="776"/>
+        <source>V: %1 kbps A: %2 kbps</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2623,7 +2482,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../errordialog.cpp" line="40"/>
         <source>Oops, something went wrong</source>
-        <translation type="unfinished"></translation>
+        <translation>Ωχ, κάτι πήγε στραβά</translation>
     </message>
     <message>
         <location filename="../errordialog.cpp" line="67"/>
@@ -2639,7 +2498,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../errordialog.ui" line="14"/>
         <source>MPlayer Error</source>
-        <translation>MPlayer Σφάλμα</translation>
+        <translation>Σφάλμα MPlayer</translation>
     </message>
     <message>
         <location filename="../errordialog.ui" line="22"/>
@@ -2649,7 +2508,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../errordialog.ui" line="43"/>
         <source>Oops, something wrong happened</source>
-        <translation type="unfinished"></translation>
+        <translation>Ωχ, κάτι πήγε στραβά</translation>
     </message>
     <message>
         <location filename="../errordialog.ui" line="62"/>
@@ -2677,7 +2536,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../favoriteeditor.cpp" line="116"/>
         <source>Favorite editor</source>
-        <translation>Επεξεργαστής Αγαπημένων</translation>
+        <translation>Επεξεργαστής αγαπημένων</translation>
     </message>
     <message>
         <location filename="../favoriteeditor.ui" line="34"/>
@@ -2685,7 +2544,7 @@ The configuration dialog will be shown now, so you can do it.</source>
         <location filename="../favoriteeditor.cpp" line="177"/>
         <location filename="../favoriteeditor.cpp" line="277"/>
         <source>Favorite list</source>
-        <translation>Λίστα Αγαπημένων</translation>
+        <translation>Λίστα αγαπημένων</translation>
     </message>
     <message>
         <location filename="../favoriteeditor.cpp" line="119"/>
@@ -2695,7 +2554,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../favoriteeditor.cpp" line="350"/>
         <source>Select an icon file</source>
-        <translation>Επιλογή ενός αρχείου εικονίδιου</translation>
+        <translation>Επιλέξτε αρχείο εικονιδίου</translation>
     </message>
     <message>
         <location filename="../favoriteeditor.cpp" line="352"/>
@@ -2735,7 +2594,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../favoriteeditor.ui" line="85"/>
         <source>New &amp;submenu</source>
-        <translation>Νέο &amp;Υπομενού</translation>
+        <translation>Νέο &amp;υπομενού</translation>
     </message>
 </context>
 <context>
@@ -2770,12 +2629,12 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../favorites.cpp" line="92"/>
         <source>&amp;Previous</source>
-        <translation>&amp;Προηγούμενο</translation>
+        <translation>Π&amp;ροηγούμενο</translation>
     </message>
     <message>
         <location filename="../favorites.cpp" line="93"/>
         <source>&amp;Add current media</source>
-        <translation>Προσθήκη του &amp;τρέχον πολυμέσου</translation>
+        <translation>Προσθήκη του &amp;τρέχοντος πολυμέσου</translation>
     </message>
 </context>
 <context>
@@ -2796,7 +2655,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../findsubtitles/filedownloader/filedownloader.cpp" line="62"/>
         <source>Connecting to %1</source>
-        <translation type="unfinished">Σύνδεση στο %1</translation>
+        <translation>Συνδέεται στο %1</translation>
     </message>
 </context>
 <context>
@@ -2814,12 +2673,12 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../filepropertiesdialog.ui" line="54"/>
         <source>&amp;Demuxer</source>
-        <translation>&amp;Διαχωριστής</translation>
+        <translation>&amp;Αποπολυπλέκτης</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="66"/>
         <source>&amp;Select the demuxer that will be used for this file:</source>
-        <translation>&amp;Επιλέξτε διαχωριστή βίντεο|ήχου που θα χρησιμοποιηθεί στο αρχείο:</translation>
+        <translation>&amp;Επιλέξτε τον αποπολυπλέκτη βίντεο/ήχου που θα χρησιμοποιηθεί για αυτό το αρχείο:</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="106"/>
@@ -2836,7 +2695,7 @@ The configuration dialog will be shown now, so you can do it.</source>
     <message>
         <location filename="../filepropertiesdialog.ui" line="128"/>
         <source>&amp;Select the video codec:</source>
-        <translation>&amp;Επιλέξτε βίντεο κωδικοποιητή:</translation>
+        <translation>&amp;Επιλέξτε κωδικοποιητή βίντεο:</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="178"/>
@@ -2853,29 +2712,16 @@ The configuration dialog will be shown now, so you can do it.</source>
         <source>You can also pass additional video filters.
 Separate them with &quot;,&quot;. Do not use spaces!
 Example: scale=512:-2,mirror</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπορείτε επίσης να εισάγετε επιπρόσθετα φίλτρα βίντεο.
+Διαχωρίστε τα με «,». Μην χρησιμοποιείτε διαστήματα!
+Παράδειγμα: scale=512:-2,mirror</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="384"/>
         <source>And finally audio filters. Same rule as for video filters.
 Example: extrastereo,karaoke</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;MPlayer options</source>
-        <translation type="obsolete">&amp;ΜPlayer επιλογές</translation>
-    </message>
-    <message>
-        <source>Additional Options for MPlayer</source>
-        <translation type="obsolete">Επιπλέον Επιλογές του MPlayer</translation>
-    </message>
-    <message>
-        <source>Here you can pass extra options to MPlayer.
-Write them separated by spaces.
-Example: -flip -nosound</source>
-        <translation type="obsolete">Εδώ μπορείτε να ορίσετε έξτρα παραμέτρους στον MPlayer.
-Γράψτε τους χωρισμένους με διαστήματα.
-Παράδειγμα: -flip -nosound</translation>
+        <translation>Και εν τέλει φίλτρα ήχου. Ο ίδιος κανόνας με τα φίλτρα των βίντεο.
+Παράδειγμα: extrastereo,karaoke</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="287"/>
@@ -2883,28 +2729,14 @@ Example: -flip -nosound</source>
         <translation>&amp;Επιλογές:</translation>
     </message>
     <message>
-        <source>You can also pass additional video filters.
-Separate them with &quot;,&quot;. Do not use spaces!
-Example: scale=512:-2,eq2=1.1</source>
-        <translation type="obsolete">Μπορείτε να επιλέξετε επιπλέον βίντεο φιλτρα.
-Χωρίστε τα με &quot;,&quot;. Όχι χρήση κενού εδώ!
-Παράδειγμα: scale=512:-2,eq2=1.1</translation>
-    </message>
-    <message>
         <location filename="../filepropertiesdialog.ui" line="347"/>
         <source>V&amp;ideo filters:</source>
-        <translation>&amp;Βίντεο φίλτρα:</translation>
-    </message>
-    <message>
-        <source>And finally audio filters. Same rule as for video filters.
-Example: resample=44100:0:0,volnorm</source>
-        <translation type="obsolete">Τελικά φίλτρα ήχου. Ίδιος κανών με φίλτρα βίντεο.
-Παράδειγμα: resample=44100:0:0,volnorm</translation>
+        <translation>Φίλτρα &amp;βίντεο:</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.ui" line="406"/>
         <source>Audio &amp;filters:</source>
-        <translation>&amp;Ήχου φίλτρα:</translation>
+        <translation>Φίλτρα &amp;ήχου:</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="87"/>
@@ -2924,82 +2756,75 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="97"/>
         <source>O&amp;ptions for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ε&amp;πιλογές για %1</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="98"/>
         <source>Additional Options for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόσθετες επιλογές για %1</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="99"/>
         <source>Here you can pass extra options to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εδώ μπορείτε να εισάγετε επιπλέον επιλογές για %1.</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="100"/>
         <source>Write them separated by spaces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Γράψτε τες διαχωρίζοντάς τες με διαστήματα.</translation>
     </message>
     <message>
         <location filename="../filepropertiesdialog.cpp" line="100"/>
         <source>Example:</source>
-        <translation type="unfinished">Παράδειγμα:</translation>
+        <translation>Παράδειγμα:</translation>
     </message>
 </context>
 <context>
     <name>FindSubtitlesConfigDialog</name>
     <message>
-        <source>Http</source>
-        <translation type="obsolete">Http</translation>
-    </message>
-    <message>
-        <source>Socks5</source>
-        <translation type="obsolete">Socks5</translation>
-    </message>
-    <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="28"/>
         <source>HTTP</source>
-        <translation type="unfinished"></translation>
+        <translation>HTTP</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="29"/>
         <source>SOCKS5</source>
-        <translation type="unfinished"></translation>
+        <translation>SOCKS5</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="31"/>
         <source>Enable/disable the use of the proxy.</source>
-        <translation>Ενεργοποίηση/απενεργοποίηση της χρήσης πληρεξούσιου.</translation>
+        <translation>Ενεργοποίηση/απενεργοποίηση της χρήσης διαμεσολαβητή.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="32"/>
         <source>The host name of the proxy.</source>
-        <translation>Το όνομα οικοδεσποτών του πληρεξούσιου.</translation>
+        <translation>Το όνομα συστήματος του διαμεσολαβητή.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="33"/>
         <source>The port of the proxy.</source>
-        <translation>Η θύρα του πληρεξούσιου.</translation>
+        <translation>Η θύρα του διαμεσολαβητή.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="34"/>
         <source>If the proxy requires authentication, this sets the username.</source>
-        <translation>Αν το πληρεξούσιο απαιτεί την επικύρωση, αυτό θέτει το όνομα χρήστη.</translation>
+        <translation>Αν ο διαμεσολαβητής απαιτεί επικύρωση, αυτό θέτει το όνομα χρήστη.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="36"/>
         <source>The password for the proxy. &lt;b&gt;Warning:&lt;/b&gt; the password will be saved as plain text in the configuration file.</source>
-        <translation>Κωδικός πρόσβασης για το πληρεξούσιο. &lt;b&gt;Προειδοποίηση:&lt;/b&gt; ο κωδικός πρόσβασης θα αποθηκευτεί ως απλό κείμενο στο ini αρχείο διαμόρφωσης.</translation>
+        <translation>Κωδικός πρόσβασης για τον διαμεσολαβητή. &lt;b&gt;Προειδοποίηση:&lt;/b&gt; ο κωδικός πρόσβασης θα αποθηκευτεί ως απλό κείμενο στο αρχείο διαμόρφωσης INI.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.cpp" line="38"/>
         <source>Select the proxy type to be used.</source>
-        <translation>Επιλογή τύπου πληρεξούσιου προς χρήση.</translation>
+        <translation>Επιλέξτε τον τύπο διαμεσολαβητή προς χρήση.</translation>
     </message>
     <message>
-        <source>Advanced options</source>
-        <translation type="obsolete">Προηγμένες επιλογές</translation>
+        <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="14"/>
+        <source>Options</source>
+        <translation>Επιλογές</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="20"/>
@@ -3007,33 +2832,24 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Διακομιστής</translation>
     </message>
     <message>
-        <source>&amp;Opensubtitles server:</source>
-        <translation type="obsolete">&amp;Opensubtitles διακομιστής:</translation>
-    </message>
-    <message>
-        <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="14"/>
-        <source>Options</source>
-        <translation type="unfinished">Επιλογές</translation>
-    </message>
-    <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="28"/>
         <source>&amp;OpenSubtitles server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξυπηρετητής &amp;OpenSubtitles:</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="83"/>
         <source>Proxy</source>
-        <translation>Πληρεξούσιο</translation>
+        <translation>Διαμεσολαβητής</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="89"/>
         <source>&amp;Enable proxy</source>
-        <translation>&amp;Ενεργοποίηση πληρεξούσιου</translation>
+        <translation>&amp;Ενεργοποίηση διαμεσολαβητή</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="102"/>
         <source>&amp;Host:</source>
-        <translation>&amp;Οικοδεσπότης:</translation>
+        <translation>&amp;Σύστημα:</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="115"/>
@@ -3043,7 +2859,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="135"/>
         <source>&amp;Username:</source>
-        <translation>Όνομα &amp;Χρήστη:</translation>
+        <translation>Όνομα &amp;χρήστη:</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="148"/>
@@ -3058,17 +2874,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="197"/>
         <source>Misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάφορα</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="203"/>
         <source>A&amp;ppend language code to the subtitle filename</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προσάρτηση του κωδικού γλώσσας στο όνομα αρχείου των υποτίτλων</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitlesconfigdialog.ui" line="45"/>
         <source>Number of &amp;retries:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός &amp;προσπαθειών:</translation>
     </message>
 </context>
 <context>
@@ -3091,12 +2907,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
         <source>Files</source>
-        <translation>Αρχείο</translation>
+        <translation>Αρχεία</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
         <source>Date</source>
-        <translation>Ημερ/νία</translation>
+        <translation>Ημερομηνία</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="236"/>
@@ -3121,12 +2937,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="364"/>
         <source>Login to opensubtitles.org has failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Η σύνδεση στο opensubtitles.org απέτυχε</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="368"/>
         <source>Search has failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αναζήτηση απέτυχε</translation>
     </message>
     <message numerus="yes">
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="705"/>
@@ -3139,7 +2955,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="765"/>
         <source>Error fixing the subtitle lines</source>
-        <translation>Σφάλμα κατά τον καθορισμό των γραμμών υπότιτλων</translation>
+        <translation>Σφάλμα της διόρθωσης των γραμμών υποτίτλων</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.ui" line="136"/>
@@ -3165,17 +2981,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="360"/>
         <source>Connecting to %1...</source>
-        <translation>Σύνδεση στο %1...</translation>
+        <translation>Γίνεται σύνδεση με τον %1...</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="378"/>
         <source>Downloading...</source>
-        <translation>Γίνετε λήψη...</translation>
+        <translation>Λήψη...</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="386"/>
         <source>Done.</source>
-        <translation>Έγινε.</translation>
+        <translation>Ολοκληρώθηκε.</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="431"/>
@@ -3190,12 +3006,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.ui" line="13"/>
         <source>Find Subtitles</source>
-        <translation>Εύρεση Υπότιτλων</translation>
+        <translation>Εύρεση Υποτίτλων</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.ui" line="51"/>
         <source>&amp;Subtitles for</source>
-        <translation>&amp;Υπότιτλοι</translation>
+        <translation>&amp;Υπότιτλοι για</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.ui" line="86"/>
@@ -3211,23 +3027,23 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="535"/>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="682"/>
         <source>Subtitle saved as %1</source>
-        <translation>Οι υπότιτλοι αποθηκέυτηκαν ως %1</translation>
+        <translation>Οι υπότιτλοι αποθηκεύτηκαν ως %1</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="719"/>
         <source>Overwrite?</source>
-        <translation>Επανεγγραφή?</translation>
+        <translation>Αντικατάσταση;</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="720"/>
         <source>The file %1 already exits, overwrite?</source>
-        <translation>Το αρχείο %1 υπάρχει ήδη, αντικατάσταση;</translation>
+        <translation>Το αρχείο %1 υπάρχει ήδη, να αντικατασταθεί;</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="530"/>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="637"/>
         <source>Error saving file</source>
-        <translation>Σφάλμα αποθήκευσης αρχείου</translation>
+        <translation>Σφάλμα κατά την αποθήκευση αρχείου</translation>
     </message>
     <message>
         <location filename="../findsubtitles/findsubtitleswindow.cpp" line="531"/>
@@ -3262,7 +3078,7 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../fontcache.cpp" line="27"/>
         <source>SMPlayer is initializing</source>
-        <translation>Αρχικοποίηση SMPlayer</translation>
+        <translation>Αρχικοποίηση SMPlayer σε εξέλιξη</translation>
     </message>
     <message>
         <location filename="../fontcache.cpp" line="28"/>
@@ -3293,215 +3109,201 @@ Please check the permissions of that folder.</source>
         <translation>Διεύθυνση</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="88"/>
+        <location filename="../infofile.cpp" line="93"/>
         <source>Length</source>
         <translation>Μήκος</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="89"/>
+        <location filename="../infofile.cpp" line="94"/>
         <source>Demuxer</source>
-        <translation>Αποκωδικοποιητής</translation>
+        <translation>Αποπολυπλέκτης</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="94"/>
-        <location filename="../infofile.cpp" line="145"/>
-        <location filename="../infofile.cpp" line="165"/>
+        <location filename="../infofile.cpp" line="99"/>
+        <location filename="../infofile.cpp" line="150"/>
+        <location filename="../infofile.cpp" line="170"/>
         <source>Name</source>
         <translation>Όνομα</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="95"/>
+        <location filename="../infofile.cpp" line="100"/>
         <source>Artist</source>
-        <translation>Καλιτέχνης</translation>
+        <translation>Καλλιτέχνης</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="96"/>
+        <location filename="../infofile.cpp" line="101"/>
         <source>Author</source>
         <translation>Εκδότης</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="97"/>
+        <location filename="../infofile.cpp" line="102"/>
         <source>Album</source>
         <translation>Άλμπουμ</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="98"/>
+        <location filename="../infofile.cpp" line="103"/>
         <source>Genre</source>
-        <translation>Γένος</translation>
+        <translation>Είδος</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="106"/>
+        <location filename="../infofile.cpp" line="111"/>
         <source>Date</source>
-        <translation>Ημέρα</translation>
+        <translation>Ημερομηνία</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="108"/>
+        <location filename="../infofile.cpp" line="113"/>
         <source>Track</source>
-        <translation>Αρ. κοματιού</translation>
+        <translation>Κομμάτι</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="109"/>
+        <location filename="../infofile.cpp" line="114"/>
         <source>Copyright</source>
         <translation>Πνευματικά δικαιώματα</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="110"/>
+        <location filename="../infofile.cpp" line="115"/>
         <source>Comment</source>
         <translation>Σημείωση</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="111"/>
+        <location filename="../infofile.cpp" line="116"/>
         <source>Software</source>
         <translation>Λογισμικό</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="116"/>
+        <location filename="../infofile.cpp" line="121"/>
         <source>Clip info</source>
-        <translation>Κλιπ πληροφορίες</translation>
+        <translation>Πληροφορίες κομματιού</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="123"/>
+        <location filename="../infofile.cpp" line="128"/>
         <source>Video</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="124"/>
+        <location filename="../infofile.cpp" line="129"/>
         <source>Resolution</source>
         <translation>Ανάλυση</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="125"/>
+        <location filename="../infofile.cpp" line="130"/>
         <source>Aspect ratio</source>
         <translation>Αναλογίες εικόνας</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="126"/>
-        <location filename="../infofile.cpp" line="135"/>
+        <location filename="../infofile.cpp" line="131"/>
+        <location filename="../infofile.cpp" line="140"/>
         <source>Format</source>
         <translation>Μορφή</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="127"/>
-        <location filename="../infofile.cpp" line="136"/>
+        <location filename="../infofile.cpp" line="132"/>
+        <location filename="../infofile.cpp" line="141"/>
         <source>Bitrate</source>
         <translation>Ανάλυση</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="127"/>
-        <location filename="../infofile.cpp" line="136"/>
+        <location filename="../infofile.cpp" line="132"/>
+        <location filename="../infofile.cpp" line="141"/>
         <source>%1 kbps</source>
         <translation>%1 kbps</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="128"/>
+        <location filename="../infofile.cpp" line="133"/>
         <source>Frames per second</source>
-        <translation>Πλαίσια ανά δεύτερο</translation>
+        <translation>Καρέ ανά δευτερόλεπτο</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="129"/>
-        <location filename="../infofile.cpp" line="139"/>
+        <location filename="../infofile.cpp" line="134"/>
+        <location filename="../infofile.cpp" line="144"/>
         <source>Selected codec</source>
         <translation>Επιλεγμένος κωδικοποιητής</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="134"/>
+        <location filename="../infofile.cpp" line="139"/>
         <source>Initial Audio Stream</source>
-        <translation>Αρχική Ήχου Εκπομπή</translation>
+        <translation>Αρχική ροή δεδομένων ήχου</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="137"/>
+        <location filename="../infofile.cpp" line="142"/>
         <source>Rate</source>
         <translation>Ρυθμός</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="137"/>
+        <location filename="../infofile.cpp" line="142"/>
         <source>%1 Hz</source>
         <translation>%1 Hz</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="138"/>
+        <location filename="../infofile.cpp" line="143"/>
         <source>Channels</source>
         <translation>Κανάλια</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="144"/>
+        <location filename="../infofile.cpp" line="149"/>
         <source>Audio Streams</source>
-        <translation>Ήχου Εκπομπή</translation>
+        <translation>Ροές ήχου</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="145"/>
-        <location filename="../infofile.cpp" line="165"/>
+        <location filename="../infofile.cpp" line="150"/>
+        <location filename="../infofile.cpp" line="170"/>
         <source>Language</source>
-        <translation>Γλώσσα/Language</translation>
+        <translation>Γλώσσα</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="153"/>
-        <location filename="../infofile.cpp" line="155"/>
-        <location filename="../infofile.cpp" line="178"/>
-        <location filename="../infofile.cpp" line="180"/>
+        <location filename="../infofile.cpp" line="158"/>
+        <location filename="../infofile.cpp" line="160"/>
+        <location filename="../infofile.cpp" line="183"/>
+        <location filename="../infofile.cpp" line="185"/>
         <source>undefined</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="223"/>
-        <source>Track %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="226"/>
-        <location filename="../infofile.cpp" line="234"/>
-        <source>Language: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="227"/>
-        <location filename="../infofile.cpp" line="235"/>
-        <source>Name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ακαθόριστο</translation>
     </message>
     <message>
         <location filename="../infofile.cpp" line="228"/>
-        <location filename="../infofile.cpp" line="236"/>
+        <source>Track %1</source>
+        <translation>Κομμάτι %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="231"/>
+        <location filename="../infofile.cpp" line="239"/>
+        <source>Language: %1</source>
+        <translation>Γλώσσα: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="232"/>
+        <location filename="../infofile.cpp" line="240"/>
+        <source>Name: %1</source>
+        <translation>Όνομα: %1</translation>
+    </message>
+    <message>
+        <location filename="../infofile.cpp" line="233"/>
+        <location filename="../infofile.cpp" line="241"/>
         <source>ID: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναγνωριστικό: %1</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="230"/>
-        <location filename="../infofile.cpp" line="238"/>
+        <location filename="../infofile.cpp" line="235"/>
+        <location filename="../infofile.cpp" line="243"/>
         <source>Type: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος: %1</translation>
     </message>
     <message>
-        <source>empty</source>
-        <translation type="obsolete">άδειο</translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="164"/>
+        <location filename="../infofile.cpp" line="169"/>
         <source>Subtitles</source>
         <translation>Υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="165"/>
+        <location filename="../infofile.cpp" line="170"/>
         <source>Type</source>
-        <translation>τύπος</translation>
+        <translation>Τύπος</translation>
     </message>
     <message>
-        <source>ID</source>
-        <comment>Info for translators: this is a identification code</comment>
-        <translation type="obsolete">ID</translation>
-    </message>
-    <message>
-        <source>#</source>
-        <comment>Info for translators: this is a abbreviation for number</comment>
-        <translation type="obsolete">#</translation>
-    </message>
-    <message>
-        <location filename="../infofile.cpp" line="112"/>
+        <location filename="../infofile.cpp" line="117"/>
         <source>Stream title</source>
         <translation>Τίτλος ροής</translation>
     </message>
     <message>
-        <location filename="../infofile.cpp" line="113"/>
+        <location filename="../infofile.cpp" line="118"/>
         <source>Stream URL</source>
         <translation>Διεύθυνση ροής</translation>
     </message>
@@ -3516,7 +3318,7 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../infowindow.ui" line="36"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Κλείσιμο</translation>
+        <translation>&amp;Κλείσιμο</translation>
     </message>
 </context>
 <context>
@@ -3524,17 +3326,17 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../inputbookmark.ui" line="14"/>
         <source>Add new bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη νέου σελιδοδείκτη</translation>
     </message>
     <message>
         <location filename="../inputbookmark.ui" line="22"/>
         <source>&amp;Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Χρόνος:</translation>
     </message>
     <message>
         <location filename="../inputbookmark.ui" line="48"/>
         <source>&amp;Name (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Όνομα (προαιρετικό):</translation>
     </message>
 </context>
 <context>
@@ -3547,16 +3349,12 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../inputdvddirectory.ui" line="13"/>
         <source>SMPlayer - Play a DVD from a folder</source>
-        <translation>SMPlayer - Παίζει DVD από ένα φάκελο</translation>
+        <translation>SMPlayer - Παίξτε DVD από φάκελο</translation>
     </message>
     <message>
         <location filename="../inputdvddirectory.ui" line="36"/>
         <source>You can play a DVD from your hard disc. Just select the folder which contains the VIDEO_TS and AUDIO_TS directories.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You can play a dvd from your hard disc. Just select the folder which contains the VIDEO_TS and AUDIO_TS directories.</source>
-        <translation type="obsolete">Μπορείτε να παίξετε dvd από τον σκληρό δίσκο. Απλώς επιλέξτε τον φάκελο που περιέχει τους φακέλους VIDEO_TS και AUDIO_TS.</translation>
+        <translation>Μπορείτε να εκτελέσετε ένα DVD από τον σκληρό σας δίσκο. Απλά επιλέξτε τον φάκελο που περιέχει τους καταλόγους VIDEO_TS και AUDIO_TS.</translation>
     </message>
     <message>
         <location filename="../inputdvddirectory.ui" line="69"/>
@@ -3574,12 +3372,12 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../inputmplayerversion.ui" line="35"/>
         <source>SMPlayer couldn&apos;t identify the MPlayer version you&apos;re using.</source>
-        <translation>SMPlayer δεν είναι δυνατός ο προσδιορισμός της έκδοσης MPlayer που χρησιμοποιείτε.</translation>
+        <translation>Ο SMPlayer δεν μπορούσε να προσδιορίσει την έκδοση MPlayer που χρησιμοποιείτε.</translation>
     </message>
     <message>
         <location filename="../inputmplayerversion.ui" line="58"/>
         <source>Version reported by MPlayer:</source>
-        <translation>Έκδοση που αναφέρεται από MPlayer:</translation>
+        <translation>Έκδοση που αναφέρθηκε από τον MPlayer:</translation>
     </message>
     <message>
         <location filename="../inputmplayerversion.ui" line="102"/>
@@ -3620,1093 +3418,1073 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../languages.cpp" line="24"/>
         <source>Afar</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφάρ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="25"/>
         <source>Abkhazian</source>
-        <translation type="unfinished"></translation>
+        <translation>Αμπχαζικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="27"/>
         <source>Afrikaans</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφρικανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="29"/>
         <source>Amharic</source>
-        <translation type="unfinished"></translation>
+        <translation>Αμχαρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="31"/>
-        <location filename="../languages.cpp" line="299"/>
+        <location filename="../languages.cpp" line="300"/>
         <source>Arabic</source>
-        <translation type="unfinished">Αραβικά</translation>
+        <translation>Αραβικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="32"/>
         <source>Assamese</source>
-        <translation type="unfinished"></translation>
+        <translation>Ασαμικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="34"/>
         <source>Aymara</source>
-        <translation type="unfinished"></translation>
+        <translation>Αϊμάρα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="35"/>
         <source>Azerbaijani</source>
-        <translation type="unfinished"></translation>
+        <translation>Αζερμπαϊτζανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="36"/>
         <source>Bashkir</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπασκίρ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="38"/>
-        <location filename="../languages.cpp" line="325"/>
+        <location filename="../languages.cpp" line="326"/>
         <source>Bulgarian</source>
-        <translation type="unfinished">Βουλγαρικά</translation>
+        <translation>Βουλγαρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="39"/>
         <source>Bihari</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπιχάρι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="40"/>
         <source>Bislama</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπισλάμα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="42"/>
         <source>Bengali</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπενγκάλι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="43"/>
         <source>Tibetan</source>
-        <translation type="unfinished"></translation>
+        <translation>Θιβετιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="44"/>
         <source>Breton</source>
-        <translation type="unfinished"></translation>
+        <translation>Βρετονικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="46"/>
         <source>Catalan</source>
-        <translation type="unfinished">Καταλανικά</translation>
+        <translation>Καταλανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="48"/>
         <source>Corsican</source>
-        <translation type="unfinished"></translation>
+        <translation>Κορσικανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="50"/>
-        <location filename="../languages.cpp" line="326"/>
+        <location filename="../languages.cpp" line="327"/>
         <source>Czech</source>
-        <translation type="unfinished">Τσεχικά</translation>
+        <translation>Τσέχικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="53"/>
         <source>Welsh</source>
-        <translation type="unfinished"></translation>
+        <translation>Ουαλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="54"/>
         <source>Danish</source>
-        <translation type="unfinished">Δανέζικα</translation>
+        <translation>Δανέζικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="55"/>
         <location filename="../languages.cpp" line="216"/>
         <source>German</source>
-        <translation type="unfinished">Γερμανικά</translation>
+        <translation>Γερμανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="59"/>
         <source>Greek</source>
-        <translation type="unfinished">Ελληνικά</translation>
+        <translation>Ελληνικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="60"/>
         <location filename="../languages.cpp" line="217"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγγλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="61"/>
         <source>Esperanto</source>
-        <translation type="unfinished"></translation>
+        <translation>Εσπεράντο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="62"/>
         <location filename="../languages.cpp" line="218"/>
         <source>Spanish</source>
-        <translation type="unfinished">Ισπανικά</translation>
+        <translation>Ισπανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="63"/>
-        <location filename="../languages.cpp" line="327"/>
+        <location filename="../languages.cpp" line="328"/>
         <source>Estonian</source>
-        <translation type="unfinished">Εσθονικά</translation>
+        <translation>Εσθονικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="64"/>
         <source>Basque</source>
-        <translation type="unfinished">Βασκικά</translation>
+        <translation>Βασκικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="65"/>
         <source>Persian</source>
-        <translation type="unfinished"></translation>
+        <translation>Περσικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="67"/>
         <location filename="../languages.cpp" line="219"/>
         <source>Finnish</source>
-        <translation type="unfinished">Φινλανδικά</translation>
+        <translation>Φιλανδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="69"/>
         <source>Faroese</source>
-        <translation type="unfinished"></translation>
+        <translation>Νησιών Φερόες</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="70"/>
         <location filename="../languages.cpp" line="220"/>
         <source>French</source>
-        <translation type="unfinished">Γαλλικά</translation>
+        <translation>Γαλλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="71"/>
         <source>Frisian</source>
-        <translation type="unfinished"></translation>
+        <translation>Φριζικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="72"/>
         <source>Irish</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιρλανδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="74"/>
         <source>Galician</source>
-        <translation type="unfinished">Γαλικικά</translation>
+        <translation>Γαλικιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="75"/>
         <source>Guarani</source>
-        <translation type="unfinished"></translation>
+        <translation>Γκουαράνι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="76"/>
         <source>Gujarati</source>
-        <translation type="unfinished"></translation>
+        <translation>Γκουαράτι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="78"/>
         <source>Hausa</source>
-        <translation type="unfinished"></translation>
+        <translation>Χάουσα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="79"/>
         <source>Hebrew</source>
-        <translation type="unfinished"></translation>
+        <translation>Εβραϊκά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="80"/>
         <source>Hindi</source>
-        <translation type="unfinished"></translation>
+        <translation>Χίντι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="82"/>
-        <location filename="../languages.cpp" line="328"/>
+        <location filename="../languages.cpp" line="329"/>
         <source>Croatian</source>
-        <translation type="unfinished">Κροατικά</translation>
+        <translation>Κροατικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="84"/>
-        <location filename="../languages.cpp" line="329"/>
+        <location filename="../languages.cpp" line="330"/>
         <source>Hungarian</source>
-        <translation type="unfinished">Ουγγρικά</translation>
+        <translation>Ουγγρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="85"/>
         <source>Armenian</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρμενικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="88"/>
         <source>Interlingua</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιντερλίνγκουα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="89"/>
         <source>Indonesian</source>
-        <translation type="unfinished"></translation>
+        <translation>Ινδονησιακά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="90"/>
         <source>Interlingue</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιντερλίνγκουε</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="95"/>
         <source>Icelandic</source>
-        <translation type="unfinished"></translation>
+        <translation>Ισλανδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="96"/>
         <location filename="../languages.cpp" line="221"/>
         <source>Italian</source>
-        <translation type="unfinished">Ιταλικά</translation>
+        <translation>Ιταλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="97"/>
         <source>Inuktitut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ινούκτικουτ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="98"/>
         <location filename="../languages.cpp" line="222"/>
         <source>Japanese</source>
-        <translation type="unfinished">Ιαπωνικά</translation>
+        <translation>Ιαπωνικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="99"/>
         <source>Javanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιαβαϊκά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="100"/>
         <source>Georgian</source>
-        <translation type="unfinished">Γεωργιανά</translation>
+        <translation>Γεωργιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="104"/>
         <source>Kazakh</source>
-        <translation type="unfinished"></translation>
+        <translation>Καζακικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="105"/>
         <source>Greenlandic</source>
-        <translation type="unfinished"></translation>
+        <translation>Γροιλανδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="107"/>
         <source>Kannada</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανάντα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="108"/>
         <source>Korean</source>
-        <translation type="unfinished">Κορεατικά</translation>
+        <translation>Κορεάτικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="110"/>
         <source>Kashmiri</source>
-        <translation type="unfinished"></translation>
+        <translation>Κασμιρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="111"/>
         <source>Kurdish</source>
-        <translation type="unfinished">Κουρδικά</translation>
+        <translation>Κουρδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="114"/>
         <source>Kirghiz</source>
-        <translation type="unfinished"></translation>
+        <translation>Κιργιζικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="115"/>
         <source>Latin</source>
-        <translation type="unfinished"></translation>
+        <translation>Λατινικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="119"/>
         <source>Lingala</source>
-        <translation type="unfinished"></translation>
+        <translation>Λινγκάλα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="121"/>
-        <location filename="../languages.cpp" line="330"/>
+        <location filename="../languages.cpp" line="331"/>
         <source>Lithuanian</source>
-        <translation type="unfinished">Λιθουανικά</translation>
+        <translation>Λιθουανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="123"/>
-        <location filename="../languages.cpp" line="331"/>
+        <location filename="../languages.cpp" line="332"/>
         <source>Latvian</source>
-        <translation type="unfinished"></translation>
+        <translation>Λεττονικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="124"/>
         <source>Malagasy</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαλγασικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="126"/>
         <source>Maori</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαορί</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="127"/>
         <source>Macedonian</source>
-        <translation type="unfinished">Σκοπιανά</translation>
+        <translation>Σλαβομακεδονικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="128"/>
         <source>Malayalam</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαλέιγιαλαμ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="129"/>
         <source>Mongolian</source>
-        <translation type="unfinished"></translation>
+        <translation>Μογγολικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="130"/>
         <source>Moldavian</source>
-        <translation type="unfinished"></translation>
+        <translation>Μολδαβικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="131"/>
         <source>Marathi</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαράθι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="132"/>
         <source>Malay</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαλαισιακά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="133"/>
         <source>Maltese</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαλτέζικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="134"/>
         <source>Burmese</source>
-        <translation type="unfinished"></translation>
+        <translation>Βιρμανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="135"/>
         <source>Nauru</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="../languages.cpp" line="136"/>
-        <source>Bokmål</source>
-        <translation type="unfinished"></translation>
+        <translation>Ναουρού</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="138"/>
         <source>Nepali</source>
-        <translation type="unfinished"></translation>
+        <translation>Νεπάλι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="140"/>
         <location filename="../languages.cpp" line="223"/>
         <source>Dutch</source>
-        <translation type="unfinished">Ολλανδικά</translation>
+        <translation>Ολλανδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="141"/>
         <source>Norwegian Nynorsk</source>
-        <translation type="unfinished"></translation>
+        <translation>Νορβηγικά Νίνορσκ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="142"/>
         <location filename="../languages.cpp" line="224"/>
         <source>Norwegian</source>
-        <translation type="unfinished"></translation>
+        <translation>Νορβηγικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="146"/>
         <source>Occitan</source>
-        <translation type="unfinished"></translation>
+        <translation>Οξιτανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="149"/>
         <source>Oriya</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίγια</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="153"/>
-        <location filename="../languages.cpp" line="332"/>
+        <location filename="../languages.cpp" line="333"/>
         <source>Polish</source>
-        <translation type="unfinished">Πολωνικά</translation>
+        <translation>Πολωνικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="155"/>
         <location filename="../languages.cpp" line="225"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Πορτογαλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="156"/>
         <source>Quechua</source>
-        <translation type="unfinished"></translation>
+        <translation>Κέτσουα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="159"/>
         <source>Romanian</source>
-        <translation type="unfinished">Ρουμανικά</translation>
+        <translation>Ρουμανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="160"/>
         <location filename="../languages.cpp" line="226"/>
-        <location filename="../languages.cpp" line="306"/>
-        <location filename="../languages.cpp" line="333"/>
+        <location filename="../languages.cpp" line="307"/>
+        <location filename="../languages.cpp" line="334"/>
         <source>Russian</source>
-        <translation type="unfinished">Ρώσικα</translation>
+        <translation>Ρωσικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="161"/>
         <source>Kinyarwanda</source>
-        <translation type="unfinished"></translation>
+        <translation>Κινιαρουάντα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="162"/>
         <source>Sanskrit</source>
-        <translation type="unfinished"></translation>
+        <translation>Σανσκριτικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="164"/>
         <source>Sindhi</source>
-        <translation type="unfinished"></translation>
+        <translation>Sindhi</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="168"/>
-        <location filename="../languages.cpp" line="334"/>
+        <location filename="../languages.cpp" line="335"/>
         <source>Slovak</source>
-        <translation type="unfinished">Σλοβάκικα</translation>
-    </message>
-    <message>
-        <source>Slovenian</source>
-        <translation type="obsolete">Σλοβένικα</translation>
+        <translation>Σλοβακικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="170"/>
         <source>Samoan</source>
-        <translation type="unfinished"></translation>
+        <translation>Σαμοανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="171"/>
         <source>Shona</source>
-        <translation type="unfinished"></translation>
+        <translation>Σόνα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="172"/>
         <source>Somali</source>
-        <translation type="unfinished"></translation>
+        <translation>Σομαλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="173"/>
         <source>Albanian</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλβανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="174"/>
         <source>Serbian</source>
-        <translation type="unfinished">Σερβικά</translation>
+        <translation>Σερβικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="177"/>
         <source>Sundanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Σουνδανέζικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="178"/>
         <location filename="../languages.cpp" line="227"/>
         <source>Swedish</source>
-        <translation type="unfinished">Σουηδικά</translation>
+        <translation>Σουηδικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="179"/>
         <source>Swahili</source>
-        <translation type="unfinished"></translation>
+        <translation>Σουαχίλι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="180"/>
         <source>Tamil</source>
-        <translation type="unfinished"></translation>
+        <translation>Ταμίλ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="181"/>
         <source>Telugu</source>
-        <translation type="unfinished"></translation>
+        <translation>Τελούγκου</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="182"/>
         <source>Tajik</source>
-        <translation type="unfinished"></translation>
+        <translation>Τατζίκ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="183"/>
         <source>Thai</source>
-        <translation type="unfinished"></translation>
+        <translation>Ταϊλανδική</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="184"/>
         <source>Tigrinya</source>
-        <translation type="unfinished"></translation>
+        <translation>Τιγκρινικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="185"/>
         <source>Turkmen</source>
-        <translation type="unfinished"></translation>
+        <translation>Τουρκμενικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="186"/>
         <source>Tagalog</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagalog</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="188"/>
         <source>Tonga</source>
-        <translation type="unfinished"></translation>
+        <translation>Τόγκα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="189"/>
-        <location filename="../languages.cpp" line="301"/>
+        <location filename="../languages.cpp" line="302"/>
         <source>Turkish</source>
-        <translation type="unfinished">Τουρκικά</translation>
+        <translation>Τουρκικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="190"/>
         <source>Tsonga</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσόγκα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="191"/>
         <source>Tatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ταταρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="192"/>
         <source>Twi</source>
-        <translation type="unfinished"></translation>
+        <translation>Τούι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="194"/>
         <source>Uighur</source>
-        <translation type="unfinished"></translation>
+        <translation>Ουϊγκούρ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="195"/>
-        <location filename="../languages.cpp" line="336"/>
+        <location filename="../languages.cpp" line="337"/>
         <source>Ukrainian</source>
-        <translation type="unfinished">Ουκρανικά</translation>
+        <translation>Ουκρανικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="196"/>
         <source>Urdu</source>
-        <translation type="unfinished"></translation>
+        <translation>Ούρντου</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="197"/>
         <source>Uzbek</source>
-        <translation type="unfinished"></translation>
+        <translation>Ουζμπεκικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="199"/>
         <source>Vietnamese</source>
-        <translation type="unfinished">Βιετναμέζικα</translation>
-    </message>
-    <message utf8="true">
-        <location filename="../languages.cpp" line="200"/>
-        <source>Volapük</source>
-        <translation type="unfinished"></translation>
+        <translation>Βιετναμέζικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="202"/>
         <source>Wolof</source>
-        <translation type="unfinished"></translation>
+        <translation>Γουόλοφ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="203"/>
         <source>Xhosa</source>
-        <translation type="unfinished"></translation>
+        <translation>Κόσα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="204"/>
         <source>Yiddish</source>
-        <translation type="unfinished"></translation>
+        <translation>Γίντις</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="205"/>
         <source>Yoruba</source>
-        <translation type="unfinished"></translation>
+        <translation>Γιορούμπα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="206"/>
         <source>Zhuang</source>
-        <translation type="unfinished"></translation>
+        <translation>Ζουάνγκ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="207"/>
         <location filename="../languages.cpp" line="228"/>
-        <location filename="../languages.cpp" line="337"/>
+        <location filename="../languages.cpp" line="338"/>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Κινέζικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="208"/>
         <source>Zulu</source>
-        <translation type="unfinished"></translation>
+        <translation>Ζουλού</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="237"/>
         <source>Arabic - Syria</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Portuguese - Brazil</source>
-        <translation type="obsolete">Πορτογαλικά - Βραζιλίας</translation>
-    </message>
-    <message>
-        <source>Portuguese - Portugal</source>
-        <translation type="obsolete">Πορτογαλικά - Πορτογαλία</translation>
-    </message>
-    <message>
-        <source>Simplified-Chinese</source>
-        <translation type="obsolete">Κινέζικα απλά</translation>
-    </message>
-    <message>
-        <source>Traditional Chinese</source>
-        <translation type="obsolete">Κινέζικα Παραδοσιακά</translation>
-    </message>
-    <message>
-        <location filename="../languages.cpp" line="291"/>
-        <source>Unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Αραβικά Συρίας</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="292"/>
-        <source>UTF-8</source>
-        <translation type="unfinished"></translation>
+        <source>Unicode</source>
+        <translation>Unicode</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="293"/>
-        <source>Western European Languages</source>
-        <translation type="unfinished"></translation>
+        <source>UTF-8</source>
+        <translation>UTF-8</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="294"/>
-        <source>Western European Languages with Euro</source>
-        <translation type="unfinished"></translation>
+        <source>Western European Languages</source>
+        <translation>Γλώσσες Δυτικής Ευρώπης</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="295"/>
-        <source>Slavic/Central European Languages</source>
-        <translation type="unfinished"></translation>
+        <source>Western European Languages with Euro</source>
+        <translation>Γλώσσες Δυτικής Ευρώπης με Ευρώ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="296"/>
-        <source>Esperanto, Galician, Maltese, Turkish</source>
-        <translation type="unfinished"></translation>
+        <source>Slavic/Central European Languages</source>
+        <translation>Γλώσσες/Σλαβικές Κεντρικής Ευρώπης</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="297"/>
-        <source>Old Baltic charset</source>
-        <translation type="unfinished"></translation>
+        <source>Esperanto, Galician, Maltese, Turkish</source>
+        <translation>Εσπεράντο, Γαλικιανά, Μαλτέζικα, Τουρκικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="298"/>
+        <source>Old Baltic charset</source>
+        <translation>Χαρακτήρες παλιών Βαλτικών</translation>
+    </message>
+    <message>
+        <location filename="../languages.cpp" line="299"/>
         <source>Cyrillic</source>
-        <translation type="unfinished"></translation>
+        <translation>Κυριλλικά</translation>
     </message>
     <message>
-        <location filename="../languages.cpp" line="300"/>
+        <location filename="../languages.cpp" line="301"/>
         <source>Modern Greek</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../languages.cpp" line="302"/>
-        <source>Baltic</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέα Ελληνικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="303"/>
-        <source>Celtic</source>
-        <translation type="unfinished"></translation>
+        <source>Baltic</source>
+        <translation>Βαλτική</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="304"/>
-        <source>South-Eastern European</source>
-        <translation type="unfinished"></translation>
+        <source>Celtic</source>
+        <translation>Κελτική</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="305"/>
-        <source>Hebrew charsets</source>
-        <translation type="unfinished"></translation>
+        <source>South-Eastern European</source>
+        <translation>Νοτιοανατολικής Ευρώπης</translation>
     </message>
     <message>
-        <location filename="../languages.cpp" line="307"/>
-        <source>Ukrainian, Belarusian</source>
-        <translation type="unfinished"></translation>
+        <location filename="../languages.cpp" line="306"/>
+        <source>Hebrew charsets</source>
+        <translation>Χαρακτήρες Εβραϊκών </translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="308"/>
-        <source>Simplified Chinese charset</source>
-        <translation type="unfinished"></translation>
+        <source>Ukrainian, Belarusian</source>
+        <translation>Ουκρανικά, Λευκορωσικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="309"/>
-        <source>Traditional Chinese charset</source>
-        <translation type="unfinished"></translation>
+        <source>Simplified Chinese charset</source>
+        <translation>Χαρακτήρες απλοποιημένων κινέζικων </translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="310"/>
-        <source>Japanese charsets</source>
-        <translation type="unfinished"></translation>
+        <source>Traditional Chinese charset</source>
+        <translation>Χαρακτήρες παραδοσιακών κινέζικων </translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="311"/>
-        <source>Korean charset</source>
-        <translation type="unfinished"></translation>
+        <source>Japanese charsets</source>
+        <translation>Χαρακτήρες Ιαπωνικών</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="312"/>
-        <source>Thai charset</source>
-        <translation type="unfinished"></translation>
+        <source>Korean charset</source>
+        <translation>Χαρακτήρες Κορεατικών</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="313"/>
-        <source>Cyrillic Windows</source>
-        <translation type="unfinished"></translation>
+        <source>Thai charset</source>
+        <translation>Χαρακτήρες Ταϊλανδέζικων</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="314"/>
-        <source>Slavic/Central European Windows</source>
-        <translation type="unfinished"></translation>
+        <source>Cyrillic Windows</source>
+        <translation>Κυριλλικά Windows</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="315"/>
+        <source>Slavic/Central European Windows</source>
+        <translation>Σλαβικά/Κεντρικής Ευρώπης Windows</translation>
+    </message>
+    <message>
+        <location filename="../languages.cpp" line="316"/>
         <source>Arabic Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Αραβική Windows</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="26"/>
         <source>Avestan</source>
-        <translation type="unfinished"></translation>
+        <translation>Αβεστική</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="28"/>
         <source>Akan</source>
-        <translation type="unfinished"></translation>
+        <translation>Άκαν</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="30"/>
         <source>Aragonese</source>
-        <translation type="unfinished"></translation>
+        <translation>Αραγονικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="33"/>
         <source>Avaric</source>
-        <translation type="unfinished"></translation>
+        <translation>Αβαρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="37"/>
-        <location filename="../languages.cpp" line="324"/>
+        <location filename="../languages.cpp" line="325"/>
         <source>Belarusian</source>
-        <translation type="unfinished"></translation>
+        <translation>Λευκορωσικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="41"/>
         <source>Bambara</source>
-        <translation type="unfinished"></translation>
+        <translation>Μπαμπαρικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="45"/>
         <source>Bosnian</source>
-        <translation type="unfinished"></translation>
+        <translation>Βοσνιακά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="47"/>
         <source>Chechen</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσετσενικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="49"/>
         <source>Cree</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="51"/>
         <source>Church</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκλησιαστικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="52"/>
         <source>Chuvash</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσουβασικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="56"/>
         <source>Divehi</source>
-        <translation type="unfinished"></translation>
+        <translation>Ντιβεχικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="57"/>
         <source>Dzongkha</source>
-        <translation type="unfinished"></translation>
+        <translation>Ντζόνγκα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="58"/>
         <source>Ewe</source>
-        <translation type="unfinished"></translation>
+        <translation>Έβε</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="66"/>
         <source>Fulah</source>
-        <translation type="unfinished"></translation>
+        <translation>Φούλα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="68"/>
         <source>Fijian</source>
-        <translation type="unfinished"></translation>
+        <translation>Νησιών Φίτζι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="73"/>
         <source>Gaelic</source>
-        <translation type="unfinished"></translation>
+        <translation>Γαελικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="77"/>
         <source>Manx</source>
-        <translation type="unfinished"></translation>
+        <translation>Μανξ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="81"/>
         <source>Hiri</source>
-        <translation type="unfinished"></translation>
+        <translation>Χίρι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="83"/>
         <source>Haitian</source>
-        <translation type="unfinished"></translation>
+        <translation>Αϊτής</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="86"/>
         <source>Herero</source>
-        <translation type="unfinished"></translation>
+        <translation>Χερέρο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="87"/>
         <source>Chamorro</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσαμόρο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="91"/>
         <source>Igbo</source>
-        <translation type="unfinished"></translation>
+        <translation>Ίγκμπο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="92"/>
         <source>Sichuan</source>
-        <translation type="unfinished"></translation>
+        <translation>Σιτσουάν</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="93"/>
         <source>Inupiaq</source>
-        <translation type="unfinished"></translation>
+        <translation>Ινουπιάκ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="94"/>
         <source>Ido</source>
-        <translation type="unfinished"></translation>
+        <translation>Ίντο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="101"/>
         <source>Kongo</source>
-        <translation type="unfinished"></translation>
+        <translation>Κόνγκο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="102"/>
         <source>Kikuyu</source>
-        <translation type="unfinished"></translation>
+        <translation>Κικούγιου</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="103"/>
         <source>Kuanyama</source>
-        <translation type="unfinished"></translation>
+        <translation>Κουανιάμα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="106"/>
         <source>Khmer</source>
-        <translation type="unfinished"></translation>
+        <translation>Χμερ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="109"/>
         <source>Kanuri</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανούρι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="112"/>
         <source>Komi</source>
-        <translation type="unfinished"></translation>
+        <translation>Κόμι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="113"/>
         <source>Cornish</source>
-        <translation type="unfinished"></translation>
+        <translation>Κορνουαλικά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="116"/>
         <source>Luxembourgish</source>
-        <translation type="unfinished"></translation>
+        <translation>Λουξεμβουργιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="117"/>
         <source>Ganda</source>
-        <translation type="unfinished"></translation>
+        <translation>Γκάντα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="118"/>
         <source>Limburgan</source>
-        <translation type="unfinished"></translation>
+        <translation>Λινπουργκάν</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="120"/>
         <source>Lao</source>
-        <translation type="unfinished"></translation>
+        <translation>Λαοτινά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="122"/>
         <source>Luba-Katanga</source>
-        <translation type="unfinished"></translation>
+        <translation>Λούμπα-Κατάνγκα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="125"/>
         <source>Marshallese</source>
-        <translation type="unfinished"></translation>
+        <translation>Μαρσαλικά</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../languages.cpp" line="136"/>
+        <source>Bokmål</source>
+        <translation>Μπουκμόλ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="137"/>
         <location filename="../languages.cpp" line="143"/>
         <source>Ndebele</source>
-        <translation type="unfinished"></translation>
+        <translation>Ντέμπελε</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="139"/>
         <source>Ndonga</source>
-        <translation type="unfinished"></translation>
+        <translation>Ντόγκα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="144"/>
         <source>Navajo</source>
-        <translation type="unfinished"></translation>
+        <translation>Ναβάχο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="145"/>
         <source>Chichewa</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσιτσέουα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="147"/>
         <source>Ojibwa</source>
-        <translation type="unfinished"></translation>
+        <translation>Οζίμπουα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="148"/>
         <source>Oromo</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορόμο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="150"/>
         <source>Ossetian</source>
-        <translation type="unfinished"></translation>
+        <translation>Οσσετιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="151"/>
         <source>Panjabi</source>
-        <translation type="unfinished"></translation>
+        <translation>Παντζάμπι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="152"/>
         <source>Pali</source>
-        <translation type="unfinished"></translation>
+        <translation>Πάλι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="154"/>
         <source>Pushto</source>
-        <translation type="unfinished"></translation>
+        <translation>Πούστο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="157"/>
         <source>Romansh</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρομάνς</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="158"/>
         <source>Rundi</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρούντι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="163"/>
         <source>Sardinian</source>
-        <translation type="unfinished"></translation>
+        <translation>Σαρδηνιακά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="165"/>
         <source>Sami</source>
-        <translation type="unfinished"></translation>
+        <translation>Σάμι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="166"/>
         <source>Sango</source>
-        <translation type="unfinished"></translation>
+        <translation>Σάνγκο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="167"/>
         <source>Sinhala</source>
-        <translation type="unfinished"></translation>
+        <translation>Σινχάλα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="169"/>
-        <location filename="../languages.cpp" line="335"/>
+        <location filename="../languages.cpp" line="336"/>
         <source>Slovene</source>
-        <translation type="unfinished"></translation>
+        <translation>Σλοβένικα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="175"/>
         <source>Swati</source>
-        <translation type="unfinished"></translation>
+        <translation>Σουάζι</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="176"/>
         <source>Sotho</source>
-        <translation type="unfinished"></translation>
+        <translation>Σότο</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="187"/>
         <source>Tswana</source>
-        <translation type="unfinished"></translation>
+        <translation>Τσουάνα</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="193"/>
         <source>Tahitian</source>
-        <translation type="unfinished"></translation>
+        <translation>Ταϊτιανά</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="198"/>
         <source>Venda</source>
-        <translation type="unfinished"></translation>
+        <translation>Βέντα</translation>
+    </message>
+    <message utf8="true">
+        <location filename="../languages.cpp" line="200"/>
+        <source>Volapük</source>
+        <translation>Βολαπούκ</translation>
     </message>
     <message>
         <location filename="../languages.cpp" line="201"/>
         <source>Walloon</source>
-        <translation type="unfinished"></translation>
+        <translation>Γουαλούν</translation>
     </message>
     <message>
-        <location filename="../languages.cpp" line="316"/>
+        <location filename="../languages.cpp" line="317"/>
         <source>Modern Greek Windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέα Ελληνική Windows</translation>
     </message>
 </context>
 <context>
@@ -4719,7 +4497,7 @@ Please check the permissions of that folder.</source>
     <message>
         <location filename="../logwindow.cpp" line="113"/>
         <source>Confirm overwrite?</source>
-        <translation>Επιβεβαίωση επανεγγραφής?</translation>
+        <translation>Επιβεβαίωση αντικατάστασης;</translation>
     </message>
     <message>
         <location filename="../logwindow.cpp" line="114"/>
@@ -4747,46 +4525,102 @@ Do you want to overwrite?</source>
         <location filename="../logwindow.ui" line="58"/>
         <location filename="../logwindow.ui" line="61"/>
         <source>Save</source>
-        <translation type="unfinished">Αποθήκευση</translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <location filename="../logwindow.ui" line="68"/>
         <location filename="../logwindow.ui" line="71"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Αντιγραφή στο πρόχειρο</translation>
+        <translation>Αντιγραφή στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../logwindow.ui" line="78"/>
         <source>Close</source>
-        <translation type="unfinished">Κλείσιμο</translation>
+        <translation>Κλείσιμο</translation>
     </message>
     <message>
         <location filename="../logwindow.ui" line="81"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Κλείσιμο</translation>
+        <translation>&amp;Κλείσιμο</translation>
     </message>
 </context>
 <context>
-    <name>LogWindowBase</name>
+    <name>MPVProcess</name>
     <message>
-        <source>Log Window</source>
-        <translation type="obsolete">Καταγραφής Παράθυρο</translation>
+        <location filename="../mpvprocess.h" line="155"/>
+        <source>the &apos;%1&apos; filter is not supported by mpv</source>
+        <translation>το &apos;%1&apos; φίλτρο δεν υποστηρίζεται από το mpv</translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation type="obsolete">Αποθήκευση</translation>
+        <location filename="../mpvprocess.h" line="156"/>
+        <source>File:</source>
+        <translation>Αρχείο</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation type="obsolete">Αντιγραφή στο πρόχειρο</translation>
+        <location filename="../mpvprocess.h" line="157"/>
+        <source>Video:</source>
+        <translation>Βίντεο</translation>
     </message>
     <message>
-        <source>&amp;Close</source>
-        <translation type="obsolete">&amp;Κλείσιμο</translation>
+        <location filename="../mpvprocess.h" line="158"/>
+        <source>Resolution:</source>
+        <translation>Ανάλυση</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="obsolete">Κλείσιμο</translation>
+        <location filename="../mpvprocess.h" line="159"/>
+        <source>Frames per second:</source>
+        <translation>Καρέ το δευτερόλεπτο</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="160"/>
+        <source>Estimated:</source>
+        <translation>αναμενόμενo</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="161"/>
+        <source>Aspect Ratio:</source>
+        <translation>Αναλογίες</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="162"/>
+        <location filename="../mpvprocess.h" line="165"/>
+        <source>Bitrate:</source>
+        <translation>Ρυθμός bit</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="163"/>
+        <source>Dropped frames:</source>
+        <translation>Διακεκομμένα καρέ</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="164"/>
+        <source>Audio:</source>
+        <translation>Ήχος</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="166"/>
+        <source>Sample Rate:</source>
+        <translation>Ρυθμός δειγματοληψίας</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="167"/>
+        <source>Channels:</source>
+        <translation>Κανάλια</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="168"/>
+        <source>Audio/video synchronization:</source>
+        <translation>Συγχρονισμός Ήχου/Εικόνας</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="169"/>
+        <source>Cache fill:</source>
+        <translation>Πλήρωση προσωρινής μνήμης</translation>
+    </message>
+    <message>
+        <location filename="../mpvprocess.h" line="170"/>
+        <source>Used cache:</source>
+        <translation>Χρησιμοποιημένη προσωρινή μνήμη</translation>
     </message>
 </context>
 <context>
@@ -4794,7 +4628,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../skingui/mediabarpanel.ui" line="16"/>
         <source>Form</source>
-        <translation>Φόρμα</translation>
+        <translation>Μορφή</translation>
     </message>
 </context>
 <context>
@@ -4802,7 +4636,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../skingui/mediapanel.cpp" line="244"/>
         <source>Shuffle playlist</source>
-        <translation>Τυχαία σειρά αναπαραγωγής</translation>
+        <translation>Ανακάτεμα λίστας αναπαραγωγής</translation>
     </message>
     <message>
         <location filename="../skingui/mediapanel.cpp" line="245"/>
@@ -4815,7 +4649,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../skingui/mediapanel.ui" line="13"/>
         <source>MediaPanel</source>
-        <translation type="unfinished"></translation>
+        <translation>Πίνακας μέσων</translation>
     </message>
 </context>
 <context>
@@ -4833,7 +4667,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../minigui.cpp" line="176"/>
         <source>Edit &amp;floating control</source>
-        <translation>Επεξεργασία ε&amp;πιπλέουσας εργαλειοθήκης ελέγχου</translation>
+        <translation>Επεξεργασία &amp;αιωρούμενος εργαλειοθήκης ελέγχου</translation>
     </message>
 </context>
 <context>
@@ -4868,12 +4702,12 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../multilineinputdialog.ui" line="13"/>
         <source>Enter URL(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε το(α) URL</translation>
     </message>
     <message>
         <location filename="../multilineinputdialog.ui" line="19"/>
         <source>Enter the URL(s) to be added to the playlist. One per line.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε το(α) URL προς προσθήκη στην λίστα αναπαραγωγής. Ένα ανά γραμμή.</translation>
     </message>
 </context>
 <context>
@@ -4906,258 +4740,315 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../skingui/playcontrol.cpp" line="190"/>
         <source>Next file in playlist</source>
-        <translation>Επόμενο αρχείο λίστας αναπαραγωγής</translation>
+        <translation>Επόμενο αρχείο στη λίστα αναπαραγωγής</translation>
     </message>
     <message>
         <location filename="../skingui/playcontrol.cpp" line="191"/>
         <source>Previous file in playlist</source>
-        <translation>Προηγούμενο αρχείο λίστας αναπαραγωγής</translation>
+        <translation>Προηγούμενο αρχείο στη λίστα αναπαραγωγής</translation>
     </message>
 </context>
 <context>
     <name>Playlist</name>
     <message>
-        <location filename="../playlist.cpp" line="529"/>
+        <location filename="../playlist.cpp" line="669"/>
         <source>Name</source>
         <translation>Όνομα</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="529"/>
+        <location filename="../playlist.cpp" line="669"/>
         <source>Length</source>
         <translation>Διάρκεια</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="538"/>
+        <location filename="../playlist.cpp" line="679"/>
         <source>&amp;Play</source>
         <translation>&amp;Αναπαραγωγή</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="566"/>
+        <location filename="../playlist.cpp" line="725"/>
         <source>&amp;Edit</source>
         <translation>&amp;Επεξεργασία</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1107"/>
-        <location filename="../playlist.cpp" line="1133"/>
+        <location filename="../playlist.cpp" line="1303"/>
+        <location filename="../playlist.cpp" line="1339"/>
         <source>Playlists</source>
         <translation>Λίστες</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1105"/>
+        <location filename="../playlist.cpp" line="1301"/>
         <source>Choose a file</source>
-        <translation>Επιλογή αρχείου</translation>
+        <translation>Επιλέξτε αρχείο</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1131"/>
+        <location filename="../playlist.cpp" line="1337"/>
         <source>Choose a filename</source>
         <translation>Επιλέξτε όνομα αρχείου</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1142"/>
+        <location filename="../playlist.cpp" line="1349"/>
         <source>Confirm overwrite?</source>
-        <translation>Επιβεβαιώση επανεγγραφής?</translation>
+        <translation>Επιβεβαίωσή αντικατάστασης;</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1143"/>
+        <location filename="../playlist.cpp" line="1350"/>
         <source>The file %1 already exists.
 Do you want to overwrite?</source>
         <translation>Το αρχείο %1 υπάρχει ήδη.
-Θέλετε να το αντικαταστήσετε?</translation>
+Θέλετε να το αντικαταστήσετε;</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1107"/>
-        <location filename="../playlist.cpp" line="1133"/>
-        <location filename="../playlist.cpp" line="1347"/>
+        <location filename="../playlist.cpp" line="1303"/>
+        <location filename="../playlist.cpp" line="1339"/>
+        <location filename="../playlist.cpp" line="1619"/>
         <source>All files</source>
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1344"/>
+        <location filename="../playlist.cpp" line="355"/>
+        <source>Untitled playlist</source>
+        <translation>Άτιτλη λίστα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="671"/>
+        <source>&amp;Load...</source>
+        <translation>&amp;Φόρτωση...</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="673"/>
+        <source>Load playlist from &amp;URL...</source>
+        <translation>Φόρτωση της λίστας αναπαραγωγής από το &amp;URL...</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="712"/>
+        <source>Play on Chromec&amp;ast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="714"/>
+        <source>Open stream in &amp;a web browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="729"/>
+        <source>Load/Save</source>
+        <translation>Φόρτωση/αποθήκευση</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="1616"/>
         <source>Select one or more files to open</source>
         <translation>Επιλέξτε ένα ή περισσότερα αρχεία για άνοιγμα</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1411"/>
+        <location filename="../playlist.cpp" line="1686"/>
         <source>Choose a directory</source>
         <translation>Επιλέξτε φάκελο</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1579"/>
+        <location filename="../playlist.cpp" line="1881"/>
         <source>Edit name</source>
         <translation>Επεξεργασία ονόματος</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1580"/>
+        <location filename="../playlist.cpp" line="1882"/>
         <source>Type the name that will be displayed in the playlist for this file:</source>
         <translation>Γράψτε το όνομα με το οποίο θα εμφανίζεται στην λίστα το αρχείο:</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="531"/>
-        <source>&amp;Load</source>
-        <translation>&amp;Φόρτωση</translation>
-    </message>
-    <message>
-        <location filename="../playlist.cpp" line="529"/>
+        <location filename="../playlist.cpp" line="669"/>
         <source>Filename / URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα αρχείου / URL</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="533"/>
-        <source>&amp;Open URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../playlist.cpp" line="534"/>
+        <location filename="../playlist.cpp" line="674"/>
         <source>Download playlist from URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Λήψη της λίστας αναπαραγωγής από το URL</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="536"/>
+        <location filename="../playlist.cpp" line="676"/>
         <source>&amp;Save</source>
         <translation>Απο&amp;θήκευση</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="540"/>
+        <location filename="../playlist.cpp" line="677"/>
+        <source>Save &amp;as...</source>
+        <translation>Αποθήκευση &amp;ως...</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="681"/>
         <source>&amp;Next</source>
         <translation>&amp;Επόμενο</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="541"/>
+        <location filename="../playlist.cpp" line="682"/>
         <source>Pre&amp;vious</source>
         <translation>&amp;Προηγούμενο</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="547"/>
+        <location filename="../playlist.cpp" line="688"/>
         <source>Move &amp;up</source>
         <translation>&amp;Πάνω</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="548"/>
+        <location filename="../playlist.cpp" line="689"/>
         <source>Move &amp;down</source>
         <translation>&amp;Κάτω</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="550"/>
+        <location filename="../playlist.cpp" line="691"/>
         <source>&amp;Repeat</source>
         <translation>&amp;Επανάληψη</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="551"/>
+        <location filename="../playlist.cpp" line="692"/>
         <source>S&amp;huffle</source>
-        <translation>&amp;Τυχαία</translation>
+        <translation>&amp;Ανακάτεμα</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="554"/>
+        <location filename="../playlist.cpp" line="695"/>
         <source>Add &amp;current file</source>
-        <translation>&amp;Προσθήκη τρέχον αρχείου</translation>
+        <translation>&amp;Προσθήκη του τρέχοντος αρχείου</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="555"/>
+        <location filename="../playlist.cpp" line="696"/>
         <source>Add &amp;file(s)</source>
         <translation>&amp;Προσθήκη αρχείου(ων)</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="556"/>
+        <location filename="../playlist.cpp" line="697"/>
         <source>Add &amp;directory</source>
         <translation>&amp;Προσθήκη φακέλου</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="557"/>
+        <location filename="../playlist.cpp" line="698"/>
         <source>Add &amp;URL(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη &amp;URL</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="560"/>
+        <location filename="../playlist.cpp" line="701"/>
         <source>Remove &amp;selected</source>
         <translation>&amp;Αφαίρεση επιλεγμένου</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="561"/>
+        <location filename="../playlist.cpp" line="702"/>
         <source>Remove &amp;all</source>
-        <translation>Αφαίρεση &amp;όλων</translation>
+        <translation>Αφαίρεση ό&amp;λων</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="563"/>
+        <location filename="../playlist.cpp" line="705"/>
         <source>&amp;Delete file from disk</source>
+        <translation>&amp;Διαγραφή από τον δίσκο</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="708"/>
+        <location filename="../playlist.cpp" line="1447"/>
+        <source>&amp;Copy file path to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="576"/>
+        <location filename="../playlist.cpp" line="709"/>
+        <source>&amp;Open source folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="717"/>
+        <location filename="../playlist.cpp" line="737"/>
         <source>Search</source>
+        <translation>Αναζήτηση</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="719"/>
+        <source>Show position column</source>
+        <translation>Εμφάνιση της στήλης θέσης</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="720"/>
+        <source>Show name column</source>
+        <translation>Εμφάνιση της στήλης ονόματος</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="721"/>
+        <source>Show length column</source>
+        <translation>Εμφάνιση της στήλης μήκους</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="722"/>
+        <source>Show filename column</source>
+        <translation>Εμφάνιση της στήλης ονόματος αρχείου</translation>
+    </message>
+    <message>
+        <location filename="../playlist.cpp" line="1452"/>
+        <source>&amp;Copy URL to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="581"/>
-        <source>SMPlayer - Playlist</source>
-        <translation>SMPlayer - Λίστα κομματιών</translation>
-    </message>
-    <message>
-        <location filename="../playlist.cpp" line="1614"/>
+        <location filename="../playlist.cpp" line="1917"/>
         <source>Confirm deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιβεβαιώστε τη διαγραφή</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1615"/>
+        <location filename="../playlist.cpp" line="1918"/>
         <source>You&apos;re about to DELETE the file &apos;%1&apos; from your drive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόκειται να ΔΙΑΓΡΑΨΕΤΕ το αρχείο «%1» από τον οδηγό σας.</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1616"/>
+        <location filename="../playlist.cpp" line="1919"/>
         <source>This action cannot be undone. Are you sure you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η ενέργεια είναι μη αναστρέψιμη. Είστε σίγουρος-η ότι θέλετε να συνεχίσετε;</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1634"/>
+        <location filename="../playlist.cpp" line="1937"/>
         <source>Deletion failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαγραφή απέτυχε</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1635"/>
+        <location filename="../playlist.cpp" line="1938"/>
         <source>It wasn&apos;t possible to delete &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν ήταν δυνατή η διαγραφή του «%1»</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1640"/>
+        <location filename="../playlist.cpp" line="1943"/>
         <source>Error deleting the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα κατά τη διαγραφή του αρχείου</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1641"/>
+        <location filename="../playlist.cpp" line="1944"/>
         <source>It&apos;s not possible to delete &apos;%1&apos; from the filesystem.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν είναι δυνατή η διαγραφή του «%1» από το σύστημα αρχείων.</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1931"/>
+        <location filename="../playlist.cpp" line="2401"/>
         <source>It&apos;s not possible to load this playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η φόρτωση της λίστας αναπαραγωγής</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1931"/>
+        <location filename="../playlist.cpp" line="2401"/>
         <source>Unrecognized format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη αναγνωρίσιμη μορφή.</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="570"/>
+        <location filename="../playlist.cpp" line="731"/>
         <source>Add...</source>
         <translation>Προσθήκη...</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="572"/>
+        <location filename="../playlist.cpp" line="733"/>
         <source>Remove...</source>
         <translation>Αφαίρεση...</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1175"/>
+        <location filename="../playlist.cpp" line="1382"/>
         <source>Playlist modified</source>
-        <translation>Η Λίστα αναπαραγωγής άλλαξε</translation>
+        <translation>Η λίστα τροποποιήθηκε</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1176"/>
+        <location filename="../playlist.cpp" line="1383"/>
         <source>There are unsaved changes, do you want to save the playlist?</source>
-        <translation>Υπάρχουν αλλαγές σε εκκρεμότητα, θέλετε να αποθηκεύσετε την λίστα?</translation>
+        <translation>Υπάρχουν αλλαγές σε εκκρεμότητα, θέλετε να αποθηκεύσετε τη λίστα;</translation>
     </message>
     <message>
-        <location filename="../playlist.cpp" line="1346"/>
+        <location filename="../playlist.cpp" line="1618"/>
         <source>Multimedia</source>
         <translation>Πολυμέσα</translation>
     </message>
@@ -5168,7 +5059,7 @@ Do you want to overwrite?</source>
         <location filename="../prefadvanced.cpp" line="79"/>
         <location filename="../prefadvanced.cpp" line="449"/>
         <source>Advanced</source>
-        <translation>Προηγμένα</translation>
+        <translation>Προχωρημένα</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="92"/>
@@ -5178,41 +5069,7 @@ Do you want to overwrite?</source>
     <message>
         <location filename="../prefadvanced.ui" line="24"/>
         <source>&amp;Advanced</source>
-        <translation>&amp;Προηγμένα</translation>
-    </message>
-    <message>
-        <source>icon</source>
-        <translation type="obsolete">εικονίδιο</translation>
-    </message>
-    <message>
-        <source>R&amp;eport MPlayer crashes</source>
-        <translation type="obsolete">Έκ&amp;θεση κατάρρευσης MPlayer</translation>
-    </message>
-    <message>
-        <source>Here you can pass extra options to MPlayer.
-Write them separated by spaces.
-Example: -flip -nosound</source>
-        <translation type="obsolete">Εδώ μπορείτε να ορίσετε έξτρα επιλογές στον MPlayer.
-Τις γράφετε χωρισμένες με κενά.
-Παράδειγμα: -flip -nosound</translation>
-    </message>
-    <message>
-        <source>You can also pass additional video filters.
-Separate them with &quot;,&quot;. Do not use spaces!
-Example: scale=512:-2,eq2=1.1</source>
-        <translation type="obsolete">Μπορείτε να επιλέξετε επιπλέον βίντεο φιλτρα.
-Χωρίστε τα με &quot;,&quot;. Όχι χρήση κενού εδώ!
-Παράδειγμα: scale=512:-2,eq2=1.1</translation>
-    </message>
-    <message>
-        <source>And finally audio filters. Same rule as for video filters.
-Example: resample=44100:0:0,volnorm</source>
-        <translation type="obsolete">Τελικά φίλτρα ήχου. Ίδιος κανών με φίλτρα βίντεο.
-Παράδειγμα: resample=44100:0:0,volnorm</translation>
-    </message>
-    <message>
-        <source>Log MPlayer output</source>
-        <translation type="obsolete">Καταγραφή εξόδου MPlayer</translation>
+        <translation>&amp;Προχωρημένα</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="560"/>
@@ -5222,46 +5079,32 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.ui" line="613"/>
         <source>This option is mainly intended for debugging the application.</source>
-        <translation>Η επιλογή προορίζεται για αποσφαλμάτωση της εφαρμογής.</translation>
+        <translation>Η επιλογή αυτή προορίζεται κυρίως για την αποσφαλμάτωση της εφαρμογής.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="467"/>
         <source>Checking this option may reduce flickering, but it also might produce that the video won&apos;t be displayed properly.</source>
-        <translation>Τσεκάροντας αυτή την επιλογή μπορεί να μειώθει το τρεμούλιασμα, αλλά πιθανόν το βίντεο να μην εμφανίζεται σωστά.</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="537"/>
-        <source>This option may be needed to play playlist files (m3u, pls...). However it can involve a security risk when playing internet sources because the way MPlayer parses and uses playlist files is not safe against maliciously constructed files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="490"/>
-        <source>Limitation: the actions are run only when a file is opened and not when the %1 process is restarted (e.g. you select an audio or video filter).</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέγοντας αυτήν την επιλογή μπορεί να μειωθεί το τρεμόπαιγμα, αλλά πιθανόν το βίντεο να μην εμφανίζεται σωστά.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="591"/>
         <source>Filter for SMPlayer logs</source>
-        <translation>Φίλτρο για SMPlayer καταγραφές</translation>
+        <translation>Φίλτρο για καταγραφές SMPlayer</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="48"/>
         <source>&amp;Monitor aspect:</source>
-        <translation>&amp;Αναλογία Οθόνης:</translation>
-    </message>
-    <message>
-        <source>&amp;Run MPlayer in its own window</source>
-        <translation type="obsolete">&amp;Εκτέλεση MPlayer σε δικό του παράθυρο</translation>
+        <translation>&amp;Αναλογίες οθόνης:</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="112"/>
         <source>Use the la&amp;vf demuxer by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του αποπολυπλέκτη la&amp;vf εξ ορισμού</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="213"/>
         <source>Color&amp;key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήκτρο &amp;χρώματος:</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="311"/>
@@ -5271,20 +5114,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.ui" line="337"/>
         <source>V&amp;ideo filters:</source>
-        <translation>&amp;Βίντεο φίλτρα:</translation>
-    </message>
-    <message>
-        <source>Audio &amp;filters:</source>
-        <translation type="obsolete">&amp;Ήχου φίλτρα:</translation>
-    </message>
-    <message>
-        <source>&amp;Colorkey:</source>
-        <translation type="obsolete">&amp;Χρώμα:</translation>
+        <translation>Φίλτρα &amp;βίντεο:</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="546"/>
         <source>SMPlayer</source>
-        <translation type="unfinished"></translation>
+        <translation>SMPlayer</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="552"/>
@@ -5294,12 +5129,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.ui" line="623"/>
         <source>&amp;Filter for SMPlayer logs:</source>
-        <translation>&amp;Φίλτρο για SMPlayer καταγραφές:</translation>
+        <translation>&amp;Φίλτρο για καταγραφές SMPlayer:</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="236"/>
         <source>C&amp;hange...</source>
-        <translation>&amp;Αλλαγή...</translation>
+        <translation>&amp;Τροποποίηση...</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="557"/>
@@ -5307,80 +5142,34 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Καταγραφές</translation>
     </message>
     <message>
-        <source>Log MPlayer &amp;output</source>
-        <translation type="obsolete">Καταγραφή εξόδου &amp;MPlayer</translation>
-    </message>
-    <message>
-        <source>Options for MP&amp;layer</source>
-        <translation type="obsolete">Ε&amp;πιλογές MPlayer</translation>
-    </message>
-    <message>
-        <source>Autosave MPlayer log</source>
-        <translation type="obsolete">Αυτόματη αποθήκευση καταγραφής MPlayer</translation>
-    </message>
-    <message>
-        <source>If this option is checked, the MPlayer log will be saved to the specified file every time a new file starts to play. It&apos;s intended for external applications, so they can get info about the file you&apos;re playing.</source>
-        <translation type="obsolete">Αν τσεκάρετε αυτή την επιλογή, το αρχείο καταγραφής MPlayer θα αποθηκευτεί στο συγκεκριμένο αρχείο κάθε φορά που ένα νέο αρχείο αναπαράγετε. Αυτό προορίζεται για τις εξωτερικές εφαρμογές, ώστε να μπορούν να βρουν πληροφορίες σχετικά με το αρχείο αναπαράγετε.</translation>
-    </message>
-    <message>
-        <source>Autosave MPlayer log filename</source>
-        <translation type="obsolete">Αυτόματη αποθήκευση καταγραφής MPlayer στο αρχείο</translation>
-    </message>
-    <message>
-        <source>Enter here the path and filename that will be used to save the MPlayer log.</source>
-        <translation type="obsolete">Εισάγετε εδώ τη διαδρομή και το όνομα αρχείου που θα χρησιμοποιηθεί για να αποθηκεύσετε το αρχείο καταγραφής MPlayer.</translation>
-    </message>
-    <message>
-        <source>A&amp;utosave MPlayer log to file</source>
-        <translation type="obsolete">&amp;Αυτόματη αποθήκευση καταγραφής MPlayer στο αρχείο</translation>
-    </message>
-    <message>
-        <source>Pass short filenames (8+3) to MPlayer</source>
-        <translation type="obsolete">Πέρασμα σύντομων ονομάτων αρχείων (8+3) στον MPlayer</translation>
-    </message>
-    <message>
-        <source>Currently MPlayer can&apos;t open filenames which contains characters outside the local codepage. Checking this option will make SMPlayer to pass to MPlayer the short version of the filenames, and thus it will able to open them.</source>
-        <translation type="obsolete">Επί του παρόντος, ο MPlayer δεν μπορεί να ανοίξει τα ονόματα αρχείων που περιέχουν χαρακτήρες εκτός της τοπικής κωδικοσελίδας. Επιλέγοντας αυτή την επιλογή θα κάνει το SMPlayer να περνάει στον MPlayer τη σύντομη έκδοση των ονομάτων αρχείων, και έτσι θα μπορέσει να τα ανοίγει.</translation>
-    </message>
-    <message>
-        <source>&amp;Pass short filenames (8+3) to MPlayer</source>
-        <translation type="obsolete">&amp;Πέρασμα σύντομων ονομάτων αρχείων (8+3) στον MPlayer</translation>
-    </message>
-    <message>
         <location filename="../prefadvanced.cpp" line="451"/>
         <source>Monitor aspect</source>
-        <translation>Αναλογία Οθόνης</translation>
+        <translation>Αναλογίες οθόνης</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="452"/>
         <source>Select the aspect ratio of your monitor.</source>
-        <translation>Επιλέξτε αναλογίες εικόνας της οθόνης σας.</translation>
-    </message>
-    <message>
-        <source>Run MPlayer in its own window</source>
-        <translation type="obsolete">Εκτέλεση MPlayer σε δικό του παράθυρο</translation>
-    </message>
-    <message>
-        <source>If you check this option, the MPlayer video window won&apos;t be embedded in SMPlayer&apos;s main window but instead it will use its own window. Note that mouse and keyboard events will be handled directly by MPlayer, that means key shortcuts and mouse clicks probably won&apos;t work as expected when the MPlayer window has the focus.</source>
-        <translation type="obsolete">Αν επιλέξετε αυτή την επιλογή, το παράθυρο βίντεο MPlayer δεν θα είναι ενσωματωμένο στο κεντρικό παράθυρο SMPlayer, αλλά αντ &apos;αυτού θα χρησιμοποιήσει το δικό του παράθυρο. Σημειώστε ότι εκδηλώσεις ποντίκι και πληκτρολόγιο θα γίνονται απευθείας από τον MPlayer, αυτό σημαίνει συντομεύσεις και κλικ ποντικιού πιθανότατα δεν θα λειτουργούν όπως αναμένεται, όταν το παράθυρο MPlayer έχει την εστίαση.</translation>
+        <translation>Επιλέξτε αναλογίες εικόνας για την οθόνης σας.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="461"/>
         <source>Use the lavf demuxer by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του αποπολυπλέκτη lavf εξ ορισμού</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="462"/>
         <source>If this option is checked, the lavf demuxer will be used for all formats.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν αυτή η επιλογή είναι επιλεγμένη, ο αποπολυπλέκτης lavf θα χρησιμοποιείται για όλες τις μορφές.</translation>
     </message>
     <message>
-        <source>Report MPlayer crashes</source>
-        <translation type="obsolete">Έκθεση κατάρρευσης MPlayer.</translation>
+        <location filename="../prefadvanced.cpp" line="537"/>
+        <source>This option may be needed to play playlist files (m3u, pls...). However it can involve a security risk when playing internet sources because the way MPlayer parses and uses playlist files is not safe against maliciously constructed files.</source>
+        <translation>Αυτή η επιλογή ίσως να απαιτείται για την εκτέλεση αρχείων λιστών αναπαραγωγής (m3u, pls...). Ωστόσο μπορεί να εμπλέκει έναν κίνδυνο ασφαλείας κατά την αναπαραγωγή διαδικτυακών πηγών διότι ο τρόπος με τον οποίο το MPlayer αναλύει και χρησιμοποιεί τα αρχεία των λιστών αναπαραγωγής δεν είναι ασφαλής ενάντια σε κακόβουλα κατασκευασμένα αρχεία.</translation>
     </message>
     <message>
-        <source>If this option is checked, a window will appear to inform about MPlayer crashes. Otherwise those failures will be silently ignored.</source>
-        <translation type="obsolete">Αν αυτή η επιλογή είναι ενεργοποιημένη, θα εμφανιστεί ένα παράθυρο για να ενημερώσεις σχετικά με κατάρρευση του MPlayer. Διαφορετικά, οι καταρρεύσεις αυτές θα αγνοούνται σιωπηλά.</translation>
+        <location filename="../prefadvanced.cpp" line="490"/>
+        <source>Limitation: the actions are run only when a file is opened and not when the %1 process is restarted (e.g. you select an audio or video filter).</source>
+        <translation>Περιορισμός: οι ενέργειες εκτελούνται μόνον όταν ένα αρχείο έχει ανοίξει και όχι όταν η διεργασία %1 επανεκκινείται (π.χ. όταν επιλέγετε ένα φίλτρο ήχου ή βίντεο).</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="500"/>
@@ -5393,26 +5182,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Αν δείτε μέρη του βίντεο πάνω σε άλλο παράθυρο, μπορείτε να αλλάξετε το χρώμα για να το φτιάξετε. Προσπαθήστε να επιλέξετε ένα χρώμα κοντά στο μαύρο.</translation>
     </message>
     <message>
-        <source>Options for MPlayer</source>
-        <translation type="obsolete">Επιλογές MPlayer</translation>
-    </message>
-    <message>
         <location filename="../prefadvanced.cpp" line="509"/>
         <source>Options</source>
         <translation>Επιλογές</translation>
     </message>
     <message>
-        <source>Here you can type options for MPlayer. Write them separated by spaces.</source>
-        <translation type="obsolete">Εδώ μπορείτε να ορίσετε έξτρα επιλογές στον MPlayer. Τις γράφετε χωρισμένες με κενά.</translation>
-    </message>
-    <message>
         <location filename="../prefadvanced.cpp" line="513"/>
         <source>Video filters</source>
-        <translation>Βίντεο φίλτρα</translation>
-    </message>
-    <message>
-        <source>Here you can add video filters for MPlayer. Write them separated by commas. Don&apos;t use spaces!</source>
-        <translation type="obsolete">Εδώ μπορείτε να προσθέσετε βίντεο φίλτρα για MPlayer. Γράψτε τα διαχωρίζοντας τα με κόμματα. Μην χρησιμοποιείτε κενά!</translation>
+        <translation>Φίλτρα βίντεο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="517"/>
@@ -5420,18 +5197,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Ήχου φίλτρα</translation>
     </message>
     <message>
-        <source>Here you can add audio filters for MPlayer. Write them separated by commas. Don&apos;t use spaces!</source>
-        <translation type="obsolete">Εδώ μπορείτε να προσθέσετε ήχου φίλτρα για MPlayer. Γράψτε τα διαχωρίζοντας τα με κόμματα. Μην χρησιμοποιείτε κενά!</translation>
-    </message>
-    <message>
         <location filename="../prefadvanced.cpp" line="466"/>
         <source>Repaint the background of the video window</source>
-        <translation>Βελτίωση του φόντου του βίντεο παράθυρου</translation>
+        <translation>Βελτίωση του φόντου του παράθυρου βίντεο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="119"/>
         <source>Repaint the backgroun&amp;d of the video window</source>
-        <translation>Βελτίωση του &amp;φόντου του βίντεο παράθυρου</translation>
+        <translation>Βελτίωση του &amp;φόντου στο παράθυρο του βίντεο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="551"/>
@@ -5441,7 +5214,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="552"/>
         <source>Use IPv4 on network connections. Falls back on IPv6 automatically.</source>
-        <translation>Χρήση IPv4 για συνδέσεις δικτύου. Πέφτει πίσω στο IPv6 αυτόματα.</translation>
+        <translation>Χρήση IPv4 για συνδέσεις δικτύου. Εφεδρικά χρησιμοποιεί το IPv6 αυτόματα.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="554"/>
@@ -5451,12 +5224,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="555"/>
         <source>Use IPv6 on network connections. Falls back on IPv4 automatically.</source>
-        <translation>Χρήση IPv6 για συνδέσεις δικτύου. Πέφτει πίσω στο IPv4 αυτόματα.</translation>
+        <translation>Χρήση IPv6 για συνδέσεις δικτύου. Εφεδρικά χρησιμοποιεί το IPv4 αυτόματα.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="432"/>
         <source>Network Connection</source>
-        <translation>Συνδέσεις Δικτύου</translation>
+        <translation>Σύνδεση Δικτύου</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="444"/>
@@ -5476,21 +5249,47 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="454"/>
         <source>Rebuild index if needed</source>
-        <translation>Ξαναδημιουργία ευρετήριου αν χρειαστεί</translation>
+        <translation>Επαναδόμηση ευρετηρίου αν χρειαστεί</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="105"/>
         <source>Rebuild &amp;index if needed</source>
-        <translation>&amp;Ξαναδημιουργία ευρετήριου αν χρειαστεί</translation>
+        <translation>&amp;Επαναδόμηση ευρετηρίου αν χρειαστεί</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="561"/>
         <source>If this option is checked, SMPlayer will store the debugging messages that SMPlayer outputs (you can see the log in &lt;b&gt;Options -&gt; View logs -&gt; SMPlayer&lt;/b&gt;). This information can be very useful for the developer in case you find a bug.</source>
-        <translation>Αν αυτή η επιλογή είναι επιλεγμένη, το SMPlayer θα αποθηκεύσει τα μηνύματα εντοπισμού σφαλμάτων της εξόδους του SMPlayer (μπορείτε να δείτε το ημερολόγιο στο &lt;b&gt;Επιλογές -&gt; Δείτε τα αρχεία καταγραφών -&gt; SMPlayer).&lt;/b&gt; Οι πληροφορίες αυτές μπορεί να είναι πολύ χρήσιμες για τον κύριο του έργου σε περίπτωση που βρείτε κάποιο bug.</translation>
+        <translation>Αν αυτή η επιλογή είναι επιλεγμένη, ο SMPlayer θα αποθηκεύσει τα μηνύματα εντοπισμού σφαλμάτων της εξόδους του SMPlayer (μπορείτε να δείτε το ημερολόγιο στο &lt;b&gt;Επιλογές -&gt; Εμφάνιση αρχείων καταγραφής -&gt; SMPlayer).&lt;/b&gt; Οι πληροφορίες αυτές μπορεί να φανούν πολύ χρήσιμες για τους προγραμματιστές του έργου σε περίπτωση που βρείτε σφάλμα.</translation>
     </message>
     <message>
-        <source>If checked, SMPlayer will store the output of MPlayer (you can see it in &lt;b&gt;Options -&gt; View logs -&gt; MPlayer&lt;/b&gt;). In case of problems this log can contain important information, so it&apos;s recommended to keep this option checked.</source>
-        <translation type="obsolete">Αν είναι επιλεγμένο, το SMPlayer θα αποθηκεύσει την έξοδο του MPlayer (μπορείτε να το δείτε στις &lt;b&gt;επιλογές -&gt; Δείτε τα αρχεία καταγραφών -&gt; MPlayer).&lt;/b&gt; Σε περίπτωση προβλημάτων αυτό το αρχείο καταγραφής μπορεί να περιέχει σημαντικές πληροφορίες, οπότε είναι προτιμότερο να είναι επιλεγμένο.</translation>
+        <location filename="../prefadvanced.cpp" line="573"/>
+        <source>Log %1 output</source>
+        <translation>Καταγραφή της εξόδου του %1</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="574"/>
+        <source>If checked, SMPlayer will store the output of %1 (you can see it in &lt;b&gt;Options -&gt; View logs -&gt; %1&lt;/b&gt;). In case of problems this log can contain important information, so it&apos;s recommended to keep this option checked.</source>
+        <translation>Αν είναι επιλεγμένο, το SMPlayer θα αποθηκεύει την έξοδο του  %1 (μπορείτε να το δείτε στις &lt;b&gt;Επιλογές -&gt; Προβολή καταγραφών -&gt; %1&lt;/b&gt;). Σε περίπτωση αντιμετώπισης προβλημάτων αυτή η καταγραφή μπορεί να περιέχει σημαντικές πληροφορίες, και ως εκ τούτου συνιστάται να διατηρήσετε την επιλογή αυτή ενεργοποιημένη.</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="579"/>
+        <source>Autosave %1 log</source>
+        <translation>Αυτόματη αποθήκευση της καταγραφής του %1</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="580"/>
+        <source>If this option is checked, the %1 log will be saved to the specified file every time a new file starts to play. It&apos;s intended for external applications, so they can get info about the file you&apos;re playing.</source>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, οι καταγραφές του %1 θα αποθηκεύονται στο καθορισμένο αρχείο κάθε φορά που ένα νέο αρχείο εκτελείται. Προορίζεται για την πληροφόρηση εξωτερικών εφαρμογών σχετικά με το αναπαράγον αρχείο.</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="585"/>
+        <source>Autosave %1 log filename</source>
+        <translation>Όνομα αρχείου για την αυτόματη αποθήκευση της καταγραφής του %1</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="586"/>
+        <source>Enter here the path and filename that will be used to save the %1 log.</source>
+        <translation>Εισαγάγετε εδώ την διαδρομή και το όνομα του αρχείου που θα χρησιμοποιείται για την αποθήκευση της καταγραφής του %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="592"/>
@@ -5505,77 +5304,82 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="94"/>
         <source>&amp;Run %1 in its own window</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση του %1 σε &amp;ξεχωριστό παράθυρο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="95"/>
         <source>&amp;Pass short filenames (8+3) to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Εφαρμογή βραχέων ονομάτων αρχείων (8+3) στο %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="96"/>
         <source>R&amp;eport %1 crashes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανα&amp;φορά καταρρεύσεων του %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="511"/>
         <source>Write them separated by spaces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Γράψτε τες διαχωρίζοντάς τες με διαστήματα.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="101"/>
         <source>Log %1 &amp;output</source>
-        <translation type="unfinished"></translation>
+        <translation>Καταγραφή της ε&amp;ξόδου του %1</translation>
+    </message>
+    <message>
+        <location filename="../prefadvanced.cpp" line="99"/>
+        <source>Here you can pass options and filters to %1.</source>
+        <translation>Εδώ μπορείτε να εισάγετε επιπλέον επιλογές και φίλτρα στο %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="102"/>
         <source>A&amp;utosave %1 log to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Α&amp;υτόματη αποθήκευση της καταγραφής του %1 σε αρχείο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="104"/>
         <source>Pa&amp;ss the %1 option to MPlayer (security risk)</source>
-        <translation type="unfinished"></translation>
+        <translation>Πέ&amp;ρασμα της επιλογής %1 στον MPlayer (κίνδυνος ασφαλείας)</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="521"/>
         <source>Run %1 in its own window</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση του %1 σε ξεχωριστό παράθυρο</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="522"/>
         <source>If you check this option, the %1 video window won&apos;t be embedded in SMPlayer&apos;s main window but instead it will use its own window. Note that mouse and keyboard events will be handled directly by %1, that means key shortcuts and mouse clicks probably won&apos;t work as expected when the %1 window has the focus.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν επιλέξετε αυτή την επιλογή, το παράθυρο βίντεο του %1 δεν θα είναι ενσωματωμένο στο κεντρικό παράθυρο SMPlayer, αλλά αντ &apos;αυτού θα χρησιμοποιεί το δικό του παράθυρο. Σημειώστε ότι τα γεγονότα του ποντικιού και του πληκτρολογίου θα διαχειρίζονται απευθείας από τον %1, που σημαίνει ότι συντομεύσεις πλήκτρων και τα κλικ ποντικιού πιθανότατα δεν θα λειτουργούν όπως αναμένεται, όταν το παράθυρο του %1 έχει την εστίαση.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="544"/>
         <source>Pass short filenames (8+3) to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή βραχέων ονομάτων αρχείων (8+3) στο %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="545"/>
         <source>If this option is checked, SMPlayer will pass to %1 the short version of the filenames.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν αυτή η επιλογή είναι επιλεγμένη, το SMPlayer θα εφαρμόζει στο %1 την βραχεία έκδοση των ονομάτων των αρχείων.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="530"/>
         <source>Report %1 crashes</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναφορά καταρρεύσεων του %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="531"/>
         <source>If this option is checked, a window will appear to inform about %1 crashes. Otherwise those failures will be silently ignored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, θα εμφανίζεται ένα παράθυρο για να αναφέρετε σχετικά με τις καταρρεύσεις του %1. Διαφορετικά, οι καταρρεύσεις αυτές θα αγνοούνται σιωπηλά.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="536"/>
         <source>Pass the %1 option to MPlayer (security risk)</source>
-        <translation type="unfinished"></translation>
+        <translation>Πέρασμα της επιλογής %1 στον MPlayer (κίνδυνος ασφαλείας)</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="473"/>
         <source>Switches %1 to an experimental mode where timestamps for video frames are calculated differently and video filters which add new frames or modify timestamps of existing ones are supported. The more accurate timestamps can be visible for example when playing subtitles timed to scene changes with the SSA/ASS library enabled. Without correct pts the subtitle timing will typically be off by some frames. This option does not work correctly with some demuxers and codecs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλάσσει το %1 σε μια πειραματική λειτουργία όπου οι χρονοσφραγίδες για τα καρέ βίντεο υπολογίζονται διαφορετικά και υποστηρίζονται τα φίλτρα βίντεο που προσθέτουν νέα καρέ  ή τροποποιούν τις χρονοσφραγίδες των υπαρχόντων.  Οι πιο ακριβείς χρονοσφραγίδες μπορεί να είναι ορατές για παράδειγμα όταν αναπαράγονται υπότιτλοι χρονισμένοι στις αλλαγές των σκηνών με την βιβλιοθήκη SSA/ASS ενεργοποιημένη. Δίχως σωστό pts ο χρονισμός των υποτίτλων θα είναι ετεροχρονισμένος μερικά καρέ. Αυτή η επιλογή δεν λειτουργεί σωστά με μερικούς αποπολυπλέκτες και αποκωδικοποιητές.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="482"/>
@@ -5585,77 +5389,38 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="483"/>
         <source>Here you can specify a list of &lt;i&gt;actions&lt;/i&gt; which will be run every time a file is opened. You&apos;ll find all available actions in the key shortcut editor in the &lt;b&gt;Keyboard and mouse&lt;/b&gt; section. The actions must be separated by spaces. Checkable actions can be followed by &lt;i&gt;true&lt;/i&gt; or &lt;i&gt;false&lt;/i&gt; to enable or disable the action.</source>
-        <translation>Εδώ μπορείτε να καθορίσετε μια λίστα με &lt;i&gt;ενέργειες&lt;/i&gt; που θα εκτελούνται κάθε φορά που ένα αρχείο ανοίγει. Θα βρείτε όλες τις διαθέσιμες ενέργειες στον επεξεργαστή συντομεύσεων στην ενότητα &lt;b&gt;Πληκτρολόγιο και ποντίκι&lt;/b&gt;. Οι ενέργειες πρέπει να διαχωρίζονται με κενά. Ενέργειες που θέλουν τσεκάρισμα μπορούν να ακολουθούνται από &lt;i&gt;true&lt;i&gt; ή &lt;i&gt;false&lt;/i&gt; για να ενεργοποίηση ή απενεγοποίηση της ενέργειας.</translation>
-    </message>
-    <message>
-        <source>Limitation: the actions are run only when a file is opened and not when the mplayer process is restarted (e.g. you select an audio or video filter).</source>
-        <translation type="obsolete">Περιορισμός: Οι ενέργειες τρέχουν μόνο όταν ένα αρχείο έχει ανοίξει και όχι όταν η εφαρμογή mplayer επανεκκίνεί (π.χ. επιλέξετε ένα ηχητικό ή βίντεο φίλτρο).</translation>
+        <translation>Εδώ μπορείτε να καθορίσετε μια λίστα με &lt;i&gt;ενέργειες&lt;/i&gt; που θα εκτελούνται κάθε φορά που ανοίγει ένα αρχείο. Θα βρείτε όλες τις διαθέσιμες ενέργειες στον επεξεργαστή συντομεύσεων στην ενότητα &lt;b&gt;Πληκτρολόγιο και ποντίκι&lt;/b&gt;. Οι ενέργειες πρέπει να διαχωρίζονται με κενά. Ενέργειες που μπορούν να εναλλαχτούν σε κατάσταση μπορούν να ακολουθούνται από &lt;i&gt;true&lt;i&gt; ή &lt;i&gt;false&lt;/i&gt; για να ενεργοποίηση ή απενεργοποίηση της ενέργειας.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="98"/>
         <source>Options for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="99"/>
-        <source>Here you can pass options and filters to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές για %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="510"/>
         <source>Here you can type options for %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εδώ μπορείτε να πληκτρολογήσετε τις επιλογές για το %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="514"/>
         <source>Here you can add video filters for %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εδώ μπορείτε να προσθέσετε φίλτρα βίντεο για το %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="515"/>
         <location filename="../prefadvanced.cpp" line="519"/>
         <source>Write them separated by commas. Don&apos;t use spaces!</source>
-        <translation type="unfinished"></translation>
+        <translation>Γράψτε τα διαχωρίζοντάς τα με κόμματα, όχι διαστήματα!</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="518"/>
         <source>Here you can add audio filters for %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εδώ μπορείτε να προσθέσετε φίλτρα ήχου για το %1.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.cpp" line="549"/>
         <source>Network</source>
         <translation>Δίκτυο</translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="573"/>
-        <source>Log %1 output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="574"/>
-        <source>If checked, SMPlayer will store the output of %1 (you can see it in &lt;b&gt;Options -&gt; View logs -&gt; %1&lt;/b&gt;). In case of problems this log can contain important information, so it&apos;s recommended to keep this option checked.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="579"/>
-        <source>Autosave %1 log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="580"/>
-        <source>If this option is checked, the %1 log will be saved to the specified file every time a new file starts to play. It&apos;s intended for external applications, so they can get info about the file you&apos;re playing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="585"/>
-        <source>Autosave %1 log filename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefadvanced.cpp" line="586"/>
-        <source>Enter here the path and filename that will be used to save the %1 log.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="169"/>
@@ -5665,7 +5430,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.ui" line="363"/>
         <source>A&amp;udio filters:</source>
-        <translation type="unfinished"></translation>
+        <translation>Φίλτρα ή&amp;χου:</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="426"/>
@@ -5683,7 +5448,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="455"/>
         <source>Rebuilds index of files if no index was found, allowing seeking. Useful with broken/incomplete downloads, or badly created files. This option only works if the underlying media supports seeking (i.e. not with stdin, pipe, etc).&lt;br&gt; &lt;b&gt;Note:&lt;/b&gt; the creation of the index may take some time.</source>
-        <translation>Ανακατασκευή περιεχομένου αρχείων αν δεν βρεθεί περιεχόμενο, επιτρέποντας αναζήτηση. Χρήσιμο σε σπασμένα/ημιτελή κατεβάσματα, ή άσχημα δημιουργημένα αρχεία . Αυτή η επιλογή λειτουργεί μόνο αν το πολυμέσο υποστηρίζει αναζήτηση (όχι με stdin, pipe, κλπ).&lt;br&gt;&lt;b&gt;Σημείωση:&lt;/b&gt; η δημιουργία του περιεχομένου μπορεί να πάρει κάποιο χρόνο.</translation>
+        <translation>Αναδημιουργεί το ευρετήριο των αρχείων αν δεν βρεθεί ευρετήριο, επιτρέποντας την αναζήτηση. Χρήσιμο για κατεστραμμένες/ημιτελής λήψεις, ή κακώς δημιουργημένα αρχεία. Αυτή η επιλογή λειτουργεί μόνον αν το υποκείμενο πολυμέσο υποστηρίζει την αναζήτηση (όχι με stdin, pipe, κλπ).&lt;br&gt;&lt;b&gt;Σημείωση:&lt;/b&gt; η δημιουργία του ευρετηρίου μπορεί να πάρει κάποιο χρόνο.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="128"/>
@@ -5703,7 +5468,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="568"/>
         <source>If this option is checked, the SMPlayer log wil be recorded to %1</source>
-        <translation>Aν αυτή η επιλογή είναι επιλεγμένη, η καταγραφή του SMPlayer θα αποθηκεύται στο %1</translation>
+        <translation>Όταν αυτή η επιλογή είναι επιλεγμένη, η καταγραφή του SMPlayer θα αποθηκεύεται στο %1</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="584"/>
@@ -5718,7 +5483,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefadvanced.cpp" line="495"/>
         <source>If this option is enabled, information from tags will be shown in window title. Otherwise only the filename will be shown.</source>
-        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, θα εμφανίζει πληροφορίες από τις ετικέτες στον τίτλο του παράθυρου. Διαφορετικά θα εμφανίζεται μόνο το όνομα του αρχείου.</translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, θα εμφανίζει πληροφορίες από τις ετικέτες στον τίτλο του παράθυρου. Διαφορετικά θα εμφανίζεται μόνο το όνομα του αρχείου.</translation>
     </message>
     <message>
         <location filename="../prefadvanced.ui" line="198"/>
@@ -5736,12 +5501,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefassociations.cpp" line="205"/>
         <source>Not all files could be associated. Please check your security permissions and retry.</source>
-        <translation>Δεν μπορούν όλα τα αρχεία να συσχετιστούν. Παρακαλώ ελέγξτε τα δικαιώματα ασφαλείας και προσπαθήστε ξανά.</translation>
+        <translation>Δεν μπορούσαν να συσχετιστούν όλα τα αρχεία. Παρακαλώ ελέγξτε τα δικαιώματα ασφαλείας και προσπαθήστε ξανά.</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="215"/>
         <source>File Types</source>
-        <translation>Τύπος Αρχείου</translation>
+        <translation>Τύπος αρχείου</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="232"/>
@@ -5751,12 +5516,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefassociations.cpp" line="233"/>
         <source>Check all file types in the list</source>
-        <translation>Τσεκάρισμα όλων των τύπων αρχείων της λίστα</translation>
+        <translation>Ενεργοποιεί όλους τους τύπους αρχείων στη λίστα</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="236"/>
         <source>Uncheck all file types in the list</source>
-        <translation>Ξετσεκάρισμα όλων των τύπων αρχείων της λίστα</translation>
+        <translation>Απενεργοποιεί όλους τους τύπους αρχείων στη λίστα</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="238"/>
@@ -5766,12 +5531,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefassociations.cpp" line="242"/>
         <source>Note:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="243"/>
         <source>Restoration doesn&apos;t work on Windows Vista.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αποκατάσταση δεν λειτουργεί στα Windows Vista.</translation>
     </message>
     <message>
         <location filename="../prefassociations.ui" line="26"/>
@@ -5796,16 +5561,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefassociations.cpp" line="239"/>
         <source>Check the media file extensions you would like SMPlayer to handle. When you click Apply, the checked files will be associated with SMPlayer. If you uncheck a media type, the file association will be restored.</source>
-        <translation>Τσεκάρετε τις επεκτάσεις αρχείων πολυμέσων που θα θέλατε το SMPlayer να είναι το προεπιλεγμένο πρόγραμμα. Όταν κάνετε κλικ στο Εφαρμογή, τα τσεκαρισμένα αρχεία θα σχετίζονται με SMPlayer. Αν ξετσεκάρετε έναν τύπο πολυμέσου, η συσχέτιση του αρχείου θα αποκατασταθεί.</translation>
+        <translation>Επιλέξτε τις επεκτάσεις αρχείων πολυμέσων για τις οποίες θα θέλατε τον SMPlayer να είναι το προεπιλεγμένο πρόγραμμα αναπαραγωγής. Όταν κάνετε κλικ στο Εφαρμογή, τα επιλεγμένα αρχεία θα σχετίζονται με SMPlayer. Αν απο-επιλέξτε έναν τύπο πολυμέσου, η συσχέτιση του αρχείου θα αποκατασταθεί.</translation>
     </message>
     <message>
         <location filename="../prefassociations.cpp" line="235"/>
         <source>Select none</source>
         <translation>Επιλογή κανενός</translation>
-    </message>
-    <message>
-        <source> &lt;b&gt;Note:&lt;/b&gt; (Restoration doesn&apos;t work on Windows Vista).</source>
-        <translation type="obsolete"> &lt;b&gt;Σημείωση:&lt;/b&gt; (Η αποκατάσταση δεν λειτουργεί στα Windows Vista).</translation>
     </message>
 </context>
 <context>
@@ -5817,87 +5578,79 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Συσκευές</translation>
     </message>
     <message>
-        <source>icon</source>
-        <translation type="obsolete">εικονίδιο</translation>
-    </message>
-    <message>
         <location filename="../prefdrives.cpp" line="219"/>
         <source>CD device</source>
-        <translation>CD συσκευή</translation>
+        <translation>Συσκευή CD</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="220"/>
         <source>Choose your CDROM device. It will be used to play VCDs and Audio CDs.</source>
-        <translation>Επιλέξτε την CD συσκευή σας. Θα χρησιμοποιηθεί για παίξιμο VCDs και Ήχου CDs.</translation>
+        <translation>Επιλέξτε την συσκευή CD σας. Θα χρησιμοποιηθεί για αναπαραγωγή VCD και ηχητικών CD.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="223"/>
         <source>DVD device</source>
-        <translation>DVD συσκευή</translation>
+        <translation>Συσκευή DVD</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="224"/>
         <source>Choose your DVD device. It will be used to play DVDs.</source>
-        <translation>Επιλέξτε την DVD συσκευή σας. Θα χρησιμοποιηθεί για παίξιμο DVD.</translation>
-    </message>
-    <message>
-        <location filename="../prefdrives.cpp" line="228"/>
-        <source>If this option is checked, SMPlayer will play DVDs using dvdnav. Requires a version of MPlayer with dvdnav support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τη συσκευή DVD σας. Θα χρησιμοποιηθεί για αναπαραγωγή DVD.</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="75"/>
         <source>Select your &amp;CD device:</source>
-        <translation>Επιλέξτε την &amp;CD συσκευή:</translation>
+        <translation>Επιλέξτε τη συσκευή &amp;CD:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="176"/>
         <source>Select your &amp;DVD device:</source>
-        <translation>Επιλέξτε την &amp;DVD συσκευή:</translation>
+        <translation>Επιλέξτε τη συσκευή &amp;DVD:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="274"/>
         <source>Select your &amp;Blu-ray device:</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τη συσκευή &amp;Blu-ray:</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="33"/>
         <source>SMPlayer does not choose any CDROM or DVD devices by default. So before you can actually play a CD or DVD you have to select the devices you want to use (they can be the same).</source>
-        <translation>Το SMPlayer δεν επιλέγει καμιά CDROM ή DVD συσκευή επό προεπιλογή. Έτσι, για να μπορέσετε να παίξετε ένα CD ή DVD θα πρέπει να επιλέξετε τις συσκευές που θέλετε να χρησιμοποιήσετε (μπορεί να είναι ίδιες).</translation>
+        <translation>Το SMPlayer δεν επιλέγει καμιά συσκευή CDROM ή DVD από προεπιλογή. Έτσι, για να μπορέσετε να αναπαράξετε ένα CD ή DVD, θα πρέπει να επιλέξετε τις συσκευές που θέλετε να χρησιμοποιήσετε (μπορεί να είναι ίδιες).</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="239"/>
         <source>Blu-ray device</source>
-        <translation type="unfinished"></translation>
+        <translation>Συσκευή Blu-ray</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="240"/>
         <source>Choose your Blu-ray device. It will be used to play Blu-ray discs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τη συσκευή Blu-ray. Θα χρησιμοποιείται για την αναπαραγωγή των δίσκων Blu-ray.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="227"/>
         <source>Enable DVD menus</source>
-        <translation>Ενεργοποίηση DVD μενού</translation>
+        <translation>Ενεργοποίηση μενού DVD</translation>
     </message>
     <message>
-        <source>If this option is checked, smplayer will play DVDs using dvdnav. Requires a recent version of mplayer compiled with dvdnav support.</source>
-        <translation type="obsolete">Αν αυτή η επιλογή είναι επιλεγμένη, το smplayer θα παίζει τα DVDs χρησιμοποιώντας dvdnav. Απαιτεί μια πρόσφατη έκδοση του mplayer με υποστήριξη dvdnav.</translation>
+        <location filename="../prefdrives.cpp" line="228"/>
+        <source>If this option is checked, SMPlayer will play DVDs using dvdnav. Requires a version of MPlayer with dvdnav support.</source>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, το SMPlayer θα αναπαράγει τα DVD χρησιμοποιώντας το dvdnav. Απαιτεί μια έκδοση του MPlayer με υποστήριξη dvdnav.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="231"/>
         <source>&lt;b&gt;Note 1&lt;/b&gt;: cache will be disabled, this can affect performance.</source>
-        <translation>&lt;b&gt;Σημείωση 1&lt;/b&gt;: αν η ενδιάμεση μνήμη είναι απενεργοποιημένη, αυτό μπορεί να επηρεάσει την απόδοση.</translation>
+        <translation>&lt;b&gt;Σημείωση 1&lt;/b&gt;: η ενδιάμεση μνήμη θα απενεργοποιηθεί, αυτό μπορεί να επηρεάσει την απόδοση.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="232"/>
         <source>&lt;b&gt;Note 2&lt;/b&gt;: you may want to assign the action &quot;activate option in DVD menus&quot; to one of the mouse buttons.</source>
-        <translation>&lt;b&gt;Σημείωση 2&lt;/b&gt;: μπορεί να θέλετε να αναθέσετε τη ενέργεια &quot;ενεργοποίηση επιλογών στο DVD μενου&quot; σε ένα από τα κουμπιά του ποντικιού.</translation>
+        <translation>&lt;b&gt;Σημείωση 2&lt;/b&gt;: μπορεί να θέλετε να αναθέσετε τη ενέργεια «ενεργοποίηση επιλογών στο μενού DVD&gt; σε ένα από τα κουμπιά του ποντικιού.</translation>
     </message>
     <message>
         <location filename="../prefdrives.cpp" line="234"/>
         <source>&lt;b&gt;Note 3&lt;/b&gt;: this feature is under development, expect a lot of issues with it.</source>
-        <translation>&lt;b&gt;Σημείωση 3&lt;/b&gt;: αυτό το χαρακτηριστικό είναι υπό ανάπτυξη, αναμένουμε πολλά ζητήματα με αυτό.</translation>
+        <translation>&lt;b&gt;Σημείωση 3&lt;/b&gt;: αυτό το χαρακτηριστικό είναι υπό ανάπτυξη, να αναμένετε προβλήματα.</translation>
     </message>
     <message>
         <location filename="../prefdrives.ui" line="225"/>
@@ -5907,14 +5660,14 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefdrives.ui" line="119"/>
         <source>&amp;Scan for CD/DVD drives</source>
-        <translation>&amp;Σάρωση για CD/DVD οδηγούς</translation>
+        <translation>&amp;Σάρωση για συσκευές CD/DVD</translation>
     </message>
 </context>
 <context>
     <name>PrefGeneral</name>
     <message>
-        <location filename="../prefgeneral.cpp" line="130"/>
-        <location filename="../prefgeneral.cpp" line="952"/>
+        <location filename="../prefgeneral.cpp" line="144"/>
+        <location filename="../prefgeneral.cpp" line="998"/>
         <source>General</source>
         <translation>Γενικά</translation>
     </message>
@@ -5926,245 +5679,272 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefgeneral.ui" line="76"/>
         <source>Media settings</source>
-        <translation>Ρυθμίσεις ανοιγμένων αρχείων</translation>
+        <translation>Ρυθμίσεις πολυμέσων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1086"/>
+        <location filename="../prefgeneral.cpp" line="1138"/>
         <source>Start videos in fullscreen</source>
         <translation>Έναρξη βίντεο σε πλήρη οθόνη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1115"/>
+        <location filename="../prefgeneral.cpp" line="1169"/>
         <source>Disable screensaver</source>
-        <translation>Απενεργοποίηση προστασίας οθόνης</translation>
+        <translation>Απενεργοποίηση προφύλαξης οθόνης</translation>
     </message>
     <message>
-        <source>Select the mplayer executable</source>
-        <translation type="obsolete">Επιλογή προγράμματος mplayer</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="152"/>
+        <location filename="../prefgeneral.cpp" line="166"/>
         <source>7 (6.1 Surround)</source>
-        <translation></translation>
+        <translation>7 (6.1 Surround)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="153"/>
+        <location filename="../prefgeneral.cpp" line="167"/>
         <source>8 (7.1 Surround)</source>
-        <translation></translation>
+        <translation>8 (7.1 Surround)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="181"/>
+        <location filename="../prefgeneral.cpp" line="193"/>
+        <source>Select the %1 executable</source>
+        <translation>Επιλογή του εκτελέσιμου %1</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="195"/>
         <source>Executables</source>
-        <translation>Προγράμματα</translation>
+        <translation>Εκτελέσιμα</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="183"/>
+        <location filename="../prefgeneral.cpp" line="197"/>
         <source>All files</source>
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="185"/>
+        <location filename="../prefgeneral.cpp" line="199"/>
         <source>Select a directory</source>
-        <translation>Επιλογή φάκελου</translation>
+        <translation>Επιλέξτε φάκελο</translation>
     </message>
     <message>
-        <source>MPlayer executable</source>
-        <translation type="obsolete">Διαδρομή MPlayer</translation>
+        <location filename="../prefgeneral.cpp" line="212"/>
+        <source>%1 &amp;executable:</source>
+        <translation>%1 &amp;εκτελέσιμο:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="992"/>
+        <location filename="../prefgeneral.cpp" line="408"/>
+        <location filename="../prefgeneral.cpp" line="409"/>
+        <source>Default</source>
+        <translation>Εξ ορισμού</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1001"/>
+        <source>Multimedia engine</source>
+        <translation>Μηχανή πολυμέσων</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1002"/>
+        <source>Select which multimedia engine you want to use, either MPlayer or mpv.</source>
+        <translation>Επιλογή της μηχανής πολυμέσων προς χρήση, MPlayer ή mpv.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1003"/>
+        <source>The option &apos;other&apos; allows you to manually select the path of the executable.</source>
+        <translation>Η επιλογή «άλλο» σας επιτρέπει να επιλέξετε χειροκίνητα την διαδρομή του εκτελέσιμου.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1006"/>
+        <source>%1 executable</source>
+        <translation>%1 εκτελέσιμο</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1007"/>
+        <source>Here you must specify the %1 executable that SMPlayer will use.</source>
+        <translation>Εδώ μπορείτε να ορίσετε το εκτελέσιμο %1 που θα χρησιμοποιεί το SMPlayer.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1022"/>
+        <source>Remember settings for streams</source>
+        <translation>Απομνημόνευση των ρυθμίσεων των ροών</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1023"/>
+        <source>When this option is enabled the settings for online streams will be remembered as well.</source>
+        <translation>Αν είναι ενεργοποιημένη αυτή η επιλογή, οι ρυθμίσεις των διαδικτυακών ροών θα απομνημονεύονται.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1038"/>
         <source>Screenshots folder</source>
         <translation>Φάκελος στιγμιότυπων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="998"/>
+        <location filename="../prefgeneral.cpp" line="1044"/>
         <source>Template for screenshots</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπο για στιγμιότυπα</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1030"/>
+        <location filename="../prefgeneral.cpp" line="1046"/>
+        <source>For example %1 would save the screenshot as &apos;moviename_0001.png&apos;.</source>
+        <translation>Για παράδειγμα το %1 θα αποθήκευε το στιγμιότυπο οθόνης ως «όνοματαινίας_0001.png».</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1047"/>
+        <source>%1 specifies the filename of the video without the extension, %2 adds a 4 digit number padded with zeros.</source>
+        <translation>Το %1 καθορίζει το όνομα αρχείου του βίντεο δίχως το επίθημα, το %2 προσθέτει έναν τετραψήφιο αριθμό συμπληρωμένο από μηδενικά.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1057"/>
+        <source>Format for screenshots</source>
+        <translation>Μορφή για τα στιγμιότυπα</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1058"/>
+        <source>This option allows to choose the image file type used for saving screenshots.</source>
+        <translation>Αυτή η επιλογή επιτρέπει την επιλογή του τύπου αρχείου της εικόνας που χρησιμοποιείται για την αποθήκευση των στιγμιότυπων οθόνης.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1076"/>
         <source>If this option is enabled, the computer will shut down just after SMPlayer is closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, ο υπολογιστής θα τερματιστεί αμέσως μετά το κλείσιμο του SMPlayer.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1036"/>
+        <location filename="../prefgeneral.cpp" line="1082"/>
         <source>Video output driver</source>
         <translation>Οδηγός εξόδου βίντεο</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1124"/>
+        <location filename="../prefgeneral.cpp" line="1083"/>
+        <source>Select the video output driver.</source>
+        <translation>Επιλέξτε τον οδηγό εξόδου του βίντεο.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1108"/>
+        <source>If this option is enabled, black borders will be added to the image by default on new opened files.</source>
+        <translation>Η ενεργοποίηση αυτής της επιλογής, θα προσθέτει από προεπιλογή, μαύρες λωρίδες στην εικόνα για τα νέα αρχεία που θα ανοίγουν.</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.cpp" line="1178"/>
         <source>Audio output driver</source>
         <translation>Οδηγός εξόδου ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1125"/>
+        <location filename="../prefgeneral.cpp" line="1179"/>
         <source>Select the audio output driver.</source>
-        <translation>Επιλέξτε οδηγό εξόδου του ήχου.</translation>
+        <translation>Επιλέξτε τον οδηγό εξόδου του ήχου.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="966"/>
+        <location filename="../prefgeneral.cpp" line="1012"/>
         <source>Remember settings</source>
         <translation>Απομνημόνευση ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1183"/>
+        <location filename="../prefgeneral.cpp" line="1237"/>
         <source>Preferred audio language</source>
         <translation>Προτιμώμενη γλώσσα ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1193"/>
+        <location filename="../prefgeneral.cpp" line="1247"/>
         <source>Preferred subtitle language</source>
-        <translation>Προτιμώμενη γλώσσα υπότιτλων</translation>
+        <translation>Προτιμώμενη γλώσσα υποτίτλων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1064"/>
+        <location filename="../prefgeneral.cpp" line="1116"/>
         <source>Software video equalizer</source>
-        <translation>Προγράμματος ισοσταθμιστής βίντεο</translation>
+        <translation>Ισοσταθμιστής βίντεο λογισμικού</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="145"/>
+        <location filename="../prefgeneral.cpp" line="159"/>
         <source>Other...</source>
-        <translation type="unfinished"></translation>
+        <translation>Άλλο...</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="179"/>
-        <source>Select the %1 executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="378"/>
-        <location filename="../prefgeneral.cpp" line="379"/>
-        <source>Default</source>
-        <translation type="unfinished">Προεπιλογή</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="955"/>
-        <source>Multimedia engine</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="956"/>
-        <source>Select which multimedia engine you want to use, either MPlayer or mpv.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="957"/>
-        <source>The option &apos;other&apos; allows you to manually select the path of the executable.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="976"/>
-        <source>Remember settings for streams</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="977"/>
-        <source>When this option is enabled the settings for online streams will be remembered as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="999"/>
+        <location filename="../prefgeneral.cpp" line="1045"/>
         <source>This option specifies the filename template used to save screenshots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή καθορίζει το πρότυπο του ονόματος αρχείου που χρησιμοποιείται για την αποθήκευση των στιγμιότυπων οθόνης.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1003"/>
+        <location filename="../prefgeneral.cpp" line="1049"/>
         <source>For a full list of the template specifiers visit this link:</source>
-        <translation type="unfinished"></translation>
+        <translation>Για έναν πλήρη κατάλογο των προσδιοριστικών πρότυπων ανατρέξτε σε αυτόν τον δεσμό:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1007"/>
-        <location filename="../prefgeneral.cpp" line="1014"/>
+        <location filename="../prefgeneral.cpp" line="1053"/>
+        <location filename="../prefgeneral.cpp" line="1060"/>
         <source>This option only works with mpv.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η επιλογή αυτή λειτουργεί μόνο με το mpv.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1011"/>
-        <source>Format for screenshots</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1012"/>
-        <source>This option allows to choose the image file type used for saving screenshots.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1029"/>
+        <location filename="../prefgeneral.cpp" line="1075"/>
         <source>Shut down computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Τερματισμός του υπολογιστή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1037"/>
-        <source>Select the video output driver.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../prefgeneral.cpp" line="1107"/>
+        <source>Add black borders for subtitles by default</source>
+        <translation>Προσθήκη μαύρων λωρίδων για τους υπότιτλους από προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1065"/>
+        <location filename="../prefgeneral.cpp" line="1117"/>
         <source>You can check this option if video equalizer is not supported by your graphic card or the selected video output driver.&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; this option can be incompatible with some video output drivers.</source>
-        <translation>Μπορείτε να επιλέξετε αυτή την επιλογή αν ισοσταθμιστής βίντεο δεν υποστηρίζεται από την κάρτα γραφικών σας ή τον επιλεγμένο οδηγό εξόδου βίντεο. &lt;b&gt;Σημείωση:&lt;/b&gt; αυτή η επιλογή μπορεί να είναι ασύμβατη με ορισμένους οδηγούς εξόδου βίντεο.</translation>
+        <translation>Μπορείτε να επιλέξετε αυτή την επιλογή εάν η κάρτα γραφικών σας ή το επιλεγμένο πρόγραμμα οδήγησης εξόδου βίντεο δεν υποστηρίζει ισοστάθμιση βίντεο . &lt;b&gt;Σημείωση:&lt;/b&gt; αυτή η επιλογή μπορεί να είναι ασύμβατη με ορισμένους οδηγούς εξόδου βίντεο.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1087"/>
+        <location filename="../prefgeneral.cpp" line="1139"/>
         <source>If this option is checked, all videos will start to play in fullscreen mode.</source>
-        <translation>Αν αυτή η επιλογή είναι επιλεγμένη, όλα τα βίντεο θα αναπαράγονται σε πλήρη οθόνη.</translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, όλα τα βίντεο θα αναπαράγονται σε πλήρη οθόνη.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1130"/>
+        <location filename="../prefgeneral.cpp" line="1184"/>
         <source>Global audio equalizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθολικός ισοσταθμιστής ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1131"/>
+        <location filename="../prefgeneral.cpp" line="1185"/>
         <source>If this option is checked, all media files share the audio equalizer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, όλα τα αρχεία πολυμέσων κάνουν κοινή χρήση του ισοσταθμιστή ήχου.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1132"/>
+        <location filename="../prefgeneral.cpp" line="1186"/>
         <source>If it&apos;s not checked, the audio equalizer values are saved along each file and loaded back when the file is played later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν δεν είναι ενεργοποιημένο, οι τιμές του ισοσταθμιστή ήχου αποθηκεύονται παράλληλα με το αρχείο και ανακτώνται κατά την αναπαραγωγή του αρχείου αργότερα.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1141"/>
+        <location filename="../prefgeneral.cpp" line="1195"/>
         <source>Requests the number of playback channels. %1 asks the decoder to decode the audio into as many channels as specified. Then it is up to the decoder to fulfill the requirement. This is usually only important when playing videos with AC3 audio (like DVDs). In that case liba52 does the decoding by default and correctly downmixes the audio into the requested number of channels. &lt;b&gt;Note&lt;/b&gt;: This option is honored by codecs (AC3 only), filters (surround) and audio output drivers (OSS at least).</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαιτεί τον αριθμό των καναλιών αναπαραγωγής. Το %1 ρωτά τον αποκωδικοποιητή να αποκωδικοποιήσει τον ήχο σε όσα κανάλια έχουν καθοριστεί. Στη συνέχεια, εναπόκειται στον αποκωδικοποιητή να εκπληρώσει το αίτημα. Αυτό είναι συνήθως σημαντικό μόνο κατά την αναπαραγωγή βίντεο με ήχο AC3 (όπως τα DVD). Στην περίπτωση αυτή το liba52 κάνει την αποκωδικοποίηση εξ ορισμού και διορθώνει χαμηλώνοντας τον ήχο στον απαιτούμενο αριθμό καναλιών. &lt;b&gt;Σημείωση&lt;/b&gt;: Αυτή η επιλογή χρησιμοποιείται από κωδικοποιητές (μόνο AC3), φίλτρα (περιβάλλων ήχου) και προγράμματα οδήγησης εξόδου ήχου (OSS τουλάχιστον).</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1152"/>
+        <location filename="../prefgeneral.cpp" line="1206"/>
         <source>Allows to change the playback speed without altering pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την αλλαγή της ταχύτητας αναπαραγωγής χωρίς μεταβολή βήματος.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1160"/>
+        <location filename="../prefgeneral.cpp" line="1214"/>
         <source>Software volume control</source>
-        <translation>Προγράμματος έλεγχος έντασης</translation>
+        <translation>Έλεγχος έντασης λογισμικού</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1161"/>
+        <location filename="../prefgeneral.cpp" line="1215"/>
         <source>Check this option to use the software mixer, instead of using the sound card mixer.</source>
-        <translation>Τσεκαρισμένη αυτή η επιλογή θα χρησιμοποιεί το μίξερ του προγράμματος, αντί το μίξερ της κάρτας γραφικών.</translation>
+        <translation>Ενεργοποιήσετε αυτήν την επιλογή για να χρησιμοποιείστε τον μίκτη του προγράμματος, αντί του μίκτη της κάρτας γραφικών.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1050"/>
+        <location filename="../prefgeneral.cpp" line="1096"/>
         <source>Postprocessing quality</source>
-        <translation>Προεπεξεργασίας ποιότητα</translation>
+        <translation>Ποιότητα μετεπεξεργασίας</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1051"/>
+        <location filename="../prefgeneral.cpp" line="1097"/>
         <source>Dynamically changes the level of postprocessing depending on the available spare CPU time. The number you specify will be the maximum level used. Usually you can use some big number.</source>
-        <translation>Δυναμικά αλλάζει το επίπεδο ανάλογα με το διαθέσιμο ελεύθερο χρόνο ΚΜΕ. Ο αριθμός που διευκρινίζετε θα είναι το ανώτατο χρησιμοποιούμενο όριο. Συνήθως μπορείτε να χρησιμοποιήσετε κάποιο μεγάλο αριθμό.</translation>
+        <translation>Δυναμικά αλλάζει το επίπεδο ανάλογα με το διαθέσιμο ελεύθερο χρόνο ΚΜΕ. Ο αριθμός που διευκρινίζετε θα είναι το ανώτατο χρησιμοποιούμενο όριο. Συνήθως μπορείτε να χρησιμοποιήσετε έναν μεγάλο αριθμό.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1155"/>
+        <location filename="../prefgeneral.ui" line="1162"/>
         <source>&amp;Audio:</source>
         <translation>&amp;Ήχος:</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="82"/>
         <source>&amp;Remember settings for all files (audio track, subtitles...)</source>
-        <translation>&amp;Απομνημόνευση ρυθμίσεων για όλα τα αρχεία (θέση κομματιού, υπότιτλοι...)</translation>
+        <translation>&amp;Απομνημόνευση ρυθμίσεων για όλα τα αρχεία (κομμάτια, υπότιτλοι...)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1174"/>
+        <location filename="../prefgeneral.ui" line="1181"/>
         <source>Su&amp;btitles:</source>
         <translation>&amp;Υπότιτλοι:</translation>
     </message>
@@ -6176,122 +5956,122 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefgeneral.ui" line="35"/>
         <source>Multimedia &amp;engine:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Μηχανή πολυμέσων:</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="163"/>
         <source>Re&amp;member settings for streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Απο&amp;μνημόνευση των ρυθμίσεων των ροών</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="220"/>
         <source>Temp&amp;late:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Πρότυπο:</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="240"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μ&amp;ορφή:</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="308"/>
         <source>S&amp;hut down computer</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Τερματισμός του υπολογιστή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="613"/>
+        <location filename="../prefgeneral.ui" line="620"/>
         <source>Start videos in &amp;fullscreen</source>
         <translation>Έναρξη βίντεο σε &amp;πλήρη οθόνη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="627"/>
+        <location filename="../prefgeneral.ui" line="634"/>
         <source>Disable &amp;screensaver</source>
-        <translation>Απενεργοποίηση προστασίας &amp;οθόνης</translation>
+        <translation>Απενεργοποίηση προφύλαξης &amp;οθόνης</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="761"/>
+        <location filename="../prefgeneral.ui" line="768"/>
         <source>Global audio e&amp;qualizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθολικός ισοστα&amp;θμιστής ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="880"/>
+        <location filename="../prefgeneral.ui" line="887"/>
         <source>Use s&amp;oftware volume control</source>
-        <translation>&amp;Χρήση του προγράμματος ελέγχου έντασης</translation>
+        <translation>&amp;Χρήση του ελέγχου έντασης μέσω λογισμικού</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="903"/>
+        <location filename="../prefgeneral.ui" line="910"/>
         <source>Ma&amp;x. Amplification:</source>
-        <translation>&amp;Μέγιστη Ενίσχυση:</translation>
+        <translation>&amp;Μέγιστη ενίσχυση:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="770"/>
+        <location filename="../prefgeneral.ui" line="777"/>
         <source>&amp;AC3/DTS pass-through S/PDIF</source>
-        <translation>&amp;ΑC3/DTS διαπερατό S/PDIF</translation>
+        <translation>&amp;Πέρασμα S/PDIF στα ΑC3/DTS</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1070"/>
+        <location filename="../prefgeneral.cpp" line="1122"/>
         <source>Direct rendering</source>
         <translation>Άμεση απόδοση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1075"/>
+        <location filename="../prefgeneral.cpp" line="1127"/>
         <source>Double buffering</source>
         <translation>Διπλή ενδιάμεση μνήμη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="579"/>
+        <location filename="../prefgeneral.ui" line="586"/>
         <source>D&amp;irect rendering</source>
         <translation>&amp;Άμεση απόδοση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="586"/>
+        <location filename="../prefgeneral.ui" line="593"/>
         <source>Dou&amp;ble buffering</source>
         <translation>&amp;Διπλή ενδιάμεση μνήμη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1076"/>
+        <location filename="../prefgeneral.cpp" line="1128"/>
         <source>Double buffering fixes flicker by storing two frames in memory, and displaying one while decoding another. If disabled it can affect OSD negatively, but often removes OSD flickering.</source>
-        <translation>Η διπλή ενδιάμεση μνήμη διορθώνει το τρεμούλιασμα με την αποθήκευση δύο πλαισίων στη μνήμη, και την προβολή του ενός ενώ αποκωδικοποιεί το επόμενο. Εάν τίθεται εκτός λειτουργίας μπορεί να έχει δυσμενείς επιπτώσεις σε OSD, αλλά συχνά αφαιρεί το τρεμούλιασμα OSD.</translation>
+        <translation>Η διπλή ενδιάμεση μνήμη διορθώνει το τρεμούλιασμα με την αποθήκευση δύο πλαισίων στη μνήμη, και την προβολή του ενός όσο αποκωδικοποιείται το επόμενο. Εάν απενεργοποιηθεί, μπορεί να έχει δυσμενείς επιπτώσεις στο OSD, αλλά συχνά αφαιρεί το τρεμούλιασμα στο OSD.</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="428"/>
         <source>&amp;Enable postprocessing by default</source>
-        <translation>&amp;Προεπεξεργασία εξ&apos; ορισμού ενεργή</translation>
+        <translation>&amp;Μετεπεξεργασία ενεργή από προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="931"/>
+        <location filename="../prefgeneral.ui" line="938"/>
         <source>Volume &amp;normalization by default</source>
-        <translation>&amp;Κανονικοποίηση έντασης εξ&apos; ορισμού</translation>
+        <translation>&amp;Κανονικοποίηση έντασης από προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1024"/>
+        <location filename="../prefgeneral.cpp" line="1070"/>
         <source>Close when finished</source>
         <translation>Κλείσιμο όταν τελειώσει</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1025"/>
+        <location filename="../prefgeneral.cpp" line="1071"/>
         <source>If this option is checked, the main window will be automatically closed when the current file/playlist finishes.</source>
-        <translation>Αν αυτή η επιλογή τσεκαριστεί, το κύριο παράθυρο θα κλείσει αυτόματα όταν τελειώσει το τρέχον αρχείο/λίστα.</translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, το κύριο παράθυρο θα κλείσει αυτόματα όταν τελειώσει το τρέχον αρχείο/λίστα.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="149"/>
+        <location filename="../prefgeneral.cpp" line="163"/>
         <source>2 (Stereo)</source>
-        <translation>2 (Στέρεο)</translation>
+        <translation>2 (Στερεοφωνικός)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="150"/>
+        <location filename="../prefgeneral.cpp" line="164"/>
         <source>4 (4.0 Surround)</source>
-        <translation>4 (4.0 Περιβάλλον)</translation>
+        <translation>4 (4.0 Surround)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="151"/>
+        <location filename="../prefgeneral.cpp" line="165"/>
         <source>6 (5.1 Surround)</source>
-        <translation>6 (5.1 Περιβάλλον)</translation>
+        <translation>6 (5.1 Surround)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="785"/>
+        <location filename="../prefgeneral.ui" line="792"/>
         <source>C&amp;hannels by default:</source>
-        <translation>Προεπιλεγμένα &amp;Κανάλια:</translation>
+        <translation>Προεπιλεγμένα &amp;κανάλια:</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="269"/>
@@ -6299,113 +6079,109 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Παύση κατά την ελαχιστοποίηση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1019"/>
+        <location filename="../prefgeneral.cpp" line="1065"/>
         <source>Pause when minimized</source>
         <translation>Παύση κατά την ελαχιστοποίηση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1047"/>
+        <location filename="../prefgeneral.cpp" line="1093"/>
         <source>Enable postprocessing by default</source>
-        <translation>Ενεργοποίηση προεπεξεργασίας από προεπιλογή</translation>
+        <translation>Μετεπεξεργασίας ενεργή από προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1164"/>
+        <location filename="../prefgeneral.cpp" line="1218"/>
         <source>Max. Amplification</source>
         <translation>Μέγιστη Ενίσχυση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1135"/>
+        <location filename="../prefgeneral.cpp" line="1189"/>
         <source>AC3/DTS pass-through S/PDIF</source>
-        <translation>ΑC3/DTS διαπερατό S/PDIF</translation>
+        <translation>Πέρασμα S/PDIF στα ΑC3/DTS</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1171"/>
+        <location filename="../prefgeneral.cpp" line="1225"/>
         <source>Volume normalization by default</source>
-        <translation>Κανονικοποίηση έντασης εξ&apos; ορισμού</translation>
+        <translation>Ομαλοποίηση έντασης από προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1172"/>
+        <location filename="../prefgeneral.cpp" line="1226"/>
         <source>Maximizes the volume without distorting the sound.</source>
-        <translation>Μεγιστοποίηση έντασης χωρίς στρέβλωση του ήχου.</translation>
+        <translation>Μεγιστοποίηση έντασης χωρίς παραμόρφωση του ήχου.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1140"/>
+        <location filename="../prefgeneral.cpp" line="1194"/>
         <source>Channels by default</source>
-        <translation>Προεπιλεγμένα Κανάλια</translation>
+        <translation>Προεπιλεγμένα κανάλια</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1165"/>
+        <location filename="../prefgeneral.cpp" line="1219"/>
         <source>Sets the maximum amplification level in percent (default: 110). A value of 200 will allow you to adjust the volume up to a maximum of double the current level. With values below 100 the initial volume (which is 100%) will be above the maximum, which e.g. the OSD cannot display correctly.</source>
         <translation>Καθορίζει το ανώτατο όριο ενίσχυσης σε ποσοστό (προεπιλογή: 110). Η τιμή των 200 θα σας επιτρέψει να ρυθμίσετε την ένταση μέχρι κατ &apos;ανώτατο όριο το διπλάσιο του κανονικού επιπέδου. Με τιμές κάτω από τα 100 της αρχικής έντασης (που είναι 100%) θα είναι το ανώτατο όριο, το οποίο π.χ. η OSD, δεν μπορεί να εμφανίσει σωστά.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1048"/>
+        <location filename="../prefgeneral.cpp" line="1094"/>
         <source>Postprocessing will be used by default on new opened files.</source>
-        <translation>Προεπεξεργασία θα χρησιμοποιείται σε νέα ανοιγμένα αρχεία ως προεπιλογή.</translation>
+        <translation>Η μεταεπεξεργασία θα χρησιμοποιείται εξ ορισμού στα νέα ανοιγμένα αρχεία.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1203"/>
+        <location filename="../prefgeneral.cpp" line="1257"/>
         <source>Audio track</source>
-        <translation>Κομμάτι Ήχου</translation>
+        <translation>Κομμάτι ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1204"/>
+        <location filename="../prefgeneral.cpp" line="1258"/>
         <source>Specifies the default audio track which will be used when playing new files. If the track doesn&apos;t exist, the first one will be used. &lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; the &lt;i&gt;&quot;preferred audio language&quot;&lt;/i&gt; has preference over this option.</source>
         <translation>Καθορίζει το προεπιλεγμένο κομμάτι ήχου που θα χρησιμοποιηθεί όταν παίζετε νέα αρχεία. Αν το κομμάτι δεν υπάρχει, θα χρησιμοποιείται το πρώτο.&lt;br&gt;&lt;b&gt;Σημείωση:&lt;/b&gt; η &lt;i&gt;«προτιμώμενη γλώσσα ήχου&quot;&lt;/i&gt; έχει προτεραιότητα σε σχέση με αυτή την επιλογή.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1209"/>
+        <location filename="../prefgeneral.cpp" line="1263"/>
         <source>Subtitle track</source>
         <translation>Κομμάτι υπότιτλων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1210"/>
+        <location filename="../prefgeneral.cpp" line="1264"/>
         <source>Specifies the default subtitle track which will be used when playing new files. If the track doesn&apos;t exist, the first one will be used. &lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; the &lt;i&gt;&quot;preferred subtitle language&quot;&lt;/i&gt; has preference over this option.</source>
         <translation>Καθορίζει το προεπιλεγμένο κομμάτι υπότιτλων που θα χρησιμοποιηθεί όταν παίζετε νέα αρχεία. Αν το κομμάτι δεν υπάρχει, θα χρησιμοποιείται το πρώτο. &lt;br&gt;&lt;b&gt;Σημείωση: Η&lt;/b&gt; &lt;i&gt;&quot;προτιμώμενη γλώσσα υπότιτλων&quot;&lt;/i&gt; έχει προτεραιότητα σε σχέση με αυτή την επιλογή.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1283"/>
+        <location filename="../prefgeneral.ui" line="1290"/>
         <source>Or choose a track number:</source>
         <translation>Ή επιλέξτε έναν αριθμό κομματιού:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1224"/>
+        <location filename="../prefgeneral.ui" line="1231"/>
         <source>Audi&amp;o:</source>
         <translation>&amp;Ήχος:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1190"/>
+        <location filename="../prefgeneral.ui" line="1197"/>
         <source>Preferred language:</source>
         <translation>Προτιμώμενη γλώσσα:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1082"/>
+        <location filename="../prefgeneral.ui" line="1089"/>
         <source>Preferre&amp;d audio and subtitles</source>
         <translation>&amp;Προτιμώμενος ήχος και υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1237"/>
+        <location filename="../prefgeneral.ui" line="1244"/>
         <source>&amp;Subtitle:</source>
         <translation>&amp;Υπότιτλοι:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="188"/>
+        <location filename="../prefgeneral.cpp" line="202"/>
         <source>Here you can type your preferred language for the audio and subtitle streams. When a media with multiple audio or subtitle streams is found, SMPlayer will try to use your preferred language. This only will work with media that offer info about the language of audio and subtitle streams, like DVDs or mkv files.&lt;br&gt;These fields accept regular expressions. Example: &lt;b&gt;es|esp|spa&lt;/b&gt; will select the track if it matches with &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; or &lt;i&gt;spa&lt;/i&gt;.</source>
-        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα ήχου και υποτίτλων. Όταν ένα πολυμέσο έχει πολλαπλούς ήχους ή υποτίτλους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. Αυτό θα λειτουργήσει με πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα του ήχου και υποτίτλων, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Τα πεδία αυτά δέχονται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξετε το κομμάτι, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
+        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα ήχου και υποτίτλων. Όταν ένα πολυμέσο έχει πολλαπλούς ήχους ή υποτίτλους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. Αυτό λειτουργεί μόνο για πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα του ήχου και υποτίτλων, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Τα πεδία αυτά δέχονται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξει το κομμάτι, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="821"/>
+        <location filename="../prefgeneral.ui" line="828"/>
         <source>High speed &amp;playback without altering pitch</source>
         <translation>Υψηλή ταχύτητα &amp;αναπαραγωγής χωρίς μεταβολή βήματος</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1151"/>
+        <location filename="../prefgeneral.cpp" line="1205"/>
         <source>High speed playback without altering pitch</source>
         <translation>Υψηλή ταχύτητα αναπαραγωγής χωρίς μεταβολή βήματος</translation>
-    </message>
-    <message>
-        <source>Allows to change the playback speed without altering pitch. Requires at least MPlayer dev-SVN-r24924.</source>
-        <translation type="obsolete">Επιτρέπει την αλλαγή της ταχύτητας αναπαραγωγής χωρίς μεταβολή βήματος. Απαιτεί τουλάχιστον MPlayer dev-SVN-r24924.</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="348"/>
@@ -6413,102 +6189,82 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Βίντεο</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="572"/>
+        <location filename="../prefgeneral.ui" line="516"/>
+        <source>Add blac&amp;k borders for subtitles by default</source>
+        <translation>Προσθήκη μ&amp;αύρων λωρίδων για τους υπότιτλους από προεπιλογή</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.ui" line="579"/>
         <source>Use s&amp;oftware video equalizer</source>
         <translation>Χρήση &amp;ισοσταθμιστή βίντεο του προγράμματος</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="671"/>
+        <location filename="../prefgeneral.ui" line="678"/>
         <source>A&amp;udio</source>
-        <translation>&amp;Ήχος</translation>
+        <translation>Ήχ&amp;ος</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="856"/>
+        <location filename="../prefgeneral.ui" line="863"/>
         <source>Volume</source>
         <translation>Ένταση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1034"/>
+        <location filename="../prefgeneral.cpp" line="1080"/>
         <source>Video</source>
         <translation>Βίντεο</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1122"/>
+        <location filename="../prefgeneral.cpp" line="1176"/>
         <source>Audio</source>
         <translation>Ήχος</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1181"/>
+        <location filename="../prefgeneral.cpp" line="1235"/>
         <source>Preferred audio and subtitles</source>
         <translation>Προτιμώμενος ήχος και υπότιτλοι</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="157"/>
+        <location filename="../prefgeneral.cpp" line="171"/>
         <source>None</source>
         <translation>Κανένα</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="158"/>
+        <location filename="../prefgeneral.cpp" line="172"/>
         <source>Lowpass5</source>
-        <translation type="unfinished"></translation>
+        <translation>Lowpass5</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="159"/>
+        <location filename="../prefgeneral.cpp" line="173"/>
         <source>Yadif (normal)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yadif (κανονικό)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="160"/>
+        <location filename="../prefgeneral.cpp" line="174"/>
         <source>Yadif (double framerate)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yadif (διπλός ρυθμός καρέ)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="161"/>
+        <location filename="../prefgeneral.cpp" line="175"/>
         <source>Linear Blend</source>
-        <translation type="unfinished"></translation>
+        <translation>Γραμμική Ανάμειξη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="162"/>
+        <location filename="../prefgeneral.cpp" line="176"/>
         <source>Kerndeint</source>
-        <translation type="unfinished"></translation>
+        <translation>Kerndeint</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="198"/>
-        <source>%1 &amp;executable:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="960"/>
-        <source>%1 executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="961"/>
-        <source>Here you must specify the %1 executable that SMPlayer will use.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1000"/>
-        <source>For example %1 would save the screenshot as &apos;moviename_0001.png&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1001"/>
-        <source>%1 specifies the filename of the video without the extension, %2 adds a 4 digit number padded with zeros.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="1055"/>
+        <location filename="../prefgeneral.cpp" line="1101"/>
         <source>Deinterlace by default</source>
-        <translation>Απόπλεξη εξ&apos; ορισμού</translation>
+        <translation>Απόπλεξη εξ ορισμού</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1056"/>
+        <location filename="../prefgeneral.cpp" line="1102"/>
         <source>Select the deinterlace filter that you want to be used for new videos opened.</source>
         <translation>Επιλέξτε το φίλτρο απόπλεξης που θέλετε να χρησιμοποιηθεί για τα νέα ανοιγμένα βίντεο.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="971"/>
+        <location filename="../prefgeneral.cpp" line="1017"/>
         <source>Remember time position</source>
         <translation>Απομνημόνευση θέσης του χρόνου</translation>
     </message>
@@ -6518,34 +6274,34 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Απομνημόνευση θέσης του &amp;χρόνου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1127"/>
+        <location filename="../prefgeneral.cpp" line="1181"/>
         <source>Enable the audio equalizer</source>
         <translation>Ενεργοποίηση ισοσταθμιστή ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1128"/>
+        <location filename="../prefgeneral.cpp" line="1182"/>
         <source>Check this option if you want to use the audio equalizer.</source>
-        <translation>Τσέκαρε το, αν θέλετε να χρησιμοποιήσετε τον ισοσταθμιστή ήχου.</translation>
+        <translation>Ενεργοποιήσετε την επιλογή αν θέλετε να χρησιμοποιήσετε τον ισοσταθμιστή ήχου.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="738"/>
+        <location filename="../prefgeneral.ui" line="745"/>
         <source>&amp;Enable the audio equalizer</source>
         <translation>&amp;Ενεργοποίηση ισοσταθμιστή ήχου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1080"/>
+        <location filename="../prefgeneral.cpp" line="1132"/>
         <source>Draw video using slices</source>
-        <translation>Απόδοση βίντεο χρησιμοποιώντας slices</translation>
+        <translation>Σύσταση βίντεο με χρήση τμημάτων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1081"/>
+        <location filename="../prefgeneral.cpp" line="1133"/>
         <source>Enable/disable drawing video by 16-pixel height slices/bands. If disabled, the whole frame is drawn in a single run. May be faster or slower, depending on video card and available cache. It has effect only with libmpeg2 and libavcodec codecs.</source>
-        <translation>Ενεργοποίηση/απενεργοποίηση απόδοσης βίντεο από κομμάτια/ζώνες ύψους 16-pixel. Ανάλογα με την κάρτα γραφικών και την διαθέσιμη ενδιάμεση μνήμη μπορεί να είναι γρηγορότερο η αργότερο. Έχει επίδραση μόνο με οδηγούς libmpeg2 και libavcodec.</translation>
+        <translation>Ενεργοποίηση/απενεργοποίηση σύστασης βίντεο από κομμάτια/ζώνες ύψους 16 pixel. Ανάλογα με την κάρτα γραφικών και τη διαθέσιμη ενδιάμεση μνήμη μπορεί να είναι γρηγορότερο η αργότερο. Έχει επίδραση μόνο με τους κωδικοποιητές libmpeg2 και libavcodec.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="593"/>
+        <location filename="../prefgeneral.ui" line="600"/>
         <source>Dra&amp;w video using slices</source>
-        <translation>Από&amp;δοση βίντεο με κομμάτια</translation>
+        <translation>Σύσ&amp;ταση βίντεο με χρήση τμημάτων</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="276"/>
@@ -6553,134 +6309,122 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Κλείσιμο όταν τελειώσει η αναπαραγωγή</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="386"/>
-        <location filename="../prefgeneral.cpp" line="393"/>
-        <location filename="../prefgeneral.cpp" line="419"/>
+        <location filename="../prefgeneral.cpp" line="416"/>
+        <location filename="../prefgeneral.cpp" line="423"/>
+        <location filename="../prefgeneral.cpp" line="449"/>
         <source>fast</source>
         <translation>γρήγορο</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="387"/>
-        <location filename="../prefgeneral.cpp" line="415"/>
+        <location filename="../prefgeneral.cpp" line="417"/>
+        <location filename="../prefgeneral.cpp" line="445"/>
         <source>slow</source>
         <translation>αργό</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="420"/>
+        <location filename="../prefgeneral.cpp" line="450"/>
         <source>fast - ATI cards</source>
-        <translation>γρήγορο - ATI κάρτες</translation>
+        <translation>γρήγορο - κάρτες ATI </translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="442"/>
-        <location filename="../prefgeneral.cpp" line="471"/>
+        <location filename="../prefgeneral.cpp" line="472"/>
+        <location filename="../prefgeneral.cpp" line="515"/>
         <source>User defined...</source>
-        <translation>Ορισμός από χρήστη...</translation>
+        <translation>Ορισμένο από χρήστη...</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1060"/>
+        <location filename="../prefgeneral.cpp" line="1112"/>
         <source>Default zoom</source>
-        <translation>Προεπιλεγμένη εστίαση</translation>
+        <translation>Προεπιλεγμένη μεγέθυνση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1061"/>
+        <location filename="../prefgeneral.cpp" line="1113"/>
         <source>This option sets the default zoom which will be used for new videos.</source>
-        <translation>Η επιλογή αυτή καθορίζει την προεπιλεγμένη εστίαση που θα χρησιμοποιηθεί για τα νέα βίντεο.</translation>
+        <translation>Η επιλογή αυτή καθορίζει την προεπιλεγμένη εστίαση που χρησιμοποιείται για νέα βίντεο.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="518"/>
+        <location filename="../prefgeneral.ui" line="525"/>
         <source>Default &amp;zoom:</source>
-        <translation>Προεπιλεγμένη &amp;εστίαση:</translation>
+        <translation>Προεπιλεγμένη &amp;μεγέθυνση:</translation>
     </message>
     <message>
-        <source>Here you must specify the mplayer executable that SMPlayer will use.&lt;br&gt;SMPlayer requires at least MPlayer 1.0rc1 (although a recent revision from SVN is highly recommended).</source>
-        <translation type="obsolete">Εδώ θα πρέπει να καθορίσετε το mplayer πρόγραμμα που το SMPlayer θα χρησιμοποιήσει. Το SMPlayer απαιτεί τουλάχιστον MPlayer 1.0rc1 (αν και μια πρόσφατη αναθεώρηση από το SVN συνιστάται ανεπιφύλακτα).</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="963"/>
+        <location filename="../prefgeneral.cpp" line="1009"/>
         <source>If this setting is wrong, SMPlayer won&apos;t be able to play anything!</source>
-        <translation>Αν η επιλογή αυτή είναι λάθος, το SMPlayer δεν θα είναι σε θέση να παίξει τίποτα!</translation>
+        <translation>Αν η επιλογή αυτή είναι λάθος, το SMPlayer δε θα είναι σε θέση να παίξει τίποτα!</translation>
     </message>
     <message>
-        <source>Select the video output driver. %1 provides the best performance.</source>
-        <translation type="obsolete">Επιλέξτε το οδηγό εξόδου βίντεο. %1 παρέχει την καλύτερη επίδοση.</translation>
-    </message>
-    <message>
-        <source>%1 is the recommended one. Try to avoid %2 and %3, they are slow and can have an impact on performance.</source>
-        <translation type="obsolete">%1 είναι ο συνιστώμενος. Προσπαθήστε να αποφύγετε %2 και %3, είναι αργοί και μπορεί να έχουν αντίκτυπο στις επιδόσεις.</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="967"/>
+        <location filename="../prefgeneral.cpp" line="1013"/>
         <source>Usually SMPlayer will remember the settings for each file you play (audio track selected, volume, filters...). Disable this option if you don&apos;t like this feature.</source>
-        <translation>Συνήθως το SMPlayer θα θυμάται τις ρυθμίσεις για κάθε αρχείο που παίζετε (επιλεγμένο κομμάτι ήχου, ένταση, φίλτρα...). Απενεργοποιήσετε αυτή την επιλογή αν δεν σας αρέσει αυτό το χαρακτηριστικό γνώρισμα.</translation>
+        <translation>Γενικά, το SMPlayer θα θυμάται τις ρυθμίσεις για κάθε αρχείο που παίζετε (επιλεγμένο κομμάτι ήχου, ένταση, φίλτρα...). Απενεργοποιήσετε αυτήν την επιλογή αν δε σας αρέσει αυτή η λειτουργία.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1020"/>
+        <location filename="../prefgeneral.cpp" line="1066"/>
         <source>If this option is enabled, the file will be paused when the main window is hidden. When the window is restored, playback will be resumed.</source>
-        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, το αρχείο θα παύει όταν το κυρίως παράθυρο είναι κρυφό. Όταν το παράθυρο επανέρχεται, η αναπαραγωγή θα συνεχίζεται.</translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, το αρχείο θα παύει όταν το κυρίως παράθυρο είναι κρυμμένο. Όταν το παράθυρο επανέρχεται, η αναπαραγωγή θα συνεχίζεται.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1116"/>
+        <location filename="../prefgeneral.cpp" line="1170"/>
         <source>Check this option to disable the screensaver while playing.&lt;br&gt;The screensaver will enabled again when play finishes.</source>
-        <translation>Τσέκαρε αυτή την επιλογή για να απενεργοποιήσετε την προφύλαξη οθόνης κατά την αναπαραγωγή.&lt;br&gt;Η προφύλαξη οθόνης θα ενεργοποιηθεί ξανά όταν η αναπαραγωγή τελειώσει.</translation>
+        <translation>Ενεργοποιήστε αυτήν την επιλογή για να απενεργοποιήσετε την προφύλαξη οθόνης κατά την αναπαραγωγή.&lt;br&gt;Η προφύλαξη οθόνης θα ενεργοποιηθεί ξανά όταν η αναπαραγωγή τελειώσει.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1184"/>
+        <location filename="../prefgeneral.cpp" line="1238"/>
         <source>Here you can type your preferred language for the audio streams. When a media with multiple audio streams is found, SMPlayer will try to use your preferred language.&lt;br&gt;This only will work with media that offer info about the language of the audio streams, like DVDs or mkv files.&lt;br&gt;This field accepts regular expressions. Example: &lt;b&gt;es|esp|spa&lt;/b&gt; will select the audio track if it matches with &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; or &lt;i&gt;spa&lt;/i&gt;.</source>
-        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα ήχουν. Όταν ένα πολυμέσο έχει πολλαπλούς ήχους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. &lt;br&gt;Αυτό θα λειτουργήσει με πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα του ήχου, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Το πεδίο αυτό δέχεται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξετε το κομμάτι, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
+        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα ήχου. Όταν ένα πολυμέσο έχει πολλαπλούς ήχους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. &lt;br&gt;Αυτό θα λειτουργήσει με πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα του ήχου, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Το πεδίο αυτό δέχεται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξει το κομμάτι, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1194"/>
+        <location filename="../prefgeneral.cpp" line="1248"/>
         <source>Here you can type your preferred language for the subtitle stream. When a media with multiple subtitle streams is found, SMPlayer will try to use your preferred language.&lt;br&gt;This only will work with media that offer info about the language of the subtitle streams, like DVDs or mkv files.&lt;br&gt;This field accepts regular expressions. Example: &lt;b&gt;es|esp|spa&lt;/b&gt; will select the subtitle stream if it matches with &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; or &lt;i&gt;spa&lt;/i&gt;.</source>
-        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα υπότιτλων. Όταν ένα πολυμέσο έχει πολλαπλούς υπότιτλους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. &lt;br&gt;Αυτό θα λειτουργήσει με πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα των υπότιτλων, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Το πεδίο αυτό δέχεται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξετε το κομμάτι, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
+        <translation>Εδώ μπορείτε να πληκτρολογήσετε τη προτιμώμενη γλώσσα υποτίτλων. Όταν ένα πολυμέσο έχει πολλαπλούς υπότιτλους, ο SMPlayer θα προσπαθήσει να χρησιμοποιήσει τη γλώσσα της προτίμησής σας. &lt;br&gt;Αυτό θα λειτουργήσει με πολυμέσα που προσφέρουν πληροφορίες για τη γλώσσα των υποτίτλων, όπως τα DVD ή τα αρχεία mkv.&lt;br&gt;Το πεδίο αυτό δέχεται κανονικές εκφράσεις. Παράδειγμα: &lt;b&gt;es|esp|spa&lt;/b&gt; θα επιλέξει τη ροή υποτίτλων, αν ταιριάζει με &lt;i&gt;es&lt;/i&gt;, &lt;i&gt;esp&lt;/i&gt; ή &lt;i&gt;spa&lt;/i&gt;.</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="356"/>
-        <location filename="../prefgeneral.ui" line="679"/>
+        <location filename="../prefgeneral.ui" line="686"/>
         <source>Ou&amp;tput driver:</source>
         <translation>&amp;Οδηγός εξόδου:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1090"/>
+        <location filename="../prefgeneral.cpp" line="1143"/>
         <source>Add black borders on fullscreen</source>
-        <translation>Προσθήκη μαύρης κορνίζας στην πλήρη οθόνη</translation>
+        <translation>Προσθήκη μαύρης κορνίζας στη πλήρη οθόνη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1091"/>
+        <location filename="../prefgeneral.cpp" line="1144"/>
         <source>If this option is enabled, black borders will be added to the image in fullscreen mode. This allows subtitles to be displayed on the black borders.</source>
-        <translation>Αν η επιλογή αυτή είναι ενεργοποιημένη, μαύρη κορνίζα θα προστεθεί στην εικόνα σε λειτουργία πλήρους οθόνης. Αυτό επιτρέπει στους υπότιτλους να εμφανίζονται στη μαύρη κορνίζα.</translation>
+        <translation>Αν η επιλογή αυτή είναι ενεργοποιημένη, μια μαύρη κορνίζα θα προστεθεί στην εικόνα σε λειτουργία πλήρους οθόνης. Αυτό επιτρέπει στους υπότιτλους να εμφανίζονται στη μαύρη κορνίζα.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="620"/>
+        <location filename="../prefgeneral.ui" line="627"/>
         <source>&amp;Add black borders on fullscreen</source>
         <translation>&amp;Προσθήκη μαύρης κορνίζας στην πλήρη οθόνη</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="167"/>
+        <location filename="../prefgeneral.cpp" line="181"/>
         <source>one ini file</source>
-        <translation>ένα ini αρχείο</translation>
+        <translation>ένα αρχείο ini</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="168"/>
+        <location filename="../prefgeneral.cpp" line="182"/>
         <source>multiple ini files</source>
-        <translation>πολλαπλά ini αρχεία</translation>
+        <translation>πολλαπλά αρχεία ini</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="979"/>
+        <location filename="../prefgeneral.cpp" line="1025"/>
         <source>Method to store the file settings</source>
         <translation>Μέθοδος αποθήκευσης ρυθμίσεων του αρχείου</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="980"/>
+        <location filename="../prefgeneral.cpp" line="1026"/>
         <source>This option allows to change the way the file settings would be stored. The following options are available:</source>
-        <translation>Αυτή η επιλογή επιτρέπει να αλλάξετε τον τρόπο αποθήκευσης των ρυθμίσεων του αρχείου. Οι ακόλουθες επιλογές είναι διαθέσιμες:</translation>
+        <translation>Αυτή η επιλογή σας επιτρέπει να αλλάξετε τον τρόπο αποθήκευσης των ρυθμίσεων του αρχείου. Οι ακόλουθες επιλογές είναι διαθέσιμες:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="982"/>
+        <location filename="../prefgeneral.cpp" line="1028"/>
         <source>&lt;b&gt;one ini file&lt;/b&gt;: the settings for all played files will be saved in a single ini file (%1)</source>
-        <translation>&lt;b&gt;ένα ini αρχείο&lt;/b&gt;: οι ρυθμίσεις για όλα τα αναπαραχθέντα αρχεία θα αποθηκευτούν σε ένα ενιαίο αρχείο ini (%1)</translation>
+        <translation>&lt;b&gt;ένα αρχείο ini&lt;/b&gt;: οι ρυθμίσεις για όλα τα αναπαραχθέντα αρχεία θα αποθηκευτούν σε ένα ενιαίο αρχείο ini (%1)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="986"/>
+        <location filename="../prefgeneral.cpp" line="1032"/>
         <source>The latter method could be faster if there is info for a lot of files.</source>
         <translation>Η τελευταία αυτή μέθοδος θα μπορούσε να είναι πιο γρήγορη αν υπάρχουν πληροφορίες για πολλά αρχεία.</translation>
     </message>
@@ -6690,42 +6434,34 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Αποθήκευση ρυθμίσεων σε</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="984"/>
+        <location filename="../prefgeneral.cpp" line="1030"/>
         <source>&lt;b&gt;multiple ini files&lt;/b&gt;: one ini file will be used for each played file. Those ini files will be saved in the folder %1</source>
-        <translation>&lt;b&gt;πολλαπλά ini αρχεία&lt;/b&gt;: ένα ini αρχείο θα χρησιμοποιείται για κάθε αναπαραχθέν αρχείο. Αυτά τα ini αρχεία θα αποθηκευτούν στο φάκελο %1</translation>
+        <translation>&lt;b&gt;πολλαπλά αρχεία ini&lt;/b&gt;: ένα ini αρχείο θα χρησιμοποιείται για κάθε αναπαραχθέν αρχείο. Αυτά τα αρχεία ini θα αποθηκευτούν στον φάκελο %1</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="972"/>
+        <location filename="../prefgeneral.cpp" line="1018"/>
         <source>If you check this option, SMPlayer will remember the last position of the file when you open it again. This option works only with regular files (not with DVDs, CDs, URLs...).</source>
-        <translation>Αν επιλέξετε αυτή την επιλογή, το SMPlayer θα θυμάται την τελευταία θέση του αρχείου, όταν το ανοίξετε πάλι. Αυτή η επιλογή δουλεύει μόνο με κανονική αρχεία (όχι με DVD, CD, URLs...).</translation>
+        <translation>Αν ενεργοποιήσετε αυτήν την επιλογή, ο SMPlayer θα θυμάται την τελευταία θέση του αρχείου, όταν το ανοίξετε πάλι. Αυτή η επιλογή δουλεύει μόνο με κανονική αρχεία (όχι με DVD, CD, URL...).</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1071"/>
+        <location filename="../prefgeneral.cpp" line="1123"/>
         <source>If checked, turns on direct rendering (not supported by all codecs and video outputs)&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; May cause OSD/SUB corruption!</source>
         <translation>Αν είναι επιλεγμένο, ενεργοποιεί την άμεση απόδοση (δεν υποστηρίζετε από όλους τους κωδικοποιητές και εξόδους βίντεο)&lt;br&gt;&lt;b&gt;Προειδοποίηση:&lt;/b&gt; Μπορεί να προκαλέσει σφάλματα OSD/SUB!</translation>
     </message>
     <message>
-        <source>Requests the number of playback channels. MPlayer asks the decoder to decode the audio into as many channels as specified. Then it is up to the decoder to fulfill the requirement. This is usually only important when playing videos with AC3 audio (like DVDs). In that case liba52 does the decoding by default and correctly downmixes the audio into the requested number of channels. &lt;b&gt;Note&lt;/b&gt;: This option is honored by codecs (AC3 only), filters (surround) and audio output drivers (OSS at least).</source>
-        <translation type="obsolete">Ζητά τον αριθμό των καναλιών αναπαραγωγής. Το MPlayer ρωτά τον αποκωδικοποιητή να αποκωδικοποιήσει τον ήχο σε όσα κανάλια έχουν καθοριστεί. Στη συνέχεια, εναπόκειται στον αποκωδικοποιητή να εκπληρώσει την απαίτηση. Αυτό είναι συνήθως μόνο σημαντικό κατά την αναπαραγωγή βίντεο με AC3 ήχο (όπως DVD). Στην περίπτωση αυτή το liba52 κάνει την αποκωδικοποίηση από προεπιλογή και διορθώνει χαμηλώνοντας τον ήχο στον απαιτούμενο αριθμό καναλιών. &lt;b&gt;Σημείωση&lt;/b&gt;: αυτή η επιλογή χρησιμοποιήται από κωδικοποιητές (μόνο AC3), φίλτρα (surround) και προγράμματα οδήγησης εξόδου ήχου (OSS τουλάχιστον).</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="988"/>
+        <location filename="../prefgeneral.cpp" line="1034"/>
         <source>Enable screenshots</source>
-        <translation>Ενεργοποίηση στιγμιότυπων</translation>
+        <translation>Ενεργοποίηση στιγμιοτύπων</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="989"/>
+        <location filename="../prefgeneral.cpp" line="1035"/>
         <source>You can use this option to enable or disable the possibility to take screenshots.</source>
         <translation>Μπορείτε να χρησιμοποιήσετε αυτήν την επιλογή για να ενεργοποιήσετε ή να απενεργοποιήσετε τη δυνατότητα να πάρει στιγμιότυπα.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="993"/>
+        <location filename="../prefgeneral.cpp" line="1039"/>
         <source>Here you can specify a folder where the screenshots taken by SMPlayer will be stored. If the folder is not valid the screenshot feature will be disabled.</source>
-        <translation>Εδώ μπορείτε να καθορίσετε έναν φάκελο όπου τα στιμιότυπα που λαμβάνονται από το SMPlayer θα αποθηκεύονται. Εάν ο φάκελος δεν είναι έγκυρος τα στιγμιότυπα θα απενεργοποιούνται.</translation>
-    </message>
-    <message>
-        <source>&amp;MPlayer executable:</source>
-        <translation type="obsolete">&amp;Διαδρομή MPlayer:</translation>
+        <translation>Εδώ μπορείτε να καθορίσετε έναν φάκελο όπου τα στιγμιότυπα που λαμβάνονται από τον SMPlayer θα αποθηκεύονται. Εάν ο φάκελος δεν είναι έγκυρος τα στιγμιότυπα θα απενεργοποιούνται.</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="175"/>
@@ -6735,7 +6471,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefgeneral.ui" line="181"/>
         <source>&amp;Enable screenshots</source>
-        <translation>&amp;Ενεργοποίηση στιγμιότυπων</translation>
+        <translation>&amp;Ενεργοποίηση στιγμιοτύπων</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="193"/>
@@ -6743,148 +6479,134 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Φάκελος:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1154"/>
+        <location filename="../prefgeneral.cpp" line="1208"/>
         <source>Global volume</source>
         <translation>Γενική ένταση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1155"/>
+        <location filename="../prefgeneral.cpp" line="1209"/>
         <source>If this option is checked, the same volume will be used for all files you play. If the option is not checked each file uses its own volume.</source>
-        <translation>Αν αυτή η επιλογή είναι επιλεγμένη, η ίδια ένταση θα χρησιμοποιείται για όλα τα αρχεία που αναπαράγωνται. Εάν η επιλογή δεν είναι επιλεγμένη κάθε αρχείο θα χρησιμοποιεί τη δική του ένταση.</translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, η ίδια ένταση θα χρησιμοποιείται για όλα τα αρχεία που αναπαράγονται. Εάν η επιλογή δεν είναι επιλεγμένη κάθε αρχείο θα χρησιμοποιεί τη δική του ένταση.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1158"/>
+        <location filename="../prefgeneral.cpp" line="1212"/>
         <source>This option also applies for the mute control.</source>
         <translation>Η δυνατότητα αυτή ισχύει επίσης και για τον έλεγχο σίγασης.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="865"/>
+        <location filename="../prefgeneral.ui" line="872"/>
         <source>Glo&amp;bal volume</source>
         <translation>&amp;Γενική ένταση</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1100"/>
+        <location filename="../prefgeneral.cpp" line="1154"/>
         <source>Switch screensaver off</source>
-        <translation>Απενεργοποίηση προφύλαξη οθόνης</translation>
+        <translation>Απενεργοποίηση προφύλαξης οθόνης</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1101"/>
+        <location filename="../prefgeneral.cpp" line="1155"/>
         <source>This option switches the screensaver off just before starting to play a file and switches it on when playback finishes. If this option is enabled, the screensaver won&apos;t appear even if playing audio files or when a file is paused.</source>
-        <translation>Αυτή η επιλογή θέτει την προφύλαξη οθόνης εκτός, λίγο πριν την αναπαραγωγή ενός αρχείου και να ενεργοποιείται όταν η αναπαραγωγή τελειώνει. Εάν αυτή η επιλογή είναι ενεργοποιημένη, η προφύλαξη οθόνης δεν θα εμφανιστεί ακόμα και αν παίζει αρχεία ήχου ή όταν ένα αρχείο έχει διακοπεί.</translation>
+        <translation>Αυτή η επιλογή απενεργοποιεί την προφύλαξη οθόνης λίγο πριν την αναπαραγωγή ενός αρχείου και να ενεργοποιείται όταν η αναπαραγωγή τελειώνει. Όταν αυτή η επιλογή είναι ενεργοποιημένη, η προφύλαξη οθόνης δεν θα εμφανιστεί ακόμα και αν παίζει αρχεία ήχου ή όταν ένα αρχείο έχει διακοπεί.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1107"/>
+        <location filename="../prefgeneral.cpp" line="1161"/>
         <source>Avoid screensaver</source>
-        <translation>Αποφυγή προφύλαξη οθόνης</translation>
+        <translation>Αποφυγή προφύλαξης οθόνης</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1108"/>
+        <location filename="../prefgeneral.cpp" line="1162"/>
         <source>When this option is checked, SMPlayer will try to prevent the screensaver to be shown when playing a video file. The screensaver will be allowed to be shown if playing an audio file or in pause mode. This option only works if the SMPlayer window is in the foreground.</source>
-        <translation>Όταν είναι ενεργοποιημένη αυτή η επιλογή, ο SMPlayer θα προσπαθήσει να εμποδίσει την προφύλαξη οθόνης να εμφανίζεται κατά την αναπαραγωγή ενός αρχείου βίντεο. Η προφύλαξη οθόνης θα επιτρέπεται να εμφανίζεται κατά την αναπαραγωγή ενός αρχείου ήχου ή σε κατάσταση παύσης. Αυτή η επιλογή λειτουργεί μόνο αν το παράθυρο SMPlayer είναι σε πρώτο πλάνο.</translation>
+        <translation>Όταν είναι ενεργοποιημένη αυτή η επιλογή, ο SMPlayer θα προσπαθήσει να εμποδίσει την προφύλαξη οθόνης να εμφανίζεται κατά την αναπαραγωγή ενός αρχείου βίντεο. Η προφύλαξη οθόνης θα επιτρέπεται να εμφανίζεται κατά την αναπαραγωγή ενός αρχείου ήχου ή σε κατάσταση παύσης. Αυτή η επιλογή λειτουργεί μόνο οταν το παράθυρο SMPlayer είναι σε πρώτο πλάνο.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="634"/>
+        <location filename="../prefgeneral.ui" line="641"/>
         <source>Screensaver</source>
-        <translation>Προφύλαξη Οθόνης</translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.ui" line="640"/>
-        <source>Swit&amp;ch screensaver off</source>
-        <translation>Απενεργοποίηση προ&amp;φύλαξης οθόνης</translation>
+        <translation>Προφύλαξη οθόνης</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="647"/>
+        <source>Swit&amp;ch screensaver off</source>
+        <translation>Απενεργοποίηση προφύλα&amp;ξης οθόνης</translation>
+    </message>
+    <message>
+        <location filename="../prefgeneral.ui" line="654"/>
         <source>Avoid &amp;screensaver</source>
-        <translation>Αποφυγή προφύλα&amp;ξης οθόνης</translation>
+        <translation>Απο&amp;φυγή προφύλαξης οθόνης</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1174"/>
+        <location filename="../prefgeneral.cpp" line="1228"/>
         <source>Audio/video auto synchronization</source>
-        <translation>Ήχου/Εικόνα αυτόματος συγχρονισμός</translation>
+        <translation>Αυτόματος συγχρονισμός ήχου/εικόνας</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1175"/>
+        <location filename="../prefgeneral.cpp" line="1229"/>
         <source>Gradually adjusts the A/V sync based on audio delay measurements.</source>
-        <translation>Βαθμιαία ρυθμίζει συγχρονισμό Ηχ/Εικ βάσει μετρήσεων καθυστέρησης ήχου.</translation>
+        <translation>Βαθμιαία ρυθμίζει συγχρονισμό ήχ/εικ βάσει μετρήσεων καθυστέρησης ήχου.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1178"/>
+        <location filename="../prefgeneral.cpp" line="1232"/>
         <source>A-V sync correction</source>
-        <translation>Α-V συγχρονισμού διόρθωση</translation>
+        <translation>Διόρθωση συγχρονισμού ήχ/εικ</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1179"/>
+        <location filename="../prefgeneral.cpp" line="1233"/>
         <source>Maximum A-V sync correction per frame (in seconds)</source>
-        <translation>Μέγιστη A-V συγχρονισμού διόρθωση ανά καρέ (σε δευτερόλεπτα)</translation>
+        <translation>Μέγιστη διόρθωση συγχρονισμού για ήχ/εικ ανά καρέ (σε δευτερόλεπτα)</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="941"/>
+        <location filename="../prefgeneral.ui" line="948"/>
         <source>Synchronization</source>
         <translation>Συγχρονισμός</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="952"/>
+        <location filename="../prefgeneral.ui" line="959"/>
         <source>Audio/video auto &amp;synchronization</source>
-        <translation>Ήχου/Εικόνα αυτόματος &amp;συγχρονισμός</translation>
+        <translation>Αυτόματος &amp;συγχρονισμός ήχου/εικόνας</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="978"/>
+        <location filename="../prefgeneral.ui" line="985"/>
         <source>&amp;Factor:</source>
         <translation>&amp;Παράγοντας:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1014"/>
+        <location filename="../prefgeneral.ui" line="1021"/>
         <source>A-V sync &amp;correction</source>
-        <translation>Α-V συγχρονισμού &amp;διόρθωση</translation>
+        <translation>&amp;Διόρθωση συγχρονισμού ήχ/εικ</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.ui" line="1037"/>
+        <location filename="../prefgeneral.ui" line="1044"/>
         <source>&amp;Max. correction:</source>
         <translation>&amp;Μέγιστη διόρθωση:</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1058"/>
+        <location filename="../prefgeneral.cpp" line="1104"/>
         <source>&lt;b&gt;Note:&lt;/b&gt; This option won&apos;t be used for TV channels.</source>
-        <translation>&lt;b&gt;Σημείωση:&lt;/b&gt; Αυτή η επιλογή δεν θα χρησιμοποιηθεί για Τηλεοπτικά κανάλια.</translation>
+        <translation>&lt;b&gt;Σημείωση:&lt;/b&gt; Αυτή η επιλογή δεν θα χρησιμοποιηθεί για τηλεοπτικά κανάλια.</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="481"/>
         <source>Dei&amp;nterlace by default (except for TV):</source>
-        <translation>Απόπλε&amp;ξη εξ&apos; ορισμού (εκτός από τη TV):</translation>
+        <translation>Απόπλε&amp;ξη εξ ορισμού (εκτός από την TV):</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1136"/>
+        <location filename="../prefgeneral.cpp" line="1190"/>
         <source>Uses hardware AC3 passthrough.</source>
-        <translation>Χρήση υλικού AC3 διέλευσης.</translation>
+        <translation>Χρήση διέλευσης υλικού AC3.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="1137"/>
+        <location filename="../prefgeneral.cpp" line="1191"/>
         <source>&lt;b&gt;Note:&lt;/b&gt; none of the audio filters will be used when this option is enabled.</source>
-        <translation>&lt;b&gt;Σημείωση:&lt;/b&gt; κανένα φίλτρο ήχου δεν θα χρησιμοποιηθεί όταν είναι ενεργοποιημένη αυτή η επιλογή.</translation>
+        <translation>&lt;b&gt;Σημείωση:&lt;/b&gt; δεν θα χρησιμοποιηθεί κανένα φίλτρο ήχου όταν είναι ενεργοποιημένη αυτή η επιλογή.</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="394"/>
+        <location filename="../prefgeneral.cpp" line="424"/>
         <source>snap mode</source>
-        <translation type="unfinished"></translation>
+        <translation>λειτουργία snap</translation>
     </message>
     <message>
-        <location filename="../prefgeneral.cpp" line="395"/>
+        <location filename="../prefgeneral.cpp" line="425"/>
         <source>slower dive mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="450"/>
-        <source>uniaud mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefgeneral.cpp" line="451"/>
-        <source>dart mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 is the recommended one. %2 is only available on older MPlayer (before version %3)</source>
-        <translation type="obsolete">%1 είναι το συνιστώμενο. %2 είναι μόνο διαθέσιμο σε παλαιότερο MPlayer (πριν από την έκδοση %3)</translation>
+        <translation>λειτουργία slower dive</translation>
     </message>
     <message>
         <location filename="../prefgeneral.ui" line="385"/>
@@ -6905,13 +6627,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Πληκτρολόγιο</translation>
     </message>
     <message>
-        <source>icon</source>
-        <translation type="obsolete">εικονίδιο</translation>
+        <location filename="../prefinput.ui" line="85"/>
+        <source>&amp;Use the multimedia keys as global shortcuts</source>
+        <translation>&amp;Χρήση των πλήκτρων πολυμέσων ως καθολικές συντομεύσεις</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="93"/>
         <source>&amp;Mouse</source>
-        <translation>&amp;Ποντίκι</translation>
+        <translation>Π&amp;οντίκι</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="143"/>
@@ -6921,12 +6644,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.ui" line="340"/>
         <source>Dra&amp;g function:</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία μετα&amp;φοράς:</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="382"/>
         <source>Don&apos;t &amp;trigger the left click action with a double click</source>
-        <translation type="unfinished"></translation>
+        <translation>Να μην ενε&amp;ργοποιείται η ενέργεια του αριστερού κλικ με το διπλό κλικ</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="149"/>
@@ -6938,7 +6661,7 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../prefinput.cpp" line="150"/>
         <location filename="../prefinput.cpp" line="419"/>
         <source>Volume control</source>
-        <translation>Ρύθμιση Έντασης</translation>
+        <translation>Ρύθμιση έντασης</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="151"/>
@@ -6950,17 +6673,17 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../prefinput.cpp" line="57"/>
         <location filename="../prefinput.cpp" line="162"/>
         <source>None</source>
-        <translation>Καμμία</translation>
+        <translation>Καμία</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="60"/>
         <source>Here you can change any key shortcut. To do it double click or press enter over a shortcut cell. Optionally you can also save the list to share it with other people or load it in another computer.</source>
-        <translation>Εδώ μπορείτε να αλλάξετε οποιαδήποτε συντόμευση πληκτρολογίου. Για να γίνει αυτό κάντε διπλό κλικ ή πατήστε enter πάνω σε ένα κελί συντόμευσης. Προαιρετικά μπορείτε επίσης να αποθηκεύσετε τη λίστα για να τη μοιραστείτε με άλλους ανθρώπους ή να τη φορτώσετε σε έναν άλλο υπολογιστή.</translation>
+        <translation>Εδώ μπορείτε να αλλάξετε οποιαδήποτε συντόμευση πληκτρολογίου. Για να γίνει αυτό κάντε διπλό κλικ ή πατήστε Enter πάνω σε ένα κελί συντόμευσης. Προαιρετικά μπορείτε επίσης να αποθηκεύσετε τη λίστα για να τη μοιραστείτε με άλλους ανθρώπους ή να τη φορτώσετε σε έναν άλλον υπολογιστή.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="171"/>
         <source>Here you can change any key shortcut. To do it double click or start typing over a shortcut cell. Optionally you can also save the list to share it with other people or load it in another computer.</source>
-        <translation>Εδώ μπορείτε να αλλάξετε οποιαδήποτε συντόμευση πληκτρολογίου. Για να γίνει αυτό κάντε διπλό κλικ ή πατήστε enter πάνω σε ένα κελί συντόμευσης. Προαιρετικά μπορείτε επίσης να αποθηκεύσετε τη λίστα για να τη μοιραστείτε με άλλους ανθρώπους ή να τη φορτώσετε σε έναν άλλο υπολογιστή.</translation>
+        <translation>Εδώ μπορείτε να αλλάξετε οποιαδήποτε συντόμευση πληκτρολογίου. Για να γίνει αυτό κάντε διπλό κλικ ή πατήστε Enter πάνω σε ένα κελί συντόμευσης. Προαιρετικά μπορείτε επίσης να αποθηκεύσετε τη λίστα για να τη μοιραστείτε με άλλους ανθρώπους ή να τη φορτώσετε σε έναν άλλον υπολογιστή.</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="153"/>
@@ -6970,12 +6693,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.ui" line="176"/>
         <source>&amp;Double click</source>
-        <translation>&amp;Διπλό κλικ</translation>
+        <translation>Δι&amp;πλό κλικ</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="297"/>
         <source>&amp;Wheel function:</source>
-        <translation>Λειτουργία &amp;Τροχού:</translation>
+        <translation>Λειτουργία &amp;τροχού:</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="358"/>
@@ -6985,7 +6708,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="359"/>
         <source>This table allows you to change the key shortcuts of most available actions. Double click or press enter on a item, or press the &lt;b&gt;Change shortcut&lt;/b&gt; button to enter in the &lt;i&gt;Modify shortcut&lt;/i&gt; dialog. There are two ways to change a shortcut: if the &lt;b&gt;Capture&lt;/b&gt; button is on then just press the new key or combination of keys that you want to assign for the action (unfortunately this doesn&apos;t work for all keys). If the &lt;b&gt;Capture&lt;/b&gt; button is off then you could enter the full name of the key.</source>
-        <translation>Ο πίνακας αυτός σας επιτρέπει να αλλάξετε τις συντομεύσεις του πληκτρολογίου των περισσότερων διαθέσιμων ενεργειών. Κάντε διπλό κλικ ή πατήστε enter σ&apos; ένα στοιχείο ή πατήστε το &lt;b&gt;Αλλαγή συντόμευσης&lt;/b&gt; για να εισέλθετε στο παράθυρο &lt;i&gt;Τροποποίηση συντομεύσεων&lt;/i&gt;. Υπάρχουν δύο τρόποι για να αλλάξετε μια συντόμευση: αν το κουμπί &lt;b&gt;Capture&lt;/b&gt; είναι ενεργοποιημένο τότε απλά πατήστε το νέο πλήκτρο ή συνδυασμό πλήκτρων που θέλετε να ορίσετε για τη ενέργεια (δυστυχώς αυτό δεν λειτουργεί για όλα τα κλειδιά). Αν το κουμπί &lt;b&gt;Capture&lt;/b&gt; είναι απενεργοποιημένο τότε μπορείτε να εισάγετε το πλήρες όνομα του κλειδιού.</translation>
+        <translation>Ο πίνακας αυτός σας επιτρέπει να αλλάξετε τις συντομεύσεις του πληκτρολογίου των περισσότερων διαθέσιμων ενεργειών. Κάντε διπλό κλικ ή πατήστε Enter σ&apos; ένα στοιχείο ή πατήστε το κουμπί &lt;b&gt;Αλλαγή συντόμευσης&lt;/b&gt; για να εισέλθετε στο παράθυρο &lt;i&gt;Τροποποίηση συντομεύσεων&lt;/i&gt;. Υπάρχουν δύο τρόποι για να αλλάξετε μια συντόμευση: αν το κουμπί &lt;b&gt;Capture&lt;/b&gt; είναι ενεργοποιημένο τότε απλά πατήστε το νέο πλήκτρο ή συνδυασμό πλήκτρων που θέλετε να ορίσετε για τη ενέργεια (δυστυχώς αυτό δεν λειτουργεί για όλα τα πλήκτρα). Αν το κουμπί &lt;b&gt;Capture&lt;/b&gt; είναι απενεργοποιημένο τότε μπορείτε να εισάγετε το πλήρες όνομα του πλήκτρου.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="377"/>
@@ -6995,7 +6718,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="378"/>
         <source>Select the action for left click on the mouse.</source>
-        <translation>Επιλογή ενέργειας για το αριστερό κλικ του ποντικιού.</translation>
+        <translation>Επιλέξτε ενέργεια για το αριστερό κλικ του ποντικιού.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="380"/>
@@ -7005,12 +6728,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="381"/>
         <source>Select the action for double click on the mouse.</source>
-        <translation>Επιλογή ενέργειας για το διπλό κλικ του ποντικιού.</translation>
+        <translation>Επιλέξτε ενέργεια για το διπλό κλικ του ποντικιού.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="392"/>
         <source>Wheel function</source>
-        <translation>Λειτουργία Τροχού</translation>
+        <translation>Λειτουργία τροχού</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="393"/>
@@ -7035,7 +6758,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="71"/>
         <source>Fullscreen</source>
-        <translation>Πλήρης Οθόνη</translation>
+        <translation>Πλήρης οθόνη</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="72"/>
@@ -7050,17 +6773,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="77"/>
         <source>Mute</source>
-        <translation>Σίγηση</translation>
+        <translation>Σίγαση</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="83"/>
         <source>Frame counter</source>
-        <translation>Μετρητής Καρέ</translation>
+        <translation>Μετρητής καρέ</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="80"/>
         <source>Reset zoom</source>
-        <translation>Επαναφορά εστίασης</translation>
+        <translation>Επαναφορά μεγέθυνσης</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="81"/>
@@ -7146,32 +6869,32 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="63"/>
         <source>Go backward (short)</source>
-        <translation>Πήγαινε προς τα πίσω (σύντομο)</translation>
+        <translation>Μετάβαση προς τα πίσω (σύντομο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="64"/>
         <source>Go backward (medium)</source>
-        <translation>Πήγαινε προς τα πίσω (μεσαίο)</translation>
+        <translation>Μετάβαση προς τα πίσω (μεσαίο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="65"/>
         <source>Go backward (long)</source>
-        <translation>Πήγαινε προς τα πίσω (μεγάλο)</translation>
+        <translation>Μετάβαση προς τα πίσω (μεγάλο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="66"/>
         <source>Go forward (short)</source>
-        <translation>Πήγαινε προς τα εμπρός (σύντομο)</translation>
+        <translation>Μετάβαση προς τα εμπρός (σύντομο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="67"/>
         <source>Go forward (medium)</source>
-        <translation>Πήγαινε προς τα εμπρός (μεσαίο)</translation>
+        <translation>Μετάβαση προς τα εμπρός (μεσαίο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="68"/>
         <source>Go forward (long)</source>
-        <translation>Πήγαινε προς τα εμπρός (μεγάλο)</translation>
+        <translation>Μετάβαση προς τα εμπρός (μεγάλο)</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="78"/>
@@ -7181,7 +6904,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="90"/>
         <source>Show context menu</source>
-        <translation>Εμφάνιση μενού περιεχομένου</translation>
+        <translation>Εμφάνιση μενού περιβάλλοντος</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="199"/>
@@ -7221,12 +6944,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="88"/>
         <source>Show video equalizer</source>
-        <translation>Εμφάνηση Ισοσταθμιστή Βίντεο</translation>
+        <translation>Εμφάνιση ισοσταθμιστή βίντεο</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="89"/>
         <source>Show audio equalizer</source>
-        <translation>Εμφάνιση Ισοσταθμιστή Ήχου</translation>
+        <translation>Εμφάνιση ισοσταθμιστή ήχου</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="74"/>
@@ -7246,109 +6969,109 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="86"/>
         <source>Next chapter</source>
-        <translation type="unfinished">Επόμενο κεφάλαιο</translation>
+        <translation>Επόμενο κεφάλαιο</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="87"/>
         <source>Previous chapter</source>
-        <translation type="unfinished">Προηγούμενο κεφάλαιο</translation>
+        <translation>Προηγούμενο κεφάλαιο</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="93"/>
         <source>Activate option under mouse in DVD menus</source>
-        <translation>Ενεργοποίηση επιλογής κάτω από το ποντίκι στο DVD μενού</translation>
+        <translation>Ενεργοποίηση επιλογής κάτω από το ποντίκι στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="94"/>
         <source>Return to main DVD menu</source>
-        <translation>Επιστροφή στο κυρίως DVD μενού</translation>
+        <translation>Επιστροφή στο κυρίως μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="95"/>
         <source>Return to previous menu in DVD menus</source>
-        <translation>Επιστροφή στο προηγούμενο DVD μενού</translation>
+        <translation>Επιστροφή στο προηγούμενο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="96"/>
         <source>Move cursor up in DVD menus</source>
-        <translation>Μετακίνηση δρομέα πάνω στο DVD μενού</translation>
+        <translation>Μετακίνηση δρομέα πάνω στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="97"/>
         <source>Move cursor down in DVD menus</source>
-        <translation>Μετακίνηση δρομέα κάτω στο DVD μενού</translation>
+        <translation>Μετακίνηση δρομέα κάτω στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="98"/>
         <source>Move cursor left in DVD menus</source>
-        <translation>Μετακίνηση δρομέα αριστερά στο DVD μενού</translation>
+        <translation>Μετακίνηση δρομέα αριστερά στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="99"/>
         <source>Move cursor right in DVD menus</source>
-        <translation>Μετακίνηση δρομέα δεξιά στο DVD μενού</translation>
+        <translation>Μετακίνηση δρομέα δεξιά στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="100"/>
         <source>Activate highlighted option in DVD menus</source>
-        <translation>Ενεργοποίηση επιλεγμένης επιλογής στο DVD μενού</translation>
+        <translation>Ενεργοποίηση επιλεγμένης επιλογής στο μενού του DVD</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="163"/>
         <location filename="../prefinput.cpp" line="397"/>
         <source>Move window</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση του παραθύρου</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="165"/>
         <location filename="../prefinput.cpp" line="399"/>
         <source>Seek and volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναζήτηση και ένταση</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="370"/>
         <source>Use the multimedia keys as global shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση των πλήκτρων πολυμέσων ως καθολικές συντομεύσεις</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="371"/>
         <source>When this option is enabled the multimedia keys (Play, Stop, Volume+/-, Mute, etc.) will work even when SMPlayer is running in the background.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη τα πλήκτρα των πολυμέσων (Αναπαραγωγή, Διακοπή, Ένταση +/-, Σίγαση, κλπ) θα λειτουργούν ακόμα και αν το SMPlayer εκτελείται στο παρασκήνιο.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="395"/>
         <source>Drag function</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία μεταφοράς</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="396"/>
         <source>This option controls what to do when the mouse is moved while pressing the left button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή καθορίζει την ενέργεια κατά την μετακίνηση του ποντικιού κρατώντας το αριστερό πλήκτρο πατημένο.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="397"/>
         <source>the main window is moved</source>
-        <translation type="unfinished"></translation>
+        <translation>μετακίνηση του κεντρικού παραθύρου</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="400"/>
         <source>a horizontal movement changes the time position while a vertical movement changes the volume</source>
-        <translation type="unfinished"></translation>
+        <translation>μια οριζόντια μετακίνηση αλλάζει την χρονική θέση ενώ μια κατακόρυφη μετακίνηση αλλάζει την ένταση</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="404"/>
         <source>Don&apos;t trigger the left click function with a double click</source>
-        <translation type="unfinished"></translation>
+        <translation>Να μην ενεργοποιείται η λειτουργία του αριστερού κλικ με το διπλό κλικ</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="405"/>
         <source>If this option is enabled when you double click on the video area only the double click function will be triggered. The left click action won&apos;t be activated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, όταν θα κάνετε διπλό κλικ στην περιοχή του βίντεο θα ενεργοποιείται μόνον η ενέργεια του διπλού κλικ. Η ενέργεια του αριστερού κλικ δεν θα ενεργοποιείται.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="408"/>
         <source>By enabling this option the left click is delayed %1 milliseconds because it&apos;s necessary to wait that time to know if there&apos;s a double click or not.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποιώντας αυτήν την επιλογή το αριστερό κλικ θα καθυστερεί %1 χιλιοστά του δευτερολέπτου ένεκα της αναγνώρισης αν πρόκειται για διπλό κλικ ή όχι.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="91"/>
@@ -7365,24 +7088,19 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../prefinput.ui" line="449"/>
         <location filename="../prefinput.cpp" line="156"/>
         <source>&amp;Zoom video</source>
-        <translation>Εστίαση &amp;βίντεο</translation>
+        <translation>Μεγέθυνση &amp;βίντεο</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="442"/>
         <location filename="../prefinput.cpp" line="157"/>
         <source>&amp;Volume control</source>
-        <translation>&amp;Ρύθμιση Έντασης</translation>
-    </message>
-    <message>
-        <location filename="../prefinput.ui" line="85"/>
-        <source>&amp;Use the multimedia keys as global shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ρύθμιση έντασης</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="456"/>
         <location filename="../prefinput.cpp" line="158"/>
         <source>&amp;Change speed</source>
-        <translation>Αλλαγή &amp;Ταχύτητας</translation>
+        <translation>Αλλαγή &amp;ταχύτητας</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="414"/>
@@ -7392,22 +7110,22 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="417"/>
         <source>Check it to enable seeking as one function.</source>
-        <translation>Ενεργοποίηση μετακίνησης εμπρός-πίσω στο χρόνο του πολυμέσου ως μια ενέργεια.</translation>
+        <translation>Ενεργοποιεί μετακίνηση εμπρός-πίσω στο χρόνο του πολυμέσου ως μια ενέργεια.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="420"/>
         <source>Check it to enable changing volume as one function.</source>
-        <translation>Ενεργοποίηση αλλαγής έντασης του ήχου ως μια ενέργεια.</translation>
+        <translation>Ενεργοποιεί αλλαγή έντασης του ήχου ως μια ενέργεια.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="423"/>
         <source>Check it to enable zooming as one function.</source>
-        <translation>Ενεργοποίηση αλλαγής εστίασης ως μια ενέργεια.</translation>
+        <translation>Ενεργοποιεί αλλαγή μεγέθυνσης ως μια ενέργεια.</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="426"/>
         <source>Check it to enable changing speed as one function.</source>
-        <translation>Ενεργοποίηση αλλαγής ταχύτητας ως μια ενέργεια.</translation>
+        <translation>Ενεργοποιεί αλλαγή ταχύτητας ως μια ενέργεια.</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="413"/>
@@ -7417,7 +7135,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.ui" line="425"/>
         <source>Select the actions that should be cycled through when using the &quot;Change function of wheel&quot; option.</source>
-        <translation>Επιλέξτε τις ενέργειες που θα πρέπει να εναλλάσσονται κατά τη χρήση της επιλογής &quot;Αλλαγή λειτουργίας του τροχού&quot;.</translation>
+        <translation>Επιλέξτε τις ενέργειες που θα πρέπει να εναλλάσσονται κατά τη χρήση της επιλογής «Αλλαγή λειτουργίας του τροχού».</translation>
     </message>
     <message>
         <location filename="../prefinput.cpp" line="411"/>
@@ -7427,7 +7145,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinput.cpp" line="412"/>
         <source>Check it to seek in the opposite direction.</source>
-        <translation>Ενεργοποίηση για μετακίνηση στο χρόνο προς την αντίθετη κατεύθυνση.</translation>
+        <translation>Ενεργοποιήστε για μετακίνηση στο χρόνο προς την αντίθετη κατεύθυνση.</translation>
     </message>
     <message>
         <location filename="../prefinput.ui" line="389"/>
@@ -7439,13 +7157,9 @@ Example: resample=44100:0:0,volnorm</source>
     <name>PrefInterface</name>
     <message>
         <location filename="../prefinterface.cpp" line="152"/>
-        <location filename="../prefinterface.cpp" line="737"/>
+        <location filename="../prefinterface.cpp" line="741"/>
         <source>Interface</source>
-        <translation>Διεπαφή</translation>
-    </message>
-    <message>
-        <source>&lt;Autodetect&gt;</source>
-        <translation type="obsolete">&lt;ΑυτόματηΑνίχνευση&gt;</translation>
+        <translation>Γραφικό περιβάλλον</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="218"/>
@@ -7456,7 +7170,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="27"/>
         <source>&amp;Interface</source>
-        <translation>&amp;Διεπαφή</translation>
+        <translation>&amp;Περιβάλλον</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="58"/>
@@ -7471,7 +7185,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="68"/>
         <source>Only after loading a new video</source>
-        <translation>Μόνο μετά την φόρτωση νέου βίντεο</translation>
+        <translation>Μόνο αφού φορτωθεί νέο βίντεο</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="823"/>
@@ -7480,19 +7194,19 @@ Example: resample=44100:0:0,volnorm</source>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="829"/>
-        <location filename="../prefinterface.cpp" line="873"/>
+        <location filename="../prefinterface.cpp" line="877"/>
         <source>Recent files</source>
         <translation>Πρόσφατα αρχεία</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="757"/>
+        <location filename="../prefinterface.cpp" line="761"/>
         <source>Language</source>
         <translation>Γλώσσα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="758"/>
+        <location filename="../prefinterface.cpp" line="762"/>
         <source>Here you can change the language of the application.</source>
-        <translation>Εδώ αλλάζετε την γλώσσα της εφαρμογής.</translation>
+        <translation>Εδώ αλλάζεται η γλώσσα της εφαρμογής.</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="196"/>
@@ -7502,7 +7216,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.cpp" line="167"/>
         <source>System language</source>
-        <translation type="unfinished"></translation>
+        <translation>Γλώσσα του συστήματος</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="197"/>
@@ -7527,7 +7241,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="841"/>
         <source>Ma&amp;x. items</source>
-        <translation>&amp;Μέγιστα στοιχεία</translation>
+        <translation>&amp;Μέγ. στοιχεία</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="338"/>
@@ -7557,12 +7271,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="112"/>
         <source>&amp;Prevent window to get outside of screen</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αποτρέπει την επέκταση των ορίων του παραθύρου εκτός οθόνης</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="134"/>
         <source>Center &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>Κεντράρισμα &amp;παραθύρου</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="141"/>
@@ -7587,47 +7301,47 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="499"/>
         <source>&amp;Behaviour of time slider:</source>
-        <translation>&amp;Συμπεριφορά μπάρας χρόνου:</translation>
+        <translation>&amp;Συμπεριφορά ολισθητή χρόνου:</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="516"/>
         <source>Seek to position while dragging</source>
-        <translation>Μετακίνηση στη θέση κατά την εναπόθεση</translation>
+        <translation>Μετακίνηση στη θέση κατά το σύρσιμο</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="521"/>
         <source>Seek to position when released</source>
-        <translation>Μετακίνηση στη θέση όταν αφήνεται ελεύθερο</translation>
+        <translation>Μετακίνηση στη θέση όταν αφήνεται ελεύθερος</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="606"/>
         <source>Pressi&amp;ng the stop button once resets the time position</source>
-        <translation type="unfinished"></translation>
+        <translation>Πιέ&amp;ζοντας το κουμπί διακοπής μια φορά επαναφέρεται η χρονική θέση</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="671"/>
         <source>The floating control appears in fullscreen mode when the mouse is moved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αιωρούμενη εργαλειοθήκη ελέγχου εμφανίζεται σε λειτουργία πλήρης οθόνης κατά την μετακίνηση του ποντικιού.</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="758"/>
         <source>Show only when moving the mouse to the &amp;bottom of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση μόνον κατά την μετακίνηση του ποντικιού στο κά&amp;τω μέρος της οθόνης</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="774"/>
         <source>Tim&amp;e (in milliseconds) to hide the control:</source>
-        <translation type="unfinished"></translation>
+        <translation>Χ&amp;ρόνος (σε χιλιοστά του δευτερολέπτου) μέχρι την απόκρυψη της εργαλειοθήκης ελέγχου:</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="880"/>
         <source>URLs</source>
-        <translation>Διευθύνσεις URLs</translation>
+        <translation>Διευθύνσεις URL</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="892"/>
         <source>&amp;Max. items</source>
-        <translation>&amp;Μέγιστος αριθμός</translation>
+        <translation>&amp;Μέγ. αριθμός στοιχείων</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="931"/>
@@ -7637,37 +7351,37 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="952"/>
         <source>High &amp;DPI</source>
-        <translation type="unfinished"></translation>
+        <translation>Υψηλό &amp;DPI</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="958"/>
         <source>SMPlayer can scale the interface in high DPI screens. Here you can disable this feature or change the scale factor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το SMPlayer μπορεί να κλιμακώσει το περιβάλλον σε οθόνες υψηλού DPI. Εδώ μπορείτε να απενεργοποιήσετε αυτό το χαρακτηριστικό ή να αλλάξετε τον συντελεστή κλιμάκωσης.</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="968"/>
         <source>&amp;Enable support for high DPI screens</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ενεργοποίηση της υποστήριξης για οθόνες υψηλού DPI</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="978"/>
         <source>Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλίμακα</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="984"/>
         <source>A&amp;uto</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αυτόματο</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="1040"/>
         <source>Changes in this section requires to restart SMPlayer in order to take effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι αλλαγές αυτής της ενότητας απαιτούν την επανεκκίνηση του SMPlayer ούτως ώστε να λάβουν χώρα</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="622"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ετικέτα κειμένου</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="434"/>
@@ -7690,296 +7404,292 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Υποστάσεις</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="739"/>
+        <location filename="../prefinterface.cpp" line="743"/>
         <source>Autoresize</source>
         <translation>Αυτόματη αλλαγή μεγέθους</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="740"/>
+        <location filename="../prefinterface.cpp" line="744"/>
         <source>The main window can be resized automatically. Select the option you prefer.</source>
         <translation>Το κύριο παράθυρο μπορεί να αλλάζει μέγεθος αυτόματα. Επιλέξτε την επιλογή που προτιμάτε.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="750"/>
+        <location filename="../prefinterface.cpp" line="754"/>
         <source>Remember position and size</source>
-        <translation>Απομνημόνευση θέσης και μέγεθους</translation>
+        <translation>Απομνημόνευση θέσης και μεγέθους</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="751"/>
+        <location filename="../prefinterface.cpp" line="755"/>
         <source>If you check this option, the position and size of the main window will be saved and restored when you run SMPlayer again.</source>
-        <translation>Αν επιλέξετε αυτή την επιλογή, η θέση και το μέγεθος του κύριου παραθύρου θα αποθηκευτούν και θα αποκατασταθούν όταν εκτελείτε το SMPlayer πάλι.</translation>
+        <translation>Αν ενεργοποιήσετε αυτήν την επιλογή, η θέση και το μέγεθος του κύριου παραθύρου θα αποθηκευτούν και θα αποκατασταθούν την επόμενη φορά που θα εκτελέσετε τον SMPlayer.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="761"/>
+        <location filename="../prefinterface.cpp" line="765"/>
         <source>Select the graphic interface you prefer for the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε το γραφικό περιβάλλον που προτιμάτε για την εφαρμογή.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="762"/>
+        <location filename="../prefinterface.cpp" line="766"/>
         <source>The &lt;b&gt;Basic GUI&lt;/b&gt; provides the traditional interface, with the toolbar and control bar.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="764"/>
-        <source>The &lt;b&gt;Mini GUI&lt;/b&gt; provides a more simple interface, without toolbar and a control bar with few buttons.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="772"/>
-        <source>The &lt;b&gt;Skinnable GUI&lt;/b&gt; provides an interface where several skins are available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το &lt;b&gt;Βασικό περιβάλλον&lt;/b&gt; παρέχει την παραδοσιακή διεπαφή, με την γραμμή εργαλείων και τη γραμμή ελέγχου.</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="768"/>
-        <source>The &lt;b&gt;Mpc GUI&lt;/b&gt; looks like the interface in Media Player Classic.</source>
-        <translation type="unfinished"></translation>
+        <source>The &lt;b&gt;Mini GUI&lt;/b&gt; provides a more simple interface, without toolbar and a control bar with few buttons.</source>
+        <translation>Το &lt;b&gt;Μικρό περιβάλλον&lt;/b&gt; παρέχει μια πιο λιτή διεπαφή, δίχως τη γραμμή εργαλείων και με την εργαλειοθήκη ελέγχου με μερικά κουμπιά.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="871"/>
+        <location filename="../prefinterface.cpp" line="776"/>
+        <source>The &lt;b&gt;Skinnable GUI&lt;/b&gt; provides an interface where several skins are available.</source>
+        <translation>Το &lt;b&gt;περιβάλλον με θέματα&lt;/b&gt; παρέχει ένα περιβάλλον όπου υπάρχουν διαθέσιμα διάφορα θέματα.</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="772"/>
+        <source>The &lt;b&gt;Mpc GUI&lt;/b&gt; looks like the interface in Media Player Classic.</source>
+        <translation>Το &lt;b&gt;Mpc περιβάλλον&lt;/b&gt; δείχνει σαν τη διεπαφή του Media Player Classic.</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="875"/>
         <source>Privacy</source>
         <translation>Ιδιωτικότητα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="874"/>
+        <location filename="../prefinterface.cpp" line="878"/>
         <source>Select the maximum number of items that will be shown in the &lt;b&gt;Open-&gt;Recent files&lt;/b&gt; submenu. If you set it to 0 that menu won&apos;t be shown at all.</source>
-        <translation>Επιλέξτε τον μέγιστο αριθμό στοιχείων που θα εμφανίζονται στο υπομενού &lt;b&gt;Άνοιγμα-&gt;Πρόσφατα Αρχεία&lt;/b&gt;. Αν το ρυθμίσετε στο 0 αυτό το μενού δεν θα εμφανίζεται καθόλου.</translation>
+        <translation>Επιλέξτε τον μέγιστο αριθμό στοιχείων που θα εμφανίζονται στο υπομενού &lt;b&gt;Άνοιγμα-&gt;Πρόσφατα αρχεία&lt;/b&gt;. Αν το ρυθμίσετε στο 0, το μενού δε θα εμφανίζεται καθόλου.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="777"/>
+        <location filename="../prefinterface.cpp" line="781"/>
         <source>Icon set</source>
         <translation>Θέμα</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="227"/>
         <source>Basic GUI</source>
-        <translation type="unfinished"></translation>
+        <translation>Βασικό περιβάλλον</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="236"/>
         <source>Skinnable GUI</source>
-        <translation type="unfinished"></translation>
+        <translation>Περιβάλλον με θέματα</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="249"/>
         <source>Scale fact&amp;or:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Συντελεστής κλίμακας:</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="252"/>
         <source>Pixel rati&amp;o:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="743"/>
-        <source>Prevent window to get outside of screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="744"/>
-        <source>If after an autoresize the main window gets outside of the screen this option will center the window to prevent it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναλογία εικονο&amp;στοιχείων:</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="747"/>
-        <source>Center window</source>
-        <translation type="unfinished"></translation>
+        <source>Prevent window to get outside of screen</source>
+        <translation>Αποτρέπει την επέκταση των ορίων του παραθύρου εκτός οθόνης</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="748"/>
-        <source>When this option is enabled, the main window will be centered on the desktop.</source>
-        <translation type="unfinished"></translation>
+        <source>If after an autoresize the main window gets outside of the screen this option will center the window to prevent it.</source>
+        <translation>Αν έπειτα από μια αυτόματη αλλαγή του μεγέθους το κύριο παράθυρο υπερβεί τα όρια της οθόνης, αυτή τη επιλογή θα το αποτρέψει κεντράροντας το παράθυρο.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="778"/>
+        <location filename="../prefinterface.cpp" line="751"/>
+        <source>Center window</source>
+        <translation>Κεντράρισμα παραθύρου</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="752"/>
+        <source>When this option is enabled, the main window will be centered on the desktop.</source>
+        <translation>Αν είναι ενεργοποιημένη αυτή η επιλογή, το κύριο παράθυρο θα είναι κεντραρισμένο στην επιφάνεια εργασίας.</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="782"/>
         <source>Select the icon set you prefer for the application.</source>
         <translation>Επιλέξτε το θέμα εικονιδίων που προτιμάτε για την εφαρμογή.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="781"/>
+        <location filename="../prefinterface.cpp" line="785"/>
         <source>Skin</source>
         <translation>Θέμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="782"/>
+        <location filename="../prefinterface.cpp" line="786"/>
         <source>Select the skin you prefer for the application. Only available with the skinnable GUI.</source>
         <translation>Επιλέξτε το θέμα που προτιμάτε για την εφαρμογή. Διατίθεται μόνο με το γραφικό περιβάλλον με θέμα (skinnable GUI).</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="785"/>
+        <location filename="../prefinterface.cpp" line="789"/>
         <source>Style</source>
         <translation>Ύφος</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="786"/>
+        <location filename="../prefinterface.cpp" line="790"/>
         <source>Select the style you prefer for the application.</source>
         <translation>Επιλέξτε το ύφος που προτιμάτε για την εφαρμογή.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="789"/>
+        <location filename="../prefinterface.cpp" line="793"/>
         <source>Default font</source>
         <translation>Προεπιλεγμένη γραμματοσειρά</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="790"/>
+        <location filename="../prefinterface.cpp" line="794"/>
         <source>You can change here the application&apos;s font.</source>
-        <translation>Μπορείτε να αλλάξετε εδώ την γραμματοσειρά της εφαρμογής.</translation>
+        <translation>Εδώ μπορείτε να αλλάξετε τη γραμματοσειρά της εφαρμογής.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="792"/>
+        <location filename="../prefinterface.cpp" line="796"/>
         <source>Seeking</source>
         <translation>Μετακίνηση στο χρόνο</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="794"/>
+        <location filename="../prefinterface.cpp" line="798"/>
         <source>Short jump</source>
         <translation>Μικρό άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="795"/>
         <location filename="../prefinterface.cpp" line="799"/>
         <location filename="../prefinterface.cpp" line="803"/>
+        <location filename="../prefinterface.cpp" line="807"/>
         <source>Select the time that should be go forward or backward when you choose the %1 action.</source>
         <translation>Επιλέξτε το χρονικό διάστημα που θα πρέπει να πάτε μπροστά ή πίσω, όταν επιλέγετε την ενέργεια %1.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="796"/>
+        <location filename="../prefinterface.cpp" line="800"/>
         <source>short jump</source>
         <translation>μικρό άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="798"/>
+        <location filename="../prefinterface.cpp" line="802"/>
         <source>Medium jump</source>
         <translation>Μεσαίο άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="800"/>
+        <location filename="../prefinterface.cpp" line="804"/>
         <source>medium jump</source>
         <translation>μεσαίο άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="802"/>
+        <location filename="../prefinterface.cpp" line="806"/>
         <source>Long jump</source>
         <translation>Μεγάλο άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="804"/>
+        <location filename="../prefinterface.cpp" line="808"/>
         <source>long jump</source>
         <translation>μεγάλο άλμα</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="806"/>
+        <location filename="../prefinterface.cpp" line="810"/>
         <source>Mouse wheel jump</source>
         <translation>Άλμα τροχού ποντικιού</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="807"/>
+        <location filename="../prefinterface.cpp" line="811"/>
         <source>Select the time that should be go forward or backward when you move the mouse wheel.</source>
         <translation>Επιλέξτε το χρονικό διάστημα που θα πρέπει να πάει προς τα εμπρός ή προς τα πίσω όταν μετακινείτε τον τροχό του ποντικιού.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="810"/>
+        <location filename="../prefinterface.cpp" line="814"/>
         <source>Behaviour of time slider</source>
-        <translation>Συμπεριφορά μπάρας χρόνου</translation>
+        <translation>Συμπεριφορά ολισθητή χρόνου</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="811"/>
+        <location filename="../prefinterface.cpp" line="815"/>
         <source>Select what to do when dragging the time slider.</source>
         <translation>Επιλέξτε τι θα γίνεται κατά το σύρσιμο του δείκτη της μπάρας του χρόνου.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="825"/>
+        <location filename="../prefinterface.cpp" line="829"/>
         <source>Pressing the stop button once resets the time position</source>
-        <translation type="unfinished"></translation>
+        <translation>Πιέζοντας το κουμπί διακοπής μια φορά επαναφέρεται η χρονική θέση</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="856"/>
+        <location filename="../prefinterface.cpp" line="860"/>
         <source>Show only when moving the mouse to the bottom of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση μόνον κατά την μετακίνηση του ποντικιού στο κάτω μέρος της οθόνης</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="857"/>
+        <location filename="../prefinterface.cpp" line="861"/>
         <source>If this option is checked, the floating control will only be displayed when the mouse is moved to the bottom of the screen. Otherwise the control will appear whenever the mouse is moved, no matter its position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, η αιωρούμενη εργαλειοθήκη ελέγχων θα εμφανίζεται μόνον κατά την μετακίνηση του ποντικιού στη βάση της οθόνης. Διαφορετικά η εργαλειοθήκη θα εμφανίζεται κατά την μετακίνηση του ποντικιού ανεξαρτήτου της θέσης του.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="862"/>
+        <location filename="../prefinterface.cpp" line="866"/>
         <source>If this option is enabled, the floating control will appear in compact mode too.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="864"/>
-        <source>This option only works with the basic GUI.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="865"/>
-        <source>&lt;b&gt;Warning:&lt;/b&gt; the floating control has not been designed for compact mode and it might not work properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, η αιωρούμενη εργαλειοθήκη ελέγχων θα εμφανίζεται εξίσου σε συμπαγή λειτουργία.</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="868"/>
-        <source>Time to hide the control</source>
-        <translation type="unfinished"></translation>
+        <source>This option only works with the basic GUI.</source>
+        <translation>Αυτή η επιλογή λειτουργεί μόνο με το βασικό περιβάλλον.</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="869"/>
+        <source>&lt;b&gt;Warning:&lt;/b&gt; the floating control has not been designed for compact mode and it might not work properly.</source>
+        <translation>&lt;b&gt;Προειδοποίηση:&lt;/b&gt; η αιωρούμενη εργαλειοθήκη ελέγχων δεν έχει σχεδιαστεί για τη συμπαγή λειτουργία και πιθανώς να μην λειτουργεί σωστά.</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="872"/>
+        <source>Time to hide the control</source>
+        <translation>Χρόνος μέχρι την απόκρυψη της εργαλειοθήκης ελέγχων</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="873"/>
         <source>Sets the time (in milliseconds) to hide the control after the mouse went away from the control.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίζει τον χρόνο (σε χιλιοστά του δευτερολέπτου) για την απόκρυψη της εργαλειοθήκης ελέγχων μετά την απομάκρυνση του του ποντικιού από την εργαλειοθήκη.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="878"/>
+        <location filename="../prefinterface.cpp" line="882"/>
         <source>Max. URLs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefinterface.cpp" line="879"/>
-        <source>Select the maximum number of items that the &lt;b&gt;Open-&gt;URL&lt;/b&gt; dialog will remember. Set it to 0 if you don&apos;t want any URL to be stored.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεγ. διευθύνσεις URL</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="883"/>
-        <source>Remember last directory</source>
-        <translation>Απομνημόνευση τελευταίου φάκελου</translation>
+        <source>Select the maximum number of items that the &lt;b&gt;Open-&gt;URL&lt;/b&gt; dialog will remember. Set it to 0 if you don&apos;t want any URL to be stored.</source>
+        <translation>Επιλέξτε τον μέγιστο αριθμό στοιχείων που θα θυμάται ο διάλογος &lt;b&gt;Άνοιγμα-&gt;URL&lt;/b&gt;. Ορίστε το στο 0 εάν δεν θέλετε να αποθηκεύονται οι διευθύνσεις URL.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="884"/>
+        <location filename="../prefinterface.cpp" line="887"/>
+        <source>Remember last directory</source>
+        <translation>Απομνημόνευση τελευταίου φακέλου</translation>
+    </message>
+    <message>
+        <location filename="../prefinterface.cpp" line="888"/>
         <source>If this option is checked, SMPlayer will remember the last folder you use to open a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, ο SMPlayer θα θυμάται τον τελευταίο φάκελο που χρησιμοποιήσατε για να ανοίξετε αρχείο.</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="544"/>
-        <location filename="../prefinterface.cpp" line="814"/>
+        <location filename="../prefinterface.cpp" line="818"/>
         <source>Seeking method</source>
         <translation>Μέθοδος μετακίνησης στο χρόνο</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="815"/>
+        <location filename="../prefinterface.cpp" line="819"/>
         <source>Sets the method to be used when seeking with the slider. Absolute seeking may be a little bit more accurate, while relative seeking may work better with files with a wrong length.</source>
-        <translation>Ρυθμίζει τη μέθοδο που θα χρησιμοποιηθεί κατά την μετακίνηση στο χρόνο με τη μπάρα χρόνου. Απόλυτη μετακίνηση μπορεί να είναι λίγο πιο ακριβής, ενώ η σχετική μετακίνηση μπορεί να λειτουργήσει καλύτερα με αρχεία με λάθος διάρκεια.</translation>
+        <translation>Ρυθμίζει τη μέθοδο που θα χρησιμοποιηθεί κατά την μετακίνηση στο χρόνο με τον ολισθητή χρόνου. Απόλυτη μετακίνηση μπορεί να είναι λίγο πιο ακριβής, ενώ η σχετική μετακίνηση μπορεί να λειτουργήσει καλύτερα με αρχεία με λάθος διάρκεια.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="826"/>
+        <location filename="../prefinterface.cpp" line="830"/>
         <source>By default when the stop button is pressed the time position is remembered so if you press play button the media will resume at the same point. You need to press the stop button twice to reset the time position, but if this option is checked the time position will be set to 0 with only one press of the stop button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξ ορισμού, όταν πιεστεί το κουμπί της διακοπής, η χρονική θέση απομνημονεύεται ούτως ώστε αν πιέσετε το κουμπί αναπαραγωγής το μέσο θα ανακτηθεί στο ίδιο σημείο. Χρειάζεται να πιέσετε το κουμπί της διακοπής δυο φορές έτσι ώστε να αρχικοποιήσετε την χρονική θέση, αλλά αν αυτή η επιλογή είναι ενεργοποιημένη η χρονική θέση θα τεθεί στο 0 με μόνο μια πίεση στο κουμπί διακοπής.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="833"/>
+        <location filename="../prefinterface.cpp" line="837"/>
         <source>Instances</source>
         <translation>Υποστάσεις</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="836"/>
+        <location filename="../prefinterface.cpp" line="840"/>
         <source>Use only one running instance of SMPlayer</source>
         <translation>Χρησιμοποιείτε μόνο μία εκτελούμενη υπόσταση του SMPlayer</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="837"/>
+        <location filename="../prefinterface.cpp" line="841"/>
         <source>Check this option if you want to use an already running instance of SMPlayer when opening other files.</source>
-        <translation>Τσεκάρετε αυτήν την επιλογή αν θέλετε να χρησιμοποιήσετε μια ήδη εκτελούμενης υπόσταση του SMPlayer κατά το άνοιγμα άλλων αρχείων.</translation>
-    </message>
-    <message>
-        <source>Default GUI</source>
-        <translation type="obsolete">Προεπιλεγμένο γραφικό περιβάλλον (GUI)</translation>
+        <translation>Ενεργοποιήστε αυτή την επιλογή αν θέλετε να χρησιμοποιήσετε μια ήδη εκτελούμενη υπόσταση του SMPlayer κατά το άνοιγμα άλλων αρχείων.</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="230"/>
@@ -7987,7 +7697,7 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Μίνι γραφικό περιβάλλον (GUI)</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="760"/>
+        <location filename="../prefinterface.cpp" line="764"/>
         <source>GUI</source>
         <translation>Γραφικό Περιβάλλον  (GUI)</translation>
     </message>
@@ -7997,61 +7707,49 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Γραφ.Περιβάλλον</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="841"/>
+        <location filename="../prefinterface.cpp" line="845"/>
         <source>Floating control</source>
-        <translation>Επιπλέουσα εργαλειοθήκη ελέγχου</translation>
+        <translation>Αιωρούμενη εργαλειοθήκη ελέγχου</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="843"/>
+        <location filename="../prefinterface.cpp" line="847"/>
         <source>Animated</source>
         <translation>Μετακινούμενη</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="844"/>
+        <location filename="../prefinterface.cpp" line="848"/>
         <source>If this option is enabled, the floating control will appear with an animation.</source>
-        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, η εργαλειοθήκη ελέγχου θα εμφανίζεται με κίνηση.</translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, η αιωρούμενη εργαλειοθήκη ελέγχου θα εμφανίζεται κινούμενο.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="847"/>
+        <location filename="../prefinterface.cpp" line="851"/>
         <source>Width</source>
         <translation>Πλάτος</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="848"/>
+        <location filename="../prefinterface.cpp" line="852"/>
         <source>Specifies the width of the control (as a percentage).</source>
         <translation>Καθορίζει το πλάτος της εργαλειοθήκης ελέγχου (ως ποσοστό).</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="850"/>
+        <location filename="../prefinterface.cpp" line="854"/>
         <source>Margin</source>
         <translation>Περιθώριο</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="851"/>
+        <location filename="../prefinterface.cpp" line="855"/>
         <source>This option sets the number of pixels that the floating control will be away from the bottom of the screen. Useful when the screen is a TV, as the overscan might prevent the control to be visible.</source>
-        <translation>Αυτή η επιλογή ορίζει τον αριθμό των pixels που η εργαλειοθήκη ελέγχου θα είναι μακριά από το κάτω μέρος της οθόνης. Χρήσιμο όταν η οθόνη είναι μια τηλεόραση, καθώς η σάρωση πάνω θα μπορούσε να αποτρέψει την εργαλειοθήκη ελέγχου να είναι ορατή.</translation>
+        <translation>Αυτή η επιλογή ορίζει τον αριθμό των pixel που η εργαλειοθήκη ελέγχου θα είναι μακριά από σε σχέση με το κάτω μέρος της οθόνης. Χρήσιμο όταν η οθόνη είναι μια τηλεόραση, καθώς η σάρωση πάνω θα μπορούσε να αποτρέψει την εργαλειοθήκη ελέγχου να είναι ορατή.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="861"/>
+        <location filename="../prefinterface.cpp" line="865"/>
         <source>Display in compact mode too</source>
-        <translation>Εμφάνιση σε συμπαγή λειτουργία επίσης</translation>
-    </message>
-    <message>
-        <source>Bypass window manager</source>
-        <translation type="obsolete">Παράκαμψη διαχειριστή παραθύρων</translation>
-    </message>
-    <message>
-        <source>If this option is checked, the control is displayed bypassing the window manager. Disable this option if the floating control doesn&apos;t work well with your window manager.</source>
-        <translation type="obsolete">Αν αυτή η επιλογή είναι επιλεγμένη, η εργαλειοθήκη ελέγχου εμφανίζεται παρακάμπτοντας το διαχειριστή παραθύρων. Απενεργοποιήστε αυτήν την επιλογή αν η επιπλέουσα εργαλειοθήκη ελέγχου δεν λειτουργεί καλά με το διαχειριστή παραθύρων σας.</translation>
+        <translation>Εμφάνιση επίσης σε συμπαγή λειτουργία</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="665"/>
         <source>&amp;Floating control</source>
-        <translation>&amp;Επιπλέουσα εργαλειοθήκη ελέγχου</translation>
-    </message>
-    <message>
-        <source>The floating control appears in fullscreen mode when the mouse is moved to the bottom of the screen.</source>
-        <translation type="obsolete">Η επιπλέουσα εργαλειοθήκη ελέγχου εμφανίζεται σε λειτουργία πλήρους οθόνης όταν το ποντίκι μετακινείται στο κάτω μέρος της οθόνης.</translation>
+        <translation>&amp;Αιωρούμενη εργαλειοθήκη ελέγχου</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="681"/>
@@ -8078,28 +7776,20 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefinterface.ui" line="765"/>
         <source>Display in &amp;compact mode too</source>
-        <translation>Εμφάνιση σε &amp;συμπαγή λειτουργία επίσης</translation>
-    </message>
-    <message>
-        <source>&amp;Bypass window manager</source>
-        <translation type="obsolete">&amp;Παράκαμψη διαχειριστή παραθύρων</translation>
-    </message>
-    <message>
-        <source>If this option is enabled, the floating control will appear in compact mode too. &lt;b&gt;Warning:&lt;/b&gt; the floating control has not been designed for compact mode and it might not work properly.</source>
-        <translation type="obsolete">Αν αυτή η επιλογή είναι ενεργοποιημένη, η επιπλέουσα εργαλειοθήκη θα εμφανιστεί σε συμπαγή λειτουργία επίσης. &lt;b&gt;Προειδοποίηση:&lt;/b&gt; η επιπλέουσα εργαλειοθήκη δεν έχει σχεδιαστεί για συμπαγή λειτουργία και θα μπορούσε να μη λειτουργήσει σωστά.</translation>
+        <translation>Εμφάνιση επίσης σε &amp;συμπαγή λειτουργία</translation>
     </message>
     <message>
         <location filename="../prefinterface.cpp" line="233"/>
         <source>Mpc GUI</source>
-        <translation>Mpc Γραφικό Περιβάλλον (GUI)</translation>
+        <translation>Γραφικό Περιβάλλον (GUI) Mpc</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="754"/>
+        <location filename="../prefinterface.cpp" line="758"/>
         <source>Hide video window when playing audio files</source>
         <translation>Απόκρυψη παράθυρου βίντεο κατά την αναπαραγωγή αρχείων ήχου</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="755"/>
+        <location filename="../prefinterface.cpp" line="759"/>
         <source>If this option is enabled the video window will be hidden when playing audio files.</source>
         <translation>Αν είναι ενεργοποιημένη αυτή η επιλογή θα είναι κρυφό το παράθυρο βίντεο κατά την αναπαραγωγή αρχείων ήχου.</translation>
     </message>
@@ -8109,19 +7799,19 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Απόκρυψη παράθυρου βίντεο κατά την αναπαραγωγή αρχείων ήχου</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="820"/>
+        <location filename="../prefinterface.cpp" line="824"/>
         <source>Precise seeking</source>
         <translation>Ακριβής αναζήτηση</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="821"/>
+        <location filename="../prefinterface.cpp" line="825"/>
         <source>If this option is enabled, seeks are more accurate but they can be a little bit slower. May not work with some video formats.</source>
-        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη, η αναζήτηση είναι πιο ακριβής, αλλά μπορεί να είναι λίγο πιο αργή. Ενδέχεται να μην λειτουργεί με ορισμένες μορφές βίντεο.</translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργοποιημένη, η αναζήτηση είναι πιο ακριβής, αλλά μπορεί να είναι λίγο πιο αργή. Ενδέχεται να μην λειτουργεί με ορισμένες μορφές βίντεο.</translation>
     </message>
     <message>
-        <location filename="../prefinterface.cpp" line="823"/>
+        <location filename="../prefinterface.cpp" line="827"/>
         <source>Note: this option only works with MPlayer2</source>
-        <translation>Σημείωση: η επιλογή αυτή λειτουργεί μόνο με MPlayer2</translation>
+        <translation>Σημείωση: η επιλογή αυτή λειτουργεί μόνο με το MPlayer2</translation>
     </message>
     <message>
         <location filename="../prefinterface.ui" line="592"/>
@@ -8134,212 +7824,267 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefnetwork.ui" line="75"/>
         <source>Playback &amp;quality</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ποιότητα αναπαραγωγής</translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="105"/>
         <source>&amp;User agent</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Πράκτορας χρήστη</translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="24"/>
         <source>&amp;YouTube (and other sites)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;YouTube (και άλλες τοποθεσίες)</translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="32"/>
         <source>Support for &amp;video sites:</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη ιστότοπων &amp;βίντεο:</translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="67"/>
         <source>Options for YouTube</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές για το YouTube</translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="137"/>
-        <source>&amp;Proxy</source>
+        <source>C&amp;hromecast</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../prefnetwork.ui" line="143"/>
+        <source>Web Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="155"/>
+        <source>Changes in this section will be applied the next time the web server is restarted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="175"/>
+        <source>&amp;Directory listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="182"/>
+        <source>Local &amp;IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="228"/>
+        <source>In order to serve local media from this computer to Chromecast, SMPlayer will run a tiny web server. You can adjust here some of the settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="269"/>
+        <source>&amp;Proxy</source>
+        <translation>&amp;Διαμεσολαβητής</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.ui" line="275"/>
         <source>&amp;Enable proxy</source>
-        <translation type="unfinished">&amp;Ενεργοποίηση πληρεξούσιου</translation>
+        <translation>&amp;Ενεργοποίηση διαμεσολαβητή</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.ui" line="156"/>
+        <location filename="../prefnetwork.ui" line="288"/>
         <source>&amp;Host:</source>
-        <translation type="unfinished">&amp;Οικοδεσπότης:</translation>
+        <translation>&amp;Υπολογιστής:</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.ui" line="169"/>
+        <location filename="../prefnetwork.ui" line="205"/>
+        <location filename="../prefnetwork.ui" line="301"/>
         <source>&amp;Port:</source>
-        <translation type="unfinished">&amp;Θύρα:</translation>
+        <translation>&amp;Θύρα:</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.ui" line="189"/>
+        <location filename="../prefnetwork.ui" line="321"/>
         <source>&amp;Username:</source>
-        <translation type="unfinished">Όνομα &amp;Χρήστη:</translation>
+        <translation>Όνομα &amp;χρήστη:</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.ui" line="202"/>
+        <location filename="../prefnetwork.ui" line="334"/>
         <source>Pa&amp;ssword:</source>
-        <translation type="unfinished">&amp;Κωδικός:</translation>
+        <translation>&amp;Κωδικός πρόσβασης:</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.ui" line="219"/>
+        <location filename="../prefnetwork.ui" line="351"/>
         <source>&amp;Type:</source>
-        <translation type="unfinished">&amp;Τύπος:</translation>
+        <translation>&amp;Τύπος:</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="33"/>
+        <location filename="../prefnetwork.cpp" line="37"/>
         <source>HTTP</source>
-        <translation type="unfinished"></translation>
+        <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="34"/>
+        <location filename="../prefnetwork.cpp" line="38"/>
         <source>SOCKS5</source>
-        <translation type="unfinished"></translation>
+        <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="67"/>
+        <location filename="../prefnetwork.cpp" line="71"/>
         <source>Network</source>
-        <translation type="unfinished">Δίκτυο</translation>
-    </message>
-    <message>
-        <source>Youtube quality</source>
-        <translation type="obsolete">YouTube ποιότητα</translation>
-    </message>
-    <message>
-        <source>Select the preferred quality for youtube videos.</source>
-        <translation type="obsolete">Επιλογή προτιμώμενης ποιότητας για youtube βίντεο.</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="194"/>
-        <source>User agent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="79"/>
-        <location filename="../prefnetwork.cpp" line="173"/>
-        <source>Disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="81"/>
-        <location filename="../prefnetwork.cpp" line="175"/>
-        <source>Auto</source>
-        <translation type="unfinished">Αυτόματα</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="169"/>
-        <source>YouTube</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="171"/>
-        <source>Support for video sites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="173"/>
-        <source>support for video sites is turned off</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="175"/>
-        <source>it will try to use mpv + youtube-dl only for the sites that require it</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="178"/>
-        <source>only the internal support for YouTube will be used</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="181"/>
-        <source>uses mpv + youtube-dl for all sites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="191"/>
-        <source>Playback quality</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="192"/>
-        <source>Select the preferred quality for YouTube videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="195"/>
-        <source>Set the user agent that SMPlayer will use when connecting to YouTube.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="206"/>
-        <source>Proxy</source>
-        <translation type="unfinished">Πληρεξούσιο</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="208"/>
-        <source>Enable proxy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="209"/>
-        <source>Enable/disable the use of the proxy.</source>
-        <translation type="unfinished">Ενεργοποίηση/απενεργοποίηση της χρήσης πληρεξούσιου.</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="211"/>
-        <source>Host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="212"/>
-        <source>The host name of the proxy.</source>
-        <translation type="unfinished">Το όνομα οικοδεσποτών του πληρεξούσιου.</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="214"/>
-        <source>Port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="215"/>
-        <source>The port of the proxy.</source>
-        <translation type="unfinished">Η θύρα του πληρεξούσιου.</translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="217"/>
-        <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefnetwork.cpp" line="218"/>
-        <source>If the proxy requires authentication, this sets the username.</source>
-        <translation type="unfinished">Αν το πληρεξούσιο απαιτεί την επικύρωση, αυτό θέτει το όνομα χρήστη.</translation>
+        <translation>Δίκτυο</translation>
     </message>
     <message>
         <location filename="../prefnetwork.cpp" line="220"/>
-        <source>Password</source>
+        <source>it will try to use mpv + youtube-dl only for the sites that require it</source>
+        <translation>Θα προσπαθήσω να χρησιμοποιήσω το mpv + youtube-dl μόνο για τις ιστοσελίδες που το απαιτούν</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="239"/>
+        <source>User agent</source>
+        <translation>Πράκτορας χρήστη</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="83"/>
+        <location filename="../prefnetwork.cpp" line="218"/>
+        <source>Disabled</source>
+        <translation>Απενεργοποιημένο</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="85"/>
+        <location filename="../prefnetwork.cpp" line="187"/>
+        <location filename="../prefnetwork.cpp" line="220"/>
+        <source>Auto</source>
+        <translation>Αυτόματο</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="214"/>
+        <source>YouTube</source>
+        <translation>YouTube</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="216"/>
+        <source>Support for video sites</source>
+        <translation>Υποστήριξη ιστότοπων βίντεο</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="218"/>
+        <source>support for video sites is turned off</source>
+        <translation>η υποστήριξη ιστότοπων βίντεο είναι απενεργοποιημένη</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="223"/>
+        <source>only the internal support for YouTube will be used</source>
+        <translation>μόνο ο εσωτερικός μηχανισμός υποστήριξης του YouTube θα χρησιμοποιηθεί</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="226"/>
+        <source>uses mpv + youtube-dl for all sites</source>
+        <translation>χρήση των mpv + youtube-dl για όλους τους ιστότοπους</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="236"/>
+        <source>Playback quality</source>
+        <translation>Ποιότητα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="237"/>
+        <source>Select the preferred quality for YouTube videos.</source>
+        <translation>Επιλέξτε την προτιμώμενη ποιότητα των βίντεο του YouTube.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="240"/>
+        <source>Set the user agent that SMPlayer will use when connecting to YouTube.</source>
+        <translation>Ορίστε τον πράκτορα χρήστη που θα χρησιμοποιεί το SMPlayer κατά την σύνδεση με το YouTube.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="252"/>
+        <source>Chromecast</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="221"/>
+        <location filename="../prefnetwork.cpp" line="254"/>
+        <source>Local IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="255"/>
+        <source>The local IP address of this computer. It will be passed to Chromecast so that it can access the files from this computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="259"/>
+        <source>The port that the web server will use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="261"/>
+        <source>Directory listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="262"/>
+        <source>When the web server is running, any device in your network can access the files from this computer. If this option is on, any device can get a listing of the files in this computer. If this option is off, the list won&apos;t be available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="268"/>
+        <source>Proxy</source>
+        <translation>Διαμεσολαβητής</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="270"/>
+        <source>Enable proxy</source>
+        <translation>Ενεργοποίηση της χρήσης διαμεσολαβητή</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="271"/>
+        <source>Enable/disable the use of the proxy.</source>
+        <translation>Ενεργοποίηση/απενεργοποίηση της χρήσης διαμεσολαβητή.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="273"/>
+        <source>Host</source>
+        <translation>Υπολογιστής</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="274"/>
+        <source>The host name of the proxy.</source>
+        <translation>Το όνομα συστήματος του διαμεσολαβητή.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="258"/>
+        <location filename="../prefnetwork.cpp" line="276"/>
+        <source>Port</source>
+        <translation>Θύρα</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="277"/>
+        <source>The port of the proxy.</source>
+        <translation>Η θύρα του διαμεσολαβητή.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="279"/>
+        <source>Username</source>
+        <translation>Όνομα χρήστη</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="280"/>
+        <source>If the proxy requires authentication, this sets the username.</source>
+        <translation>Αν ο διαμεσολαβητής απαιτεί επικύρωση, αυτό θέτει το όνομα χρήστη.</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="282"/>
+        <source>Password</source>
+        <translation>Κωδικός πρόσβασης</translation>
+    </message>
+    <message>
+        <location filename="../prefnetwork.cpp" line="283"/>
         <source>The password for the proxy. &lt;b&gt;Warning:&lt;/b&gt; the password will be saved as plain text in the configuration file.</source>
-        <translation type="unfinished">Κωδικός πρόσβασης για το πληρεξούσιο. &lt;b&gt;Προειδοποίηση:&lt;/b&gt; ο κωδικός πρόσβασης θα αποθηκευτεί ως απλό κείμενο στο ini αρχείο διαμόρφωσης.</translation>
+        <translation>Κωδικός πρόσβασης για τον διαμεσολαβητή. &lt;b&gt;Προειδοποίηση:&lt;/b&gt; ο κωδικός πρόσβασης θα αποθηκευτεί ως απλό κείμενο στο αρχείο διαμόρφωσης.</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="224"/>
+        <location filename="../prefnetwork.cpp" line="286"/>
         <source>Type</source>
-        <translation type="unfinished">τύπος</translation>
+        <translation>Τύπος</translation>
     </message>
     <message>
-        <location filename="../prefnetwork.cpp" line="225"/>
+        <location filename="../prefnetwork.cpp" line="287"/>
         <source>Select the proxy type to be used.</source>
-        <translation type="unfinished">Επιλογή τύπου πληρεξούσιου προς χρήση.</translation>
+        <translation>Επιλέξτε τον τύπο διαμεσολαβητή προς χρήση.</translation>
     </message>
 </context>
 <context>
@@ -8399,17 +8144,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.ui" line="145"/>
         <source>Decoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκωδικοποίηση</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="199"/>
         <source>Hardware &amp;decoding</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αποκωδικοποίηση μέσω υλικού</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="355"/>
         <source>A&amp;uto</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αυτόματο</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="391"/>
@@ -8454,32 +8199,32 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.ui" line="131"/>
         <source>&amp;Allow frame drop</source>
-        <translation>&amp;Επιτρέπει παράλειψη καρέ</translation>
+        <translation>&amp;Επιτρέπεται η παράλειψη καρέ</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="138"/>
         <source>Allow &amp;hard frame drop (can lead to image distortion)</source>
-        <translation>Έ&amp;ντονη παράλειψη καρέ (ίσως διαστρεβλώσει την εικόνα)</translation>
+        <translation>Έ&amp;ντονη παράλειψη καρέ (μπορεί να διαστρεβλώσει την εικόνα)</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="290"/>
         <source>&amp;Fast audio track switching</source>
-        <translation>&amp;Γρήγορη εναλλαγή κομματιών ήχου</translation>
+        <translation>&amp;Γρήγορη αλλαγή κομματιών ήχου</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="318"/>
         <source>Fast &amp;seek to chapters in dvds</source>
-        <translation>&amp;Γρήγορη μετακίνηση στα κεφάλαια των dvds</translation>
+        <translation>&amp;Γρήγορη μετακίνηση στα κεφάλαια των DVD</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="355"/>
         <source>Fast audio track switching</source>
-        <translation>Γρήγορη εναλλαγή κομματιών ήχου</translation>
+        <translation>Γρήγορη αλλαγή κομματιών ήχου</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="366"/>
         <source>Fast seek to chapters in dvds</source>
-        <translation>Γρήγορη μετακίνηση στα κεφάλαια των dvds</translation>
+        <translation>Γρήγορη μετακίνηση στα κεφάλαια των DVD</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="367"/>
@@ -8489,7 +8234,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="333"/>
         <source>Skip loop filter</source>
-        <translation>Παράλειψη φίλτρου βρόχου</translation>
+        <translation>Παράλειψη φίλτρου επανάληψης</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="230"/>
@@ -8499,7 +8244,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="356"/>
         <source>Possible values:&lt;br&gt; &lt;b&gt;Yes&lt;/b&gt;: it will try the fastest method to switch the audio track (it might not work with some formats).&lt;br&gt; &lt;b&gt;No&lt;/b&gt;: the MPlayer process will be restarted whenever you change the audio track.&lt;br&gt; &lt;b&gt;Auto&lt;/b&gt;: SMPlayer will decide what to do according to the MPlayer version.</source>
-        <translation>Πιθανές τιμές:&lt;br&gt; &lt;b&gt;Ναι&lt;/b&gt;: θα δοκιμάσει τη γρηγορότερη μέθοδο για να αλλάξει ηχητικό κομμάτι (μπορεί να μην λειτουργήσει με μερικούς τύπους).&lt;br&gt; &lt;b&gt;Όχι&lt;/b&gt;: η εφαρμογή MPlayer θα επανεκκινεί όποτε αλλάζετε ηχητικό κομμάτι.&lt;br&gt; &lt;b&gt;Αυτόματο&lt;/b&gt;: Το SMPlayer θα αποφασίσει τι να κάνει ανάλογα με την έκδοση του MPlayer.</translation>
+        <translation>Πιθανές τιμές:&lt;br&gt; &lt;b&gt;Ναι&lt;/b&gt;: θα δοκιμάσει τη γρηγορότερη μέθοδο για να αλλάξει ηχητικό κομμάτι (μπορεί να μη λειτουργήσει με μερικούς τύπους).&lt;br&gt; &lt;b&gt;Όχι&lt;/b&gt;: η εφαρμογή MPlayer θα επανεκκινεί όποτε αλλάζετε ηχητικό κομμάτι.&lt;br&gt; &lt;b&gt;Αυτόματο&lt;/b&gt;: Το SMPlayer θα αποφασίσει τι να κάνει ανάλογα με την έκδοση του MPlayer.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="376"/>
@@ -8509,7 +8254,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="377"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a file.</source>
-        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε Kbytes) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη ένος αρχείου.</translation>
+        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε kilobyte) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη κατά τη φόρτωση αρχείων.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="380"/>
@@ -8519,17 +8264,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="381"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a URL.</source>
-        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε Kbytes) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη μιας ροής.</translation>
+        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε kByte) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη για ροές κατά την φόρτωση.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="384"/>
         <source>Cache for DVDs</source>
-        <translation>Ενδιάμεση μνήμη για DVDs</translation>
+        <translation>Ενδιάμεση μνήμη για DVD</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="385"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a DVD.&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; Seeking might not work properly (including chapter switching) when using a cache for DVDs.</source>
-        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε Kbytes) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη ένος DVD.&lt;br&gt;&lt;b&gt;Προειδοποίηση:&lt;/b&gt; Η αναζήτηση μπορεί να μην λειτουργει σωστά (συμπεριλαμβανομένης της μετάβασης σε κεφάλαιο) κατά τη χρήση ενδιάμεσης μνήμης για τα DVD.</translation>
+        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε kilobyte) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη για τα DVD κατά τη φόρτωση.&lt;br&gt;&lt;b&gt;Προειδοποίηση:&lt;/b&gt; Η αναζήτηση μπορεί να μην λειτουργεί σωστά (συμπεριλαμβανομένης της μετάβασης σε κεφάλαιο) κατά τη χρήση ενδιάμεσης μνήμης για τα DVD.</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="339"/>
@@ -8539,7 +8284,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.ui" line="448"/>
         <source>Cache for &amp;DVDs:</source>
-        <translation>Ενδιάμεση μνήμη για &amp;DVDs:</translation>
+        <translation>Ενδιάμεση μνήμη για &amp;DVD:</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="374"/>
@@ -8569,78 +8314,78 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.ui" line="244"/>
         <source>Loop &amp;filter</source>
-        <translation>&amp;Φίλτρο βρόχου</translation>
+        <translation>&amp;Φίλτρο επανάληψης</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="334"/>
         <source>This option allows to skips the loop filter (AKA deblocking) during H.264 decoding. Since the filtered frame is supposed to be used as reference for decoding dependent frames this has a worse effect on quality than not doing deblocking on e.g. MPEG-2 video. But at least for high bitrate HDTV this provides a big speedup with no visible quality loss.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή επιτρέπει την παράλειψη του φίλτρου βρόγχου (επίσης γνωστό ως αποαποκλεισμός/deblocking) κατά την αποκωδικοποίηση H.264. Από τη στιγμή που το φιλτραρισμένο καρέ υποτίθεται ότι χρησιμοποιείται ως αναφορά για την αποκωδικοποίηση εξαρτώμενα καρέ αυτό έχει μια χειρότερη επίδραση στην ποιότητα σε σχέση από την μη εφαρμογή αποαποκλεισμού σε ένα π.χ. βίντεο MPEG-2. Αλλά τουλάχιστον για υψηλού ρυθμού bit HDTV αυτό παρέχει μια μεγάλη επιτάχυνση χωρίς ορατή απώλεια ποιότητας.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="33"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανένα</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="34"/>
         <location filename="../prefperformance.cpp" line="373"/>
         <source>Auto</source>
-        <translation type="unfinished">Αυτόματα</translation>
+        <translation>Αυτόματα</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="296"/>
         <source>Set process priority for %1 according to the predefined priorities available under Windows.&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; Using realtime priority can cause system lockup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίζει την προτεραιότητα της διεργασίας του %1 σύμφωνα με τις προκαθορισμένες προτεραιότητες που διατίθενται στα Windows.&lt;br&gt;&lt;b&gt;Προειδοποίηση:&lt;/b&gt; Η χρήση προτεραιότητας πραγματικού χρόνου μπορεί να προκαλέσει την διακοπή της ανταπόκρισης του συστήματος.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="312"/>
         <source>Hardware decoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκωδικοποίηση μέσω υλικού</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="313"/>
         <source>Sets the hardware video decoding API. If hardware decoding is not possible, software decoding will be used instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίζει το API του αποκωδικοποιητή βίντεο υλικού. Αν η αποκωδικοποίηση μέσω υλικού δεν είναι εφικτή, θα χρησιμοποιηθεί η αποκωδικοποίηση μέσω λογισμικού.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="315"/>
         <source>Available options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμες επιλογές:</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="317"/>
         <source>None: only software decoding will be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανένα: θα χρησιμοποιείται μόνον η αποκωδικοποίηση μέσω λογισμικού.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="318"/>
         <source>Auto: it tries to automatically enable hardware decoding using the first available method.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματο: προσπαθεί αυτόματα να ενεργοποιήσει την αποκωδικοποίηση μέσω υλικού χρησιμοποιώντας την πρώτη διαθέσιμη μέθοδο.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="320"/>
         <source>vdpau: for the vdpau and opengl video outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>vdpau: για τις εξόδους βίντεο vdpau και opengl.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="321"/>
         <source>vaapi: for the opengl and vaapi video outputs. For Intel GPUs only.</source>
-        <translation type="unfinished"></translation>
+        <translation>vaapi: για τις εξόδους βίντεο opengl και vaapi. Μόνο για Intel GPU.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="322"/>
         <source>vaapi-copy: it copies video back into system RAM. For Intel GPUs only.</source>
-        <translation type="unfinished"></translation>
+        <translation>vaapi-copy: αντιγράφει το βίντεο στη μνήμη RAM του συστήματος. Μόνο για Intel GPU.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="325"/>
         <source>dxva2-copy: it copies video back to system RAM. Experimental.</source>
-        <translation type="unfinished"></translation>
+        <translation>dxva2-copy: αντιγράφει το βίντεο στη μνήμη RAM του συστήματος. Πειραματικό.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="329"/>
         <source>This option only works with mpv.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η επιλογή αυτή λειτουργεί μόνο με το mpv.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="341"/>
@@ -8650,27 +8395,27 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="342"/>
         <source>&lt;b&gt;Enabled&lt;/b&gt;: the loop filter is not skipped</source>
-        <translation>&lt;b&gt;Ενεργό&lt;/b&gt;: Το φίλτρο βρόχου δεν παραλείπεται</translation>
+        <translation>&lt;b&gt;Ενεργό&lt;/b&gt;: Το φίλτρο επανάληψης δεν παραλείπεται</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="343"/>
         <source>&lt;b&gt;Skip (always)&lt;/b&gt;: the loop filter is skipped no matter the resolution of the video</source>
-        <translation>&lt;b&gt;Παράλειψη (πάντα)&lt;/b&gt;: το φίλτρο βρόχου παραλείπεται πάντα άσχετα με την ανάλυση του βίντεο</translation>
+        <translation>&lt;b&gt;Παράλειψη (πάντα)&lt;/b&gt;: το φίλτρο επανάληψης παραλείπεται πάντα άσχετα με την ανάλυση του βίντεο</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="345"/>
         <source>&lt;b&gt;Skip only on HD videos&lt;/b&gt;: the loop filter will be skipped only on videos which height is %1 or greater.</source>
-        <translation>&lt;b&gt;Παράλειψη μόνο σε HD βίντεο&lt;/b&gt;: το φίλτρο βρόχου θα παραλειφθεί μόνο σε βίντεο των οποίων το ύψος είναι %1 ή μεγαλύτερο.</translation>
+        <translation>&lt;b&gt;Παράλειψη μόνο σε HD βίντεο&lt;/b&gt;: το φίλτρο επανάληψης θα παραλειφθεί μόνο σε βίντεο των οποίων το ύψος είναι %1 ή μεγαλύτερο.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="350"/>
         <source>Try to use the non-free CoreAVC codec when no other codec is specified and a non-VDPAU video output is selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσπάθεια χρήσης του μη ελεύθερου αποκωδικοποιητή CoreAVC όταν δεν έχει καθοριστεί άλλος αποκωδικοποιητής και έχει επιλεγεί μια μη-VDPAU έξοδος βίντεο.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="352"/>
         <source>Requires a %1 build with CoreAVC support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαιτεί τον %1 κτισμένο με υποστήριξη CoreAVC.</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="371"/>
@@ -8680,37 +8425,37 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="374"/>
         <source>Usually this option will enable the cache when it&apos;s necessary.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή θα ενεργοποιήσει την κρυφή μνήμη αν αυτό είναι απαραίτητο. </translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="389"/>
         <source>Cache for audio CDs</source>
-        <translation>Ενδιάμεση μνήμη για μουσικά CDs</translation>
+        <translation>Ενδιάμεση μνήμη για μουσικά CD</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="390"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching an audio CD.</source>
-        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε Kbytes) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη ενός μουσικού CD.</translation>
+        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε kilobyte) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη για τα μουσικά CD κατά την φόρτωση.</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="485"/>
         <source>Cache for &amp;audio CDs:</source>
-        <translation>Ενδιάμεση μνήμη για μουσικά &amp;CDs:</translation>
+        <translation>Ενδιάμεση μνήμη για μουσικά &amp;CD:</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="393"/>
         <source>Cache for VCDs</source>
-        <translation>Ενδιάμεση μνήμη για VCDs</translation>
+        <translation>Ενδιάμεση μνήμη για VCD</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="394"/>
         <source>This option specifies how much memory (in kBytes) to use when precaching a VCD.</source>
-        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε Kbytes) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη ένος VCD.</translation>
+        <translation>Αυτή η επιλογή καθορίζει πόση μνήμη (σε kilobyte) θα χρησιμοποιηθεί ως ενδιάμεση μνήμη για τα VCD κατά την φόρτωση.</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="522"/>
         <source>Cache for &amp;VCDs:</source>
-        <translation>Ενδιάμεση μνήμη για &amp;VCDs:</translation>
+        <translation>Ενδιάμεση μνήμη για &amp;VCD:</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="308"/>
@@ -8720,43 +8465,27 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefperformance.cpp" line="309"/>
         <source>Sets the number of threads to use for decoding. Only for MPEG-1/2 and H.264</source>
-        <translation>Ορίζει τον αριθμό των νημάτων που θα χρησιμοποιήσει για την αποκωδικοποίηση. Μόνο για MPEG-1/2 και H.264</translation>
+        <translation>Ορίζει τον αριθμό των νημάτων που θα χρησιμοποιηθούν για την αποκωδικοποίηση. Μόνο για MPEG-1/2 και H.264</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="159"/>
         <source>&amp;Threads for decoding (MPEG-1/2 and H.264 only):</source>
-        <translation>&amp;Νήματα για την αποκωδικοποίηση (MPEG-1/2 και H.264 μόνο):</translation>
-    </message>
-    <message>
-        <source>Set process priority for mplayer according to the predefined priorities available under Windows.&lt;br&gt;&lt;b&gt;Warning:&lt;/b&gt; Using realtime priority can cause system lockup.</source>
-        <translation type="obsolete">Ορισμός προτεραιότητας διαδικασία για mplayer σύμφωνα με τις προκαθορισμένες προτεραιότητες που διατίθενται στα Windows.&lt;br&gt;&lt;b&gt;Προειδοποίηση:&lt;/b&gt; Η χρήση σε πραγματικό χρόνο προτεραιότητας μπορεί να προκαλέσει κατάρρευση.</translation>
+        <translation>&amp;Νήματα για την αποκωδικοποίηση (μόνο για MPEG-1/2 και H.264):</translation>
     </message>
     <message>
         <location filename="../prefperformance.cpp" line="349"/>
         <source>Use CoreAVC if no other codec specified</source>
-        <translation>Χρήση CoreAVC αν κανείς άλλος αποκωδικοποιητής δεν καθορίζεται</translation>
+        <translation>Χρήση CoreAVC αν δεν έχει καθοριστεί άλλος αποκωδικοποιητής</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="272"/>
         <source>&amp;Use CoreAVC if no other codec specified</source>
-        <translation>&amp;Χρήση CoreAVC αν κανείς άλλος αποκωδικοποιητής δεν καθορίζεται</translation>
+        <translation>&amp;Χρήση CoreAVC αν δεν έχει καθοριστεί άλλος αποκωδικοποιητής</translation>
     </message>
     <message>
         <location filename="../prefperformance.ui" line="559"/>
         <source>Cache for &amp;TV:</source>
-        <translation>Ενδιάμεση μνήμη για &amp;Τηλεόραση:</translation>
-    </message>
-    <message>
-        <source>Youtube quality</source>
-        <translation type="obsolete">YouTube ποιότητα</translation>
-    </message>
-    <message>
-        <source>Select the preferred quality for youtube videos.</source>
-        <translation type="obsolete">Επιλογή προτιμώμενης ποιότητας για youtube βίντεο.</translation>
-    </message>
-    <message>
-        <source>Youtube &amp;quality</source>
-        <translation type="obsolete">YouTube &amp;ποιότητα</translation>
+        <translation>Ενδιάμεση μνήμη για &amp;τηλεόραση:</translation>
     </message>
 </context>
 <context>
@@ -8767,117 +8496,149 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Λίστα αναπαραγωγής</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="129"/>
-        <source>Automatically add files to playlist</source>
-        <translation>Αυτόματη προσθήκη αρχείων στη λίστα αναπαραγωγής</translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="130"/>
+        <location filename="../prefplaylist.cpp" line="177"/>
         <source>If this option is enabled, every time a file is opened, SMPlayer will first clear the playlist and then add the file to it. In case of DVDs, CDs and VCDs, all titles in the disc will be added to the playlist.</source>
-        <translation>Αν η επιλογή αυτή είναι ενεργοποιημένη, κάθε φορά που ένα αρχείο ανοίγει, το SMPlayer θα καθαρίσει πρώτα την λίστα αναπαραγωγής και στη συνέχεια θα προσθέσει το αρχείο σε αυτή. Στην περίπτωση των DVDs, CDs και VCDs, όλοι οι τίτλοι του δίσκου, θα προστεθούν στη λίστα αναπαραγωγής.</translation>
-    </message>
-    <message>
-        <source>Add consecutive files</source>
-        <translation type="obsolete">Προσθήκη διαδοχικών αρχείων</translation>
-    </message>
-    <message>
-        <source>If this option is enabled, SMPlayer will look for consecutive files (e.g. video_1.avi, video_2.avi...) and if found, they&apos;ll be added to the playlist.</source>
-        <translation type="obsolete">Αν αυτή η επιλογή είναι ενεργοποιημένη, το SMPlayer θα αναζητήσει διαδοχικά αρχεία (π.χ. video_1.avi, video_2.avi ...) και αν βρεθούν, θα προστεθούν στη λίστα αναπαραγωγής.</translation>
+        <translation>Οταν η επιλογή αυτή είναι ενεργοποιημένη, κάθε φορά που ένα αρχείο ανοίγει, το SMPlayer θα εκκαθαρίσει πρώτα τη λίστα αναπαραγωγής και στη συνέχεια θα προσθέσει το αρχείο σε αυτή. Στην περίπτωση των DVD, CD και VCD, όλοι οι τίτλοι του δίσκου, θα προστεθούν στη λίστα αναπαραγωγής.</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="46"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανένα</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="47"/>
         <source>Video files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία βίντεο</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="48"/>
         <source>Audio files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία ήχου</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="49"/>
         <source>Video and audio files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία βίντεο και ήχου</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="50"/>
         <source>Consecutive files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="135"/>
-        <source>Add files from folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="136"/>
-        <source>This option allows to add files automatically to the playlist:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="137"/>
-        <source>&lt;b&gt;None&lt;/b&gt;: no files will be added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="138"/>
-        <source>&lt;b&gt;Video files&lt;/b&gt;: all video files found in the folder will be added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="139"/>
-        <source>&lt;b&gt;Audio files&lt;/b&gt;: all audio files found in the folder will be added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="140"/>
-        <source>&lt;b&gt;Video and audio files&lt;/b&gt;: all video and audio files found in the folder will be added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="141"/>
-        <source>&lt;b&gt;Consecutive files&lt;/b&gt;: consecutive files (like video_1.avi, video_2.avi) will be added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="143"/>
-        <source>Play files from start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="144"/>
-        <source>If this option is enabled, all files from the playlist will start to play from the beginning instead of resuming from a previous playback.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="153"/>
-        <source>Get info automatically about files added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="160"/>
-        <source>Save copy of playlist on exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="161"/>
-        <source>If this option is checked, a copy of the playlist will be saved in the smplayer configuration when smplayer is closed, and it will reloaded automatically when smplayer is run again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="165"/>
-        <source>Play next file even if the previous file failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαδοχικά αρχεία</translation>
     </message>
     <message>
         <location filename="../prefplaylist.cpp" line="166"/>
+        <source>Start playback after loading a playlist</source>
+        <translation>Άμεση εκτέλεση μετά την φόρτωση της λίστας αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="167"/>
+        <source>Playback will start just after loading a playlist.</source>
+        <translation>Η εκτέλεση θα ξεκινήσει αμέσως μετά την φόρτωση μιας λίστας αναπαραγωγής.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="169"/>
+        <source>Play next file automatically</source>
+        <translation>Εκτέλεση του επόμενου αρχείου αυτόματα</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="170"/>
+        <source>When a file reaches the end, the next file will be played automatically.</source>
+        <translation>Όταν ένα αρχείο φτάνει στο τέλος, το επόμενο αρχείο θα εκτελεστεί αυτόματα.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="172"/>
+        <source>Ignore playback errors</source>
+        <translation>Αγνόηση των σφαλμάτων αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="176"/>
+        <source>Add files to the playlist automatically</source>
+        <translation>Προσθήκη αρχείων αυτόματα στη λίστα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="182"/>
+        <source>Add files from folder</source>
+        <translation>Προσθήκη αρχείων από φάκελο</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="203"/>
+        <source>Auto sort</source>
+        <translation>Αυτόματη ταξινόμηση</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="204"/>
+        <source>If this option is enabled the list will be sorted automatically after adding files.</source>
+        <translation>Αν είναι ενεργοποιημένη αυτή η επιλογή η λίστα θα ταξινομείται αυτόματα κατά την προσθήκη αρχείων.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="206"/>
+        <source>Case sensitive search</source>
+        <translation>Αναζήτηση με διάκριση πεζών/κεφαλαίων</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="207"/>
+        <source>This option specifies whether the search in the playlist is case sensitive or not.</source>
+        <translation>Αυτή η επιλογή καθορίζει αν η αναζήτησή σας στη λίστα αναπαραγωγής θα γίνει με διάκριση πεζών/κεφαλαίων.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="209"/>
+        <source>Save a copy of the playlist on exit</source>
+        <translation>Αποθήκευση ενός αντιγράφου της λίστας αναπαραγωγής κατά την έξοδο</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="210"/>
+        <source>If this option is checked, a copy of the playlist will be saved in the configuration file when SMPlayer is closed, and it will reloaded automatically when SMPlayer is run again.</source>
+        <translation>Αν είναι ενεργοποιημένο, θα αποθηκεύεται ένα αντίγραφο της λίστας αναπαραγωγής στο αρχείο διαμόρφωσης κατά το κλείσιμο του SMPlayer, και θα φορτώνεται αυτόματα κατά την εκ νέου εκτέλεση του SMPlayer.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="184"/>
+        <source>&lt;b&gt;None&lt;/b&gt;: no files will be added</source>
+        <translation>&lt;b&gt;Κανένα&lt;/b&gt;: δεν θα προστίθενται αρχεία</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="185"/>
+        <source>&lt;b&gt;Video files&lt;/b&gt;: all video files found in the folder will be added</source>
+        <translation>&lt;b&gt;Αρχεία βίντεο&lt;/b&gt;: θα προστίθενται όλα τα αρχεία βίντεο που εντοπίζονται στον φάκελο</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="186"/>
+        <source>&lt;b&gt;Audio files&lt;/b&gt;: all audio files found in the folder will be added</source>
+        <translation>&lt;b&gt;Αρχεία ήχου&lt;/b&gt;: θα προστίθενται όλα τα αρχεία ήχου που εντοπίζονται στον φάκελο</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="187"/>
+        <source>&lt;b&gt;Video and audio files&lt;/b&gt;: all video and audio files found in the folder will be added</source>
+        <translation>&lt;b&gt;Αρχεία βίντεο και ήχου&lt;/b&gt;: θα προστίθενται όλα τα αρχεία βίντεο και ήχου που εντοπίζονται στον φάκελο</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="188"/>
+        <source>&lt;b&gt;Consecutive files&lt;/b&gt;: consecutive files (like video_1.avi, video_2.avi) will be added</source>
+        <translation>&lt;b&gt;Διαδοχικά αρχεία&lt;/b&gt;: θα προστίθενται τα διαδοχικά αρχεία (όπως βίντεο_1.avi, βίντεο_2.avi)</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="161"/>
+        <source>Play files from start</source>
+        <translation>Αναπαραγωγή αρχείων από την αρχή</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="162"/>
+        <source>If this option is enabled, all files from the playlist will start to play from the beginning instead of resuming from a previous playback.</source>
+        <translation>Αν είναι ενεργοποιημένο, όλα τα αρχεία από την λίστα αναπαραγωγής θα εκτελούνται από την αρχή αντί να γίνεται επαναφορά από την προηγούμενη αναπαραγωγή.</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="183"/>
+        <source>This option can be used to add files automatically to the playlist:</source>
+        <translation>Αυτή η επιλογή μπορεί να χρησιμοποιηθεί για την προσθήκη αρχείων αυτόματα στην λίστα αναπαραγωγής:</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="196"/>
+        <source>Get info automatically about files added</source>
+        <translation>Αυτόματη λήψη πληροφοριών σχετικά με τα αρχεία που προστίθενται</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.cpp" line="173"/>
         <source>If this option is enabled, the playlist will ignore playback errors from a previous file and will play the next file in the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, η λίστα αναπαραγωγής θα αγνοεί τα σφάλματα εκτέλεσης από το προηγούμενο αρχείο και θα αναπαραγάγει το επόμενο αρχείο στην λίστα.</translation>
     </message>
     <message>
         <location filename="../prefplaylist.ui" line="24"/>
@@ -8885,58 +8646,84 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Λίστα αναπαραγωγής</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="30"/>
-        <source>&amp;Automatically add files to playlist</source>
-        <translation>&amp;Αυτόματη προσθήκη αρχείων στη λίστα αναπαραγωγής</translation>
-    </message>
-    <message>
-        <source>Add &amp;consecutive files</source>
-        <translation type="obsolete">&amp;Προσθήκη διαδοχικών αρχείων</translation>
-    </message>
-    <message>
-        <location filename="../prefplaylist.cpp" line="148"/>
+        <location filename="../prefplaylist.cpp" line="191"/>
         <source>Add files in directories recursively</source>
         <translation>Προσθήκη αρχείων φακέλων και υποφακέλων τους</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="149"/>
+        <location filename="../prefplaylist.cpp" line="192"/>
         <source>Check this option if you want that adding a directory will also add the files in subdirectories recursively. Otherwise only the files in the selected directory will be added.</source>
         <translation>Τσεκάρετε αυτήν την επιλογή αν θέλετε να προσθέσετε έναν φάκελο και τα αρχεία στους υποφακέλους του. Διαφορετικά, μόνο τα αρχεία στον επιλεγμένο φάκελο θα προστεθούν.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.cpp" line="154"/>
+        <location filename="../prefplaylist.cpp" line="197"/>
         <source>Check this option to inquire the files to be added to the playlist for some info. That allows to show the title name (if available) and length of the files. Otherwise this info won&apos;t be available until the file is actually played. Beware: this option can be slow, specially if you add many files.</source>
-        <translation>Ενεργοποιήστε αυτήν την επιλογή για να ερευνηθούν τα αρχεία που προστίθενται στη λίστα αναπαραγωγής για κάποιες πληροφορίες. Αυτό επιτρέπει να δείξει το όνομα του τίτλου (αν υπάρχει) και τη διάρκεια των αρχείων. Διαφορετικά αυτές οι πληροφορίες δεν θα είναι διαθέσιμες μέχρι να αναπαραχθεί το αρχείο. Προσοχή: η επιλογή αυτή μπορεί να είναι αργή, ειδικά αν προσθέσετε πολλά αρχεία.</translation>
+        <translation>Ενεργοποιήστε αυτήν την επιλογή για να ερευνηθούν τα αρχεία που προστίθενται στη λίστα αναπαραγωγής για κάποιες πληροφορίες. Αυτό επιτρέπει στον SMPlayer να δείξει το όνομα του τίτλου (αν υπάρχει) και τη διάρκεια των αρχείων. Διαφορετικά αυτές οι πληροφορίες δε θα είναι διαθέσιμες μέχρι να αναπαραχθεί το αρχείο. Προσοχή: η επιλογή αυτή μπορεί να είναι αργή, ιδιαίτερα αν προσθέσετε πολλά αρχεία.</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="58"/>
+        <location filename="../prefplaylist.ui" line="101"/>
         <source>Add files from &amp;folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη αρχείων από τον &amp;φάκελο:</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="103"/>
+        <location filename="../prefplaylist.ui" line="36"/>
         <source>P&amp;lay files from start</source>
         <translation>&amp;Αναπαραγωγή αρχείων από την αρχή</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="110"/>
+        <location filename="../prefplaylist.ui" line="30"/>
+        <source>Playback</source>
+        <translation>Αναπαραγωγή</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="43"/>
+        <source>S&amp;tart playback after loading a playlist</source>
+        <translation>Άμεση ε&amp;κτέλεση μετά τη φόρτωση μιας λίστας αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="50"/>
+        <source>Pla&amp;y next file automatically</source>
+        <translation>Εκτέλεση του ε&amp;πόμενου αρχείου αυτόματα</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="57"/>
+        <source>Ig&amp;nore playback errors</source>
+        <translation>Α&amp;γνόηση των σφαλμάτων αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="67"/>
+        <source>Adding files</source>
+        <translation>Προσθήκη αρχείων</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="73"/>
+        <source>&amp;Add files to the playlist automatically</source>
+        <translation>&amp;Προσθήκη αρχείων αυτόματα στη λίστα αναπαραγωγής</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="133"/>
         <source>Add files in directories &amp;recursively</source>
         <translation>Προσθήκη αρχείων φακέλων και &amp;υποφακέλων τους</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="117"/>
+        <location filename="../prefplaylist.ui" line="140"/>
         <source>Get &amp;info automatically about files added (slow)</source>
         <translation>Ανά&amp;γνωση πληροφοριών σχετικά με τα αρχεία που προστίθενται (αργό)</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="124"/>
-        <source>&amp;Save copy of playlist on exit</source>
-        <translation>Αποθήκευση αντιγράφου &amp;λίστας αναπαραγωγής κατά την έξοδο</translation>
+        <location filename="../prefplaylist.ui" line="150"/>
+        <source>A&amp;uto sort</source>
+        <translation>Αυ&amp;τόματη ταξινόμηση</translation>
     </message>
     <message>
-        <location filename="../prefplaylist.ui" line="131"/>
-        <source>Play &amp;next file even if the previous file failed</source>
-        <translation type="unfinished"></translation>
+        <location filename="../prefplaylist.ui" line="157"/>
+        <source>Cas&amp;e sensitive search</source>
+        <translation>Αναζήτηση με διάκριση &amp;πεζών/κεφαλαίων</translation>
+    </message>
+    <message>
+        <location filename="../prefplaylist.ui" line="164"/>
+        <source>&amp;Save a copy of the playlist on exit</source>
+        <translation>&amp;Αποθήκευση ενός αντιγράφου της λίστας αναπαραγωγής κατά την έξοδο</translation>
     </message>
 </context>
 <context>
@@ -8946,14 +8733,6 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../prefsubtitles.cpp" line="383"/>
         <source>Subtitles</source>
         <translation>Υπότιτλοι</translation>
-    </message>
-    <message>
-        <source>Choose a ttf file</source>
-        <translation type="obsolete">Επιλογή αρχείου ttf</translation>
-    </message>
-    <message>
-        <source>Truetype Fonts</source>
-        <translation type="obsolete">Truetype Γραμματοσειρά</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="30"/>
@@ -8979,33 +8758,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.ui" line="82"/>
         <source>All subs in directory</source>
-        <translation>Όλοι οι υπότιτλοι σε ένα κατάλογο</translation>
+        <translation>Όλοι οι υπότιτλοι σε έναν κατάλογο</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="230"/>
         <source>Use the &amp;ASS library</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση της βιβλιοθήκης &amp;ASS</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="244"/>
         <source>Enable &amp;Windows fonts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Position</source>
-        <translation type="obsolete">Θέση</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation type="obsolete">0</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="obsolete">Κορυφή</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="obsolete">Τέλος</translation>
+        <translation>Ενεργοποίηση των γραμματοσειρών των &amp;Windows</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="368"/>
@@ -9015,37 +8778,9 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Γραμματοσειρά</translation>
     </message>
     <message>
-        <source>Select the font which will be used for subtitles (and OSD):</source>
-        <translation type="obsolete">Επιλέξτε γραμματοσειρά για υπότιτλους (και OSD):</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.cpp" line="455"/>
         <source>Size</source>
         <translation>Μέγεθος</translation>
-    </message>
-    <message>
-        <source>No autoscale</source>
-        <translation type="obsolete">Όχι αυτόματη κλίμακα</translation>
-    </message>
-    <message>
-        <source>Proportional to movie height</source>
-        <translation type="obsolete">Ανάλογα με ύψος ταινίας</translation>
-    </message>
-    <message>
-        <source>Proportional to movie width</source>
-        <translation type="obsolete">Ανάλογα με πλάτος ταινίας</translation>
-    </message>
-    <message>
-        <source>Proportional to movie diagonal</source>
-        <translation type="obsolete">Ανάλογα με διαγώνιο ταινίας</translation>
-    </message>
-    <message>
-        <source>Subtitle position</source>
-        <translation type="obsolete">Θέση Υπότιτλων</translation>
-    </message>
-    <message>
-        <source>This option specifies the position of the subtitles over the video window. &lt;i&gt;100&lt;/i&gt; means the bottom, while &lt;i&gt;0&lt;/i&gt; means the top.</source>
-        <translation type="obsolete">Ηεπιλογή ρυθμίζει την θέση των υποτίτλων στο παράθυρο. &lt;i&gt;100&lt;/i&gt; εννοει το κατώτατο σημείο, ενώ &lt;i&gt;0&lt;/i&gt; σημαίνει την κορυφή.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="51"/>
@@ -9063,25 +8798,9 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Αρχική γραμματοσειρά υποτίτλων:</translation>
     </message>
     <message>
-        <source>Default &amp;position of the subtitles on screen</source>
-        <translation type="obsolete">&amp;Αρχική θέση υποτίτλων στην οθόνη</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.ui" line="210"/>
         <source>&amp;Include subtitles on screenshots</source>
         <translation>&amp;Εμφάνιση υποτίτλων στα στιγμιότυπα</translation>
-    </message>
-    <message>
-        <source>&amp;TTF font:</source>
-        <translation type="obsolete">&amp;ΤΤF γραμματοσειρά:</translation>
-    </message>
-    <message>
-        <source>S&amp;ystem font:</source>
-        <translation type="obsolete">&amp;Γραμματοσειρά Σύστηματος:</translation>
-    </message>
-    <message>
-        <source>A&amp;utoscale:</source>
-        <translation type="obsolete">&amp;Αυτόματο μέγεθος:</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="388"/>
@@ -9096,19 +8815,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="410"/>
         <source>Include subtitles on screenshots</source>
-        <translation>Συμπεριλάβετε τους υποτίτλους στα στιγμιότυπα</translation>
-    </message>
-    <message>
-        <source>TTF font</source>
-        <translation type="obsolete">TTF γραμματοσειρά</translation>
-    </message>
-    <message>
-        <source>System font</source>
-        <translation type="obsolete">Γραμματοσειρά συστήματος</translation>
-    </message>
-    <message>
-        <source>Autoscale</source>
-        <translation type="obsolete">Αυτόματη κλίμακα</translation>
+        <translation>Συμπεριλαμβάνονται οι υπότιτλοι στα στιγμιότυπα</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="464"/>
@@ -9138,35 +8845,27 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="389"/>
         <source>If there are one or more subtitle tracks available, one of them will be automatically selected, usually the first one, although if one of them matches the user&apos;s preferred language that one will be used instead.</source>
-        <translation>Αν υπάρχουν ένα ή περισσότερα κομμάτια υποτίτλων διαθέσιμα, ένας από αυτούς θα επιλεγεί αυτόματα, συνήθως το πρώτο, αν ένας από αυτούς ταιριάζει στη προτιμώμενη γλώσσα αυτός θα χρησιμοποιηθεί αντ &apos;αυτού.</translation>
-    </message>
-    <message>
-        <source>Select the subtitle autoscaling method.</source>
-        <translation type="obsolete">Επιλογή μεθόδου αυτόματης κλίμακας υποτίτλων.</translation>
+        <translation>Αν υπάρχουν ένα ή περισσότερα κομμάτια υποτίτλων διαθέσιμα, ένας από αυτούς επιλέγεται αυτόματα, συνήθως το πρώτο. Αν ένας από αυτούς ταιριάζει στη προτιμώμενη γλώσσα αυτός θα χρησιμοποιηθεί αντ &apos;αυτού.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="395"/>
         <source>Select the encoding which will be used for subtitle files by default.</source>
-        <translation>Επιλογή κωδικοποίησης που θα χρησιμοποιηθεί για αρχεία υποτίτλων ως προεπιλογή.</translation>
+        <translation>Επιλέξτε την κωδικοποίηση που θα χρησιμοποιηθεί για αρχεία υποτίτλων από προεπιλογή.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="398"/>
         <source>Try to autodetect for this language</source>
-        <translation>Προσπάθεια αυτόματης αναγνωρίσης για αυτή τη γλώσσα</translation>
-    </message>
-    <message>
-        <source>When this option is on, the encoding of the subtitles will be tried to be autodetected for the given language. It will fall back to the default encoding if the autodetection fails. This option requires a MPlayer compiled with ENCA support.</source>
-        <translation type="obsolete">Όταν αυτή η επιλογή είναι ενεργοποιημένη, η κωδικοποίηση των υποτίτλων θα προσπαθήσει να ανιχνευτεί αυτόματα για τη συγκεκριμένη γλώσσα. Θα πέσει πίσω στην προεπιλεγμένη κωδικοποίηση, αν η αυτόματη ανίχνευση αποτύχει. Αυτή η επιλογή απαιτεί MPlayer έκδοση με υποστήριξη ENCA.</translation>
+        <translation>Προσπάθεια αυτόματης αυτόματης αναγνώρισης για αυτήν τη γλώσσα</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="405"/>
         <source>Subtitle language</source>
-        <translation>Γλώσσα υπότιτλων</translation>
+        <translation>Γλώσσα υποτίτλων</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="406"/>
         <source>Select the language for which you want the encoding to be guessed automatically.</source>
-        <translation>Επιλογή της γλώσσας που θέλετε η αποκωδικοποίηση να μαντεύει αυτόματα.</translation>
+        <translation>Επιλέξτε τη γλώσσας που θέλετε να μαντεύεται αυτόματα κατά την απόκωδικοποίηση.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="109"/>
@@ -9176,11 +8875,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.ui" line="172"/>
         <source>Try to a&amp;utodetect for this language:</source>
-        <translation>Προσπάθεια α&amp;υτόματης αναγνωρίσης για αυτή τη γλώσσα:</translation>
-    </message>
-    <message>
-        <source>Here you can select a ttf font to be used for the subtitles. Usually you&apos;ll find a lot of ttf fonts in %1</source>
-        <translation type="obsolete">Εδώ μπορείτε να επιλέξετε μια γραμματοσειρά TTF που θα χρησιμοποιείται για τους υποτίτλους. Συνήθως θα βρείτε πολλές γραμματοσειρές TTF στο %1</translation>
+        <translation>Προσπάθεια α&amp;υτόματης αναγνωρίσης για αυτήν τη γλώσσα:</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="494"/>
@@ -9190,37 +8885,37 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="453"/>
         <source>Select the font for the subtitles.</source>
-        <translation>Επιλογή γραμματοσειράς για τους υπότιτλους.</translation>
+        <translation>Επιλέξτε γραμματοσειρά για υπότιτλους.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="414"/>
         <source>Use the ASS library</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση της βιβλιοθήκης ASS</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="415"/>
         <source>This option enables the ASS library, which allows to display subtitles with multiple colors, fonts...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή ενεργοποιεί την βιβλιοθήκη ASS, η οποία επιτρέπει την απεικόνιση των υποτίτλων με πολλαπλά χρώματα, γραμματοσειρές...</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="425"/>
         <source>Enable Windows fonts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση των γραμματοσειρών των Windows</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="426"/>
         <source>If this option is enabled the Windows system fonts will be available for subtitles. There&apos;s an inconvenience: a font cache have to be created which can take some time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή είναι ενεργοποιημένη οι γραμματοσειρές συστήματος των Windows θα είναι διαθέσιμες για τους υπότιτλους. Υπάρχει όμως μια ενόχληση: θα πρέπει να δημιουργηθεί μια λανθάνουσα μνήμη των γραμματοσειρών και μπορεί να χρειαστεί κάποιο χρονικό διάστημα.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="429"/>
         <source>If this option is not checked then only a few fonts bundled with SMPlayer can be used, but this is faster.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτή η επιλογή δεν είναι ενεργοποιημένη τότε μόνο μερικές γραμματοσειρές ενσωματωμένες στο SMPlayer μπορούν να χρησιμοποιηθούν, αλλά είναι ταχύτερο.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="456"/>
         <source>The size in pixels.</source>
-        <translation>Το μέγεθος σε pixels.</translation>
+        <translation>Το μέγεθος σε pixel.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="458"/>
@@ -9230,7 +8925,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="459"/>
         <source>If checked, the text will be displayed in &lt;b&gt;bold&lt;/b&gt;.</source>
-        <translation>Αν τσεκαριστεί, το κείμενο θα εμφανίζεται με &lt;b&gt;έντονα&lt;/b&gt;.</translation>
+        <translation>Αν ενεργοποιηθεί, το κείμενο θα εμφανίζεται σε &lt;b&gt;έντονη γραφή&lt;/b&gt;.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="461"/>
@@ -9240,7 +8935,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="462"/>
         <source>If checked, the text will be displayed in &lt;i&gt;italic&lt;/i&gt;.</source>
-        <translation>Αν τσεκαριστεί, το κείμενο θα εμφανίζεται με &lt;b&gt;πλάγια&lt;/b&gt;.</translation>
+        <translation>Αν ενεργοποιηθεί, το κείμενο θα εμφανίζεται σε &lt;b&gt;πλάγια γραφή&lt;/b&gt;.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="473"/>
@@ -9280,7 +8975,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="483"/>
         <source>Specifies the horizontal alignment. Possible values are left, centered and right.</source>
-        <translation>Καθορίζει την οριζόντια στοίχιση. Πιθανές τιμές είναι αριστερά, κέντρο και δεξιά.</translation>
+        <translation>Καθορίζει την οριζόντια στοίχιση. Δυνατές τιμές είναι αριστερά, κέντρο και δεξιά.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="486"/>
@@ -9290,7 +8985,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="487"/>
         <source>Specifies the vertical alignment. Possible values: bottom, middle and top.</source>
-        <translation>Καθορίζει την κάθετη στοίχιση. Πιθανές τιμές είναι τέλος, κέντρο και κορυφή.</translation>
+        <translation>Καθορίζει την κάθετη στοίχιση. Δυνατές τιμές είναι τέλος, κέντρο και κορυφή.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="490"/>
@@ -9300,7 +8995,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="491"/>
         <source>Specifies the border style. Possible values: outline and opaque box.</source>
-        <translation>Καθορίζει το ύφος περιγράμματος. Πιθανές τιμές: περίγραμμα και αδιαφανές κουτί.</translation>
+        <translation>Καθορίζει το ύφος περιγράμματος. Δυνατές τιμές: περίγραμμα και αδιαφανές κουτί.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="498"/>
@@ -9310,7 +9005,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="502"/>
         <source>Apply style to ASS files too</source>
-        <translation type="unfinished"></translation>
+        <translation>Εφαρμογή του ύφους επίσης στα αρχεία ASS</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="386"/>
@@ -9320,7 +9015,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.ui" line="428"/>
         <source>Bol&amp;d</source>
-        <translation>Έ&amp;ντονα</translation>
+        <translation>Έ&amp;ντονη</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="435"/>
@@ -9375,12 +9070,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.ui" line="632"/>
         <source>&amp;Vertical:</source>
-        <translation>&amp;Κάθετα:</translation>
+        <translation>&amp;Κάθετη:</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="653"/>
         <source>Border st&amp;yle:</source>
-        <translation>Ύφος &amp;περιγράμματος:</translation>
+        <translation>Ύφ&amp;ος κορνίζας:</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="679"/>
@@ -9395,12 +9090,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.ui" line="739"/>
         <source>A&amp;pply style to ASS files too</source>
-        <translation type="unfinished"></translation>
+        <translation>Ε&amp;φαρμογή του ύφους επίσης στα αρχεία ASS</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="788"/>
         <source>Use custo&amp;m style</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση προσαρμοσμένου ύ&amp;φους</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="449"/>
@@ -9458,38 +9153,22 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefsubtitles.cpp" line="399"/>
         <source>When this option is on, the encoding of the subtitles will be tried to be autodetected for the given language. It will fall back to the default encoding if the autodetection fails. This option requires a %1 with ENCA support.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν αυτή η επιλογή είναι ενεργή, θα γίνει προσπάθεια αυτόματου εντοπισμού της κωδικοποίησης των υποτίτλων για τη συγκεκριμένη γλώσσα. Αν ο αυτόματος εντοπισμός αποτύχει θα χρησιμοποιηθεί ως εφεδρική η εξ ορισμού κωδικοποίηση. Αυτή η επιλογή απαιτεί την έκδοση του %1 με υποστήριξη ENCA.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="419"/>
         <source>You should normally not disable this option. Do it only if your %1 is compiled without freetype support. &lt;b&gt;Disabling this option could make subtitles not to work at all!&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανονικά δεν θα πρέπει να απενεργοποιήσετε αυτήν την επιλογή. Κάντε το μόνον αν ο %1 έχει μεταγλωττιστεί χωρίς την υποστήριξη freetype. &lt;b&gt;Απενεργοποιώντας την επιλογή μπορεί να έχει ως αποτέλεσμα την δυσλειτουργία των υποτίτλων!&lt;/b&gt; </translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="495"/>
         <source>If border style is set to &lt;i&gt;outline&lt;/i&gt;, this option specifies the width of the outline around the text in pixels.</source>
-        <translation>Αν το ύφος περιγράμματος έχει οριστεί σε &lt;i&gt;περίγραμμα&lt;/i&gt;, αυτή η επιλογή καθορίζει το πλάτος του περιγράμματος γύρω από το κείμενο σε pixels.</translation>
+        <translation>Αν το ύφος περιγράμματος έχει οριστεί σε &lt;i&gt;περίγραμμα&lt;/i&gt;, αυτή η επιλογή καθορίζει το πλάτος του περιγράμματος γύρω από το κείμενο σε pixel.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="499"/>
         <source>If border style is set to &lt;i&gt;outline&lt;/i&gt;, this option specifies the depth of the drop shadow behind the text in pixels.</source>
-        <translation>Αν το ύφος περιγράμματος έχει οριστεί σε &lt;i&gt;περίγραμμα&lt;/i&gt;, αυτή η επιλογή καθορίζει το βάθος της σκιάς πίσω από το κείμενο σε pixels.</translation>
-    </message>
-    <message>
-        <source>Enable normal subtitles</source>
-        <translation type="obsolete">Ενεργοποίηση κανονικών υπότιτλων</translation>
-    </message>
-    <message>
-        <source>Click this button to select the normal/traditional subtitles. This kind of subtitles can only display white subtitles.</source>
-        <translation type="obsolete">Κάντε κλικ σε αυτό το κουμπί για να επιλέξετε τους κανονικούς/παραδοσιακούς υπότιτλους. Αυτό το είδος μπορεί να εμφανίζει μόνο λευκούς υπότιτλους.</translation>
-    </message>
-    <message>
-        <source>Enable SSA/ASS subtitles</source>
-        <translation type="obsolete">Ενεργοποίηση SSA/ASS υπότιτλων</translation>
-    </message>
-    <message>
-        <source>Normal subtitles</source>
-        <translation type="obsolete">Κανονικοί υπότιτλοι</translation>
+        <translation>Αν το ύφος περιγράμματος έχει οριστεί σε &lt;i&gt;περίγραμμα&lt;/i&gt;, αυτή η επιλογή καθορίζει το βάθος της σκιάς πίσω από το κείμενο σε pixel.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="435"/>
@@ -9502,17 +9181,9 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Προεπιλεγμένη κλίμακα</translation>
     </message>
     <message>
-        <source>This option specifies the default font scale for normal subtitles which will be used for new opened files.</source>
-        <translation type="obsolete">Αυτή η επιλογή καθορίζει την προεπιλεγμένη κλίμακα της γραμματοσειράς για τους κανονικούς υποτίτλους που θα χρησιμοποιηθεί για τα νέα ανοιγμένα αρχεία.</translation>
-    </message>
-    <message>
-        <source>SSA/ASS subtitles</source>
-        <translation type="obsolete">SSA/ASS υπότιτλοι</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.cpp" line="440"/>
         <source>This option specifies the default font scale for SSA/ASS subtitles which will be used for new opened files.</source>
-        <translation>Αυτή η επιλογή καθορίζει την προεπιλεγμένη κλίμακα της γραμματοσειράς για τους SSA/ASS υποτίτλους που θα χρησιμοποιηθεί για τα νέα ανοιγμένα αρχεία.</translation>
+        <translation>Αυτή η επιλογή καθορίζει την προεπιλεγμένη κλίμακα της γραμματοσειράς για τους υπτιτλους SSA/ASS που θα χρησιμοποιηθεί για τα νέα ανοιγμένα αρχεία.</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="444"/>
@@ -9530,18 +9201,6 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Γραμματοσειρά και χρώματα</translation>
     </message>
     <message>
-        <source>Enable &amp;normal subtitles</source>
-        <translation type="obsolete">Ενεργοποίηση &amp;κανονικών υποτίτλων</translation>
-    </message>
-    <message>
-        <source>Enable SSA/&amp;ASS subtitles</source>
-        <translation type="obsolete">Ενεργοποίηση SSA/&amp;ASS υπότιτλους</translation>
-    </message>
-    <message>
-        <source>Default s&amp;cale:</source>
-        <translation type="obsolete">Προεπιλεγμένη &amp;κλίμακα:</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.ui" line="298"/>
         <source>Defa&amp;ult scale:</source>
         <translation>Προεπιλεγμένη κ&amp;λίμακα:</translation>
@@ -9552,22 +9211,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Διάστημα γραμμών:</translation>
     </message>
     <message>
-        <source>Click this button to enable the new SSA/ASS library. This allows to display subtitles with multiple colors, fonts...</source>
-        <translation type="obsolete">Κάντε κλικ στο κουμπί για να ενεργοποιηθεί η νέα βιβλιοθήκη SSA/ASS. Αυτό επιτρέπει να εμφανίσετε υπότιτλους με πολλά χρώματα, γραμματοσειρές...</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.cpp" line="418"/>
         <source>Freetype support</source>
-        <translation>FreeType υποστήριξη</translation>
-    </message>
-    <message>
-        <source>You should normally not disable this option. Do it only if your MPlayer is compiled without freetype support. &lt;b&gt;Disabling this option could make that subtitles won&apos;t work at all!&lt;/b&gt;</source>
-        <translation type="obsolete">Δεν πρέπει κανονικά να απενεργοποιήσετε αυτή την επιλογή. Κάντε το μόνο αν το MPlayer σας έχει δημιουργηθεί χωρίς υποστήριξη freetype. &lt;b&gt;Η απενεργοποίηση αυτής της επιλογής θα μπορούσε να κάνει τους υπότιτλους να μη λειτουργήσουν καθόλου!&lt;/b&gt;</translation>
+        <translation>Υποστήριξη Freetype</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.ui" line="237"/>
         <source>Freet&amp;ype support</source>
-        <translation>Free&amp;Type υποστήριξη</translation>
+        <translation>Υπο&amp;στήριξη Freetype</translation>
     </message>
     <message>
         <location filename="../prefsubtitles.cpp" line="411"/>
@@ -9615,17 +9266,9 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>&amp;Προσαρμογή...</translation>
     </message>
     <message>
-        <source>Apply style to ass files too</source>
-        <translation type="obsolete">Εφαρμογή ύφους και στο ass αρχείο</translation>
-    </message>
-    <message>
         <location filename="../prefsubtitles.cpp" line="503"/>
         <source>If this option is checked, the style defined above will be applied to ass subtitles too.</source>
         <translation>Αν αυτή η επιλογή είναι τσεκαρισμένη, το ύφος που καθορίζεται ανωτέρω θα εφαρμοστεί και στους υποτίτλους ass επίσης.</translation>
-    </message>
-    <message>
-        <source>A&amp;pply style to ass files too</source>
-        <translation type="obsolete">Ε&amp;φαρμογή ύφους και στο ass αρχείο</translation>
     </message>
 </context>
 <context>
@@ -9643,37 +9286,37 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../preftv.cpp" line="54"/>
         <source>Lowpass5</source>
-        <translation type="unfinished"></translation>
+        <translation>Lowpass5</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="55"/>
         <source>Yadif (normal)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yadif (κανονικό)</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="56"/>
         <source>Yadif (double framerate)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yadif (διπλός ρυθμός καρέ)</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="57"/>
         <source>Linear Blend</source>
-        <translation type="unfinished"></translation>
+        <translation>Γραμμική ανάμειξη</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="58"/>
         <source>Kerndeint</source>
-        <translation type="unfinished"></translation>
+        <translation>Kerndeint</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="105"/>
         <source>Deinterlace by default for TV</source>
-        <translation>Αποσύμπλεξη εξ ορισμού για TV</translation>
+        <translation>Αποδιαπλοκή εξ ορισμού για TV</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="106"/>
         <source>Select the deinterlace filter that you want to be used for TV channels.</source>
-        <translation>Επιλέξτε το φίλτρο αποσύμπλεξης που θέλετε να χρησιμοποιηθεί για τηλεοπτικά κανάλια.</translation>
+        <translation>Επιλέξτε το φίλτρο αποδιαπλοκής που θέλετε να χρησιμοποιηθεί για τηλεοπτικά κανάλια.</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="109"/>
@@ -9688,7 +9331,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../preftv.ui" line="55"/>
         <source>Dei&amp;nterlace by default for TV:</source>
-        <translation>&amp;Αποσύμπλεξη εξ ορισμού για TV:</translation>
+        <translation>&amp;Απόπλεξη εξ ορισμού για TV:</translation>
     </message>
     <message>
         <location filename="../preftv.cpp" line="110"/>
@@ -9706,57 +9349,57 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../prefupdates.ui" line="24"/>
         <source>U&amp;pdates</source>
-        <translation type="unfinished"></translation>
+        <translation>Ε&amp;νημερώσεις</translation>
     </message>
     <message>
         <location filename="../prefupdates.ui" line="30"/>
         <source>Check for &amp;updates</source>
-        <translation type="unfinished">Έλεγχος για &amp;ενημερώσεις</translation>
+        <translation>Έλε&amp;γχος για ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../prefupdates.ui" line="62"/>
         <source>Check interval (in &amp;days)</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρονικό διάστημα ελέγχου (σε &amp;ημέρες)</translation>
     </message>
     <message>
         <location filename="../prefupdates.ui" line="104"/>
         <source>&amp;Open an informative page after an upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Άνοιγμα μιας σελίδας πληροφοριών μετά το πέρας μιας αναβάθμισης</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="46"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενημερώσεις</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="86"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Έλεγχος ενημερώσεων</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="87"/>
         <source>If this option is enabled, SMPlayer will check for updates and display a notification if a new version is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, το SMPlayer θα ελέγχει για ενημερώσεις και θα εμφανίζει μια ειδοποίηση αν υπάρχει διαθέσιμη μια νέα έκδοση.</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="90"/>
         <source>Check interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρονικό διάστημα ελέγχου</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="91"/>
         <source>You can enter here the interval (in days) for the update checks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εδώ μπορείτε να ορίσετε το χρονικό διάστημα (σε ημέρες) μεταξύ των ελέγχων των ενημερώσεων.</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="95"/>
         <source>Open an informative page after an upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα μιας σελίδας πληροφοριών μετά το πέρας μιας αναβάθμισης</translation>
     </message>
     <message>
         <location filename="../prefupdates.cpp" line="96"/>
         <source>If this option is enabled, an informative page about SMPlayer will be opened after an upgrade.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, θα ανοίγει μια σελίδα πληροφοριών περί του SMPlayer μετά το πέρας μιας αναβάθμισης.</translation>
     </message>
 </context>
 <context>
@@ -9767,22 +9410,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>SMPlayer - Βοήθεια</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation type="obsolete">Εντάξει</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Άκυρο</translation>
-    </message>
-    <message>
         <location filename="../preferencesdialog.cpp" line="176"/>
         <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Εντάξει</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="177"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ακύρωση</translation>
     </message>
     <message>
         <location filename="../preferencesdialog.cpp" line="178"/>
@@ -9813,14 +9448,14 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>το κύριο παράθυρο θα κλείσει όταν το αρχείο/λίστα τελειώσει.</translation>
     </message>
     <message>
-        <location filename="../smplayer.cpp" line="565"/>
+        <location filename="../smplayer.cpp" line="567"/>
         <source>This is SMPlayer v. %1 running on %2</source>
         <translation>Είναι ο SMPlayer v. %1 ενεργό για %2</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="133"/>
         <source>tries to make a connection to another running instance and send to it the specified action. Example: -send-action pause The rest of options (if any) will be ignored and the application will exit. It will return 0 on success or -1 on failure.</source>
-        <translation>προσπαθεί να κάνει μια σύνδεση σε μια άλλη εκτελούμενη υπόσταση του προγράμματος και αποστέλλει σε αυτήν τήν καθορισμένη ενέργεια. Παράδειγμα: -send-action pause Οι υπόλοιπες επιλογές (αν υπάρχουν) θα αγνοηθούν και η εφαρμογή θα κλείσει. Θα επιστρέψει 0 στην επιτυχία ή -1 στην αποτυχία.</translation>
+        <translation>προσπαθεί να κάνει μια σύνδεση σε μια άλλη εκτελούμενη υπόσταση του προγράμματος και αποστέλλει σε αυτήν την καθορισμένη ενέργεια. Παράδειγμα: -send-action pause Οι υπόλοιπες επιλογές (αν υπάρχουν) θα αγνοηθούν και η εφαρμογή θα κλείσει. Θα επιστρέψει 0 στην επιτυχία ή -1 στην αποτυχία.</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="140"/>
@@ -9905,8 +9540,8 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>καθορίζει το αρχείο υπότιτλου για να φορτωθεί για το πρώτο βίντεο.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../helper.cpp" line="83"/>
-        <location filename="../helper.cpp" line="89"/>
+        <location filename="../helper.cpp" line="101"/>
+        <location filename="../helper.cpp" line="107"/>
         <source>%n second(s)</source>
         <translation>
             <numerusform>%n δευτερόλεπτο(α)</numerusform>
@@ -9914,8 +9549,8 @@ Example: resample=44100:0:0,volnorm</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../helper.cpp" line="86"/>
-        <location filename="../helper.cpp" line="88"/>
+        <location filename="../helper.cpp" line="104"/>
+        <location filename="../helper.cpp" line="106"/>
         <source>%n minute(s)</source>
         <translation>
             <numerusform>%n λεπτό(ά)</numerusform>
@@ -9923,7 +9558,7 @@ Example: resample=44100:0:0,volnorm</source>
         </translation>
     </message>
     <message>
-        <location filename="../helper.cpp" line="90"/>
+        <location filename="../helper.cpp" line="108"/>
         <source>%1 and %2</source>
         <translation>%1 και %2</translation>
     </message>
@@ -9933,19 +9568,19 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>προσδιορίζει τον φάκελο όπου το smplayer θα αποθηκεύσει τα αρχεία ρυθμίσεων του (smplayer.ini, smplayer_files.ini...)</translation>
     </message>
     <message>
-        <location filename="../mediasettings.cpp" line="176"/>
+        <location filename="../mediasettings.cpp" line="182"/>
         <source>disabled</source>
         <comment>aspect_ratio</comment>
         <translation>απενεργποιημένο</translation>
     </message>
     <message>
-        <location filename="../mediasettings.cpp" line="187"/>
+        <location filename="../mediasettings.cpp" line="193"/>
         <source>auto</source>
         <comment>aspect_ratio</comment>
         <translation>αυτόματο</translation>
     </message>
     <message>
-        <location filename="../mediasettings.cpp" line="188"/>
+        <location filename="../mediasettings.cpp" line="194"/>
         <source>unknown</source>
         <comment>aspect_ratio</comment>
         <translation>άγνωστο</translation>
@@ -9968,22 +9603,22 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../clhelp.cpp" line="125"/>
         <source>opens the gui with support for skins.</source>
-        <translation type="unfinished"></translation>
+        <translation>ανοίγει το γραφικό περιβάλλον με υποστήριξη θεμάτων.</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="160"/>
         <source>sets the stay on top option to always.</source>
-        <translation type="unfinished"></translation>
+        <translation>ορίζει την επιλογή διατήρησης στην κορυφή εσαεί.</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="163"/>
         <source>sets the stay on top option to never.</source>
-        <translation type="unfinished"></translation>
+        <translation>ορίζει την επιλογή διατήρησης στην κορυφή σε ποτέ.</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="169"/>
         <source>sets the media title for the first video.</source>
-        <translation type="unfinished"></translation>
+        <translation>ορίζει τον τίτλο του μέσου για το πρώτο βίντεο.</translation>
     </message>
     <message>
         <location filename="../clhelp.cpp" line="172"/>
@@ -10004,25 +9639,17 @@ Example: resample=44100:0:0,volnorm</source>
         <location filename="../sharedata.cpp" line="40"/>
         <source>SMPlayer is my favorite media player for my PC. Check it out!</source>
         <comment>This text is to be published on twitter and the translation should not be more than 99 characters long</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ReminderDialog</name>
-    <message>
-        <source>&amp;Donate</source>
-        <translation type="obsolete">Δ&amp;ωρεά</translation>
-    </message>
-</context>
-<context>
-    <name>SeekWidget</name>
-    <message>
-        <source>icon</source>
-        <translation type="obsolete">εικονίδιο</translation>
+        <translation>Ο SMPlayer είναι ο αγαπημένος μου αναπαραγωγέας πολυμέσων για τον υπολογιστή μου. Δοκιμάστε τον!</translation>
     </message>
     <message>
-        <source>label</source>
-        <translation type="obsolete">επιγραφή</translation>
+        <location filename="../version.cpp" line="44"/>
+        <source>%1 (revision %2) %3</source>
+        <translation>%1 (αναθεώρηση %2) %3</translation>
+    </message>
+    <message>
+        <location filename="../version.cpp" line="46"/>
+        <source>%1 (revision %2)</source>
+        <translation>%1 (αναθεώρηση %2)</translation>
     </message>
 </context>
 <context>
@@ -10030,22 +9657,22 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../sharedialog.ui" line="14"/>
         <source>Support SMPlayer</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστηρίξτε το SMPlayer</translation>
     </message>
     <message>
         <location filename="../sharedialog.ui" line="89"/>
         <source>&amp;Remind me later</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Υπενθύμιση αργότερα</translation>
     </message>
     <message>
         <location filename="../sharedialog.cpp" line="33"/>
         <source>Donate with PayPal</source>
-        <translation type="unfinished"></translation>
+        <translation>Δωρεά μέσω PayPal</translation>
     </message>
     <message>
         <location filename="../sharedialog.cpp" line="47"/>
         <source>You can support SMPlayer by sending a donation or sharing it with your friends.</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστηρίξετε το SMPlayer στέλνοντας μια δωρεά η γνωστοποιώντας το το στους φίλους σας.</translation>
     </message>
 </context>
 <context>
@@ -10053,27 +9680,27 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../sharewidget.cpp" line="113"/>
         <source>Donate with PayPal</source>
-        <translation type="unfinished"></translation>
+        <translation>Δωρεά μέσω PayPal</translation>
     </message>
     <message>
         <location filename="../sharewidget.cpp" line="114"/>
         <source>Share SMPlayer in Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Γνωστοποιήστε το SMPlayer μέσω του Facebook</translation>
     </message>
     <message>
         <location filename="../sharewidget.cpp" line="115"/>
         <source>Share SMPlayer in Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Γνωστοποιήστε το SMPlayer μέσω του Twitter</translation>
     </message>
     <message>
         <location filename="../sharewidget.cpp" line="117"/>
         <source>Support SMPlayer</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστηρίξτε το SMPlayer</translation>
     </message>
     <message>
         <location filename="../sharewidget.cpp" line="118"/>
         <source>Donate / Share SMPlayer with your friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Δωρίστε / Γνωστοποιήστε το SMPlayer στους φίλους σας</translation>
     </message>
 </context>
 <context>
@@ -10096,12 +9723,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../shortcutgetter.cpp" line="280"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη συντόμευσης</translation>
     </message>
     <message>
         <location filename="../shortcutgetter.cpp" line="284"/>
         <source>Remove shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση συντόμευσης</translation>
     </message>
     <message>
         <location filename="../shortcutgetter.cpp" line="312"/>
@@ -10119,22 +9746,22 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../shutdowndialog.ui" line="14"/>
         <source>Shutting down computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Τερματισμός του υπολογιστή</translation>
     </message>
     <message>
         <location filename="../shutdowndialog.cpp" line="41"/>
         <source>Playback has finished. SMPlayer is about to exit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αναπαραγωγή ολοκληρώθηκε. Ο SMPlayer πρόκειται α τερματιστεί.</translation>
     </message>
     <message>
         <location filename="../shutdowndialog.cpp" line="42"/>
         <source>The computer will shut down in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο υπολογιστής θα τερματιστεί σε %1 δευτερόλεπτα.</translation>
     </message>
     <message>
         <location filename="../shutdowndialog.cpp" line="42"/>
         <source>Press &lt;b&gt;Cancel&lt;/b&gt; to abort shutdown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πατήστε &lt;b&gt;Ακύρωση&lt;/b&gt; για να εγκαταλείψετε τον τερματισμό.</translation>
     </message>
 </context>
 <context>
@@ -10147,17 +9774,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../skingui/skingui.cpp" line="398"/>
         <source>Status&amp;bar</source>
-        <translation type="unfinished">Γραμμή &amp;κατάστασης</translation>
+        <translation>Γραμμή &amp;κατάστασης</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="401"/>
         <source>&amp;Main toolbar</source>
-        <translation>&amp;Κύρια εργαλειοθήκη</translation>
+        <translation>&amp;Κύρια γραμμή εργαλείων</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="405"/>
         <source>Edit main &amp;toolbar</source>
-        <translation>Ε&amp;πεξεργασία κύριας εργαλειοθήκης</translation>
+        <translation>Ε&amp;πεξεργασία κύριας γραμμής εργαλείων</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="407"/>
@@ -10167,21 +9794,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../skingui/skingui.cpp" line="411"/>
         <source>&amp;Video info</source>
-        <translation type="unfinished">Πληροφορίες &amp;Βίντεο</translation>
+        <translation>Πληροφορίες &amp;βίντεο</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="412"/>
         <source>&amp;Scroll title</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος κύ&amp;λισης</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="420"/>
         <source>Playing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Playing %1</source>
-        <translation type="obsolete">Αναπαραγωγή %1</translation>
+        <translation>Γίνεται αναπαραγωγή</translation>
     </message>
     <message>
         <location filename="../skingui/skingui.cpp" line="421"/>
@@ -10199,137 +9822,137 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../stereo3ddialog.ui" line="14"/>
         <source>Stereo 3D filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Φίλτρο στερεοφωνικού 3Δ</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.ui" line="20"/>
         <source>&amp;3D format of the video:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή &amp;3Δ του βίντεο:</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.ui" line="33"/>
         <source>&amp;Output format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορ&amp;φή εξόδου:</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="26"/>
         <source>Side by side parallel (left eye left, right eye right)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίπλα δίπλα παράλληλα (αριστερό μάτι αριστερά, δεξί μάτι δεξιά)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="27"/>
         <source>Side by side crosseye (right eye left, left eye right)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίπλα δίπλα διασταυρωμένα (δεξί μάτι αριστερά, αριστερό μάτι δεξιά)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="28"/>
         <source>Side by side with half width resolution (left eye left, right eye right)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίπλα δίπλα με ανάλυση μισού πλάτους (αριστερό μάτι αριστερά, δεξί μάτι δεξιά)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="29"/>
         <source>Side by side with half width resolution (right eye left, left eye right)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίπλα δίπλα με ανάλυση μισού πλάτους (δεξί μάτι αριστερά, αριστερό μάτι δεξιά)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="31"/>
         <source>Above-below (left eye above, right eye below)</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνωθεν-κάτωθεν (αριστερό μάτι άνωθεν, δεξί μάτι κάτωθεν)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="32"/>
         <source>Above-below (right eye above, left eye below)</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνωθεν-κάτωθεν (δεξί μάτι άνωθεν, αριστερό μάτι κάτωθεν)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="33"/>
         <source>Above-below with half height resolution (left eye above, right eye below)</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνωθεν-κάτωθεν με μισού ύψους ανάλυση (αριστερό μάτι άνωθεν, δεξί μάτι κάτωθεν)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="34"/>
         <source>Above-below with half height resolution (right eye above, left eye below)</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνωθεν-κάτωθεν με μισού ύψους ανάλυση (δεξί μάτι άνωθεν, αριστερό μάτι κάτωθεν)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="41"/>
         <source>Anaglyph red/cyan gray</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο ερυθρό/γαλάζιο φαιό</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="42"/>
         <source>Anaglyph red/cyan half colored</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο ερυθρό/γαλάζιο  μισό έγχρωμο</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="43"/>
         <source>Anaglyph red/cyan color</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο ερυθρό/γαλάζιο χρώμα</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="44"/>
         <source>Anaglyph red/cyan color optimized with the least-squares projection of Dubois</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο ερυθρό/γαλάζιο χρώμα βελτιστοποιημένο με τον σχεδιασμό ελαχίστων τετραγώνων του Dubois</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="46"/>
         <source>Anaglyph green/magenta gray</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο πράσινο/ματζέντα φαιό</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="47"/>
         <source>Anaglyph green/magenta half colored</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο πράσινο/ματζέντα μισό έγχρωμο</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="48"/>
         <source>Anaglyph green/magenta colored</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο πράσινο/ματζέντα μισό έγχρωμο</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="50"/>
         <source>Anaglyph yellow/blue gray</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο κίτρινο/κυανό φαιό</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="51"/>
         <source>Anaglyph yellow/blue half colored</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο κίτρινο/κυανό  μισό έγχρωμο</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="52"/>
         <source>Anaglyph yellow/blue colored</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάγλυφο κίτρινο/κυανό έγχρωμο</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="54"/>
         <source>Interleaved rows (left eye has top row, right eye starts on next row)</source>
-        <translation type="unfinished"></translation>
+        <translation>Πεπλεγμένες γραμμές (το αριστερό μάτι έχει τη γραμμή κορυφής, το δεξί μάτι ξεκινά στην επόμενη γραμμή)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="55"/>
         <source>Interleaved rows (right eye has top row, left eye starts on next row)</source>
-        <translation type="unfinished"></translation>
+        <translation>Πεπλεγμένες γραμμές (το δεξί μάτι έχει τη γραμμή κορυφής, το αριστερό μάτι ξεκινά στην επόμενη γραμμή)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="57"/>
         <source>Mono output (left eye only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνική έξοδος (αριστερό μάτι μόνο)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="58"/>
         <source>Mono output (right eye only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονοφωνική έξοδος (δεξί μάτι μόνο)</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="60"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανένα</translation>
     </message>
     <message>
         <location filename="../stereo3ddialog.cpp" line="61"/>
         <source>Auto</source>
-        <translation type="unfinished">Αυτόματα</translation>
+        <translation>Αυτόματο</translation>
     </message>
 </context>
 <context>
@@ -10347,12 +9970,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../findsubtitles/subchooserdialog.ui" line="68"/>
         <source>Select All</source>
-        <translation>Επιλογή Όλων</translation>
+        <translation>Επιλογή όλων</translation>
     </message>
     <message>
         <location filename="../findsubtitles/subchooserdialog.ui" line="75"/>
         <source>Select None</source>
-        <translation>Επιλογή Κανενός</translation>
+        <translation>Επιλογή κανενός</translation>
     </message>
 </context>
 <context>
@@ -10381,7 +10004,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../toolbareditor.ui" line="14"/>
         <source>Toolbar Editor</source>
-        <translation>Επεξεργαστής Εργαλειοθήκης</translation>
+        <translation>Επεξεργαστής της γραμμής εργαλείων</translation>
     </message>
     <message>
         <location filename="../toolbareditor.ui" line="22"/>
@@ -10416,16 +10039,12 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../toolbareditor.ui" line="130"/>
         <source>&amp;Icon size:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Μέγεθος εικονιδίων:</translation>
     </message>
     <message>
         <location filename="../toolbareditor.ui" line="163"/>
         <source>Add &amp;separator</source>
         <translation>Προσθήκη δια&amp;χωριστή</translation>
-    </message>
-    <message>
-        <source>(separator)</source>
-        <translation type="obsolete">(διαχωριστής)</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="255"/>
@@ -10435,7 +10054,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../toolbareditor.cpp" line="257"/>
         <source>Volume slider</source>
-        <translation>Ρυθμιστικό έντασης</translation>
+        <translation>Κύλιση ρύθμισης της έντασης</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="259"/>
@@ -10445,17 +10064,17 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../toolbareditor.cpp" line="261"/>
         <source>Current time</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχων χρόνος</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="263"/>
         <source>Total time</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνολικός χρόνος</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="265"/>
         <source>Remaining time</source>
-        <translation type="unfinished"></translation>
+        <translation>Υπολειπόμενος χρόνος</translation>
     </message>
     <message>
         <location filename="../toolbareditor.cpp" line="267"/>
@@ -10470,7 +10089,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../toolbareditor.cpp" line="271"/>
         <source>Quick access menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Μενού γρήγορης πρόσβασης</translation>
     </message>
 </context>
 <context>
@@ -10496,59 +10115,59 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../updatechecker.cpp" line="161"/>
         <source>Failed to get the latest version number</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία λήψης του αριθμού της τελευταίας έκδοσης</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="196"/>
         <source>New version available</source>
-        <translation type="unfinished"></translation>
+        <translation>Μια νέα έκδοση είναι διαθέσιμη</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="197"/>
         <source>A new version of SMPlayer is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Μια νέα έκδοση του SMPlayer είναι διαθέσιμη.</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="198"/>
         <location filename="../updatechecker.cpp" line="215"/>
         <source>Installed version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγκατεστημένη έκδοση: %1</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="199"/>
         <location filename="../updatechecker.cpp" line="216"/>
         <source>Available version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμη έκδοση: %1</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="200"/>
         <source>Would you like to know more about this new version?</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέλενε τα μάθετε περισσότερα περί αυτής της νέας έκδοσης;</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="213"/>
         <source>Checking for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Έλεγχος ενημερώσεων</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="214"/>
         <source>Congratulations, SMPlayer is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγχαρητήρια, ο SMPlayer είναι ενημερωμένος.</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="221"/>
         <source>Error</source>
-        <translation type="unfinished">Σφάλμα</translation>
+        <translation>Σφάλμα</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="222"/>
         <source>An error happened while trying to retrieve information about the latest version available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Παρουσιάστηκε ένα σφάλμα κατά την προσπάθεια λήψης των πληροφοριών περί της τελευταίας διαθέσιμης έκδοσης.</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="223"/>
         <source>Error code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικός σφάλματος: %1</translation>
     </message>
 </context>
 <context>
@@ -10556,42 +10175,42 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../vdpauproperties.ui" line="13"/>
         <source>VDPAU Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες VDPAU</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="19"/>
         <source>Select the vdpau codecs to use. Not all of them may work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε τους κωδικοποιητές vdpau προς χρήση. Μπορεί να μην λειτουργούν όλοι.</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="29"/>
         <source>ffh&amp;264vdpau</source>
-        <translation type="unfinished"></translation>
+        <translation>ffh&amp;264vdpau</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="36"/>
         <source>ff&amp;mpeg12vdpau</source>
-        <translation type="unfinished"></translation>
+        <translation>ff&amp;mpeg12vdpau</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="43"/>
         <source>ff&amp;wmv3vdpau</source>
-        <translation type="unfinished"></translation>
+        <translation>ff&amp;wmv3vdpau</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="50"/>
         <source>ff&amp;vc1vdpau</source>
-        <translation type="unfinished"></translation>
+        <translation>ff&amp;vc1vdpau</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="57"/>
         <source>ffodiv&amp;xvdpau</source>
-        <translation type="unfinished"></translation>
+        <translation>ffodiv&amp;xvdpau</translation>
     </message>
     <message>
         <location filename="../vdpauproperties.ui" line="71"/>
         <source>&amp;Disable software video filters</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Απενεργοποίηση των φίλτρων βίντεο μέσω λογισμικού</translation>
     </message>
 </context>
 <context>
@@ -10599,85 +10218,62 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../videoequalizer.ui" line="14"/>
         <source>Video Equalizer</source>
-        <translation type="unfinished">Ισοσταθμιστής Βίντεο</translation>
+        <translation>Ισοσταθμιστής βίντεο</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="22"/>
         <source>&amp;Contrast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation type="obsolete">0</translation>
+        <translation>&amp;Αντίθεση</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="76"/>
         <source>&amp;Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Φωτεινότητα</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="130"/>
         <source>&amp;Hue</source>
-        <translation type="unfinished"></translation>
+        <translation>Από&amp;χρωση</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="184"/>
         <source>&amp;Saturation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Κορεσμός</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="238"/>
         <source>&amp;Gamma</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Γάμμα</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="309"/>
         <source>Software &amp;equalizer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ισοσταθμιστής μέσω &amp;λογισμικού</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="316"/>
         <source>Set as &amp;default values</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορισμός ως των τιμών &amp;εξ ορισμού</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="323"/>
         <source>&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Επαναφορά</translation>
     </message>
     <message>
         <location filename="../videoequalizer.ui" line="330"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Κλείσιμο</translation>
+        <translation>&amp;Κλείσιμο</translation>
     </message>
     <message>
         <location filename="../videoequalizer.cpp" line="101"/>
         <source>Use the current values as default values for new videos.</source>
-        <translation type="unfinished">Χρήση αυτών των τιμών ως προεπιλεγμένες για τα νέα βίντεο.</translation>
+        <translation>Χρήση αυτών των τιμών ως προεπιλεγμένες για τα νέα βίντεο.</translation>
     </message>
     <message>
         <location filename="../videoequalizer.cpp" line="103"/>
         <source>Set all controls to zero.</source>
-        <translation type="unfinished">Επαναφορά όλων των ρυθμίσεων στο μηδέν.</translation>
-    </message>
-</context>
-<context>
-    <name>VideoEqualizer2</name>
-    <message>
-        <source>Video Equalizer</source>
-        <translation type="obsolete">Ισοσταθμιστής Βίντεο</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation type="obsolete">0</translation>
-    </message>
-    <message>
-        <source>Use the current values as default values for new videos.</source>
-        <translation type="obsolete">Χρήση αυτών των τιμών ως προεπιλεγμένες για τα νέα βίντεο.</translation>
-    </message>
-    <message>
-        <source>Set all controls to zero.</source>
-        <translation type="obsolete">Επαναφορά όλων των ρυθμίσεων στο μηδέν.</translation>
+        <translation>Επαναφορά όλων των ρυθμίσεων στο μηδέν.</translation>
     </message>
 </context>
 <context>
@@ -10695,7 +10291,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../videopreview/videopreview.cpp" line="145"/>
         <source>Thumbnail Generator</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργός εικόνων επισκόπησης</translation>
     </message>
     <message>
         <location filename="../videopreview/videopreview.cpp" line="148"/>
@@ -10842,13 +10438,9 @@ Example: resample=44100:0:0,volnorm</source>
         <translation>Προεπιλογή</translation>
     </message>
     <message>
-        <source>Video Preview</source>
-        <translation type="obsolete">Βίντεο Προεπισκόπηση</translation>
-    </message>
-    <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="14"/>
         <source>Thumbnail Generator</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργός εικόνων επισκόπησης</translation>
     </message>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="22"/>
@@ -10899,7 +10491,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.cpp" line="47"/>
         <source>If you check this option, the playing time will be displayed at the bottom of each thumbnail.</source>
-        <translation>Αν τσεκάρετε αυτήν επιλογή, ο χρόνος αναπαραγωγής θα εμφανίζεται στο κάτω μέρος κάθε μικρογραφίας.</translation>
+        <translation>Αν ενεργοποιήσετε αυτήν επιλογή, ο χρόνος αναπαραγωγής θα εμφανίζεται στο κάτω μέρος κάθε μικρογραφίας.</translation>
     </message>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.cpp" line="48"/>
@@ -10929,7 +10521,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="166"/>
         <source>&amp;Seconds to skip at the beginning:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Παραλειπόμενα δευτερόλεπτα στην αρχή:</translation>
     </message>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="250"/>
@@ -10944,7 +10536,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="39"/>
         <source>&amp;DVD device:</source>
-        <translation>&amp;DVD συσκευή:</translation>
+        <translation>Συσκευή &amp;DVD:</translation>
     </message>
     <message>
         <location filename="../videopreview/videopreviewconfigdialog.ui" line="291"/>
@@ -10962,7 +10554,7 @@ Example: resample=44100:0:0,volnorm</source>
     <message>
         <location filename="../skingui/volumecontrolpanel.cpp" line="133"/>
         <source>Fullscreen on/off</source>
-        <translation>Πλήρης Οθόνη ναι/όχι</translation>
+        <translation>Πλήρης οθόνη ναι/όχι</translation>
     </message>
     <message>
         <location filename="../skingui/volumecontrolpanel.cpp" line="134"/>
