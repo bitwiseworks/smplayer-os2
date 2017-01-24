@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -84,6 +84,11 @@ QString InfoFile::getInfo(MediaData md) {
 	} else {
 		QString url = md.filename;
 		s += addItem( tr("URL"), url );
+		/*
+		if (!md.stream_path.isEmpty() && md.stream_path != url) {
+			s += addItem( tr("Video URL"), md.stream_path );
+		}
+		*/
 	}
 	s += addItem( tr("Length"), Helper::formatTime((int)md.duration) );
 	s += addItem( tr("Demuxer"), md.demuxer );

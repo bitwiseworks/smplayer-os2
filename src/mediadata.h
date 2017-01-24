@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,6 +56,8 @@ public:
 	QString filename;
 	double duration;
 
+	QStringList extra_params; // For streams
+
 	//Resolution of the video
 	int video_width;
 	int video_height;
@@ -97,6 +99,7 @@ public:
 
 	QString stream_title;
 	QString stream_url;
+	QString stream_path; // From mpv
 
 
 	// Other data not really useful for us,

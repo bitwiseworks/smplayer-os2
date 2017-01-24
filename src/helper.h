@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,9 @@ public:
 
 	// Format a time (hh:mm:ss)
 	static QString formatTime(int secs);
+
+	// Format a time (hh:mm:ss.cc)
+	static QString formatTime2(double secs);
 
 	static QString timeForJumps(int secs);
 

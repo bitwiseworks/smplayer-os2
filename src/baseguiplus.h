@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,12 @@
 
 #define SCREENS_SUPPORT
 //#define DETACH_VIDEO_OPTION
+
+#define SEND_AUDIO_OPTION
+
+#ifdef SEND_AUDIO_OPTION
+#include "deviceinfo.h"
+#endif
 
 class QMenu;
 class PlaylistDock;
@@ -82,6 +88,7 @@ protected:
 
 protected slots:
 	// Reimplemented methods
+	virtual void updateWidgets();
 	virtual void closeWindow();
 	virtual void setWindowCaption(const QString & title);
 	virtual void resizeWindow(int w, int h);
@@ -119,6 +126,16 @@ protected slots:
 	void showScreensInfo();
 #endif
 
+#ifdef SEND_AUDIO_OPTION
+	void updateSendAudioMenu();
+	void addListToSendAudioMenu(const DeviceList & audio_devices, const QString & device_name);
+	void sendAudioClicked();
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	void playOnChromecast();
+#endif
+
 #ifdef GLOBALSHORTCUTS
 	void updateGlobalShortcuts();
 #endif
@@ -131,6 +148,10 @@ protected:
 	MyAction * showTrayAct;
 	MyAction * showAllAct;
 
+#ifdef CHROMECAST_SUPPORT
+	MyAction * playOnChromecastAct;
+#endif
+
 #ifdef DETACH_VIDEO_OPTION
 	MyAction * detachVideoAct;
 #endif
@@ -142,6 +163,12 @@ protected:
 
 	InfoWindow * screens_info_window;
 	QLabel * detached_label;
+#endif
+
+#ifdef SEND_AUDIO_OPTION
+	DeviceList audio_devices;
+	QMenu * sendAudio_menu;
+	MyAction * sendAudioAct;
 #endif
 
 #ifdef GLOBALSHORTCUTS

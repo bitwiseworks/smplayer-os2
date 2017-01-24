@@ -4,47 +4,47 @@ msgstr "Бинарни кодеци нису подржани у овој вер
 
 # Info_Cleaning_SMPlayer
 msgid "Cleaning SMPlayer settings..."
-msgstr ""
+msgstr "Чистим поставке СМПлејера..."
 
 # Info_Cleaning_Fontconfig
 msgid "Cleaning fontconfig cache..."
-msgstr ""
+msgstr "Чистим кеш за фонтове..."
 
 # YTDL_Update_Check
 msgid "Checking for youtube-dl updates..."
-msgstr ""
+msgstr "Проверавам ажурирања за YouTube-DL..."
 
 # YTDL_DL_Failed
 msgid "Failed to download youtube-dl: '$R0'."
-msgstr ""
+msgstr "Неуспешно преузимање Youtube-DL: '$R0'."
 
 # YTDL_DL_Retry
 msgid "youtube-dl was not successfully installed. Retry?"
-msgstr ""
+msgstr "YouTube-DL није успешно инсталиран. Покушати поново?"
 
 # MPV_Inst_Failed
 msgid "Failed to install mpv."
-msgstr ""
+msgstr "Неуспела инсталација MPV."
 
 # MPV_DL_Failed
 msgid "Failed to download mpv: '$R0'."
-msgstr ""
+msgstr "Неуспешно преузимање MPV: '$R0'."
 
 # MPV_DL_Retry
 msgid "mpv was not successfully installed. Retry?"
-msgstr ""
+msgstr "MPV није успешно инсталиран. Покушати поново?"
 
 # MPV_DL_Msg
 msgid "Downloading mpv..."
-msgstr ""
+msgstr "Преузимам MPV..."
 
 # Info_MPV_Restore
 msgid "Restoring mpv from previous installation..."
-msgstr ""
+msgstr "Враћам MPV од претходне инсталације..."
 
 # Info_MPV_Backup
 msgid "Backing up mpv..."
-msgstr ""
+msgstr "Правим резерву за MPV..."
 
 # Info_SMTube_Restore
 msgid "Restoring SMTube from previous installation..."
@@ -161,6 +161,8 @@ msgid ""
 "Are you sure you want to reset your SMPlayer settings? This action cannot be "
 "reversed."
 msgstr ""
+"Заиста желите да ресетујете поставке СМПлејера? Ова радња се не може "
+"опозвати."
 
 # Reinstall_Msg5
 msgid "Reset my SMPlayer configuration"
@@ -346,6 +348,9 @@ msgid ""
 "least Windows Vista and may not work correctly on your system.[:n:]Do you "
 "really want to continue with the installation?"
 msgstr ""
+"Неподржан оперативни систем.[:n:]СМПлејер ${SMPLAYER_VERSION} захтева "
+"најмање Windows Vista и можда неће радити на вашем систему.[:n:]Да ли "
+"стварно желите да наставите инсталацију?"
 
 # OS_Not_Supported
 msgid ""
@@ -376,13 +381,14 @@ msgstr "Инсталациони програм је већ покренут."
 #
 # Translators:
 # miroslav <miroslav031@yandex.com>, 2014-2015
-# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2014
-# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2015
+# Slobodan Simić <slsimic@gmail.com>, 2017
+# Slobodan Simić <slsimic@gmail.com>, 2014
+# Slobodan Simić <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2016-02-25 00:24+0000\n"
-"Last-Translator: Ricardo Villalba <rvm@users.sourceforge.net>\n"
+"PO-Revision-Date: 2017-01-14 10:37+0000\n"
+"Last-Translator: Slobodan Simić <slsimic@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/rvm/smplayer/language/sr/)\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"

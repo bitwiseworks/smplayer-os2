@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <QString>
 #include "playerprocess.h"
 #include "config.h"
+
+#define OSD_WITH_TIMER
 
 class QStringList;
 
@@ -123,12 +125,20 @@ protected:
 	void addVFIfAvailable(const QString & vf, const QString & value = QString::null);
 	void messageFilterNotSupported(const QString & filter_name);
 
+#ifdef OSD_WITH_TIMER
+	void toggleInfoOnOSD();
+#endif
+
 protected slots:
 	void parseLine(QByteArray ba);
 	void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 	void gotError(QProcess::ProcessError);
 	void requestChapterInfo();
-	void requestBitrateInfo();
+	/* void requestBitrateInfo(); */
+
+#ifdef OSD_WITH_TIMER
+	void displayInfoOnOSD();
+#endif
 
 protected:
 #if NOTIFY_AUDIO_CHANGES
@@ -137,6 +147,29 @@ protected:
 #if NOTIFY_SUB_CHANGES
 	void updateSubtitleTrack(int ID, const QString & name, const QString & lang);
 #endif
+
+private:
+	#if 0
+	// For some reason lupdate doesn't get the translations from mpvoptions.cpp
+	void translations() {
+		QString s = tr("the '%1' filter is not supported by mpv");
+		s = tr("File:");
+		s = tr("Video:");
+		s = tr("Resolution:");
+		s = tr("Frames per second:");
+		s = tr("Estimated:");
+		s = tr("Aspect Ratio:");
+		s = tr("Bitrate:");
+		s = tr("Dropped frames:");
+		s = tr("Audio:");
+		s = tr("Bitrate:");
+		s = tr("Sample Rate:");
+		s = tr("Channels:");
+		s = tr("Audio/video synchronization:");
+		s = tr("Cache fill:");
+		s = tr("Used cache:");
+	}
+	#endif
 
 private:
 	bool notified_mplayer_is_running;
@@ -179,6 +212,10 @@ private:
 
 #ifdef CAPTURE_STREAM
 	bool capturing;
+#endif
+
+#ifdef OSD_WITH_TIMER
+	QTimer * osd_timer;
 #endif
 };
 

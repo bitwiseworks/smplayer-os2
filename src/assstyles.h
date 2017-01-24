@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #define ASSSTYLES_H
 
 #include <QString>
+#include <QColor>
 
 class QSettings;
 
@@ -34,9 +35,9 @@ public:
 
 	QString fontname;
 	int fontsize;
-	unsigned int primarycolor;
-	unsigned int backcolor;
-	unsigned int outlinecolor;
+	QColor primarycolor;
+	QColor backcolor;
+	QColor outlinecolor;
 	bool bold;
 	bool italic;
 	int halignment;

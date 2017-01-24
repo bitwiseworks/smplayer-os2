@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,20 @@
 #include <QString>
 #include <QVariant>
 #include <QList>
+
+#ifdef Q_OS_WIN
+#define USE_DSOUND_DEVICES 1
+#define USE_MPV_WASAPI_DEVICES 1
+#else
+#define USE_ALSA_DEVICES 0
+#define USE_MPV_ALSA_DEVICES 0
+#define USE_PULSEAUDIO_DEVICES 1
+#define USE_XV_ADAPTORS 1
+#endif
+
+#if defined(USE_MPV_ALSA_DEVICES) || defined(USE_MPV_WASAPI_DEVICES)
+#define MPV_AUDIO_DEVICES 1
+#endif
 
 #ifndef Q_OS_WIN
 #define CACHE_DEVICE_INFO
@@ -58,9 +72,38 @@ public:
 	static DeviceList dsoundDevices();
 	static DeviceList displayDevices();
 #else
+	#if USE_PULSEAUDIO_DEVICES
+	static DeviceList paDevices();
+	#endif
+	#if USE_ALSA_DEVICES
 	static DeviceList alsaDevices();
+	#endif
+	#if USE_XV_ADAPTORS
 	static DeviceList xvAdaptors();
+	#endif
 #endif
+
+#if MPV_AUDIO_DEVICES
+	static void setMpvBin(const QString & bin) { mpv_bin = bin; };
+
+	#if USE_MPV_ALSA_DEVICES
+	static DeviceList mpvAlsaDevices();
+	#endif
+	
+	#if USE_MPV_WASAPI_DEVICES
+	static DeviceList mpvWasapiDevices();
+	#endif
+
+	static DeviceList mpvAudioDevices(const QString & mpv_bin, const QString & filter);
+	static DeviceList mpvAudioDevices(const QString & filter);
+#endif
+
+	static QString printableName(const QString & driver_name, const DeviceData & device);
+	static QString internalName(const QString & driver_name, const DeviceData & device);
+
+	static QString printableName(const QString & driver_name, const QString & id, const QString & desc);
+	static QString internalName(const QString & driver_name, const QString & id, const QString & desc);
+	static QStringList extractDevice(const QString & internal_name);
 
 protected:
 #ifdef CACHE_DEVICE_INFO
@@ -72,6 +115,10 @@ protected:
 	enum DeviceType { Sound = 0, Display = 1 };
 
 	static DeviceList retrieveDevices(DeviceType type);
+#endif
+
+#if MPV_AUDIO_DEVICES
+	static QString mpv_bin;
 #endif
 };
 

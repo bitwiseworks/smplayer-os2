@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -91,9 +91,11 @@ protected:
 
 protected slots:
 	virtual void updateWidgets();
+	virtual void displayTime(double sec);
 	virtual void displayFrame(int frame);
 	virtual void displayABSection(int secs_a, int secs_b);
 	virtual void displayVideoInfo(int width, int height, double fps);
+	virtual void displayBitrateInfo(int vbitrate, int abitrate);
 	void checkCompactMode();
 #ifdef ADD_QUICK_ACCESS
 	void adaptForTabletMode();
@@ -117,6 +119,7 @@ protected:
 	QLabel * ab_section_display;
 	QLabel * video_info_display;
 	QLabel * format_info_display;
+	QLabel * bitrate_info_display;
 #ifdef BUFFERING_ANIMATION
 	StateWidget * state_widget;
 #endif
@@ -149,6 +152,8 @@ protected:
 	MyAction * viewFrameCounterAct;
 	MyAction * viewVideoInfoAct;
 	MyAction * viewFormatInfoAct;
+	MyAction * viewBitrateInfoAct;
+	MyAction * useMillisecondsAct;
 
 #if USE_CONFIGURABLE_TOOLBARS
 	MyAction * editToolbar1Act;
@@ -159,8 +164,6 @@ protected:
 
 	QMenu * toolbar_menu;
 	QMenu * statusbar_menu;
-
-	int last_second;
 
 	bool fullscreen_toolbar1_was_visible;
 	bool compact_toolbar1_was_visible;

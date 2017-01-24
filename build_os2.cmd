@@ -110,7 +110,7 @@ select
 
         say "building svn_revision"
 	ok = SysMkDir(buildDir||'\src')
-        address cmd 'sh ' sourceDir||'\get_svn_revision.sh ' sourceDir ' "OS/2 and OS/2-based Systems build"'
+        address cmd 'sh ' sourceDir||'\get_svn_revision.sh ' sourceDir ' "OS/2 and OS/2-based systems build"'
 
         say "creating SMPlayer makefile"
         call qmake

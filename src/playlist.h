@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,10 +29,12 @@
 
 #define PLAYLIST_DOWNLOAD
 //#define PLAYLIST_DOUBLE_TOOLBAR
+//#define PLAYLIST_DELETE_FROM_DISK
 
 class PLItem : public QStandardItem {
 public:
-	 enum PLItem_Roles { Role_Played = Qt::UserRole + 2, Role_Current = Qt::UserRole + 3 };
+	 enum PLItem_Roles { Role_Played = Qt::UserRole + 2, Role_Current = Qt::UserRole + 3, Role_Params = Qt::UserRole + 4,
+                         Role_Video_URL = Qt::UserRole + 5  };
 
 	PLItem();
 	PLItem(const QString filename, const QString name, double duration);
@@ -41,6 +43,8 @@ public:
 	void setFilename(const QString filename);
 	void setName(const QString name);
 	void setDuration(double duration);
+	void setExtraParams(const QStringList & pars);
+	void setVideoURL(const QString & url);
 	void setPlayed(bool played);
 	void setPosition(int position);
 	void setCurrent(bool b);
@@ -48,6 +52,8 @@ public:
 	QString filename();
 	QString name();
 	double duration();
+	QStringList extraParams();
+	QString videoURL();
 	bool played();
 	int position();
 	bool isCurrent();
@@ -106,7 +112,7 @@ public:
 	*/
 
 public slots:
-	void addItem(QString filename, QString name, double duration);
+	void addItem(QString filename, QString name, double duration, QStringList params = QStringList(), QString video_url = QString::null);
 
 	// Start playing, from item 0 if shuffle is off, or from
 	// a random item otherwise
@@ -116,6 +122,8 @@ public slots:
 
 	void playNext();
 	void playPrev();
+
+	void playNextAuto(); // Called from GUI when a file finished
 
 	void resumePlay();
 
@@ -136,11 +144,15 @@ public slots:
 	// Adds a directory, maybe with recursion (depends on user config)
 	void addDirectory(QString dir);
 
+#ifdef PLAYLIST_DELETE_FROM_DISK
 	void deleteSelectedFileFromDisk();
+#endif
 
 	bool maybeSave();
 	void load();
-	bool save();
+
+	bool saveCurrentPlaylist();
+	bool save(const QString & filename = QString::null);
 
 #ifdef PLAYLIST_DOWNLOAD
 	void openUrl();
@@ -172,14 +184,22 @@ public:
 	void setSavePlaylistOnExit(bool b) { save_playlist_in_config = b; };
 	void setPlayFilesFromStart(bool b) { play_files_from_start = b; };
 	void setIgnorePlayerErrors(bool b) { ignore_player_errors = b; };
+	void setStartPlayOnLoad(bool b) { start_play_on_load = b; };
 	void setAutomaticallyPlayNext(bool b) { automatically_play_next = b; };
+	void setAutoSort(bool b);
+	void setSortCaseSensitive(bool b);
+	void setFilterCaseSensitive(bool b);
 
 	bool directoryRecursion() { return recursive_add_directory; };
 	bool autoGetInfo() { return automatically_get_info; };
 	bool savePlaylistOnExit() { return save_playlist_in_config; };
 	bool playFilesFromStart() { return play_files_from_start; };
 	bool ignorePlayerErrors() { return ignore_player_errors; };
+	bool startPlayOnLoad() { return start_play_on_load; };
 	bool automaticallyPlayNext() { return automatically_play_next; };
+	bool autoSort();
+	bool sortCaseSensitive();
+	bool filterCaseSensitive();
 
 #ifdef PLAYLIST_DOWNLOAD
 	void setMaxItemsUrlHistory(int max_items);
@@ -194,10 +214,13 @@ public:
 
 signals:
 	void requestToPlayFile(const QString & filename, int seek = -1);
+	void requestToPlayStream(const QString & filename, QStringList params = QStringList());
+
 	void requestToAddCurrentFile();
 	void playlistEnded();
 	void visibilityChanged(bool visible);
 	void modifiedChanged(bool);
+	void windowTitleChanged(const QString & title);
 
 protected:
 	void setCurrentItem(int current);
@@ -205,6 +228,11 @@ protected:
 	void clearPlayedTag();
 	int chooseRandomItem();
 	QString lastDir();
+
+	void setPlaylistFilename(const QString &);
+	QString playlistFilename() { return playlist_filename; };
+
+	void updateWindowTitle();
 
 protected slots:
 	void playCurrent();
@@ -214,6 +242,15 @@ protected slots:
 	void downItem();
 	void editCurrentItem();
 	void editItem(int row);
+
+	void copyURL();
+	void openFolder();
+
+#ifdef CHROMECAST_SUPPORT
+	void playOnChromecast();
+#else
+	void openURLInWeb();
+#endif
 
 	void saveSettings();
 	void loadSettings();
@@ -227,6 +264,11 @@ protected slots:
 	void errorOcurred(int error_number, QString error_str);
 	void showLoadingAnimation(bool b);
 #endif
+
+	void setPositionColumnVisible(bool b);
+	void setNameColumnVisible(bool b);
+	void setDurationColumnVisible(bool b);
+	void setFilenameColumnVisible(bool b);
 
 protected:
 	void createTable();
@@ -244,8 +286,10 @@ protected:
 
 protected:
 	QString playlist_path;
+	QString playlist_filename;
 	QString latest_dir;
 
+	QMenu * file_menu;
 	QMenu * add_menu;
 	QMenu * remove_menu;
 	QMenu * popup;
@@ -258,6 +302,8 @@ protected:
 #ifdef PLAYLIST_DOUBLE_TOOLBAR
 	QToolBar * toolbar2;
 #endif
+
+	QToolButton * file_button;
 	QToolButton * add_button;
 	QToolButton * remove_button;
 
@@ -268,11 +314,13 @@ protected:
 	MyAction * openUrlAct;
 #endif
 	MyAction * saveAct;
+	MyAction * saveAsAct;
 	MyAction * playAct;
 	MyAction * prevAct;
 	MyAction * nextAct;
 	MyAction * repeatAct;
 	MyAction * shuffleAct;
+	MyAction * showSearchAct;
 
 	MyAction * moveUpAct;
 	MyAction * moveDownAct;
@@ -286,7 +334,23 @@ protected:
 	MyAction * removeSelectedAct;
 	MyAction * removeAllAct;
 
+#ifdef PLAYLIST_DELETE_FROM_DISK
 	MyAction * deleteSelectedFileFromDiskAct;
+#endif
+
+	MyAction * copyURLAct;
+	MyAction * openFolderAct;
+
+#ifdef CHROMECAST_SUPPORT
+	MyAction * playOnChromecastAct;
+#else
+	MyAction * openURLInWebAct;
+#endif
+
+	MyAction * showPositionColumnAct;
+	MyAction * showNameColumnAct;
+	MyAction * showDurationColumnAct;
+	MyAction * showFilenameColumnAct;
 
 	QSettings * set;
 
@@ -308,6 +372,7 @@ private:
 	bool play_files_from_start;
 	int row_spacing;
 
+	bool start_play_on_load;
 	bool automatically_play_next;
 	bool ignore_player_errors;
 	bool change_name;

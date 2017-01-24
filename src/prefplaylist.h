@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,10 +36,10 @@ public:
 	virtual QPixmap sectionIcon();
 
     // Pass data to the dialog
-    void setData(Preferences * pref);
+	void setData(Preferences * pref);
 
     // Apply changes
-    void getData(Preferences * pref);
+	void getData(Preferences * pref);
 
 
 	void setDirectoryRecursion(bool b);
@@ -54,8 +54,20 @@ public:
 	void setPlayFilesFromStart(bool b);
 	bool playFilesFromStart();
 
+	void setPlayOnLoad(bool b);
+	bool playOnLoad();
+
+	void setPlayNextAutomatically(bool b);
+	bool playNextAutomatically();
+
 	void setIgnorePlayerErrors(bool b);
 	bool ignorePlayerErrors();
+
+	void setAutoSort(bool b);
+	bool autoSort();
+
+	void setFilterCaseSensitive(bool b);
+	bool filterCaseSensitive();
 
 protected:
 	virtual void createHelp();

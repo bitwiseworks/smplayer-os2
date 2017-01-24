@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,18 +35,19 @@ void PlaylistDock::closeEvent( QCloseEvent * e ) {
 	e->accept();
 }
 
+/*
 #if QT_VERSION < 0x040300
-void PlaylistDock::showEvent( QShowEvent * /* event */ ) {
+void PlaylistDock::showEvent( QShowEvent * event ) {
 	qDebug("PlaylistDock::showEvent");
 	emit visibilityChanged(true);
 }
 
-void PlaylistDock::hideEvent( QHideEvent * /* event */ ) {
+void PlaylistDock::hideEvent( QHideEvent * event ) {
 	qDebug("PlaylistDock::hideEvent");
 	emit visibilityChanged(false);
 }
 #endif
-
+*/
 
 #include "moc_playlistdock.cpp"
 

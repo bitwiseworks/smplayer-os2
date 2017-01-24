@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #define URL_THANK_YOU URL_HOMEPAGE"/thank-you.php"
 #define URL_OPENSSL_INFO URL_HOMEPAGE"/openssl.php"
 #define URL_DONATE URL_HOMEPAGE"/donate.php"
+#define URL_CHROMECAST "http://chromecast.smplayer.info"
 #define URL_YT_CODE "http://updates.smplayer.info/yt.js"
 #define URL_VERSION_INFO "http://updates.smplayer.info/version_info.ini"
 

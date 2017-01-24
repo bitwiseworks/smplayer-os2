@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@
 #include <QMimeData>
 #include <QDesktopWidget>
 
-#include <cmath>
+#include <QtCore/qmath.h>
 
 #include "mplayerwindow.h"
 #include "desktopinfo.h"
@@ -260,7 +260,7 @@ BaseGui::BaseGui( QWidget* parent, Qt::WindowFlags flags )
 	QTimer::singleShot(2000, this, SLOT(checkIfUpgraded()));
 #endif
 
-#if defined(SHARE_ACTIONS) && !defined(SHARE_WIDGET)
+#ifdef DONATE_REMINDER
 	QTimer::singleShot(1000, this, SLOT(checkReminder()));
 #endif
 
@@ -906,11 +906,9 @@ void BaseGui::createActions() {
 	connect( showConfigAct, SIGNAL(triggered()),
              this, SLOT(helpShowConfig()) );
 
-#ifdef SHARE_ACTIONS
 	donateAct = new MyAction( this, "donate" );
 	connect( donateAct, SIGNAL(triggered()),
              this, SLOT(helpDonate()) );
-#endif
 
 	aboutThisAct = new MyAction( this, "about_smplayer" );
 	connect( aboutThisAct, SIGNAL(triggered()),
@@ -1067,7 +1065,7 @@ void BaseGui::createActions() {
 	connect( nextWheelFunctionAct, SIGNAL(triggered()),
 			 core, SLOT(nextWheelFunction()) );
 
-	showFilenameAct = new MyAction(Qt::SHIFT | Qt::Key_I, this, "show_filename");
+	showFilenameAct = new MyAction(Qt::SHIFT | Qt::Key_I, this, "show_info_osd");
 	connect( showFilenameAct, SIGNAL(triggered()), core, SLOT(showFilenameOnOSD()) );
 
 	showTimeAct = new MyAction(Qt::Key_I, this, "show_time");
@@ -1481,12 +1479,14 @@ void BaseGui::enableActionsOnPlaying() {
 	playAct->setEnabled(false);
 
 	// Screenshot option
+	/*
 	bool screenshots_enabled = ( (pref->use_screenshot) && 
                                  (!pref->screenshot_directory.isEmpty()) &&
                                  (QFileInfo(pref->screenshot_directory).isDir()) );
 
 	screenshotAct->setEnabled( screenshots_enabled );
 	screenshotsAct->setEnabled( screenshots_enabled );
+	*/
 
 #ifdef CAPTURE_STREAM
 	capturingAct->setEnabled(!pref->capture_directory.isEmpty() && QFileInfo(pref->capture_directory).isDir());
@@ -1567,8 +1567,10 @@ void BaseGui::enableActionsOnPlaying() {
 #ifndef Q_OS_WIN
 	// Disable video filters if using vdpau
 	if ((pref->vdpau.disable_video_filters) && (pref->vo.startsWith("vdpau"))) {
+		/*
 		screenshotAct->setEnabled(false);
 		screenshotsAct->setEnabled(false);
+		*/
 		flipAct->setEnabled(false);
 		mirrorAct->setEnabled(false);
 		stereo3dAct->setEnabled(false);
@@ -1843,6 +1845,8 @@ void BaseGui::retranslateStrings() {
 	showConfigAct->change( Images::icon("show_config"), tr("&Open configuration folder") );
 #ifdef SHARE_ACTIONS
 	donateAct->change( Images::icon("donate"), tr("&Donate / Share with your friends") );
+#else
+	donateAct->change( Images::icon("donate"), tr("&Donate") );
 #endif
 	aboutThisAct->change( Images::icon("logo"), tr("About &SMPlayer") );
 
@@ -1898,8 +1902,9 @@ void BaseGui::retranslateStrings() {
 	nextAspectAct->change( Images::icon("next_aspect"), tr("Next aspect ratio") );
 	nextWheelFunctionAct->change( Images::icon("next_wheel_function"), tr("Next wheel function") );
 
-	showFilenameAct->change( tr("Show filename on OSD") );
+	showFilenameAct->change( tr("Show &info on OSD") );
 	showTimeAct->change( tr("Show playback time on OSD") );
+
 	toggleDeinterlaceAct->change( tr("Toggle deinterlacing") );
 
 
@@ -2319,9 +2324,9 @@ void BaseGui::createMplayerWindow() {
 #ifdef SHARE_WIDGET
 	sharewidget = new ShareWidget(Global::settings, mplayerwindow);
 	mplayerwindow->setCornerWidget(sharewidget);
-	#ifdef SHARE_ACTIONS
+	//#ifdef SHARE_ACTIONS
 	connect(sharewidget, SIGNAL(supportClicked()), this, SLOT(helpDonate()));
-	#endif
+	//#endif
 #endif
 
 	QVBoxLayout * layout = new QVBoxLayout;
@@ -2433,11 +2438,13 @@ void BaseGui::createPlaylist() {
 	connect(playlist, SIGNAL(requestToPlayFile(const QString &, int)),
             core, SLOT(open(const QString &, int)));
 
+	connect(playlist, SIGNAL(requestToPlayStream(const QString &, QStringList)),
+            core, SLOT(openStream(const QString &, QStringList)));
+
 	connect(playlist, SIGNAL(requestToAddCurrentFile()), this, SLOT(addToPlaylistCurrentFile()));
 
-	if (playlist->automaticallyPlayNext()) {
-		connect( core, SIGNAL(mediaFinished()), playlist, SLOT(playNext()), Qt::QueuedConnection );
-	}
+	connect( core, SIGNAL(mediaFinished()), playlist, SLOT(playNextAuto()), Qt::QueuedConnection );
+
 	connect( core, SIGNAL(mplayerFailed(QProcess::ProcessError)), playlist, SLOT(playerFailed(QProcess::ProcessError)) );
 	connect( core, SIGNAL(mplayerFinishedWithError(int)), playlist, SLOT(playerFinishedWithError(int)) );
 	connect(core, SIGNAL(mediaDataReceived(const MediaData &)), playlist, SLOT(getMediaInfo(const MediaData &)));
@@ -2695,6 +2702,8 @@ void BaseGui::createMenus() {
 	osd_menu = new QMenu(this);
 	osd_menu->menuAction()->setObjectName("osd_menu");
 	osd_menu->addActions(osdGroup->actions());
+	osd_menu->addSeparator();
+	osd_menu->addAction(showFilenameAct);
 	osd_menu->addSeparator();
 	osd_menu->addAction(decOSDScaleAct);
 	osd_menu->addAction(incOSDScaleAct);
@@ -2984,10 +2993,8 @@ void BaseGui::populateMainMenu() {
 		helpMenu->addAction(showConfigAct);
 		helpMenu->addSeparator();
 	}
-	#ifdef SHARE_ACTIONS
 	helpMenu->addAction(donateAct);
 	helpMenu->addSeparator();
-	#endif
 	helpMenu->addAction(aboutThisAct);
 
 	// Access menu
@@ -3106,7 +3113,11 @@ void BaseGui::showPreferencesDialog() {
 	pl->setAutoGetInfo(playlist->autoGetInfo());
 	pl->setSavePlaylistOnExit(playlist->savePlaylistOnExit());
 	pl->setPlayFilesFromStart(playlist->playFilesFromStart());
+	pl->setPlayOnLoad(playlist->startPlayOnLoad());
+	pl->setPlayNextAutomatically(playlist->automaticallyPlayNext());
 	pl->setIgnorePlayerErrors(playlist->ignorePlayerErrors());
+	pl->setAutoSort(playlist->autoSort());
+	pl->setFilterCaseSensitive(playlist->filterCaseSensitive());
 
 	pref_dialog->show();
 }
@@ -3116,6 +3127,7 @@ void BaseGui::applyNewPreferences() {
 	qDebug("BaseGui::applyNewPreferences");
 
 	bool need_update_language = false;
+	bool need_apply_styles = false;
 
 	PlayerID::Player old_player_type = PlayerID::player(pref->mplayer_bin);
 
@@ -3123,16 +3135,6 @@ void BaseGui::applyNewPreferences() {
 
 	// Setup proxy
 	setupNetworkProxy();
-
-	// Change application font
-	if (!pref->default_font.isEmpty()) {
-		QFont f;
-		f.fromString( pref->default_font );
-		if (QApplication::font() != f) {
-			qDebug("BaseGui::applyNewPreferences: setting new font: %s", pref->default_font.toLatin1().constData());
-			QApplication::setFont(f);
-		}
-	}
 
 	PrefGeneral *_general = pref_dialog->mod_general();
 	if (_general->fileSettingsMethodChanged()) {
@@ -3149,9 +3151,11 @@ void BaseGui::applyNewPreferences() {
 		need_update_language = true;
 		// Stylesheet
 		#if ALLOW_CHANGE_STYLESHEET
-		if (!_interface->guiChanged()) applyStyles();
+		if (!_interface->guiChanged()) need_apply_styles = true;
 		#endif
 	}
+
+	if (_interface->fontChanged()) need_apply_styles = true;
 
 #ifndef MOUSE_GESTURES
 	mplayerwindow->activateMouseDragTracking(pref->drag_function == Preferences::MoveWindow);
@@ -3198,7 +3202,11 @@ void BaseGui::applyNewPreferences() {
 	playlist->setAutoGetInfo(pl->autoGetInfo());
 	playlist->setSavePlaylistOnExit(pl->savePlaylistOnExit());
 	playlist->setPlayFilesFromStart(pl->playFilesFromStart());
+	playlist->setStartPlayOnLoad(pl->playOnLoad());
+	playlist->setAutomaticallyPlayNext(pl->playNextAutomatically());
 	playlist->setIgnorePlayerErrors(pl->ignorePlayerErrors());
+	playlist->setAutoSort(pl->autoSort());
+	playlist->setFilterCaseSensitive(pl->filterCaseSensitive());
 
 #ifdef PLAYLIST_DOWNLOAD
 	playlist->setMaxItemsUrlHistory( pref->history_urls->maxItems() );
@@ -3213,11 +3221,13 @@ void BaseGui::applyNewPreferences() {
 
 #if STYLE_SWITCHING
 	if (_interface->styleChanged()) {
-		applyStyles();
+		need_apply_styles = true;
 	}
 #endif
 
-    // Restart the video if needed
+	if (need_apply_styles) applyStyles();
+
+	// Restart the video if needed
 	if (pref_dialog->requiresRestart())
 		core->restart();
 
@@ -4091,6 +4101,11 @@ void BaseGui::openFiles(QStringList files) {
 void BaseGui::openFavorite(QString file) {
 	qDebug("BaseGui::openFavorite");
 
+	QUrl url(file);
+	if (url.isValid() && url.scheme().toLower() == "file") {
+		file = url.toLocalFile();
+	}
+
 	openFiles(QStringList() << file);
 }
 
@@ -4156,7 +4171,7 @@ void BaseGui::openURL(QString url) {
 
 
 void BaseGui::openFile() {
-	qDebug("BaseGui::fileOpen");
+	qDebug("BaseGui::openFile");
 
 	exitFullscreenIfNeeded();
 
@@ -4175,10 +4190,18 @@ void BaseGui::openFile() {
 }
 
 void BaseGui::openFile(QString file) {
-	qDebug("BaseGui::openFile: '%s'", file.toUtf8().data());
+	qDebug() << "BaseGui::openFile:" << file;
 
    if ( !file.isEmpty() ) {
 
+		#ifdef Q_OS_WIN
+		// Check for Windows shortcuts
+		QFileInfo fi(file);
+		if (fi.isSymLink()) {
+			file = fi.symLinkTarget();
+		}
+		#endif
+	
 		//playlist->clear();
 		//playlistdock->hide();
 
@@ -4465,6 +4488,47 @@ void BaseGui::helpDonate() {
 		#endif
 	}
 }
+#else
+void BaseGui::helpDonate() {
+	qDebug("BaseGui::helpDonate");
+
+	int action = 0;
+	bool accepted;
+	showHelpDonateDialog(&accepted);
+	if (accepted) action = 1;
+
+	if (action > 0) {
+		QSettings * set = Global::settings;
+		set->beginGroup("reminder");
+		set->setValue("action", action);
+		set->endGroup();
+	}
+}
+
+void BaseGui::showHelpDonateDialog(bool * accepted) {
+	bool result = false;
+
+	QMessageBox d(this);
+	d.setIconPixmap(Images::icon("donate"));
+	d.setWindowTitle(tr("Support SMPlayer"));
+
+	QPushButton * ok_button = d.addButton(tr("Donate"), QMessageBox::YesRole);
+	d.addButton(tr("No"), QMessageBox::NoRole);
+	d.setDefaultButton(ok_button);
+
+	d.setText("<h1>" + tr("SMPlayer needs you") + "</h1><p>" +
+		tr("SMPlayer is free software. However the development requires a lot of time and a lot of work.") + "<p>" +
+		tr("In order to keep developing SMPlayer with new features we need your help.") + "<p>" +
+		tr("Please consider to support the SMPlayer project by sending a donation.") + " " +
+		tr("Even the smallest amount will help a lot.")
+	);
+	d.exec();
+	if (d.clickedButton() == ok_button) {
+		QDesktopServices::openUrl(QUrl(URL_DONATE));
+		result = true;
+	}
+	if (accepted != 0) *accepted = result;
+}
 #endif
 
 void BaseGui::helpAbout() {
@@ -4651,12 +4715,14 @@ void BaseGui::toggleFullscreen(bool b) {
 
 	updateWidgets();
 
+#ifdef ADD_BLACKBORDERS_FS
 	if ((pref->add_blackborders_on_fullscreen) && 
         (!core->mset.add_letterbox)) 
 	{
 		core->changeLetterboxOnFullscreen(b);
 		/* core->restart(); */
 	}
+#endif
 
 	setFocus(); // Fixes bug #2493415
 }
@@ -4889,7 +4955,7 @@ void BaseGui::checkIfUpgraded() {
 }
 #endif
 
-#if defined(SHARE_ACTIONS) && !defined(SHARE_WIDGET)
+#ifdef DONATE_REMINDER
 void BaseGui::checkReminder() {
 	qDebug("BaseGui::checkReminder");
 
@@ -4911,6 +4977,7 @@ void BaseGui::checkReminder() {
 	if ((count != 25) && (count != 45)) return;
 #endif
 
+#ifdef SHARE_ACTIONS
 	ShareDialog d(this);
 	//d.showRemindCheck(false);
 	d.exec();
@@ -4922,6 +4989,12 @@ void BaseGui::checkReminder() {
 		set->setValue("dont_show_anymore", true);
 		set->endGroup();
 	}
+#else
+	action = 0;
+	bool accepted;
+	showHelpDonateDialog(&accepted);
+	if (accepted) action = 1;
+#endif
 
 	if (action > 0) {
 		set->beginGroup("reminder");
@@ -5221,6 +5294,7 @@ void BaseGui::addToPlaylistCurrentFile() {
 	qDebug("BaseGui::addToPlaylistCurrentFile");
 	if (!core->mdat.filename.isEmpty()) {
 		playlist->addItem(core->mdat.filename, "", 0);
+		playlist->setModified(true);
 		playlist->getMediaInfo(core->mdat);
 	}
 }
@@ -5259,17 +5333,15 @@ void BaseGui::displayMessage(QString message) {
 }
 
 void BaseGui::gotCurrentTime(double sec) {
-	//qDebug( "DefaultGui::displayTime: %f", sec);
+	//qDebug() << "BaseGui::gotCurrentTime:" << sec;
 
 	static int last_second = 0;
 
-	if (floor(sec)==last_second) return; // Update only once per second
-	last_second = (int) floor(sec);
+	if (qFloor(sec) == last_second) return; // Update only once per second
+	last_second = qFloor(sec);
 
 	QString time = Helper::formatTime( (int) sec ) + " / " +
                            Helper::formatTime( (int) core->mdat.duration );
-
-	//qDebug( " duration: %f, current_sec: %f", core->mdat.duration, core->mset.current_sec);
 
 	emit timeChanged(sec);
 	emit timeChanged(time);
@@ -5400,6 +5472,8 @@ void BaseGui::hidePanel() {
 	qDebug("BaseGui::hidePanel");
 
 	if (panel->isVisible()) {
+		if (isMaximized()) showNormal();
+
 		// Exit from fullscreen mode 
 		if (pref->fullscreen) { toggleFullscreen(false); update(); }
 
@@ -5627,6 +5701,15 @@ void BaseGui::changeStyleSheet(QString style) {
 		}
 	}
 
+	// Use the user specified font
+	if (!pref->default_font.isEmpty()) {
+		QFont f;
+		f.fromString( pref->default_font );
+		QString fstyle = QString("QWidget { font: %1 %2 %3pt %4; }")
+			.arg(f.bold() ? "bold" :"").arg(f.italic() ? "italic" : "")
+			.arg(f.pointSize()).arg(f.family());
+		stylesheet = fstyle + stylesheet;
+	}
 	//qDebug() << "BaseGui::changeStyleSheet: styleSheet:" << stylesheet;
 	qApp->setStyleSheet(stylesheet);
 }
@@ -5634,6 +5717,17 @@ void BaseGui::changeStyleSheet(QString style) {
 
 void BaseGui::applyStyles() {
 	qDebug("BaseGui::applyStyles");
+
+#if !ALLOW_CHANGE_STYLESHEET
+	if (!pref->default_font.isEmpty()) {
+		QFont f;
+		f.fromString( pref->default_font );
+		if (QApplication::font() != f) {
+			qDebug() << "BaseGui::applyStyles: setting new font:" << pref->default_font;
+			QApplication::setFont(f);
+		}
+	}
+#endif
 
 #if ALLOW_CHANGE_STYLESHEET
 	qDebug() << "BaseGui::applyStyles: stylesheet:" << pref->iconset;
@@ -5651,6 +5745,7 @@ void BaseGui::applyStyles() {
 		#endif
 	}
 #endif
+
 }
 
 void BaseGui::setTabletMode(bool b) {

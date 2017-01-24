@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -240,9 +240,10 @@ QMap<QString,QString> Languages::translations() {
 	m["cs"] = QString::fromUtf8("Čeština"); //tr("Czech");
 	m["da"] = "Dansk"; //tr("Danish");
 	m["de"] = "Deutsch"; //tr("German");
-	m["el_GR"] = QString::fromUtf8("Ελληνικά"); //tr("Greek");
-	m["en_GB"] = "British English"; //tr("British English");
-	m["en_US"] = "English"; //tr("English");
+	m["el"] = QString::fromUtf8("Ελληνικά"); //tr("Greek");
+	m["en"] = "English";
+	m["en_GB"] = "British English";
+	m["en_US"] = "American English";
 	m["es"] =  QString::fromUtf8("Español"); //tr("Spanish");
 	m["et"] = "Eesti"; //tr("Estonian");
 	m["eu"] = "Euskara"; //tr("Basque");

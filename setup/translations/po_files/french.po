@@ -4,47 +4,47 @@ msgstr "Les codecs binaires ne sont pas supportés dans cette version."
 
 # Info_Cleaning_SMPlayer
 msgid "Cleaning SMPlayer settings..."
-msgstr ""
+msgstr "Nettoyage des paramètres de SMPlayer..."
 
 # Info_Cleaning_Fontconfig
 msgid "Cleaning fontconfig cache..."
-msgstr ""
+msgstr "Nettoyage du cache fontconfig..."
 
 # YTDL_Update_Check
 msgid "Checking for youtube-dl updates..."
-msgstr ""
+msgstr "Vérification des mises à jour de youtube-dl..."
 
 # YTDL_DL_Failed
 msgid "Failed to download youtube-dl: '$R0'."
-msgstr ""
+msgstr "Échec lors du téléchargement de youtube-dl : '$R0'."
 
 # YTDL_DL_Retry
 msgid "youtube-dl was not successfully installed. Retry?"
-msgstr ""
+msgstr "youtube-dl n’a pas été installé correctement. Réessayer ?"
 
 # MPV_Inst_Failed
 msgid "Failed to install mpv."
-msgstr ""
+msgstr "Erreur lors de l’installation de mpv."
 
 # MPV_DL_Failed
 msgid "Failed to download mpv: '$R0'."
-msgstr ""
+msgstr "Échec lors du téléchargement de mpv : '$R0'."
 
 # MPV_DL_Retry
 msgid "mpv was not successfully installed. Retry?"
-msgstr ""
+msgstr "L’installation de mpv a échoué. Réessayer ?"
 
 # MPV_DL_Msg
 msgid "Downloading mpv..."
-msgstr ""
+msgstr "Téléchargement de mpv…"
 
 # Info_MPV_Restore
 msgid "Restoring mpv from previous installation..."
-msgstr ""
+msgstr "Restauration de mpv depuis une précédente installation…"
 
 # Info_MPV_Backup
 msgid "Backing up mpv..."
-msgstr ""
+msgstr "Sauvegarde de mpv…"
 
 # Info_SMTube_Restore
 msgid "Restoring SMTube from previous installation..."
@@ -164,6 +164,8 @@ msgid ""
 "Are you sure you want to reset your SMPlayer settings? This action cannot be "
 "reversed."
 msgstr ""
+"Êtes-vous certain de vouloir réinitialiser les paramètres de SMPlayer ? "
+"Cette action n'est pas réversible."
 
 # Reinstall_Msg5
 msgid "Reset my SMPlayer configuration"
@@ -354,6 +356,9 @@ msgid ""
 "least Windows Vista and may not work correctly on your system.[:n:]Do you "
 "really want to continue with the installation?"
 msgstr ""
+"Système d'exploitation non supporté.[:n:]SMPlayer ${SMPLAYER_VERSION} "
+"nécessite au moins Windows Vista et pourrait ne pas fontionner correctement "
+"sur votre système.[:n:]Souhaitez-vous vraiment continuer l'installation ?"
 
 # OS_Not_Supported
 msgid ""
@@ -387,12 +392,13 @@ msgstr "L'installateur est déjà en cours d'exécution."
 # Translators:
 # Adge Nodux <tempo.data@gmail.com>, 2016
 # tneskovic <antoine_ecuador@yahoo.fr>, 2014
+# groucho <grouchomarx.fr@gmail.com>, 2016
 # Sébastien Picavet <sebastien.picavet@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: smplayer\n"
-"PO-Revision-Date: 2016-02-25 00:24+0000\n"
-"Last-Translator: Ricardo Villalba <rvm@users.sourceforge.net>\n"
+"PO-Revision-Date: 2016-12-30 16:43+0000\n"
+"Last-Translator: groucho <grouchomarx.fr@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/rvm/smplayer/language/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"

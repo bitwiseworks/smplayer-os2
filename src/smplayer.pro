@@ -35,6 +35,9 @@ DEFINES += CAPTURE_STREAM
 DEFINES += BOOKMARKS
 DEFINES += MOUSE_GESTURES
 DEFINES += GLOBALSHORTCUTS
+DEFINES += ADD_BLACKBORDERS_FS
+DEFINES += INITIAL_BLACKBORDERS
+DEFINES += CHROMECAST_SUPPORT
 
 !os2 {
 DEFINES += MPV_SUPPORT
@@ -52,8 +55,8 @@ DEFINES += MPLAYER2_SUPPORT
 # AT RISK THE CONTINUATION OF THIS PROJECT
 # Please don't.
 
-DEFINES += SHARE_ACTIONS
-DEFINES += SHARE_WIDGET
+#DEFINES += SHARE_ACTIONS
+#DEFINES += SHARE_WIDGET
 
 # If Qt >= 5.4
 greaterThan(QT_MAJOR_VERSION, 4):greaterThan(QT_MINOR_VERSION, 3) {
@@ -80,6 +83,7 @@ contains( DEFINES, SIMPLE_BUILD ) {
 	DEFINES -= AUTO_SHUTDOWN_PC
 	DEFINES -= BOOKMARKS
 	DEFINES -= TV_SUPPORT
+	DEFINES -= CHROMECAST_SUPPORT
 }
 
 contains( DEFINES, IDOPT_BUILD ) {
@@ -517,15 +521,6 @@ contains( DEFINES, VIDEOPREVIEW ) {
 }
 
 
-!contains(DEFINES, SHARE_ACTIONS) | !contains(DEFINES, SHARE_WIDGET) {
-	message("Note to distro maintainers:")
-	message("By disabling SHARE_ACTIONS or SHARE_WIDGET")
-	message("you're preventing SMPlayer to receive donations and thus")
-	message("SERIOUSLY HURTING THE DEVELOPMENT AND PUTTING")
-	message("AT RISK THE CONTINUATION OF THIS PROJECT")
-	message("Please don't.")
-}
-
 contains( DEFINES, SHARE_ACTIONS ) {
 	HEADERS += sharedialog.h
 	SOURCES += sharedialog.cpp
@@ -565,6 +560,11 @@ contains( DEFINES, HDPI_SUPPORT ) {
 	SOURCES += hdpisupport.cpp
 }
 
+contains( DEFINES, CHROMECAST_SUPPORT ) {
+	HEADERS += chromecast.h
+	SOURCES += chromecast.cpp
+}
+
 unix {
 	UI_DIR = .ui
 	MOC_DIR = .moc
@@ -576,6 +576,10 @@ unix {
 	DEFINES += THEMES_PATH=$(THEMES_PATH)
 	DEFINES += SHORTCUTS_PATH=$(SHORTCUTS_PATH)
 	#DEFINES += NO_DEBUG_ON_CONSOLE
+
+	### PulseAudio
+	#CONFIG += link_pkgconfig
+	#PKGCONFIG += libpulse-mainloop-glib
 }
 
 win32 {
@@ -596,6 +600,8 @@ win32 {
 
 	!contains( DEFINES, PORTABLE_APP ) {
 		DEFINES += USE_ASSOCIATIONS
+	} else {
+		DEFINES -= HDPI_SUPPORT
 	}
 	
 	contains( DEFINES, USE_ASSOCIATIONS ) {
@@ -610,6 +616,8 @@ win32 {
 		LIBS += libole32
 	}
 	
+	LIBS += -ldsound -lddraw
+
 	RC_FILE = smplayer.rc
 	DEFINES += NO_DEBUG_ON_CONSOLE
 	#debug {
@@ -638,14 +646,14 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_sk.ts translations/smplayer_it.ts \
                translations/smplayer_fr.ts translations/smplayer_zh_CN.ts \
                translations/smplayer_ru_RU.ts translations/smplayer_hu.ts \
-               translations/smplayer_en_US.ts translations/smplayer_pl.ts \
+               translations/smplayer_en.ts translations/smplayer_pl.ts \
                translations/smplayer_ja.ts translations/smplayer_nl.ts \
                translations/smplayer_uk_UA.ts translations/smplayer_pt_BR.ts \
                translations/smplayer_ka.ts translations/smplayer_cs.ts \
                translations/smplayer_bg.ts translations/smplayer_tr.ts \
                translations/smplayer_sv.ts translations/smplayer_sr.ts \
                translations/smplayer_zh_TW.ts translations/smplayer_ro_RO.ts \
-               translations/smplayer_pt.ts translations/smplayer_el_GR.ts \
+               translations/smplayer_pt.ts translations/smplayer_el.ts \
                translations/smplayer_fi.ts translations/smplayer_ko.ts \
                translations/smplayer_mk.ts translations/smplayer_eu.ts \
                translations/smplayer_ca.ts translations/smplayer_sl_SI.ts \
@@ -658,5 +666,5 @@ TRANSLATIONS = translations/smplayer_es.ts translations/smplayer_de.ts \
                translations/smplayer_nn_NO.ts translations/smplayer_id.ts \
                translations/smplayer_ar.ts translations/smplayer_en_GB.ts \
                translations/smplayer_sq_AL.ts translations/smplayer_am.ts \
-               translations/smplayer_fa.ts
+               translations/smplayer_fa.ts translations/smplayer_en_US.ts
 

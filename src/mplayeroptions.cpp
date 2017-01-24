@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 */
 
 #include "subtracks.h"
+#include "deviceinfo.h"
 #include <QDir>
 #include <QDebug>
 
@@ -63,6 +64,30 @@ void MplayerProcess::enableScreenshots(const QString & dir, const QString & /* t
 }
 
 void MplayerProcess::setOption(const QString & option_name, const QVariant & value) {
+	if (option_name == "ao") {
+		QString ao = value.toString();
+		if (ao.contains(":")) {
+			QStringList l = DeviceInfo::extractDevice(ao);
+			qDebug() << "MplayerProcess::setOption: ao:" << l;
+			if (l.count() > 1) {
+				#ifndef Q_OS_WIN
+				if (l[0] == "alsa") {
+					ao = "alsa:device=hw=" + l[1];
+				}
+				else
+				if (l[0] == "pulse") {
+					ao = "pulse::" + l[1];
+				}
+				#else
+				if (l[0] == "dsound") {
+					ao = "dsound:device=" + l[1];
+				}
+				#endif
+			}
+		}
+		arg << "-ao" << ao + ",";
+	}
+	else
 	if (option_name == "cache") {
 		int cache = value.toInt();
 		if (cache > 31) {
@@ -283,7 +308,11 @@ void MplayerProcess::showOSDText(const QString & text, int duration, int level) 
 }
 
 void MplayerProcess::showFilenameOnOSD() {
-	writeToStdin("osd_show_property_text \"${filename}\" 2000 0");
+	QString s = "${filename}";
+
+	if (!osd_media_info.isEmpty()) s = osd_media_info;
+
+	writeToStdin("osd_show_property_text \"" + s + "\" 2000 0");
 }
 
 void MplayerProcess::showTimeOnOSD() {

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -55,6 +55,11 @@ protected:
 
 	void setStreamingType(int);
 	int streamingType();
+
+#ifdef CHROMECAST_SUPPORT
+	void setLocalIP(const QString & ip, const QStringList & values);
+	QString localIP();
+#endif
 
 protected slots:
 	void streaming_type_combo_changed(int);

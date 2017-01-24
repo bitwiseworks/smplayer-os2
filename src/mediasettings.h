@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 #include <QSize>
 #include "config.h"
 #include "audioequalizerlist.h"
+
+//#define MSET_USE_STARTING_TIME
 
 class QSettings;
 
@@ -141,10 +143,12 @@ public:
 	QMap<int, QString> bookmarks;
 #endif
 
+#ifdef MSET_USE_STARTING_TIME
 	// This a property of the video and it should be
-    // in mediadata, but we have to save it to preserve 
+	// in mediadata, but we have to save it to preserve 
 	// this data among restarts.
 	double starting_time; // Some videos don't start at 0
+#endif
 
 	//! The codec of the video is ffh264 and it's high definition
 	bool is264andHD;

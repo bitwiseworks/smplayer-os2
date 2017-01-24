@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,10 @@
 
 #ifdef YOUTUBE_SUPPORT
 #include "retrieveyoutubeurl.h"
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+#include "chromecast.h"
 #endif
 
 PrefNetwork::PrefNetwork(QWidget * parent, Qt::WindowFlags f)
@@ -105,6 +109,13 @@ void PrefNetwork::setData(Preferences * pref) {
 	setYTQuality( pref->yt_quality );
 	yt_user_agent_edit->setText( pref->yt_user_agent );
 #endif
+
+#ifdef CHROMECAST_SUPPORT
+	Chromecast * cc = Chromecast::instance();
+	setLocalIP(cc->localAddress(), cc->localAddresses());
+	port_spin->setValue(cc->serverPort());
+	directory_listing_check->setChecked(cc->directoryListing());
+#endif
 }
 
 void PrefNetwork::getData(Preferences * pref) {
@@ -122,6 +133,13 @@ void PrefNetwork::getData(Preferences * pref) {
 #ifdef YOUTUBE_SUPPORT
 	pref->yt_quality = YTQuality();
 	pref->yt_user_agent = yt_user_agent_edit->text();
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	Chromecast * cc = Chromecast::instance();
+	cc->setLocalAddress(localIP());
+	cc->setServerPort(port_spin->value());
+	cc->setDirectoryListing(directory_listing_check->isChecked());
 #endif
 }
 
@@ -163,6 +181,33 @@ void PrefNetwork::streaming_type_combo_changed(int i) {
 	youtube_box->setEnabled(i == Preferences::StreamingYT || i == Preferences::StreamingAuto);
 }
 
+#ifdef CHROMECAST_SUPPORT
+void PrefNetwork::setLocalIP(const QString & ip, const QStringList & values) {
+	local_ip_combo->clear();
+	local_ip_combo->addItem(tr("Auto"));
+	local_ip_combo->addItems(values);
+
+	if (ip.isEmpty()) {
+		local_ip_combo->setCurrentIndex(0);
+	} else {
+		int pos = local_ip_combo->findText(ip);
+		if (pos > -1) {
+			local_ip_combo->setCurrentIndex(pos);
+		} else {
+			local_ip_combo->setEditText(ip);
+		}
+	}
+}
+
+QString PrefNetwork::localIP() {
+	if (local_ip_combo->currentIndex() == 0) {
+		return "";
+	} else {
+		return local_ip_combo->currentText();
+	}
+}
+#endif
+
 void PrefNetwork::createHelp() {
 	clearHelp();
 
@@ -201,6 +246,23 @@ void PrefNetwork::createHelp() {
            "streaming sites like Youtube, Dailymotion, Vimeo, Vevo, etc.") + "<br>"+
 		tr("Requires mpv and youtube-dl.") );
 	*/
+#endif
+
+#ifdef CHROMECAST_SUPPORT
+	addSectionTitle(tr("Chromecast"));
+
+	setWhatsThis(local_ip_combo, tr("Local IP"),
+		tr("The local IP address of this computer. It will be passed to Chromecast "
+            "so that it can access the files from this computer.") );
+
+	setWhatsThis(port_spin, tr("Port"),
+		tr("The port that the web server will use.") );
+
+	setWhatsThis(directory_listing_check, tr("Directory listing"),
+		tr("When the web server is running, any device in your network can access the "
+           "files from this computer. If this option is on, any device can get a listing "
+           "of the files in this computer. "
+           "If this option is off, the list won't be available.") );
 #endif
 
 	addSectionTitle(tr("Proxy"));

@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ public slots:
 	//! Generic open, with autodetection of type
 	void open(QString file, int seek=-1); 
 	void openFile(QString filename, int seek=-1);
-	void openStream(QString name);
+	void openStream(QString name, QStringList params = QStringList());
 	/*
 	void openDVD( bool from_folder, QString directory = "");
 	void openDVD(); // Plays title 1
@@ -102,10 +102,10 @@ public slots:
 	void loadAudioFile(const QString & audiofile);
 	void unloadAudioFile();
 
-    void stop(); 
-    void play();
+	void stop();
+	void play();
 	void play_or_pause();
-    void pause_and_frame_step();
+	void pause_and_frame_step();
 	void pause();
 	void frameStep();
 	void frameBackStep();
@@ -177,7 +177,9 @@ public slots:
 	void changeDenoise(int);
 	void changeUnsharp(int);
 	void changeLetterbox(bool);
+#ifdef ADD_BLACKBORDERS_FS
 	void changeLetterboxOnFullscreen(bool);
+#endif
 	void changeUpscale(bool);
 	void changeStereo3d(const QString & in, const QString & out);
 
@@ -319,6 +321,8 @@ public slots:
 #if USE_ADAPTER
 	void changeAdapter(int n);
 #endif
+
+	void changeAO(const QString & new_ao);
 
 	void incZoom();
 	void decZoom();
@@ -494,6 +498,7 @@ signals:
 	void newDuration(double); // Duration has changed
 	void showFrame(int frame);
 	void ABMarkersChanged(int secs_a, int secs_b);
+	void bitrateChanged(int vbitrate, int abitrate);
 	void needResize(int w, int h);
 	void noVideo();
 	void volumeChanged(int);

@@ -1,5 +1,5 @@
     SMPlayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@
 
      * ricebowl-0.2.0
         url: http://www.deviantart.com/deviation/22605468/
-        license: LGPL 
+        license: LGPL
 
      * rulesPlayer
        url: http://www.dsource.org/projects/rulesplayer
@@ -97,6 +97,9 @@
 
      * http://www.pd4pic.com/anaglyph-3d-cellophane-glasses-3dimensional-movie.html
        license: Public Domain CC0
+
+     * https://commons.wikimedia.org/wiki/File:Chromecast_cast_button_icon.svg
+       license: Creative Commons Attribution 3.0 Unported
 
      * The animations src/default-theme/buffering.gif and src/default-theme/pl_loading.gif
        were created at http://www.ajaxload.info/

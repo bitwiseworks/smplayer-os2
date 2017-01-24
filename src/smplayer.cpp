@@ -1,5 +1,5 @@
 /*  smplayer, GUI front-end for mplayer.
-    Copyright (C) 2006-2016 Ricardo Villalba <rvm@users.sourceforge.net>
+    Copyright (C) 2006-2017 Ricardo Villalba <rvm@users.sourceforge.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -386,7 +386,7 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 			#if QT_VERSION >= 0x040600
 			QUrl fUrl = QUrl::fromUserInput(argument);
 			if (fUrl.isValid() && fUrl.scheme().toLower() == "file") {
-			    argument = fUrl.toLocalFile();
+				argument = fUrl.toLocalFile();
 			}
 			#endif
 			if (QFile::exists( argument )) {
@@ -438,11 +438,13 @@ SMPlayer::ExitCode SMPlayer::processArgs(QStringList args) {
 	}
 #endif
 
+	/*
 	if (!pref->default_font.isEmpty()) {
 		QFont f;
 		f.fromString(pref->default_font);
 		qApp->setFont(f);
 	}
+	*/
 
 	return SMPlayer::NoExit;
 }
